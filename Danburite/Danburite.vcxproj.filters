@@ -1,0 +1,1214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Client">
+      <UniqueIdentifier>{40ef0339-2dbe-450b-a56d-63e170e3b09d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library">
+      <UniqueIdentifier>{55500c52-9df5-4007-ae2f-63c5b394db3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine">
+      <UniqueIdentifier>{34270ed4-ead7-434f-99e7-e09be3cb5f72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL">
+      <UniqueIdentifier>{938403cb-e514-4d23-9f62-7435fc31ab29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ThirdParty">
+      <UniqueIdentifier>{48eea177-5ab3-4f68-9522-acf1acb23e81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Base">
+      <UniqueIdentifier>{324ebcc6-ef86-44b5-99fd-0c78021ca0a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Screen">
+      <UniqueIdentifier>{034d6e96-3122-44e1-8bc9-0afd31be8032}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Window">
+      <UniqueIdentifier>{2fdef15f-143f-43c0-a067-5601f0e89214}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Screen">
+      <UniqueIdentifier>{faa8a1fb-f8ab-4239-a282-d65fd76013cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Screen\Window">
+      <UniqueIdentifier>{dcfb751f-02d0-456a-8ce5-7e941ef94c46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Screen\Window\Win32">
+      <UniqueIdentifier>{fcbcd317-e0c6-46af-b015-915ca0951c5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Util">
+      <UniqueIdentifier>{b7320418-1b03-4a4f-aaa9-3ee94646902a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Base">
+      <UniqueIdentifier>{462d87cf-07d8-4802-8902-81a836f74a69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core">
+      <UniqueIdentifier>{85203c66-abef-4161-aaef-96fe782b2477}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Light">
+      <UniqueIdentifier>{9e53bb74-bd12-421c-981e-80f9fc88c03e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client\Scene">
+      <UniqueIdentifier>{ad4fd66c-59e4-442a-bacd-4a9d64ac0c3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Scene">
+      <UniqueIdentifier>{302146b8-68e3-4c3a-a394-e9b649ccbc74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Base\Object">
+      <UniqueIdentifier>{8fe84b50-0461-4618-bcdb-62aa9e688012}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Base\Exception">
+      <UniqueIdentifier>{4616167d-c102-4c66-9e4c-5a0cf919a263}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Window\DeviceContext">
+      <UniqueIdentifier>{8af7c764-79c7-4f07-9927-a8562daeda3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Window\PixelFormatDescriptor">
+      <UniqueIdentifier>{f95c1a72-7bc6-43ea-936d-7f013a24d382}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Window\RenderingContext">
+      <UniqueIdentifier>{c18b8a4f-b1c9-40c7-b61a-0113e3c34791}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Resource">
+      <UniqueIdentifier>{ecef40ee-d93f-4cab-8b2f-136c6a28ff1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl">
+      <UniqueIdentifier>{f6f90474-e297-4fd2-b10a-133abe50951d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src">
+      <UniqueIdentifier>{88d8d94f-7b10-4e38-bc63-fdf945689eeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\header">
+      <UniqueIdentifier>{3bac93c9-1411-46c0-af50-1f42de981c41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Util">
+      <UniqueIdentifier>{da7db84b-332d-48e9-a7d9-9f3b2e3575af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Core">
+      <UniqueIdentifier>{be204fee-86b4-492c-a490-cc0a0631cd99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Core\Buffer">
+      <UniqueIdentifier>{a798ed51-0b4a-4e34-aca6-466044ec661a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Core\Buffer\IndexBuffer">
+      <UniqueIdentifier>{ef95daff-f606-42ea-ac12-c44192615c09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Core\Buffer\VetexBuffer">
+      <UniqueIdentifier>{fd4aa1e8-ce4c-452c-9be2-315ce49a77b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Core\Buffer\UniformBuffer">
+      <UniqueIdentifier>{a9c1f834-d3e9-4caf-b14e-17dc6b704a87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Core\Texture">
+      <UniqueIdentifier>{c846faa4-6482-458b-b2ab-6ec1968bfa2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Core\Program">
+      <UniqueIdentifier>{2c34af93-939b-47b4-8022-7c9757e09f72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Core\VertexArray">
+      <UniqueIdentifier>{e549524c-5b02-4517-9a9b-a3f7d6710f28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Util\TextReader">
+      <UniqueIdentifier>{a7d38c9a-62c8-48c6-b9ff-981072a80c67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Util\Cache">
+      <UniqueIdentifier>{267b567a-79a2-46e7-9b1d-1094404d344c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Core\Buffer\VetexBuffer\Attribute">
+      <UniqueIdentifier>{311645cc-9465-4698-88b9-5528edbd5d29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Core\Texture\2D">
+      <UniqueIdentifier>{5b0c6b38-8fb7-43d7-8fa2-69bb1f663ca0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Light\PointLight">
+      <UniqueIdentifier>{eaa21bfc-a62a-47b5-a80b-0889f086ce00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Light\DirectionalLight">
+      <UniqueIdentifier>{e809a8e1-3ade-4aa9-aa5f-0f6847f5df3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Light\SpotLight">
+      <UniqueIdentifier>{bca2028a-f6ba-41b9-8be6-f578bf08232d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Light\Component">
+      <UniqueIdentifier>{660b2c97-34c6-48a7-83f5-fe9a181fd19c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Light\Deployment">
+      <UniqueIdentifier>{241d9f61-1396-496b-9df3-ddf966e4f226}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Util\AssetImporter">
+      <UniqueIdentifier>{055c2cd3-19ad-4286-92ad-a2a72620d20c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Mesh">
+      <UniqueIdentifier>{c6a0c799-5cc9-459b-bea4-41898520b1b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Material">
+      <UniqueIdentifier>{ef3caaaf-7821-4b0f-9e3f-8df1fb4becf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\Phong">
+      <UniqueIdentifier>{252da59a-5e56-4c85-bb0b-2aa9992a8f26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Camera">
+      <UniqueIdentifier>{6d56e642-984f-44b3-8303-b0f43bd14fe2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\Silhouette">
+      <UniqueIdentifier>{870cf392-b477-4184-92ab-d0c5db74c1fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Material\Component">
+      <UniqueIdentifier>{7393c937-a1c9-41f0-b35f-784ae02e6858}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Material\SilhouetteMaterial">
+      <UniqueIdentifier>{9ddb50b7-2abb-40a2-b889-a4490954d58a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Material\PhongMaterial">
+      <UniqueIdentifier>{ab5bf8b7-8238-42ab-9ada-784f7fe19f6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Material\MonoColorMaterial">
+      <UniqueIdentifier>{734826c7-732c-4884-aa39-cb4809da0a5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Material\OutliningPhongMaterial">
+      <UniqueIdentifier>{cce767f7-5f64-4630-a3c0-d0de6d6fc529}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Material\Deployment">
+      <UniqueIdentifier>{67046b89-1fa3-4daf-8a43-e9ba57f4c67c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\MonoColor">
+      <UniqueIdentifier>{2aa16327-cca2-4334-aee2-9aa0aaa0c467}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Util\TextureUtil">
+      <UniqueIdentifier>{52787f59-c534-4780-bb74-d8eefb5899f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Material\TransparentPhongMaterial">
+      <UniqueIdentifier>{13062c02-f43f-4615-ad79-7c47dbbd3eb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\Outline">
+      <UniqueIdentifier>{7a621ea0-851f-4a59-a613-11c861a0f698}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Base\Function">
+      <UniqueIdentifier>{aa839809-1fc0-4a2f-9e0f-6187a8470713}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Core\Shader">
+      <UniqueIdentifier>{debeaa5d-eeba-4a1d-a7e9-fcef0a709f13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Core\Shader\Compiler">
+      <UniqueIdentifier>{538b2c30-3018-4362-8a92-9eac16aabc89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Core\Shader\Compiler\VertexShaderCompiler">
+      <UniqueIdentifier>{045a9bc2-ccb4-4eb1-8e5c-a6d55b4cbfa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Core\Shader\Compiler\FragmentShaderCompiler">
+      <UniqueIdentifier>{752acd6e-440c-417f-9101-87c6c8438c24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Core\FrameBuffer">
+      <UniqueIdentifier>{7dcc604a-543d-457f-b2ef-31d848d5cc22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Core\RenderBuffer">
+      <UniqueIdentifier>{c0c6972c-3c31-46b1-a9f4-8d9b6ae09542}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Core\Texture\2D\Attachable">
+      <UniqueIdentifier>{a5fd34c0-4298-4710-be0a-36ec2a86af53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\PostProcess">
+      <UniqueIdentifier>{544d25ea-ba82-4b25-8a74-c875646c8db2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Program">
+      <UniqueIdentifier>{00e169e1-0915-4999-8b38-e6e483004065}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\VertexArray">
+      <UniqueIdentifier>{f7ed1d65-d6ae-47e6-b447-93aab8d18704}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\VertexAttribute">
+      <UniqueIdentifier>{1a44d6a6-f883-4580-8afd-86f9aa6ef892}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\PostProcess">
+      <UniqueIdentifier>{1f05438f-7b01-465f-8614-db486fca48da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\header\PostProcess">
+      <UniqueIdentifier>{9f815d8b-31f5-4681-a55f-4dde087a3352}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\PostProcess\Forward">
+      <UniqueIdentifier>{d0c53191-d403-4a76-b291-0be2d50313d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\PostProcess\Forward">
+      <UniqueIdentifier>{57e1cc38-6664-435b-be55-526c7105dd0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\PostProcess\Negative">
+      <UniqueIdentifier>{54e77958-b59c-4456-bdf2-1dd9443c6e3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\PostProcess\Negative">
+      <UniqueIdentifier>{57cae57f-93ad-49fb-98f1-e6d912bf9540}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\PostProcess\Grayscale">
+      <UniqueIdentifier>{f256c2a5-c2b0-4aa2-8d09-6e44f5717394}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\PostProcess\Grayscale">
+      <UniqueIdentifier>{e43e673f-0def-4f7e-a8f2-d5dcc2107115}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\PostProcess\Convolution">
+      <UniqueIdentifier>{5bac6968-114f-4a5c-a2b8-569d10ca0e63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\PostProcess\Convolutional">
+      <UniqueIdentifier>{f5748167-2cf5-48f7-9100-5b9bb49e3e3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Core\Uniform">
+      <UniqueIdentifier>{a27102e3-f0ab-49e9-ac49-b0567bdbdb78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\PostProcess\Pipeline">
+      <UniqueIdentifier>{a1f3f641-4c8c-468a-9cc9-fdce80b56f12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Core\Texture\Cubemap">
+      <UniqueIdentifier>{75106aa7-e621-4fca-b08e-f1a72f3507c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\Cubemap">
+      <UniqueIdentifier>{def7da53-7ec5-423b-a51f-c69969a97116}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Skybox">
+      <UniqueIdentifier>{a37ba400-20b3-4e6f-900f-8dbdf24793b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Skybox\Deployment">
+      <UniqueIdentifier>{a85cb624-bffd-45f2-94f4-54496cba47f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Skybox\Component">
+      <UniqueIdentifier>{79418b20-6535-4b5a-a261-e9cb6e23e93c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Skybox\CubeSkybox">
+      <UniqueIdentifier>{b7cff5eb-95da-454c-99f0-97eb81a0394c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Material\ReflectionMaterial">
+      <UniqueIdentifier>{1a59e1fc-8294-4e0f-8969-e6bdf8e60eac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\Reflection">
+      <UniqueIdentifier>{c9435396-cefc-466b-96ff-9c1ca7bd3f3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Material\ReflectionPhongMaterial">
+      <UniqueIdentifier>{002d2470-dbc4-429e-97a5-6da2b64d8c5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Material\RefractionMaterial">
+      <UniqueIdentifier>{b889325a-f343-423b-ac0a-60088a9e4d77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\RenderUnit">
+      <UniqueIdentifier>{b5d8fa38-5854-4a3b-a3cb-23e3f2ab752c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\RenderUnit\Positionable">
+      <UniqueIdentifier>{69f29681-85f5-4af7-8f6a-e9b578c69924}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\ReflectionPhong">
+      <UniqueIdentifier>{6863217a-bf12-47c5-9daf-5417e329cbbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\Refraction">
+      <UniqueIdentifier>{d8c90626-3263-4f58-9381-de5f2938fd72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Core\Shader\Compiler\GeometryShaderCompiler">
+      <UniqueIdentifier>{55ce2923-a802-4c6d-a7c7-3ec1bd089d37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\Demo">
+      <UniqueIdentifier>{6d11e425-bb98-414a-b64a-eae9a1428e4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\ExplodingPhong">
+      <UniqueIdentifier>{e3f5c97a-e6a0-4b6b-affd-4c80df66110d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Material\ExplodingPhongMaterial">
+      <UniqueIdentifier>{0e8d6a8d-92ce-4c3e-a301-3d2c2e2a5248}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Base\Interface">
+      <UniqueIdentifier>{5193592d-2a04-40d3-ad5e-e60f11df3d0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Base\interface">
+      <UniqueIdentifier>{4957fde3-2955-4d79-9676-1c9f209c117c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Buffer.cpp">
+      <Filter>Library\ObjectGL\Core\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferException.cpp">
+      <Filter>Library\ObjectGL\Core\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2D.cpp">
+      <Filter>Library\ObjectGL\Core\Texture\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Library\ObjectGL\Core\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureException.cpp">
+      <Filter>Library\ObjectGL\Core\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Program.cpp">
+      <Filter>Library\ObjectGL\Core\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgramException.cpp">
+      <Filter>Library\ObjectGL\Core\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Library\ObjectGL\Core\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleCamera.cpp">
+      <Filter>Library\Engine\Core\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelFormatDescriptor.cpp">
+      <Filter>Library\ObjectGL\Window\PixelFormatDescriptor</Filter>
+    </ClCompile>
+    <ClCompile Include="RCAttributeDescriptor.cpp">
+      <Filter>Library\ObjectGL\Window\RenderingContext</Filter>
+    </ClCompile>
+    <ClCompile Include="RCException.cpp">
+      <Filter>Library\ObjectGL\Window\RenderingContext</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingContext.cpp">
+      <Filter>Library\ObjectGL\Window\RenderingContext</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_image.cpp">
+      <Filter>Library\ThirdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexBuffer.cpp">
+      <Filter>Library\ObjectGL\Core\Buffer\VetexBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceContext.cpp">
+      <Filter>Library\ObjectGL\Window\DeviceContext</Filter>
+    </ClCompile>
+    <ClCompile Include="DCException.cpp">
+      <Filter>Library\ObjectGL\Window\DeviceContext</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32Screen.cpp">
+      <Filter>Library\Engine\Screen\Window\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="Screen.cpp">
+      <Filter>Library\ObjectGL\Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Library\Engine\Core\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="IndexBuffer.cpp">
+      <Filter>Library\ObjectGL\Core\Buffer\IndexBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexArray.cpp">
+      <Filter>Library\ObjectGL\Core\VertexArray</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexArrayException.cpp">
+      <Filter>Library\ObjectGL\Core\VertexArray</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Library\Engine\Core\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Library\Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="DemoScene.cpp">
+      <Filter>Client\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="UniformBuffer.cpp">
+      <Filter>Library\ObjectGL\Core\Buffer\UniformBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenEventHandler.cpp">
+      <Filter>Library\ObjectGL\Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Library\Engine\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgramFactory.cpp">
+      <Filter>Library\Engine\Core\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="TextReader.cpp">
+      <Filter>Library\ObjectGL\Util\TextReader</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexAttributeDescriptorFactory.cpp">
+      <Filter>Library\Engine\Core\VertexAttribute</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32ScreenException.cpp">
+      <Filter>Library\Engine\Screen\Window\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexAttributeList.cpp">
+      <Filter>Library\ObjectGL\Core\Buffer\VetexBuffer\Attribute</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderCompilerException.cpp">
+      <Filter>Library\ObjectGL\Core\Shader\Compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderCompiler.cpp">
+      <Filter>Library\ObjectGL\Core\Shader\Compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShaderCompiler.cpp">
+      <Filter>Library\ObjectGL\Core\Shader\Compiler\VertexShaderCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="FragmentShaderCompiler.cpp">
+      <Filter>Library\ObjectGL\Core\Shader\Compiler\FragmentShaderCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgramPath.cpp">
+      <Filter>Library\Engine\Core\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Library\Engine\Core\Light\PointLight</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionalLight.cpp">
+      <Filter>Library\Engine\Core\Light\DirectionalLight</Filter>
+    </ClCompile>
+    <ClCompile Include="SpotLight.cpp">
+      <Filter>Library\Engine\Core\Light\SpotLight</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionalLightComponent.cpp">
+      <Filter>Library\Engine\Core\Light\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="AttenuatedLightComponent.cpp">
+      <Filter>Library\Engine\Core\Light\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PositionableLightComponent.cpp">
+      <Filter>Library\Engine\Core\Light\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="SpotLightComponent.cpp">
+      <Filter>Library\Engine\Core\Light\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="LightException.cpp">
+      <Filter>Library\Engine\Core\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Updater.cpp">
+      <Filter>Library\Engine\Base\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="LightUniformSetter.cpp">
+      <Filter>Library\Engine\Core\Light\Deployment</Filter>
+    </ClCompile>
+    <ClCompile Include="LightDeployer.cpp">
+      <Filter>Library\Engine\Core\Light\Deployment</Filter>
+    </ClCompile>
+    <ClCompile Include="LightBaseComponent.cpp">
+      <Filter>Library\Engine\Core\Light\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetImporter.cpp">
+      <Filter>Library\Engine\Util\AssetImporter</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetImporterException.cpp">
+      <Filter>Library\Engine\Util\AssetImporter</Filter>
+    </ClCompile>
+    <ClCompile Include="GLProfileFlag.cpp">
+      <Filter>Library\ObjectGL\Window\RenderingContext</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexAttributeListFactory.cpp">
+      <Filter>Library\Engine\Core\VertexAttribute</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Library\Engine\Core\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Library\Engine\Core\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="PhongMaterial.cpp">
+      <Filter>Library\Engine\Core\Material\PhongMaterial</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderIdentifier.cpp">
+      <Filter>Library\Engine\glsl</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialOptionFlag.cpp">
+      <Filter>Library\Engine\Core\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="SilhouetteMaterial.cpp">
+      <Filter>Library\Engine\Core\Material\SilhouetteMaterial</Filter>
+    </ClCompile>
+    <ClCompile Include="GLFunctionWrapper.cpp">
+      <Filter>Library\ObjectGL\Base\Function</Filter>
+    </ClCompile>
+    <ClCompile Include="MonoColorMaterial.cpp">
+      <Filter>Library\Engine\Core\Material\MonoColorMaterial</Filter>
+    </ClCompile>
+    <ClCompile Include="MonoColorMaterialComponent.cpp">
+      <Filter>Library\Engine\Core\Material\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PhongMaterialComponent.cpp">
+      <Filter>Library\Engine\Core\Material\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="SilhouetteMaterialComponent.cpp">
+      <Filter>Library\Engine\Core\Material\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="OutliningMaterialComponent.cpp">
+      <Filter>Library\Engine\Core\Material\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="OutliningPhongMaterial.cpp">
+      <Filter>Library\Engine\Core\Material\OutliningPhongMaterial</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialUniformSetter.cpp">
+      <Filter>Library\Engine\Core\Material\Deployment</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureUtil.cpp">
+      <Filter>Library\Engine\Util\TextureUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureUtilException.cpp">
+      <Filter>Library\Engine\Util\TextureUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexArrayFactory.cpp">
+      <Filter>Library\Engine\Core\VertexArray</Filter>
+    </ClCompile>
+    <ClCompile Include="TransparentPhongMaterial.cpp">
+      <Filter>Library\Engine\Core\Material\TransparentPhongMaterial</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameBufferException.cpp">
+      <Filter>Library\ObjectGL\Core\FrameBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameBuffer.cpp">
+      <Filter>Library\ObjectGL\Core\FrameBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="AssertException.cpp">
+      <Filter>Library\ObjectGL\Base\Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderBuffer.cpp">
+      <Filter>Library\ObjectGL\Core\RenderBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderBufferException.cpp">
+      <Filter>Library\ObjectGL\Core\RenderBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="AttachableTexture.cpp">
+      <Filter>Library\ObjectGL\Core\Texture\2D\Attachable</Filter>
+    </ClCompile>
+    <ClCompile Include="ForwardPostProcessor.cpp">
+      <Filter>Library\Engine\Core\PostProcess\Forward</Filter>
+    </ClCompile>
+    <ClCompile Include="NegativePostProcessor.cpp">
+      <Filter>Library\Engine\Core\PostProcess\Negative</Filter>
+    </ClCompile>
+    <ClCompile Include="GrayscalePostProcessor.cpp">
+      <Filter>Library\Engine\Core\PostProcess\Grayscale</Filter>
+    </ClCompile>
+    <ClCompile Include="ConvolutionalPostProcessor.cpp">
+      <Filter>Library\Engine\Core\PostProcess\Convolution</Filter>
+    </ClCompile>
+    <ClCompile Include="UniformSetter.cpp">
+      <Filter>Library\ObjectGL\Core\Uniform</Filter>
+    </ClCompile>
+    <ClCompile Include="UniformDeployer.cpp">
+      <Filter>Library\ObjectGL\Core\Uniform</Filter>
+    </ClCompile>
+    <ClCompile Include="PostProcessor.cpp">
+      <Filter>Library\Engine\Core\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="PostProcessingPipeline.cpp">
+      <Filter>Library\Engine\Core\PostProcess\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureCubemap.cpp">
+      <Filter>Library\ObjectGL\Core\Texture\Cubemap</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyboxUniformSetter.cpp">
+      <Filter>Library\Engine\Core\Skybox\Deployment</Filter>
+    </ClCompile>
+    <ClCompile Include="Skybox.cpp">
+      <Filter>Library\Engine\Core\Skybox</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeSkyboxComponent.cpp">
+      <Filter>Library\Engine\Core\Skybox\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeSkybox.cpp">
+      <Filter>Library\Engine\Core\Skybox\CubeSkybox</Filter>
+    </ClCompile>
+    <ClCompile Include="DemoScene2.cpp">
+      <Filter>Client\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionMaterialComponent.cpp">
+      <Filter>Library\Engine\Core\Material\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionMaterial.cpp">
+      <Filter>Library\Engine\Core\Material\ReflectionMaterial</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionPhongMaterial.cpp">
+      <Filter>Library\Engine\Core\Material\ReflectionPhongMaterial</Filter>
+    </ClCompile>
+    <ClCompile Include="RefractionMaterialComponent.cpp">
+      <Filter>Library\Engine\Core\Material\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="RefractionMaterial.cpp">
+      <Filter>Library\Engine\Core\Material\RefractionMaterial</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderUnit.cpp">
+      <Filter>Library\Engine\Core\RenderUnit</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderUnitManager.cpp">
+      <Filter>Library\Engine\Core\RenderUnit</Filter>
+    </ClCompile>
+    <ClCompile Include="DemoScene3.cpp">
+      <Filter>Client\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometryShaderCompiler.cpp">
+      <Filter>Library\ObjectGL\Core\Shader\Compiler\GeometryShaderCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplodingPhongMaterial.cpp">
+      <Filter>Library\Engine\Core\Material\ExplodingPhongMaterial</Filter>
+    </ClCompile>
+    <ClCompile Include="Drawer.cpp">
+      <Filter>Library\Engine\Base\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelMatrixBuffer.cpp">
+      <Filter>Library\Engine\Core\RenderUnit\Positionable</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Library\Engine\Core\RenderUnit\Positionable</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexAttributeType.cpp">
+      <Filter>Library\Engine\Core\VertexAttribute</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PixelFormatDescriptor.h">
+      <Filter>Library\ObjectGL\Window\PixelFormatDescriptor</Filter>
+    </ClInclude>
+    <ClInclude Include="PFDBufferType.h">
+      <Filter>Library\ObjectGL\Window\PixelFormatDescriptor</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingContext.h">
+      <Filter>Library\ObjectGL\Window\RenderingContext</Filter>
+    </ClInclude>
+    <ClInclude Include="RCException.h">
+      <Filter>Library\ObjectGL\Window\RenderingContext</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferException.h">
+      <Filter>Library\ObjectGL\Core\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Library\ObjectGL\Core\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgramException.h">
+      <Filter>Library\ObjectGL\Core\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="Program.h">
+      <Filter>Library\ObjectGL\Core\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="RCAttributeDescriptor.h">
+      <Filter>Library\ObjectGL\Window\RenderingContext</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Library\ObjectGL\Core\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureException.h">
+      <Filter>Library\ObjectGL\Core\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2D.h">
+      <Filter>Library\ObjectGL\Core\Texture\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleCamera.h">
+      <Filter>Library\Engine\Core\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>Library\ThirdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer.h">
+      <Filter>Library\ObjectGL\Core\Buffer\VetexBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceContext.h">
+      <Filter>Library\ObjectGL\Window\DeviceContext</Filter>
+    </ClInclude>
+    <ClInclude Include="DCException.h">
+      <Filter>Library\ObjectGL\Window\DeviceContext</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32Screen.h">
+      <Filter>Library\Engine\Screen\Window\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="tstring.h">
+      <Filter>Library\Engine\Screen\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Screen.h">
+      <Filter>Library\ObjectGL\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Library\Engine\Core\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Library\Engine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexBuffer.h">
+      <Filter>Library\ObjectGL\Core\Buffer\IndexBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexArray.h">
+      <Filter>Library\ObjectGL\Core\VertexArray</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexArrayException.h">
+      <Filter>Library\ObjectGL\Core\VertexArray</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Library\Engine\Core\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Updatable.h">
+      <Filter>Library\Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Library\Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="DemoScene.h">
+      <Filter>Client\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenEventHandler.h">
+      <Filter>Library\ObjectGL\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferType.h">
+      <Filter>Library\ObjectGL\Core\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferUpdatePatternType.h">
+      <Filter>Library\ObjectGL\Core\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="GLProfileFlag.h">
+      <Filter>Library\ObjectGL\Window\RenderingContext</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexType.h">
+      <Filter>Library\ObjectGL\Core\Buffer\IndexBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="PrimitiveType.h">
+      <Filter>Library\ObjectGL\Core\VertexArray</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderType.h">
+      <Filter>Library\ObjectGL\Core\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureType.h">
+      <Filter>Library\ObjectGL\Core\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Library\Engine\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgramFactory.h">
+      <Filter>Library\Engine\Core\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgramType.h">
+      <Filter>Library\Engine\Core\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="TextReader.h">
+      <Filter>Library\ObjectGL\Util\TextReader</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexAttributeDescriptorType.h">
+      <Filter>Library\Engine\Core\VertexAttribute</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexAttributeDescriptorFactory.h">
+      <Filter>Library\Engine\Core\VertexAttribute</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32ScreenException.h">
+      <Filter>Library\Engine\Screen\Window\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexAttribute.h">
+      <Filter>Library\ObjectGL\Core\Buffer\VetexBuffer\Attribute</Filter>
+    </ClInclude>
+    <ClInclude Include="ElementType.h">
+      <Filter>Library\ObjectGL\Core\Buffer\VetexBuffer\Attribute</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexAttributeDescriptor.h">
+      <Filter>Library\ObjectGL\Core\Buffer\VetexBuffer\Attribute</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexAttributeList.h">
+      <Filter>Library\ObjectGL\Core\Buffer\VetexBuffer\Attribute</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderCompiler.h">
+      <Filter>Library\ObjectGL\Core\Shader\Compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderCompilerException.h">
+      <Filter>Library\ObjectGL\Core\Shader\Compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShaderCompiler.h">
+      <Filter>Library\ObjectGL\Core\Shader\Compiler\VertexShaderCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="FragmentShaderCompiler.h">
+      <Filter>Library\ObjectGL\Core\Shader\Compiler\FragmentShaderCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgramPath.h">
+      <Filter>Library\Engine\Core\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgramPathType.h">
+      <Filter>Library\Engine\Core\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="LightType.h">
+      <Filter>Library\Engine\Core\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>Library\Engine\Core\Light\PointLight</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLight.h">
+      <Filter>Library\Engine\Core\Light\DirectionalLight</Filter>
+    </ClInclude>
+    <ClInclude Include="SpotLight.h">
+      <Filter>Library\Engine\Core\Light\SpotLight</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLightComponent.h">
+      <Filter>Library\Engine\Core\Light\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="AttenuatedLightComponent.h">
+      <Filter>Library\Engine\Core\Light\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PositionableLightComponent.h">
+      <Filter>Library\Engine\Core\Light\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="SpotLightComponent.h">
+      <Filter>Library\Engine\Core\Light\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="LightException.h">
+      <Filter>Library\Engine\Core\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Updater.h">
+      <Filter>Library\Engine\Base\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="LightUniformSetter.h">
+      <Filter>Library\Engine\Core\Light\Deployment</Filter>
+    </ClInclude>
+    <ClInclude Include="LightDeployer.h">
+      <Filter>Library\Engine\Core\Light\Deployment</Filter>
+    </ClInclude>
+    <ClInclude Include="LightUniformDeployable.h">
+      <Filter>Library\Engine\Core\Light\Deployment</Filter>
+    </ClInclude>
+    <ClInclude Include="LightBaseComponent.h">
+      <Filter>Library\Engine\Core\Light\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetImporter.h">
+      <Filter>Library\Engine\Util\AssetImporter</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetImporterException.h">
+      <Filter>Library\Engine\Util\AssetImporter</Filter>
+    </ClInclude>
+    <ClInclude Include="UniformBuffer.h">
+      <Filter>Library\ObjectGL\Core\Buffer\UniformBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="BindableObject.h">
+      <Filter>Library\ObjectGL\Base\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Library\ObjectGL\Base\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexAttributeListFactory.h">
+      <Filter>Library\Engine\Core\VertexAttribute</Filter>
+    </ClInclude>
+    <ClInclude Include="Cache.h">
+      <Filter>Library\ObjectGL\Util\Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Library\Engine\Core\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Library\Engine\Core\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialType.h">
+      <Filter>Library\Engine\Core\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="PhongMaterial.h">
+      <Filter>Library\Engine\Core\Material\PhongMaterial</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderIdentifier.h">
+      <Filter>Library\Engine\glsl</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialOptionFlag.h">
+      <Filter>Library\Engine\Core\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="SilhouetteMaterial.h">
+      <Filter>Library\Engine\Core\Material\SilhouetteMaterial</Filter>
+    </ClInclude>
+    <ClInclude Include="GLFunctionWrapper.h">
+      <Filter>Library\ObjectGL\Base\Function</Filter>
+    </ClInclude>
+    <ClInclude Include="GLOptionType.h">
+      <Filter>Library\ObjectGL\Base\Function</Filter>
+    </ClInclude>
+    <ClInclude Include="RasterizationType.h">
+      <Filter>Library\ObjectGL\Base\Function</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameBufferClearFlag.h">
+      <Filter>Library\ObjectGL\Base\Function</Filter>
+    </ClInclude>
+    <ClInclude Include="FacetType.h">
+      <Filter>Library\ObjectGL\Base\Function</Filter>
+    </ClInclude>
+    <ClInclude Include="MonoColorMaterial.h">
+      <Filter>Library\Engine\Core\Material\MonoColorMaterial</Filter>
+    </ClInclude>
+    <ClInclude Include="MonoColorMaterialComponent.h">
+      <Filter>Library\Engine\Core\Material\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PhongMaterialComponent.h">
+      <Filter>Library\Engine\Core\Material\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="SilhouetteMaterialComponent.h">
+      <Filter>Library\Engine\Core\Material\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="OutliningPhongMaterial.h">
+      <Filter>Library\Engine\Core\Material\OutliningPhongMaterial</Filter>
+    </ClInclude>
+    <ClInclude Include="OutliningMaterialComponent.h">
+      <Filter>Library\Engine\Core\Material\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialUniformSetter.h">
+      <Filter>Library\Engine\Core\Material\Deployment</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialUniformDeployable.h">
+      <Filter>Library\Engine\Core\Material\Deployment</Filter>
+    </ClInclude>
+    <ClInclude Include="StencilOperationType.h">
+      <Filter>Library\ObjectGL\Base\Function</Filter>
+    </ClInclude>
+    <ClInclude Include="DepthStencilFunctionType.h">
+      <Filter>Library\ObjectGL\Base\Function</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureUtil.h">
+      <Filter>Library\Engine\Util\TextureUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureUtilException.h">
+      <Filter>Library\Engine\Util\TextureUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeType.h">
+      <Filter>Library\Engine\Core\VertexArray</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexArrayFactory.h">
+      <Filter>Library\Engine\Core\VertexArray</Filter>
+    </ClInclude>
+    <ClInclude Include="TransparentPhongMaterial.h">
+      <Filter>Library\Engine\Core\Material\TransparentPhongMaterial</Filter>
+    </ClInclude>
+    <ClInclude Include="BlendingFunctionType.h">
+      <Filter>Library\ObjectGL\Base\Function</Filter>
+    </ClInclude>
+    <ClInclude Include="BlendingEquationType.h">
+      <Filter>Library\ObjectGL\Base\Function</Filter>
+    </ClInclude>
+    <ClInclude Include="WindingOrderType.h">
+      <Filter>Library\ObjectGL\Base\Function</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameBuffer.h">
+      <Filter>Library\ObjectGL\Core\FrameBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameBufferException.h">
+      <Filter>Library\ObjectGL\Core\FrameBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="AssertException.h">
+      <Filter>Library\ObjectGL\Base\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameBufferStatusType.h">
+      <Filter>Library\ObjectGL\Core\FrameBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Attachable.h">
+      <Filter>Library\ObjectGL\Core\FrameBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="AttachmentType.h">
+      <Filter>Library\ObjectGL\Core\FrameBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderBuffer.h">
+      <Filter>Library\ObjectGL\Core\RenderBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderBufferException.h">
+      <Filter>Library\ObjectGL\Core\RenderBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderBufferInternalFormatType.h">
+      <Filter>Library\ObjectGL\Core\RenderBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="AttachableTexture.h">
+      <Filter>Library\ObjectGL\Core\Texture\2D\Attachable</Filter>
+    </ClInclude>
+    <ClInclude Include="PostProcessor.h">
+      <Filter>Library\Engine\Core\PostProcess</Filter>
+    </ClInclude>
+    <ClInclude Include="ForwardPostProcessor.h">
+      <Filter>Library\Engine\Core\PostProcess\Forward</Filter>
+    </ClInclude>
+    <ClInclude Include="NegativePostProcessor.h">
+      <Filter>Library\Engine\Core\PostProcess\Negative</Filter>
+    </ClInclude>
+    <ClInclude Include="GrayscalePostProcessor.h">
+      <Filter>Library\Engine\Core\PostProcess\Grayscale</Filter>
+    </ClInclude>
+    <ClInclude Include="ConvolutionalPostProcessor.h">
+      <Filter>Library\Engine\Core\PostProcess\Convolution</Filter>
+    </ClInclude>
+    <ClInclude Include="UniformDeployable.h">
+      <Filter>Library\ObjectGL\Core\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="UniformSetter.h">
+      <Filter>Library\ObjectGL\Core\Uniform</Filter>
+    </ClInclude>
+    <ClInclude Include="UniformDeployer.h">
+      <Filter>Library\ObjectGL\Core\Uniform</Filter>
+    </ClInclude>
+    <ClInclude Include="Constant.h">
+      <Filter>Library\Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="PostProcessingPipeline.h">
+      <Filter>Library\Engine\Core\PostProcess\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureCubemap.h">
+      <Filter>Library\ObjectGL\Core\Texture\Cubemap</Filter>
+    </ClInclude>
+    <ClInclude Include="CubemapSideType.h">
+      <Filter>Library\ObjectGL\Core\Texture\Cubemap</Filter>
+    </ClInclude>
+    <ClInclude Include="Skybox.h">
+      <Filter>Library\Engine\Core\Skybox</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyboxUniformSetter.h">
+      <Filter>Library\Engine\Core\Skybox\Deployment</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyboxUniformDeployable.h">
+      <Filter>Library\Engine\Core\Skybox\Deployment</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeSkyboxComponent.h">
+      <Filter>Library\Engine\Core\Skybox\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeSkybox.h">
+      <Filter>Library\Engine\Core\Skybox\CubeSkybox</Filter>
+    </ClInclude>
+    <ClInclude Include="Buffer.h">
+      <Filter>Library\ObjectGL\Core\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="DemoScene2.h">
+      <Filter>Client\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="ReflectionMaterialComponent.h">
+      <Filter>Library\Engine\Core\Material\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ReflectionMaterial.h">
+      <Filter>Library\Engine\Core\Material\ReflectionMaterial</Filter>
+    </ClInclude>
+    <ClInclude Include="ReflectionPhongMaterial.h">
+      <Filter>Library\Engine\Core\Material\ReflectionPhongMaterial</Filter>
+    </ClInclude>
+    <ClInclude Include="RefractionMaterialComponent.h">
+      <Filter>Library\Engine\Core\Material\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="RefractionMaterial.h">
+      <Filter>Library\Engine\Core\Material\RefractionMaterial</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferAccessType.h">
+      <Filter>Library\ObjectGL\Core\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderUnit.h">
+      <Filter>Library\Engine\Core\RenderUnit</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderUnitManager.h">
+      <Filter>Library\Engine\Core\RenderUnit</Filter>
+    </ClInclude>
+    <ClInclude Include="DemoScene3.h">
+      <Filter>Client\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GeometryShaderCompiler.h">
+      <Filter>Library\ObjectGL\Core\Shader\Compiler\GeometryShaderCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplodingPhongMaterial.h">
+      <Filter>Library\Engine\Core\Material\ExplodingPhongMaterial</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawer.h">
+      <Filter>Library\Engine\Base\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawable.h">
+      <Filter>Library\Engine\Base\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelMatrixBuffer.h">
+      <Filter>Library\Engine\Core\RenderUnit\Positionable</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Library\Engine\Core\RenderUnit\Positionable</Filter>
+    </ClInclude>
+    <ClInclude Include="WeakPointerContainer.h">
+      <Filter>Library\ObjectGL\Base\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexAttributeType.h">
+      <Filter>Library\Engine\Core\VertexAttribute</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexAttributeFlag.h">
+      <Filter>Library\Engine\Core\VertexAttribute</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glsl\src\Header\Camera_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header</Filter>
+    </None>
+    <None Include="glsl\src\Header\Light_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header</Filter>
+    </None>
+    <None Include="glsl\src\Header\Material_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header</Filter>
+    </None>
+    <None Include="glsl\src\Header\Phong_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header</Filter>
+    </None>
+    <None Include="glsl\src\Phong_Vert.glsl">
+      <Filter>Library\Engine\glsl\src\Phong</Filter>
+    </None>
+    <None Include="glsl\src\Phong_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\Phong</Filter>
+    </None>
+    <None Include="glsl\src\header\VertexAttribute_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header</Filter>
+    </None>
+    <None Include="glsl\src\Header\Model_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header</Filter>
+    </None>
+    <None Include="glsl\src\Silhouette_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\Silhouette</Filter>
+    </None>
+    <None Include="glsl\src\Silhouette_Vert.glsl">
+      <Filter>Library\Engine\glsl\src\Silhouette</Filter>
+    </None>
+    <None Include="glsl\src\MonoColor_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\MonoColor</Filter>
+    </None>
+    <None Include="glsl\src\MonoColor_Vert.glsl">
+      <Filter>Library\Engine\glsl\src\MonoColor</Filter>
+    </None>
+    <None Include="glsl\src\Outline_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\Outline</Filter>
+    </None>
+    <None Include="glsl\src\Outline_Vert.glsl">
+      <Filter>Library\Engine\glsl\src\Outline</Filter>
+    </None>
+    <None Include="glsl\src\header\ModelCamera_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header</Filter>
+    </None>
+    <None Include="glsl\src\header\PostProcess_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header\PostProcess</Filter>
+    </None>
+    <None Include="glsl\src\PostProcess_Common_Vert.glsl">
+      <Filter>Library\Engine\glsl\src\PostProcess</Filter>
+    </None>
+    <None Include="glsl\src\PostProcess_Forward_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\PostProcess\Forward</Filter>
+    </None>
+    <None Include="glsl\src\PostProcess_Negative_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\PostProcess\Negative</Filter>
+    </None>
+    <None Include="glsl\src\PostProcess_Grayscale_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\PostProcess\Grayscale</Filter>
+    </None>
+    <None Include="glsl\src\header\Convolutional_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header\PostProcess</Filter>
+    </None>
+    <None Include="glsl\src\PostProcess_Convolutional_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\PostProcess\Convolutional</Filter>
+    </None>
+    <None Include="glsl\src\header\Cubemap_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header</Filter>
+    </None>
+    <None Include="glsl\src\Cubemap_Vert.glsl">
+      <Filter>Library\Engine\glsl\src\Cubemap</Filter>
+    </None>
+    <None Include="glsl\src\Cubemap_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\Cubemap</Filter>
+    </None>
+    <None Include="glsl\src\Reflection_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\Reflection</Filter>
+    </None>
+    <None Include="glsl\src\Reflection_Vert.glsl">
+      <Filter>Library\Engine\glsl\src\Reflection</Filter>
+    </None>
+    <None Include="glsl\src\ReflectionPhong_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\ReflectionPhong</Filter>
+    </None>
+    <None Include="glsl\src\Refraction_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\Refraction</Filter>
+    </None>
+    <None Include="glsl\src\Refraction_Vert.glsl">
+      <Filter>Library\Engine\glsl\src\Refraction</Filter>
+    </None>
+    <None Include="glsl\src\GeometryDemo_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\Demo</Filter>
+    </None>
+    <None Include="glsl\src\GeometryDemo_Vert.glsl">
+      <Filter>Library\Engine\glsl\src\Demo</Filter>
+    </None>
+    <None Include="glsl\src\GeometryDemo_Geo.glsl">
+      <Filter>Library\Engine\glsl\src\Demo</Filter>
+    </None>
+    <None Include="glsl\src\ExplodingPhong_Geo.glsl">
+      <Filter>Library\Engine\glsl\src\ExplodingPhong</Filter>
+    </None>
+    <None Include="glsl\src\ExplodingPhong_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\ExplodingPhong</Filter>
+    </None>
+    <None Include="glsl\src\ExplodingPhong_Vert.glsl">
+      <Filter>Library\Engine\glsl\src\ExplodingPhong</Filter>
+    </None>
+    <None Include="glsl\src\header\Constant_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header</Filter>
+    </None>
+  </ItemGroup>
+</Project>

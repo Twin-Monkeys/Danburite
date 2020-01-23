@@ -1,0 +1,467 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{8FDCDE28-C10D-48DB-AA99-4EB23CD794F7}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Danburite</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="glewPropDebug_x64.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="glewPropRelease_x64.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>assimp\inc;glew\inc;glm\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>assimp\lib;glew\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>assimp\inc;glew\inc;glm\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>assimp\lib;glew\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>false</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>assimp-vc140-mt.lib;glew32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>false</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>assimp-vc140-mt.lib;glew32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AttachableTexture.cpp" />
+    <ClCompile Include="ConvolutionalPostProcessor.cpp" />
+    <ClCompile Include="CubeSkybox.cpp" />
+    <ClCompile Include="CubeSkyboxComponent.cpp" />
+    <ClCompile Include="DemoScene2.cpp" />
+    <ClCompile Include="DemoScene3.cpp" />
+    <ClCompile Include="Drawer.cpp" />
+    <ClCompile Include="ExplodingPhongMaterial.cpp" />
+    <ClCompile Include="ForwardPostProcessor.cpp" />
+    <ClCompile Include="FrameBuffer.cpp" />
+    <ClCompile Include="FrameBufferException.cpp" />
+    <ClCompile Include="GeometryShaderCompiler.cpp" />
+    <ClCompile Include="GLFunctionWrapper.cpp" />
+    <ClCompile Include="GrayscalePostProcessor.cpp" />
+    <ClCompile Include="MaterialUniformSetter.cpp" />
+    <ClCompile Include="ModelMatrixBuffer.cpp" />
+    <ClCompile Include="MonoColorMaterialComponent.cpp" />
+    <ClCompile Include="NegativePostProcessor.cpp" />
+    <ClCompile Include="OutliningMaterialComponent.cpp" />
+    <ClCompile Include="OutliningPhongMaterial.cpp" />
+    <ClCompile Include="PhongMaterialComponent.cpp" />
+    <ClCompile Include="PhongMaterial.cpp" />
+    <ClCompile Include="AssertException.cpp" />
+    <ClCompile Include="AssetImporter.cpp" />
+    <ClCompile Include="AssetImporterException.cpp" />
+    <ClCompile Include="AttenuatedLightComponent.cpp" />
+    <ClCompile Include="GLProfileFlag.cpp" />
+    <ClCompile Include="Material.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MonoColorMaterial.cpp" />
+    <ClCompile Include="MaterialOptionFlag.cpp" />
+    <ClCompile Include="PostProcessingPipeline.cpp" />
+    <ClCompile Include="PostProcessor.cpp" />
+    <ClCompile Include="ReflectionMaterial.cpp" />
+    <ClCompile Include="ReflectionMaterialComponent.cpp" />
+    <ClCompile Include="ReflectionPhongMaterial.cpp" />
+    <ClCompile Include="RefractionMaterial.cpp" />
+    <ClCompile Include="RefractionMaterialComponent.cpp" />
+    <ClCompile Include="RenderBuffer.cpp" />
+    <ClCompile Include="RenderBufferException.cpp" />
+    <ClCompile Include="ShaderIdentifier.cpp" />
+    <ClCompile Include="SilhouetteMaterial.cpp" />
+    <ClCompile Include="SilhouetteMaterialComponent.cpp" />
+    <ClCompile Include="Skybox.cpp" />
+    <ClCompile Include="SkyboxUniformSetter.cpp" />
+    <ClCompile Include="TextureCubemap.cpp" />
+    <ClCompile Include="TextureUtil.cpp" />
+    <ClCompile Include="TextureUtilException.cpp" />
+    <ClCompile Include="TransparentPhongMaterial.cpp" />
+    <ClCompile Include="UniformDeployer.cpp" />
+    <ClCompile Include="UniformSetter.cpp" />
+    <ClCompile Include="Updater.cpp" />
+    <ClCompile Include="Buffer.cpp" />
+    <ClCompile Include="BufferException.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DCException.cpp" />
+    <ClCompile Include="DeviceContext.cpp" />
+    <ClCompile Include="DirectionalLight.cpp" />
+    <ClCompile Include="FragmentShaderCompiler.cpp" />
+    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="DirectionalLightComponent.cpp" />
+    <ClCompile Include="LightBaseComponent.cpp" />
+    <ClCompile Include="LightDeployer.cpp" />
+    <ClCompile Include="LightException.cpp" />
+    <ClCompile Include="LightUniformSetter.cpp" />
+    <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="PositionableLightComponent.cpp" />
+    <ClCompile Include="ProgramFactory.cpp" />
+    <ClCompile Include="ProgramPath.cpp" />
+    <ClCompile Include="RenderUnit.cpp" />
+    <ClCompile Include="RenderUnitManager.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="ShaderCompiler.cpp" />
+    <ClCompile Include="SpotLight.cpp" />
+    <ClCompile Include="TextReader.cpp" />
+    <ClCompile Include="UniformBuffer.cpp" />
+    <ClCompile Include="ScreenEventHandler.cpp" />
+    <ClCompile Include="DemoScene.cpp" />
+    <ClCompile Include="VertexArrayException.cpp" />
+    <ClCompile Include="IndexBuffer.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="PixelFormatDescriptor.cpp" />
+    <ClCompile Include="Program.cpp" />
+    <ClCompile Include="ProgramException.cpp" />
+    <ClCompile Include="RCAttributeDescriptor.cpp" />
+    <ClCompile Include="RCException.cpp" />
+    <ClCompile Include="RenderingContext.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="ShaderCompilerException.cpp" />
+    <ClCompile Include="SimpleCamera.cpp" />
+    <ClCompile Include="VertexArray.cpp" />
+    <ClCompile Include="VertexArrayFactory.cpp" />
+    <ClCompile Include="VertexAttributeDescriptorFactory.cpp" />
+    <ClCompile Include="VertexAttributeList.cpp" />
+    <ClCompile Include="VertexShaderCompiler.cpp" />
+    <ClCompile Include="VertexAttributeType.cpp" />
+    <ClCompile Include="Win32Screen.cpp" />
+    <ClCompile Include="stb_image.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="TextureException.cpp" />
+    <ClCompile Include="VertexAttributeListFactory.cpp" />
+    <ClCompile Include="VertexBuffer.cpp" />
+    <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="Win32ScreenException.cpp" />
+    <ClCompile Include="SpotLightComponent.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Attachable.h" />
+    <ClInclude Include="AttachableTexture.h" />
+    <ClInclude Include="AttachmentType.h" />
+    <ClInclude Include="BlendingEquationType.h" />
+    <ClInclude Include="BlendingFunctionType.h" />
+    <ClInclude Include="BufferAccessType.h" />
+    <ClInclude Include="Constant.h" />
+    <ClInclude Include="ConvolutionalPostProcessor.h" />
+    <ClInclude Include="CubemapSideType.h" />
+    <ClInclude Include="CubeSkybox.h" />
+    <ClInclude Include="CubeSkyboxComponent.h" />
+    <ClInclude Include="DemoScene2.h" />
+    <ClInclude Include="DemoScene3.h" />
+    <ClInclude Include="DepthStencilFunctionType.h" />
+    <ClInclude Include="Drawable.h" />
+    <ClInclude Include="Drawer.h" />
+    <ClInclude Include="ExplodingPhongMaterial.h" />
+    <ClInclude Include="ForwardPostProcessor.h" />
+    <ClInclude Include="FrameBuffer.h" />
+    <ClInclude Include="FrameBufferException.h" />
+    <ClInclude Include="FrameBufferStatusType.h" />
+    <ClInclude Include="GeometryShaderCompiler.h" />
+    <ClInclude Include="GLFunctionWrapper.h" />
+    <ClInclude Include="GLOptionType.h" />
+    <ClInclude Include="GrayscalePostProcessor.h" />
+    <ClInclude Include="MaterialUniformDeployable.h" />
+    <ClInclude Include="MaterialUniformSetter.h" />
+    <ClInclude Include="ModelMatrixBuffer.h" />
+    <ClInclude Include="MonoColorMaterialComponent.h" />
+    <ClInclude Include="NegativePostProcessor.h" />
+    <ClInclude Include="OutliningMaterialComponent.h" />
+    <ClInclude Include="OutliningPhongMaterial.h" />
+    <ClInclude Include="PhongMaterial.h" />
+    <ClInclude Include="AssertException.h" />
+    <ClInclude Include="AssetImporter.h" />
+    <ClInclude Include="AssetImporterException.h" />
+    <ClInclude Include="Cache.h" />
+    <ClInclude Include="DirectionalLight.h" />
+    <ClInclude Include="FragmentShaderCompiler.h" />
+    <ClInclude Include="DirectionalLightComponent.h" />
+    <ClInclude Include="LightBaseComponent.h" />
+    <ClInclude Include="LightDeployer.h" />
+    <ClInclude Include="LightException.h" />
+    <ClInclude Include="LightType.h" />
+    <ClInclude Include="AttenuatedLightComponent.h" />
+    <ClInclude Include="LightUniformDeployable.h" />
+    <ClInclude Include="LightUniformSetter.h" />
+    <ClInclude Include="Material.h" />
+    <ClInclude Include="MaterialType.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MonoColorMaterial.h" />
+    <ClInclude Include="MaterialOptionFlag.h" />
+    <ClInclude Include="PhongMaterialComponent.h" />
+    <ClInclude Include="PositionableLightComponent.h" />
+    <ClInclude Include="PostProcessingPipeline.h" />
+    <ClInclude Include="ProgramPath.h" />
+    <ClInclude Include="ProgramPathType.h" />
+    <ClInclude Include="ReflectionMaterial.h" />
+    <ClInclude Include="ReflectionMaterialComponent.h" />
+    <ClInclude Include="ReflectionPhongMaterial.h" />
+    <ClInclude Include="RefractionMaterial.h" />
+    <ClInclude Include="RefractionMaterialComponent.h" />
+    <ClInclude Include="RenderBuffer.h" />
+    <ClInclude Include="RenderBufferException.h" />
+    <ClInclude Include="RenderBufferInternalFormatType.h" />
+    <ClInclude Include="RenderUnitManager.h" />
+    <ClInclude Include="ShaderCompiler.h" />
+    <ClInclude Include="ShaderIdentifier.h" />
+    <ClInclude Include="ShapeType.h" />
+    <ClInclude Include="SilhouetteMaterial.h" />
+    <ClInclude Include="SilhouetteMaterialComponent.h" />
+    <ClInclude Include="Skybox.h" />
+    <ClInclude Include="SkyboxUniformDeployable.h" />
+    <ClInclude Include="SkyboxUniformSetter.h" />
+    <ClInclude Include="SpotLight.h" />
+    <ClInclude Include="SpotLightComponent.h" />
+    <ClInclude Include="StencilOperationType.h" />
+    <ClInclude Include="TextureCubemap.h" />
+    <ClInclude Include="TextureUtil.h" />
+    <ClInclude Include="TextureUtilException.h" />
+    <ClInclude Include="TransparentPhongMaterial.h" />
+    <ClInclude Include="UniformDeployable.h" />
+    <ClInclude Include="UniformDeployer.h" />
+    <ClInclude Include="UniformSetter.h" />
+    <ClInclude Include="Updater.h" />
+    <ClInclude Include="BindableObject.h" />
+    <ClInclude Include="Buffer.h" />
+    <ClInclude Include="BufferException.h" />
+    <ClInclude Include="BufferType.h" />
+    <ClInclude Include="BufferUpdatePatternType.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="DCException.h" />
+    <ClInclude Include="DeviceContext.h" />
+    <ClInclude Include="ProgramFactory.h" />
+    <ClInclude Include="ProgramType.h" />
+    <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="TextReader.h" />
+    <ClInclude Include="UniformBuffer.h" />
+    <ClInclude Include="ScreenEventHandler.h" />
+    <ClInclude Include="FacetType.h" />
+    <ClInclude Include="IndexType.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="PointLight.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="RasterizationType.h" />
+    <ClInclude Include="RenderUnit.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="DemoScene.h" />
+    <ClInclude Include="VertexArrayException.h" />
+    <ClInclude Include="ElementType.h" />
+    <ClInclude Include="FrameBufferClearFlag.h" />
+    <ClInclude Include="GLProfileFlag.h" />
+    <ClInclude Include="IndexBuffer.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="PFDBufferType.h" />
+    <ClInclude Include="PixelFormatDescriptor.h" />
+    <ClInclude Include="PrimitiveType.h" />
+    <ClInclude Include="Program.h" />
+    <ClInclude Include="ProgramException.h" />
+    <ClInclude Include="RCAttributeDescriptor.h" />
+    <ClInclude Include="RCException.h" />
+    <ClInclude Include="RenderingContext.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShaderCompilerException.h" />
+    <ClInclude Include="SimpleCamera.h" />
+    <ClInclude Include="VertexArray.h" />
+    <ClInclude Include="VertexArrayFactory.h" />
+    <ClInclude Include="VertexAttributeDescriptor.h" />
+    <ClInclude Include="VertexAttributeDescriptorType.h" />
+    <ClInclude Include="VertexAttributeDescriptorFactory.h" />
+    <ClInclude Include="VertexAttributeList.h" />
+    <ClInclude Include="VertexAttributeFlag.h" />
+    <ClInclude Include="VertexShaderCompiler.h" />
+    <ClInclude Include="VertexAttributeType.h" />
+    <ClInclude Include="WeakPointerContainer.h" />
+    <ClInclude Include="Win32Screen.h" />
+    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="ShaderType.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="TextureException.h" />
+    <ClInclude Include="TextureType.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="tstring.h" />
+    <ClInclude Include="Updatable.h" />
+    <ClInclude Include="VertexAttribute.h" />
+    <ClInclude Include="VertexAttributeListFactory.h" />
+    <ClInclude Include="VertexBuffer.h" />
+    <ClInclude Include="Screen.h" />
+    <ClInclude Include="Win32ScreenException.h" />
+    <ClInclude Include="WindingOrderType.h" />
+    <ClInclude Include="PostProcessor.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glsl\src\Cubemap_Frag.glsl" />
+    <None Include="glsl\src\Cubemap_Vert.glsl" />
+    <None Include="glsl\src\ExplodingPhong_Frag.glsl" />
+    <None Include="glsl\src\ExplodingPhong_Geo.glsl" />
+    <None Include="glsl\src\ExplodingPhong_Vert.glsl" />
+    <None Include="glsl\src\GeometryDemo_Frag.glsl" />
+    <None Include="glsl\src\GeometryDemo_Geo.glsl" />
+    <None Include="glsl\src\GeometryDemo_Vert.glsl" />
+    <None Include="glsl\src\Header\Camera_Header.glsl" />
+    <None Include="glsl\src\header\Constant_Header.glsl" />
+    <None Include="glsl\src\header\Convolutional_Header.glsl" />
+    <None Include="glsl\src\header\Cubemap_Header.glsl" />
+    <None Include="glsl\src\Header\Light_Header.glsl" />
+    <None Include="glsl\src\Header\Material_Header.glsl" />
+    <None Include="glsl\src\header\ModelCamera_Header.glsl" />
+    <None Include="glsl\src\Header\Phong_Header.glsl" />
+    <None Include="glsl\src\Header\Model_Header.glsl" />
+    <None Include="glsl\src\header\PostProcess_Header.glsl" />
+    <None Include="glsl\src\header\VertexAttribute_Header.glsl" />
+    <None Include="glsl\src\Outline_Frag.glsl" />
+    <None Include="glsl\src\MonoColor_Frag.glsl" />
+    <None Include="glsl\src\Outline_Vert.glsl" />
+    <None Include="glsl\src\ReflectionPhong_Frag.glsl" />
+    <None Include="glsl\src\PostProcess_Convolutional_Frag.glsl" />
+    <None Include="glsl\src\PostProcess_Forward_Frag.glsl" />
+    <None Include="glsl\src\PostProcess_Common_Vert.glsl" />
+    <None Include="glsl\src\PostProcess_Grayscale_Frag.glsl" />
+    <None Include="glsl\src\PostProcess_Negative_Frag.glsl" />
+    <None Include="glsl\src\Refraction_Frag.glsl" />
+    <None Include="glsl\src\Reflection_Frag.glsl" />
+    <None Include="glsl\src\Refraction_Vert.glsl" />
+    <None Include="glsl\src\Reflection_Vert.glsl" />
+    <None Include="glsl\src\Silhouette_Frag.glsl" />
+    <None Include="glsl\src\Phong_Frag.glsl" />
+    <None Include="glsl\src\MonoColor_Vert.glsl" />
+    <None Include="glsl\src\Silhouette_Vert.glsl" />
+    <None Include="glsl\src\Phong_Vert.glsl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
