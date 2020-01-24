@@ -49,6 +49,16 @@ namespace ObjectGL
 
 	void RenderingContext::__setPixelFormat(const HDC hDC, const PIXELFORMATDESCRIPTOR &descRaw)
 	{
+		/*
+			Warning:
+
+			Unfortunately, Windows does not allow the user to change the pixel format of a window.
+			(Setting the pixel format on the same hWnd twice is not allowed)
+			You get to set it exactly once. Therefore, if you want to use a different pixel format
+			from the one your fake context used (for sRGB or multisample framebuffers,
+			or just different bit-depths of buffers), you must destroy the window entirely and
+			recreate it after we are finished with the dummy context.
+		*/
 		const int FORMAT = ChoosePixelFormat(hDC, &descRaw);
 
 		if (!FORMAT)

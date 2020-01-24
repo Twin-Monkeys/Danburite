@@ -261,4 +261,9 @@ namespace Danburite
 		__getWindow(__hWnd) = nullptr;
 		UnregisterClass(__id.c_str(), __hInstance);
 	}
+
+	shared_ptr<Win32Screen> Win32Screen::createDummy(const HINSTANCE hInstance)
+	{
+		return make_shared<Win32Screen>(hInstance, "dummy", "dummy", 1, 1);
+	}
 };
