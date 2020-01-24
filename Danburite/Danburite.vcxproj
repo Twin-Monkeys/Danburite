@@ -206,6 +206,7 @@
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="SkyboxUniformSetter.cpp" />
     <ClCompile Include="TextureCubemap.cpp" />
+    <ClCompile Include="TextureMultisample.cpp" />
     <ClCompile Include="TextureUtil.cpp" />
     <ClCompile Include="TextureUtilException.cpp" />
     <ClCompile Include="TransparentPhongMaterial.cpp" />
@@ -349,6 +350,7 @@
     <ClInclude Include="SpotLightComponent.h" />
     <ClInclude Include="StencilOperationType.h" />
     <ClInclude Include="TextureCubemap.h" />
+    <ClInclude Include="TextureMultisample.h" />
     <ClInclude Include="TextureUtil.h" />
     <ClInclude Include="TextureUtilException.h" />
     <ClInclude Include="TransparentPhongMaterial.h" />
