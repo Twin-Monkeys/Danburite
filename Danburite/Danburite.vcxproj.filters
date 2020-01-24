@@ -639,6 +639,9 @@
     <ClCompile Include="VertexAttributeType.cpp">
       <Filter>Library\Engine\Core\VertexAttribute</Filter>
     </ClCompile>
+    <ClCompile Include="DemoScene4.cpp">
+      <Filter>Client\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">
@@ -1096,6 +1099,9 @@
     </ClInclude>
     <ClInclude Include="VertexAttributeFlag.h">
       <Filter>Library\Engine\Core\VertexAttribute</Filter>
+    </ClInclude>
+    <ClInclude Include="DemoScene4.h">
+      <Filter>Client\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

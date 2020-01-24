@@ -1,73 +1,62 @@
-#include "DemoScene3.h"
+#include "DemoScene4.h"
 #include "ProgramFactory.h"
 #include "VertexAttributeListFactory.h"
 #include "RenderUnitManager.h"
 #include "RenderingContext.h"
 #include "AssetImporter.h"
-#include <glm/gtx/rotate_vector.hpp>
 #include "GLFunctionWrapper.h"
 #include "VertexArrayFactory.h"
-#include "TransparentPhongMaterial.h"
-#include "TextureUtil.h"
-#include "FrameBuffer.h"
 #include "Constant.h"
-#include <random>
-#include "ReflectionMaterial.h"
-#include "ReflectionPhongMaterial.h"
-#include "RefractionMaterial.h"
+#include "MonoColorMaterial.h"
 
 using namespace std;
 using namespace glm;
 using namespace ObjectGL;
 using namespace Danburite;
 
-DemoScene3::DemoScene3()
+DemoScene4::DemoScene4()
 {
 	// 전역 옵션
 
 	GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
-	GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, false);
 
 	// Stencil mask 값이 0x00인 경우 Stencil Buffer clear bit도 0이 되어 버퍼 클리어도 안됨.
 	// Depth mask도 같은 원리이다. (클리어 전 depth mask가 false이면 클리어 안됨.)
 	// GLFunctionWrapper::setStencilMask(0xFF); -> 기본이므로 생략해도 무방.
 
 	ProgramFactory &programFactory = ProgramFactory::getInstance();
-	Program &explodingPhongProgram = programFactory.getProgram(ProgramType::EXPLODING_PHONG);
+	Program &monoColorProgram = programFactory.getProgram(ProgramType::MONO_COLOR);
 
 
 	//// Uniform Buffer 생성 ////
 
-	__pUBLight = make_shared<UniformBuffer>("UBLight", ShaderIdentifier::Value::UniformBlockBindingPoint::LIGHT);
-	__pUBLight->registerProgram(explodingPhongProgram);
-
 	__pUBCamera = make_shared<UniformBuffer>("UBCamera", ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA);
-	__pUBCamera->registerProgram(explodingPhongProgram);
+	__pUBCamera->registerProgram(monoColorProgram);
 
 
 	//// Rendering unit 생성 ////
 
 	RenderingUnitManager &ruManager = RenderingUnitManager::getInstance();
+	VertexArrayFactory& vaFactory = VertexArrayFactory::getInstance();
 
-	__pCubeRU = AssetImporter::import(
-		"res/asset/nanosuit/nanosuit.obj", Constant::Matrix::IDENTITY_MATRIX, MaterialType::EXPLODING_PHONG);
+	const shared_ptr<VertexArray>& pCubeVA =
+		vaFactory.getVertexArray(ShapeType::CUBE, VertexAttributeType::POS3_COLOR4);
 
-	__pCubeRU->getTransform().setScale(.5f);
+	const shared_ptr<MonoColorMaterial>& pCubeMaterial =
+		make_shared<MonoColorMaterial>(VertexAttributeType::POS3_COLOR4);
 
+	pCubeMaterial->setColor({ 0.f, 1.f, 0.f, 1.f });
 
-	//// 조명 생성 ////
-
-	__pDirectionalLight = make_shared<DirectionalLight>(*__pUBLight);
-	__pDirectionalLight->setDirection(1.f, -1.f, 0.f);
-	__pDirectionalLight->setAlbedo(.8f, .8f, .8f);
-	__pDirectionalLight->setDiffuseStrength(2.f);
-	__pDirectionalLight->setSpecularStrength(2.f);
+	unique_ptr<Mesh> pMesh = make_unique<Mesh>(pCubeVA, pCubeMaterial);
+	__pCubeRU = ruManager.createRenderingUnit(move(pMesh));
 
 
 	//// 카메라 생성 ////
 
 	__pCamera = make_shared<SimpleCamera>();
-	__pCamera->setPosition(0.f, 0.f, 25.f);
+	__pCamera->setPosition(10.f, 10.f, 10.f);
+	__pCamera->pitch(-quarter_pi<float>() * .7f);
+	__pCamera->yaw(quarter_pi<float>());
 
 	__pUBCamera->addDeployable(__pCamera);
 
@@ -79,9 +68,6 @@ DemoScene3::DemoScene3()
 
 	__pUBCamera->addDeployable(__pCamera);
 
-	__pLightDeployer = make_shared<LightDeployer>();
-	__pLightDeployer->addLight(__pDirectionalLight);
-
 	__pUpdater = make_shared<Updater>();
 	__pUpdater->addUpdatable(__pCubeRU);
 	__pUpdater->addUpdatable(__pCamera);
@@ -90,7 +76,7 @@ DemoScene3::DemoScene3()
 	__pDrawer->addDrawable(__pCubeRU);
 }
 
-void DemoScene3::__keyFunc(const float deltaTime) noexcept
+void DemoScene4::__keyFunc(const float deltaTime) noexcept
 {
 	const bool ESC = (GetAsyncKeyState(VK_ESCAPE) & 0x8000);
 	if (ESC)
@@ -131,10 +117,9 @@ void DemoScene3::__keyFunc(const float deltaTime) noexcept
 		__pCamera->moveVertical(-MOVE_SPEED);
 }
 
-void DemoScene3::draw() noexcept
+void DemoScene4::draw() noexcept
 {
 	__pUBCamera->batchDeploy();
-	__pLightDeployer->batchDeploy();
 
 	GLFunctionWrapper::clearBuffers(FrameBufferClearFlag::COLOR_DEPTH_STENCIL);
 
@@ -143,31 +128,24 @@ void DemoScene3::draw() noexcept
 	RenderingContext::requestBufferSwapping();
 }
 
-void DemoScene3::delta(const float deltaTime) noexcept
+void DemoScene4::delta(const float deltaTime) noexcept
 {
 	__keyFunc(deltaTime);
-
-	static float accum = 0.f;
-	accum += deltaTime;
-
-	ProgramFactory &programFactory = ProgramFactory::getInstance();
-	Program &explodingPhongProgram = programFactory.getProgram(ProgramType::EXPLODING_PHONG);
-	explodingPhongProgram.setUniformFloat("displacementRatio", 5.f * (sinf(accum * .001f) + 1.f));
 }
 
-void DemoScene3::update() noexcept
+void DemoScene4::update() noexcept
 {
 	__pUpdater->batchUpdate();
 	__updated = true;
 }
 
-void DemoScene3::onDisplay() noexcept
+void DemoScene4::onDisplay() noexcept
 {
 	if (__updated)
 		draw();
 }
 
-void DemoScene3::onResize(const int width, const int height) noexcept
+void DemoScene4::onResize(const int width, const int height) noexcept
 {
 	if (!width || !height)
 		return;
@@ -176,7 +154,7 @@ void DemoScene3::onResize(const int width, const int height) noexcept
 	__pCamera->setAspectRatio(width, height);
 }
 
-void DemoScene3::onMouseDelta(const int xDelta, const int yDelta) noexcept
+void DemoScene4::onMouseDelta(const int xDelta, const int yDelta) noexcept
 {
 	constexpr float ROTATION_SPEED = .004f;
 
@@ -184,19 +162,19 @@ void DemoScene3::onMouseDelta(const int xDelta, const int yDelta) noexcept
 	__pCamera->pitch(yDelta * ROTATION_SPEED);
 }
 
-void DemoScene3::onMouseMButtonDown(const int x, const int y) noexcept
+void DemoScene4::onMouseMButtonDown(const int x, const int y) noexcept
 {
 	__pCamera->resetFov();
 }
 
-void DemoScene3::onMouseWheel(const short zDelta) noexcept
+void DemoScene4::onMouseWheel(const short zDelta) noexcept
 {
 	constexpr float ZOOM_SPEED = -.0005f;
 
 	__pCamera->adjustFov(ZOOM_SPEED * zDelta);
 }
 
-void DemoScene3::onIdle(const float deltaTime) noexcept
+void DemoScene4::onIdle(const float deltaTime) noexcept
 {
 	delta(deltaTime);
 	update();

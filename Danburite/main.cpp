@@ -1,7 +1,7 @@
 #include "Win32Screen.h"
 #include "DeviceContext.h"
 #include "RenderingContext.h"
-#include "DemoScene2.h"
+#include "DemoScene4.h"
 #include "GLFunctionWrapper.h"
 
 using namespace std;
@@ -12,7 +12,7 @@ int APIENTRY _tWinMain(const HINSTANCE hInstance, HINSTANCE, LPTSTR, int)
 {
 	//// Window 초기화 ////
 	unique_ptr<Win32Screen> pScreen =
-		make_unique<Win32Screen>(hInstance, "screen", "22. Geometry Shader", 1600, 900);
+		make_unique<Win32Screen>(hInstance, "screen", "Danburite", 1600, 900);
 
 	//// 컨텍스트 설정 ////
 	unique_ptr<DeviceContext> pDeviceContext = make_unique<DeviceContext>(*pScreen);
@@ -27,7 +27,7 @@ int APIENTRY _tWinMain(const HINSTANCE hInstance, HINSTANCE, LPTSTR, int)
 	GLFunctionWrapper::setVerticalSync(false);
 
 	//// Scene 생성 ////
-	shared_ptr<ScreenEventHandler> pScene = make_shared<DemoScene2>();
+	shared_ptr<ScreenEventHandler> pScene = make_shared<DemoScene4>();
 
 	//// 이벤트 핸들러 등록 ////
 	pScreen->setEventHandler(pScene);
