@@ -1,30 +1,17 @@
 #pragma once
 
-#include "BindableObject.h"
-#include "Attachable.h"
-#include "RenderBufferException.h"
-#include "RenderBufferInternalFormatType.h"
+#include "RenderBufferBase.h"
 
 namespace ObjectGL
 {
-	class RenderBuffer : public BindableObject<RenderBuffer, GLuint>, public Attachable
+	class RenderBuffer : public RenderBufferBase
 	{
 	private:
 		RenderBuffer(const RenderBuffer &) = delete;
-		RenderBuffer &operator=(const RenderBuffer &) = delete;
-
-		void __release() noexcept;
-
-		static GLuint __createBufObj();
-
-	protected:
-		virtual void _onBind() noexcept override;
-
-		virtual void _onAttach(const AttachmentType type) noexcept override;
-		virtual void _onDetach(const AttachmentType type) noexcept override;
+		RenderBuffer& operator=(const RenderBuffer &) = delete;
 
 	public:
-		RenderBuffer();
+		RenderBuffer() = default;
 
 		void memoryAlloc(
 			const GLsizei width, const GLsizei height, const RenderBufferInternalFormatType internalFormat) noexcept;

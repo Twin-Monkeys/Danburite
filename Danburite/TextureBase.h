@@ -8,11 +8,11 @@
 
 namespace ObjectGL
 {
-	class Texture abstract : public Object<GLuint>
+	class TextureBase abstract : public Object<GLuint>
 	{
 	private:
-		Texture(const Texture &) = delete;
-		Texture& operator=(const Texture &) = delete;
+		TextureBase(const TextureBase &) = delete;
+		TextureBase& operator=(const TextureBase &) = delete;
 
 		void __release() noexcept;
 
@@ -21,7 +21,7 @@ namespace ObjectGL
 	protected:
 		const GLenum _RAW_TYPE;
 
-		Texture(const TextureType type);
+		TextureBase(const TextureType type);
 		void _bindID() noexcept;
 
 	public:
@@ -36,19 +36,19 @@ namespace ObjectGL
 		template <typename T, size_t arrSize>
 		void setStates(const TextureParamType paramType, const T(&values)[arrSize]) noexcept;
 
-		virtual ~Texture() noexcept;
+		virtual ~TextureBase() noexcept;
 
 		static void unbind(const TextureType type, const GLint location) noexcept;
 	};
 
 	template <typename T>
-	void Texture::setState(const TextureParamType paramType, const T value) noexcept
+	void TextureBase::setState(const TextureParamType paramType, const T value) noexcept
 	{
 		setStates(paramType, &value);
 	}
 
 	template <typename T>
-	void Texture::setStates(const TextureParamType paramType, const T* const values) noexcept
+	void TextureBase::setStates(const TextureParamType paramType, const T* const values) noexcept
 	{
 		using namespace std;
 		constexpr bool IS_GL_TEX_PARAM_VALUE_TYPE =
@@ -80,7 +80,7 @@ namespace ObjectGL
 	}
 
 	template <typename T, size_t arrSize>
-	void Texture::setStates(const TextureParamType paramType, const T(&values)[arrSize]) noexcept
+	void TextureBase::setStates(const TextureParamType paramType, const T(&values)[arrSize]) noexcept
 	{
 		setStates(paramType, values);
 	}

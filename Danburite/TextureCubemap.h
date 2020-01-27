@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Texture.h"
+#include "TextureBase.h"
 #include "CubemapSideType.h"
 
 namespace ObjectGL
 {
-	class TextureCubemap : public Texture
+	class TextureCubemap : public TextureBase
 	{
 	public:
 		TextureCubemap();

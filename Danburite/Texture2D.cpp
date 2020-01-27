@@ -5,7 +5,7 @@ using namespace std;
 namespace ObjectGL
 {
 	Texture2D::Texture2D() :
-		Texture(TextureType::TEXTURE_2D)
+		TextureBase(TextureType::TEXTURE_2D)
 	{}
 
 	void Texture2D::memoryAlloc(

@@ -17,12 +17,10 @@ using namespace Danburite;
 DemoScene4::DemoScene4()
 {
 	// 전역 옵션
-
 	GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
 
-	// Stencil mask 값이 0x00인 경우 Stencil Buffer clear bit도 0이 되어 버퍼 클리어도 안됨.
-	// Depth mask도 같은 원리이다. (클리어 전 depth mask가 false이면 클리어 안됨.)
-	// GLFunctionWrapper::setStencilMask(0xFF); -> 기본이므로 생략해도 무방.
+
+	// 프로그램 로딩
 
 	ProgramFactory &programFactory = ProgramFactory::getInstance();
 	Program &monoColorProgram = programFactory.getProgram(ProgramType::MONO_COLOR);
@@ -74,6 +72,8 @@ DemoScene4::DemoScene4()
 
 	__pDrawer = make_shared<Drawer>();
 	__pDrawer->addDrawable(__pCubeRU);
+
+	__pMSAAPP = make_shared<MSAAPostProcessor>(ShaderIdentifier::Value::PostProcess::NUM_SAMPLE_POINTS);
 }
 
 void DemoScene4::__keyFunc(const float deltaTime) noexcept
@@ -121,9 +121,13 @@ void DemoScene4::draw() noexcept
 {
 	__pUBCamera->batchDeploy();
 
-	GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH_STENCIL);
+	__pMSAAPP->bind();
+	GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
 
 	__pDrawer->batchDraw();
+	PostProcessor::unbind();
+
+	__pMSAAPP->render();
 
 	RenderingContext::requestBufferSwapping();
 }
@@ -152,6 +156,7 @@ void DemoScene4::onResize(const int width, const int height) noexcept
 
 	glViewport(0, 0, width, height);
 	__pCamera->setAspectRatio(width, height);
+	__pMSAAPP->setScreenSize(width, height);
 }
 
 void DemoScene4::onMouseDelta(const int xDelta, const int yDelta) noexcept

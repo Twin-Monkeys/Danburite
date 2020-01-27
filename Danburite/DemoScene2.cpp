@@ -232,8 +232,6 @@ DemoScene2::DemoScene2()
 	__pDrawer->addDrawable(__pJupiterRU);
 	__pDrawer->addDrawable(__pVenusRU);
 	__pDrawer->addDrawable(__pFighterRU);
-
-	__pNegativePP = make_shared<NegativePostProcessor>();
 }
 
 void DemoScene2::__keyFunc(const float deltaTime) noexcept
@@ -282,16 +280,12 @@ void DemoScene2::draw() noexcept
 	__pUBCamera->batchDeploy();
 	__pLightDeployer->batchDeploy();
 
-	__pNegativePP->bind();
 	GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH_STENCIL);
 
 	__pDrawer->batchDraw();
 
 	// 배경은 불투명한 물체가 모두 그려진 뒤 그림. (frag shader running 최소화)
 	__pSkybox->draw();
-	PostProcessor::unbind();
-
-	__pNegativePP->render();
 
 	RenderingContext::requestBufferSwapping();
 }
@@ -351,7 +345,6 @@ void DemoScene2::onResize(const int width, const int height) noexcept
 
 	glViewport(0, 0, width, height);
 	__pCamera->setAspectRatio(width, height);
-	__pNegativePP->setScreenSize(width, height);
 }
 
 void DemoScene2::onMouseDelta(const int xDelta, const int yDelta) noexcept

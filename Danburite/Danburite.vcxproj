@@ -200,6 +200,7 @@
     <ClCompile Include="RefractionMaterial.cpp" />
     <ClCompile Include="RefractionMaterialComponent.cpp" />
     <ClCompile Include="RenderBuffer.cpp" />
+    <ClCompile Include="RenderBufferBase.cpp" />
     <ClCompile Include="RenderBufferException.cpp" />
     <ClCompile Include="RenderBufferMultisample.cpp" />
     <ClCompile Include="ShaderIdentifier.cpp" />
@@ -263,7 +264,7 @@
     <ClCompile Include="VertexAttributeType.cpp" />
     <ClCompile Include="Win32Screen.cpp" />
     <ClCompile Include="stb_image.cpp" />
-    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TextureBase.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="TextureException.cpp" />
     <ClCompile Include="VertexAttributeListFactory.cpp" />
@@ -338,6 +339,7 @@
     <ClInclude Include="RefractionMaterial.h" />
     <ClInclude Include="RefractionMaterialComponent.h" />
     <ClInclude Include="RenderBuffer.h" />
+    <ClInclude Include="RenderBufferBase.h" />
     <ClInclude Include="RenderBufferException.h" />
     <ClInclude Include="RenderBufferInternalFormatType.h" />
     <ClInclude Include="RenderBufferMultisample.h" />
@@ -415,7 +417,7 @@
     <ClInclude Include="Win32Screen.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="ShaderType.h" />
-    <ClInclude Include="Texture.h" />
+    <ClInclude Include="TextureBase.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="TextureException.h" />
     <ClInclude Include="TextureType.h" />
@@ -446,6 +448,7 @@
     <None Include="glsl\src\Header\Light_Header.glsl" />
     <None Include="glsl\src\Header\Material_Header.glsl" />
     <None Include="glsl\src\header\ModelCamera_Header.glsl" />
+    <None Include="glsl\src\header\MSAA_Header.glsl" />
     <None Include="glsl\src\Header\Phong_Header.glsl" />
     <None Include="glsl\src\Header\Model_Header.glsl" />
     <None Include="glsl\src\header\PostProcess_Header.glsl" />
@@ -453,6 +456,7 @@
     <None Include="glsl\src\Outline_Frag.glsl" />
     <None Include="glsl\src\MonoColor_Frag.glsl" />
     <None Include="glsl\src\Outline_Vert.glsl" />
+    <None Include="glsl\src\PostProcess_MSAA_Frag.glsl" />
     <None Include="glsl\src\ReflectionPhong_Frag.glsl" />
     <None Include="glsl\src\PostProcess_Convolutional_Frag.glsl" />
     <None Include="glsl\src\PostProcess_Forward_Frag.glsl" />

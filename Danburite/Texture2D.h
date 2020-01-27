@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Texture.h"
+#include "TextureBase.h"
 
 namespace ObjectGL
 {
-	class Texture2D : public Texture
+	class Texture2D : public TextureBase
 	{
 	public:
 		Texture2D();

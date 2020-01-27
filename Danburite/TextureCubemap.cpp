@@ -3,7 +3,7 @@
 namespace ObjectGL
 {
 	TextureCubemap::TextureCubemap() :
-		Texture(TextureType::TEXTURE_CUBE_MAP)
+		TextureBase(TextureType::TEXTURE_CUBE_MAP)
 	{}
 
 	void TextureCubemap::memoryAlloc(

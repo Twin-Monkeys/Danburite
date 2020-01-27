@@ -21,7 +21,7 @@ namespace Danburite
 		{
 			UniformSetter *const pUniformSetter = &(programFactory.getProgram(programType));
 
-			if (initializedSet.count(pUniformSetter))
+			if (!initializedSet.emplace(pUniformSetter).second)
 				continue;
 
 			pUniformSetter->setTextureLocation(Name::Material::AMBIENT_TEX, Value::Material::AMBIENT_TEX_LOCATION);
@@ -32,8 +32,6 @@ namespace Danburite
 			pUniformSetter->setTextureLocation(Name::Material::ALPHA_TEX, Value::Material::ALPHA_TEX_LOCATION);
 			pUniformSetter->setTextureLocation(Name::Material::NORMAL_TEX, Value::Material::NORMAL_TEX_LOCATION);
 			pUniformSetter->setTextureLocation(Name::Material::ENVIRONMENT_TEX, Value::Material::ENVIRONMENT_TEX_LOCATION);
-
-			initializedSet.emplace(pUniformSetter);
 		}
 	}
 

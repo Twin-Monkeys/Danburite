@@ -44,7 +44,7 @@ namespace Danburite
 		if (pTexture)
 			pTexture->bind(location);
 		else
-			ObjectGL::Texture::unbind(ObjectGL::TextureType::TEXTURE_2D, location);
+			ObjectGL::TextureBase::unbind(ObjectGL::TextureType::TEXTURE_2D, location);
 	}
 
 	template <>
@@ -53,7 +53,7 @@ namespace Danburite
 		if (pTexture)
 			pTexture->bind(location);
 		else
-			ObjectGL::Texture::unbind(ObjectGL::TextureType::TEXTURE_CUBE_MAP, location);
+			ObjectGL::TextureBase::unbind(ObjectGL::TextureType::TEXTURE_CUBE_MAP, location);
 	}
 
 	template <typename T>

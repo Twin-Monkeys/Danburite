@@ -16,6 +16,10 @@ namespace Danburite
 	{
 		using namespace ShaderIdentifier;
 
+		static unordered_set<UniformSetter *> initializedSet;
+		if (!initializedSet.emplace(__pProgram).second)
+			return;
+
 		__pProgram->setTextureLocation(Name::PostProcess::DEPTH_ATTACHMENT, Value::PostProcess::DEPTH_ATTACHMENT_LOCATION);
 		__pProgram->setTextureLocation(Name::PostProcess::STENCIL_ATTACHMENT, Value::PostProcess::STENCIL_ATTACHMENT_LOCATION);
 

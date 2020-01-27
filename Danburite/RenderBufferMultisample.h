@@ -1,16 +1,18 @@
 #pragma once
 
-#include "RenderBuffer.h"
+#include "RenderBufferBase.h"
 
 namespace ObjectGL
 {
-	class RenderBufferMultisample : private RenderBuffer
+	class RenderBufferMultisample : public RenderBufferBase
 	{
 	private:
 		RenderBufferMultisample(const RenderBufferMultisample &) = delete;
 		RenderBufferMultisample& operator=(const RenderBufferMultisample &) = delete;
 
 	public:
+		RenderBufferMultisample() = default;
+
 		void memoryAlloc(
 			const GLsizei width, const GLsizei height,
 			const RenderBufferInternalFormatType internalFormat, const GLsizei numSamplePoints = 4) noexcept;

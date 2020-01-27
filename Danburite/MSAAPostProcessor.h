@@ -9,6 +9,9 @@ namespace Danburite
 	class MSAAPostProcessor : public PostProcessor
 	{
 	private:
+		const GLsizei NUM_SAMPLE_POINTS;
+		const bool FIXED_SAMPLE_LOCATIONS;
+
 		std::unique_ptr<ObjectGL::TextureMultisample> __pColorAttachment;
 		std::unique_ptr<ObjectGL::RenderBufferMultisample> __pDepthStencilAttachment;
 

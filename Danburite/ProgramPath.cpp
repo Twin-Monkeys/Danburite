@@ -151,6 +151,15 @@ namespace Danburite
 					"glsl/src/PostProcess_Convolutional_Frag.glsl"
 				}
 			},
+			{
+				ProgramType::POST_PROCESS_MSAA,
+				{
+					"glsl/binary/PostProcess_MSAA.bin",
+					"glsl/src/PostProcess_Common_Vert.glsl",
+					"",
+					"glsl/src/PostProcess_MSAA_Frag.glsl"
+				}
+			}
 		};
 
 		return pathMap.at(programType)[size_t(pathType)];

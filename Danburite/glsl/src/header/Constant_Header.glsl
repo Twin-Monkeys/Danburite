@@ -20,6 +20,7 @@ const uint
 	BINDING_POINT_LIGHT		= 0U,
 	BINDING_POINT_CAMERA	= 1U;
 
+
 // Material //
 
 const uint
@@ -54,5 +55,10 @@ const uint
 	LIGHT_TYPE_DIRECTIONAL	= 0,
 	LIGHT_TYPE_POINT		= 1,
 	LIGHT_TYPE_SPOT			= 2;
+
+
+// MSAA //
+
+const uint NUM_SAMPLE_POINTS = 4U;
 
 #endif

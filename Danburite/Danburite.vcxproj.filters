@@ -322,6 +322,9 @@
     <Filter Include="Library\Engine\Core\PostProcess\MSAA">
       <UniqueIdentifier>{70409375-0e12-4a3f-b655-669fbb61cafb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library\Engine\glsl\src\PostProcess\MSAA">
+      <UniqueIdentifier>{7073577a-a355-4573-9070-ab9ebaf6d3ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Buffer.cpp">
@@ -332,9 +335,6 @@
     </ClCompile>
     <ClCompile Include="Texture2D.cpp">
       <Filter>Library\ObjectGL\Core\Texture\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Library\ObjectGL\Core\Texture</Filter>
     </ClCompile>
     <ClCompile Include="TextureException.cpp">
       <Filter>Library\ObjectGL\Core\Texture</Filter>
@@ -555,9 +555,6 @@
     <ClCompile Include="AssertException.cpp">
       <Filter>Library\ObjectGL\Base\Exception</Filter>
     </ClCompile>
-    <ClCompile Include="RenderBuffer.cpp">
-      <Filter>Library\ObjectGL\Core\RenderBuffer</Filter>
-    </ClCompile>
     <ClCompile Include="RenderBufferException.cpp">
       <Filter>Library\ObjectGL\Core\RenderBuffer</Filter>
     </ClCompile>
@@ -660,6 +657,15 @@
     <ClCompile Include="MSAAPostProcessor.cpp">
       <Filter>Library\Engine\Core\PostProcess\MSAA</Filter>
     </ClCompile>
+    <ClCompile Include="TextureBase.cpp">
+      <Filter>Library\ObjectGL\Core\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderBufferBase.cpp">
+      <Filter>Library\ObjectGL\Core\RenderBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderBuffer.cpp">
+      <Filter>Library\ObjectGL\Core\RenderBuffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">
@@ -688,9 +694,6 @@
     </ClInclude>
     <ClInclude Include="RCAttributeDescriptor.h">
       <Filter>Library\ObjectGL\Window\RenderingContext</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Library\ObjectGL\Core\Texture</Filter>
     </ClInclude>
     <ClInclude Include="TextureException.h">
       <Filter>Library\ObjectGL\Core\Texture</Filter>
@@ -992,9 +995,6 @@
     <ClInclude Include="AttachmentType.h">
       <Filter>Library\ObjectGL\Core\FrameBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="RenderBuffer.h">
-      <Filter>Library\ObjectGL\Core\RenderBuffer</Filter>
-    </ClInclude>
     <ClInclude Include="RenderBufferException.h">
       <Filter>Library\ObjectGL\Core\RenderBuffer</Filter>
     </ClInclude>
@@ -1130,6 +1130,15 @@
     <ClInclude Include="MSAAPostProcessor.h">
       <Filter>Library\Engine\Core\PostProcess\MSAA</Filter>
     </ClInclude>
+    <ClInclude Include="TextureBase.h">
+      <Filter>Library\ObjectGL\Core\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderBufferBase.h">
+      <Filter>Library\ObjectGL\Core\RenderBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderBuffer.h">
+      <Filter>Library\ObjectGL\Core\RenderBuffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glsl\src\Header\Camera_Header.glsl">
@@ -1242,6 +1251,12 @@
     </None>
     <None Include="glsl\src\header\Constant_Header.glsl">
       <Filter>Library\Engine\glsl\src\header</Filter>
+    </None>
+    <None Include="glsl\src\header\MSAA_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header\PostProcess</Filter>
+    </None>
+    <None Include="glsl\src\PostProcess_MSAA_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\PostProcess\MSAA</Filter>
     </None>
   </ItemGroup>
 </Project>

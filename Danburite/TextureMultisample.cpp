@@ -3,7 +3,7 @@
 namespace ObjectGL
 {
 	TextureMultisample::TextureMultisample() :
-		Texture(TextureType::TEXTURE_2D_MULTISAMPLE)
+		TextureBase(TextureType::TEXTURE_2D_MULTISAMPLE)
 	{}
 
 	void TextureMultisample::_onAttach(const AttachmentType type) noexcept
@@ -21,6 +21,7 @@ namespace ObjectGL
 		const TextureInternalFormatType internalFormat,
 		const GLsizei numSamplePoints, const bool fixedSampleLocations) noexcept
 	{
+		_bindID();
 		glTexImage2DMultisample(
 			_RAW_TYPE, numSamplePoints, GLenum(internalFormat), width, height, fixedSampleLocations);
 	}

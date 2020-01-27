@@ -12,6 +12,7 @@
 #include "Updater.h"
 #include "Drawer.h"
 #include "CubeSkybox.h"
+#include "MSAAPostProcessor.h"
 
 class DemoScene4 : public Danburite::Scene, public ObjectGL::ScreenEventHandler
 {
@@ -25,6 +26,8 @@ private:
 
 	std::shared_ptr<Danburite::Updater> __pUpdater;
 	std::shared_ptr<Danburite::Drawer> __pDrawer;
+
+	std::shared_ptr<Danburite::MSAAPostProcessor> __pMSAAPP;
 
 	void __keyFunc(const float deltaTime) noexcept;
 

@@ -143,6 +143,9 @@ namespace Danburite
 					DEPTH_ATTACHMENT_LOCATION = 0,
 					STENCIL_ATTACHMENT_LOCATION = 1,
 					COLOR_ATTACHMENT_ARRAY_LOCATION = 2;
+
+				constexpr GLuint
+					NUM_SAMPLE_POINTS = 4U;
 			}
 
 			namespace Convolutional

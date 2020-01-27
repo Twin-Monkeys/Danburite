@@ -9,8 +9,8 @@ namespace ObjectGL
 	{
 	private:
 		using Texture2D::memoryAlloc;
-		using Texture::setState;
-		using Texture::setStates;
+		using TextureBase::setState;
+		using TextureBase::setStates;
 
 	protected:
 		virtual void _onAttach(const AttachmentType type) noexcept override;
