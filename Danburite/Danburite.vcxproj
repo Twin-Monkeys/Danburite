@@ -163,9 +163,9 @@
     <ClCompile Include="ConvolutionalPostProcessor.cpp" />
     <ClCompile Include="CubeSkybox.cpp" />
     <ClCompile Include="CubeSkyboxComponent.cpp" />
-    <ClCompile Include="DemoScene2.cpp" />
-    <ClCompile Include="DemoScene3.cpp" />
-    <ClCompile Include="DemoScene4.cpp" />
+    <ClCompile Include="SpaceScene.cpp" />
+    <ClCompile Include="GeometryTestScene.cpp" />
+    <ClCompile Include="MSAATestScene.cpp" />
     <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="ExplodingPhongMaterial.cpp" />
     <ClCompile Include="ForwardPostProcessor.cpp" />
@@ -243,7 +243,7 @@
     <ClCompile Include="TextReader.cpp" />
     <ClCompile Include="UniformBuffer.cpp" />
     <ClCompile Include="ScreenEventHandler.cpp" />
-    <ClCompile Include="DemoScene.cpp" />
+    <ClCompile Include="LightTestScene.cpp" />
     <ClCompile Include="VertexArrayException.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="main.cpp" />
@@ -285,9 +285,9 @@
     <ClInclude Include="CubemapSideType.h" />
     <ClInclude Include="CubeSkybox.h" />
     <ClInclude Include="CubeSkyboxComponent.h" />
-    <ClInclude Include="DemoScene2.h" />
-    <ClInclude Include="DemoScene3.h" />
-    <ClInclude Include="DemoScene4.h" />
+    <ClInclude Include="SpaceScene.h" />
+    <ClInclude Include="GeometryTestScene.h" />
+    <ClInclude Include="MSAATestScene.h" />
     <ClInclude Include="DepthStencilFunctionType.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="Drawer.h" />
@@ -386,7 +386,7 @@
     <ClInclude Include="RasterizationType.h" />
     <ClInclude Include="RenderUnit.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="DemoScene.h" />
+    <ClInclude Include="LightTestScene.h" />
     <ClInclude Include="VertexArrayException.h" />
     <ClInclude Include="ElementType.h" />
     <ClInclude Include="FrameBufferBlitFlag.h" />

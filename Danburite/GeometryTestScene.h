@@ -12,27 +12,29 @@
 #include "Updater.h"
 #include "Drawer.h"
 #include "CubeSkybox.h"
-#include "MSAAPostProcessor.h"
 
-class DemoScene4 : public Danburite::Scene, public ObjectGL::ScreenEventHandler
+class GeometryTestScene : public Danburite::Scene, public ObjectGL::ScreenEventHandler
 {
 private:
 	bool __updated = false;
 
+	std::shared_ptr<ObjectGL::UniformBuffer> __pUBLight;
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBCamera;
 
 	std::shared_ptr<Danburite::RenderingUnit> __pCubeRU;
+
+	std::shared_ptr<Danburite::DirectionalLight> __pDirectionalLight;
+
 	std::shared_ptr<Danburite::SimpleCamera> __pCamera;
 
+	std::shared_ptr<Danburite::LightDeployer> __pLightDeployer;
 	std::shared_ptr<Danburite::Updater> __pUpdater;
 	std::shared_ptr<Danburite::Drawer> __pDrawer;
-
-	std::shared_ptr<Danburite::MSAAPostProcessor> __pMSAAPP;
 
 	void __keyFunc(const float deltaTime) noexcept;
 
 public:
-	DemoScene4();
+	GeometryTestScene();
 
 	virtual void delta(const float deltaTime) noexcept override;
 	virtual void update() noexcept override;
@@ -45,5 +47,5 @@ public:
 	virtual void onMouseWheel(const short zDelta) noexcept override;
 	virtual void onIdle(const float deltaTime) noexcept override;
 
-	virtual ~DemoScene4() = default;
+	virtual ~GeometryTestScene() = default;
 };

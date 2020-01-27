@@ -12,8 +12,9 @@
 #include "Updater.h"
 #include "Drawer.h"
 #include "CubeSkybox.h"
+#include "MSAAPostProcessor.h"
 
-class DemoScene3 : public Danburite::Scene, public ObjectGL::ScreenEventHandler
+class SpaceScene : public Danburite::Scene, public ObjectGL::ScreenEventHandler
 {
 private:
 	bool __updated = false;
@@ -21,20 +22,33 @@ private:
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBLight;
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBCamera;
 
-	std::shared_ptr<Danburite::RenderingUnit> __pCubeRU;
+	std::shared_ptr<Danburite::RenderingUnit> __pNanosuitRU;
+	std::shared_ptr<Danburite::RenderingUnit> __pStarshipRU;
+	std::shared_ptr<Danburite::RenderingUnit> __pHalconRU;
+
+	std::shared_ptr<Danburite::RenderingUnit> __pMercuryRU;
+	std::shared_ptr<Danburite::RenderingUnit> __pJupiterRU;
+	std::shared_ptr<Danburite::RenderingUnit> __pVenusRU;
+
+	static inline constexpr size_t NUM_FIGHTERS = 100;
+	std::shared_ptr<Danburite::RenderingUnit> __pFighterRU;
+	std::array<glm::vec3, NUM_FIGHTERS> __arrFighterRUDirection;
 
 	std::shared_ptr<Danburite::DirectionalLight> __pDirectionalLight;
 
 	std::shared_ptr<Danburite::SimpleCamera> __pCamera;
+	std::shared_ptr<Danburite::CubeSkybox> __pSkybox;
 
 	std::shared_ptr<Danburite::LightDeployer> __pLightDeployer;
 	std::shared_ptr<Danburite::Updater> __pUpdater;
 	std::shared_ptr<Danburite::Drawer> __pDrawer;
 
+	std::shared_ptr<Danburite::MSAAPostProcessor> __pMSAAPP;
+
 	void __keyFunc(const float deltaTime) noexcept;
 
 public:
-	DemoScene3();
+	SpaceScene();
 
 	virtual void delta(const float deltaTime) noexcept override;
 	virtual void update() noexcept override;
@@ -47,5 +61,5 @@ public:
 	virtual void onMouseWheel(const short zDelta) noexcept override;
 	virtual void onIdle(const float deltaTime) noexcept override;
 
-	virtual ~DemoScene3() = default;
+	virtual ~SpaceScene() = default;
 };

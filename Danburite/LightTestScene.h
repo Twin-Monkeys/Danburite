@@ -13,7 +13,7 @@
 #include "Drawer.h"
 #include "CubeSkybox.h"
 
-class DemoScene2 : public Danburite::Scene, public ObjectGL::ScreenEventHandler
+class LightTestScene : public Danburite::Scene, public ObjectGL::ScreenEventHandler
 {
 private:
 	bool __updated = false;
@@ -21,21 +21,22 @@ private:
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBLight;
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBCamera;
 
+	std::shared_ptr<Danburite::RenderingUnit> __pTerrainRU;
 	std::shared_ptr<Danburite::RenderingUnit> __pNanosuitRU;
-	std::shared_ptr<Danburite::RenderingUnit> __pStarshipRU;
-	std::shared_ptr<Danburite::RenderingUnit> __pHalconRU;
-
-	std::shared_ptr<Danburite::RenderingUnit> __pMercuryRU;
-	std::shared_ptr<Danburite::RenderingUnit> __pJupiterRU;
-	std::shared_ptr<Danburite::RenderingUnit> __pVenusRU;
-
-	static inline constexpr size_t NUM_FIGHTERS = 100;
-	std::shared_ptr<Danburite::RenderingUnit> __pFighterRU;
-	std::array<glm::vec3, NUM_FIGHTERS> __arrFighterRUDirection;
+	std::shared_ptr<Danburite::RenderingUnit> __pLizardManRU;
+	std::shared_ptr<Danburite::RenderingUnit> __pStreetLightRU;
+	std::shared_ptr<Danburite::RenderingUnit> __pSkullRU;
+	std::shared_ptr<Danburite::RenderingUnit> __pCubeRU;
 
 	std::shared_ptr<Danburite::DirectionalLight> __pDirectionalLight;
+	std::shared_ptr<Danburite::PointLight> __pStreetLight;
+	std::shared_ptr<Danburite::SpotLight> __pRedSpotLight;
+	std::shared_ptr<Danburite::SpotLight> __pGreenSpotLight;
+	std::shared_ptr<Danburite::SpotLight> __pBlueSpotLight;
+	std::shared_ptr<Danburite::PointLight> __pRotatingLight;
 
 	std::shared_ptr<Danburite::SimpleCamera> __pCamera;
+
 	std::shared_ptr<Danburite::CubeSkybox> __pSkybox;
 
 	std::shared_ptr<Danburite::LightDeployer> __pLightDeployer;
@@ -45,7 +46,7 @@ private:
 	void __keyFunc(const float deltaTime) noexcept;
 
 public:
-	DemoScene2();
+	LightTestScene();
 
 	virtual void delta(const float deltaTime) noexcept override;
 	virtual void update() noexcept override;
@@ -58,5 +59,5 @@ public:
 	virtual void onMouseWheel(const short zDelta) noexcept override;
 	virtual void onIdle(const float deltaTime) noexcept override;
 
-	virtual ~DemoScene2() = default;
+	virtual ~LightTestScene() = default;
 };

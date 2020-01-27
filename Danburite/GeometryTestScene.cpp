@@ -1,4 +1,4 @@
-#include "DemoScene3.h"
+#include "GeometryTestScene.h"
 #include "ProgramFactory.h"
 #include "VertexAttributeListFactory.h"
 #include "RenderUnitManager.h"
@@ -21,7 +21,7 @@ using namespace glm;
 using namespace ObjectGL;
 using namespace Danburite;
 
-DemoScene3::DemoScene3()
+GeometryTestScene::GeometryTestScene()
 {
 	// 전역 옵션
 
@@ -90,7 +90,7 @@ DemoScene3::DemoScene3()
 	__pDrawer->addDrawable(__pCubeRU);
 }
 
-void DemoScene3::__keyFunc(const float deltaTime) noexcept
+void GeometryTestScene::__keyFunc(const float deltaTime) noexcept
 {
 	const bool ESC = (GetAsyncKeyState(VK_ESCAPE) & 0x8000);
 	if (ESC)
@@ -131,7 +131,7 @@ void DemoScene3::__keyFunc(const float deltaTime) noexcept
 		__pCamera->moveVertical(-MOVE_SPEED);
 }
 
-void DemoScene3::draw() noexcept
+void GeometryTestScene::draw() noexcept
 {
 	__pUBCamera->batchDeploy();
 	__pLightDeployer->batchDeploy();
@@ -143,7 +143,7 @@ void DemoScene3::draw() noexcept
 	RenderingContext::requestBufferSwapping();
 }
 
-void DemoScene3::delta(const float deltaTime) noexcept
+void GeometryTestScene::delta(const float deltaTime) noexcept
 {
 	__keyFunc(deltaTime);
 
@@ -155,19 +155,19 @@ void DemoScene3::delta(const float deltaTime) noexcept
 	explodingPhongProgram.setUniformFloat("displacementRatio", 5.f * (sinf(accum * .001f) + 1.f));
 }
 
-void DemoScene3::update() noexcept
+void GeometryTestScene::update() noexcept
 {
 	__pUpdater->batchUpdate();
 	__updated = true;
 }
 
-void DemoScene3::onDisplay() noexcept
+void GeometryTestScene::onDisplay() noexcept
 {
 	if (__updated)
 		draw();
 }
 
-void DemoScene3::onResize(const int width, const int height) noexcept
+void GeometryTestScene::onResize(const int width, const int height) noexcept
 {
 	if (!width || !height)
 		return;
@@ -176,7 +176,7 @@ void DemoScene3::onResize(const int width, const int height) noexcept
 	__pCamera->setAspectRatio(width, height);
 }
 
-void DemoScene3::onMouseDelta(const int xDelta, const int yDelta) noexcept
+void GeometryTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
 {
 	constexpr float ROTATION_SPEED = .004f;
 
@@ -184,19 +184,19 @@ void DemoScene3::onMouseDelta(const int xDelta, const int yDelta) noexcept
 	__pCamera->pitch(yDelta * ROTATION_SPEED);
 }
 
-void DemoScene3::onMouseMButtonDown(const int x, const int y) noexcept
+void GeometryTestScene::onMouseMButtonDown(const int x, const int y) noexcept
 {
 	__pCamera->resetFov();
 }
 
-void DemoScene3::onMouseWheel(const short zDelta) noexcept
+void GeometryTestScene::onMouseWheel(const short zDelta) noexcept
 {
 	constexpr float ZOOM_SPEED = -.0005f;
 
 	__pCamera->adjustFov(ZOOM_SPEED * zDelta);
 }
 
-void DemoScene3::onIdle(const float deltaTime) noexcept
+void GeometryTestScene::onIdle(const float deltaTime) noexcept
 {
 	delta(deltaTime);
 	update();

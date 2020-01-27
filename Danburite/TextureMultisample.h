@@ -17,7 +17,7 @@ namespace ObjectGL
 		void memoryAlloc(
 			const GLsizei width, const GLsizei height,
 			const TextureInternalFormatType internalFormat,
-			const GLsizei numSamplePoints = 4, const bool fixedSampleLocations = true) noexcept;
+			const GLsizei numSamplePoints, const bool fixedSampleLocations) noexcept;
 
 		virtual ~TextureMultisample() = default;
 	};

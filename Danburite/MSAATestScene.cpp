@@ -1,4 +1,4 @@
-#include "DemoScene4.h"
+#include "MSAATestScene.h"
 #include "ProgramFactory.h"
 #include "VertexAttributeListFactory.h"
 #include "RenderUnitManager.h"
@@ -14,7 +14,7 @@ using namespace glm;
 using namespace ObjectGL;
 using namespace Danburite;
 
-DemoScene4::DemoScene4()
+MSAATestScene::MSAATestScene()
 {
 	// 전역 옵션
 	GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
@@ -76,7 +76,7 @@ DemoScene4::DemoScene4()
 	__pMSAAPP = make_shared<MSAAPostProcessor>(ShaderIdentifier::Value::PostProcess::NUM_SAMPLE_POINTS);
 }
 
-void DemoScene4::__keyFunc(const float deltaTime) noexcept
+void MSAATestScene::__keyFunc(const float deltaTime) noexcept
 {
 	const bool ESC = (GetAsyncKeyState(VK_ESCAPE) & 0x8000);
 	if (ESC)
@@ -117,7 +117,7 @@ void DemoScene4::__keyFunc(const float deltaTime) noexcept
 		__pCamera->moveVertical(-MOVE_SPEED);
 }
 
-void DemoScene4::draw() noexcept
+void MSAATestScene::draw() noexcept
 {
 	__pUBCamera->batchDeploy();
 
@@ -132,24 +132,24 @@ void DemoScene4::draw() noexcept
 	RenderingContext::requestBufferSwapping();
 }
 
-void DemoScene4::delta(const float deltaTime) noexcept
+void MSAATestScene::delta(const float deltaTime) noexcept
 {
 	__keyFunc(deltaTime);
 }
 
-void DemoScene4::update() noexcept
+void MSAATestScene::update() noexcept
 {
 	__pUpdater->batchUpdate();
 	__updated = true;
 }
 
-void DemoScene4::onDisplay() noexcept
+void MSAATestScene::onDisplay() noexcept
 {
 	if (__updated)
 		draw();
 }
 
-void DemoScene4::onResize(const int width, const int height) noexcept
+void MSAATestScene::onResize(const int width, const int height) noexcept
 {
 	if (!width || !height)
 		return;
@@ -159,7 +159,7 @@ void DemoScene4::onResize(const int width, const int height) noexcept
 	__pMSAAPP->setScreenSize(width, height);
 }
 
-void DemoScene4::onMouseDelta(const int xDelta, const int yDelta) noexcept
+void MSAATestScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
 {
 	constexpr float ROTATION_SPEED = .004f;
 
@@ -167,19 +167,19 @@ void DemoScene4::onMouseDelta(const int xDelta, const int yDelta) noexcept
 	__pCamera->pitch(yDelta * ROTATION_SPEED);
 }
 
-void DemoScene4::onMouseMButtonDown(const int x, const int y) noexcept
+void MSAATestScene::onMouseMButtonDown(const int x, const int y) noexcept
 {
 	__pCamera->resetFov();
 }
 
-void DemoScene4::onMouseWheel(const short zDelta) noexcept
+void MSAATestScene::onMouseWheel(const short zDelta) noexcept
 {
 	constexpr float ZOOM_SPEED = -.0005f;
 
 	__pCamera->adjustFov(ZOOM_SPEED * zDelta);
 }
 
-void DemoScene4::onIdle(const float deltaTime) noexcept
+void MSAATestScene::onIdle(const float deltaTime) noexcept
 {
 	delta(deltaTime);
 	update();

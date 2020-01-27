@@ -402,9 +402,6 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Library\Engine\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="DemoScene.cpp">
-      <Filter>Client\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="UniformBuffer.cpp">
       <Filter>Library\ObjectGL\Core\Buffer\UniformBuffer</Filter>
     </ClCompile>
@@ -600,9 +597,6 @@
     <ClCompile Include="CubeSkybox.cpp">
       <Filter>Library\Engine\Core\Skybox\CubeSkybox</Filter>
     </ClCompile>
-    <ClCompile Include="DemoScene2.cpp">
-      <Filter>Client\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="ReflectionMaterialComponent.cpp">
       <Filter>Library\Engine\Core\Material\Component</Filter>
     </ClCompile>
@@ -624,9 +618,6 @@
     <ClCompile Include="RenderUnitManager.cpp">
       <Filter>Library\Engine\Core\RenderUnit</Filter>
     </ClCompile>
-    <ClCompile Include="DemoScene3.cpp">
-      <Filter>Client\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="GeometryShaderCompiler.cpp">
       <Filter>Library\ObjectGL\Core\Shader\Compiler\GeometryShaderCompiler</Filter>
     </ClCompile>
@@ -645,9 +636,6 @@
     <ClCompile Include="VertexAttributeType.cpp">
       <Filter>Library\Engine\Core\VertexAttribute</Filter>
     </ClCompile>
-    <ClCompile Include="DemoScene4.cpp">
-      <Filter>Client\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="TextureMultisample.cpp">
       <Filter>Library\ObjectGL\Core\Texture\Multisample</Filter>
     </ClCompile>
@@ -665,6 +653,18 @@
     </ClCompile>
     <ClCompile Include="RenderBuffer.cpp">
       <Filter>Library\ObjectGL\Core\RenderBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="LightTestScene.cpp">
+      <Filter>Client\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceScene.cpp">
+      <Filter>Client\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometryTestScene.cpp">
+      <Filter>Client\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="MSAATestScene.cpp">
+      <Filter>Client\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -748,9 +748,6 @@
     </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Library\Engine\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="DemoScene.h">
-      <Filter>Client\Scene</Filter>
     </ClInclude>
     <ClInclude Include="ScreenEventHandler.h">
       <Filter>Library\ObjectGL\Screen</Filter>
@@ -1058,9 +1055,6 @@
     <ClInclude Include="Buffer.h">
       <Filter>Library\ObjectGL\Core\Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="DemoScene2.h">
-      <Filter>Client\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="ReflectionMaterialComponent.h">
       <Filter>Library\Engine\Core\Material\Component</Filter>
     </ClInclude>
@@ -1084,9 +1078,6 @@
     </ClInclude>
     <ClInclude Include="RenderUnitManager.h">
       <Filter>Library\Engine\Core\RenderUnit</Filter>
-    </ClInclude>
-    <ClInclude Include="DemoScene3.h">
-      <Filter>Client\Scene</Filter>
     </ClInclude>
     <ClInclude Include="GeometryShaderCompiler.h">
       <Filter>Library\ObjectGL\Core\Shader\Compiler\GeometryShaderCompiler</Filter>
@@ -1115,9 +1106,6 @@
     <ClInclude Include="VertexAttributeFlag.h">
       <Filter>Library\Engine\Core\VertexAttribute</Filter>
     </ClInclude>
-    <ClInclude Include="DemoScene4.h">
-      <Filter>Client\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="TextureMultisample.h">
       <Filter>Library\ObjectGL\Core\Texture\Multisample</Filter>
     </ClInclude>
@@ -1138,6 +1126,18 @@
     </ClInclude>
     <ClInclude Include="RenderBuffer.h">
       <Filter>Library\ObjectGL\Core\RenderBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="LightTestScene.h">
+      <Filter>Client\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceScene.h">
+      <Filter>Client\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GeometryTestScene.h">
+      <Filter>Client\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="MSAATestScene.h">
+      <Filter>Client\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

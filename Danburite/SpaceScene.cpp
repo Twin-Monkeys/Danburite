@@ -1,4 +1,4 @@
-#include "DemoScene2.h"
+#include "SpaceScene.h"
 #include "ProgramFactory.h"
 #include "VertexAttributeListFactory.h"
 #include "RenderUnitManager.h"
@@ -21,12 +21,11 @@ using namespace glm;
 using namespace ObjectGL;
 using namespace Danburite;
 
-DemoScene2::DemoScene2()
+SpaceScene::SpaceScene()
 {
 	// 전역 옵션
 
 	GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
-	GLFunctionWrapper::setOption(GLOptionType::STENCIL_TEST, true);
 	GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, true);
 
 	// Stencil mask 값이 0x00인 경우 Stencil Buffer clear bit도 0이 되어 버퍼 클리어도 안됨.
@@ -232,9 +231,13 @@ DemoScene2::DemoScene2()
 	__pDrawer->addDrawable(__pJupiterRU);
 	__pDrawer->addDrawable(__pVenusRU);
 	__pDrawer->addDrawable(__pFighterRU);
+
+
+	// MSAA
+	__pMSAAPP = make_shared<MSAAPostProcessor>(ShaderIdentifier::Value::PostProcess::NUM_SAMPLE_POINTS);
 }
 
-void DemoScene2::__keyFunc(const float deltaTime) noexcept
+void SpaceScene::__keyFunc(const float deltaTime) noexcept
 {
 	const bool ESC = (GetAsyncKeyState(VK_ESCAPE) & 0x8000);
 	if (ESC)
@@ -275,22 +278,26 @@ void DemoScene2::__keyFunc(const float deltaTime) noexcept
 		__pCamera->moveVertical(-MOVE_SPEED);
 }
 
-void DemoScene2::draw() noexcept
+void SpaceScene::draw() noexcept
 {
 	__pUBCamera->batchDeploy();
 	__pLightDeployer->batchDeploy();
 
-	GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH_STENCIL);
+	__pMSAAPP->bind();
+	GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
 
 	__pDrawer->batchDraw();
 
 	// 배경은 불투명한 물체가 모두 그려진 뒤 그림. (frag shader running 최소화)
 	__pSkybox->draw();
+	PostProcessor::unbind();
+
+	__pMSAAPP->render();
 
 	RenderingContext::requestBufferSwapping();
 }
 
-void DemoScene2::delta(const float deltaTime) noexcept
+void SpaceScene::delta(const float deltaTime) noexcept
 {
 	__keyFunc(deltaTime);
 
@@ -326,28 +333,29 @@ void DemoScene2::delta(const float deltaTime) noexcept
 	__pVenusRU->getTransform().adjustRotationAngle(ROTATION_SPEED);
 }
 
-void DemoScene2::update() noexcept
+void SpaceScene::update() noexcept
 {
 	__pUpdater->batchUpdate();
 	__updated = true;
 }
 
-void DemoScene2::onDisplay() noexcept
+void SpaceScene::onDisplay() noexcept
 {
 	if (__updated)
 		draw();
 }
 
-void DemoScene2::onResize(const int width, const int height) noexcept
+void SpaceScene::onResize(const int width, const int height) noexcept
 {
 	if (!width || !height)
 		return;
 
 	glViewport(0, 0, width, height);
 	__pCamera->setAspectRatio(width, height);
+	__pMSAAPP->setScreenSize(width, height);
 }
 
-void DemoScene2::onMouseDelta(const int xDelta, const int yDelta) noexcept
+void SpaceScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
 {
 	constexpr float ROTATION_SPEED = .004f;
 
@@ -355,19 +363,19 @@ void DemoScene2::onMouseDelta(const int xDelta, const int yDelta) noexcept
 	__pCamera->pitch(yDelta * ROTATION_SPEED);
 }
 
-void DemoScene2::onMouseMButtonDown(const int x, const int y) noexcept
+void SpaceScene::onMouseMButtonDown(const int x, const int y) noexcept
 {
 	__pCamera->resetFov();
 }
 
-void DemoScene2::onMouseWheel(const short zDelta) noexcept
+void SpaceScene::onMouseWheel(const short zDelta) noexcept
 {
 	constexpr float ZOOM_SPEED = -.0005f;
 
 	__pCamera->adjustFov(ZOOM_SPEED * zDelta);
 }
 
-void DemoScene2::onIdle(const float deltaTime) noexcept
+void SpaceScene::onIdle(const float deltaTime) noexcept
 {
 	delta(deltaTime);
 	update();

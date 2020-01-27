@@ -3,6 +3,7 @@
 #include "PostProcessor.h"
 #include "TextureMultisample.h"
 #include "RenderBufferMultisample.h"
+#include "ShaderIdentifier.h"
 
 namespace Danburite
 {
@@ -19,7 +20,10 @@ namespace Danburite
 		virtual void _onRender() noexcept override;
 
 	public:
-		MSAAPostProcessor(const GLsizei numSamplePoints = 4, const bool fixedSampleLocations = true);
+		MSAAPostProcessor(
+			const GLsizei numSamplePoints = ShaderIdentifier::Value::PostProcess::NUM_SAMPLE_POINTS,
+			const bool fixedSampleLocations = true);
+
 		virtual void setScreenSize(const GLsizei width, const GLsizei height) noexcept override;
 
 		virtual ~MSAAPostProcessor() = default;

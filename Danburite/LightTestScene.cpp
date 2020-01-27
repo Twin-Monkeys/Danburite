@@ -1,4 +1,4 @@
-#include "DemoScene.h"
+#include "LightTestScene.h"
 #include "ProgramFactory.h"
 #include "VertexAttributeListFactory.h"
 #include "RenderUnitManager.h"
@@ -17,7 +17,7 @@ using namespace glm;
 using namespace ObjectGL;
 using namespace Danburite;
 
-DemoScene::DemoScene()
+LightTestScene::LightTestScene()
 {
 	// 전역 옵션
 
@@ -219,7 +219,7 @@ DemoScene::DemoScene()
 	__pDrawer->addDrawable(__pSkullRU);
 }
 
-void DemoScene::__keyFunc(const float deltaTime) noexcept
+void LightTestScene::__keyFunc(const float deltaTime) noexcept
 {
 	const bool ESC = (GetAsyncKeyState(VK_ESCAPE) & 0x8000);
 	if (ESC)
@@ -255,7 +255,7 @@ void DemoScene::__keyFunc(const float deltaTime) noexcept
 		__pCamera->moveVertical(-MOVE_SPEED);
 }
 
-void DemoScene::draw() noexcept
+void LightTestScene::draw() noexcept
 {
 	__pUBCamera->batchDeploy();
 	__pLightDeployer->batchDeploy();
@@ -273,7 +273,7 @@ void DemoScene::draw() noexcept
 	RenderingContext::requestBufferSwapping();
 }
 
-void DemoScene::delta(const float deltaTime) noexcept
+void LightTestScene::delta(const float deltaTime) noexcept
 {
 	__keyFunc(deltaTime);
 
@@ -287,19 +287,19 @@ void DemoScene::delta(const float deltaTime) noexcept
 		(prevLightPos.x * sinf(ROTATION_SPEED)) + (prevLightPos.z * cosf(ROTATION_SPEED)));
 }
 
-void DemoScene::update() noexcept
+void LightTestScene::update() noexcept
 {
 	__pUpdater->batchUpdate();
 	__updated = true;
 }
 
-void DemoScene::onDisplay() noexcept
+void LightTestScene::onDisplay() noexcept
 {
 	if (__updated)
 		draw();
 }
 
-void DemoScene::onResize(const int width, const int height) noexcept
+void LightTestScene::onResize(const int width, const int height) noexcept
 {
 	if (!width || !height)
 		return;
@@ -308,7 +308,7 @@ void DemoScene::onResize(const int width, const int height) noexcept
 	__pCamera->setAspectRatio(width, height);
 }
 
-void DemoScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
+void LightTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
 {
 	constexpr float ROTATION_SPEED = .004f;
 
@@ -316,19 +316,19 @@ void DemoScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
 	__pCamera->pitch(yDelta * ROTATION_SPEED);
 }
 
-void DemoScene::onMouseMButtonDown(const int x, const int y) noexcept
+void LightTestScene::onMouseMButtonDown(const int x, const int y) noexcept
 {
 	__pCamera->resetFov();
 }
 
-void DemoScene::onMouseWheel(const short zDelta) noexcept
+void LightTestScene::onMouseWheel(const short zDelta) noexcept
 {
 	constexpr float ZOOM_SPEED = -.0005f;
 
 	__pCamera->adjustFov(ZOOM_SPEED * zDelta);
 }
 
-void DemoScene::onIdle(const float deltaTime) noexcept
+void LightTestScene::onIdle(const float deltaTime) noexcept
 {
 	delta(deltaTime);
 	update();

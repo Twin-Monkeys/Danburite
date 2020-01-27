@@ -57,8 +57,8 @@ const uint
 	LIGHT_TYPE_SPOT			= 2;
 
 
-// MSAA //
+// Post Process //
 
-const uint NUM_SAMPLE_POINTS = 4U;
+const uint NUM_SAMPLE_POINTS = 16U;
 
 #endif

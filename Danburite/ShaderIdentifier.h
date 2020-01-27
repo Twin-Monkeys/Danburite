@@ -145,7 +145,7 @@ namespace Danburite
 					COLOR_ATTACHMENT_ARRAY_LOCATION = 2;
 
 				constexpr GLuint
-					NUM_SAMPLE_POINTS = 4U;
+					NUM_SAMPLE_POINTS = 16U;
 			}
 
 			namespace Convolutional

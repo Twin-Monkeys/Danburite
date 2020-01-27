@@ -12,5 +12,5 @@ void main()
 	for (uint i = 0; i < NUM_SAMPLE_POINTS; i++)
 		retVal += MSAA_getPixel(0, texCoord, int(i));
 
-	fragColor = (retVal);
+	fragColor = (retVal / float(NUM_SAMPLE_POINTS));
 } 

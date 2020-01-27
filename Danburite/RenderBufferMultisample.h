@@ -15,7 +15,7 @@ namespace ObjectGL
 
 		void memoryAlloc(
 			const GLsizei width, const GLsizei height,
-			const RenderBufferInternalFormatType internalFormat, const GLsizei numSamplePoints = 4) noexcept;
+			const RenderBufferInternalFormatType internalFormat, const GLsizei numSamplePoints) noexcept;
 
 		virtual ~RenderBufferMultisample() = default;
 	};
