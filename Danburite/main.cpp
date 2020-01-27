@@ -1,7 +1,7 @@
 #include "Win32Screen.h"
 #include "DeviceContext.h"
 #include "RenderingContext.h"
-#include "DemoScene4.h"
+#include "DemoScene2.h"
 #include "GLFunctionWrapper.h"
 
 using namespace std;
@@ -27,7 +27,7 @@ int APIENTRY _tWinMain(const HINSTANCE hInstance, HINSTANCE, LPTSTR, int)
 	GLFunctionWrapper::setVerticalSync(false);
 
 	//// Scene 생성 ////
-	shared_ptr<ScreenEventHandler> pScene = make_shared<DemoScene4>();
+	shared_ptr<ScreenEventHandler> pScene = make_shared<DemoScene2>();
 
 	//// 이벤트 핸들러 등록 ////
 	pScreen->setEventHandler(pScene);

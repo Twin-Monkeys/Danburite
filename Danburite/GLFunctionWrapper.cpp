@@ -29,7 +29,7 @@ namespace ObjectGL
 		setClearColor(color.r, color.g, color.b);
 	}
 
-	void GLFunctionWrapper::clearBuffers(const FrameBufferClearFlag flags) noexcept
+	void GLFunctionWrapper::clearBuffers(const FrameBufferBlitFlag flags) noexcept
 	{
 		glClear(GLbitfield(flags));
 	}

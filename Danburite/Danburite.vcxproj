@@ -177,6 +177,7 @@
     <ClCompile Include="MaterialUniformSetter.cpp" />
     <ClCompile Include="ModelMatrixBuffer.cpp" />
     <ClCompile Include="MonoColorMaterialComponent.cpp" />
+    <ClCompile Include="MSAAPostProcessor.cpp" />
     <ClCompile Include="NegativePostProcessor.cpp" />
     <ClCompile Include="OutliningMaterialComponent.cpp" />
     <ClCompile Include="OutliningPhongMaterial.cpp" />
@@ -200,6 +201,7 @@
     <ClCompile Include="RefractionMaterialComponent.cpp" />
     <ClCompile Include="RenderBuffer.cpp" />
     <ClCompile Include="RenderBufferException.cpp" />
+    <ClCompile Include="RenderBufferMultisample.cpp" />
     <ClCompile Include="ShaderIdentifier.cpp" />
     <ClCompile Include="SilhouetteMaterial.cpp" />
     <ClCompile Include="SilhouetteMaterialComponent.cpp" />
@@ -301,6 +303,7 @@
     <ClInclude Include="MaterialUniformSetter.h" />
     <ClInclude Include="ModelMatrixBuffer.h" />
     <ClInclude Include="MonoColorMaterialComponent.h" />
+    <ClInclude Include="MSAAPostProcessor.h" />
     <ClInclude Include="NegativePostProcessor.h" />
     <ClInclude Include="OutliningMaterialComponent.h" />
     <ClInclude Include="OutliningPhongMaterial.h" />
@@ -337,6 +340,7 @@
     <ClInclude Include="RenderBuffer.h" />
     <ClInclude Include="RenderBufferException.h" />
     <ClInclude Include="RenderBufferInternalFormatType.h" />
+    <ClInclude Include="RenderBufferMultisample.h" />
     <ClInclude Include="RenderUnitManager.h" />
     <ClInclude Include="ShaderCompiler.h" />
     <ClInclude Include="ShaderIdentifier.h" />
@@ -383,7 +387,7 @@
     <ClInclude Include="DemoScene.h" />
     <ClInclude Include="VertexArrayException.h" />
     <ClInclude Include="ElementType.h" />
-    <ClInclude Include="FrameBufferClearFlag.h" />
+    <ClInclude Include="FrameBufferBlitFlag.h" />
     <ClInclude Include="GLProfileFlag.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="Object.h" />

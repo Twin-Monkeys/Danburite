@@ -2,7 +2,7 @@
 
 #include "GLOptionType.h"
 #include <glm/glm.hpp>
-#include "FrameBufferClearFlag.h"
+#include "FrameBufferBlitFlag.h"
 #include "FacetType.h"
 #include "RasterizationType.h"
 #include "DepthStencilFunctionType.h"
@@ -20,7 +20,7 @@ namespace ObjectGL
 		static void setOption(const GLOptionType optionType, const bool enabled) noexcept;
 		static void setClearColor(const float r, const float g, const float b) noexcept;
 		static void setClearColor(const glm::vec3 &color) noexcept;
-		static void clearBuffers(const FrameBufferClearFlag flags) noexcept;
+		static void clearBuffers(const FrameBufferBlitFlag flags) noexcept;
 
 		static void setPolygonMode(
 			const FacetType facetType, const RasterizationType rasterizationType) noexcept;

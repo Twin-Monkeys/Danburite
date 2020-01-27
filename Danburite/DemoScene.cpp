@@ -260,7 +260,7 @@ void DemoScene::draw() noexcept
 	__pUBCamera->batchDeploy();
 	__pLightDeployer->batchDeploy();
 
-	GLFunctionWrapper::clearBuffers(FrameBufferClearFlag::COLOR_DEPTH_STENCIL);
+	GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH_STENCIL);
 
 	__pDrawer->batchDraw();
 

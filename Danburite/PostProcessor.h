@@ -4,7 +4,7 @@
 #include "VertexArray.h"
 #include "Program.h"
 #include "ProgramType.h"
-#include "AttachableTexture.h"
+#include "Attachable.h"
 
 namespace Danburite
 {

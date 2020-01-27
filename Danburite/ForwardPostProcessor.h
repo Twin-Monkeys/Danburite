@@ -1,6 +1,7 @@
 #pragma once
 
 #include "PostProcessor.h"
+#include "AttachableTexture.h"
 #include "RenderBuffer.h"
 
 namespace Danburite

@@ -121,7 +121,7 @@ void DemoScene4::draw() noexcept
 {
 	__pUBCamera->batchDeploy();
 
-	GLFunctionWrapper::clearBuffers(FrameBufferClearFlag::COLOR_DEPTH_STENCIL);
+	GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH_STENCIL);
 
 	__pDrawer->batchDraw();
 

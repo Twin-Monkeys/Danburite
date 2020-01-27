@@ -5,6 +5,7 @@
 #include "FrameBufferStatusType.h"
 #include "Texture2D.h"
 #include "Attachable.h"
+#include "FrameBufferBlitFlag.h"
 
 namespace ObjectGL
 {
@@ -29,6 +30,11 @@ namespace ObjectGL
 		FrameBufferStatusType getStatus() noexcept;
 		void attach(const AttachmentType attachmentType, Attachable &attachment) noexcept;
 		bool detach(const AttachmentType attachmentType) noexcept;
+
+		void blit(
+			FrameBuffer* const pTarget, const FrameBufferBlitFlag mask,
+			const GLint srcLeft, const GLint srcBottom, const GLint srcRight, const GLint srcUp,
+			const GLint targetLeft, const GLint targetBottom, const GLint targetRight, const GLint targetUp) const noexcept;
 
 		virtual ~FrameBuffer() noexcept;
 

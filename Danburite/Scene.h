@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FrameBufferClearFlag.h"
+#include "FrameBufferBlitFlag.h"
 
 namespace Danburite
 {

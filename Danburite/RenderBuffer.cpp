@@ -1,5 +1,4 @@
 #include "RenderBuffer.h"
-#include "AssertException.h"
 
 namespace ObjectGL
 {

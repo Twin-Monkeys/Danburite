@@ -12,12 +12,12 @@ namespace ObjectGL
 
 	void AttachableTexture::_onAttach(const AttachmentType type) noexcept
 	{
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GLenum(type), GL_TEXTURE_2D, ID, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GLenum(type), _RAW_TYPE, ID, 0);
 	}
 
 	void AttachableTexture::_onDetach(const AttachmentType type) noexcept
 	{
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GLenum(type), GL_TEXTURE_2D, 0, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GLenum(type), _RAW_TYPE, 0, 0);
 	}
 
 	void AttachableTexture::memoryAlloc(

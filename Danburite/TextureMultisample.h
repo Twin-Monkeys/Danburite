@@ -1,11 +1,16 @@
 #pragma once
 
 #include "Texture.h"
+#include "Attachable.h"
 
 namespace ObjectGL
 {
-	class TextureMultisample : public Texture
+	class TextureMultisample : public Texture, public Attachable
 	{
+	protected:
+		virtual void _onAttach(const AttachmentType type) noexcept override;
+		virtual void _onDetach(const AttachmentType type) noexcept override;
+
 	public:
 		TextureMultisample();
 

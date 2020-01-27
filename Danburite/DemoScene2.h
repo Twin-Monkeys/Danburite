@@ -12,6 +12,7 @@
 #include "Updater.h"
 #include "Drawer.h"
 #include "CubeSkybox.h"
+#include "NegativePostProcessor.h"
 
 class DemoScene2 : public Danburite::Scene, public ObjectGL::ScreenEventHandler
 {
@@ -41,6 +42,8 @@ private:
 	std::shared_ptr<Danburite::LightDeployer> __pLightDeployer;
 	std::shared_ptr<Danburite::Updater> __pUpdater;
 	std::shared_ptr<Danburite::Drawer> __pDrawer;
+
+	std::shared_ptr<Danburite::NegativePostProcessor> __pNegativePP;
 
 	void __keyFunc(const float deltaTime) noexcept;
 

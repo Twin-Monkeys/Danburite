@@ -50,7 +50,7 @@ namespace Danburite
 
 		_onRender();
 		__pProgram->bind();
-		__pVertexArray->draw(1);
+		__pVertexArray->draw();
 
 		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
 	}

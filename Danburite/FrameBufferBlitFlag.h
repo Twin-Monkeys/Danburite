@@ -4,7 +4,7 @@
 
 namespace ObjectGL
 {
-	enum class FrameBufferClearFlag : GLbitfield
+	enum class FrameBufferBlitFlag : GLbitfield
 	{
 		COLOR				= GL_COLOR_BUFFER_BIT,
 		DEPTH				= GL_DEPTH_BUFFER_BIT,
@@ -14,9 +14,9 @@ namespace ObjectGL
 		COLOR_DEPTH_STENCIL	= (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT)
 	};
 
-	constexpr FrameBufferClearFlag operator|(
-		const FrameBufferClearFlag lhs, const FrameBufferClearFlag rhs) noexcept
+	constexpr FrameBufferBlitFlag operator|(
+		const FrameBufferBlitFlag lhs, const FrameBufferBlitFlag rhs) noexcept
 	{
-		return FrameBufferClearFlag(GLbitfield(lhs) | GLbitfield(rhs));
+		return FrameBufferBlitFlag(GLbitfield(lhs) | GLbitfield(rhs));
 	}
 }
