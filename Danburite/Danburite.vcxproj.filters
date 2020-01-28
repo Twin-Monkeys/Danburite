@@ -666,6 +666,9 @@
     <ClCompile Include="MSAATestScene.cpp">
       <Filter>Client\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="BlinnPhongTestScene.cpp">
+      <Filter>Client\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">
@@ -1137,6 +1140,9 @@
       <Filter>Client\Scene</Filter>
     </ClInclude>
     <ClInclude Include="MSAATestScene.h">
+      <Filter>Client\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="BlinnPhongTestScene.h">
       <Filter>Client\Scene</Filter>
     </ClInclude>
   </ItemGroup>

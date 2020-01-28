@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AttachableTexture.cpp" />
+    <ClCompile Include="BlinnPhongTestScene.cpp" />
     <ClCompile Include="ConvolutionalPostProcessor.cpp" />
     <ClCompile Include="CubeSkybox.cpp" />
     <ClCompile Include="CubeSkyboxComponent.cpp" />
@@ -279,6 +280,7 @@
     <ClInclude Include="AttachmentType.h" />
     <ClInclude Include="BlendingEquationType.h" />
     <ClInclude Include="BlendingFunctionType.h" />
+    <ClInclude Include="BlinnPhongTestScene.h" />
     <ClInclude Include="BufferAccessType.h" />
     <ClInclude Include="Constant.h" />
     <ClInclude Include="ConvolutionalPostProcessor.h" />

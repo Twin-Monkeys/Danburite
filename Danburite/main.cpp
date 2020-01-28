@@ -1,8 +1,8 @@
 #include "Win32Screen.h"
 #include "DeviceContext.h"
 #include "RenderingContext.h"
-#include "SpaceScene.h"
 #include "GLFunctionWrapper.h"
+#include "BlinnPhongTestScene.h"
 
 using namespace std;
 using namespace Danburite;
@@ -27,7 +27,7 @@ int APIENTRY _tWinMain(const HINSTANCE hInstance, HINSTANCE, LPTSTR, int)
 	GLFunctionWrapper::setVerticalSync(false);
 
 	//// Scene 생성 ////
-	shared_ptr<ScreenEventHandler> pScene = make_shared<SpaceScene>();
+	shared_ptr<ScreenEventHandler> pScene = make_shared<BlinnPhongTestScene>();
 
 	//// 이벤트 핸들러 등록 ////
 	pScreen->setEventHandler(pScene);
