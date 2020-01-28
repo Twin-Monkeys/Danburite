@@ -13,6 +13,6 @@ out vec4 fragColor;
 
 void main()
 {
-	fragColor = Phong_calcPhongColor(worldPos, worldNormal, texCoord, color);
+	fragColor = Phong_calcPhongColor(worldPos, normalize(worldNormal), texCoord, color);
 	fragColor.rgb = mix(fragColor.rgb, Material_getEnvReflection(worldPos, Camera_getPosition()).rgb, .3f);
 } 

@@ -12,7 +12,7 @@ out vec4 fragColor;
 
 void main()
 {
-	Material_setTargetNormal(worldNormal);
+	Material_setTargetNormal(normalize(worldNormal));
 
 	vec3 envRefraction = Material_getEnvRefraction(worldPos, Camera_getPosition()).rgb;
 	fragColor = vec4(envRefraction, 1.f);

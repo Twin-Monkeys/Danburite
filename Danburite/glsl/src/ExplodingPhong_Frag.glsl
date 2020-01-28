@@ -16,5 +16,5 @@ out vec4 fragColor;
 
 void main()
 {
-	fragColor = Phong_calcPhongColor(fsIn.worldPos, fsIn.worldNormal, fsIn.texCoord, fsIn.color);
+	fragColor = Phong_calcPhongColor(fsIn.worldPos, normalize(fsIn.worldNormal), fsIn.texCoord, fsIn.color);
 } 

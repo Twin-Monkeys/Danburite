@@ -13,5 +13,9 @@ out vec4 fragColor;
 
 void main()
 {
-	fragColor = Phong_calcPhongColor(worldPos, worldNormal, texCoord, color);
+	// Normalizing normals in the vertex shader and then passing them to the fragment shader
+	// doesn't ensure they are normalized after being passed.
+	// By only passing the normals in the vertex shader and then
+	// normalizing them in the fragment shader the problem (multisample white dot artifact) was fixed.
+	fragColor = Phong_calcPhongColor(worldPos, normalize(worldNormal), texCoord, color);
 } 

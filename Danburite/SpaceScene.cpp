@@ -27,6 +27,7 @@ SpaceScene::SpaceScene()
 
 	GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
 	GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, true);
+	GLFunctionWrapper::setOption(GLOptionType::MULTISAMPLE, true);
 
 	// Stencil mask 값이 0x00인 경우 Stencil Buffer clear bit도 0이 되어 버퍼 클리어도 안됨.
 	// Depth mask도 같은 원리이다. (클리어 전 depth mask가 false이면 클리어 안됨.)

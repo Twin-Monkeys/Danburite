@@ -59,6 +59,6 @@ const uint
 
 // Post Process //
 
-const uint NUM_SAMPLE_POINTS = 16U;
+const uint NUM_SAMPLE_POINTS = 4U;
 
 #endif
