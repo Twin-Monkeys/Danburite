@@ -64,6 +64,7 @@ BlinnPhongTestScene::BlinnPhongTestScene()
 	floorTransform.setScale(20.f);
 	floorTransform.setRotation(-half_pi<float>(), { 1.f, 0.f, 0.f });
 
+
 	//// 카메라 생성 ////
 
 	__pCamera = make_shared<SimpleCamera>();
@@ -80,7 +81,7 @@ BlinnPhongTestScene::BlinnPhongTestScene()
 	// Light 초기화
 
 	__pPointLight = make_shared<PointLight>(*__pUBLight);
-	__pPointLight->setPosition(0.f, 1.f, 0.f);
+	__pPointLight->setPosition(0.f, 2.f, 0.f);
 	__pPointLight->setAttenuation(1.f, .0f, .0f);
 	__pPointLight->setAlbedo(1.f, 1.f, 1.f);
 	__pPointLight->setAmbientStrength(.1f);
