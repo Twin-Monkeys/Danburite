@@ -131,10 +131,18 @@ vec3 Light_getLightDiffuse(uint lightIndex, vec3 targetNormal)
 
 float Light_getLightSpecularPower(uint lightIndex, vec3 targetNormal, vec3 viewPos, float materialShininess)
 {
-	vec3 lightReflection = reflect(Light_getLightDirection(lightIndex), targetNormal);
-	vec3 viewDirection = normalize(viewPos - Light_targetPos);
+	//	Traditional Phong style specular
+	//	vec3 lightReflection = reflect(Light_getLightDirection(lightIndex), targetNormal);
+	//	vec3 viewDirection = normalize(viewPos - Light_targetPos);
+	//
+	//	return pow(max(dot(lightReflection, viewDirection), 0.f), materialShininess);
 
-	return pow(max(dot(lightReflection, viewDirection), 0.f), materialShininess);
+	// Blinn-Phong style specular
+	vec3 lightDirection = -Light_getLightDirection(lightIndex);
+	vec3 viewDirection = normalize(viewPos - Light_targetPos);
+	vec3 halfwayDirection = normalize(lightDirection + viewDirection);
+
+	return pow(max(dot(targetNormal, halfwayDirection), 0.f), materialShininess);
 }
 
 vec3 Light_getLightSpecular(uint lightIndex, vec3 targetNormal, vec3 viewPos, float materialShininess)

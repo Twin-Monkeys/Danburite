@@ -16,7 +16,7 @@ namespace Danburite
 		std::shared_ptr<ObjectGL::Texture2D> __pAlphaTex;
 		std::shared_ptr<ObjectGL::Texture2D> __pNormalTex;
 
-		float __shininess = 80.f;
+		float __shininess = 20.f;
 
 	protected:
 		virtual void _onDeploy(MaterialUniformSetter &materialSetter) noexcept override;

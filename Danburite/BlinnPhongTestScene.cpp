@@ -30,6 +30,7 @@ BlinnPhongTestScene::BlinnPhongTestScene()
 	//// Uniform Buffer 생성 ////
 
 	__pUBLight = make_shared<UniformBuffer>("UBLight", ShaderIdentifier::Value::UniformBlockBindingPoint::LIGHT);
+	__pUBLight->enableZeroInit(true);
 	__pUBLight->registerProgram(phongProgram);
 
 	__pUBCamera = make_shared<UniformBuffer>("UBCamera", ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA);
@@ -55,7 +56,6 @@ BlinnPhongTestScene::BlinnPhongTestScene()
 	pFloorMaterial->setAmbientTexture(pFloorTexture);
 	pFloorMaterial->setDiffuseTexture(pFloorTexture);
 	pFloorMaterial->setSpecularTexture(pFloorTexture);
-	pFloorMaterial->setShininess(1.f);
 
 	unique_ptr<Mesh> pMesh = make_unique<Mesh>(pFloorVA, pFloorMaterial);
 	__pFloorRU = ruManager.createRenderingUnit(move(pMesh));
@@ -84,7 +84,7 @@ BlinnPhongTestScene::BlinnPhongTestScene()
 	__pPointLight->setPosition(0.f, 2.f, 0.f);
 	__pPointLight->setAttenuation(1.f, .0f, .0f);
 	__pPointLight->setAlbedo(1.f, 1.f, 1.f);
-	__pPointLight->setAmbientStrength(.1f);
+	__pPointLight->setAmbientStrength(.05f);
 
 
 	//// Deployer / Updater 초기화 ////
