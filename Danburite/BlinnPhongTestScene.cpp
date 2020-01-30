@@ -19,6 +19,7 @@ BlinnPhongTestScene::BlinnPhongTestScene()
 {
 	// 전역 옵션
 	GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
+	GLFunctionWrapper::setOption(GLOptionType::FRAMEBUFFER_SRGB, true);
 
 
 	// 프로그램 로딩
@@ -80,17 +81,23 @@ BlinnPhongTestScene::BlinnPhongTestScene()
 
 	// Light 초기화
 
-	__pPointLight = make_shared<PointLight>(*__pUBLight);
-	__pPointLight->setPosition(0.f, 2.f, 0.f);
-	__pPointLight->setAttenuation(1.f, .0f, .0f);
-	__pPointLight->setAlbedo(1.f, 1.f, 1.f);
-	__pPointLight->setAmbientStrength(.05f);
+	for (size_t i = 0; i < __arrPointLight.size(); i++)
+	{
+		shared_ptr<PointLight> &pPointLight = __arrPointLight[i];
 
+		pPointLight = make_shared<PointLight>(*__pUBLight);
+		pPointLight->setPosition(-15.f + 10.f * float(i), 2.f, 0.f);
+		pPointLight->setAttenuation(1.f, .04f, .007f);
+		pPointLight->setAlbedo(1.f, 1.f, 1.f);
+		pPointLight->setAmbientStrength(.05f);
+	}
 
 	//// Deployer / Updater 초기화 ////
 
 	__pLightDeployer = make_shared<LightDeployer>();
-	__pLightDeployer->addLight(__pPointLight);
+
+	for (const shared_ptr<PointLight> &pPointLight : __arrPointLight)
+		__pLightDeployer->addLight(pPointLight);
 
 	__pUBCamera->addDeployable(__pCamera);
 

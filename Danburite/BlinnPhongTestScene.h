@@ -21,7 +21,7 @@ private:
 	std::shared_ptr<Danburite::RenderingUnit> __pFloorRU;
 	std::shared_ptr<Danburite::SimpleCamera> __pCamera;
 
-	std::shared_ptr<Danburite::PointLight> __pPointLight;
+	std::array<std::shared_ptr<Danburite::PointLight>, 4> __arrPointLight;
 
 	std::shared_ptr<Danburite::LightDeployer> __pLightDeployer;
 	std::shared_ptr<Danburite::Updater> __pUpdater;
