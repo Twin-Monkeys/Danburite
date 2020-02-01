@@ -3,6 +3,7 @@
 #include "RenderingContext.h"
 #include "GLFunctionWrapper.h"
 #include "BlinnPhongTestScene.h"
+#include "SpaceScene.h"
 
 using namespace std;
 using namespace Danburite;

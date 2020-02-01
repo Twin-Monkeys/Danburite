@@ -21,7 +21,7 @@ namespace Danburite
 
 	public:
 		MSAAPostProcessor(
-			const GLsizei numSamplePoints = ShaderIdentifier::Value::PostProcess::NUM_SAMPLE_POINTS,
+			const GLsizei numSamplePoints = ShaderIdentifier::Value::MSAA::NUM_SAMPLE_POINTS,
 			const bool fixedSampleLocations = true);
 
 		virtual void setScreenSize(const GLsizei width, const GLsizei height) noexcept override;

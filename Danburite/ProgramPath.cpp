@@ -159,6 +159,15 @@ namespace Danburite
 					"",
 					"glsl/src/PostProcess_MSAA_Frag.glsl"
 				}
+			},
+			{
+				ProgramType::POST_PROCESS_GAMMA_CORRECTION,
+				{
+					"glsl/binary/PostProcess_GammaCorrection.bin",
+					"glsl/src/PostProcess_Common_Vert.glsl",
+					"",
+					"glsl/src/PostProcess_GammaCorrection_Frag.glsl"
+				}
 			}
 		};
 

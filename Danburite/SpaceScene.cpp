@@ -26,6 +26,7 @@ SpaceScene::SpaceScene()
 	// 전역 옵션
 
 	GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
+	// GLFunctionWrapper::setOption(GLOptionType::FRAMEBUFFER_SRGB, true);
 	GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, true);
 	GLFunctionWrapper::setOption(GLOptionType::MULTISAMPLE, true);
 
@@ -235,7 +236,7 @@ SpaceScene::SpaceScene()
 
 
 	// MSAA
-	__pMSAAPP = make_shared<MSAAPostProcessor>(ShaderIdentifier::Value::PostProcess::NUM_SAMPLE_POINTS);
+	__pMSAAPP = make_shared<MSAAPostProcessor>(ShaderIdentifier::Value::MSAA::NUM_SAMPLE_POINTS);
 }
 
 void SpaceScene::__keyFunc(const float deltaTime) noexcept

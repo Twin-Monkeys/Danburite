@@ -17,8 +17,10 @@ const uint
 
 // Uniform Block Binding Point
 const uint
-	BINDING_POINT_LIGHT		= 0U,
-	BINDING_POINT_CAMERA	= 1U;
+	BINDING_POINT_LIGHT				= 0U,
+	BINDING_POINT_CAMERA			= 1U,
+	BINDING_POINT_CONVOLUTION		= 2U,
+	BINDING_POINT_GAMMA_CORRECTION	= 3U;
 
 
 // Material //
@@ -57,7 +59,11 @@ const uint
 	LIGHT_TYPE_SPOT			= 2;
 
 
-// Post Process //
+// Convolution //
+
+const uint MAX_KERNEL_SIZE = 11U;
+
+// MSAA //
 
 const uint NUM_SAMPLE_POINTS = 4U;
 

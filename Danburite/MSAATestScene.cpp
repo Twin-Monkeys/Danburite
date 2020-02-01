@@ -73,7 +73,7 @@ MSAATestScene::MSAATestScene()
 	__pDrawer = make_shared<Drawer>();
 	__pDrawer->addDrawable(__pCubeRU);
 
-	__pMSAAPP = make_shared<MSAAPostProcessor>(ShaderIdentifier::Value::PostProcess::NUM_SAMPLE_POINTS);
+	__pMSAAPP = make_shared<MSAAPostProcessor>(ShaderIdentifier::Value::MSAA::NUM_SAMPLE_POINTS);
 }
 
 void MSAATestScene::__keyFunc(const float deltaTime) noexcept

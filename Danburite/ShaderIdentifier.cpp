@@ -86,6 +86,12 @@ namespace Danburite
 					KERNEL = "convolution.kernel";
 			}
 
+			namespace GammaCorrection
+			{
+				const std::string
+					GAMMA = "gammaCorrection.gamma";
+			}
+
 			namespace Cubemap
 			{
 				const string

@@ -3,7 +3,7 @@
 #ifndef __CONVOLUTIONAL_HEADER__
 #define __CONVOLUTIONAL_HEADER__
 
-const uint MAX_KERNEL_SIZE = 11U;
+#include "Constant_Header.glsl"
 
 struct Convolution
 {
@@ -12,7 +12,7 @@ struct Convolution
 	float kernel[MAX_KERNEL_SIZE * MAX_KERNEL_SIZE];
 };
 
-uniform UBConvolution
+layout(binding = BINDING_POINT_CONVOLUTION) uniform UBConvolution
 {
 	Convolution convolution;
 };

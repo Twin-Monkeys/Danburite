@@ -87,6 +87,12 @@ namespace Danburite
 					KERNEL;
 			}
 
+			namespace GammaCorrection
+			{
+				extern const std::string
+					GAMMA;
+			}
+
 			namespace Cubemap
 			{
 				extern const std::string
@@ -112,7 +118,9 @@ namespace Danburite
 			{
 				constexpr GLuint
 					LIGHT = 0U,
-					CAMERA = 1U;
+					CAMERA = 1U,
+					CONVOLUTION = 2U,
+					GAMMA_CORRECTION = 3U;
 			}
 
 			namespace Light
@@ -143,7 +151,10 @@ namespace Danburite
 					DEPTH_ATTACHMENT_LOCATION = 0,
 					STENCIL_ATTACHMENT_LOCATION = 1,
 					COLOR_ATTACHMENT_ARRAY_LOCATION = 2;
+			}
 
+			namespace MSAA
+			{
 				constexpr GLuint
 					NUM_SAMPLE_POINTS = 4U;
 			}

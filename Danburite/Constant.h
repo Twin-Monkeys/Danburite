@@ -55,5 +55,10 @@ namespace Danburite
 				1.f / 273.f, 4.f / 273.f, 7.f / 273.f, 4.f / 273.f, 1.f / 273.f
 			};
 		}
+
+		namespace GammaCorrection
+		{
+			constexpr GLfloat DEFAULT_GAMMA = 2.2f;
+		}
 	}
 }

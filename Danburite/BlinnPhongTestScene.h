@@ -9,6 +9,7 @@
 #include "LightDeployer.h"
 #include "Updater.h"
 #include "Drawer.h"
+#include "GammaCorrectionPostProcessor.h"
 
 class BlinnPhongTestScene : public Danburite::Scene, public ObjectGL::ScreenEventHandler
 {
@@ -17,6 +18,7 @@ private:
 
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBLight;
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBCamera;
+	std::shared_ptr<ObjectGL::UniformBuffer> __pUBGammaCorrection;
 
 	std::shared_ptr<Danburite::RenderingUnit> __pFloorRU;
 	std::shared_ptr<Danburite::SimpleCamera> __pCamera;
@@ -26,6 +28,8 @@ private:
 	std::shared_ptr<Danburite::LightDeployer> __pLightDeployer;
 	std::shared_ptr<Danburite::Updater> __pUpdater;
 	std::shared_ptr<Danburite::Drawer> __pDrawer;
+
+	std::shared_ptr<Danburite::GammaCorrectionPostProcessor> __pGammaCorrectionPP;
 
 	void __keyFunc(const float deltaTime) noexcept;
 

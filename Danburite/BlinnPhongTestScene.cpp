@@ -19,14 +19,13 @@ BlinnPhongTestScene::BlinnPhongTestScene()
 {
 	// 傈开 可记
 	GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
-	GLFunctionWrapper::setOption(GLOptionType::FRAMEBUFFER_SRGB, true);
 
 
 	// 橇肺弊伐 肺爹
 
 	ProgramFactory &programFactory = ProgramFactory::getInstance();
-	Program &phongProgram = programFactory.getProgram(ProgramType::PHONG);
-
+	Program& phongProgram = programFactory.getProgram(ProgramType::PHONG);
+	Program &gammaCorrectionProgram = programFactory.getProgram(ProgramType::POST_PROCESS_GAMMA_CORRECTION);
 
 	//// Uniform Buffer 积己 ////
 
@@ -36,6 +35,11 @@ BlinnPhongTestScene::BlinnPhongTestScene()
 
 	__pUBCamera = make_shared<UniformBuffer>("UBCamera", ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA);
 	__pUBCamera->registerProgram(phongProgram);
+
+	__pUBGammaCorrection = make_shared<UniformBuffer>(
+		"UBGammaCorrection", ShaderIdentifier::Value::UniformBlockBindingPoint::GAMMA_CORRECTION);
+
+	__pUBGammaCorrection->registerProgram(gammaCorrectionProgram);
 
 
 	//// Rendering unit 积己 ////
@@ -57,6 +61,7 @@ BlinnPhongTestScene::BlinnPhongTestScene()
 	pFloorMaterial->setAmbientTexture(pFloorTexture);
 	pFloorMaterial->setDiffuseTexture(pFloorTexture);
 	pFloorMaterial->setSpecularTexture(pFloorTexture);
+	pFloorMaterial->setShininess(80.f);
 
 	unique_ptr<Mesh> pMesh = make_unique<Mesh>(pFloorVA, pFloorMaterial);
 	__pFloorRU = ruManager.createRenderingUnit(move(pMesh));
@@ -87,7 +92,7 @@ BlinnPhongTestScene::BlinnPhongTestScene()
 
 		pPointLight = make_shared<PointLight>(*__pUBLight);
 		pPointLight->setPosition(-15.f + 10.f * float(i), 2.f, 0.f);
-		pPointLight->setAttenuation(1.f, .04f, .007f);
+		pPointLight->setAttenuation(1.f, .07f, .017f);
 		pPointLight->setAlbedo(1.f, 1.f, 1.f);
 		pPointLight->setAmbientStrength(.05f);
 	}
@@ -107,6 +112,8 @@ BlinnPhongTestScene::BlinnPhongTestScene()
 
 	__pDrawer = make_shared<Drawer>();
 	__pDrawer->addDrawable(__pFloorRU);
+
+	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>(*__pUBGammaCorrection);
 }
 
 void BlinnPhongTestScene::__keyFunc(const float deltaTime) noexcept
@@ -148,6 +155,20 @@ void BlinnPhongTestScene::__keyFunc(const float deltaTime) noexcept
 
 	if (DOWN)
 		__pCamera->moveVertical(-MOVE_SPEED);
+
+	const bool
+		KEY_1	= (GetAsyncKeyState('1') & 0x8000),
+		KEY_2	= (GetAsyncKeyState('2') & 0x8000),
+		KEY_3	= (GetAsyncKeyState('3') & 0x8000);
+
+	if (KEY_1)
+		__pGammaCorrectionPP->setGamma(1.f);
+
+	if (KEY_2)
+		__pGammaCorrectionPP->setGamma(1.5f);
+
+	if (KEY_3)
+		__pGammaCorrectionPP->setGamma(2.2f);
 }
 
 void BlinnPhongTestScene::draw() noexcept
@@ -155,8 +176,13 @@ void BlinnPhongTestScene::draw() noexcept
 	__pLightDeployer->batchDeploy();
 	__pUBCamera->batchDeploy();
 
+	__pGammaCorrectionPP->bind();
 	GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
+
 	__pDrawer->batchDraw();
+
+	PostProcessor::unbind();
+	__pGammaCorrectionPP->render();
 
 	RenderingContext::requestBufferSwapping();
 }
@@ -185,6 +211,7 @@ void BlinnPhongTestScene::onResize(const int width, const int height) noexcept
 
 	glViewport(0, 0, width, height);
 	__pCamera->setAspectRatio(width, height);
+	__pGammaCorrectionPP->setScreenSize(width, height);
 }
 
 void BlinnPhongTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
