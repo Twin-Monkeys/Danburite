@@ -9,7 +9,7 @@ namespace Danburite
 	{
 	private:
 		glm::vec3 __albedo = { 1.f, 1.f, 1.f };
-		float __ambientStrength = .3f;
+		float __ambientStrength = .1f;
 		float __diffuseStrength = .8f;
 		float __specularStrength = .6f;
 

@@ -2,6 +2,7 @@
 
 #include "MaterialUniformDeployable.h"
 #include "Texture2D.h"
+#include "Constant.h"
 
 namespace Danburite
 {
@@ -16,7 +17,7 @@ namespace Danburite
 		std::shared_ptr<ObjectGL::Texture2D> __pAlphaTex;
 		std::shared_ptr<ObjectGL::Texture2D> __pNormalTex;
 
-		float __shininess = 40.f;
+		float __shininess = Constant::Material::Phong::DEFAULT_SHININESS;
 
 	protected:
 		virtual void _onDeploy(MaterialUniformSetter &materialSetter) noexcept override;

@@ -23,6 +23,7 @@ namespace Danburite
 		void setMaterialType(const MaterialType type) noexcept;
 		void setVertexType(const VertexAttributeType type) noexcept;
 		void setOptionFlag(const MaterialOptionFlag flag) noexcept;
+		void setGamma(const float gamma) noexcept;
 
 		template <typename FunctionType, typename ...Args>
 		void traverseProgram(const FunctionType function, Args &&...args);

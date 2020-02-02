@@ -48,6 +48,16 @@ namespace Danburite
 		__setOption(MaterialOptionFlag::LIGHTING, enabled);
 	}
 
+	void Material::useAmbientTexture(const bool enabled) noexcept
+	{
+		__setOption(MaterialOptionFlag::AMBIENT_TEXTURE, enabled);
+	}
+
+	void Material::useSpecularTexture(const bool enabled) noexcept
+	{
+		__setOption(MaterialOptionFlag::SPECULAR_TEXTURE, enabled);
+	}
+
 	void Material::useShininessTexture(const bool enabled) noexcept
 	{
 		__setOption(MaterialOptionFlag::SHININESS_TEXTURE, enabled);
@@ -63,11 +73,17 @@ namespace Danburite
 		__setOption(MaterialOptionFlag::NORMAL_TEXTURE, enabled);
 	}
 
+	void Material::setGamma(const float gamma) noexcept
+	{
+		__gamma = gamma;
+	}
+
 	void Material::render(VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
 		__materialUniformSetter.setMaterialType(__MATERIAL_TYPE);
 		__materialUniformSetter.setVertexType(__VERTEX_TYPE);
 		__materialUniformSetter.setOptionFlag(__optionFlag);
+		__materialUniformSetter.setGamma(__gamma);
 
 		_onDeploy(__materialUniformSetter);
 		_onRender(__materialUniformSetter, vertexArray, numInstances);

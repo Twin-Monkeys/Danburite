@@ -209,16 +209,18 @@ namespace Danburite
 					pPhongMaterial = make_shared<PhongMaterial>(vertexType);
 
 				if (pAmbientTex)
+				{
 					pPhongMaterial->setAmbientTexture(pAmbientTex);
-				else
-					pPhongMaterial->setAmbientTexture(pDiffuseTex);
+					pPhongMaterial->useAmbientTexture(true);
+				}
 
 				pPhongMaterial->setDiffuseTexture(pDiffuseTex);
 
 				if (pSpecularTex)
+				{
 					pPhongMaterial->setSpecularTexture(pSpecularTex);
-				else
-					pPhongMaterial->setSpecularTexture(pDiffuseTex);
+					pPhongMaterial->useSpecularTexture(true);
+				}
 
 				pPhongMaterial->setEmissiveTexture(pEmissiveTex);
 

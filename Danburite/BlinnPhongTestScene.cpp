@@ -58,10 +58,7 @@ BlinnPhongTestScene::BlinnPhongTestScene()
 	pFloorTexture->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 
 	const shared_ptr<PhongMaterial> &pFloorMaterial = make_shared<PhongMaterial>(VertexAttributeType::POS3_COLOR4);
-	pFloorMaterial->setAmbientTexture(pFloorTexture);
 	pFloorMaterial->setDiffuseTexture(pFloorTexture);
-	pFloorMaterial->setSpecularTexture(pFloorTexture);
-	pFloorMaterial->setShininess(80.f);
 
 	unique_ptr<Mesh> pMesh = make_unique<Mesh>(pFloorVA, pFloorMaterial);
 	__pFloorRU = ruManager.createRenderingUnit(move(pMesh));
@@ -114,6 +111,7 @@ BlinnPhongTestScene::BlinnPhongTestScene()
 	__pDrawer->addDrawable(__pFloorRU);
 
 	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>(*__pUBGammaCorrection);
+	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
 }
 
 void BlinnPhongTestScene::__keyFunc(const float deltaTime) noexcept
@@ -162,13 +160,22 @@ void BlinnPhongTestScene::__keyFunc(const float deltaTime) noexcept
 		KEY_3	= (GetAsyncKeyState('3') & 0x8000);
 
 	if (KEY_1)
+	{
+		Material::setGamma(1.f);
 		__pGammaCorrectionPP->setGamma(1.f);
+	}
 
 	if (KEY_2)
+	{
+		Material::setGamma(1.5f);
 		__pGammaCorrectionPP->setGamma(1.5f);
+	}
 
 	if (KEY_3)
+	{
+		Material::setGamma(2.2f);
 		__pGammaCorrectionPP->setGamma(2.2f);
+	}
 }
 
 void BlinnPhongTestScene::draw() noexcept

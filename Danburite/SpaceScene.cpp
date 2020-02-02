@@ -26,7 +26,6 @@ SpaceScene::SpaceScene()
 	// 傈开 可记
 
 	GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
-	// GLFunctionWrapper::setOption(GLOptionType::FRAMEBUFFER_SRGB, true);
 	GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, true);
 	GLFunctionWrapper::setOption(GLOptionType::MULTISAMPLE, true);
 
@@ -43,6 +42,7 @@ SpaceScene::SpaceScene()
 	Program &reflectionProgram = programFactory.getProgram(ProgramType::REFLECTION);
 	Program &reflectionPhongProgram = programFactory.getProgram(ProgramType::REFLECTION_PHONG);
 	Program &refractionProgram = programFactory.getProgram(ProgramType::REFRACTION);
+	Program &gammaCorrectionProgram = programFactory.getProgram(ProgramType::POST_PROCESS_GAMMA_CORRECTION);
 
 
 	//// Uniform Buffer 积己 ////
@@ -61,6 +61,11 @@ SpaceScene::SpaceScene()
 	__pUBCamera->registerProgram(reflectionProgram);
 	__pUBCamera->registerProgram(reflectionPhongProgram);
 	__pUBCamera->registerProgram(refractionProgram);
+
+	__pUBGammaCorrection = make_shared<UniformBuffer>(
+		"UBGammaCorrection", ShaderIdentifier::Value::UniformBlockBindingPoint::GAMMA_CORRECTION);
+
+	__pUBGammaCorrection->registerProgram(gammaCorrectionProgram);
 
 
 	//// Rendering unit 积己 ////
@@ -171,10 +176,7 @@ SpaceScene::SpaceScene()
 	__pDirectionalLight = make_shared<DirectionalLight>(*__pUBLight);
 	__pDirectionalLight->setDirection(1.f, -1.f, 0.f);
 	__pDirectionalLight->setAlbedo(.3f, .5f, .9f);
-	__pDirectionalLight->setAmbientStrength(.2f);
 	__pDirectionalLight->setDiffuseStrength(2.f);
-	__pDirectionalLight->setSpecularStrength(2.f);
-
 
 	//// 墨皋扼 积己 ////
 
@@ -182,6 +184,7 @@ SpaceScene::SpaceScene()
 	__pCamera->setPosition(15.f, 15.f, 25.f);
 	__pCamera->pitch(-quarter_pi<float>() * .2f);
 	__pCamera->yaw(quarter_pi<float>() * .7f);
+
 
 	// Skybox 积己
 
@@ -234,9 +237,17 @@ SpaceScene::SpaceScene()
 	__pDrawer->addDrawable(__pVenusRU);
 	__pDrawer->addDrawable(__pFighterRU);
 
+	// Post Processing
 
-	// MSAA
-	__pMSAAPP = make_shared<MSAAPostProcessor>(ShaderIdentifier::Value::MSAA::NUM_SAMPLE_POINTS);
+	__pMSAAPP = make_shared<MSAAPostProcessor>();
+	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>(*__pUBGammaCorrection);
+
+	__pPPPipeline = make_shared<PostProcessingPipeline>();
+	__pPPPipeline->addProcessor(__pMSAAPP);
+	__pPPPipeline->addProcessor(__pGammaCorrectionPP);
+
+	// Matarial 
+	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
 }
 
 void SpaceScene::__keyFunc(const float deltaTime) noexcept
@@ -285,7 +296,7 @@ void SpaceScene::draw() noexcept
 	__pUBCamera->batchDeploy();
 	__pLightDeployer->batchDeploy();
 
-	__pMSAAPP->bind();
+	__pPPPipeline->bind();
 	GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
 
 	__pDrawer->batchDraw();
@@ -294,7 +305,7 @@ void SpaceScene::draw() noexcept
 	__pSkybox->draw();
 	PostProcessor::unbind();
 
-	__pMSAAPP->render();
+	__pPPPipeline->render();
 
 	RenderingContext::requestBufferSwapping();
 }
@@ -354,7 +365,7 @@ void SpaceScene::onResize(const int width, const int height) noexcept
 
 	glViewport(0, 0, width, height);
 	__pCamera->setAspectRatio(width, height);
-	__pMSAAPP->setScreenSize(width, height);
+	__pPPPipeline->setScreenSize(width, height);
 }
 
 void SpaceScene::onMouseDelta(const int xDelta, const int yDelta) noexcept

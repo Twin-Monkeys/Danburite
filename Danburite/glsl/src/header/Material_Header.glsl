@@ -12,6 +12,8 @@ struct Material
 	uint vertexFlag;
 
 	vec4 diffuseColor;
+	float gamma;
+
 	float shininess;
 
 	sampler2D ambientTex;
@@ -51,6 +53,16 @@ bool Material_isLightingEnabled()
 	return ((material.optionFlag & MATERIAL_OPTION_FLAG_LIGHTING) != 0);
 }
 
+bool Material_isAmbientTextureEnabled()
+{
+	return ((material.optionFlag & MATERIAL_OPTION_FLAG_AMBIENT_TEXTURE) != 0);
+}
+
+bool Material_isSpecularTextureEnabled()
+{
+	return ((material.optionFlag & MATERIAL_OPTION_FLAG_SPECULAR_TEXTURE) != 0);
+}
+
 bool Material_isShininessTextureEnabled()
 {
 	return ((material.optionFlag & MATERIAL_OPTION_FLAG_SHININESS_TEXTURE) != 0);
@@ -86,10 +98,17 @@ bool Material_isVertexTexCoordEnabled()
 	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_TEXCOORD2) != 0);
 }
 
+vec3 Material_applyGamma(const vec3 source)
+{
+	return pow(source, vec3(material.gamma));
+}
+
 vec3 Material_getAmbient()
 {
+	vec3 retVal = vec3(0.f);
+
 	if (material.type == MATERIAL_TYPE_MONO_COLOR)
-		return material.diffuseColor.rgb;
+		retVal = material.diffuseColor.rgb;
 	else
 	{
 		if (
@@ -98,16 +117,26 @@ vec3 Material_getAmbient()
 			(material.type == MATERIAL_TYPE_TRANSPARENT_PHONG) ||
 			(material.type == MATERIAL_TYPE_OUTLINING_PHONG) ||
 			(material.type == MATERIAL_TYPE_PHONG))
-			return texture(material.ambientTex, Material_texCoord).rgb;
+		{
+			if (Material_isAmbientTextureEnabled())
+				retVal = texture(material.ambientTex, Material_texCoord).rgb;
+			else
+			{
+				retVal = texture(material.diffuseTex, Material_texCoord).rgb;
+				retVal = Material_applyGamma(retVal);
+			}
+		}
 	}
 
-	return vec3(0.f);
+	return retVal;
 }
 
 vec3 Material_getDiffuse()
 {
+	vec3 retVal = vec3(0.f);
+
 	if (material.type == MATERIAL_TYPE_MONO_COLOR)
-		return material.diffuseColor.rgb;
+		retVal = material.diffuseColor.rgb;
 	else
 	{
 		if (
@@ -116,16 +145,21 @@ vec3 Material_getDiffuse()
 			(material.type == MATERIAL_TYPE_TRANSPARENT_PHONG) ||
 			(material.type == MATERIAL_TYPE_OUTLINING_PHONG) ||
 			(material.type == MATERIAL_TYPE_PHONG))
-			return texture(material.diffuseTex, Material_texCoord).rgb;
+		{
+			retVal = texture(material.diffuseTex, Material_texCoord).rgb;
+			retVal = pow(retVal, vec3(material.gamma));
+		}
 	}
 
-	return vec3(0.f);
+	return retVal;
 }
 
 vec3 Material_getSpecular()
 {
+	vec3 retVal = vec3(0.f);
+
 	if (material.type == MATERIAL_TYPE_MONO_COLOR)
-		return material.diffuseColor.rgb;
+		retVal = material.diffuseColor.rgb;
 	else
 	{
 		if (
@@ -134,23 +168,36 @@ vec3 Material_getSpecular()
 			(material.type == MATERIAL_TYPE_TRANSPARENT_PHONG) ||
 			(material.type == MATERIAL_TYPE_OUTLINING_PHONG) ||
 			(material.type == MATERIAL_TYPE_PHONG))
-			return texture(material.specularTex, Material_texCoord).rgb;
+		{
+			if (Material_isSpecularTextureEnabled())
+				retVal = texture(material.specularTex, Material_texCoord).rgb;
+			else
+			{
+				retVal = texture(material.diffuseTex, Material_texCoord).rgb;
+				retVal = Material_applyGamma(retVal);
+			}
+		}
 	}
 
-	return vec3(0.f);
+	return retVal;
 }
 
 vec3 Material_getEmissive()
 {
+	vec3 retVal = vec3(0.f);
+
 	if (
 		(material.type == MATERIAL_TYPE_EXPLODING_PHONG) ||
 		(material.type == MATERIAL_TYPE_REFLECTION_PHONG) ||
 		(material.type == MATERIAL_TYPE_TRANSPARENT_PHONG) ||
 		(material.type == MATERIAL_TYPE_OUTLINING_PHONG) ||
 		(material.type == MATERIAL_TYPE_PHONG))
-		return texture(material.emissiveTex, Material_texCoord).rgb;
+	{
+		retVal = texture(material.emissiveTex, Material_texCoord).rgb;
+		retVal = Material_applyGamma(retVal);
+	}
 
-	return vec3(0.f);
+	return retVal;
 }
 
 float Material_getShininess()
@@ -207,7 +254,10 @@ vec4 Material_getEnvReflection(vec3 targetPos, vec3 viewPos)
 	vec3 viewDirection = normalize(targetPos - viewPos);
 	vec3 reflection = reflect(viewDirection, Material_getNormal());
 
-	return texture(material.environmentTex, reflection);
+	vec4 retVal = texture(material.environmentTex, reflection);
+
+	retVal.rgb = Material_applyGamma(retVal.rgb);
+	return retVal;
 }
 
 vec4 Material_getEnvRefraction(vec3 targetPos, vec3 viewPos)
@@ -215,7 +265,10 @@ vec4 Material_getEnvRefraction(vec3 targetPos, vec3 viewPos)
 	vec3 viewDirection = normalize(targetPos - viewPos);
 	vec3 refraction = refract(viewDirection, Material_getNormal(), 1.f / 1.52f);
 
-	return texture(material.environmentTex, refraction);
+	vec4 retVal = texture(material.environmentTex, refraction);
+
+	retVal.rgb = Material_applyGamma(retVal.rgb);
+	return retVal;
 }
 
 #endif

@@ -23,6 +23,14 @@ namespace Danburite
 			constexpr float MIN_FOV		= (FOV * .3f);
 		}
 
+		namespace Material
+		{
+			namespace Phong
+			{
+				constexpr float DEFAULT_SHININESS = 40.f;
+			}
+		}
+
 		namespace Convolutional
 		{
 			constexpr GLfloat sharpenKernel3x3[] =
@@ -58,7 +66,7 @@ namespace Danburite
 
 		namespace GammaCorrection
 		{
-			constexpr GLfloat DEFAULT_GAMMA = 2.2f;
+			constexpr float DEFAULT_GAMMA = 2.2f;
 		}
 	}
 }

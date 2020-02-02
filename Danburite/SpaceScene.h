@@ -12,7 +12,9 @@
 #include "Updater.h"
 #include "Drawer.h"
 #include "CubeSkybox.h"
+#include "PostProcessingPipeline.h"
 #include "MSAAPostProcessor.h"
+#include "GammaCorrectionPostProcessor.h"
 
 class SpaceScene : public Danburite::Scene, public ObjectGL::ScreenEventHandler
 {
@@ -21,6 +23,7 @@ private:
 
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBLight;
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBCamera;
+	std::shared_ptr<ObjectGL::UniformBuffer> __pUBGammaCorrection;
 
 	std::shared_ptr<Danburite::RenderingUnit> __pNanosuitRU;
 	std::shared_ptr<Danburite::RenderingUnit> __pStarshipRU;
@@ -43,7 +46,9 @@ private:
 	std::shared_ptr<Danburite::Updater> __pUpdater;
 	std::shared_ptr<Danburite::Drawer> __pDrawer;
 
+	std::shared_ptr<Danburite::PostProcessingPipeline> __pPPPipeline;
 	std::shared_ptr<Danburite::MSAAPostProcessor> __pMSAAPP;
+	std::shared_ptr<Danburite::GammaCorrectionPostProcessor> __pGammaCorrectionPP;
 
 	void __keyFunc(const float deltaTime) noexcept;
 

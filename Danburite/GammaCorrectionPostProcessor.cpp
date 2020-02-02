@@ -16,7 +16,7 @@ namespace Danburite
 		__paramSetter.setUniformFloat(ShaderIdentifier::Name::GammaCorrection::GAMMA, __gamma);
 	}
 
-	void GammaCorrectionPostProcessor::setGamma(const GLfloat gamma) noexcept
+	void GammaCorrectionPostProcessor::setGamma(const float gamma) noexcept
 	{
 		__gamma = gamma;
 	}

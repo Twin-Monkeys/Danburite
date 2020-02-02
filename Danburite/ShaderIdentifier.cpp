@@ -55,6 +55,8 @@ namespace Danburite
 
 					AMBIENT_TEX = "material.ambientTex",
 					DIFFUSE_TEX = "material.diffuseTex",
+					GAMMA = "material.gamma",
+
 					SPECULAR_TEX = "material.specularTex",
 					EMISSIVE_TEX = "material.emissiveTex",
 					SHININESS_TEX = "material.shininessTex",

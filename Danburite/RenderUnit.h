@@ -69,9 +69,11 @@ namespace Danburite
 				dynamic_pointer_cast<MaterialType>(pMesh->getMaterial()).get();
 
 			if (pMaterial)
-				(pMaterial->*function)(args...);
+				(pMaterial->*function)(std::forward<Args>(args)...);
 		}
 
-		__children.safeTraverse(&RenderingUnit::traverseMaterial<MaterialType, FunctionType, Args...>, function, args...);
+		__children.safeTraverse(
+			&RenderingUnit::traverseMaterial<MaterialType, FunctionType, Args...>,
+			function, std::forward<Args>(args)...);
 	}
 }

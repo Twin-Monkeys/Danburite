@@ -44,7 +44,7 @@ namespace ObjectGL
 				continue;
 			}
 
-			(pContent.get()->*function)(args...);
+			(pContent.get()->*function)(std::forward<Args>(args)...);
 			it++;
 		}
 	}

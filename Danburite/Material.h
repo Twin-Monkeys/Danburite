@@ -8,6 +8,7 @@
 #include "MaterialOptionFlag.h"
 #include "VertexArray.h"
 #include "VertexAttributeType.h"
+#include "Constant.h"
 
 namespace Danburite
 {
@@ -20,6 +21,7 @@ namespace Danburite
 		const VertexAttributeType __VERTEX_TYPE;
 
 		MaterialOptionFlag __optionFlag = MaterialOptionFlag::NONE;
+		static inline float __gamma = 1.f;
 
 		void __setOption(const MaterialOptionFlag flags, const bool enabled) noexcept;
 
@@ -31,11 +33,15 @@ namespace Danburite
 		virtual void _onRender(MaterialUniformSetter &target, ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept = 0;
 
 		void useLighting(const bool enabled) noexcept;
+		void useAmbientTexture(const bool enabled) noexcept;
+		void useSpecularTexture(const bool enabled) noexcept;
 		void useShininessTexture(const bool enabled) noexcept;
 		void useAlphaTexture(const bool enabled) noexcept;
 		void useNormalTexture(const bool enabled) noexcept;
 
 	public:
+		static void setGamma(const float gamma) noexcept;
+
 		void render(ObjectGL::VertexArray &vertexArray, const GLsizei numInstances = 1) noexcept;
 
 		virtual ~Material() = default;

@@ -34,4 +34,9 @@ namespace Danburite
 	{
 		traverseProgram(&Program::setUniformUint, ShaderIdentifier::Name::Material::OPTION_FLAG, GLuint(flag));
 	}
+
+	void MaterialUniformSetter::setGamma(const float gamma) noexcept
+	{
+		traverseProgram(&Program::setUniformFloat, ShaderIdentifier::Name::Material::GAMMA, gamma);
+	}
 }

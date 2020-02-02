@@ -28,6 +28,8 @@ namespace ObjectGL
 		RG = GL_RG,
 		RGB = GL_RGB,
 		RGBA = GL_RGBA,
+		SRGB = GL_SRGB,
+		SRGB_ALPHA = GL_SRGB_ALPHA,
 
 
 		// Sized Internal Format

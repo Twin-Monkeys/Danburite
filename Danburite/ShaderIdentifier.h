@@ -56,6 +56,8 @@ namespace Danburite
 
 					AMBIENT_TEX,
 					DIFFUSE_TEX,
+					GAMMA,
+
 					SPECULAR_TEX,
 					EMISSIVE_TEX,
 					SHININESS_TEX,
