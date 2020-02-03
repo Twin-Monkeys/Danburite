@@ -6,6 +6,7 @@
 #include "Texture2D.h"
 #include "Attachable.h"
 #include "FrameBufferBlitFlag.h"
+#include "ColorBufferType.h"
 
 namespace ObjectGL
 {
@@ -35,6 +36,9 @@ namespace ObjectGL
 			FrameBuffer* const pTarget, const FrameBufferBlitFlag mask,
 			const GLint srcLeft, const GLint srcBottom, const GLint srcRight, const GLint srcUp,
 			const GLint targetLeft, const GLint targetBottom, const GLint targetRight, const GLint targetUp) const noexcept;
+
+		void setInputColorBuffer(const ColorBufferType type) noexcept;
+		void setOutputColorBuffer(const ColorBufferType type) noexcept;
 
 		virtual ~FrameBuffer() noexcept;
 

@@ -283,6 +283,7 @@
     <ClInclude Include="BlendingFunctionType.h" />
     <ClInclude Include="BlinnPhongTestScene.h" />
     <ClInclude Include="BufferAccessType.h" />
+    <ClInclude Include="ColorBufferType.h" />
     <ClInclude Include="Constant.h" />
     <ClInclude Include="ConvolutionalPostProcessor.h" />
     <ClInclude Include="CubemapSideType.h" />
@@ -382,7 +383,7 @@
     <ClInclude Include="TextReader.h" />
     <ClInclude Include="UniformBuffer.h" />
     <ClInclude Include="ScreenEventHandler.h" />
-    <ClInclude Include="FacetType.h" />
+    <ClInclude Include="FrameBufferPositionType.h" />
     <ClInclude Include="IndexType.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="PointLight.h" />

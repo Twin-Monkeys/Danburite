@@ -76,6 +76,18 @@ namespace ObjectGL
 		unbind();
 	}
 
+	void FrameBuffer::setInputColorBuffer(const ColorBufferType type) noexcept
+	{
+		bind();
+		glReadBuffer(GLenum(type));
+	}
+
+	void FrameBuffer::setOutputColorBuffer(const ColorBufferType type) noexcept
+	{
+		bind();
+		glDrawBuffer(GLenum(type));
+	}
+
 	FrameBuffer::~FrameBuffer()
 	{
 		__release();

@@ -3,7 +3,7 @@
 #include "GLOptionType.h"
 #include <glm/glm.hpp>
 #include "FrameBufferBlitFlag.h"
-#include "FacetType.h"
+#include "FrameBufferPositionType.h"
 #include "RasterizationType.h"
 #include "DepthStencilFunctionType.h"
 #include "StencilOperationType.h"
@@ -23,7 +23,7 @@ namespace ObjectGL
 		static void clearBuffers(const FrameBufferBlitFlag flags) noexcept;
 
 		static void setPolygonMode(
-			const FacetType facetType, const RasterizationType rasterizationType) noexcept;
+			const FrameBufferPositionType facetType, const RasterizationType rasterizationType) noexcept;
 
 		static void setDepthMask(const bool enabled) noexcept;
 		static void setDepthFunction(const DepthStencilFunctionType func) noexcept;
@@ -46,7 +46,7 @@ namespace ObjectGL
 
 		static void setBlendingEquation(const BlendingEquationType type) noexcept;
 
-		static void setCulledFace(const FacetType type) noexcept;
+		static void setCulledFace(const FrameBufferPositionType type) noexcept;
 		static void setFrontFace(const WindingOrderType type) noexcept;
 	};
 }

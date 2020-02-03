@@ -929,9 +929,6 @@
     <ClInclude Include="RasterizationType.h">
       <Filter>Library\ObjectGL\Base\Function</Filter>
     </ClInclude>
-    <ClInclude Include="FacetType.h">
-      <Filter>Library\ObjectGL\Base\Function</Filter>
-    </ClInclude>
     <ClInclude Include="MonoColorMaterial.h">
       <Filter>Library\Engine\Core\Material\MonoColorMaterial</Filter>
     </ClInclude>
@@ -1156,6 +1153,12 @@
     </ClInclude>
     <ClInclude Include="GammaCorrectionPostProcessor.h">
       <Filter>Library\Engine\Core\PostProcess\GammaCorrection</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameBufferPositionType.h">
+      <Filter>Library\ObjectGL\Base\Function</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorBufferType.h">
+      <Filter>Library\ObjectGL\Core\FrameBuffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

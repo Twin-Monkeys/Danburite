@@ -35,7 +35,7 @@ namespace ObjectGL
 	}
 
 	void GLFunctionWrapper::setPolygonMode(
-		const FacetType facetType, const RasterizationType rasterizationType) noexcept
+		const FrameBufferPositionType facetType, const RasterizationType rasterizationType) noexcept
 	{
 		glPolygonMode(GLenum(facetType), GLenum(rasterizationType));
 	}
@@ -88,7 +88,7 @@ namespace ObjectGL
 		glBlendEquation(GLenum(type));
 	}
 
-	void GLFunctionWrapper::setCulledFace(const FacetType type) noexcept
+	void GLFunctionWrapper::setCulledFace(const FrameBufferPositionType type) noexcept
 	{
 		glCullFace(GLenum(type));
 	}
