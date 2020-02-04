@@ -164,6 +164,7 @@
     <ClCompile Include="ConvolutionalPostProcessor.cpp" />
     <ClCompile Include="CubeSkybox.cpp" />
     <ClCompile Include="CubeSkyboxComponent.cpp" />
+    <ClCompile Include="DepthMapBaker.cpp" />
     <ClCompile Include="GammaCorrectionPostProcessor.cpp" />
     <ClCompile Include="SpaceScene.cpp" />
     <ClCompile Include="GeometryTestScene.cpp" />
@@ -289,6 +290,7 @@
     <ClInclude Include="CubemapSideType.h" />
     <ClInclude Include="CubeSkybox.h" />
     <ClInclude Include="CubeSkyboxComponent.h" />
+    <ClInclude Include="DepthMapBaker.h" />
     <ClInclude Include="GammaCorrectionPostProcessor.h" />
     <ClInclude Include="SpaceScene.h" />
     <ClInclude Include="GeometryTestScene.h" />
