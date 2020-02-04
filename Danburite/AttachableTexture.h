@@ -9,16 +9,12 @@ namespace ObjectGL
 	{
 	private:
 		using Texture2D::memoryAlloc;
-		using TextureBase::setState;
-		using TextureBase::setStates;
 
 	protected:
 		virtual void _onAttach(const AttachmentType type) noexcept override;
 		virtual void _onDetach(const AttachmentType type) noexcept override;
 
 	public:
-		AttachableTexture();
-
 		void memoryAlloc(
 			const GLsizei width, const GLsizei height,
 			const TextureInternalFormatType internalFormat,

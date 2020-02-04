@@ -10,7 +10,12 @@ namespace Danburite
 		PostProcessor(type),
 		__pColorAttachment(make_unique<AttachableTexture>()),
 		__pDepthStencilAttachment(make_unique<RenderBuffer>())
-	{}
+	{
+		__pColorAttachment->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
+		__pColorAttachment->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
+		__pColorAttachment->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR);
+		__pColorAttachment->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
+	}
 
 	ForwardPostProcessor::ForwardPostProcessor() :
 		ForwardPostProcessor(ProgramType::POST_PROCESS_FORWARD)

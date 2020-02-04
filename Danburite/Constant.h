@@ -12,7 +12,6 @@ namespace Danburite
 			constexpr glm::mat4 IDENTITY_MATRIX { 1.f };
 		}
 
-		// Camera
 		namespace Camera
 		{
 			constexpr float Z_NEAR		= 1.f;
@@ -67,6 +66,12 @@ namespace Danburite
 		namespace GammaCorrection
 		{
 			constexpr float DEFAULT_GAMMA = 2.2f;
+		}
+
+		namespace Shadow
+		{
+			constexpr GLsizei DEFAULT_MAP_WIDTH		= 1024;
+			constexpr GLsizei DEFAULT_MAP_HEIGHT	= 1024;
 		}
 	}
 }

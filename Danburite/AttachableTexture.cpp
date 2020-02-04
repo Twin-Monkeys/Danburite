@@ -2,14 +2,6 @@
 
 namespace ObjectGL
 {
-	AttachableTexture::AttachableTexture()
-	{
-		setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
-		setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
-		setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR);
-		setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
-	}
-
 	void AttachableTexture::_onAttach(const AttachmentType type) noexcept
 	{
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GLenum(type), _RAW_TYPE, ID, 0);
