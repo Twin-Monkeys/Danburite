@@ -166,6 +166,7 @@
     <ClCompile Include="CubeSkyboxComponent.cpp" />
     <ClCompile Include="DepthMapBaker.cpp" />
     <ClCompile Include="GammaCorrectionPostProcessor.cpp" />
+    <ClCompile Include="ShadowTestScene.cpp" />
     <ClCompile Include="SpaceScene.cpp" />
     <ClCompile Include="GeometryTestScene.cpp" />
     <ClCompile Include="MSAATestScene.cpp" />
@@ -292,6 +293,8 @@
     <ClInclude Include="CubeSkyboxComponent.h" />
     <ClInclude Include="DepthMapBaker.h" />
     <ClInclude Include="GammaCorrectionPostProcessor.h" />
+    <ClInclude Include="MaterialRenderType.h" />
+    <ClInclude Include="ShadowTestScene.h" />
     <ClInclude Include="SpaceScene.h" />
     <ClInclude Include="GeometryTestScene.h" />
     <ClInclude Include="MSAATestScene.h" />

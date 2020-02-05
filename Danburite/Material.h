@@ -9,6 +9,7 @@
 #include "VertexArray.h"
 #include "VertexAttributeType.h"
 #include "Constant.h"
+#include "MaterialRenderType.h"
 
 namespace Danburite
 {
@@ -24,6 +25,15 @@ namespace Danburite
 		static inline float __gamma = 1.f;
 
 		void __setOption(const MaterialOptionFlag flags, const bool enabled) noexcept;
+
+		static void __render_normal(
+			Material &instance, ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept;
+
+		static void __render_depthBaking(
+			Material &instance, ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept;
+
+		static inline void (*__pRenderFunc)(
+			Material &instance, ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) = &__render_normal;
 
 	protected:
 		Material(
@@ -41,6 +51,7 @@ namespace Danburite
 
 	public:
 		static void setGamma(const float gamma) noexcept;
+		static void setRenderType(const MaterialRenderType type) noexcept;
 
 		void render(ObjectGL::VertexArray &vertexArray, const GLsizei numInstances = 1) noexcept;
 

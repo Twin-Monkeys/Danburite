@@ -4,6 +4,7 @@
 #include "GLFunctionWrapper.h"
 #include "BlinnPhongTestScene.h"
 #include "SpaceScene.h"
+#include "ShadowTestScene.h"
 
 using namespace std;
 using namespace Danburite;
@@ -28,7 +29,7 @@ int APIENTRY _tWinMain(const HINSTANCE hInstance, HINSTANCE, LPTSTR, int)
 	GLFunctionWrapper::setVerticalSync(false);
 
 	//// Scene 생성 ////
-	shared_ptr<ScreenEventHandler> pScene = make_shared<BlinnPhongTestScene>();
+	shared_ptr<ScreenEventHandler> pScene = make_shared<ShadowTestScene>();
 
 	//// 이벤트 핸들러 등록 ////
 	pScreen->setEventHandler(pScene);

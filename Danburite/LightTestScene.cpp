@@ -100,7 +100,6 @@ LightTestScene::LightTestScene()
 		make_shared<TransparentPhongMaterial>(VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
 
 	pCubeMaterial->setDiffuseTexture(pCubeTexture);
-	pCubeMaterial->setSpecularTexture(pCubeTexture);
 
 	unique_ptr<Mesh> pMesh = make_unique<Mesh>(pCubeVA, pCubeMaterial);
 	__pCubeRU = ruManager.createRenderingUnit(move(pMesh));

@@ -43,6 +43,27 @@ namespace Danburite
 			__optionFlag &= ~flags;
 	}
 
+	void Material::__render_normal(
+		Material &instance, VertexArray &vertexArray, const GLsizei numInstances) noexcept
+	{
+		instance.__materialUniformSetter.setMaterialType(instance.__MATERIAL_TYPE);
+		instance.__materialUniformSetter.setVertexType(instance.__VERTEX_TYPE);
+		instance.__materialUniformSetter.setOptionFlag(instance.__optionFlag);
+		instance.__materialUniformSetter.setGamma(__gamma);
+
+		instance._onDeploy(instance.__materialUniformSetter);
+		instance._onRender(instance.__materialUniformSetter, vertexArray, numInstances);
+	}
+
+	void Material::__render_depthBaking(
+		Material &instance, VertexArray &vertexArray, const GLsizei numInstances) noexcept
+	{
+		ProgramFactory::getInstance().
+			getProgram(ProgramType::DEPTH_BAKING).bind();
+
+		vertexArray.draw(numInstances);
+	}
+
 	void Material::useLighting(const bool enabled) noexcept
 	{
 		__setOption(MaterialOptionFlag::LIGHTING, enabled);
@@ -78,14 +99,22 @@ namespace Danburite
 		__gamma = gamma;
 	}
 
+	void Material::setRenderType(const MaterialRenderType type) noexcept
+	{
+		switch (type)
+		{
+		case MaterialRenderType::NORMAL:
+			__pRenderFunc = &__render_normal;
+			break;
+
+		case MaterialRenderType::DEPTH_BAKING:
+			__pRenderFunc = &__render_depthBaking;
+			break;
+		}
+	}
+
 	void Material::render(VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
-		__materialUniformSetter.setMaterialType(__MATERIAL_TYPE);
-		__materialUniformSetter.setVertexType(__VERTEX_TYPE);
-		__materialUniformSetter.setOptionFlag(__optionFlag);
-		__materialUniformSetter.setGamma(__gamma);
-
-		_onDeploy(__materialUniformSetter);
-		_onRender(__materialUniformSetter, vertexArray, numInstances);
+		__pRenderFunc(*this, vertexArray, numInstances);
 	}
 }

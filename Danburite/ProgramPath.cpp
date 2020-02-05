@@ -168,6 +168,17 @@ namespace Danburite
 					"",
 					"glsl/src/PostProcess_GammaCorrection_Frag.glsl"
 				}
+			},
+
+			// Depth baking
+			{
+				ProgramType::DEPTH_BAKING,
+				{
+					"glsl/binary/DepthBaking.bin",
+					"glsl/src/DepthBaking_Vert.glsl",
+					"",
+					"glsl/src/DepthBaking_Frag.glsl"
+				}
 			}
 		};
 
