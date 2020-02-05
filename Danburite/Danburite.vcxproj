@@ -164,6 +164,7 @@
     <ClCompile Include="ConvolutionalPostProcessor.cpp" />
     <ClCompile Include="CubeSkybox.cpp" />
     <ClCompile Include="CubeSkyboxComponent.cpp" />
+    <ClCompile Include="DepthBakingCamera.cpp" />
     <ClCompile Include="DepthMapBaker.cpp" />
     <ClCompile Include="GammaCorrectionPostProcessor.cpp" />
     <ClCompile Include="ShadowTestScene.cpp" />
@@ -291,6 +292,7 @@
     <ClInclude Include="CubemapSideType.h" />
     <ClInclude Include="CubeSkybox.h" />
     <ClInclude Include="CubeSkyboxComponent.h" />
+    <ClInclude Include="DepthBakingCamera.h" />
     <ClInclude Include="DepthMapBaker.h" />
     <ClInclude Include="GammaCorrectionPostProcessor.h" />
     <ClInclude Include="MaterialRenderType.h" />
@@ -445,6 +447,8 @@
   <ItemGroup>
     <None Include="glsl\src\Cubemap_Frag.glsl" />
     <None Include="glsl\src\Cubemap_Vert.glsl" />
+    <None Include="glsl\src\DepthBaking_Frag.glsl" />
+    <None Include="glsl\src\DepthBaking_Vert.glsl" />
     <None Include="glsl\src\ExplodingPhong_Frag.glsl" />
     <None Include="glsl\src\ExplodingPhong_Geo.glsl" />
     <None Include="glsl\src\ExplodingPhong_Vert.glsl" />

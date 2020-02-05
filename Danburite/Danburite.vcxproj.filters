@@ -690,6 +690,9 @@
     <ClCompile Include="ShadowTestScene.cpp">
       <Filter>Client\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="DepthBakingCamera.cpp">
+      <Filter>Library\Engine\Core\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">
@@ -1181,6 +1184,9 @@
     <ClInclude Include="ShadowTestScene.h">
       <Filter>Client\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="DepthBakingCamera.h">
+      <Filter>Library\Engine\Core\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glsl\src\Header\Camera_Header.glsl">
@@ -1305,6 +1311,12 @@
     </None>
     <None Include="glsl\src\header\GammaCorrection_Header.glsl">
       <Filter>Library\Engine\glsl\src\header\PostProcess</Filter>
+    </None>
+    <None Include="glsl\src\DepthBaking_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\DepthBaking</Filter>
+    </None>
+    <None Include="glsl\src\DepthBaking_Vert.glsl">
+      <Filter>Library\Engine\glsl\src\DepthBaking</Filter>
     </None>
   </ItemGroup>
 </Project>
