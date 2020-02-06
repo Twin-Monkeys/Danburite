@@ -5,7 +5,7 @@
 
 namespace Danburite
 {
-	class DepthMapBaker
+	class DepthBaker
 	{
 	private:
 		std::unique_ptr<ObjectGL::FrameBuffer> __pFrameBuffer;
@@ -14,12 +14,19 @@ namespace Danburite
 		GLsizei __mapWidth;
 		GLsizei __mapHeight;
 
+		GLsizei __scrWidth;
+		GLsizei __scrHeight;
+
 	public:
-		DepthMapBaker();
+		DepthBaker();
 
 		void setResolution(const GLsizei width, const GLsizei height) noexcept;
+		void setScreenSize(const GLsizei width, const GLsizei height) noexcept;
 
-		void startBaking() noexcept;
-		static void endBaking() noexcept;
+		void bind() noexcept;
+		void unbind() noexcept;
+
+		ObjectGL::AttachableTexture &getDepthAttachment() const noexcept;
+
 	};
 }

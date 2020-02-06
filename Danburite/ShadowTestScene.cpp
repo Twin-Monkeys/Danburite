@@ -18,7 +18,9 @@ using namespace Danburite;
 ShadowTestScene::ShadowTestScene()
 {
 	// 전역 옵션
+
 	GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
+	GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, true);
 
 
 	// 프로그램 로딩
@@ -26,6 +28,7 @@ ShadowTestScene::ShadowTestScene()
 	ProgramFactory &programFactory = ProgramFactory::getInstance();
 	Program& phongProgram = programFactory.getProgram(ProgramType::PHONG);
 	Program &gammaCorrectionProgram = programFactory.getProgram(ProgramType::POST_PROCESS_GAMMA_CORRECTION);
+	Program &depthBakingProgram = programFactory.getProgram(ProgramType::DEPTH_BAKING);
 
 	//// Uniform Buffer 생성 ////
 
@@ -35,6 +38,7 @@ ShadowTestScene::ShadowTestScene()
 
 	__pUBCamera = make_shared<UniformBuffer>("UBCamera", ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA);
 	__pUBCamera->registerProgram(phongProgram);
+	__pUBCamera->registerProgram(depthBakingProgram);
 
 	__pUBGammaCorrection = make_shared<UniformBuffer>(
 		"UBGammaCorrection", ShaderIdentifier::Value::UniformBlockBindingPoint::GAMMA_CORRECTION);
@@ -95,15 +99,13 @@ ShadowTestScene::ShadowTestScene()
 
 	//// 카메라 생성 ////
 
-	__pCamera = make_shared<SimpleCamera>();
-	__pCamera->setPosition(10.f, 10.f, 10.f);
-	__pCamera->pitch(-quarter_pi<float>() * .7f);
-	__pCamera->yaw(quarter_pi<float>());
+	__pMainCamera = make_shared<SimpleCamera>();
+	__pMainCamera->setPosition(10.f, 10.f, 10.f);
+	__pMainCamera->pitch(-quarter_pi<float>() * .7f);
+	__pMainCamera->yaw(quarter_pi<float>());
 
-	__pUBCamera->addDeployable(__pCamera);
-
-	__pUpdater = make_shared<Updater>();
-	__pUpdater->addUpdatable(__pCamera);
+	__pDepthBakingCamera = make_shared<DepthBakingCamera>();
+	__pDepthBakingCamera->setPosition(0.f, 10.f, 0.f);
 
 
 	// Light 초기화
@@ -113,22 +115,25 @@ ShadowTestScene::ShadowTestScene()
 	__pDirectionalLight->setAmbientStrength(.05f);
 	__pDirectionalLight->setDiffuseStrength(.3f);
 
+	__pDepthBakingCamera->setDirection(__pDirectionalLight->getDirection());
+
 
 	//// Deployer / Updater 초기화 ////
 
 	__pLightDeployer = make_shared<LightDeployer>();
 	__pLightDeployer->addLight(__pDirectionalLight);
 
-	__pUBCamera->addDeployable(__pCamera);
-
 	__pUpdater = make_shared<Updater>();
 	__pUpdater->addUpdatable(__pFloorRU);
 	__pUpdater->addUpdatable(__pCubeRU);
-	__pUpdater->addUpdatable(__pCamera);
+	__pUpdater->addUpdatable(__pMainCamera);
+	__pUpdater->addUpdatable(__pDepthBakingCamera);
 
 	__pDrawer = make_shared<Drawer>();
 	__pDrawer->addDrawable(__pFloorRU);
 	__pDrawer->addDrawable(__pCubeRU);
+
+	__pDepthBaker = make_shared<DepthBaker>();
 
 	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>(*__pUBGammaCorrection);
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
@@ -157,37 +162,56 @@ void ShadowTestScene::__keyFunc(const float deltaTime) noexcept
 		DOWN	= (GetAsyncKeyState('Q') & 0x8000);
 
 	if (LEFT)
-		__pCamera->moveHorizontal(-MOVE_SPEED);
+		__pMainCamera->moveHorizontal(-MOVE_SPEED);
 	
 	if (RIGHT)
-		__pCamera->moveHorizontal(MOVE_SPEED);
+		__pMainCamera->moveHorizontal(MOVE_SPEED);
 
 	if (FRONT)
-		__pCamera->moveForward(MOVE_SPEED);
+		__pMainCamera->moveForward(MOVE_SPEED);
 
 	if (BACK)
-		__pCamera->moveForward(-MOVE_SPEED);
+		__pMainCamera->moveForward(-MOVE_SPEED);
 
 	if (UP)
-		__pCamera->moveVertical(MOVE_SPEED);
+		__pMainCamera->moveVertical(MOVE_SPEED);
 
 	if (DOWN)
-		__pCamera->moveVertical(-MOVE_SPEED);
+		__pMainCamera->moveVertical(-MOVE_SPEED);
 }
 
 void ShadowTestScene::draw() noexcept
 {
-	__pLightDeployer->batchDeploy();
-	__pUBCamera->batchDeploy();
+	// Depth baking
+	{
+		__pUBCamera->directDeploy(*__pDepthBakingCamera);
+		Material::setRenderType(MaterialRenderType::DEPTH_BAKING);
 
-	__pGammaCorrectionPP->bind();
-	GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
+		__pDepthBaker->bind();
+		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::DEPTH);
 
-	__pDrawer->batchDraw();
+		__pDrawer->batchDraw();
+		__pDepthBaker->unbind();
 
-	PostProcessor::unbind();
+		// __pDepthBaker->getDepthAttachment();
+	}
+
+	// Gamma correction
+	{
+		__pLightDeployer->batchDeploy();
+
+		__pUBCamera->directDeploy(*__pMainCamera);
+		Material::setRenderType(MaterialRenderType::NORMAL);
+
+		__pGammaCorrectionPP->bind();
+		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
+
+		__pDrawer->batchDraw();
+		PostProcessor::unbind();
+	}
+
+	// Render to screen
 	__pGammaCorrectionPP->render();
-
 	RenderingContext::requestBufferSwapping();
 }
 
@@ -213,8 +237,8 @@ void ShadowTestScene::onResize(const int width, const int height) noexcept
 	if (!width || !height)
 		return;
 
-	glViewport(0, 0, width, height);
-	__pCamera->setAspectRatio(width, height);
+	__pMainCamera->setAspectRatio(width, height);
+	__pDepthBaker->setScreenSize(width, height);
 	__pGammaCorrectionPP->setScreenSize(width, height);
 }
 
@@ -222,20 +246,20 @@ void ShadowTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
 {
 	constexpr float ROTATION_SPEED = .004f;
 
-	__pCamera->yaw(xDelta * ROTATION_SPEED);
-	__pCamera->pitch(yDelta * ROTATION_SPEED);
+	__pMainCamera->yaw(xDelta * ROTATION_SPEED);
+	__pMainCamera->pitch(yDelta * ROTATION_SPEED);
 }
 
 void ShadowTestScene::onMouseMButtonDown(const int x, const int y) noexcept
 {
-	__pCamera->resetFov();
+	__pMainCamera->resetFov();
 }
 
 void ShadowTestScene::onMouseWheel(const short zDelta) noexcept
 {
 	constexpr float ZOOM_SPEED = -.0005f;
 
-	__pCamera->adjustFov(ZOOM_SPEED * zDelta);
+	__pMainCamera->adjustFov(ZOOM_SPEED * zDelta);
 }
 
 void ShadowTestScene::onIdle(const float deltaTime) noexcept

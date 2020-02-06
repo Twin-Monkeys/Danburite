@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "ScreenEventHandler.h"
 #include "RenderUnit.h"
+#include "DepthBakingCamera.h"
 #include "SimpleCamera.h"
 #include "UniformBuffer.h"
 #include "DirectionalLight.h"
@@ -10,6 +11,7 @@
 #include "Updater.h"
 #include "Drawer.h"
 #include "GammaCorrectionPostProcessor.h"
+#include "DepthBaker.h"
 
 class ShadowTestScene : public Danburite::Scene, public ObjectGL::ScreenEventHandler
 {
@@ -23,7 +25,8 @@ private:
 	std::shared_ptr<Danburite::RenderingUnit> __pFloorRU;
 	std::shared_ptr<Danburite::RenderingUnit> __pCubeRU;
 
-	std::shared_ptr<Danburite::SimpleCamera> __pCamera;
+	std::shared_ptr<Danburite::SimpleCamera> __pMainCamera;
+	std::shared_ptr<Danburite::DepthBakingCamera> __pDepthBakingCamera;
 
 	std::shared_ptr<Danburite::DirectionalLight> __pDirectionalLight;
 
@@ -31,6 +34,7 @@ private:
 	std::shared_ptr<Danburite::Updater> __pUpdater;
 	std::shared_ptr<Danburite::Drawer> __pDrawer;
 
+	std::shared_ptr<Danburite::DepthBaker> __pDepthBaker;
 	std::shared_ptr<Danburite::GammaCorrectionPostProcessor> __pGammaCorrectionPP;
 
 	void __keyFunc(const float deltaTime) noexcept;

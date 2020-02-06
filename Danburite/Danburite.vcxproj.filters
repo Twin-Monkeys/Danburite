@@ -684,14 +684,14 @@
     <ClCompile Include="GammaCorrectionPostProcessor.cpp">
       <Filter>Library\Engine\Core\PostProcess\GammaCorrection</Filter>
     </ClCompile>
-    <ClCompile Include="DepthMapBaker.cpp">
-      <Filter>Library\Engine\Core\Shadow</Filter>
-    </ClCompile>
     <ClCompile Include="ShadowTestScene.cpp">
       <Filter>Client\Scene</Filter>
     </ClCompile>
     <ClCompile Include="DepthBakingCamera.cpp">
       <Filter>Library\Engine\Core\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="DepthBaker.cpp">
+      <Filter>Library\Engine\Core\Shadow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1175,9 +1175,6 @@
     <ClInclude Include="ColorBufferType.h">
       <Filter>Library\ObjectGL\Core\FrameBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="DepthMapBaker.h">
-      <Filter>Library\Engine\Core\Shadow</Filter>
-    </ClInclude>
     <ClInclude Include="MaterialRenderType.h">
       <Filter>Library\Engine\Core\Material</Filter>
     </ClInclude>
@@ -1186,6 +1183,9 @@
     </ClInclude>
     <ClInclude Include="DepthBakingCamera.h">
       <Filter>Library\Engine\Core\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="DepthBaker.h">
+      <Filter>Library\Engine\Core\Shadow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

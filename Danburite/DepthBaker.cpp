@@ -1,4 +1,4 @@
-#include "DepthMapBaker.h"
+#include "DepthBaker.h"
 #include "Constant.h"
 #include "GLFunctionWrapper.h"
 
@@ -7,7 +7,7 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	DepthMapBaker::DepthMapBaker() :
+	DepthBaker::DepthBaker() :
 		__pFrameBuffer(make_unique<FrameBuffer>()),
 		__pDepthAttachment(make_unique<AttachableTexture>())
 	{
@@ -22,8 +22,11 @@ namespace Danburite
 		setResolution(Constant::Shadow::DEFAULT_MAP_WIDTH, Constant::Shadow::DEFAULT_MAP_HEIGHT);
 	}
 
-	void DepthMapBaker::setResolution(const GLsizei width, const GLsizei height) noexcept
+	void DepthBaker::setResolution(const GLsizei width, const GLsizei height) noexcept
 	{
+		__mapWidth = width;
+		__mapHeight = height;
+
 		__pDepthAttachment->memoryAlloc(
 			width, height,
 			TextureInternalFormatType::DEPTH_COMPONENT, TextureExternalFormatType::DEPTH_COMPONENT,
@@ -32,16 +35,27 @@ namespace Danburite
 		__pFrameBuffer->attach(AttachmentType::DEPTH_ATTACHMENT, *__pDepthAttachment);
 	}
 
-	void DepthMapBaker::startBaking() noexcept
+	void DepthBaker::setScreenSize(const GLsizei width, const GLsizei height) noexcept
+	{
+		__scrWidth = width;
+		__scrHeight = height;
+	}
+
+	void DepthBaker::bind() noexcept
 	{
 		glViewport(0, 0, __mapWidth, __mapHeight);
-
 		__pFrameBuffer->bind();
-
 	}
 
-	void DepthMapBaker::endBaking() noexcept
+	void DepthBaker::unbind() noexcept
 	{
 		FrameBuffer::unbind();
+		glViewport(0, 0, __scrWidth, __scrHeight);
 	}
+
+	AttachableTexture &DepthBaker::getDepthAttachment() const noexcept
+	{
+		return *__pDepthAttachment;
+	}
+
 }

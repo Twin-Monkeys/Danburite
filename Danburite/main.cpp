@@ -26,7 +26,7 @@ int APIENTRY _tWinMain(const HINSTANCE hInstance, HINSTANCE, LPTSTR, int)
 		make_unique<RenderingContext>(*pDeviceContext, pixelFormatDesc, attributeDesc);
 
 	pRenderingContext->bind();
-	GLFunctionWrapper::setVerticalSync(false);
+	GLFunctionWrapper::setVerticalSync(true);
 
 	//// Scene »ý¼º ////
 	shared_ptr<ScreenEventHandler> pScene = make_shared<ShadowTestScene>();
