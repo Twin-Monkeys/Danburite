@@ -10,7 +10,7 @@ namespace Danburite
 		std::vector<std::weak_ptr<PostProcessor>> __pipeline;
 
 	public:
-		void addProcessor(const std::weak_ptr<PostProcessor> &pProcessor) noexcept;
+		void appendProcessor(const std::weak_ptr<PostProcessor> &pProcessor) noexcept;
 		void setScreenSize(const GLsizei width, const GLsizei height) noexcept;
 
 		void bind() noexcept;

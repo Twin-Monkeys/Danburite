@@ -36,12 +36,14 @@ LightTestScene::LightTestScene()
 	Program &silhouetteProgram = programFactory.getProgram(ProgramType::SILHOUETTE);
 	Program &outlineProgram = programFactory.getProgram(ProgramType::OUTLINE);
 	Program &skyboxProgram = programFactory.getProgram(ProgramType::SKYBOX);
+	Program &convProgram = programFactory.getProgram(ProgramType::POST_PROCESS_CONVOLUTIONAL);
 
 
 	//// Uniform Buffer 생성 ////
 
 	__pUBLight = make_shared<UniformBuffer>("UBLight", ShaderIdentifier::Value::UniformBlockBindingPoint::LIGHT);
 	__pUBLight->registerProgram(phongProgram);
+	__pUBLight->enableZeroInit(true);
 
 	__pUBCamera = make_shared<UniformBuffer>("UBCamera", ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA);
 	__pUBCamera->registerProgram(monoColorProgram);
@@ -49,6 +51,10 @@ LightTestScene::LightTestScene()
 	__pUBCamera->registerProgram(silhouetteProgram);
 	__pUBCamera->registerProgram(outlineProgram);
 	__pUBCamera->registerProgram(skyboxProgram);
+
+	__pUBConv = make_shared<UniformBuffer>("UBConvolution", ShaderIdentifier::Value::UniformBlockBindingPoint::CONVOLUTION);
+	__pUBConv->registerProgram(convProgram);
+	__pUBConv->enableZeroInit(true);
 
 
 	//// Rendering unit 생성 ////
@@ -188,6 +194,15 @@ LightTestScene::LightTestScene()
 	__pSkybox = make_shared<CubeSkybox>();
 	__pSkybox->setAlbedoTexture(pSkyboxAlbedoTex);
 
+	__pGrayscalePP = make_shared<GrayscalePostProcessor>();
+
+	__pConvPP = make_shared<ConvolutionalPostProcessor>(*__pUBConv);
+	__pConvPP->setKernel(Constant::Convolutional::edgeDetectingKernel3x3, 3U);
+
+	__pPPP = make_shared<PostProcessingPipeline>();
+	__pPPP->appendProcessor(__pGrayscalePP);
+	__pPPP->appendProcessor(__pConvPP);
+
 
 	//// Deployer / Updater 초기화 ////
 
@@ -259,15 +274,19 @@ void LightTestScene::draw() noexcept
 	__pUBCamera->batchDeploy();
 	__pLightDeployer->batchDeploy();
 
+	__pPPP->bind();
 	GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH_STENCIL);
 
 	__pDrawer->batchDraw();
 
 	// 배경은 불투명한 물체가 모두 그려진 뒤 그림. (frag shader running 최소화)
-	__pSkybox->draw();
+	// __pSkybox->draw();
 
 	// 반투명한 물체들은 불투명한 물체(배경 포함)를 그린 이후에 그려야 함.
-	__pCubeRU->draw();
+	//__pCubeRU->draw();
+
+	PostProcessingPipeline::unbind();
+	__pPPP->render();
 
 	RenderingContext::requestBufferSwapping();
 }
@@ -305,6 +324,7 @@ void LightTestScene::onResize(const int width, const int height) noexcept
 
 	glViewport(0, 0, width, height);
 	__pCamera->setAspectRatio(width, height);
+	__pPPP->setScreenSize(width, height);
 }
 
 void LightTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcept

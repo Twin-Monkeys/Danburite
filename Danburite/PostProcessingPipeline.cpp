@@ -4,7 +4,7 @@ using namespace std;
 
 namespace Danburite
 {
-	void PostProcessingPipeline::addProcessor(const weak_ptr<PostProcessor> &pProcessor) noexcept
+	void PostProcessingPipeline::appendProcessor(const weak_ptr<PostProcessor> &pProcessor) noexcept
 	{
 		__pipeline.emplace_back(pProcessor);
 	}

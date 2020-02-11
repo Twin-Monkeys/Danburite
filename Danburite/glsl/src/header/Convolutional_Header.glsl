@@ -19,10 +19,10 @@ layout(binding = BINDING_POINT_CONVOLUTION) uniform UBConvolution
 
 vec4 Convolutional_convolve(sampler2D tex, const vec2 texCoord)
 {
-	const int NUM_KERNEL_ELEMS = int(convolution.kernelSize * convolution.kernelSize);
-
 	const int KERNEL_SIZE = int(convolution.kernelSize);
 	const int KERNEL_SIZE_HALF = (KERNEL_SIZE / 2);
+
+	const int NUM_KERNEL_ELEMS = (KERNEL_SIZE * KERNEL_SIZE);
 
 	vec3 retVal = vec3(0.f);
 	for (int i = 0; i < NUM_KERNEL_ELEMS; i++)

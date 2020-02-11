@@ -12,6 +12,9 @@
 #include "Updater.h"
 #include "Drawer.h"
 #include "CubeSkybox.h"
+#include "GrayscalePostProcessor.h"
+#include "ConvolutionalPostProcessor.h"
+#include "PostProcessingPipeline.h"
 
 class LightTestScene : public Danburite::Scene, public ObjectGL::ScreenEventHandler
 {
@@ -20,6 +23,7 @@ private:
 
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBLight;
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBCamera;
+	std::shared_ptr<ObjectGL::UniformBuffer> __pUBConv;
 
 	std::shared_ptr<Danburite::RenderingUnit> __pTerrainRU;
 	std::shared_ptr<Danburite::RenderingUnit> __pNanosuitRU;
@@ -38,6 +42,10 @@ private:
 	std::shared_ptr<Danburite::SimpleCamera> __pCamera;
 
 	std::shared_ptr<Danburite::CubeSkybox> __pSkybox;
+
+	std::shared_ptr<Danburite::GrayscalePostProcessor> __pGrayscalePP;
+	std::shared_ptr<Danburite::ConvolutionalPostProcessor> __pConvPP;
+	std::shared_ptr<Danburite::PostProcessingPipeline> __pPPP;
 
 	std::shared_ptr<Danburite::LightDeployer> __pLightDeployer;
 	std::shared_ptr<Danburite::Updater> __pUpdater;

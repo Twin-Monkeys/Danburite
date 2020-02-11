@@ -243,8 +243,8 @@ SpaceScene::SpaceScene()
 	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>(*__pUBGammaCorrection);
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
-	__pPPPipeline->addProcessor(__pMSAAPP);
-	__pPPPipeline->addProcessor(__pGammaCorrectionPP);
+	__pPPPipeline->appendProcessor(__pMSAAPP);
+	__pPPPipeline->appendProcessor(__pGammaCorrectionPP);
 
 	// Matarial 
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
