@@ -19,13 +19,6 @@ layout(binding = BINDING_POINT_CONVOLUTION) uniform UBConvolution
 
 vec4 Convolutional_convolve(sampler2D tex, const vec2 texCoord)
 {
-	const float edgeDetectingKernel3x3[] =
-		{
-			1.f, 1.f, 1.f,
-			1.f, -8.f, 1.f,
-			1.f, 1.f, 1.f
-		};
-
 	const int KERNEL_SIZE = int(convolution.kernelSize);
 	const int KERNEL_SIZE_HALF = (KERNEL_SIZE / 2);
 
@@ -40,8 +33,8 @@ vec4 Convolutional_convolve(sampler2D tex, const vec2 texCoord)
 		const float T_OFFSET =
 		(((i / KERNEL_SIZE) - KERNEL_SIZE_HALF) * convolution.samplingOffset);
 
-		vec3 pixel = texture(tex, texCoord + vec2(S_OFFSET, T_OFFSET)).rgb;
-		retVal += (pixel * edgeDetectingKernel3x3[i]);
+		vec3 pixel = texture(tex, texCoord + vec2(S_OFFSET, -T_OFFSET)).rgb;
+		retVal += (pixel * convolution.kernel[i]);
 	}
 
 	return vec4(retVal, texture(tex, texCoord).a);
