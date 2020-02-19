@@ -164,7 +164,7 @@ namespace Danburite
 			namespace Convolutional
 			{
 				constexpr GLuint
-					MAX_KERNEL_SIZE = 11U;
+					MAX_KERNEL_SIZE = 7U;
 			}
 
 			namespace Cubemap

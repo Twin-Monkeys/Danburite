@@ -197,7 +197,7 @@ LightTestScene::LightTestScene()
 	__pGrayscalePP = make_shared<GrayscalePostProcessor>();
 
 	__pConvPP = make_shared<ConvolutionalPostProcessor>(*__pUBConv);
-	__pConvPP->setKernel(Constant::Convolutional::edgeDetectingKernel3x3, 3U);
+	__pConvPP->setKernel(Constant::Convolutional::sharpenKernel3x3, 3U);
 
 	__pPPP = make_shared<PostProcessingPipeline>();
 	__pPPP->appendProcessor(__pGrayscalePP);

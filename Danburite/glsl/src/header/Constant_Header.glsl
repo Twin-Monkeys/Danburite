@@ -64,7 +64,7 @@ const uint
 
 // Convolution //
 
-const uint MAX_KERNEL_SIZE = 11U;
+const uint MAX_KERNEL_SIZE = 7U;
 
 
 // MSAA //

@@ -9,13 +9,20 @@ struct Convolution
 {
 	float samplingOffset;
 	uint kernelSize;
-	float kernel[MAX_KERNEL_SIZE * MAX_KERNEL_SIZE];
+
+	// Rounding up to the base alignment of a vec4
+	vec4 kernel[((MAX_KERNEL_SIZE * MAX_KERNEL_SIZE) + (4U - ((MAX_KERNEL_SIZE * MAX_KERNEL_SIZE) % 4U))) / 4U];
 };
 
-layout(binding = BINDING_POINT_CONVOLUTION) uniform UBConvolution
+layout(std140, binding = BINDING_POINT_CONVOLUTION) uniform UBConvolution
 {
 	Convolution convolution;
 };
+
+float Convolutional_getKernelValue(const int index)
+{
+	return convolution.kernel[index / 4][index % 4];
+}
 
 vec4 Convolutional_convolve(sampler2D tex, const vec2 texCoord)
 {
@@ -34,7 +41,7 @@ vec4 Convolutional_convolve(sampler2D tex, const vec2 texCoord)
 		(((i / KERNEL_SIZE) - KERNEL_SIZE_HALF) * convolution.samplingOffset);
 
 		vec3 pixel = texture(tex, texCoord + vec2(S_OFFSET, -T_OFFSET)).rgb;
-		retVal += (pixel * convolution.kernel[i]);
+		retVal += (pixel * Convolutional_getKernelValue(i));
 	}
 
 	return vec4(retVal, texture(tex, texCoord).a);
