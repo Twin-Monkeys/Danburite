@@ -10,7 +10,7 @@ namespace ObjectGL
 	class TextureBase abstract : public Object<GLuint>
 	{
 	private:
-		bool __handleCreated = false;
+		GLuint64 __handle {};
 
 		TextureBase(const TextureBase &) = delete;
 		TextureBase& operator=(const TextureBase &) = delete;
@@ -37,7 +37,11 @@ namespace ObjectGL
 		template <typename T, size_t arrSize>
 		void setStates(const TextureParamType paramType, const T(&values)[arrSize]) noexcept;
 
-		GLuint64 getHandle() noexcept;
+		GLuint64 createHandle(const bool residence = true) noexcept;
+		GLuint64 getHandle() const noexcept;
+
+		void reside() noexcept;
+		void unreside() noexcept;
 
 		virtual ~TextureBase() noexcept;
 
@@ -72,9 +76,10 @@ namespace ObjectGL
 			IS_GL_TEX_PARAM_VALUE_TYPE,
 			"The type parameter must be one of [GLfloat, GLint, GLuint] or its compatible types");
 
-		const GLenum GL_TEX_PARAM_TYPE = GLenum(paramType);
-
+		assert(!__handle);
 		_bindID();
+
+		const GLenum GL_TEX_PARAM_TYPE = GLenum(paramType);
 
 		if constexpr (is_same_v<T, GLfloat>)
 			glTexParameterfv(_RAW_TYPE, GL_TEX_PARAM_TYPE, values);

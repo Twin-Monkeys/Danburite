@@ -57,5 +57,4 @@ namespace Danburite
 	{
 		return *__pDepthAttachment;
 	}
-
 }
