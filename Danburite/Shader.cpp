@@ -1,11 +1,12 @@
 #include "Shader.h"
+#include <cassert>
 
 namespace ObjectGL
 {
 	Shader::Shader(const GLuint id) noexcept :
 		Object(id)
 	{
-		AssertException::test(id);
+		assert(id);
 	}
 
 	void Shader::__release() noexcept

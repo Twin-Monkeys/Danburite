@@ -1,6 +1,7 @@
 #pragma warning(disable: 4312 26451)
 
 #include "VertexArray.h"
+#include <cassert>
 
 using namespace std;
 
@@ -127,7 +128,7 @@ namespace ObjectGL
 
 	void VertexArray::addVertexBuffer(const shared_ptr<VertexBuffer> &pVertexBuffer) noexcept
 	{
-		AssertException::test(pVertexBuffer);
+		assert(pVertexBuffer);
 
 		__vertexBuffersHolder.emplace(pVertexBuffer);
 

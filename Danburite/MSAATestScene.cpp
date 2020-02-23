@@ -34,7 +34,7 @@ MSAATestScene::MSAATestScene()
 
 	//// Rendering unit 持失 ////
 
-	RenderingUnitManager &ruManager = RenderingUnitManager::getInstance();
+	RenderUnitManager &ruManager = RenderUnitManager::getInstance();
 	VertexArrayFactory& vaFactory = VertexArrayFactory::getInstance();
 
 	const shared_ptr<VertexArray>& pCubeVA =
@@ -46,7 +46,7 @@ MSAATestScene::MSAATestScene()
 	pCubeMaterial->setColor({ 0.f, 1.f, 0.f, 1.f });
 
 	unique_ptr<Mesh> pMesh = make_unique<Mesh>(pCubeVA, pCubeMaterial);
-	__pCubeRU = ruManager.createRenderingUnit(move(pMesh));
+	__pCubeRU = ruManager.createRenderUnit(move(pMesh));
 
 
 	//// 朝五虞 持失 ////

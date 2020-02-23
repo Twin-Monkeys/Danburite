@@ -20,7 +20,7 @@ namespace Danburite
 			std::unordered_map<std::string, std::shared_ptr<ObjectGL::Texture2D>> &textureCache,
 			const aiMaterial *const pMaterial, const aiTextureType textureType);
 
-		static std::shared_ptr<RenderingUnit> __parse(
+		static std::shared_ptr<RenderUnit> __parse(
 			const std::string &parentPath,
 			const aiNode *const pNode,
 			const aiScene *const pScene,
@@ -30,10 +30,10 @@ namespace Danburite
 			std::unordered_map<std::string, std::shared_ptr<ObjectGL::Texture2D>> &textureCache);
 
 	public:
-		static std::shared_ptr<RenderingUnit> import(
+		static std::shared_ptr<RenderUnit> import(
 			const std::string_view &assetPath,
 			const glm::mat4 &transformation = Constant::Matrix::IDENTITY_MATRIX,
 			const MaterialType materialType = MaterialType::PHONG,
-			const std::string &unitName = RenderingUnitManager::AUTO_MAPPED_NAME);
+			const std::string &unitName = RenderUnitManager::AUTO_MAPPED_NAME);
 	};
 }

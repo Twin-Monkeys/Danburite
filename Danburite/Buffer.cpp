@@ -1,5 +1,6 @@
 #include "Buffer.h"
 #include <algorithm>
+#include <cassert>
 
 using namespace std;
 
@@ -61,7 +62,7 @@ namespace ObjectGL
 
 	void Buffer::memoryCopy(const void *const pData, const GLintptr offset, const GLsizeiptr size) noexcept
 	{
-		AssertException::test(isMemoryAllocated());
+		assert(isMemoryAllocated());
 
 		bind();
 		glBufferSubData(__RAW_TYPE, offset, size, pData);
@@ -86,7 +87,7 @@ namespace ObjectGL
 
 	void Buffer::memorySet(const uint8_t value) noexcept
 	{
-		AssertException::test(isMemoryAllocated());
+		assert(isMemoryAllocated());
 
 		memset(mapHostInterface(BufferAccessType::WRITE_ONLY), 0, __memSize);
 		unmapHostInterface();

@@ -23,7 +23,7 @@
     <ProjectGuid>{8FDCDE28-C10D-48DB-AA99-4EB23CD794F7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Danburite</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -43,12 +43,12 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -188,7 +188,6 @@
     <ClCompile Include="OutliningPhongMaterial.cpp" />
     <ClCompile Include="PhongMaterialComponent.cpp" />
     <ClCompile Include="PhongMaterial.cpp" />
-    <ClCompile Include="AssertException.cpp" />
     <ClCompile Include="AssetImporter.cpp" />
     <ClCompile Include="AssetImporterException.cpp" />
     <ClCompile Include="AttenuatedLightComponent.cpp" />
@@ -321,7 +320,6 @@
     <ClInclude Include="OutliningMaterialComponent.h" />
     <ClInclude Include="OutliningPhongMaterial.h" />
     <ClInclude Include="PhongMaterial.h" />
-    <ClInclude Include="AssertException.h" />
     <ClInclude Include="AssetImporter.h" />
     <ClInclude Include="AssetImporterException.h" />
     <ClInclude Include="Cache.h" />

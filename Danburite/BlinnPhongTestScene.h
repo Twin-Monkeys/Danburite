@@ -20,7 +20,7 @@ private:
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBCamera;
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBGammaCorrection;
 
-	std::shared_ptr<Danburite::RenderingUnit> __pFloorRU;
+	std::shared_ptr<Danburite::RenderUnit> __pFloorRU;
 	std::shared_ptr<Danburite::SimpleCamera> __pCamera;
 
 	std::array<std::shared_ptr<Danburite::PointLight>, 4> __arrPointLight;

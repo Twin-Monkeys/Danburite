@@ -1,11 +1,8 @@
 #pragma once
 
-#include <unordered_map>
-#include "ProgramType.h"
 #include <string>
+#include "ProgramType.h"
 #include "ProgramPathType.h"
-#include "AssertException.h"
-#include <array>
 
 namespace Danburite
 {

@@ -2,7 +2,6 @@
 
 #include "Object.h"
 #include <memory>
-#include "AssertException.h"
 
 namespace ObjectGL
 {

@@ -47,7 +47,7 @@ GeometryTestScene::GeometryTestScene()
 
 	//// Rendering unit »ý¼º ////
 
-	RenderingUnitManager &ruManager = RenderingUnitManager::getInstance();
+	RenderUnitManager &ruManager = RenderUnitManager::getInstance();
 
 	__pCubeRU = AssetImporter::import(
 		"res/asset/nanosuit/nanosuit.obj", Constant::Matrix::IDENTITY_MATRIX, MaterialType::EXPLODING_PHONG);

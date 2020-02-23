@@ -21,7 +21,7 @@ private:
 
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBCamera;
 
-	std::shared_ptr<Danburite::RenderingUnit> __pCubeRU;
+	std::shared_ptr<Danburite::RenderUnit> __pCubeRU;
 	std::shared_ptr<Danburite::SimpleCamera> __pCamera;
 
 	std::shared_ptr<Danburite::Updater> __pUpdater;

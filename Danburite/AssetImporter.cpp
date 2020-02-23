@@ -51,11 +51,11 @@ namespace Danburite
 		return pRetVal;
 	}
 
-	shared_ptr<RenderingUnit> AssetImporter::__parse(
+	shared_ptr<RenderUnit> AssetImporter::__parse(
 		const string &parentPath, const aiNode *const pNode, const aiScene* const pScene,
 		const mat3 &vertexMatrix, const mat3 &normalMatrix, const MaterialType materialType, unordered_map<string, shared_ptr<Texture2D>> &textureCache)
 	{
-		RenderingUnitManager &renderingUnitMgr = RenderingUnitManager::getInstance();
+		RenderUnitManager &renderingUnitMgr = RenderUnitManager::getInstance();
 		const aiMesh *const *const pAiMeshes = pScene->mMeshes;
 		const aiMaterial *const *const pAiMaterials = pScene->mMaterials;
 
@@ -291,10 +291,10 @@ namespace Danburite
 			meshes.emplace(move(pMesh));
 		}
 
-		return renderingUnitMgr.createRenderingUnit(move(meshes));
+		return renderingUnitMgr.createRenderUnit(move(meshes));
 	}
 
-	shared_ptr<RenderingUnit> AssetImporter::import(
+	shared_ptr<RenderUnit> AssetImporter::import(
 		const string_view &assetPath,
 		const mat4 &transformation,
 		const MaterialType materialType,
@@ -315,16 +315,16 @@ namespace Danburite
 		const mat3 normalMatrix = transpose(inverse(vertexMatrix));
 
 		// <parent(unit), child(node)> pair stack
-		stack<pair<const shared_ptr<RenderingUnit>, const aiNode *>> nodeStack;
+		stack<pair<const shared_ptr<RenderUnit>, const aiNode *>> nodeStack;
 		nodeStack.emplace(nullptr, pScene->mRootNode);
 
-		shared_ptr<RenderingUnit> retVal = nullptr;
+		shared_ptr<RenderUnit> retVal = nullptr;
 		while (!nodeStack.empty())
 		{
 			const auto [pParent, pChild] = nodeStack.top();
 			nodeStack.pop();
 
-			const shared_ptr<RenderingUnit> &pParsedChild = __parse(
+			const shared_ptr<RenderUnit> &pParsedChild = __parse(
 				parentPath, pChild, pScene, vertexMatrix, normalMatrix, materialType, textureCache);
 
 			if (!pParent)

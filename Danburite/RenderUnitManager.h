@@ -4,17 +4,17 @@
 
 namespace Danburite
 {
-	class RenderingUnitManager
+	class RenderUnitManager
 	{
-		friend RenderingUnit;
+		friend RenderUnit;
 
 	private:
 		size_t __unitCount = 0;
-		std::unordered_map<std::string, std::shared_ptr<RenderingUnit>> __renderingUnitMap;
+		std::unordered_map<std::string, std::shared_ptr<RenderUnit>> __renderUnitMap;
 
-		RenderingUnitManager() = default;
-		RenderingUnitManager(const RenderingUnitManager &) = delete;
-		RenderingUnitManager& operator=(const RenderingUnitManager &) = delete;
+		RenderUnitManager() = default;
+		RenderUnitManager(const RenderUnitManager &) = delete;
+		RenderUnitManager& operator=(const RenderUnitManager &) = delete;
 
 		std::string __buildAutoRenderingUnitName() const noexcept;
 
@@ -24,15 +24,15 @@ namespace Danburite
 	public:
 		static inline const std::string AUTO_MAPPED_NAME = "";
 
-		std::shared_ptr<RenderingUnit> createRenderingUnit(
+		std::shared_ptr<RenderUnit> createRenderUnit(
 			std::unique_ptr<Mesh> pMesh, const std::string &unitName = AUTO_MAPPED_NAME);
 
-		std::shared_ptr<RenderingUnit> createRenderingUnit(
+		std::shared_ptr<RenderUnit> createRenderUnit(
 			std::unordered_set<std::unique_ptr<Mesh>> &&meshes, const std::string &unitName = AUTO_MAPPED_NAME);
 
-		std::shared_ptr<RenderingUnit> getRenderingUnit(const std::string &name) const noexcept;
-		virtual ~RenderingUnitManager() = default;
+		std::shared_ptr<RenderUnit> getRenderUnit(const std::string &name) const noexcept;
+		virtual ~RenderUnitManager() = default;
 
-		static RenderingUnitManager &getInstance() noexcept;
+		static RenderUnitManager &getInstance() noexcept;
 	};
 }

@@ -48,7 +48,7 @@ ShadowTestScene::ShadowTestScene()
 
 	//// Rendering unit »ý¼º ////
 
-	RenderingUnitManager &ruManager = RenderingUnitManager::getInstance();
+	RenderUnitManager &ruManager = RenderUnitManager::getInstance();
 	VertexArrayFactory& vaFactory = VertexArrayFactory::getInstance();
 
 	const shared_ptr<VertexArray> &pFloorVA =
@@ -65,7 +65,7 @@ ShadowTestScene::ShadowTestScene()
 	pFloorMaterial->setDiffuseTexture(pWoodTexture);
 
 	unique_ptr<Mesh> pFloorMesh = make_unique<Mesh>(pFloorVA, pFloorMaterial);
-	__pFloorRU = ruManager.createRenderingUnit(move(pFloorMesh));
+	__pFloorRU = ruManager.createRenderUnit(move(pFloorMesh));
 
 	Transform &floorTransform = __pFloorRU->getTransform();
 	floorTransform.setScale(20.f);
@@ -80,7 +80,7 @@ ShadowTestScene::ShadowTestScene()
 	pCubeMaterial->setDiffuseTexture(pWoodTexture);
 
 	unique_ptr<Mesh> pCubeMesh = make_unique<Mesh>(pCubeVA, pCubeMaterial);
-	__pCubeRU = ruManager.createRenderingUnit(move(pCubeMesh));
+	__pCubeRU = ruManager.createRenderUnit(move(pCubeMesh));
 	__pCubeRU->setNumInstances(3);
 
 	Transform &cube1Transform = __pCubeRU->getTransform(0);

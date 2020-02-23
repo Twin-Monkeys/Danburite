@@ -1,4 +1,5 @@
 #include "VertexAttributeDescriptorFactory.h"
+#include <cassert>
 
 using namespace std;
 using namespace ObjectGL;
@@ -29,6 +30,7 @@ namespace Danburite
 			return { 4, ElementType::FLOAT };
 		}
 
-		throw AssertException();
+		assert(false);
+		return { 2, ElementType::FLOAT };
 	}
 }

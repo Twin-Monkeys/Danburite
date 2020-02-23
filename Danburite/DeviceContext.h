@@ -2,7 +2,6 @@
 
 #include <Windows.h>
 #include "DCException.h"
-#include "AssertException.h"
 
 namespace ObjectGL
 {

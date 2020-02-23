@@ -2,6 +2,7 @@
 
 #include "FrameBuffer.h"
 #include "AttachableTexture.h"
+#include <memory>
 
 namespace Danburite
 {

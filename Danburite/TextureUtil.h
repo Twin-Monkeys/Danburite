@@ -4,6 +4,7 @@
 #include "TextureCubemap.h"
 #include "TextureUtilException.h"
 #include <vector>
+#include <memory>
 
 namespace Danburite
 {

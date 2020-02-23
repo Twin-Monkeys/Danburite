@@ -5,7 +5,7 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	string RenderingUnitManager::__buildAutoRenderingUnitName() const noexcept
+	string RenderUnitManager::__buildAutoRenderingUnitName() const noexcept
 	{
 		string retVal = "obj";
 		retVal += to_string(__unitCount);
@@ -13,52 +13,53 @@ namespace Danburite
 		return retVal;
 	}
 
-	void RenderingUnitManager::_updateRenderingUnitName(const string &oldName, const string &newName) noexcept
+	void RenderUnitManager::_updateRenderingUnitName(const string &oldName, const string &newName) noexcept
 	{
-		__renderingUnitMap.extract(oldName).key() = newName;
+		__renderUnitMap.extract(oldName).key() = newName;
 	}
 
-	shared_ptr<RenderingUnit> RenderingUnitManager::createRenderingUnit(unique_ptr<Mesh> pMesh, const string &unitName)
+	shared_ptr<RenderUnit> RenderUnitManager::createRenderUnit(unique_ptr<Mesh> pMesh, const string &unitName)
 	{
 		string validName = unitName;
 		if (validName == AUTO_MAPPED_NAME)
 			validName = __buildAutoRenderingUnitName();
 
-		const shared_ptr<RenderingUnit> pRetVal =
-			shared_ptr<RenderingUnit>(new RenderingUnit(*this, move(pMesh), validName));
+		const shared_ptr<RenderUnit> pRetVal =
+			shared_ptr<RenderUnit>(new RenderUnit(*this, move(pMesh), validName));
 
-		__renderingUnitMap.emplace(validName, pRetVal);
+		__renderUnitMap.emplace(validName, pRetVal);
 		__unitCount++;
 
 		return pRetVal;
 	}
 
-	shared_ptr<RenderingUnit> RenderingUnitManager::createRenderingUnit(unordered_set<unique_ptr<Mesh>> &&meshes, const string &unitName)
+	shared_ptr<RenderUnit> RenderUnitManager::createRenderUnit(unordered_set<unique_ptr<Mesh>> &&meshes, const string &unitName)
 	{
 		string validName = unitName;
 		if (validName == AUTO_MAPPED_NAME)
 			validName = __buildAutoRenderingUnitName();
 
-		const shared_ptr<RenderingUnit> pRetVal =
-			shared_ptr<RenderingUnit>(new RenderingUnit(*this, move(meshes), validName));
+		const shared_ptr<RenderUnit> pRetVal =
+			shared_ptr<RenderUnit>(new RenderUnit(*this, move(meshes), validName));
 
-		__renderingUnitMap.emplace(validName, pRetVal);
+		__renderUnitMap.emplace(validName, pRetVal);
 		__unitCount++;
 
 		return pRetVal;
 	}
 
-	shared_ptr<RenderingUnit> RenderingUnitManager::getRenderingUnit(const string &name) const noexcept
+	shared_ptr<RenderUnit> RenderUnitManager::getRenderUnit(const string &name) const noexcept
 	{
-		auto result = __renderingUnitMap.find(name);
-		AssertException::test(result != __renderingUnitMap.end());
+		auto result = __renderUnitMap.find(name);
+		assert(result != __renderUnitMap.end());
 
 		return result->second;
 	}
 
-	RenderingUnitManager &RenderingUnitManager::getInstance() noexcept
+
+	RenderUnitManager &RenderUnitManager::getInstance() noexcept
 	{
-		static RenderingUnitManager instance;
+		static RenderUnitManager instance;
 		return instance;
 	}
 }

@@ -25,16 +25,16 @@ private:
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBCamera;
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBGammaCorrection;
 
-	std::shared_ptr<Danburite::RenderingUnit> __pNanosuitRU;
-	std::shared_ptr<Danburite::RenderingUnit> __pStarshipRU;
-	std::shared_ptr<Danburite::RenderingUnit> __pHalconRU;
+	std::shared_ptr<Danburite::RenderUnit> __pNanosuitRU;
+	std::shared_ptr<Danburite::RenderUnit> __pStarshipRU;
+	std::shared_ptr<Danburite::RenderUnit> __pHalconRU;
 
-	std::shared_ptr<Danburite::RenderingUnit> __pMercuryRU;
-	std::shared_ptr<Danburite::RenderingUnit> __pJupiterRU;
-	std::shared_ptr<Danburite::RenderingUnit> __pVenusRU;
+	std::shared_ptr<Danburite::RenderUnit> __pMercuryRU;
+	std::shared_ptr<Danburite::RenderUnit> __pJupiterRU;
+	std::shared_ptr<Danburite::RenderUnit> __pVenusRU;
 
 	static inline constexpr size_t NUM_FIGHTERS = 100;
-	std::shared_ptr<Danburite::RenderingUnit> __pFighterRU;
+	std::shared_ptr<Danburite::RenderUnit> __pFighterRU;
 	std::array<glm::vec3, NUM_FIGHTERS> __arrFighterRUDirection;
 
 	std::shared_ptr<Danburite::DirectionalLight> __pDirectionalLight;

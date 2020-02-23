@@ -22,8 +22,8 @@ private:
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBCamera;
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBGammaCorrection;
 
-	std::shared_ptr<Danburite::RenderingUnit> __pFloorRU;
-	std::shared_ptr<Danburite::RenderingUnit> __pCubeRU;
+	std::shared_ptr<Danburite::RenderUnit> __pFloorRU;
+	std::shared_ptr<Danburite::RenderUnit> __pCubeRU;
 
 	std::shared_ptr<Danburite::SimpleCamera> __pMainCamera;
 	std::shared_ptr<Danburite::DepthBakingCamera> __pDepthBakingCamera;

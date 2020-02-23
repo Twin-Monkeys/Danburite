@@ -8,8 +8,8 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	RenderingUnit::RenderingUnit(
-		RenderingUnitManager &manager, unique_ptr<Mesh> pMesh, const string_view &unitName) noexcept :
+	RenderUnit::RenderUnit(
+		RenderUnitManager &manager, unique_ptr<Mesh> pMesh, const string_view &unitName) noexcept :
 		__manager(manager), __name(unitName)
 	{
 		const shared_ptr<VertexBuffer> &pModelMatrixBuffer = reinterpret_pointer_cast<ObjectGL::VertexBuffer>(__pModelMatrixBuffer);
@@ -18,8 +18,8 @@ namespace Danburite
 		__meshes.emplace(move(pMesh));
 	}
 
-	RenderingUnit::RenderingUnit(
-		RenderingUnitManager &manager, unordered_set<unique_ptr<Mesh>> &&meshes, const string_view &unitName) noexcept :
+	RenderUnit::RenderUnit(
+		RenderUnitManager &manager, unordered_set<unique_ptr<Mesh>> &&meshes, const string_view &unitName) noexcept :
 		__manager(manager), __name(unitName)
 	{
 		const shared_ptr<VertexBuffer> &pModelMatrixBuffer = reinterpret_pointer_cast<ObjectGL::VertexBuffer>(__pModelMatrixBuffer);
@@ -30,12 +30,12 @@ namespace Danburite
 		__meshes.swap(meshes);
 	}
 
-	const string &RenderingUnit::getName() const noexcept
+	const string &RenderUnit::getName() const noexcept
 	{
 		return __name;
 	}
 
-	bool RenderingUnit::setName(const string &name) noexcept
+	bool RenderUnit::setName(const string &name) noexcept
 	{
 		if (name.empty() || (__name == name))
 			return false;
@@ -46,47 +46,47 @@ namespace Danburite
 		return true;
 	}
 
-	size_t RenderingUnit::getNumInstances() const noexcept
+	size_t RenderUnit::getNumInstances() const noexcept
 	{
 		return __pModelMatrixBuffer->getNumInstances();
 	}
 
-	Transform &RenderingUnit::getTransform(const size_t idx) const noexcept
+	Transform &RenderUnit::getTransform(const size_t idx) const noexcept
 	{
 		return __pModelMatrixBuffer->getTransform(idx);
 	}
 
-	void RenderingUnit::setNumInstances(const GLsizei numInstances) noexcept
+	void RenderUnit::setNumInstances(const GLsizei numInstances) noexcept
 	{
 		__pModelMatrixBuffer->setNumInstances(numInstances);
-		__children.safeTraverse(&RenderingUnit::setNumInstances, numInstances);
+		__children.safeTraverse(&RenderUnit::setNumInstances, numInstances);
 	}
 
-	void RenderingUnit::addChild(const weak_ptr<RenderingUnit> &pChild) noexcept
+	void RenderUnit::addChild(const weak_ptr<RenderUnit> &pChild) noexcept
 	{
 		__children.add(pChild);
 	}
 
-	void RenderingUnit::clearChildren() noexcept
+	void RenderUnit::clearChildren() noexcept
 	{
 		__children.clear();
 	}
 
-	void RenderingUnit::update() noexcept
+	void RenderUnit::update() noexcept
 	{
 		__pModelMatrixBuffer->update();
-		__children.safeTraverse<void (RenderingUnit::*)(const vector<mat4> &)>
-			(&RenderingUnit::update, __pModelMatrixBuffer->getModelMatrices());
+		__children.safeTraverse<void (RenderUnit::*)(const vector<mat4> &)>
+			(&RenderUnit::update, __pModelMatrixBuffer->getModelMatrices());
 	}
 
-	void RenderingUnit::update(const vector<mat4> &parentModelMatrices) noexcept
+	void RenderUnit::update(const vector<mat4> &parentModelMatrices) noexcept
 	{
 		__pModelMatrixBuffer->update(parentModelMatrices);
-		__children.safeTraverse<void (RenderingUnit::*)(const vector<mat4> &)>
-			(&RenderingUnit::update, __pModelMatrixBuffer->getModelMatrices());
+		__children.safeTraverse<void (RenderUnit::*)(const vector<mat4> &)>
+			(&RenderUnit::update, __pModelMatrixBuffer->getModelMatrices());
 	}
 
-	void RenderingUnit::draw() noexcept
+	void RenderUnit::draw() noexcept
 	{
 		__pModelMatrixBuffer->selfDeploy();
 
@@ -94,6 +94,6 @@ namespace Danburite
 		for (const unique_ptr<Mesh> &pMesh : __meshes)
 			pMesh->draw(GLsizei(NUM_INSTANCES));
 
-		__children.safeTraverse(&RenderingUnit::draw);
+		__children.safeTraverse(&RenderUnit::draw);
 	}
 }

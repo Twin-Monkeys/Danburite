@@ -5,7 +5,6 @@
 #include "BufferUpdatePatternType.h"
 #include <vector>
 #include "BufferException.h"
-#include "AssertException.h"
 #include "BufferAccessType.h"
 
 namespace ObjectGL

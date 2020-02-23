@@ -8,30 +8,30 @@
 
 namespace Danburite
 {
-	class RenderingUnitManager;
+	class RenderUnitManager;
 
-	class RenderingUnit : public Updatable, public Drawable
+	class RenderUnit : public Updatable, public Drawable
 	{
-		friend RenderingUnitManager;
+		friend RenderUnitManager;
 
 	private:
-		RenderingUnitManager &__manager;
+		RenderUnitManager &__manager;
 		std::unordered_set<std::unique_ptr<Mesh>> __meshes;
 
 		std::string __name;
 
-		ObjectGL::WeakPointerContainer<RenderingUnit> __children;
+		ObjectGL::WeakPointerContainer<RenderUnit> __children;
 		std::shared_ptr<ModelMatrixBuffer> __pModelMatrixBuffer = std::make_shared<ModelMatrixBuffer>();
 
-		RenderingUnit(const RenderingUnit &) = delete;
-		RenderingUnit& operator=(const RenderingUnit &) = delete;
+		RenderUnit(const RenderUnit &) = delete;
+		RenderUnit& operator=(const RenderUnit &) = delete;
 
 	protected:
-		RenderingUnit(
-			RenderingUnitManager &manager, std::unique_ptr<Mesh> pMesh, const std::string_view &unitName) noexcept;
+		RenderUnit(
+			RenderUnitManager &manager, std::unique_ptr<Mesh> pMesh, const std::string_view &unitName) noexcept;
 
-		RenderingUnit(
-			RenderingUnitManager &manager, std::unordered_set<std::unique_ptr<Mesh>> &&meshes, const std::string_view &unitName) noexcept;
+		RenderUnit(
+			RenderUnitManager &manager, std::unordered_set<std::unique_ptr<Mesh>> &&meshes, const std::string_view &unitName) noexcept;
 
 	public:
 		const std::string &getName() const noexcept;
@@ -42,7 +42,7 @@ namespace Danburite
 
 		void setNumInstances(const GLsizei numInstances) noexcept;
 
-		void addChild(const std::weak_ptr<RenderingUnit> &pChild) noexcept;
+		void addChild(const std::weak_ptr<RenderUnit> &pChild) noexcept;
 		void clearChildren() noexcept;
 
 		virtual void update() noexcept override;
@@ -53,11 +53,11 @@ namespace Danburite
 		template <typename MaterialType, typename FunctionType, typename ...Args>
 		void traverseMaterial(const FunctionType function, Args &&...args);
 
-		virtual ~RenderingUnit() = default;
+		virtual ~RenderUnit() = default;
 	};
 
 	template <typename MaterialType, typename FunctionType, typename ...Args>
-	void RenderingUnit::traverseMaterial(const FunctionType function, Args &&...args)
+	void RenderUnit::traverseMaterial(const FunctionType function, Args &&...args)
 	{
 		using namespace std;
 
@@ -73,7 +73,7 @@ namespace Danburite
 		}
 
 		__children.safeTraverse(
-			&RenderingUnit::traverseMaterial<MaterialType, FunctionType, Args...>,
+			&RenderUnit::traverseMaterial<MaterialType, FunctionType, Args...>,
 			function, std::forward<Args>(args)...);
 	}
 }

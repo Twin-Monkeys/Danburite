@@ -44,7 +44,7 @@ BlinnPhongTestScene::BlinnPhongTestScene()
 
 	//// Rendering unit »ý¼º ////
 
-	RenderingUnitManager &ruManager = RenderingUnitManager::getInstance();
+	RenderUnitManager &ruManager = RenderUnitManager::getInstance();
 	VertexArrayFactory& vaFactory = VertexArrayFactory::getInstance();
 
 	const shared_ptr<VertexArray> &pFloorVA =
@@ -61,7 +61,7 @@ BlinnPhongTestScene::BlinnPhongTestScene()
 	pFloorMaterial->setDiffuseTexture(pFloorTexture);
 
 	unique_ptr<Mesh> pMesh = make_unique<Mesh>(pFloorVA, pFloorMaterial);
-	__pFloorRU = ruManager.createRenderingUnit(move(pMesh));
+	__pFloorRU = ruManager.createRenderUnit(move(pMesh));
 
 	Transform &floorTransform = __pFloorRU->getTransform();
 	floorTransform.setScale(20.f);

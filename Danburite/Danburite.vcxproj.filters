@@ -55,9 +55,6 @@
     <Filter Include="Library\ObjectGL\Base\Object">
       <UniqueIdentifier>{8fe84b50-0461-4618-bcdb-62aa9e688012}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Library\ObjectGL\Base\Exception">
-      <UniqueIdentifier>{4616167d-c102-4c66-9e4c-5a0cf919a263}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library\ObjectGL\Window\DeviceContext">
       <UniqueIdentifier>{8af7c764-79c7-4f07-9927-a8562daeda3e}</UniqueIdentifier>
     </Filter>
@@ -561,9 +558,6 @@
     <ClCompile Include="FrameBuffer.cpp">
       <Filter>Library\ObjectGL\Core\FrameBuffer</Filter>
     </ClCompile>
-    <ClCompile Include="AssertException.cpp">
-      <Filter>Library\ObjectGL\Base\Exception</Filter>
-    </ClCompile>
     <ClCompile Include="RenderBufferException.cpp">
       <Filter>Library\ObjectGL\Core\RenderBuffer</Filter>
     </ClCompile>
@@ -1003,9 +997,6 @@
     </ClInclude>
     <ClInclude Include="FrameBufferException.h">
       <Filter>Library\ObjectGL\Core\FrameBuffer</Filter>
-    </ClInclude>
-    <ClInclude Include="AssertException.h">
-      <Filter>Library\ObjectGL\Base\Exception</Filter>
     </ClInclude>
     <ClInclude Include="FrameBufferStatusType.h">
       <Filter>Library\ObjectGL\Core\FrameBuffer</Filter>

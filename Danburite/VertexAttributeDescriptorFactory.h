@@ -3,7 +3,6 @@
 #include "VertexAttribute.h"
 #include "VertexAttributeDescriptorType.h"
 #include "Cache.h"
-#include "AssertException.h"
 
 namespace Danburite
 {

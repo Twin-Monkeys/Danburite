@@ -4,7 +4,6 @@
 #include "UniformDeployer.h"
 #include "Shader.h"
 #include "ProgramException.h"
-#include "AssertException.h"
 #include "Cache.h"
 #include <unordered_set>
 

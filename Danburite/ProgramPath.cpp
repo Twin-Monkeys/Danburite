@@ -1,9 +1,10 @@
 #pragma warning(disable: 6011)
 
 #include "ProgramPath.h"
+#include <unordered_map>
+#include <array>
 
 using namespace std;
-using namespace ObjectGL;
 
 namespace Danburite
 {

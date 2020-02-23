@@ -4,7 +4,6 @@
 #include "PixelFormatDescriptor.h"
 #include "RCAttributeDescriptor.h"
 #include "RCException.h"
-#include "AssertException.h"
 
 namespace ObjectGL
 {

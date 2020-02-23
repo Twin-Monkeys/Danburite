@@ -2,7 +2,6 @@
 
 #include "UniformSetter.h"
 #include "Cache.h"
-#include "AssertException.h"
 
 namespace Danburite
 {

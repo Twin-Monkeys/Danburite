@@ -59,7 +59,7 @@ LightTestScene::LightTestScene()
 
 	//// Rendering unit »ý¼º ////
 
-	RenderingUnitManager &ruManager = RenderingUnitManager::getInstance();
+	RenderUnitManager &ruManager = RenderUnitManager::getInstance();
 
 	const mat4 rotationMat = rotate(-half_pi<float>(), vec3 { 1.f, 0.f, 0.f });
 
@@ -108,7 +108,7 @@ LightTestScene::LightTestScene()
 	pCubeMaterial->setDiffuseTexture(pCubeTexture);
 
 	unique_ptr<Mesh> pMesh = make_unique<Mesh>(pCubeVA, pCubeMaterial);
-	__pCubeRU = ruManager.createRenderingUnit(move(pMesh));
+	__pCubeRU = ruManager.createRenderUnit(move(pMesh));
 	Transform &cubeTransform = __pCubeRU->getTransform();
 	cubeTransform.setScale(3.f);
 	cubeTransform.setPosition(-13.f, 7.f, -13.f);
