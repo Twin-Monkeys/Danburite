@@ -74,12 +74,6 @@ namespace Danburite
 		return *__programCache.getValue(type);
 	}
 
-	ProgramFactory &ProgramFactory::getInstance() noexcept
-	{
-		static ProgramFactory instance;
-		return instance;
-	}
-
 	shared_ptr<Program> ProgramFactory::ProgramCache::_onProvideValue(const ProgramType &key)
 	{
 		return shared_ptr<Program>(__createProgram(key));

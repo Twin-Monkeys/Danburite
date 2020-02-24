@@ -3,11 +3,14 @@
 #include "Program.h"
 #include "ProgramType.h"
 #include "Cache.h"
+#include "RenderContext.h"
 
 namespace Danburite
 {
-	class ProgramFactory
+	class ProgramFactory : public ObjectGL::ContextDependentSingleton<ProgramFactory>
 	{
+		friend ObjectGL::ContextDependentSingleton<ProgramFactory>;
+
 	private:
 		class ProgramCache : public ObjectGL::Cache<ProgramType, std::shared_ptr<ObjectGL::Program>>
 		{
@@ -23,7 +26,5 @@ namespace Danburite
 
 	public:
 		ObjectGL::Program &getProgram(const ProgramType type);
-
-		static ProgramFactory &getInstance() noexcept;
 	};
 }

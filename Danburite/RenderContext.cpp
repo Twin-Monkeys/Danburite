@@ -92,26 +92,27 @@ namespace ObjectGL
 
 	RenderContext::~RenderContext() noexcept
 	{
-		__release();
-
 		for (const auto &onDestroyListener : __onDestroyListeners)
 			onDestroyListener(this);
+
+		__release();
 	}
 
 	void RenderContext::requestBufferSwapping() noexcept
 	{
+		assert(__pCurrent);
 		__pCurrent->__deviceContext.swapBuffers();
 	}
 
 	void RenderContext::requestScreenClose() noexcept
 	{
+		assert(__pCurrent);
 		__pCurrent->__deviceContext.requestScreenClose();
 	}
 
 	void RenderContext::unbind() noexcept
 	{
-		if (!__pCurrent)
-			return;
+		assert(__pCurrent);
 
 		const BOOL result = wglMakeCurrent(__pCurrent->__deviceContext, nullptr);
 		assert(result);

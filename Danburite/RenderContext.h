@@ -13,7 +13,7 @@ namespace ObjectGL
 	class RenderContext;
 
 	template <typename T>
-	class RenderContextListener abstract
+	class ContextDependentSingleton abstract
 	{
 		friend RenderContext;
 
@@ -69,19 +69,19 @@ namespace ObjectGL
 		static constexpr RenderContext *getCurrent() noexcept;
 
 		template <typename T>
-		static void registerContextDependentFactory() noexcept;
+		static void registerContextDependentSingleton() noexcept;
 	};
 
 	template <typename T>
 	std::unordered_map<
-		const RenderContext *, std::unique_ptr<T>> &RenderContextListener<T>::__getInstanceMap() noexcept
+		const RenderContext *, std::unique_ptr<T>> &ContextDependentSingleton<T>::__getInstanceMap() noexcept
 	{
 		static std::unordered_map<const RenderContext *, std::unique_ptr<T>> instanceMap;
 		return instanceMap;
 	}
 
 	template <typename T>
-	void RenderContextListener<T>::__contextInit(const RenderContext* const pRenderContext) noexcept
+	void ContextDependentSingleton<T>::__contextInit(const RenderContext* const pRenderContext) noexcept
 	{
 		auto &instanceMap = __getInstanceMap();
 		auto result = instanceMap.emplace(pRenderContext, new T {});
@@ -90,7 +90,7 @@ namespace ObjectGL
 	}
 
 	template <typename T>
-	void RenderContextListener<T>::__contextDestroy(const RenderContext* const pRenderContext) noexcept
+	void ContextDependentSingleton<T>::__contextDestroy(const RenderContext* const pRenderContext) noexcept
 	{
 		auto &instanceMap = __getInstanceMap();
 		const size_t result = instanceMap.erase(pRenderContext);
@@ -99,7 +99,7 @@ namespace ObjectGL
 	}
 
 	template <typename T>
-	T &RenderContextListener<T>::getInstance() noexcept
+	T &ContextDependentSingleton<T>::getInstance() noexcept
 	{
 		return *(__getInstanceMap().at(RenderContext::getCurrent()));
 	}
@@ -110,9 +110,9 @@ namespace ObjectGL
 	}
 
 	template <typename T>
-	void RenderContext::registerContextDependentFactory() noexcept
+	void RenderContext::registerContextDependentSingleton() noexcept
 	{
-		__onCreateListeners.emplace(RenderContextListener<T>::__contextInit);
-		__onDestroyListeners.emplace(RenderContextListener<T>::__contextDestroy);
+		__onCreateListeners.emplace(ContextDependentSingleton<T>::__contextInit);
+		__onDestroyListeners.emplace(ContextDependentSingleton<T>::__contextDestroy);
 	}
 }

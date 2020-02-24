@@ -55,11 +55,4 @@ namespace Danburite
 
 		return result->second;
 	}
-
-
-	RenderUnitManager &RenderUnitManager::getInstance() noexcept
-	{
-		static RenderUnitManager instance;
-		return instance;
-	}
 }

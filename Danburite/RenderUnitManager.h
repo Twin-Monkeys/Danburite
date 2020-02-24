@@ -1,11 +1,13 @@
 #pragma once
 
+#include "RenderContext.h"
 #include "RenderUnit.h"
 
 namespace Danburite
 {
-	class RenderUnitManager
+	class RenderUnitManager : public ObjectGL::ContextDependentSingleton<RenderUnitManager>
 	{
+		friend ObjectGL::ContextDependentSingleton<RenderUnitManager>;
 		friend RenderUnit;
 
 	private:
@@ -32,7 +34,5 @@ namespace Danburite
 
 		std::shared_ptr<RenderUnit> getRenderUnit(const std::string &name) const noexcept;
 		virtual ~RenderUnitManager() = default;
-
-		static RenderUnitManager &getInstance() noexcept;
 	};
 }

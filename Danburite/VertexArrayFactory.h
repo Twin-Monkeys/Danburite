@@ -8,9 +8,9 @@
 
 namespace Danburite
 {
-	class VertexArrayFactory : public ObjectGL::RenderContextListener<VertexArrayFactory>
+	class VertexArrayFactory : public ObjectGL::ContextDependentSingleton<VertexArrayFactory>
 	{
-		friend ObjectGL::RenderContextListener<VertexArrayFactory>;
+		friend ObjectGL::ContextDependentSingleton<VertexArrayFactory>;
 
 	private:
 		class RectangleCache : public ObjectGL::Cache<VertexAttributeType, std::shared_ptr<ObjectGL::VertexArray>>

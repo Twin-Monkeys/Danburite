@@ -2,11 +2,11 @@
 #include "DeviceContext.h"
 #include "RenderContext.h"
 #include "GLFunctionWrapper.h"
+#include "RCDSRegisterer.h"
 #include "BlinnPhongTestScene.h"
 #include "LightTestScene.h"
 #include "SpaceScene.h"
 #include "ShadowTestScene.h"
-#include "VertexArrayFactory.h"
 
 using namespace std;
 using namespace Danburite;
@@ -24,7 +24,7 @@ int APIENTRY _tWinMain(const HINSTANCE hInstance, HINSTANCE, LPTSTR, int)
 	const PixelFormatDescriptor pixelFormatDesc {};
 	const RCAttributeDescriptor attributeDesc {};
 
-	RenderContext::registerContextDependentFactory<VertexArrayFactory>();
+	RCDSRegisterer::batchRegister();
 
 	unique_ptr<RenderContext> pRenderContext =
 		make_unique<RenderContext>(*pDeviceContext, pixelFormatDesc, attributeDesc);

@@ -167,6 +167,7 @@
     <ClCompile Include="DepthBakingCamera.cpp" />
     <ClCompile Include="DepthBaker.cpp" />
     <ClCompile Include="GammaCorrectionPostProcessor.cpp" />
+    <ClCompile Include="RCDSRegisterer.cpp" />
     <ClCompile Include="ShadowTestScene.cpp" />
     <ClCompile Include="SpaceScene.cpp" />
     <ClCompile Include="GeometryTestScene.cpp" />
@@ -295,6 +296,7 @@
     <ClInclude Include="DepthBaker.h" />
     <ClInclude Include="GammaCorrectionPostProcessor.h" />
     <ClInclude Include="MaterialRenderType.h" />
+    <ClInclude Include="RCDSRegisterer.h" />
     <ClInclude Include="ShadowTestScene.h" />
     <ClInclude Include="SpaceScene.h" />
     <ClInclude Include="GeometryTestScene.h" />
