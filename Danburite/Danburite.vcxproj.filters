@@ -61,9 +61,6 @@
     <Filter Include="Library\ObjectGL\Window\PixelFormatDescriptor">
       <UniqueIdentifier>{f95c1a72-7bc6-43ea-936d-7f013a24d382}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Library\ObjectGL\Window\RenderingContext">
-      <UniqueIdentifier>{c18b8a4f-b1c9-40c7-b61a-0113e3c34791}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library\Engine\Resource">
       <UniqueIdentifier>{ecef40ee-d93f-4cab-8b2f-136c6a28ff1f}</UniqueIdentifier>
     </Filter>
@@ -334,6 +331,9 @@
     <Filter Include="Library\Engine\glsl\src\DepthBaking">
       <UniqueIdentifier>{1ec03cb1-c1b1-4011-a6e0-17b22f064259}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library\ObjectGL\Window\RenderContext">
+      <UniqueIdentifier>{c18b8a4f-b1c9-40c7-b61a-0113e3c34791}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Buffer.cpp">
@@ -364,13 +364,10 @@
       <Filter>Library\ObjectGL\Window\PixelFormatDescriptor</Filter>
     </ClCompile>
     <ClCompile Include="RCAttributeDescriptor.cpp">
-      <Filter>Library\ObjectGL\Window\RenderingContext</Filter>
+      <Filter>Library\ObjectGL\Window\RenderContext</Filter>
     </ClCompile>
     <ClCompile Include="RCException.cpp">
-      <Filter>Library\ObjectGL\Window\RenderingContext</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderingContext.cpp">
-      <Filter>Library\ObjectGL\Window\RenderingContext</Filter>
+      <Filter>Library\ObjectGL\Window\RenderContext</Filter>
     </ClCompile>
     <ClCompile Include="stb_image.cpp">
       <Filter>Library\ThirdParty</Filter>
@@ -493,7 +490,7 @@
       <Filter>Library\Engine\Util\AssetImporter</Filter>
     </ClCompile>
     <ClCompile Include="GLProfileFlag.cpp">
-      <Filter>Library\ObjectGL\Window\RenderingContext</Filter>
+      <Filter>Library\ObjectGL\Window\RenderContext</Filter>
     </ClCompile>
     <ClCompile Include="VertexAttributeListFactory.cpp">
       <Filter>Library\Engine\Core\VertexAttribute</Filter>
@@ -687,6 +684,9 @@
     <ClCompile Include="DepthBaker.cpp">
       <Filter>Library\Engine\Core\Shadow</Filter>
     </ClCompile>
+    <ClCompile Include="RenderContext.cpp">
+      <Filter>Library\ObjectGL\Window\RenderContext</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">
@@ -695,11 +695,8 @@
     <ClInclude Include="PFDBufferType.h">
       <Filter>Library\ObjectGL\Window\PixelFormatDescriptor</Filter>
     </ClInclude>
-    <ClInclude Include="RenderingContext.h">
-      <Filter>Library\ObjectGL\Window\RenderingContext</Filter>
-    </ClInclude>
     <ClInclude Include="RCException.h">
-      <Filter>Library\ObjectGL\Window\RenderingContext</Filter>
+      <Filter>Library\ObjectGL\Window\RenderContext</Filter>
     </ClInclude>
     <ClInclude Include="BufferException.h">
       <Filter>Library\ObjectGL\Core\Buffer</Filter>
@@ -714,7 +711,7 @@
       <Filter>Library\ObjectGL\Core\Program</Filter>
     </ClInclude>
     <ClInclude Include="RCAttributeDescriptor.h">
-      <Filter>Library\ObjectGL\Window\RenderingContext</Filter>
+      <Filter>Library\ObjectGL\Window\RenderContext</Filter>
     </ClInclude>
     <ClInclude Include="TextureException.h">
       <Filter>Library\ObjectGL\Core\Texture</Filter>
@@ -780,7 +777,7 @@
       <Filter>Library\ObjectGL\Core\Buffer</Filter>
     </ClInclude>
     <ClInclude Include="GLProfileFlag.h">
-      <Filter>Library\ObjectGL\Window\RenderingContext</Filter>
+      <Filter>Library\ObjectGL\Window\RenderContext</Filter>
     </ClInclude>
     <ClInclude Include="IndexType.h">
       <Filter>Library\ObjectGL\Core\Buffer\IndexBuffer</Filter>
@@ -1177,6 +1174,9 @@
     </ClInclude>
     <ClInclude Include="DepthBaker.h">
       <Filter>Library\Engine\Core\Shadow</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderContext.h">
+      <Filter>Library\ObjectGL\Window\RenderContext</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

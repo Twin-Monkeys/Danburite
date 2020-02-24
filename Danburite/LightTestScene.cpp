@@ -2,7 +2,7 @@
 #include "ProgramFactory.h"
 #include "VertexAttributeListFactory.h"
 #include "RenderUnitManager.h"
-#include "RenderingContext.h"
+#include "RenderContext.h"
 #include "AssetImporter.h"
 #include <glm/gtx/rotate_vector.hpp>
 #include "GLFunctionWrapper.h"
@@ -237,7 +237,7 @@ void LightTestScene::__keyFunc(const float deltaTime) noexcept
 {
 	const bool ESC = (GetAsyncKeyState(VK_ESCAPE) & 0x8000);
 	if (ESC)
-		RenderingContext::requestScreenClose();
+		RenderContext::requestScreenClose();
 
 	constexpr float MOVE_SPEED_FACTOR = .013f;
 	const float MOVE_SPEED = (MOVE_SPEED_FACTOR * deltaTime);
@@ -288,7 +288,7 @@ void LightTestScene::draw() noexcept
 	PostProcessingPipeline::unbind();
 	__pPPP->render();
 
-	RenderingContext::requestBufferSwapping();
+	RenderContext::requestBufferSwapping();
 }
 
 void LightTestScene::delta(const float deltaTime) noexcept

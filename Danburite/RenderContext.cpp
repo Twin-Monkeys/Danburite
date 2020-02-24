@@ -1,13 +1,14 @@
-#include "RenderingContext.h"
+#include "RenderContext.h"
 #include "DeviceContext.h"
 #include <algorithm>
+#include <cassert>
 
 using namespace std;
 using namespace ObjectGL;
 
 namespace ObjectGL
 {
-	HGLRC RenderingContext::__createRC(
+	HGLRC RenderContext::__createRC(
 		DeviceContext &deviceContext,
 		const PixelFormatDescriptor &pixelFormatDesc, const RCAttributeDescriptor &desc)
 	{
@@ -21,13 +22,16 @@ namespace ObjectGL
 		return retVal;
 	}
 
-	RenderingContext::RenderingContext(
+	RenderContext::RenderContext(
 		DeviceContext &deviceContext,
 		const PixelFormatDescriptor &pixelFormatDesc, const RCAttributeDescriptor &desc) :
 		BindableObject(__createRC(deviceContext, pixelFormatDesc, desc)), __deviceContext(deviceContext)
-	{}
+	{
+		for (const auto &onCreateListener : __onCreateListeners)
+			onCreateListener(this);
+	}
 
-	void RenderingContext::__validate(DeviceContext &deviceContext)
+	void RenderContext::__validate(DeviceContext &deviceContext)
 	{
 		if (__glInitialized)
 			return;
@@ -36,18 +40,22 @@ namespace ObjectGL
 		if (!hTmpRC)
 			throw RCException("Cannot initialize the device");
 
-		wglMakeCurrent(deviceContext, hTmpRC);
+		BOOL result = wglMakeCurrent(deviceContext, hTmpRC);
+		assert(result);
 
 		if (glewInit() != GLEW_OK)
 			throw RCException("Cannot initialize the device");
 
-		wglMakeCurrent(deviceContext, nullptr);
-		wglDeleteContext(hTmpRC);
+		result = wglMakeCurrent(deviceContext, nullptr);
+		assert(result);
+
+		result = wglDeleteContext(hTmpRC);
+		assert(result);
 
 		__glInitialized = true;
 	}
 
-	void RenderingContext::__setPixelFormat(const HDC hDC, const PIXELFORMATDESCRIPTOR &descRaw)
+	void RenderContext::__setPixelFormat(const HDC hDC, const PIXELFORMATDESCRIPTOR &descRaw)
 	{
 		/*
 			Warning:
@@ -68,38 +76,46 @@ namespace ObjectGL
 			throw RCException("Cannot deploy the pixel format");
 	}
 
-	void RenderingContext::__release() noexcept
+	void RenderContext::__release() noexcept
 	{
-		wglDeleteContext(ID);
+		const BOOL result = wglDeleteContext(ID);
+		assert(result);
 	}
 
-	void RenderingContext::_onBind() noexcept
+	void RenderContext::_onBind() noexcept
 	{
-		wglMakeCurrent(__deviceContext, ID);
+		const BOOL result = wglMakeCurrent(__deviceContext, ID);
+		assert(result);
+
 		__pCurrent = this;
 	}
 
-	RenderingContext::~RenderingContext() noexcept
+	RenderContext::~RenderContext() noexcept
 	{
 		__release();
+
+		for (const auto &onDestroyListener : __onDestroyListeners)
+			onDestroyListener(this);
 	}
 
-	void RenderingContext::requestBufferSwapping() noexcept
+	void RenderContext::requestBufferSwapping() noexcept
 	{
 		__pCurrent->__deviceContext.swapBuffers();
 	}
 
-	void RenderingContext::requestScreenClose() noexcept
+	void RenderContext::requestScreenClose() noexcept
 	{
 		__pCurrent->__deviceContext.requestScreenClose();
 	}
 
-	void RenderingContext::unbind() noexcept
+	void RenderContext::unbind() noexcept
 	{
 		if (!__pCurrent)
 			return;
 
-		wglMakeCurrent(__pCurrent->__deviceContext, nullptr);
+		const BOOL result = wglMakeCurrent(__pCurrent->__deviceContext, nullptr);
+		assert(result);
+
 		__pCurrent = nullptr;
 		_unbind();
 	}

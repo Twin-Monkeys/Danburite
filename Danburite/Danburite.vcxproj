@@ -256,7 +256,7 @@
     <ClCompile Include="ProgramException.cpp" />
     <ClCompile Include="RCAttributeDescriptor.cpp" />
     <ClCompile Include="RCException.cpp" />
-    <ClCompile Include="RenderingContext.cpp" />
+    <ClCompile Include="RenderContext.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderCompilerException.cpp" />
     <ClCompile Include="SimpleCamera.cpp" />
@@ -410,7 +410,7 @@
     <ClInclude Include="ProgramException.h" />
     <ClInclude Include="RCAttributeDescriptor.h" />
     <ClInclude Include="RCException.h" />
-    <ClInclude Include="RenderingContext.h" />
+    <ClInclude Include="RenderContext.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderCompilerException.h" />
     <ClInclude Include="SimpleCamera.h" />

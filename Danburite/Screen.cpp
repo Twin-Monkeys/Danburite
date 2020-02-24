@@ -1,6 +1,6 @@
 #include "Screen.h"
 #include "DeviceContext.h"
-#include "RenderingContext.h"
+#include "RenderContext.h"
 
 using namespace std;
 

@@ -1,11 +1,12 @@
 #include "Win32Screen.h"
 #include "DeviceContext.h"
-#include "RenderingContext.h"
+#include "RenderContext.h"
 #include "GLFunctionWrapper.h"
 #include "BlinnPhongTestScene.h"
 #include "LightTestScene.h"
 #include "SpaceScene.h"
 #include "ShadowTestScene.h"
+#include "VertexArrayFactory.h"
 
 using namespace std;
 using namespace Danburite;
@@ -23,10 +24,12 @@ int APIENTRY _tWinMain(const HINSTANCE hInstance, HINSTANCE, LPTSTR, int)
 	const PixelFormatDescriptor pixelFormatDesc {};
 	const RCAttributeDescriptor attributeDesc {};
 
-	unique_ptr<RenderingContext> pRenderingContext =
-		make_unique<RenderingContext>(*pDeviceContext, pixelFormatDesc, attributeDesc);
+	RenderContext::registerContextDependentFactory<VertexArrayFactory>();
 
-	pRenderingContext->bind();
+	unique_ptr<RenderContext> pRenderContext =
+		make_unique<RenderContext>(*pDeviceContext, pixelFormatDesc, attributeDesc);
+
+	pRenderContext->bind();
 	GLFunctionWrapper::setVerticalSync(true);
 
 	//// Scene 积己 ////
@@ -40,7 +43,7 @@ int APIENTRY _tWinMain(const HINSTANCE hInstance, HINSTANCE, LPTSTR, int)
 
 	// 府家胶 馆券
 	pScene.reset();
-	pRenderingContext.reset();
+	pRenderContext.reset();
 	pDeviceContext.reset();
 	pScreen.reset();
 

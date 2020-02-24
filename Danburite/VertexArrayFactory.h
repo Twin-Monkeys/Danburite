@@ -4,11 +4,14 @@
 #include "ShapeType.h"
 #include "VertexAttributeType.h"
 #include "Cache.h"
+#include "RenderContext.h"
 
 namespace Danburite
 {
-	class VertexArrayFactory
+	class VertexArrayFactory : public ObjectGL::RenderContextListener<VertexArrayFactory>
 	{
+		friend ObjectGL::RenderContextListener<VertexArrayFactory>;
+
 	private:
 		class RectangleCache : public ObjectGL::Cache<VertexAttributeType, std::shared_ptr<ObjectGL::VertexArray>>
 		{
@@ -36,8 +39,7 @@ namespace Danburite
 		VertexArrayFactory(VertexArrayFactory &&) = delete;
 
 	public:
-		std::shared_ptr<ObjectGL::VertexArray> getVertexArray(const ShapeType shapeType, const VertexAttributeType vertexType);
-
-		static VertexArrayFactory &getInstance() noexcept;
+		std::shared_ptr<ObjectGL::VertexArray>
+			getVertexArray(const ShapeType shapeType, const VertexAttributeType vertexType);
 	};
 }

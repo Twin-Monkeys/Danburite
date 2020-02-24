@@ -1,8 +1,6 @@
 #include "Scene.h"
-#include "RenderingContext.h"
 
 using namespace std;
-using namespace ObjectGL;
 
 namespace Danburite
 {

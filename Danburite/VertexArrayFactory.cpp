@@ -1,6 +1,7 @@
 #include "VertexArrayFactory.h"
 #include <glm/glm.hpp>
 #include "VertexAttributeListFactory.h"
+#include "RenderContext.h"
 
 using namespace std;
 using namespace glm;
@@ -11,12 +12,6 @@ namespace Danburite
 	shared_ptr<VertexArray> VertexArrayFactory::getVertexArray(const ShapeType shapeType, const VertexAttributeType vertexType)
 	{
 		return __cacheCache.getValue(shapeType)->getValue(vertexType);
-	}
-
-	VertexArrayFactory &VertexArrayFactory::getInstance() noexcept
-	{
-		static VertexArrayFactory instance;
-		return instance;
 	}
 
 	shared_ptr<VertexArray> VertexArrayFactory::RectangleCache::_onProvideValue(const VertexAttributeType &key)

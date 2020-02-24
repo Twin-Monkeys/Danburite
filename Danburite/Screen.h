@@ -8,7 +8,7 @@
 
 namespace ObjectGL
 {
-	class RenderingContext;
+	class RenderContext;
 
 	class Screen abstract
 	{

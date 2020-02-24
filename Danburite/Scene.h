@@ -1,7 +1,5 @@
 #pragma once
 
-#include "FrameBufferBlitFlag.h"
-
 namespace Danburite
 {
 	class Scene abstract

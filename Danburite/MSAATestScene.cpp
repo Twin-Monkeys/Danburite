@@ -2,7 +2,7 @@
 #include "ProgramFactory.h"
 #include "VertexAttributeListFactory.h"
 #include "RenderUnitManager.h"
-#include "RenderingContext.h"
+#include "RenderContext.h"
 #include "AssetImporter.h"
 #include "GLFunctionWrapper.h"
 #include "VertexArrayFactory.h"
@@ -80,7 +80,7 @@ void MSAATestScene::__keyFunc(const float deltaTime) noexcept
 {
 	const bool ESC = (GetAsyncKeyState(VK_ESCAPE) & 0x8000);
 	if (ESC)
-		RenderingContext::requestScreenClose();
+		RenderContext::requestScreenClose();
 
 	float accel = 1.f;
 	const bool SHIFT = (GetAsyncKeyState(VK_SHIFT) & 0x8000);
@@ -129,7 +129,7 @@ void MSAATestScene::draw() noexcept
 
 	__pMSAAPP->render();
 
-	RenderingContext::requestBufferSwapping();
+	RenderContext::requestBufferSwapping();
 }
 
 void MSAATestScene::delta(const float deltaTime) noexcept
