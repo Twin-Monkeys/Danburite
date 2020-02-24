@@ -16,7 +16,7 @@ namespace ObjectGL
 	class GLFunctionWrapper abstract final
 	{
 	public:
-		static bool setVerticalSync(const bool enabled) noexcept;
+		static void setVerticalSync(const bool enabled) noexcept;
 		static void setOption(const GLOptionType optionType, const bool enabled) noexcept;
 		static void setClearColor(const float r, const float g, const float b) noexcept;
 		static void setClearColor(const glm::vec3 &color) noexcept;

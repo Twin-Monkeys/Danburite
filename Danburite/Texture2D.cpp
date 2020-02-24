@@ -23,8 +23,9 @@ namespace ObjectGL
 		assert(glGetError() == GL_NO_ERROR);
 
 		if (mipmapCreation)
+		{
 			glGenerateMipmap(_RAW_TYPE);
-
-		assert(glGetError() == GL_NO_ERROR);
+			assert(glGetError() == GL_NO_ERROR);
+		}
 	}
 }

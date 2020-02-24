@@ -18,23 +18,35 @@ namespace ObjectGL
 
 	void Screen::show() noexcept
 	{
+		/*
+			ShowWindow shows (or hides) a window in a certain manner.
+			For example, the function can minimize, maximize, or restore a given window.
+			
+			The function returns 0 if the window had been hidden before the call,
+			Or a non-zero value if it had been visible.
+		*/
 		ShowWindow(*this, SW_SHOWDEFAULT);
-		UpdateWindow(*this);
+
+		const BOOL result = UpdateWindow(*this);
+		assert(result);
 	}
 
 	void Screen::close() noexcept
 	{
-		DestroyWindow(*this);
+		const BOOL result = DestroyWindow(*this);
+		assert(result);
 	}
 
 	void Screen::invalidate() noexcept
 	{
-		InvalidateRect(*this, nullptr, false);
+		const BOOL result = InvalidateRect(*this, nullptr, false);
+		assert(result);
 	}
 
 	void Screen::validate() noexcept
 	{
-		ValidateRect(*this, nullptr);
+		const BOOL result = ValidateRect(*this, nullptr);
+		assert(result);
 	}
 
 	Screen::operator HWND() noexcept

@@ -10,6 +10,7 @@ namespace ObjectGL
 		Buffer(BufferType::UNIFORM), __blockName(blockName), __bindingPoint(bindingPoint)
 	{
 		glBindBufferBase(__RAW_TYPE, __bindingPoint, ID);
+		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	GLint UniformBuffer::_getBlockElementOffset(const std::string &name) noexcept
@@ -45,6 +46,7 @@ namespace ObjectGL
 
 		GLint blockSize;
 		glGetActiveUniformBlockiv(program.ID, BLOCK_IDX, GL_UNIFORM_BLOCK_DATA_SIZE, &blockSize);
+		assert(glGetError() == GL_NO_ERROR);
 
 		__blockSizeSorter.emplace(blockSize, &program);
 		return true;

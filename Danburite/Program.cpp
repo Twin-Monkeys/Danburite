@@ -15,11 +15,13 @@ namespace ObjectGL
 		if (!ID)
 			throw ProgramException("Cannot create program");
 
-		for (const shared_ptr<Shader> &pShader : shaders)
+		for (const shared_ptr<Shader>& pShader : shaders)
+		{
 			glAttachShader(ID, pShader->ID);
+			assert(glGetError() == GL_NO_ERROR);
+		}
 
 		glLinkProgram(ID);
-
 		__linkingCheck();
 	}
 
@@ -37,7 +39,6 @@ namespace ObjectGL
 		constexpr size_t OFFSET = sizeof(GLenum);
 
 		glProgramBinary(ID, BINARY_FORMAT, rawPtr + OFFSET, GLsizei(binary.size() - OFFSET));
-
 		__linkingCheck();
 	}
 
@@ -61,6 +62,7 @@ namespace ObjectGL
 	void Program::__release() noexcept
 	{
 		glDeleteProgram(ID);
+		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	GLint Program::__getUniformLocation(const string &name) noexcept
@@ -71,6 +73,7 @@ namespace ObjectGL
 	void Program::_onBind() noexcept
 	{
 		glUseProgram(ID);
+		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	GLint Program::getAttributeLocation(const string &name) noexcept
@@ -101,6 +104,7 @@ namespace ObjectGL
 
 		bind();
 		glUniform1i(LOCATION, value);
+		assert(glGetError() == GL_NO_ERROR);
 		return true;
 	}
 
@@ -112,6 +116,7 @@ namespace ObjectGL
 
 		bind();
 		glUniform1ui(LOCATION, value);
+		assert(glGetError() == GL_NO_ERROR);
 		return true;
 	}
 
@@ -124,6 +129,7 @@ namespace ObjectGL
 
 		bind();
 		glUniform1fv(LOCATION, numElements, pValues);
+		assert(glGetError() == GL_NO_ERROR);
 		return true;
 	}
 
@@ -135,6 +141,7 @@ namespace ObjectGL
 
 		bind();
 		glUniform3fv(LOCATION, 1, pValues);
+		assert(glGetError() == GL_NO_ERROR);
 		return true;
 	}
 
@@ -146,6 +153,7 @@ namespace ObjectGL
 
 		bind();
 		glUniform4fv(LOCATION, 1, pValues);
+		assert(glGetError() == GL_NO_ERROR);
 		return true;
 	}
 
@@ -157,6 +165,7 @@ namespace ObjectGL
 
 		bind();
 		glUniformMatrix3fv(LOCATION, 1, transposition, pValues);
+		assert(glGetError() == GL_NO_ERROR);
 		return true;
 	}
 
@@ -168,6 +177,7 @@ namespace ObjectGL
 
 		bind();
 		glUniformMatrix4fv(LOCATION, 1, transposition, pValues);
+		assert(glGetError() == GL_NO_ERROR);
 		return true;
 	}
 
@@ -175,12 +185,14 @@ namespace ObjectGL
 	{
 		GLint binaryLength = 0;
 		glGetProgramiv(ID, GL_PROGRAM_BINARY_LENGTH, &binaryLength);
+		assert(glGetError() == GL_NO_ERROR);
 
 		vector<uint8_t> retVal;
 		retVal.resize(binaryLength);
 
 		GLenum format = 0;
 		glGetProgramBinary(ID, binaryLength, nullptr, &format, retVal.data());
+		assert(glGetError() == GL_NO_ERROR);
 
 		const uint8_t *const pFormatRaw = reinterpret_cast<const uint8_t *>(&format);
 		retVal.insert(retVal.begin(), { pFormatRaw[0], pFormatRaw[1], pFormatRaw[2], pFormatRaw[3] });
@@ -199,7 +211,10 @@ namespace ObjectGL
 
 	GLint Program::AttributeLocationCache::_onProvideValue(const string &key)
 	{
-		return glGetAttribLocation(_program.ID, key.c_str());
+		const GLint retVal = glGetAttribLocation(_program.ID, key.c_str());
+		assert(glGetError() == GL_NO_ERROR);
+
+		return retVal;
 	}
 
 	Program::UniformLocationCache::UniformLocationCache(Program &program) noexcept :
@@ -208,7 +223,10 @@ namespace ObjectGL
 
 	GLint Program::UniformLocationCache::_onProvideValue(const string &key)
 	{
-		return glGetUniformLocation(_program.ID, key.c_str());
+		const GLint retVal = glGetUniformLocation(_program.ID, key.c_str());
+		assert(glGetError() == GL_NO_ERROR);
+
+		return retVal;
 	}
 
 	Program::UniformBlockIndexCache::UniformBlockIndexCache(Program &program) noexcept :
@@ -217,7 +235,10 @@ namespace ObjectGL
 
 	GLuint Program::UniformBlockIndexCache::_onProvideValue(const string &key)
 	{
-		return glGetUniformBlockIndex(_program.ID, key.c_str());
+		const GLuint retVal = glGetUniformBlockIndex(_program.ID, key.c_str());
+		assert(glGetError() == GL_NO_ERROR);
+
+		return retVal;
 	}
 
 	Program::UniformBlockElementOffsetCache::UniformBlockElementOffsetCache(Program &program) noexcept :
@@ -228,10 +249,13 @@ namespace ObjectGL
 	{
 		GLuint index = GL_INVALID_INDEX;
 		const char *const pRaw = key.c_str();
+
 		glGetUniformIndices(_program.ID, 1, &pRaw, &index);
+		assert(glGetError() == GL_NO_ERROR);
 
 		GLint retVal = -1;
 		glGetActiveUniformsiv(_program.ID, 1, &index, GL_UNIFORM_OFFSET, &retVal);
+		assert(glGetError() == GL_NO_ERROR);
 
 		return retVal;
 	}

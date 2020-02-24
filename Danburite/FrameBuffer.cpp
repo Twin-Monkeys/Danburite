@@ -22,17 +22,25 @@ namespace ObjectGL
 	void FrameBuffer::__release() noexcept
 	{
 		glDeleteFramebuffers(1, &ID);
+		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	void FrameBuffer::_onBind() noexcept
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, ID);
+		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	FrameBufferStatusType FrameBuffer::getStatus() noexcept
 	{
 		bind();
-		return FrameBufferStatusType(glCheckFramebufferStatus(GL_FRAMEBUFFER));
+
+		const FrameBufferStatusType retVal =
+			FrameBufferStatusType(glCheckFramebufferStatus(GL_FRAMEBUFFER));
+
+		assert(glGetError() == GL_NO_ERROR);
+
+		return retVal;
 	}
 
 	void FrameBuffer::attach(const AttachmentType attachmentType, Attachable &attachment) noexcept
@@ -61,17 +69,21 @@ namespace ObjectGL
 		const GLint targetLeft, const GLint targetBottom, const GLint targetRight, const GLint targetUp) const noexcept
 	{
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, ID);
+		assert(glGetError() == GL_NO_ERROR);
 
 		GLuint targetObj = 0U;
 		if (pTarget)
 			targetObj = pTarget->ID;
 
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, targetObj);
+		assert(glGetError() == GL_NO_ERROR);
 
 		glBlitFramebuffer(
 			srcLeft, srcBottom, srcRight, srcUp,
 			targetLeft, targetBottom, targetRight, targetUp,
 			GLbitfield(mask), GL_NEAREST);
+
+		assert(glGetError() == GL_NO_ERROR);
 
 		unbind();
 	}
@@ -79,13 +91,17 @@ namespace ObjectGL
 	void FrameBuffer::setInputColorBuffer(const ColorBufferType type) noexcept
 	{
 		bind();
+
 		glReadBuffer(GLenum(type));
+		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	void FrameBuffer::setOutputColorBuffer(const ColorBufferType type) noexcept
 	{
 		bind();
+
 		glDrawBuffer(GLenum(type));
+		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	FrameBuffer::~FrameBuffer()
@@ -96,6 +112,8 @@ namespace ObjectGL
 	void FrameBuffer::unbind() noexcept
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0U);
+		assert(glGetError() == GL_NO_ERROR);
+
 		_unbind();
 	}
 }

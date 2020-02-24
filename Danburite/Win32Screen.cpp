@@ -1,6 +1,7 @@
 #include "Win32Screen.h"
 #include <atlstr.h>
 #include <Windowsx.h>
+#include <cassert>
 
 using namespace std;
 using namespace ObjectGL;
@@ -32,8 +33,11 @@ namespace Danburite
 		winStyleFlag &= (~WS_MAXIMIZEBOX);
 
 		RECT newRect;
-		SetRect(&newRect, 0, 0, windowWidth, windowHeight);
-		AdjustWindowRect(&newRect, winStyleFlag, false);
+		BOOL valid = SetRect(&newRect, 0, 0, windowWidth, windowHeight);
+		assert(valid);
+
+		valid = AdjustWindowRect(&newRect, winStyleFlag, false);
+		assert(valid);
 
 		__hWnd = CreateWindow(
 			__id.c_str(), __windowTitle.c_str(),
@@ -59,7 +63,9 @@ namespace Danburite
 	{
 		if (msg == WM_DESTROY)
 		{
-			ClipCursor(nullptr);
+			const BOOL result = ClipCursor(nullptr);
+			assert(result);
+
 			PostQuitMessage(EXIT_SUCCESS);
 			return 0;
 		}
@@ -67,7 +73,9 @@ namespace Danburite
 		const shared_ptr<ScreenEventHandler> &pEventHandler = getEventHandler();
 		if (!pEventHandler)
 		{
-			DestroyWindow(__hWnd);
+			const BOOL valid = DestroyWindow(__hWnd);
+			assert(valid);
+
 			return 0;
 		}
 
@@ -84,7 +92,8 @@ namespace Danburite
 			POINT windowCenter = { WIDTH / 2, HEIGHT / 2 };
 			clientToScreen(windowCenter);
 
-			SetCursorPos(windowCenter.x, windowCenter.y);
+			BOOL valid = SetCursorPos(windowCenter.x, windowCenter.y);
+			assert(valid);
 
 			POINT leftTop = {};
 			POINT rightBottom = { WIDTH, HEIGHT };
@@ -92,7 +101,8 @@ namespace Danburite
 			clientToScreen(rightBottom);
 
 			rect = { leftTop.x, leftTop.y, rightBottom.x, rightBottom.y };
-			ClipCursor(&rect);
+			valid = ClipCursor(&rect);
+			assert(valid);
 
 			__windowWidth = WIDTH;
 			__windowHeight = HEIGHT;
@@ -130,7 +140,9 @@ namespace Danburite
 			POINT windowCenter = { WIN_SIZE_HALF.cx, WIN_SIZE_HALF.cy };
 			clientToScreen(windowCenter);
 
-			SetCursorPos(windowCenter.x, windowCenter.y);
+			const BOOL valid = SetCursorPos(windowCenter.x, windowCenter.y);
+			assert(valid);
+
 			pEventHandler->onMouseDelta(X_DELTA, Y_DELTA);
 		}
 			break;
@@ -147,8 +159,10 @@ namespace Danburite
 			if (LOWORD(lParam) == HTCLIENT)
 				SetCursor(nullptr);
 			else
-				ClipCursor(nullptr);
-
+			{
+				const BOOL valid = ClipCursor(nullptr);
+				assert(valid);
+			}
 			break;
 
 		default:
@@ -177,12 +191,14 @@ namespace Danburite
 
 	void Win32Screen::getClientRect(RECT &rect) const noexcept
 	{
-		GetClientRect(__hWnd, &rect);
+		const BOOL valid = GetClientRect(__hWnd, &rect);
+		assert(valid);
 	}
 
 	void Win32Screen::clientToScreen(POINT &clientPoint) const noexcept
 	{
-		ClientToScreen(__hWnd, &clientPoint);
+		const BOOL valid = ClientToScreen(__hWnd, &clientPoint);
+		assert(valid);
 	}
 
 	/*
@@ -206,7 +222,9 @@ namespace Danburite
 		{
 			if (PeekMessage(&msg, nullptr, 0U, 0U, PM_REMOVE))
 			{
-				TranslateMessage(&msg);
+				const BOOL valid = TranslateMessage(&msg);
+				assert(valid);
+
 				DispatchMessage(&msg);
 			}
 			else
@@ -259,7 +277,9 @@ namespace Danburite
 	Win32Screen::~Win32Screen() noexcept
 	{
 		__getWindow(__hWnd) = nullptr;
-		UnregisterClass(__id.c_str(), __hInstance);
+
+		const BOOL valid = UnregisterClass(__id.c_str(), __hInstance);
+		assert(valid);
 	}
 
 	shared_ptr<Win32Screen> Win32Screen::createDummy(const HINSTANCE hInstance)

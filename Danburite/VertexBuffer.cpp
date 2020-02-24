@@ -1,4 +1,5 @@
 #include "VertexBuffer.h"
+#include <cassert>
 
 using namespace std;
 
@@ -52,10 +53,16 @@ namespace ObjectGL
 				GLenum(attribute.desc.elementType), attribute.desc.normalized,
 				attribute.stride, reinterpret_cast<const void *>(size_t(attribute.offset)));
 
+			assert(glGetError() == GL_NO_ERROR);
+
 			if (attribute.divisor)
+			{
 				glVertexAttribDivisor(attribute.location, attribute.divisor);
+				assert(glGetError() == GL_NO_ERROR);
+			}
 
 			glEnableVertexAttribArray(attribute.location);
+			assert(glGetError() == GL_NO_ERROR);
 		}
 	}
 }

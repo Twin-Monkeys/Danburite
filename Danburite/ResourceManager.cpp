@@ -2,6 +2,7 @@
 #include "TextReader.h"
 #include <fstream>
 #include <iterator>
+#include <cassert>
 
 using namespace std;
 using namespace ObjectGL;
@@ -15,7 +16,10 @@ namespace Danburite
 
 	void ResourceManager::storeText(const string_view &path, const string_view &text)
 	{
-		ofstream { path.data() } << text.data();
+		ofstream fout { path.data() };
+		assert(fout);
+
+		fout << text.data();
 	}
 
 	shared_ptr<const vector<uint8_t>> ResourceManager::getRaw(const string &path)
@@ -26,8 +30,9 @@ namespace Danburite
 	void ResourceManager::storeRaw(const string_view &path, const vector<uint8_t> &data)
 	{
 		ofstream fout { path.data(), ofstream::binary };
-		fout.unsetf(ifstream::skipws);
+		assert(fout);
 
+		fout.unsetf(ifstream::skipws);
 		fout.write(reinterpret_cast<const char *>(data.data()), data.size());
 	}
 
@@ -52,8 +57,9 @@ namespace Danburite
 		shared_ptr<vector<uint8_t>> pRetVal = make_shared<vector<uint8_t>>();
 
 		ifstream fin(key, ifstream::binary);
-		fin.unsetf(ifstream::skipws);
+		assert(fin);
 
+		fin.unsetf(ifstream::skipws);
 		pRetVal->insert(pRetVal->begin(), istream_iterator<uint8_t>(fin), {});
 
 		return pRetVal;

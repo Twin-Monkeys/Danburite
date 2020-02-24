@@ -17,12 +17,14 @@ namespace ObjectGL
 
 	void DeviceContext::__release() noexcept
 	{
-		ReleaseDC(__screen, __hDC);
+		const int result = ReleaseDC(__screen, __hDC);
+		assert(result);
 	}
 
 	void DeviceContext::swapBuffers() noexcept
 	{
-		SwapBuffers(__hDC);
+		const BOOL result = SwapBuffers(__hDC);
+		assert(result);
 	}
 
 	void DeviceContext::requestScreenClose() noexcept

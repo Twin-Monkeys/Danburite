@@ -13,11 +13,17 @@ namespace ObjectGL
 		const TextureDataType dataType, const GLint mipmapLevel, const bool mipmapCreation) noexcept
 	{
 		_bindID();
+
 		glTexImage2D(
 			GLenum(sideType), mipmapLevel, GLint(internalFormat),
 			width, height, 0, GLenum(externalFormat), GLenum(dataType), pData);
 
+		assert(glGetError() == GL_NO_ERROR);
+
 		if (mipmapCreation)
+		{
 			glGenerateMipmap(_RAW_TYPE);
+			assert(glGetError() == GL_NO_ERROR);
+		}
 	}
 }

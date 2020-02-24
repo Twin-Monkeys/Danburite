@@ -3,6 +3,7 @@
 #include <sstream>
 #include "TextReader.h"
 #include <stack>
+#include <cassert>
 
 using namespace std;
 using namespace filesystem;
@@ -17,8 +18,6 @@ namespace ObjectGL
 	string ShaderCompiler::__preprocess(const path &srcPath)
 	{
 		static constexpr string_view SEARCH_TARGET = "#include";
-		ostringstream oss;
-		ifstream fin;
 
 		const path &sourceParentPath = srcPath.parent_path();
 		string retVal = move(TextReader::read(srcPath.string()));
@@ -73,7 +72,10 @@ namespace ObjectGL
 			rawSources.emplace_back(preprocessedSrc.c_str());
 
 		glShaderSource(SHADER_ID, GLsizei(rawSources.size()), rawSources.data(), nullptr);
+		assert(glGetError() == GL_NO_ERROR);
+
 		glCompileShader(SHADER_ID);
+		assert(glGetError() == GL_NO_ERROR);
 
 		GLint success;
 		glGetShaderiv(SHADER_ID, GL_COMPILE_STATUS, &success);
@@ -114,7 +116,7 @@ namespace ObjectGL
 			if (retVal < curLastModifiedTime)
 				retVal = curLastModifiedTime;
 
-			const string src = move(TextReader::read(inclusion.string()));
+			const string &src = TextReader::read(inclusion.string());
 			const size_t DIRECTIVE_POS = src.find(SEARCH_TARGET);
 			if (DIRECTIVE_POS == string::npos)
 				continue;

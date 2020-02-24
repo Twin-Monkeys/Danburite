@@ -43,7 +43,6 @@ namespace ObjectGL
 	IDType &BindableObject<BindingType, IDType>::__getBoundID(const size_t idx) noexcept
 	{
 		static std::unordered_map<size_t, IDType> boundMap;
-
 		return boundMap[idx];
 	}
 

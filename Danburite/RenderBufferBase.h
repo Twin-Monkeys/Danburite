@@ -18,10 +18,10 @@ namespace ObjectGL
 		static GLuint __createBufObj();
 
 	protected:
-		virtual void _onBind() noexcept override;
-
 		virtual void _onAttach(const AttachmentType type) noexcept override;
 		virtual void _onDetach(const AttachmentType type) noexcept override;
+
+		virtual void _onBind() noexcept override;
 
 	public:
 		RenderBufferBase();

@@ -8,12 +8,18 @@ namespace ObjectGL
 
 	void TextureMultisample::_onAttach(const AttachmentType type) noexcept
 	{
+		assert(!getHandle());
+
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GLenum(type), _RAW_TYPE, ID, 0);
+		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	void TextureMultisample::_onDetach(const AttachmentType type) noexcept
 	{
+		assert(!getHandle());
+
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GLenum(type), _RAW_TYPE, 0, 0);
+		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	void TextureMultisample::memoryAlloc(
@@ -22,7 +28,10 @@ namespace ObjectGL
 		const GLsizei numSamplePoints, const bool fixedSampleLocations) noexcept
 	{
 		_bindID();
+
 		glTexImage2DMultisample(
 			_RAW_TYPE, numSamplePoints, GLenum(internalFormat), width, height, fixedSampleLocations);
+
+		assert(glGetError() == GL_NO_ERROR);
 	}
 }
