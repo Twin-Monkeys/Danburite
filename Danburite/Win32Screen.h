@@ -44,7 +44,5 @@ namespace Danburite
 		virtual HWND getHandler() noexcept override;
 
 		virtual ~Win32Screen() noexcept;
-
-		static std::shared_ptr<Win32Screen> createDummy(const HINSTANCE hInstance);
 	};
 }

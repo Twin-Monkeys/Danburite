@@ -222,9 +222,7 @@ namespace Danburite
 		{
 			if (PeekMessage(&msg, nullptr, 0U, 0U, PM_REMOVE))
 			{
-				const BOOL valid = TranslateMessage(&msg);
-				assert(valid);
-
+				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 			}
 			else
@@ -280,10 +278,5 @@ namespace Danburite
 
 		const BOOL valid = UnregisterClass(__id.c_str(), __hInstance);
 		assert(valid);
-	}
-
-	shared_ptr<Win32Screen> Win32Screen::createDummy(const HINSTANCE hInstance)
-	{
-		return make_shared<Win32Screen>(hInstance, "dummy", "dummy", 1, 1);
 	}
 };
