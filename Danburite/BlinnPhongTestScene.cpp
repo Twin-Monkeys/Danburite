@@ -48,7 +48,7 @@ BlinnPhongTestScene::BlinnPhongTestScene()
 	VertexArrayFactory& vaFactory = VertexArrayFactory::getInstance();
 
 	const shared_ptr<VertexArray> &pFloorVA =
-		vaFactory.getVertexArray(ShapeType::RECTANGLE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
+		vaFactory.getVertexArrayPtr(ShapeType::RECTANGLE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
 
 	const shared_ptr<Texture2D> &pFloorTexture = TextureUtil::createTexture2DFromImage("res/image/wood.png");
 

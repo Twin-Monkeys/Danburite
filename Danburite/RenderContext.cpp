@@ -27,8 +27,17 @@ namespace ObjectGL
 		const PixelFormatDescriptor &pixelFormatDesc, const RCAttributeDescriptor &desc) :
 		BindableObject(__createRC(deviceContext, pixelFormatDesc, desc)), __deviceContext(deviceContext)
 	{
-		for (const auto &onCreateListener : __onCreateListeners)
+		for (const auto &onCreateListener : __getOnCreateListenerContainer())
 			onCreateListener(this);
+	}
+
+	void RenderContext::__release() noexcept
+	{
+		if (__pCurrent == this)
+			unbind();
+
+		const BOOL result = wglDeleteContext(ID);
+		assert(result);
 	}
 
 	void RenderContext::__validate(DeviceContext &deviceContext)
@@ -76,13 +85,18 @@ namespace ObjectGL
 			throw RCException("Cannot deploy the pixel format");
 	}
 
-	void RenderContext::__release() noexcept
+	unordered_set<void(*)(const RenderContext *)> &
+		RenderContext::__getOnCreateListenerContainer() noexcept
 	{
-		if (__pCurrent == this)
-			unbind();
+		static unordered_set<void(*)(const RenderContext *)> onCreateListenerContainer;
+		return onCreateListenerContainer;
+	}
 
-		const BOOL result = wglDeleteContext(ID);
-		assert(result);
+	unordered_set<void(*)(const RenderContext *)> &
+		RenderContext::__getOnDestroyListenerContainer() noexcept
+	{
+		static unordered_set<void(*)(const RenderContext *)> onDestroyListenerContainer;
+		return onDestroyListenerContainer;
 	}
 
 	void RenderContext::_onBind() noexcept
@@ -95,7 +109,7 @@ namespace ObjectGL
 
 	RenderContext::~RenderContext() noexcept
 	{
-		for (const auto &onDestroyListener : __onDestroyListeners)
+		for (const auto &onDestroyListener : __getOnDestroyListenerContainer())
 			onDestroyListener(this);
 
 		__release();

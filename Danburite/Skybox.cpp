@@ -36,9 +36,9 @@ namespace Danburite
 
 	void Skybox::_drawBoxVA() noexcept
 	{
-		static const shared_ptr<VertexArray> pCubeVA =
-			VertexArrayFactory::getInstance().getVertexArray(ShapeType::CUBE, VertexAttributeType::POS3);
+		VertexArray &cubeVA =
+			VertexArrayFactory::getInstance().getVertexArrayReference(ShapeType::CUBE, VertexAttributeType::POS3);
 
-		pCubeVA->draw(1);
+		cubeVA.draw();
 	}
 }

@@ -40,6 +40,9 @@ namespace Danburite
 
 	public:
 		std::shared_ptr<ObjectGL::VertexArray>
-			getVertexArray(const ShapeType shapeType, const VertexAttributeType vertexType);
+			getVertexArrayPtr(const ShapeType shapeType, const VertexAttributeType vertexType);
+
+		ObjectGL::VertexArray &
+			getVertexArrayReference(const ShapeType shapeType, const VertexAttributeType vertexType);
 	};
 }

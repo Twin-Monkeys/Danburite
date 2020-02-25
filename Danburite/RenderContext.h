@@ -35,10 +35,6 @@ namespace ObjectGL
 	private:
 		DeviceContext &__deviceContext;
 
-		static inline
-			std::unordered_set<void(*)(const RenderContext *)>
-			__onCreateListeners, __onDestroyListeners;
-
 		RenderContext(const RenderContext &src) = delete;
 		RenderContext& operator=(const RenderContext &) = delete;
 
@@ -53,6 +49,12 @@ namespace ObjectGL
 
 		static void __validate(DeviceContext &deviceContext);
 		static void __setPixelFormat(const HDC hDC, const PIXELFORMATDESCRIPTOR &descRaw);
+
+		static std::unordered_set<void(*)(const RenderContext *)> &
+			__getOnCreateListenerContainer() noexcept;
+
+		static std::unordered_set<void(*)(const RenderContext *)> &
+			__getOnDestroyListenerContainer() noexcept;
 
 	protected:
 		virtual void _onBind() noexcept override;
@@ -113,7 +115,7 @@ namespace ObjectGL
 	template <typename T>
 	void RenderContext::registerContextDependentSingleton() noexcept
 	{
-		__onCreateListeners.emplace(ContextDependentSingleton<T>::__contextInit);
-		__onDestroyListeners.emplace(ContextDependentSingleton<T>::__contextDestroy);
+		__getOnCreateListenerContainer().emplace(ContextDependentSingleton<T>::__contextInit);
+		__getOnDestroyListenerContainer().emplace(ContextDependentSingleton<T>::__contextDestroy);
 	}
 }

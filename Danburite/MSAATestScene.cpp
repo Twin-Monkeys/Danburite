@@ -38,7 +38,7 @@ MSAATestScene::MSAATestScene()
 	VertexArrayFactory& vaFactory = VertexArrayFactory::getInstance();
 
 	const shared_ptr<VertexArray>& pCubeVA =
-		vaFactory.getVertexArray(ShapeType::CUBE, VertexAttributeType::POS3_COLOR4);
+		vaFactory.getVertexArrayPtr(ShapeType::CUBE, VertexAttributeType::POS3_COLOR4);
 
 	const shared_ptr<MonoColorMaterial>& pCubeMaterial =
 		make_shared<MonoColorMaterial>(VertexAttributeType::POS3_COLOR4);

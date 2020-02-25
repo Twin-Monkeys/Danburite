@@ -92,7 +92,7 @@ LightTestScene::LightTestScene()
 	VertexArrayFactory &vaFactory = VertexArrayFactory::getInstance();
 
 	const shared_ptr<VertexArray> &pCubeVA =
-		vaFactory.getVertexArray(ShapeType::CUBE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
+		vaFactory.getVertexArrayPtr(ShapeType::CUBE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
 
 	const shared_ptr<Texture2D> &pCubeTexture =
 		TextureUtil::createTexture2DFromImage("res/image/blending_transparent_window.png");

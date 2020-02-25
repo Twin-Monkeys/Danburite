@@ -52,7 +52,7 @@ ShadowTestScene::ShadowTestScene()
 	VertexArrayFactory& vaFactory = VertexArrayFactory::getInstance();
 
 	const shared_ptr<VertexArray> &pFloorVA =
-		vaFactory.getVertexArray(ShapeType::RECTANGLE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
+		vaFactory.getVertexArrayPtr(ShapeType::RECTANGLE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
 
 	const shared_ptr<Texture2D> &pWoodTexture = TextureUtil::createTexture2DFromImage("res/image/wood.png");
 
@@ -72,7 +72,7 @@ ShadowTestScene::ShadowTestScene()
 	floorTransform.setRotation(-half_pi<float>(), { 1.f, 0.f, 0.f });
 
 	const shared_ptr<VertexArray> &pCubeVA =
-		vaFactory.getVertexArray(ShapeType::CUBE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
+		vaFactory.getVertexArrayPtr(ShapeType::CUBE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
 
 	const shared_ptr<PhongMaterial> &pCubeMaterial =
 		make_shared<PhongMaterial>(VertexAttributeType::POS3_NORMAL3_TEXCOORD2);

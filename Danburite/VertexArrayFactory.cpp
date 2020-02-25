@@ -9,9 +9,15 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	shared_ptr<VertexArray> VertexArrayFactory::getVertexArray(const ShapeType shapeType, const VertexAttributeType vertexType)
+	shared_ptr<VertexArray> VertexArrayFactory::getVertexArrayPtr(const ShapeType shapeType, const VertexAttributeType vertexType)
 	{
 		return __cacheCache.getValue(shapeType)->getValue(vertexType);
+	}
+
+	VertexArray &VertexArrayFactory::
+		getVertexArrayReference(const ShapeType shapeType, const VertexAttributeType vertexType)
+	{
+		return *(__cacheCache.getValue(shapeType)->getValue(vertexType));
 	}
 
 	shared_ptr<VertexArray> VertexArrayFactory::RectangleCache::_onProvideValue(const VertexAttributeType &key)

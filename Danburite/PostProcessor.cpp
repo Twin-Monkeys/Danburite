@@ -11,7 +11,7 @@ namespace Danburite
 {
 	PostProcessor::PostProcessor(const ProgramType type) :
 		__pFrameBuffer(make_unique<FrameBuffer>()),
-		__pVertexArray(VertexArrayFactory::getInstance().getVertexArray(ShapeType::RECTANGLE, VertexAttributeType::POS3_TEXCOORD2)),
+		__pVertexArray(VertexArrayFactory::getInstance().getVertexArrayPtr(ShapeType::RECTANGLE, VertexAttributeType::POS3_TEXCOORD2)),
 		__pProgram(&(ProgramFactory::getInstance().getProgram(type)))
 	{
 		using namespace ShaderIdentifier;
