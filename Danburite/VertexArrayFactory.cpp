@@ -187,6 +187,7 @@ namespace Danburite
 			return make_shared<CubeCache>();
 		}
 
+		assert(false);
 		return nullptr;
 	}
 }

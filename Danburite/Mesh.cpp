@@ -29,7 +29,10 @@ namespace Danburite
 	void Mesh::draw(const GLsizei numInstances) noexcept
 	{
 		if (!__pMaterial)
+		{
+			assert(false);
 			return;
+		}
 
 		__pMaterial->render(*__pVertexArray, numInstances);
 	}

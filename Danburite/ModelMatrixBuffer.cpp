@@ -27,11 +27,6 @@ namespace Danburite
 		return __transforms[idx];
 	}
 
-	size_t ModelMatrixBuffer::getNumInstances() const noexcept
-	{
-		return __numInstances;
-	}
-
 	void ModelMatrixBuffer::setNumInstances(const size_t numInstances) noexcept
 	{
 		__numInstances = numInstances;

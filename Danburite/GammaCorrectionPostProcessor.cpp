@@ -19,5 +19,6 @@ namespace Danburite
 	void GammaCorrectionPostProcessor::setGamma(const float gamma) noexcept
 	{
 		__gamma = gamma;
+		assert(__gamma > 0.f);
 	}
 }

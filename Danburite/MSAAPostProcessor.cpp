@@ -13,7 +13,9 @@ namespace Danburite
 		FIXED_SAMPLE_LOCATIONS(fixedSampleLocations),
 		__pColorAttachment(make_unique<TextureMultisample>()),
 		__pDepthStencilAttachment(make_unique<RenderBufferMultisample>())
-	{}
+	{
+		assert(NUM_SAMPLE_POINTS);
+	}
 
 	void MSAAPostProcessor::_onRender() noexcept
 	{

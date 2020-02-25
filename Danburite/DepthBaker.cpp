@@ -44,13 +44,17 @@ namespace Danburite
 	void DepthBaker::bind() noexcept
 	{
 		glViewport(0, 0, __mapWidth, __mapHeight);
+		assert(glGetError() == GL_NO_ERROR);
+
 		__pFrameBuffer->bind();
 	}
 
 	void DepthBaker::unbind() noexcept
 	{
 		FrameBuffer::unbind();
+
 		glViewport(0, 0, __scrWidth, __scrHeight);
+		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	AttachableTexture &DepthBaker::getDepthAttachment() const noexcept

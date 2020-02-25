@@ -1,6 +1,7 @@
 #include "VertexAttributeListFactory.h"
 #include "VertexAttributeDescriptorFactory.h"
 #include "ShaderIdentifier.h"
+#include <cassert>
 
 using namespace std;
 using namespace ObjectGL;
@@ -128,6 +129,9 @@ namespace Danburite
 			}
 		}
 			break;
+
+		default:
+			assert(false);
 		}
 
 		return retVal;
