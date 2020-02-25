@@ -26,6 +26,8 @@ namespace ObjectGL
 
 	public:
 		static T &getInstance() noexcept;
+
+		virtual ~ContextDependentSingleton() = default;
 	};
 
 	class RenderContext final : public BindableObject<RenderContext, HGLRC>
