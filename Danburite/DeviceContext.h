@@ -22,7 +22,6 @@ namespace ObjectGL
 		DeviceContext(Screen &screen);
 
 		void swapBuffers() noexcept;
-		void requestScreenClose() noexcept;
 
 		operator HDC() const noexcept;
 

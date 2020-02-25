@@ -31,12 +31,6 @@ namespace ObjectGL
 		assert(result);
 	}
 
-	void Screen::close() noexcept
-	{
-		const BOOL result = DestroyWindow(*this);
-		assert(result);
-	}
-
 	void Screen::invalidate() noexcept
 	{
 		const BOOL result = InvalidateRect(*this, nullptr, false);

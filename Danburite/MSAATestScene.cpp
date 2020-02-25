@@ -76,11 +76,11 @@ MSAATestScene::MSAATestScene()
 	__pMSAAPP = make_shared<MSAAPostProcessor>(ShaderIdentifier::Value::MSAA::NUM_SAMPLE_POINTS);
 }
 
-void MSAATestScene::__keyFunc(const float deltaTime) noexcept
+bool MSAATestScene::__keyFunc(const float deltaTime) noexcept
 {
 	const bool ESC = (GetAsyncKeyState(VK_ESCAPE) & 0x8000);
 	if (ESC)
-		RenderContext::requestScreenClose();
+		return false;
 
 	float accel = 1.f;
 	const bool SHIFT = (GetAsyncKeyState(VK_SHIFT) & 0x8000);
@@ -115,6 +115,8 @@ void MSAATestScene::__keyFunc(const float deltaTime) noexcept
 
 	if (DOWN)
 		__pCamera->moveVertical(-MOVE_SPEED);
+
+	return true;
 }
 
 void MSAATestScene::draw() noexcept
@@ -132,9 +134,9 @@ void MSAATestScene::draw() noexcept
 	RenderContext::requestBufferSwapping();
 }
 
-void MSAATestScene::delta(const float deltaTime) noexcept
+bool MSAATestScene::delta(const float deltaTime) noexcept
 {
-	__keyFunc(deltaTime);
+	return __keyFunc(deltaTime);
 }
 
 void MSAATestScene::update() noexcept
@@ -179,8 +181,11 @@ void MSAATestScene::onMouseWheel(const short zDelta) noexcept
 	__pCamera->adjustFov(ZOOM_SPEED * zDelta);
 }
 
-void MSAATestScene::onIdle(const float deltaTime) noexcept
+bool MSAATestScene::onIdle(const float deltaTime) noexcept
 {
-	delta(deltaTime);
+	if (!delta(deltaTime))
+		return false;
+
 	update();
+	return true;
 }

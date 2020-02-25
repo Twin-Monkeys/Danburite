@@ -29,12 +29,12 @@ private:
 
 	std::shared_ptr<Danburite::MSAAPostProcessor> __pMSAAPP;
 
-	void __keyFunc(const float deltaTime) noexcept;
+	bool __keyFunc(const float deltaTime) noexcept;
 
 public:
 	MSAATestScene();
 
-	virtual void delta(const float deltaTime) noexcept override;
+	virtual bool delta(const float deltaTime) noexcept override;
 	virtual void update() noexcept override;
 	virtual void draw() noexcept override;
 
@@ -43,7 +43,7 @@ public:
 	virtual void onMouseDelta(const int xDelta, const int yDelta) noexcept override;
 	virtual void onMouseMButtonDown(const int x, const int y) noexcept override;
 	virtual void onMouseWheel(const short zDelta) noexcept override;
-	virtual void onIdle(const float deltaTime) noexcept override;
+	virtual bool onIdle(const float deltaTime) noexcept override;
 
 	virtual ~MSAATestScene() = default;
 };

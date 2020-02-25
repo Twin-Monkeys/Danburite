@@ -8,7 +8,7 @@ namespace Danburite
 		Scene() = default;
 
 	public:
-		virtual void delta(const float deltaTime) noexcept;
+		virtual bool delta(const float deltaTime) noexcept;
 		virtual void update() noexcept;
 		virtual void draw() noexcept = 0;
 

@@ -10,7 +10,7 @@ namespace ObjectGL
 		virtual void onMouseDelta(const int xDelta, const int yDelta) noexcept;
 		virtual void onMouseMButtonDown(const int x, const int y) noexcept;
 		virtual void onMouseWheel(const short zDelta) noexcept;
-		virtual void onIdle(const float deltaTime) noexcept;
+		virtual bool onIdle(const float deltaTime) noexcept;
 
 		virtual ~ScreenEventHandler() = default;
 	};

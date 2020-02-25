@@ -90,11 +90,11 @@ GeometryTestScene::GeometryTestScene()
 	__pDrawer->addDrawable(__pCubeRU);
 }
 
-void GeometryTestScene::__keyFunc(const float deltaTime) noexcept
+bool GeometryTestScene::__keyFunc(const float deltaTime) noexcept
 {
 	const bool ESC = (GetAsyncKeyState(VK_ESCAPE) & 0x8000);
 	if (ESC)
-		RenderContext::requestScreenClose();
+		return false;
 
 	float accel = 1.f;
 	const bool SHIFT = (GetAsyncKeyState(VK_SHIFT) & 0x8000);
@@ -129,6 +129,8 @@ void GeometryTestScene::__keyFunc(const float deltaTime) noexcept
 
 	if (DOWN)
 		__pCamera->moveVertical(-MOVE_SPEED);
+
+	return true;
 }
 
 void GeometryTestScene::draw() noexcept
@@ -143,9 +145,10 @@ void GeometryTestScene::draw() noexcept
 	RenderContext::requestBufferSwapping();
 }
 
-void GeometryTestScene::delta(const float deltaTime) noexcept
+bool GeometryTestScene::delta(const float deltaTime) noexcept
 {
-	__keyFunc(deltaTime);
+	if (!__keyFunc(deltaTime))
+		return false;
 
 	static float accum = 0.f;
 	accum += deltaTime;
@@ -153,6 +156,8 @@ void GeometryTestScene::delta(const float deltaTime) noexcept
 	ProgramFactory &programFactory = ProgramFactory::getInstance();
 	Program &explodingPhongProgram = programFactory.getProgram(ProgramType::EXPLODING_PHONG);
 	explodingPhongProgram.setUniformFloat("displacementRatio", 5.f * (sinf(accum * .001f) + 1.f));
+
+	return true;
 }
 
 void GeometryTestScene::update() noexcept
@@ -196,8 +201,11 @@ void GeometryTestScene::onMouseWheel(const short zDelta) noexcept
 	__pCamera->adjustFov(ZOOM_SPEED * zDelta);
 }
 
-void GeometryTestScene::onIdle(const float deltaTime) noexcept
+bool GeometryTestScene::onIdle(const float deltaTime) noexcept
 {
-	delta(deltaTime);
+	if (!delta(deltaTime))
+		return false;
+
 	update();
+	return true;
 }

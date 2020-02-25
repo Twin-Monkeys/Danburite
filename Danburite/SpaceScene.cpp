@@ -250,11 +250,11 @@ SpaceScene::SpaceScene()
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
 }
 
-void SpaceScene::__keyFunc(const float deltaTime) noexcept
+bool SpaceScene::__keyFunc(const float deltaTime) noexcept
 {
 	const bool ESC = (GetAsyncKeyState(VK_ESCAPE) & 0x8000);
 	if (ESC)
-		RenderContext::requestScreenClose();
+		return false;
 
 	float accel = 1.f;
 	const bool SHIFT = (GetAsyncKeyState(VK_SHIFT) & 0x8000);
@@ -289,6 +289,8 @@ void SpaceScene::__keyFunc(const float deltaTime) noexcept
 
 	if (DOWN)
 		__pCamera->moveVertical(-MOVE_SPEED);
+
+	return true;
 }
 
 void SpaceScene::draw() noexcept
@@ -310,9 +312,10 @@ void SpaceScene::draw() noexcept
 	RenderContext::requestBufferSwapping();
 }
 
-void SpaceScene::delta(const float deltaTime) noexcept
+bool SpaceScene::delta(const float deltaTime) noexcept
 {
-	__keyFunc(deltaTime);
+	if (!__keyFunc(deltaTime))
+		return false;
 
 	const float MOVE_SPEED = (deltaTime * .08f);
 	constexpr float BOUNDARY = 1300.f;
@@ -344,6 +347,8 @@ void SpaceScene::delta(const float deltaTime) noexcept
 	__pMercuryRU->getTransform().adjustRotationAngle(ROTATION_SPEED);
 	__pJupiterRU->getTransform().adjustRotationAngle(ROTATION_SPEED);
 	__pVenusRU->getTransform().adjustRotationAngle(ROTATION_SPEED);
+
+	return true;
 }
 
 void SpaceScene::update() noexcept
@@ -388,8 +393,11 @@ void SpaceScene::onMouseWheel(const short zDelta) noexcept
 	__pCamera->adjustFov(ZOOM_SPEED * zDelta);
 }
 
-void SpaceScene::onIdle(const float deltaTime) noexcept
+bool SpaceScene::onIdle(const float deltaTime) noexcept
 {
-	delta(deltaTime);
+	if (!delta(deltaTime))
+		return false;
+
 	update();
+	return true;
 }

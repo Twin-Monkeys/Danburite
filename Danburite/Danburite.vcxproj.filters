@@ -363,12 +363,6 @@
     <ClCompile Include="SimpleCamera.cpp">
       <Filter>Library\Engine\Core\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="PixelFormatDescriptor.cpp">
-      <Filter>Library\ObjectGL\Window\PixelFormatDescriptor</Filter>
-    </ClCompile>
-    <ClCompile Include="RCAttributeDescriptor.cpp">
-      <Filter>Library\ObjectGL\Window\RenderContext</Filter>
-    </ClCompile>
     <ClCompile Include="RCException.cpp">
       <Filter>Library\ObjectGL\Window\RenderContext</Filter>
     </ClCompile>
@@ -491,9 +485,6 @@
     </ClCompile>
     <ClCompile Include="AssetImporterException.cpp">
       <Filter>Library\Engine\Util\AssetImporter</Filter>
-    </ClCompile>
-    <ClCompile Include="GLProfileFlag.cpp">
-      <Filter>Library\ObjectGL\Window\RenderContext</Filter>
     </ClCompile>
     <ClCompile Include="VertexAttributeListFactory.cpp">
       <Filter>Library\Engine\Core\VertexAttribute</Filter>

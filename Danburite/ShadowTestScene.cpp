@@ -139,11 +139,11 @@ ShadowTestScene::ShadowTestScene()
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
 }
 
-void ShadowTestScene::__keyFunc(const float deltaTime) noexcept
+bool ShadowTestScene::__keyFunc(const float deltaTime) noexcept
 {
 	const bool ESC = (GetAsyncKeyState(VK_ESCAPE) & 0x8000);
 	if (ESC)
-		RenderContext::requestScreenClose();
+		return false;
 
 	float accel = 1.f;
 	const bool SHIFT = (GetAsyncKeyState(VK_SHIFT) & 0x8000);
@@ -178,6 +178,8 @@ void ShadowTestScene::__keyFunc(const float deltaTime) noexcept
 
 	if (DOWN)
 		__pMainCamera->moveVertical(-MOVE_SPEED);
+
+	return true;
 }
 
 void ShadowTestScene::draw() noexcept
@@ -215,9 +217,9 @@ void ShadowTestScene::draw() noexcept
 	RenderContext::requestBufferSwapping();
 }
 
-void ShadowTestScene::delta(const float deltaTime) noexcept
+bool ShadowTestScene::delta(const float deltaTime) noexcept
 {
-	__keyFunc(deltaTime);
+	return __keyFunc(deltaTime);
 }
 
 void ShadowTestScene::update() noexcept
@@ -262,8 +264,11 @@ void ShadowTestScene::onMouseWheel(const short zDelta) noexcept
 	__pMainCamera->adjustFov(ZOOM_SPEED * zDelta);
 }
 
-void ShadowTestScene::onIdle(const float deltaTime) noexcept
+bool ShadowTestScene::onIdle(const float deltaTime) noexcept
 {
-	delta(deltaTime);
+	if (!delta(deltaTime))
+		return false;
+
 	update();
+	return true;
 }

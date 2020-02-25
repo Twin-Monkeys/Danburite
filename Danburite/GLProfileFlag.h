@@ -21,6 +21,15 @@ namespace ObjectGL
 		return GLProfileFlag(~unsigned(flag));
 	}
 
-	int &operator|=(int &lhs, const GLProfileFlag rhs) noexcept;
-	int &operator&=(int &lhs, const GLProfileFlag rhs) noexcept;
+	constexpr int &operator|=(int &lhs, const GLProfileFlag rhs) noexcept
+	{
+		lhs |= int(rhs);
+		return lhs;
+	}
+
+	constexpr int &operator&=(int &lhs, const GLProfileFlag rhs) noexcept
+	{
+		lhs &= int(rhs);
+		return lhs;
+	}
 }

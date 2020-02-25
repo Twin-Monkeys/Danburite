@@ -63,7 +63,6 @@ namespace ObjectGL
 		virtual ~RenderContext() noexcept;
 
 		static void requestBufferSwapping() noexcept;
-		static void requestScreenClose() noexcept;
 		static void unbind() noexcept;
 
 		static constexpr RenderContext *getCurrent() noexcept;

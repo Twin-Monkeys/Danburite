@@ -15,12 +15,13 @@ namespace ObjectGL
 	private:
 		std::weak_ptr<ScreenEventHandler> __pEventHandler;
 
+		void __release() noexcept;
+
 	public:
 		std::shared_ptr<ScreenEventHandler> getEventHandler() const noexcept;
 		void setEventHandler(const std::weak_ptr<ScreenEventHandler> &pEventHandler) noexcept;
 
 		void show() noexcept;
-		void close() noexcept;
 
 		virtual void getClientRect(RECT &rect) const noexcept = 0;
 		virtual void clientToScreen(POINT &clientPoint) const noexcept = 0;

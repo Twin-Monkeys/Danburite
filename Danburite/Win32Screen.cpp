@@ -73,9 +73,7 @@ namespace Danburite
 		const shared_ptr<ScreenEventHandler> &pEventHandler = getEventHandler();
 		if (!pEventHandler)
 		{
-			const BOOL valid = DestroyWindow(__hWnd);
-			assert(valid);
-
+			PostQuitMessage(EXIT_FAILURE);
 			return 0;
 		}
 
@@ -244,13 +242,16 @@ namespace Danburite
 					static TCHAR postfix[512];
 					_stprintf_s(postfix, _T(" [delta: %.1fms / fps: %.1f]"), avgTime, 1000.f / avgTime);
 
-					SetWindowText(__hWnd, (__windowTitle + postfix).c_str());
+					const bool valid = SetWindowText(__hWnd, (__windowTitle + postfix).c_str());
+					assert(valid);
 
 					accumTime = 0.f;
 					count = 0;
 				}
 
-				pEventHandler->onIdle(deltaTime);
+				if (!pEventHandler->onIdle(deltaTime))
+					break;
+
 				invalidate();
 			}
 		}
@@ -276,7 +277,10 @@ namespace Danburite
 	{
 		__getWindow(__hWnd) = nullptr;
 
-		const BOOL valid = UnregisterClass(__id.c_str(), __hInstance);
+		BOOL valid = DestroyWindow(*this);
+		assert(valid);
+
+		valid = UnregisterClass(__id.c_str(), __hInstance);
 		assert(valid);
 	}
 };

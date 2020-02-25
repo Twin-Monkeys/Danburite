@@ -7,5 +7,5 @@ namespace ObjectGL
 	void ScreenEventHandler::onMouseDelta(const int xDelta, const int yDelta) noexcept {}
 	void ScreenEventHandler::onMouseMButtonDown(const int x, const int y) noexcept {}
 	void ScreenEventHandler::onMouseWheel(const short zDelta) noexcept {}
-	void ScreenEventHandler::onIdle(const float deltaTime) noexcept {}
+	bool ScreenEventHandler::onIdle(const float deltaTime) noexcept { return true; }
 }

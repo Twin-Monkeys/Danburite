@@ -78,6 +78,9 @@ namespace ObjectGL
 
 	void RenderContext::__release() noexcept
 	{
+		if (__pCurrent == this)
+			unbind();
+
 		const BOOL result = wglDeleteContext(ID);
 		assert(result);
 	}
@@ -102,12 +105,6 @@ namespace ObjectGL
 	{
 		assert(__pCurrent);
 		__pCurrent->__deviceContext.swapBuffers();
-	}
-
-	void RenderContext::requestScreenClose() noexcept
-	{
-		assert(__pCurrent);
-		__pCurrent->__deviceContext.requestScreenClose();
 	}
 
 	void RenderContext::unbind() noexcept

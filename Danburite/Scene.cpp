@@ -4,6 +4,6 @@ using namespace std;
 
 namespace Danburite
 {
-	void Scene::delta(const float deltaTime) noexcept {}
+	bool Scene::delta(const float deltaTime) noexcept { return true; }
 	void Scene::update() noexcept {}
 }

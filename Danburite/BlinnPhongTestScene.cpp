@@ -114,11 +114,11 @@ BlinnPhongTestScene::BlinnPhongTestScene()
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
 }
 
-void BlinnPhongTestScene::__keyFunc(const float deltaTime) noexcept
+bool BlinnPhongTestScene::__keyFunc(const float deltaTime) noexcept
 {
 	const bool ESC = (GetAsyncKeyState(VK_ESCAPE) & 0x8000);
 	if (ESC)
-		RenderContext::requestScreenClose();
+		return false;
 
 	float accel = 1.f;
 	const bool SHIFT = (GetAsyncKeyState(VK_SHIFT) & 0x8000);
@@ -176,6 +176,8 @@ void BlinnPhongTestScene::__keyFunc(const float deltaTime) noexcept
 		Material::setGamma(2.2f);
 		__pGammaCorrectionPP->setGamma(2.2f);
 	}
+
+	return true;
 }
 
 void BlinnPhongTestScene::draw() noexcept
@@ -194,9 +196,9 @@ void BlinnPhongTestScene::draw() noexcept
 	RenderContext::requestBufferSwapping();
 }
 
-void BlinnPhongTestScene::delta(const float deltaTime) noexcept
+bool BlinnPhongTestScene::delta(const float deltaTime) noexcept
 {
-	__keyFunc(deltaTime);
+	return __keyFunc(deltaTime);
 }
 
 void BlinnPhongTestScene::update() noexcept
@@ -241,8 +243,11 @@ void BlinnPhongTestScene::onMouseWheel(const short zDelta) noexcept
 	__pCamera->adjustFov(ZOOM_SPEED * zDelta);
 }
 
-void BlinnPhongTestScene::onIdle(const float deltaTime) noexcept
+bool BlinnPhongTestScene::onIdle(const float deltaTime) noexcept
 {
-	delta(deltaTime);
+	if (!delta(deltaTime))
+		return false;
+
 	update();
+	return true;
 }

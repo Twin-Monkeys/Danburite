@@ -27,11 +27,6 @@ namespace ObjectGL
 		assert(result);
 	}
 
-	void DeviceContext::requestScreenClose() noexcept
-	{
-		__screen.close();
-	}
-
 	DeviceContext::operator HDC() const noexcept
 	{
 		return __hDC;

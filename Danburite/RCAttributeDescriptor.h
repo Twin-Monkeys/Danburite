@@ -8,7 +8,7 @@ namespace ObjectGL
 	class RCAttributeDescriptor
 	{
 	private:
-		static inline constexpr int __defaultAttribs[] =
+		int __attribs[7] =
 		{
 			WGL_CONTEXT_MAJOR_VERSION_ARB, 4,
 			WGL_CONTEXT_MINOR_VERSION_ARB, 6,
@@ -16,16 +16,31 @@ namespace ObjectGL
 			0
 		};
 
-		int __attribs[std::size(__defaultAttribs)];
-
 	public:
-		RCAttributeDescriptor() noexcept;
+		constexpr void setGLVersion(const int major, const int minor) noexcept;
+		constexpr void setGLProfileFlags(const ObjectGL::GLProfileFlag flags, const bool enabled) noexcept;
 
-		void setGLVersion(const int major, const int minor) noexcept;
-		void setGLProfileFlags(const ObjectGL::GLProfileFlag flags, const bool enabled) noexcept;
-
-		operator const int* () const noexcept;
+		constexpr operator const int *() const noexcept;
 
 		virtual ~RCAttributeDescriptor() = default;
 	};
+
+	constexpr void RCAttributeDescriptor::setGLVersion(const int major, const int minor) noexcept
+	{
+		__attribs[1] = major;
+		__attribs[3] = minor;
+	}
+
+	constexpr void RCAttributeDescriptor::setGLProfileFlags(const GLProfileFlag flags, const bool enabled) noexcept
+	{
+		if (enabled)
+			__attribs[5] |= flags;
+		else
+			__attribs[5] &= ~flags;
+	}
+
+	constexpr RCAttributeDescriptor::operator const int *() const noexcept
+	{
+		return __attribs;
+	}
 }

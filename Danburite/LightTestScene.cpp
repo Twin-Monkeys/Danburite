@@ -233,11 +233,11 @@ LightTestScene::LightTestScene()
 	__pDrawer->addDrawable(__pSkullRU);
 }
 
-void LightTestScene::__keyFunc(const float deltaTime) noexcept
+bool LightTestScene::__keyFunc(const float deltaTime) noexcept
 {
 	const bool ESC = (GetAsyncKeyState(VK_ESCAPE) & 0x8000);
 	if (ESC)
-		RenderContext::requestScreenClose();
+		return false;
 
 	constexpr float MOVE_SPEED_FACTOR = .013f;
 	const float MOVE_SPEED = (MOVE_SPEED_FACTOR * deltaTime);
@@ -267,6 +267,8 @@ void LightTestScene::__keyFunc(const float deltaTime) noexcept
 
 	if (DOWN)
 		__pCamera->moveVertical(-MOVE_SPEED);
+
+	return true;
 }
 
 void LightTestScene::draw() noexcept
@@ -291,9 +293,10 @@ void LightTestScene::draw() noexcept
 	RenderContext::requestBufferSwapping();
 }
 
-void LightTestScene::delta(const float deltaTime) noexcept
+bool LightTestScene::delta(const float deltaTime) noexcept
 {
-	__keyFunc(deltaTime);
+	if (!__keyFunc(deltaTime))
+		return false;
 
 	const float ROTATION_SPEED = (deltaTime * .0005f);
 
@@ -303,6 +306,8 @@ void LightTestScene::delta(const float deltaTime) noexcept
 		(prevLightPos.x * cosf(ROTATION_SPEED)) - (prevLightPos.z * sinf(ROTATION_SPEED)),
 		prevLightPos.y,
 		(prevLightPos.x * sinf(ROTATION_SPEED)) + (prevLightPos.z * cosf(ROTATION_SPEED)));
+
+	return true;
 }
 
 void LightTestScene::update() noexcept
@@ -347,8 +352,11 @@ void LightTestScene::onMouseWheel(const short zDelta) noexcept
 	__pCamera->adjustFov(ZOOM_SPEED * zDelta);
 }
 
-void LightTestScene::onIdle(const float deltaTime) noexcept
+bool LightTestScene::onIdle(const float deltaTime) noexcept
 {
-	delta(deltaTime);
+	if (!delta(deltaTime))
+		return false;
+
 	update();
+	return true;
 }
