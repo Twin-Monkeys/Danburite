@@ -9,6 +9,9 @@ namespace ObjectGL
 	DeviceContext::DeviceContext(Screen &screen) :
 		__screen(screen)
 	{
+		if (__screen.getOwnerThreadID() != this_thread::get_id())
+			throw DCException("Current thread is not identical with owner thread of the screen");
+
 		__hDC = GetDC(screen);
 
 		if (!__hDC)
@@ -25,6 +28,11 @@ namespace ObjectGL
 	{
 		const BOOL result = SwapBuffers(__hDC);
 		assert(result);
+	}
+
+	thread::id DeviceContext::getOwnerThreadID() const noexcept
+	{
+		return __screen.getOwnerThreadID();
 	}
 
 	DeviceContext::~DeviceContext() noexcept

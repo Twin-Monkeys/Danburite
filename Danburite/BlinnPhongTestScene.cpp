@@ -193,7 +193,7 @@ void BlinnPhongTestScene::draw() noexcept
 	PostProcessor::unbind();
 	__pGammaCorrectionPP->render();
 
-	RenderContext::requestBufferSwapping();
+	RenderContext::getCurrent()->requestBufferSwapping();
 }
 
 bool BlinnPhongTestScene::delta(const float deltaTime) noexcept

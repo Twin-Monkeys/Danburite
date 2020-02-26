@@ -5,19 +5,19 @@
 #include "PixelFormatDescriptor.h"
 #include "RCAttributeDescriptor.h"
 #include "ScreenEventHandler.h"
+#include <thread>
 
 namespace ObjectGL
 {
-	class RenderContext;
-
 	class Screen abstract
 	{
 	private:
 		std::weak_ptr<ScreenEventHandler> __pEventHandler;
-
-		void __release() noexcept;
+		const std::thread::id __ownerThreadID;
 
 	public:
+		Screen() noexcept;
+
 		std::shared_ptr<ScreenEventHandler> getEventHandler() const noexcept;
 		void setEventHandler(const std::weak_ptr<ScreenEventHandler> &pEventHandler) noexcept;
 
@@ -31,6 +31,9 @@ namespace ObjectGL
 
 		void invalidate() noexcept;
 		void validate() noexcept;
+
+		std::thread::id getOwnerThreadID() const noexcept;
+
 		virtual HWND getHandler() noexcept = 0;
 
 		operator HWND() noexcept;

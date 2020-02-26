@@ -6,6 +6,10 @@ using namespace std;
 
 namespace ObjectGL
 {
+	Screen::Screen() noexcept :
+		__ownerThreadID(this_thread::get_id())
+	{}
+
 	shared_ptr<ScreenEventHandler> Screen::getEventHandler() const noexcept
 	{
 		return __pEventHandler.lock();
@@ -41,6 +45,11 @@ namespace ObjectGL
 	{
 		const BOOL result = ValidateRect(*this, nullptr);
 		assert(result);
+	}
+
+	thread::id Screen::getOwnerThreadID() const noexcept
+	{
+		return __ownerThreadID;
 	}
 
 	Screen::operator HWND() noexcept
