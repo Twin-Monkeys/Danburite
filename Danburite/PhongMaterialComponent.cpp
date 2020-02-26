@@ -60,44 +60,4 @@ namespace Danburite
 	{
 		__pNormalTex = pTexture;
 	}
-
-	const shared_ptr<Texture2D> &PhongMaterialComponent::getAmbientTexture() const noexcept
-	{
-		return __pAmbientTex;
-	}
-
-	const shared_ptr<Texture2D> &PhongMaterialComponent::getDiffuseTexture() const noexcept
-	{
-		return __pDiffuseTex;
-	}
-
-	const shared_ptr<Texture2D> &PhongMaterialComponent::getSpecularTexture() const noexcept
-	{
-		return __pSpecularTex;
-	}
-
-	const shared_ptr<Texture2D> &PhongMaterialComponent::getEmissiveTexture() const noexcept
-	{
-		return __pEmissiveTex;
-	}
-
-	float PhongMaterialComponent::getShininess() const noexcept
-	{
-		return __shininess;
-	}
-
-	const shared_ptr<Texture2D> &PhongMaterialComponent::getShininessTexture() const noexcept
-	{
-		return __pShininessTex;
-	}
-
-	const shared_ptr<Texture2D> &PhongMaterialComponent::getAlphaTexture() const noexcept
-	{
-		return __pAlphaTex;
-	}
-
-	const shared_ptr<Texture2D> &PhongMaterialComponent::getNormalTexture() const noexcept
-	{
-		return __pNormalTex;
-	}
 }

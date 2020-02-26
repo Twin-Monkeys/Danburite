@@ -14,9 +14,19 @@ namespace Danburite
 		virtual void _onDeploy(MaterialUniformSetter &materialSetter) noexcept override;
 
 	public:
-		void setOutlineColor(const glm::vec4 &color) noexcept;
-		void setOutlineThicknessRatio(const GLfloat thicknessRatio) noexcept;
+		constexpr void setOutlineColor(const glm::vec4 &color) noexcept;
+		constexpr void setOutlineThicknessRatio(const GLfloat thicknessRatio) noexcept;
 
 		virtual ~OutliningMaterialComponent() = default;
 	};
+
+	constexpr void OutliningMaterialComponent::setOutlineColor(const glm::vec4 &color) noexcept
+	{
+		__outlineColor = color;
+	}
+
+	constexpr void OutliningMaterialComponent::setOutlineThicknessRatio(const GLfloat thicknessRatio) noexcept
+	{
+		__outlineThicknessRatio = thicknessRatio;
+	}
 }

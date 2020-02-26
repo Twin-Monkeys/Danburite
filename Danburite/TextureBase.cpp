@@ -53,11 +53,6 @@ namespace ObjectGL
 		return __handle;
 	}
 
-	GLuint64 TextureBase::getHandle() const noexcept
-	{
-		return __handle;
-	}
-
 	void TextureBase::reside() noexcept
 	{
 		assert(__handle);

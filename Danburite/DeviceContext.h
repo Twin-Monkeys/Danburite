@@ -23,8 +23,14 @@ namespace ObjectGL
 
 		void swapBuffers() noexcept;
 
-		operator HDC() const noexcept;
+		constexpr operator HDC() const noexcept;
 
 		virtual ~DeviceContext() noexcept;
 	};
+
+
+	constexpr DeviceContext::operator HDC() const noexcept
+	{
+		return __hDC;
+	}
 }

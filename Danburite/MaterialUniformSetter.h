@@ -35,6 +35,6 @@ namespace Danburite
 	void MaterialUniformSetter::traverseProgram(const FunctionType function, Args &&...args)
 	{
 		for (const auto &[_, pProgram] : __programMap)
-			(pProgram->*function)(args...);
+			(pProgram->*function)(std::forward<Args>(args)...);
 	}
 }

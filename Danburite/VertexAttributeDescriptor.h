@@ -14,7 +14,7 @@ namespace ObjectGL
 		constexpr VertexAttributeDescriptor(
 			const GLint numElements, const ElementType elementType, const bool normalized = false) noexcept;
 
-		constexpr GLsizei memSize() const noexcept;
+		GLsizei memSize() const noexcept;
 
 		virtual ~VertexAttributeDescriptor() = default;
 	};
@@ -23,9 +23,4 @@ namespace ObjectGL
 		const GLint numElements, const ElementType elementType, const bool normalized) noexcept :
 		numElements(numElements), elementType(elementType), normalized(normalized)
 	{}
-
-	constexpr GLsizei VertexAttributeDescriptor::memSize() const noexcept
-	{
-		return (numElements * elementSize(elementType));
-	}
 }

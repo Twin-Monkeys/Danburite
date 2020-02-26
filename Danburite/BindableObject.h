@@ -19,7 +19,7 @@ namespace ObjectGL
 		static IDType &__getBoundID(const size_t idx) noexcept;
 
 	protected:
-		BindableObject(const IDType &id) noexcept;
+		constexpr BindableObject(const IDType &id) noexcept;
 		virtual void _onBind() noexcept = 0;
 
 		static void _unbind() noexcept;
@@ -29,7 +29,7 @@ namespace ObjectGL
 	};
 
 	template <typename BindingType, typename IDType>
-	BindableObject<BindingType, IDType>::BindableObject(const IDType &id) noexcept :
+	constexpr BindableObject<BindingType, IDType>::BindableObject(const IDType &id) noexcept :
 		Object<IDType>(id)
 	{}
 

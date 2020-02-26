@@ -12,11 +12,6 @@ namespace Danburite
 		target.setUniformVec3(ShaderIdentifier::Name::Light::DIRECTION, __direction);
 	}
 
-	const vec3 &DirectionalLightComponent::getDirection() const noexcept
-	{
-		return __direction;
-	}
-
 	void DirectionalLightComponent::setDirection(const vec3 &direction) noexcept
 	{
 		__direction = normalize(direction);

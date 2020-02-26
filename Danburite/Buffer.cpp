@@ -27,14 +27,6 @@ namespace ObjectGL
 		*this = src;
 	}
 
-	Buffer::Buffer(Buffer &&src) noexcept :
-		BindableObject(src.ID), __RAW_TYPE(src.__RAW_TYPE)
-	{
-		src.__moved = true;
-		__memAllocated = src.__memAllocated;
-		__memSize = src.__memSize;
-	}
-
 	void Buffer::__release() noexcept
 	{
 		if (!__moved)
@@ -50,11 +42,6 @@ namespace ObjectGL
 		assert(glGetError() == GL_NO_ERROR);
 	}
 
-	void Buffer::enableZeroInit(const bool enabled) noexcept
-	{
-		__zeroInit = enabled;
-	}
-
 	void Buffer::memoryAlloc(const void *const pData, const GLsizeiptr size, const BufferUpdatePatternType updatePattern) noexcept
 	{
 		bind();
@@ -65,7 +52,7 @@ namespace ObjectGL
 		__memSize = size;
 	}
 
-	void Buffer::memoryCopy(const void *const pData, const GLintptr offset, const GLsizeiptr size) noexcept
+	void Buffer::memoryCopy(const void *const pData, const GLsizeiptr size, const GLintptr offset) noexcept
 	{
 		assert(isMemoryAllocated());
 
@@ -98,16 +85,6 @@ namespace ObjectGL
 
 		memset(mapHostInterface(BufferAccessType::WRITE_ONLY), 0, __memSize);
 		unmapHostInterface();
-	}
-
-	bool Buffer::isMemoryAllocated() const noexcept
-	{
-		return __memAllocated;
-	}
-
-	GLsizeiptr Buffer::getMemorySize() const noexcept
-	{
-		return __memSize;
 	}
 
 	void *Buffer::mapHostInterface(const BufferAccessType accessType) noexcept

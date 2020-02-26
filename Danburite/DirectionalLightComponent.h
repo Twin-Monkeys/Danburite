@@ -13,10 +13,15 @@ namespace Danburite
 		virtual void _onDeploy(LightUniformSetter &target) noexcept override;
 
 	public:
-		const glm::vec3 &getDirection() const noexcept;
+		constexpr const glm::vec3 &getDirection() const noexcept;
 		void setDirection(const glm::vec3 &direction) noexcept;
 		void setDirection(const float x, const float y, const float z) noexcept;
 
 		virtual ~DirectionalLightComponent() = default;
 	};
+
+	constexpr const glm::vec3 &DirectionalLightComponent::getDirection() const noexcept
+	{
+		return __direction;
+	}
 }

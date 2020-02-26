@@ -10,11 +10,6 @@ namespace Danburite
 		ForwardPostProcessor(ProgramType::POST_PROCESS_CONVOLUTIONAL), __paramSetter(parameterSetter)
 	{}
 
-	void ConvolutionalPostProcessor::setSamplingOffset(const GLfloat offset) noexcept
-	{
-		__samplingOffset = offset;
-	}
-
 	void ConvolutionalPostProcessor::setKernel(const GLfloat *const pData, const GLuint kernelSize) noexcept
 	{
 		__kernelSize = kernelSize;

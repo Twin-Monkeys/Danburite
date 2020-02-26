@@ -27,11 +27,6 @@ namespace ObjectGL
 		assert(result);
 	}
 
-	DeviceContext::operator HDC() const noexcept
-	{
-		return __hDC;
-	}
-
 	DeviceContext::~DeviceContext() noexcept
 	{
 		__release();

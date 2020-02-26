@@ -14,10 +14,4 @@ namespace Danburite
 		silhouetteProgram.setUniformFloat(ShaderIdentifier::Name::Material::Z_NEAR, __zNear);
 		silhouetteProgram.setUniformFloat(ShaderIdentifier::Name::Material::Z_FAR, __zFar);
 	}
-
-	void SilhouetteMaterialComponent::setNearFar(const float zNear, const float zFar) noexcept
-	{
-		__zNear = zNear;
-		__zFar = zFar;
-	}
 }

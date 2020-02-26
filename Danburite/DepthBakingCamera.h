@@ -24,8 +24,8 @@ namespace Danburite
 		virtual void _onUpdateProjMatrix(glm::mat4 &projMatrix) noexcept override;
 
 	public:
-		void setPosition(const glm::vec3 &position) noexcept;
-		void setPosition(const float x, const float y, const float z) noexcept;
+		constexpr void setPosition(const glm::vec3 &position) noexcept;
+		constexpr void setPosition(const float x, const float y, const float z) noexcept;
 
 		void setDirection(const glm::vec3 &direction) noexcept;
 		void setDirection(const float x, const float y, const float z) noexcept;
@@ -33,9 +33,32 @@ namespace Danburite
 		void setUp(const glm::vec3 &up) noexcept;
 		void setUp(const float x, const float y, const float z) noexcept;
 
-		void setViewingVolume(
-			const float left, const float right,
-			const float bottom, const float top,
-			const float near, const float far) noexcept;
+		constexpr void setViewingVolume(
+			const float xLeft, const float xRight,
+			const float yBottom, const float yTop,
+			const float zNear, const float zFar) noexcept;
 	};
+
+	constexpr void DepthBakingCamera::setPosition(const glm::vec3 &position) noexcept
+	{
+		__pos = position;
+	}
+
+	constexpr void DepthBakingCamera::setPosition(const float x, const float y, const float z) noexcept
+	{
+		setPosition({ x, y, z });
+	}
+
+	constexpr void DepthBakingCamera::setViewingVolume(
+		const float xLeft, const float xRight,
+		const float yBottom, const float yTop,
+		const float zNear, const float zFar) noexcept
+	{
+		__viewingVolumeLeft = xLeft;
+		__viewingVolumeRight = xRight;
+		__viewingVolumeBottom = yBottom;
+		__viewingVolumeTop = yTop;
+		__viewingVolumeNear = zNear;
+		__viewingVolumeFar = zFar;
+	}
 }

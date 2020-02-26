@@ -35,14 +35,6 @@ namespace Danburite
 		}
 	}
 
-	void Material::__setOption(const MaterialOptionFlag flags, const bool enabled) noexcept
-	{
-		if (enabled)
-			__optionFlag |= flags;
-		else
-			__optionFlag &= ~flags;
-	}
-
 	void Material::__render_normal(
 		Material &instance, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
@@ -62,55 +54,6 @@ namespace Danburite
 			getProgram(ProgramType::DEPTH_BAKING).bind();
 
 		vertexArray.draw(numInstances);
-	}
-
-	void Material::useLighting(const bool enabled) noexcept
-	{
-		__setOption(MaterialOptionFlag::LIGHTING, enabled);
-	}
-
-	void Material::useAmbientTexture(const bool enabled) noexcept
-	{
-		__setOption(MaterialOptionFlag::AMBIENT_TEXTURE, enabled);
-	}
-
-	void Material::useSpecularTexture(const bool enabled) noexcept
-	{
-		__setOption(MaterialOptionFlag::SPECULAR_TEXTURE, enabled);
-	}
-
-	void Material::useShininessTexture(const bool enabled) noexcept
-	{
-		__setOption(MaterialOptionFlag::SHININESS_TEXTURE, enabled);
-	}
-
-	void Material::useAlphaTexture(const bool enabled) noexcept
-	{
-		__setOption(MaterialOptionFlag::ALPHA_TEXTURE, enabled);
-	}
-
-	void Material::useNormalTexture(const bool enabled) noexcept
-	{
-		__setOption(MaterialOptionFlag::NORMAL_TEXTURE, enabled);
-	}
-
-	void Material::setGamma(const float gamma) noexcept
-	{
-		__gamma = gamma;
-	}
-
-	void Material::setRenderType(const MaterialRenderType type) noexcept
-	{
-		switch (type)
-		{
-		case MaterialRenderType::NORMAL:
-			__pRenderFunc = &__render_normal;
-			break;
-
-		case MaterialRenderType::DEPTH_BAKING:
-			__pRenderFunc = &__render_depthBaking;
-			break;
-		}
 	}
 
 	void Material::render(VertexArray &vertexArray, const GLsizei numInstances) noexcept

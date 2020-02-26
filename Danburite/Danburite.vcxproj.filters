@@ -501,9 +501,6 @@
     <ClCompile Include="ShaderIdentifier.cpp">
       <Filter>Library\Engine\glsl</Filter>
     </ClCompile>
-    <ClCompile Include="MaterialOptionFlag.cpp">
-      <Filter>Library\Engine\Core\Material</Filter>
-    </ClCompile>
     <ClCompile Include="SilhouetteMaterial.cpp">
       <Filter>Library\Engine\Core\Material\SilhouetteMaterial</Filter>
     </ClCompile>
@@ -630,9 +627,6 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Library\Engine\Core\RenderUnit\Positionable</Filter>
     </ClCompile>
-    <ClCompile Include="VertexAttributeType.cpp">
-      <Filter>Library\Engine\Core\VertexAttribute</Filter>
-    </ClCompile>
     <ClCompile Include="TextureMultisample.cpp">
       <Filter>Library\ObjectGL\Core\Texture\Multisample</Filter>
     </ClCompile>
@@ -683,6 +677,15 @@
     </ClCompile>
     <ClCompile Include="RCDSRegisterer.cpp">
       <Filter>Library\Engine\Util\RCDSRegisterer</Filter>
+    </ClCompile>
+    <ClCompile Include="IndexType.cpp">
+      <Filter>Library\ObjectGL\Core\Buffer\IndexBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="ElementType.cpp">
+      <Filter>Library\ObjectGL\Core\Buffer\VetexBuffer\Attribute</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexAttributeDescriptor.cpp">
+      <Filter>Library\ObjectGL\Core\Buffer\VetexBuffer\Attribute</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

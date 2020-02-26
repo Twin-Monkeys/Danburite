@@ -15,8 +15,14 @@ namespace Danburite
 		virtual void _onDeploy(MaterialUniformSetter &materialSetter) noexcept override;
 
 	public:
-		void setNearFar(const float zNear, const float zFar) noexcept;
+		constexpr void setNearFar(const float zNear, const float zFar) noexcept;
 
 		virtual ~SilhouetteMaterialComponent() = default;
 	};
+
+	constexpr void SilhouetteMaterialComponent::setNearFar(const float zNear, const float zFar) noexcept
+	{
+		__zNear = zNear;
+		__zFar = zFar;
+	}
 }

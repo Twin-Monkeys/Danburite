@@ -22,7 +22,7 @@ namespace ObjectGL
 			const GLuint location, const VertexAttributeDescriptor &desc,
 			const GLsizei stride, const GLsizei offset, const GLuint divisor = 0) noexcept;
 
-		void addAttribute(const VertexAttribute& attribute) noexcept;
+		void addAttribute(const VertexAttribute &attribute) noexcept;
 		void addAttributes(const VertexAttributeList &attributeList) noexcept;
 		void setAttributes(const VertexAttributeList &attributeList) noexcept;
 

@@ -19,7 +19,7 @@ namespace Danburite
 		bool start() noexcept;
 		bool end() noexcept;
 
-		T getElapsedTime() const noexcept;
+		constexpr T getElapsedTime() const noexcept;
 
 		virtual ~Timer() = default;
 	};
@@ -27,7 +27,7 @@ namespace Danburite
 	template <typename T>
 	Timer<T>::Timer() noexcept
 	{
-		static_assert(std::is_floating_point_v<T>, "The type parameter T must be floating point type.");
+		static_assert(std::is_floating_point_v<T>, "The type parameter T must be one of the floating point types.");
 		QueryPerformanceFrequency(&__tFreq);
 	}
 
@@ -66,7 +66,7 @@ namespace Danburite
 	}
 
 	template <typename T>
-	T Timer<T>::getElapsedTime() const noexcept
+	constexpr T Timer<T>::getElapsedTime() const noexcept
 	{
 		return __elapsedTime;
 	}

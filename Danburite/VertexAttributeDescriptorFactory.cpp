@@ -10,7 +10,6 @@ namespace Danburite
 		VertexAttributeDescriptorFactory::getInstance(const VertexAttributeDescriptorType type) noexcept
 	{
 		static VertexAttributeDescriptorCache vertexAttribDescCache;
-
 		return vertexAttribDescCache.getValue(type);
 	}
 

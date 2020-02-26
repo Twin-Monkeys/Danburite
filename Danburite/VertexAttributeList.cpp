@@ -4,7 +4,7 @@ using namespace std;
 
 namespace ObjectGL
 {
-	VertexAttributeList::VertexAttributeList(const vector<VertexAttribute>& entries) noexcept :
+	VertexAttributeList::VertexAttributeList(const vector<VertexAttribute> &entries) noexcept :
 		__entries(entries)
 	{}
 

@@ -31,9 +31,9 @@ namespace ObjectGL
 
 	public:
 		Buffer(const Buffer &src);
-		Buffer(Buffer &&src) noexcept;
+		constexpr Buffer(Buffer &&src) noexcept;
 
-		void enableZeroInit(const bool enabled) noexcept;
+		constexpr void enableZeroInit(const bool enabled) noexcept;
 
 		void memoryAlloc(const void *const pData, const GLsizeiptr size, const BufferUpdatePatternType updatePattern) noexcept;
 
@@ -48,12 +48,12 @@ namespace ObjectGL
 
 		void memoryAlloc(const GLsizeiptr size, const BufferUpdatePatternType updatePattern) noexcept;
 
-		void memoryCopy(const void *const pData, const GLintptr offset, const GLsizeiptr size) noexcept;
+		void memoryCopy(const void *const pData, const GLsizeiptr size, const GLintptr offset = 0LL) noexcept;
 		void memoryFree() noexcept;
 		void memorySet(const uint8_t value) noexcept;
 
-		bool isMemoryAllocated() const noexcept;
-		GLsizeiptr getMemorySize() const noexcept;
+		constexpr bool isMemoryAllocated() const noexcept;
+		constexpr GLsizeiptr getMemorySize() const noexcept;
 
 		void *mapHostInterface(const BufferAccessType accessType) noexcept;
 		void unmapHostInterface() noexcept;
@@ -62,6 +62,20 @@ namespace ObjectGL
 
 		virtual ~Buffer() noexcept;
 	};
+
+	constexpr Buffer::Buffer(Buffer &&src) noexcept :
+		BindableObject(src.ID), __RAW_TYPE(src.__RAW_TYPE)
+	{
+		src.__moved = true;
+		__memAllocated = src.__memAllocated;
+		__memSize = src.__memSize;
+		__zeroInit = src.__zeroInit;
+	}
+
+	constexpr void Buffer::enableZeroInit(const bool enabled) noexcept
+	{
+		__zeroInit = enabled;
+	}
 
 	template <typename T, GLsizeiptr arrSize>
 	void Buffer::memoryAlloc(const T(&data)[arrSize], const BufferUpdatePatternType updatePattern) noexcept
@@ -79,5 +93,15 @@ namespace ObjectGL
 	void Buffer::memoryAlloc(const std::vector<T> &data, const BufferUpdatePatternType updatePattern) noexcept
 	{
 		memoryAlloc(data.data(), sizeof(T) * data.size(), updatePattern);
+	}
+
+	constexpr bool Buffer::isMemoryAllocated() const noexcept
+	{
+		return __memAllocated;
+	}
+
+	constexpr GLsizeiptr Buffer::getMemorySize() const noexcept
+	{
+		return __memSize;
 	}
 }

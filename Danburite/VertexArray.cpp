@@ -93,44 +93,6 @@ namespace ObjectGL
 		assert(glGetError() == GL_NO_ERROR);
 	}
 
-	PrimitiveType VertexArray::getPrimitiveType() const noexcept
-	{
-		return PrimitiveType(__primitiveType);
-	}
-
-	GLint VertexArray::getVertexStartingIndex() const noexcept
-	{
-		return __vertexStartingIndex;
-	}
-
-	GLsizei VertexArray::getNumVertices() const noexcept
-	{
-		return __numVertices;
-	}
-
-	void VertexArray::setPrimitiveType(const PrimitiveType primitiveType) noexcept
-	{
-		__primitiveType = GLenum(primitiveType);
-	}
-
-	void VertexArray::setVertexStartingIndex(const GLint index) noexcept
-	{
-		__vertexStartingIndex = index;
-	}
-
-	void VertexArray::setNumVertices(const GLsizei numVertices) noexcept
-	{
-		__numVertices = numVertices;
-	}
-
-	void VertexArray::setDrawInfo(
-		const PrimitiveType primitiveType, const GLint vertexStartingIndex, const GLsizei numVertices) noexcept
-	{
-		__primitiveType = GLenum(primitiveType);
-		__vertexStartingIndex = vertexStartingIndex;
-		__numVertices = numVertices;
-	}
-
 	void VertexArray::addVertexBuffer(const shared_ptr<VertexBuffer> &pVertexBuffer) noexcept
 	{
 		assert(pVertexBuffer);

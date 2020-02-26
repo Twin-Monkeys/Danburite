@@ -34,46 +34,188 @@ namespace Danburite
 	public:
 		SimpleCamera() noexcept;
 
-		const glm::vec3 &getPosition() const noexcept;
-		const glm::vec3 &getForward() const noexcept;
-		const glm::vec3 &getHorizontal() const noexcept;
-		const glm::vec3 &getVertical() const noexcept;
+		constexpr const glm::vec3 &getPosition() const noexcept;
+		constexpr const glm::vec3 &getForward() const noexcept;
+		constexpr const glm::vec3 &getHorizontal() const noexcept;
+		constexpr const glm::vec3 &getVertical() const noexcept;
 
-		void setPosition(const glm::vec3 &position) noexcept;
-		void setPosition(const float xPos, const float yPos, const float zPos) noexcept;
-		void setPositionX(const float xPos) noexcept;
-		void setPositionY(const float yPos) noexcept;
-		void setPositionZ(const float zPos) noexcept;
+		constexpr void setPosition(const glm::vec3 &position) noexcept;
+		constexpr void setPosition(const float xPos, const float yPos, const float zPos) noexcept;
+		constexpr void setPositionX(const float xPos) noexcept;
+		constexpr void setPositionY(const float yPos) noexcept;
+		constexpr void setPositionZ(const float zPos) noexcept;
 
-		void adjustPosition(const glm::vec3 &delta) noexcept;
-		void adjustPosition(const float xDelta, const float yDelta, const float zDelta) noexcept;
-		void adjustPositionX(const float xDelta) noexcept;
-		void adjustPositionY(const float yDelta) noexcept;
-		void adjustPositionZ(const float zDelta) noexcept;
+		constexpr void adjustPosition(const glm::vec3 &delta) noexcept;
+		constexpr void adjustPosition(const float xDelta, const float yDelta, const float zDelta) noexcept;
+		constexpr void adjustPositionX(const float xDelta) noexcept;
+		constexpr void adjustPositionY(const float yDelta) noexcept;
+		constexpr void adjustPositionZ(const float zDelta) noexcept;
 
-		void moveForward(const float delta) noexcept;
-		void moveHorizontal(const float delta) noexcept;
-		void moveVertical(const float delta) noexcept;
+		constexpr void moveForward(const float delta) noexcept;
+		constexpr void moveHorizontal(const float delta) noexcept;
+		constexpr void moveVertical(const float delta) noexcept;
 
 		void pitch(const float angle) noexcept;
 		void yaw(const float angle) noexcept;
 
 		// projection
-		void setFov(const float fov) noexcept;
-		void resetFov() noexcept;
-		void adjustFov(const float delta) noexcept;
+		constexpr void setFov(const float fov) noexcept;
+		constexpr void resetFov() noexcept;
+		constexpr void adjustFov(const float delta) noexcept;
 
-		void setAspectRatio(const float ratio) noexcept;
-		void setAspectRatio(const int width, const int height) noexcept;
+		constexpr void setAspectRatio(const float ratio) noexcept;
+		constexpr void setAspectRatio(const int width, const int height) noexcept;
 
-		void setNear(const float zNear) noexcept;
-		void setFar(const float zFar) noexcept;
+		constexpr void setNear(const float zNear) noexcept;
+		constexpr void setFar(const float zFar) noexcept;
 
 		// bounds
-		void setMaxPitch(const float maxPitch) noexcept;
-		void setMaxFov(const float maxFov) noexcept;
-		void setMinFov(const float minFov) noexcept;
+		constexpr void setMaxPitch(const float maxPitch) noexcept;
+		constexpr void setMaxFov(const float maxFov) noexcept;
+		constexpr void setMinFov(const float minFov) noexcept;
 
 		virtual ~SimpleCamera() = default;
 	};
+
+	constexpr const glm::vec3 &SimpleCamera::getPosition() const noexcept
+	{
+		return __pos;
+	}
+
+	constexpr const glm::vec3& SimpleCamera::getForward() const noexcept
+	{
+		return __forward;
+	}
+
+	constexpr const glm::vec3 &SimpleCamera::getHorizontal() const noexcept
+	{
+		return __horizontal;
+	}
+
+	constexpr const glm::vec3 &SimpleCamera::getVertical() const noexcept
+	{
+		return __vertical;
+	}
+
+	constexpr void SimpleCamera::setPosition(const glm::vec3 &position) noexcept
+	{
+		__pos = position;
+	}
+
+	constexpr void SimpleCamera::setPosition(const float xPos, const float yPos, const float zPos) noexcept
+	{
+		setPosition({ xPos, yPos, zPos });
+	}
+
+	constexpr void SimpleCamera::setPositionX(const float xPos) noexcept
+	{
+		setPosition({ xPos, __pos.y, __pos.z });
+	}
+
+	constexpr void SimpleCamera::setPositionY(const float yPos) noexcept
+	{
+		setPosition({ __pos.x, yPos, __pos.z });
+	}
+
+	constexpr void SimpleCamera::setPositionZ(const float zPos) noexcept
+	{
+		setPosition({ __pos.x, __pos.y, zPos });
+	}
+
+	constexpr void SimpleCamera::adjustPosition(const glm::vec3 &delta) noexcept
+	{
+		setPosition(__pos + delta);
+	}
+
+	constexpr void SimpleCamera::adjustPosition(const float xDelta, const float yDelta, const float zDelta) noexcept
+	{
+		adjustPosition({ xDelta, yDelta, zDelta });
+	}
+
+	constexpr void SimpleCamera::adjustPositionX(const float xDelta) noexcept
+	{
+		adjustPosition({ xDelta, 0.f, 0.f });
+	}
+
+	constexpr void SimpleCamera::adjustPositionY(const float yDelta) noexcept
+	{
+		adjustPosition({ 0.f, yDelta, 0.f });
+	}
+
+	constexpr void SimpleCamera::adjustPositionZ(const float zDelta) noexcept
+	{
+		adjustPosition({ 0.f, 0.f, zDelta });
+	}
+
+	constexpr void SimpleCamera::moveForward(const float delta) noexcept
+	{
+		adjustPosition(__forward * delta);
+	}
+
+	constexpr void SimpleCamera::moveHorizontal(const float delta) noexcept
+	{
+		adjustPosition(__horizontal * delta);
+	}
+
+	constexpr void SimpleCamera::moveVertical(const float delta) noexcept
+	{
+		adjustPosition(__vertical * delta);
+	}
+
+	constexpr void SimpleCamera::setFov(const float fov) noexcept
+	{
+		float validFov = fov;
+
+		if (validFov > __maxFov)
+			validFov = __maxFov;
+		else if (validFov < __minFov)
+			validFov = __minFov;
+
+		__fov = validFov;
+	}
+
+	constexpr void SimpleCamera::resetFov() noexcept
+	{
+		setFov(Constant::Camera::FOV);
+	}
+
+	constexpr void SimpleCamera::adjustFov(const float delta) noexcept
+	{
+		setFov(__fov + delta);
+	}
+
+	constexpr void SimpleCamera::setAspectRatio(const float ratio) noexcept
+	{
+		__aspectRatio = ratio;
+	}
+
+	constexpr void SimpleCamera::setAspectRatio(const int width, const int height) noexcept
+	{
+		setAspectRatio(float(width) / float(height));
+	}
+
+	constexpr void SimpleCamera::setNear(const float zNear) noexcept
+	{
+		__zNear = zNear;
+	}
+
+	constexpr void SimpleCamera::setFar(const float zFar) noexcept
+	{
+		__zFar = zFar;
+	}
+
+	constexpr void SimpleCamera::setMaxPitch(const float maxPitch) noexcept
+	{
+		__maxPitch = maxPitch;
+	}
+
+	constexpr void SimpleCamera::setMaxFov(const float maxFov) noexcept
+	{
+		__maxFov = maxFov;
+	}
+
+	constexpr void SimpleCamera::setMinFov(const float minFov) noexcept
+	{
+		__minFov = minFov;
+	}
 }

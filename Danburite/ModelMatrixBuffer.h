@@ -16,7 +16,7 @@ namespace Danburite
 	public:
 		ModelMatrixBuffer(const size_t numInstances = 1ULL);
 
-		const std::vector<glm::mat4> &getModelMatrices() const noexcept;
+		constexpr const std::vector<glm::mat4> &getModelMatrices() const noexcept;
 		Transform &getTransform(const size_t idx) noexcept;
 
 		constexpr size_t getNumInstances() const noexcept;
@@ -29,6 +29,11 @@ namespace Danburite
 
 		virtual ~ModelMatrixBuffer() = default;
 	};
+
+	constexpr const std::vector<glm::mat4> &ModelMatrixBuffer::getModelMatrices() const noexcept
+	{
+		return __modelMatrices;
+	}
 
 	constexpr size_t ModelMatrixBuffer::getNumInstances() const noexcept
 	{

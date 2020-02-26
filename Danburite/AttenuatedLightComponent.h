@@ -15,8 +15,16 @@ namespace Danburite
 		virtual void _onDeploy(LightUniformSetter &target) noexcept override;
 
 	public:
-		void setAttenuation(const float constant, const float linear, const float quadratic) noexcept;
+		constexpr void setAttenuation(const float constant, const float linear, const float quadratic) noexcept;
 
 		virtual ~AttenuatedLightComponent() = default;
 	};
+
+	constexpr void AttenuatedLightComponent::setAttenuation(
+		const float constant, const float linear, const float quadratic) noexcept
+	{
+		__attConst = constant;
+		__attLinear = linear;
+		__attQuad = quadratic;
+	}
 }

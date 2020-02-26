@@ -19,16 +19,6 @@ namespace Danburite
 			__viewingVolumeNear, __viewingVolumeFar);
 	}
 
-	void DepthBakingCamera::setPosition(const vec3 &position) noexcept
-	{
-		__pos = position;
-	}
-
-	void DepthBakingCamera::setPosition(const float x, const float y, const float z) noexcept
-	{
-		setPosition({ x, y, z });
-	}
-
 	void DepthBakingCamera::setDirection(const vec3 &direction) noexcept
 	{
 		__direction = normalize(direction);
@@ -47,18 +37,5 @@ namespace Danburite
 	void DepthBakingCamera::setUp(const float x, const float y, const float z) noexcept
 	{
 		setUp({ x, y, z });
-	}
-
-	void DepthBakingCamera::setViewingVolume(
-		const float left, const float right,
-		const float bottom, const float top,
-		const float near, const float far) noexcept
-	{
-		__viewingVolumeLeft = left;
-		__viewingVolumeRight = right;
-		__viewingVolumeBottom = bottom;
-		__viewingVolumeTop = top;
-		__viewingVolumeNear = near;
-		__viewingVolumeFar = far;
 	}
 }

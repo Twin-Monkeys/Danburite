@@ -14,7 +14,7 @@ namespace ObjectGL
 		virtual ValueType _onProvideValue(const KeyType &key) = 0;
 
 	public:
-		const ValueType &getValue(const KeyType &key) noexcept;
+		const ValueType &getValue(const KeyType &key);
 		void clear() noexcept;
 		bool clear(const KeyType &key) noexcept;
 
@@ -22,7 +22,7 @@ namespace ObjectGL
 	};
 
 	template <typename KeyType, typename ValueType>
-	const ValueType &Cache<KeyType, ValueType>::getValue(const KeyType &key) noexcept
+	const ValueType &Cache<KeyType, ValueType>::getValue(const KeyType &key)
 	{
 		const auto it = __cacheMap.find(key);
 

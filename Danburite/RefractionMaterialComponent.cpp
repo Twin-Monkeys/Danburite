@@ -1,5 +1,6 @@
 #include "RefractionMaterialComponent.h"
 #include "ShaderIdentifier.h"
+#include "TextureUtil.h"
 
 using namespace std;
 using namespace ObjectGL;
@@ -8,11 +9,8 @@ namespace Danburite
 {
 	void RefractionMaterialComponent::_onDeploy(MaterialUniformSetter &materialSetter) noexcept
 	{
-		if (__pEnvTex)
-			__pEnvTex->bind(ShaderIdentifier::Value::Material::ENVIRONMENT_TEX_LOCATION);
-
-		if (__pNormalTex)
-			__pNormalTex->bind(ShaderIdentifier::Value::Material::NORMAL_TEX_LOCATION);
+		TextureUtil::bindIfExist(__pEnvTex, ShaderIdentifier::Value::Material::ENVIRONMENT_TEX_LOCATION);
+		TextureUtil::bindIfExist(__pNormalTex, ShaderIdentifier::Value::Material::NORMAL_TEX_LOCATION);
 	}
 
 	void RefractionMaterialComponent::setEnvironmentTexture(const shared_ptr<TextureCubemap> &pTexture) noexcept

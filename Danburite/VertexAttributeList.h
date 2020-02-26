@@ -12,7 +12,7 @@ namespace ObjectGL
 
 	public:
 		VertexAttributeList() = default;
-		VertexAttributeList(const std::vector<VertexAttribute>& entries) noexcept;
+		VertexAttributeList(const std::vector<VertexAttribute> &entries) noexcept;
 
 		void add(
 			const GLuint location, const GLint numElements, const ElementType elementType,
@@ -27,7 +27,7 @@ namespace ObjectGL
 
 		void clear() noexcept;
 
-		const std::vector<VertexAttribute>& getEntries() const noexcept;
+		const std::vector<VertexAttribute> &getEntries() const noexcept;
 
 		VertexAttribute& operator[](const size_t index) noexcept;
 		const VertexAttribute& operator[](const size_t index) const noexcept;

@@ -28,9 +28,14 @@ namespace Danburite
 	public:
 		ConvolutionalPostProcessor(ObjectGL::UniformSetter &parameterSetter);
 
-		void setSamplingOffset(const GLfloat offset) noexcept;
+		constexpr void setSamplingOffset(const GLfloat offset) noexcept;
 		void setKernel(const GLfloat *const pData, const GLuint kernelSize) noexcept;
 
 		virtual ~ConvolutionalPostProcessor() = default;
 	};
+
+	constexpr void ConvolutionalPostProcessor::setSamplingOffset(const GLfloat offset) noexcept
+	{
+		__samplingOffset = offset;
+	}
 }

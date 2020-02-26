@@ -13,8 +13,13 @@ namespace Danburite
 		virtual void _onDeploy(MaterialUniformSetter &materialSetter) noexcept override;
 
 	public:
-		void setColor(const glm::vec4 &color) noexcept;
+		constexpr void setColor(const glm::vec4 &color) noexcept;
 
 		virtual ~MonoColorMaterialComponent() = default;
 	};
+
+	constexpr void MonoColorMaterialComponent::setColor(const glm::vec4 &color) noexcept
+	{
+		__color = color;
+	}
 }

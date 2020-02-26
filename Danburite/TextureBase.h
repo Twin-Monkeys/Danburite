@@ -38,7 +38,7 @@ namespace ObjectGL
 		void setStates(const TextureParamType paramType, const T(&values)[arrSize]) noexcept;
 
 		GLuint64 createHandle(const bool residence = true) noexcept;
-		GLuint64 getHandle() const noexcept;
+		constexpr GLuint64 getHandle() const noexcept;
 
 		void reside() noexcept;
 		void unreside() noexcept;
@@ -91,5 +91,10 @@ namespace ObjectGL
 	void TextureBase::setStates(const TextureParamType paramType, const T(&values)[arrSize]) noexcept
 	{
 		setStates(paramType, values);
+	}
+
+	constexpr GLuint64 TextureBase::getHandle() const noexcept
+	{
+		return __handle;
 	}
 }

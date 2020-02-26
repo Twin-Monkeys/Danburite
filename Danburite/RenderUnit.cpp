@@ -30,11 +30,6 @@ namespace Danburite
 		__meshes.swap(meshes);
 	}
 
-	const string &RenderUnit::getName() const noexcept
-	{
-		return __name;
-	}
-
 	bool RenderUnit::setName(const string &name) noexcept
 	{
 		if (name.empty() || (__name == name))
@@ -44,11 +39,6 @@ namespace Danburite
 		__name = name;
 
 		return true;
-	}
-
-	size_t RenderUnit::getNumInstances() const noexcept
-	{
-		return __pModelMatrixBuffer->getNumInstances();
 	}
 
 	Transform &RenderUnit::getTransform(const size_t idx) const noexcept

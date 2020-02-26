@@ -33,16 +33,56 @@ namespace Danburite
 		void setAlphaTexture(const std::shared_ptr<ObjectGL::Texture2D>& pTexture) noexcept;
 		void setNormalTexture(const std::shared_ptr<ObjectGL::Texture2D> &pTexture) noexcept;
 
-		const std::shared_ptr<ObjectGL::Texture2D> &getAmbientTexture() const noexcept;
-		const std::shared_ptr<ObjectGL::Texture2D> &getDiffuseTexture() const noexcept;
-		const std::shared_ptr<ObjectGL::Texture2D> &getSpecularTexture() const noexcept;
-		const std::shared_ptr<ObjectGL::Texture2D> &getEmissiveTexture() const noexcept;
+		constexpr const std::shared_ptr<ObjectGL::Texture2D> &getAmbientTexture() const noexcept;
+		constexpr const std::shared_ptr<ObjectGL::Texture2D> &getDiffuseTexture() const noexcept;
+		constexpr const std::shared_ptr<ObjectGL::Texture2D> &getSpecularTexture() const noexcept;
+		constexpr const std::shared_ptr<ObjectGL::Texture2D> &getEmissiveTexture() const noexcept;
 
-		float getShininess() const noexcept;
-		const std::shared_ptr<ObjectGL::Texture2D> &getShininessTexture() const noexcept;
-		const std::shared_ptr<ObjectGL::Texture2D> &getAlphaTexture() const noexcept;
-		const std::shared_ptr<ObjectGL::Texture2D> &getNormalTexture() const noexcept;
+		constexpr float getShininess() const noexcept;
+		constexpr const std::shared_ptr<ObjectGL::Texture2D> &getShininessTexture() const noexcept;
+		constexpr const std::shared_ptr<ObjectGL::Texture2D> &getAlphaTexture() const noexcept;
+		constexpr const std::shared_ptr<ObjectGL::Texture2D> &getNormalTexture() const noexcept;
 
 		virtual ~PhongMaterialComponent() = default;
 	};
+
+	constexpr const std::shared_ptr<ObjectGL::Texture2D> &PhongMaterialComponent::getAmbientTexture() const noexcept
+	{
+		return __pAmbientTex;
+	}
+
+	constexpr const std::shared_ptr<ObjectGL::Texture2D> &PhongMaterialComponent::getDiffuseTexture() const noexcept
+	{
+		return __pDiffuseTex;
+	}
+
+	constexpr const std::shared_ptr<ObjectGL::Texture2D> &PhongMaterialComponent::getSpecularTexture() const noexcept
+	{
+		return __pSpecularTex;
+	}
+
+	constexpr const std::shared_ptr<ObjectGL::Texture2D> &PhongMaterialComponent::getEmissiveTexture() const noexcept
+	{
+		return __pEmissiveTex;
+	}
+
+	constexpr float PhongMaterialComponent::getShininess() const noexcept
+	{
+		return __shininess;
+	}
+
+	constexpr const std::shared_ptr<ObjectGL::Texture2D> &PhongMaterialComponent::getShininessTexture() const noexcept
+	{
+		return __pShininessTex;
+	}
+
+	constexpr const std::shared_ptr<ObjectGL::Texture2D> &PhongMaterialComponent::getAlphaTexture() const noexcept
+	{
+		return __pAlphaTex;
+	}
+
+	constexpr const std::shared_ptr<ObjectGL::Texture2D> &PhongMaterialComponent::getNormalTexture() const noexcept
+	{
+		return __pNormalTex;
+	}
 }

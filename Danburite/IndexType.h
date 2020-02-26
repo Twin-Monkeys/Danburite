@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GL/glew.h>
+#include <cassert>
 
 namespace ObjectGL
 {
@@ -11,20 +12,5 @@ namespace ObjectGL
 		UNSIGNED_INT = GL_UNSIGNED_INT
 	};
 
-	constexpr GLsizei indexSize(const IndexType type) noexcept
-	{
-		switch (type)
-		{
-		case IndexType::UNSIGNED_BYTE:
-			return 1;
-
-		case IndexType::UNSIGNED_SHORT:
-			return 2;
-
-		case IndexType::UNSIGNED_INT:
-			return 4;
-		}
-
-		return 0;
-	}
+	GLsizei indexSize(const IndexType type) noexcept;
 }

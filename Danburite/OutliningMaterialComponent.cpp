@@ -13,14 +13,4 @@ namespace Danburite
 		monoColorProgram.setUniformVec4(ShaderIdentifier::Name::Material::OUTLINE_COLOR, __outlineColor);
 		monoColorProgram.setUniformFloat(ShaderIdentifier::Name::Material::THICKNESS_RATIO, __outlineThicknessRatio);
 	}
-
-	void OutliningMaterialComponent::setOutlineColor(const vec4 &color) noexcept
-	{
-		__outlineColor = color;
-	}
-
-	void OutliningMaterialComponent::setOutlineThicknessRatio(const GLfloat thicknessRatio) noexcept
-	{
-		__outlineThicknessRatio = thicknessRatio;
-	}
 }

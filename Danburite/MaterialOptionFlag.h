@@ -26,6 +26,15 @@ namespace Danburite
 		return MaterialOptionFlag(~GLuint(flag));
 	}
 
-	MaterialOptionFlag &operator|=(MaterialOptionFlag &lhs, const MaterialOptionFlag rhs);
-	MaterialOptionFlag &operator&=(MaterialOptionFlag &lhs, const MaterialOptionFlag rhs);
+	constexpr MaterialOptionFlag &operator|=(MaterialOptionFlag &lhs, const MaterialOptionFlag rhs)
+	{
+		reinterpret_cast<GLuint &>(lhs) |= GLuint(rhs);
+		return lhs;
+	}
+
+	constexpr MaterialOptionFlag &operator&=(MaterialOptionFlag &lhs, const MaterialOptionFlag rhs)
+	{
+		reinterpret_cast<GLuint &>(lhs) &= GLuint(rhs);
+		return lhs;
+	}
 }

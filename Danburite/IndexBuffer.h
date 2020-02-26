@@ -13,9 +13,19 @@ namespace ObjectGL
 	public:
 		IndexBuffer(const IndexType indexType = IndexType::UNSIGNED_INT);
 
-		IndexType getIndexType() const noexcept;
-		void setIndexType(const IndexType type) noexcept;
+		constexpr IndexType getIndexType() const noexcept;
+		constexpr void setIndexType(const IndexType type) noexcept;
 
 		virtual ~IndexBuffer() = default;
 	};
+
+	constexpr IndexType IndexBuffer::getIndexType() const noexcept
+	{
+		return __idxType;
+	}
+
+	constexpr void IndexBuffer::setIndexType(const IndexType type) noexcept
+	{
+		__idxType = type;
+	}
 }

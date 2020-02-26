@@ -34,10 +34,10 @@ namespace Danburite
 			RenderUnitManager &manager, std::unordered_set<std::unique_ptr<Mesh>> &&meshes, const std::string_view &unitName) noexcept;
 
 	public:
-		const std::string &getName() const noexcept;
+		constexpr const std::string &getName() const noexcept;
 		bool setName(const std::string &name) noexcept;
 
-		size_t getNumInstances() const noexcept;
+		constexpr size_t getNumInstances() const noexcept;
 		Transform &getTransform(const size_t idx = 0) const noexcept;
 
 		void setNumInstances(const GLsizei numInstances) noexcept;
@@ -55,6 +55,16 @@ namespace Danburite
 
 		virtual ~RenderUnit() = default;
 	};
+
+	constexpr const std::string &RenderUnit::getName() const noexcept
+	{
+		return __name;
+	}
+
+	constexpr size_t RenderUnit::getNumInstances() const noexcept
+	{
+		return __pModelMatrixBuffer->getNumInstances();
+	}
 
 	template <typename MaterialType, typename FunctionType, typename ...Args>
 	void RenderUnit::traverseMaterial(const FunctionType function, Args &&...args)

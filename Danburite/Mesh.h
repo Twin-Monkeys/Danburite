@@ -16,7 +16,7 @@ namespace Danburite
 			const std::shared_ptr<ObjectGL::VertexArray> &pVertexArray,
 			const std::shared_ptr<Material> &pMaterial = nullptr) noexcept;
 
-		const std::shared_ptr<Material> &getMaterial() const noexcept;
+		constexpr const std::shared_ptr<Material> &getMaterial() const noexcept;
 		void setMaterial(const std::shared_ptr<Material> &pMaterial) noexcept;
 
 		void addVertexBuffer(const std::shared_ptr<ObjectGL::VertexBuffer> &pVertexBuffer) noexcept;
@@ -25,4 +25,9 @@ namespace Danburite
 
 		virtual ~Mesh() = default;
 	};
+
+	constexpr const std::shared_ptr<Material> &Mesh::getMaterial() const noexcept
+	{
+		return __pMaterial;
+	}
 }

@@ -1,5 +1,6 @@
 #include "ReflectionPhongMaterial.h"
 #include "ShaderIdentifier.h"
+#include "TextureUtil.h"
 
 using namespace std;
 using namespace glm;
@@ -16,9 +17,7 @@ namespace Danburite
 	void ReflectionPhongMaterial::_onDeploy(MaterialUniformSetter &materialUniformSetter) noexcept
 	{
 		PhongMaterial::_onDeploy(materialUniformSetter);
-
-		if (__pEnvTex)
-			__pEnvTex->bind(ShaderIdentifier::Value::Material::ENVIRONMENT_TEX_LOCATION);
+		TextureUtil::bindIfExist(__pEnvTex, ShaderIdentifier::Value::Material::ENVIRONMENT_TEX_LOCATION);
 	}
 
 	void ReflectionPhongMaterial::_onRender(MaterialUniformSetter &target, VertexArray &vertexArray, const GLsizei numInstances) noexcept

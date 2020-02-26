@@ -35,12 +35,6 @@ namespace Danburite
 		__pFrameBuffer->attach(AttachmentType::DEPTH_ATTACHMENT, *__pDepthAttachment);
 	}
 
-	void DepthBaker::setScreenSize(const GLsizei width, const GLsizei height) noexcept
-	{
-		__scrWidth = width;
-		__scrHeight = height;
-	}
-
 	void DepthBaker::bind() noexcept
 	{
 		glViewport(0, 0, __mapWidth, __mapHeight);

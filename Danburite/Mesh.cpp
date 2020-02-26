@@ -11,11 +11,6 @@ namespace Danburite
 		__pVertexArray(pVertexArray), __pMaterial(pMaterial)
 	{}
 
-	const shared_ptr<Material> &Mesh::getMaterial() const noexcept
-	{
-		return __pMaterial;
-	}
-
 	void Mesh::setMaterial(const shared_ptr<Material> &pMaterial) noexcept
 	{
 		__pMaterial = pMaterial;

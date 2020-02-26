@@ -51,7 +51,8 @@ namespace Danburite
 	shared_ptr<RenderUnit> RenderUnitManager::getRenderUnit(const string &name) const noexcept
 	{
 		auto result = __renderUnitMap.find(name);
-		assert(result != __renderUnitMap.end());
+		if (result == __renderUnitMap.end())
+			return nullptr;
 
 		return result->second;
 	}

@@ -56,14 +56,14 @@ namespace ObjectGL
 			const std::shared_ptr<IndexBuffer> &pIndexBuffer,
 			const GLsizei numVertices);
 
-		PrimitiveType getPrimitiveType() const noexcept;
-		GLint getVertexStartingIndex() const noexcept;
-		GLsizei getNumVertices() const noexcept;
+		constexpr PrimitiveType getPrimitiveType() const noexcept;
+		constexpr GLint getVertexStartingIndex() const noexcept;
+		constexpr GLsizei getNumVertices() const noexcept;
 
-		void setPrimitiveType(const PrimitiveType primitiveType) noexcept;
-		void setVertexStartingIndex(const GLint index) noexcept;
-		void setNumVertices(const GLsizei numVertices) noexcept;
-		void setDrawInfo(const PrimitiveType primitiveType, const GLint vertexStartingIndex, const GLsizei numVertices) noexcept;
+		constexpr void setPrimitiveType(const PrimitiveType primitiveType) noexcept;
+		constexpr void setVertexStartingIndex(const GLint index) noexcept;
+		constexpr void setNumVertices(const GLsizei numVertices) noexcept;
+		constexpr void setDrawInfo(const PrimitiveType primitiveType, const GLint vertexStartingIndex, const GLsizei numVertices) noexcept;
 
 		void addVertexBuffer(const std::shared_ptr<VertexBuffer> &pVertexBuffer) noexcept;
 
@@ -73,4 +73,42 @@ namespace ObjectGL
 
 		static void unbind() noexcept;
 	};
+
+	constexpr PrimitiveType VertexArray::getPrimitiveType() const noexcept
+	{
+		return PrimitiveType(__primitiveType);
+	}
+
+	constexpr GLint VertexArray::getVertexStartingIndex() const noexcept
+	{
+		return __vertexStartingIndex;
+	}
+
+	constexpr GLsizei VertexArray::getNumVertices() const noexcept
+	{
+		return __numVertices;
+	}
+
+	constexpr void VertexArray::setPrimitiveType(const PrimitiveType primitiveType) noexcept
+	{
+		__primitiveType = GLenum(primitiveType);
+	}
+
+	constexpr void VertexArray::setVertexStartingIndex(const GLint index) noexcept
+	{
+		__vertexStartingIndex = index;
+	}
+
+	constexpr void VertexArray::setNumVertices(const GLsizei numVertices) noexcept
+	{
+		__numVertices = numVertices;
+	}
+
+	constexpr void VertexArray::setDrawInfo(
+		const PrimitiveType primitiveType, const GLint vertexStartingIndex, const GLsizei numVertices) noexcept
+	{
+		setPrimitiveType(primitiveType);
+		setVertexStartingIndex(vertexStartingIndex);
+		setNumVertices(numVertices);
+	}
 }

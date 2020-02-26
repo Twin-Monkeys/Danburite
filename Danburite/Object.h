@@ -12,7 +12,7 @@ namespace ObjectGL
 		Object &operator=(const Object &) = delete;
 
 	protected:
-		Object(const IDType &id) noexcept;
+		constexpr Object(const IDType &id) noexcept;
 
 	public:
 		const IDType ID;
@@ -21,7 +21,7 @@ namespace ObjectGL
 	};
 
 	template <typename IDType>
-	Object<IDType>::Object(const IDType &id) noexcept :
+	constexpr Object<IDType>::Object(const IDType &id) noexcept :
 		ID(id)
 	{}
 }

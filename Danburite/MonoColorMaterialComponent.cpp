@@ -12,9 +12,4 @@ namespace Danburite
 
 		monoColorProgram.setUniformVec4(ShaderIdentifier::Name::Material::DIFFUSE_COLOR, __color);
 	}
-
-	void MonoColorMaterialComponent::setColor(const vec4 &color) noexcept
-	{
-		__color = color;
-	}
 }

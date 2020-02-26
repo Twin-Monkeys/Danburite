@@ -17,11 +17,6 @@ namespace Danburite
 		setNumInstances(numInstances);
 	}
 
-	const vector<mat4> &ModelMatrixBuffer::getModelMatrices() const noexcept
-	{
-		return __modelMatrices;
-	}
-
 	Transform &ModelMatrixBuffer::getTransform(const size_t idx) noexcept
 	{
 		return __transforms[idx];
@@ -50,6 +45,6 @@ namespace Danburite
 
 	void ModelMatrixBuffer::selfDeploy() noexcept
 	{
-		memoryCopy(__modelMatrices.data(), 0, __numInstances * sizeof(mat4));
+		memoryCopy(__modelMatrices.data(), __numInstances * sizeof(mat4));
 	}
 }

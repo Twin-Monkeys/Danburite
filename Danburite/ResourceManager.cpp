@@ -41,7 +41,7 @@ namespace Danburite
 		__stringCache.clear();
 	}
 
-	ResourceManager& ResourceManager::getInstance() noexcept
+	ResourceManager &ResourceManager::getInstance() noexcept
 	{
 		static ResourceManager instance;
 		return instance;
