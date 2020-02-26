@@ -290,7 +290,7 @@ void LightTestScene::draw() noexcept
 	PostProcessingPipeline::unbind();
 	__pPPP->render();
 
-	RenderContext::requestBufferSwapping();
+	RenderContext::getCurrent()->requestBufferSwapping();
 }
 
 bool LightTestScene::delta(const float deltaTime) noexcept

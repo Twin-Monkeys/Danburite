@@ -131,7 +131,7 @@ void MSAATestScene::draw() noexcept
 
 	__pMSAAPP->render();
 
-	RenderContext::requestBufferSwapping();
+	RenderContext::getCurrent()->requestBufferSwapping();
 }
 
 bool MSAATestScene::delta(const float deltaTime) noexcept

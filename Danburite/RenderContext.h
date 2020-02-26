@@ -6,10 +6,10 @@
 #include "RCException.h"
 #include <unordered_set>
 #include <cassert>
+#include <thread>
 
 namespace ObjectGL
 {
-	class DeviceContext;
 	class RenderContext;
 
 	template <typename T>
@@ -29,6 +29,8 @@ namespace ObjectGL
 
 		virtual ~ContextDependentSingleton() = default;
 	};
+
+	class DeviceContext;
 
 	class RenderContext final : public BindableObject<RenderContext, HGLRC>
 	{
@@ -54,6 +56,11 @@ namespace ObjectGL
 		static std::unordered_set<void(*)(const RenderContext *)> &
 			__getOnDestroyListenerContainer() noexcept;
 
+		static std::unordered_map<std::thread::id, RenderContext *> &
+			__getCurrentMap() noexcept;
+
+		static RenderContext *&__getCurrentSlot() noexcept;
+
 	protected:
 		virtual void _onBind() noexcept override;
 
@@ -63,6 +70,7 @@ namespace ObjectGL
 			const PixelFormatDescriptor& pixelFormatDesc, const RCAttributeDescriptor &attributeDesc);
 
 		void requestBufferSwapping() noexcept;
+		bool isSupportedExtension(const std::string &extensionName) const noexcept;
 
 		virtual ~RenderContext() noexcept;
 

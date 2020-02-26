@@ -309,7 +309,7 @@ void SpaceScene::draw() noexcept
 
 	__pPPPipeline->render();
 
-	RenderContext::requestBufferSwapping();
+	RenderContext::getCurrent()->requestBufferSwapping();
 }
 
 bool SpaceScene::delta(const float deltaTime) noexcept

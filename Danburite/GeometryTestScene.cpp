@@ -142,7 +142,7 @@ void GeometryTestScene::draw() noexcept
 
 	__pDrawer->batchDraw();
 
-	RenderContext::requestBufferSwapping();
+	RenderContext::getCurrent()->requestBufferSwapping();
 }
 
 bool GeometryTestScene::delta(const float deltaTime) noexcept

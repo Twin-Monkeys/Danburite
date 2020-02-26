@@ -7,6 +7,7 @@
 namespace ObjectGL
 {
 	class Screen;
+	class RenderContext;
 
 	/*
 		Window는 자신을 생성한 스레드만이 접근할 수 있듯,
@@ -27,6 +28,7 @@ namespace ObjectGL
 		DeviceContext(Screen &screen);
 
 		void swapBuffers() noexcept;
+
 		std::thread::id getOwnerThreadID() const noexcept;
 
 		constexpr operator HDC() const noexcept;

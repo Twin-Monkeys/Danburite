@@ -214,7 +214,7 @@ void ShadowTestScene::draw() noexcept
 
 	// Render to screen
 	__pGammaCorrectionPP->render();
-	RenderContext::requestBufferSwapping();
+	RenderContext::getCurrent()->requestBufferSwapping();
 }
 
 bool ShadowTestScene::delta(const float deltaTime) noexcept

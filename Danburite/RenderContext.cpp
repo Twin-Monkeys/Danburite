@@ -33,20 +33,26 @@ namespace ObjectGL
 		const PixelFormatDescriptor &pixelFormatDesc, const RCAttributeDescriptor &desc) :
 		BindableObject(__createRC(deviceContext, pixelFormatDesc, desc)), __deviceContext(deviceContext)
 	{
+		const RenderContext *const pPrevContext = getCurrent();
+
 		BOOL result = wglMakeCurrent(deviceContext, ID);
 		assert(result);
 
 		GLint numExtensions = 0;
 		glGetIntegerv(GL_NUM_EXTENSIONS, &numExtensions);
-		assert(glGetError() == GL_NO_ERROR());
+		assert(glGetError() == GL_NO_ERROR);
 
 		for (GLint i = 0; i < numExtensions; i++)
 		{
 			__extensionMap.emplace(reinterpret_cast<const char *>(glGetStringi(GL_EXTENSIONS, i)));
-			assert(glGetError() == GL_NO_ERROR());
+			assert(glGetError() == GL_NO_ERROR);
 		}
 
-		result = wglMakeCurrent(deviceContext, nullptr);
+		if (pPrevContext)
+			result = wglMakeCurrent(deviceContext, pPrevContext->ID);
+		else
+			result = wglMakeCurrent(deviceContext, nullptr);
+
 		assert(result);
 		
 		for (const auto &onCreateListener : __getOnCreateListenerContainer())
@@ -55,7 +61,8 @@ namespace ObjectGL
 
 	void RenderContext::__release() noexcept
 	{
-		if (__pCurrent == this)
+		// 현재 스레드 상에서, DC와 바인딩 되어 있는 RC가 this인 경우
+		if (this == getCurrent())
 			unbind();
 
 		const BOOL result = wglDeleteContext(ID);
@@ -64,7 +71,11 @@ namespace ObjectGL
 
 	void RenderContext::__validate(DeviceContext &deviceContext)
 	{
-		if (__glInitialized)
+		static unordered_map<thread::id, bool> initializedThreads;
+
+		// TODO: Checking thread safety
+		bool &initialized = initializedThreads[this_thread::get_id()];
+		if (initialized)
 			return;
 
 		const HGLRC hTmpRC = wglCreateContext(deviceContext);
@@ -83,7 +94,7 @@ namespace ObjectGL
 		result = wglDeleteContext(hTmpRC);
 		assert(result);
 
-		__glInitialized = true;
+		initialized = true;
 	}
 
 	void RenderContext::__setPixelFormat(const HDC hDC, const PIXELFORMATDESCRIPTOR &descRaw)
@@ -121,12 +132,23 @@ namespace ObjectGL
 		return onDestroyListenerContainer;
 	}
 
+	unordered_map<thread::id, RenderContext *> &RenderContext::__getCurrentMap() noexcept
+	{
+		static unordered_map<thread::id, RenderContext *> rcMap;
+		return rcMap;
+	}
+
+	RenderContext *&RenderContext::__getCurrentSlot() noexcept
+	{
+		return __getCurrentMap()[this_thread::get_id()];
+	}
+
 	void RenderContext::_onBind() noexcept
 	{
 		const BOOL result = wglMakeCurrent(__deviceContext, ID);
 		assert(result);
 
-		__pCurrent = this;
+		__getCurrentSlot() = this;
 	}
 
 	RenderContext::~RenderContext() noexcept
@@ -142,21 +164,26 @@ namespace ObjectGL
 		__deviceContext.swapBuffers();
 	}
 
+	bool RenderContext::isSupportedExtension(const string &extensionName) const noexcept
+	{
+		return __extensionMap.count(extensionName);
+	}
+
 	void RenderContext::unbind() noexcept
 	{
-		if (!__pCurrent)
+		RenderContext *&pCurrent = __getCurrentSlot();
+		if (!pCurrent)
 			return;
 
-		const BOOL result = wglMakeCurrent(__pCurrent->__deviceContext, nullptr);
-		assert(result);
+		const bool valid = wglMakeCurrent(pCurrent->__deviceContext, nullptr);
+		assert(valid);
 
-		__pCurrent = nullptr;
+		pCurrent = nullptr;
 		_unbind();
 	}
 
 	RenderContext *RenderContext::getCurrent() noexcept
 	{
-		static unordered_map<thread::id, RenderContext*> rcMap;
-		return rcMap[this_thread::get_id()];
+		return __getCurrentSlot();
 	}
 }
