@@ -25,7 +25,7 @@ namespace Danburite
 
 	constexpr VertexAttributeType &operator|=(VertexAttributeType &lhs, const VertexAttributeFlag rhs)
 	{
-		reinterpret_cast<unsigned &>(lhs) |= unsigned(rhs);
+		lhs = VertexAttributeType(unsigned(lhs) | unsigned(rhs));
 		return lhs;
 	}
 }

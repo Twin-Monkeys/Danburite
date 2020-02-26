@@ -44,14 +44,13 @@ namespace ObjectGL
 
 	void Program::__linkingCheck()
 	{
-		GLint success;
-		glGetProgramiv(ID, GL_LINK_STATUS, &success);
-		if (!success)
+		if (glGetError() != GL_NO_ERROR)
 		{
 			string msg = "Link error occurred: ";
 
 			char log[512];
 			glGetProgramInfoLog(ID, sizeof(log), nullptr, log);
+			assert(glGetError() == GL_NO_ERROR);
 
 			msg += log;
 

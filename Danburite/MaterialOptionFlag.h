@@ -28,13 +28,13 @@ namespace Danburite
 
 	constexpr MaterialOptionFlag &operator|=(MaterialOptionFlag &lhs, const MaterialOptionFlag rhs)
 	{
-		reinterpret_cast<GLuint &>(lhs) |= GLuint(rhs);
+		lhs = MaterialOptionFlag(GLuint(lhs) | GLuint(rhs));
 		return lhs;
 	}
 
 	constexpr MaterialOptionFlag &operator&=(MaterialOptionFlag &lhs, const MaterialOptionFlag rhs)
 	{
-		reinterpret_cast<GLuint &>(lhs) &= GLuint(rhs);
+		lhs = MaterialOptionFlag(GLuint(lhs) & GLuint(rhs));
 		return lhs;
 	}
 }
