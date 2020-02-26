@@ -34,14 +34,12 @@ namespace ObjectGL
 	{
 	private:
 		DeviceContext &__deviceContext;
+		std::unordered_set<std::string> __extensionMap;
 
 		RenderContext(const RenderContext &src) = delete;
 		RenderContext& operator=(const RenderContext &) = delete;
 
 		void __release() noexcept;
-
-		static inline bool __glInitialized = false;
-		static inline RenderContext *__pCurrent = nullptr;
 
 		static HGLRC __createRC(
 			DeviceContext &deviceContext,
@@ -64,12 +62,13 @@ namespace ObjectGL
 			DeviceContext &deviceContext,
 			const PixelFormatDescriptor& pixelFormatDesc, const RCAttributeDescriptor &attributeDesc);
 
+		void requestBufferSwapping() noexcept;
+
 		virtual ~RenderContext() noexcept;
 
-		static void requestBufferSwapping() noexcept;
 		static void unbind() noexcept;
 
-		static constexpr RenderContext *getCurrent() noexcept;
+		static RenderContext *getCurrent() noexcept;
 
 		template <typename T>
 		static void registerContextDependentSingleton() noexcept;
@@ -105,11 +104,6 @@ namespace ObjectGL
 	T &ContextDependentSingleton<T>::getInstance() noexcept
 	{
 		return *(__getInstanceMap().at(RenderContext::getCurrent()));
-	}
-
-	constexpr RenderContext *RenderContext::getCurrent() noexcept
-	{
-		return __pCurrent;
 	}
 
 	template <typename T>

@@ -12,6 +12,9 @@ namespace ObjectGL
 		DeviceContext &deviceContext,
 		const PixelFormatDescriptor &pixelFormatDesc, const RCAttributeDescriptor &desc)
 	{
+		if (deviceContext.getOwnerThreadID() != this_thread::get_id())
+			throw RCException("Current thread is not identical with owner thread of the device context");
+
 		__setPixelFormat(deviceContext, pixelFormatDesc);
 		__validate(deviceContext);
 
@@ -22,11 +25,30 @@ namespace ObjectGL
 		return retVal;
 	}
 
+	/*
+		RenderContext는 하나의 dc에 대해 하나만 바인드 (make current) 할 수 있다.
+	*/
 	RenderContext::RenderContext(
 		DeviceContext &deviceContext,
 		const PixelFormatDescriptor &pixelFormatDesc, const RCAttributeDescriptor &desc) :
 		BindableObject(__createRC(deviceContext, pixelFormatDesc, desc)), __deviceContext(deviceContext)
 	{
+		BOOL result = wglMakeCurrent(deviceContext, ID);
+		assert(result);
+
+		GLint numExtensions = 0;
+		glGetIntegerv(GL_NUM_EXTENSIONS, &numExtensions);
+		assert(glGetError() == GL_NO_ERROR());
+
+		for (GLint i = 0; i < numExtensions; i++)
+		{
+			__extensionMap.emplace(reinterpret_cast<const char *>(glGetStringi(GL_EXTENSIONS, i)));
+			assert(glGetError() == GL_NO_ERROR());
+		}
+
+		result = wglMakeCurrent(deviceContext, nullptr);
+		assert(result);
+		
 		for (const auto &onCreateListener : __getOnCreateListenerContainer())
 			onCreateListener(this);
 	}
@@ -117,18 +139,24 @@ namespace ObjectGL
 
 	void RenderContext::requestBufferSwapping() noexcept
 	{
-		assert(__pCurrent);
-		__pCurrent->__deviceContext.swapBuffers();
+		__deviceContext.swapBuffers();
 	}
 
 	void RenderContext::unbind() noexcept
 	{
-		assert(__pCurrent);
+		if (!__pCurrent)
+			return;
 
 		const BOOL result = wglMakeCurrent(__pCurrent->__deviceContext, nullptr);
 		assert(result);
 
 		__pCurrent = nullptr;
 		_unbind();
+	}
+
+	RenderContext *RenderContext::getCurrent() noexcept
+	{
+		static unordered_map<thread::id, RenderContext*> rcMap;
+		return rcMap[this_thread::get_id()];
 	}
 }
