@@ -4,6 +4,7 @@
 #include "TextReader.h"
 #include <stack>
 #include <cassert>
+#include <regex>
 
 using namespace std;
 using namespace filesystem;
@@ -17,18 +18,31 @@ namespace ObjectGL
 
 	string ShaderCompiler::__preprocess(const path &srcPath)
 	{
-		static constexpr string_view SEARCH_TARGET = "#include";
+		// #include "TestHeader.h"
+		//static const regex includeDirectiveRegex { R"_(^[ \t]*#include[ \t]+"[.^"]*"[ \t]*$)_" };
+		static const regex includeDirectiveRegex { R"_(^[ \t]*#include[ \t]+.*$)_" };
+
+		static constexpr string_view
+			includeDirective		= "#include",
+			extensionDirective		= "#extension";
 
 		const path &sourceParentPath = srcPath.parent_path();
 		string retVal = move(TextReader::read(srcPath.string()));
 
+		smatch matched;
+		if (regex_search(retVal, matched, includeDirectiveRegex))
+		{
+			int a = 5;
+		}
+
+		// #include directive processing
 		while (true)
 		{
-			const size_t DIRECTIVE_POS = retVal.find(SEARCH_TARGET);
+			const size_t DIRECTIVE_POS = retVal.find(includeDirective);
 			if (DIRECTIVE_POS == string::npos)
 				break;
 
-			const size_t QUOTE_START = retVal.find('\"', DIRECTIVE_POS + SEARCH_TARGET.length());
+			const size_t QUOTE_START = retVal.find('\"', DIRECTIVE_POS + includeDirective.length());
 			if ((QUOTE_START == string::npos))
 				throw ShaderCompilerException("invalid include syntax");
 
@@ -42,6 +56,8 @@ namespace ObjectGL
 
 			retVal.replace(DIRECTIVE_POS, (QUOTE_END + 1) - DIRECTIVE_POS, __preprocess(sourceParentPath / includedPath));
 		}
+
+		// #extension directive processing
 
 		return retVal;
 	}

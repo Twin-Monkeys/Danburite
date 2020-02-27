@@ -3,8 +3,7 @@
 #ifndef __POST_PROCESS_HEADER__
 #define __POST_PROCESS_HEADER__
 
-//? #extension GL_ARB_bindless_texture : require
-
+#extension GL_ARB_bindless_texture : require
 const uint MAX_NUM_COLOR_ATTACHMENTS = 8U;
 
 struct Attachment
