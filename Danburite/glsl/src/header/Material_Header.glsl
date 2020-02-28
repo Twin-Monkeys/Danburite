@@ -3,8 +3,7 @@
 #ifndef __MATERIAL_HEADER__
 #define __MATERIAL_HEADER__
 
-// for uint64_t
-#extension GL_ARB_gpu_shader_int64 : require
+#extension GL_ARB_bindless_texture : require
 
 #include "Constant_Header.glsl"
 
