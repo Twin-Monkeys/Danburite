@@ -33,28 +33,9 @@ namespace ObjectGL
 		const PixelFormatDescriptor &pixelFormatDesc, const RCAttributeDescriptor &desc) :
 		BindableObject(__createRC(deviceContext, pixelFormatDesc, desc)), __deviceContext(deviceContext)
 	{
-		const RenderContext *const pPrevContext = getCurrent();
-
 		BOOL result = wglMakeCurrent(deviceContext, ID);
 		assert(result);
 
-		GLint numExtensions = 0;
-		glGetIntegerv(GL_NUM_EXTENSIONS, &numExtensions);
-		assert(glGetError() == GL_NO_ERROR);
-
-		for (GLint i = 0; i < numExtensions; i++)
-		{
-			__extensionMap.emplace(reinterpret_cast<const char *>(glGetStringi(GL_EXTENSIONS, i)));
-			assert(glGetError() == GL_NO_ERROR);
-		}
-
-		if (pPrevContext)
-			result = wglMakeCurrent(deviceContext, pPrevContext->ID);
-		else
-			result = wglMakeCurrent(deviceContext, nullptr);
-
-		assert(result);
-		
 		for (const auto &onCreateListener : __getOnCreateListenerContainer())
 			onCreateListener(this);
 	}
@@ -162,11 +143,6 @@ namespace ObjectGL
 	void RenderContext::requestBufferSwapping() noexcept
 	{
 		__deviceContext.swapBuffers();
-	}
-
-	bool RenderContext::isSupportedExtension(const string &extensionName) const noexcept
-	{
-		return __extensionMap.count(extensionName);
 	}
 
 	void RenderContext::unbind() noexcept

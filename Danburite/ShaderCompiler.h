@@ -16,7 +16,7 @@ namespace ObjectGL
 		std::unordered_set<std::string> __sourcePaths;
 		const GLenum _TYPE;
 
-		static std::string __preprocess(const std::filesystem::path &srcPath);
+		static std::string __preprocess(const std::filesystem::path &srcPath, const bool recursive = false);
 
 	protected:
 		ShaderCompiler(const ShaderType type) noexcept;

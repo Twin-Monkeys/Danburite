@@ -5,6 +5,7 @@
 #include <stack>
 #include <cassert>
 #include <regex>
+#include "RenderContext.h"
 
 using namespace std;
 using namespace filesystem;
@@ -16,48 +17,51 @@ namespace ObjectGL
 		_TYPE(GLenum(type))
 	{}
 
-	string ShaderCompiler::__preprocess(const path &srcPath)
+	string ShaderCompiler::__preprocess(const path &srcPath, const bool recursive)
 	{
-		// #include "TestHeader.h"
-		//static const regex includeDirectiveRegex { R"_(^[ \t]*#include[ \t]+"[.^"]*"[ \t]*$)_" };
-		static const regex includeDirectiveRegex { R"_(^[ \t]*#include[ \t]+.*$)_" };
-
-		static constexpr string_view
-			includeDirective		= "#include",
-			extensionDirective		= "#extension";
+		static const regex
+			includeDirectiveRegex	{ R"_(^[ \t]*#include[ \t]+"(.*)"[ \t]*$)_" },
+			extensionDirectiveRegex	{ R"_(^[ \t]*#extension[ \t]+\w+[ \t]*:[ \t]*\w*[ \t]*$)_" },
+			versionDirectiveRegex	{ R"_(^[ \t]*#version[ \t]+\d+[ \t]+\w*[ \t]*$)_" };
 
 		const path &sourceParentPath = srcPath.parent_path();
 		string retVal = move(TextReader::read(srcPath.string()));
 
 		smatch matched;
-		if (regex_search(retVal, matched, includeDirectiveRegex))
-		{
-			int a = 5;
-		}
-
+		
 		// #include directive processing
-		while (true)
+
+		while (regex_search(retVal, matched, includeDirectiveRegex))
 		{
-			const size_t DIRECTIVE_POS = retVal.find(includeDirective);
-			if (DIRECTIVE_POS == string::npos)
-				break;
+			const path includedPath = matched.str(1ULL);
 
-			const size_t QUOTE_START = retVal.find('\"', DIRECTIVE_POS + includeDirective.length());
-			if ((QUOTE_START == string::npos))
-				throw ShaderCompilerException("invalid include syntax");
-
-			const size_t QUOTE_END = retVal.find('\"', QUOTE_START + 1);
-			if ((QUOTE_END == string::npos))
-				throw ShaderCompilerException("invalid include syntax");
-
-			const path includedPath = retVal.substr(QUOTE_START + 1, (QUOTE_END - 1) - QUOTE_START);
 			if (!includedPath.has_filename())
-				throw ShaderCompilerException("invalid include syntax");
+				throw ShaderCompilerException("Invalid include syntax");
 
-			retVal.replace(DIRECTIVE_POS, (QUOTE_END + 1) - DIRECTIVE_POS, __preprocess(sourceParentPath / includedPath));
+			retVal.replace(matched.position(), matched.length(), __preprocess(sourceParentPath / includedPath, true));
 		}
+
+		if (recursive)
+			return retVal;
 
 		// #extension directive processing
+
+		vector<string> extensionStrList;
+		while (regex_search(retVal, matched, extensionDirectiveRegex))
+		{
+			extensionStrList.emplace_back(move(matched.str()));
+			retVal.erase(matched.position(), matched.length());
+		}
+
+		if (!extensionStrList.empty())
+		{
+			size_t insertionPos {};
+			if (regex_search(retVal, matched, versionDirectiveRegex))
+				insertionPos = (matched.position() + matched.length());
+
+			for (const string &extensionStr : extensionStrList)
+				retVal.insert(insertionPos, "\n" + extensionStr);
+		}
 
 		return retVal;
 	}

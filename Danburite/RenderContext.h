@@ -36,7 +36,6 @@ namespace ObjectGL
 	{
 	private:
 		DeviceContext &__deviceContext;
-		std::unordered_set<std::string> __extensionMap;
 
 		RenderContext(const RenderContext &src) = delete;
 		RenderContext& operator=(const RenderContext &) = delete;
@@ -70,7 +69,6 @@ namespace ObjectGL
 			const PixelFormatDescriptor& pixelFormatDesc, const RCAttributeDescriptor &attributeDesc);
 
 		void requestBufferSwapping() noexcept;
-		bool isSupportedExtension(const std::string &extensionName) const noexcept;
 
 		virtual ~RenderContext() noexcept;
 
