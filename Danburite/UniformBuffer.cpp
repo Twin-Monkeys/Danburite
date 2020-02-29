@@ -82,6 +82,11 @@ namespace ObjectGL
 		return _setUniformValue(name, pValues, sizeof(GLfloat) * numElements);
 	}
 
+	bool UniformBuffer::setUniformUvec2(const string &name, const GLuint *const pValues) noexcept
+	{
+		return _setUniformValue(name, pValues, sizeof(GLuint) * 2);
+	}
+
 	bool UniformBuffer::setUniformVec3(const string &name, const GLfloat *const pValues) noexcept
 	{
 		return _setUniformValue(name, pValues, sizeof(GLfloat) * 3);

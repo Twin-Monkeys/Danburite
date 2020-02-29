@@ -20,15 +20,15 @@ namespace Danburite
 		if (!initializedSet.emplace(__pProgram).second)
 			return;
 
-		__pProgram->setTextureLocation(Name::PostProcess::DEPTH_ATTACHMENT, Value::PostProcess::DEPTH_ATTACHMENT_LOCATION);
-		__pProgram->setTextureLocation(Name::PostProcess::STENCIL_ATTACHMENT, Value::PostProcess::STENCIL_ATTACHMENT_LOCATION);
+		__pProgram->setUniformInt(Name::PostProcess::DEPTH_ATTACHMENT, Value::PostProcess::DEPTH_ATTACHMENT_LOCATION);
+		__pProgram->setUniformInt(Name::PostProcess::STENCIL_ATTACHMENT, Value::PostProcess::STENCIL_ATTACHMENT_LOCATION);
 
 		for (GLuint i = 0; i < Value::PostProcess::MAX_NUM_COLOR_ATTACHMENTS; i++)
 		{
 			const string &colorAttachmentName =
 				(Name::PostProcess::COLOR_ATTACHMENT_ARRAY + ('[' + to_string(i) + ']'));
 
-			__pProgram->setTextureLocation(
+			__pProgram->setUniformInt(
 				colorAttachmentName, Value::PostProcess::COLOR_ATTACHMENT_ARRAY_LOCATION + i);
 		}
 	}

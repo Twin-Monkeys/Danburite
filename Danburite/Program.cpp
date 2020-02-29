@@ -132,6 +132,18 @@ namespace ObjectGL
 		return true;
 	}
 
+	bool Program::setUniformUvec2(const string &name, const GLuint *const pValues) noexcept
+	{
+		const GLint LOCATION = __getUniformLocation(name);
+		if (LOCATION < 0)
+			return false;
+
+		bind();
+		glUniform2uiv(LOCATION, 1, pValues);
+		assert(glGetError() == GL_NO_ERROR);
+		return true;
+	}
+
 	bool Program::setUniformVec3(const string &name, const GLfloat *const pValues) noexcept
 	{
 		const GLint LOCATION = __getUniformLocation(name);

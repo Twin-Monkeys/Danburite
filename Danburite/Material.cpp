@@ -24,14 +24,14 @@ namespace Danburite
 			if (!initializedSet.emplace(pUniformSetter).second)
 				continue;
 
-			pUniformSetter->setTextureLocation(Name::Material::AMBIENT_TEX, Value::Material::AMBIENT_TEX_LOCATION);
-			pUniformSetter->setTextureLocation(Name::Material::DIFFUSE_TEX, Value::Material::DIFFUSE_TEX_LOCATION);
-			pUniformSetter->setTextureLocation(Name::Material::SPECULAR_TEX, Value::Material::SPECULAR_TEX_LOCATION);
-			pUniformSetter->setTextureLocation(Name::Material::EMISSIVE_TEX, Value::Material::EMISSIVE_TEX_LOCATION);
-			pUniformSetter->setTextureLocation(Name::Material::SHININESS_TEX, Value::Material::SHININESS_TEX_LOCATION);
-			pUniformSetter->setTextureLocation(Name::Material::ALPHA_TEX, Value::Material::ALPHA_TEX_LOCATION);
-			pUniformSetter->setTextureLocation(Name::Material::NORMAL_TEX, Value::Material::NORMAL_TEX_LOCATION);
-			pUniformSetter->setTextureLocation(Name::Material::ENVIRONMENT_TEX, Value::Material::ENVIRONMENT_TEX_LOCATION);
+			pUniformSetter->setUniformInt(Name::Material::AMBIENT_TEX, Value::Material::AMBIENT_TEX_LOCATION);
+			pUniformSetter->setUniformInt(Name::Material::DIFFUSE_TEX, Value::Material::DIFFUSE_TEX_LOCATION);
+			pUniformSetter->setUniformInt(Name::Material::SPECULAR_TEX, Value::Material::SPECULAR_TEX_LOCATION);
+			pUniformSetter->setUniformInt(Name::Material::EMISSIVE_TEX, Value::Material::EMISSIVE_TEX_LOCATION);
+			pUniformSetter->setUniformInt(Name::Material::SHININESS_TEX, Value::Material::SHININESS_TEX_LOCATION);
+			pUniformSetter->setUniformInt(Name::Material::ALPHA_TEX, Value::Material::ALPHA_TEX_LOCATION);
+			pUniformSetter->setUniformInt(Name::Material::NORMAL_TEX, Value::Material::NORMAL_TEX_LOCATION);
+			pUniformSetter->setUniformInt(Name::Material::ENVIRONMENT_TEX, Value::Material::ENVIRONMENT_TEX_LOCATION);
 		}
 	}
 

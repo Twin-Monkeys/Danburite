@@ -15,27 +15,25 @@ namespace ObjectGL
 		virtual bool setUniformFloatArray(
 			const std::string &name, const GLfloat *const pValues, const GLsizei numElements) noexcept = 0;
 
+		virtual bool setUniformUvec2(const std::string &name, const GLuint *const pValues) noexcept = 0;
 		virtual bool setUniformVec3(const std::string &name, const GLfloat *const pValues) noexcept = 0;
 		virtual bool setUniformVec4(const std::string &name, const GLfloat *const pValues) noexcept = 0;
 		virtual bool setUniformMat3(const std::string &name, const GLfloat *const pValues, const bool transposition = false) noexcept = 0;
 		virtual bool setUniformMat4(const std::string &name, const GLfloat *const pValues, const bool transposition = false) noexcept = 0;
 
 		bool setUniformFloat(const std::string &name, const GLfloat value) noexcept;
-		bool setUniformBool(const std::string& name, const GLboolean value) noexcept;
-		bool setTextureLocation(const std::string &name, const GLuint location) noexcept;
+		bool setUniformBool(const std::string &name, const GLboolean value) noexcept;
+		bool setUniformUvec2(const std::string &name, const glm::uvec2 &value) noexcept;
+		bool setUniformUvec2(const std::string &name, const GLuint64 valueAsStream) noexcept;
 
-		bool setUniformVec3(const std::string &name, const std::initializer_list<GLfloat> &values) noexcept;
 		bool setUniformVec3(const std::string &name, const glm::vec3 &values) noexcept;
 		bool setUniformVec3(const std::string &name, const float x, const float y, const float z) noexcept;
 
-		bool setUniformVec4(const std::string &name, const std::initializer_list<GLfloat> &values) noexcept;
 		bool setUniformVec4(const std::string &name, const glm::vec4 &values) noexcept;
 		bool setUniformVec4(const std::string &name, const float x, const float y, const float z, const float w) noexcept;
 
-		bool setUniformMat3(const std::string& name, const std::initializer_list<GLfloat>& values, const bool transposition = false) noexcept;
-		bool setUniformMat3(const std::string& name, const glm::mat4& values, const bool transposition = false) noexcept;
+		bool setUniformMat3(const std::string& name, const glm::mat4 &values, const bool transposition = false) noexcept;
 
-		bool setUniformMat4(const std::string &name, const std::initializer_list<GLfloat> &values, const bool transposition = false) noexcept;
 		bool setUniformMat4(const std::string &name, const glm::mat4 &values, const bool transposition = false) noexcept;
 
 		virtual ~UniformSetter() = default;

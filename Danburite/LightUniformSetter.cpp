@@ -30,22 +30,27 @@ namespace Danburite
 		return __uniformSetter.setUniformFloatArray(__uniformNameCache.getValue(name), pValues, numElements);
 	}
 
-	bool LightUniformSetter::setUniformVec3(const std::string &name, const GLfloat *const pValues) noexcept
+	bool LightUniformSetter::setUniformUvec2(const string &name, const GLuint *const pValue) noexcept
+	{
+		return __uniformSetter.setUniformUvec2(__uniformNameCache.getValue(name), pValue);
+	}
+
+	bool LightUniformSetter::setUniformVec3(const string &name, const GLfloat *const pValues) noexcept
 	{
 		return __uniformSetter.setUniformVec3(__uniformNameCache.getValue(name), pValues);
 	}
 
-	bool LightUniformSetter::setUniformVec4(const std::string &name, const GLfloat *const pValues) noexcept
+	bool LightUniformSetter::setUniformVec4(const string &name, const GLfloat *const pValues) noexcept
 	{
 		return __uniformSetter.setUniformVec4(__uniformNameCache.getValue(name), pValues);
 	}
 
-	bool LightUniformSetter::setUniformMat3(const std::string &name, const GLfloat *const pValues, const bool transposition) noexcept
+	bool LightUniformSetter::setUniformMat3(const string &name, const GLfloat *const pValues, const bool transposition) noexcept
 	{
 		return __uniformSetter.setUniformMat3(__uniformNameCache.getValue(name), pValues, transposition);
 	}
 
-	bool LightUniformSetter::setUniformMat4(const std::string &name, const GLfloat *const pValues, const bool transposition) noexcept
+	bool LightUniformSetter::setUniformMat4(const string &name, const GLfloat *const pValues, const bool transposition) noexcept
 	{
 		return __uniformSetter.setUniformMat4(__uniformNameCache.getValue(name), pValues, transposition);
 	}

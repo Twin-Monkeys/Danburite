@@ -16,14 +16,14 @@ namespace ObjectGL
 		return setUniformUint(name, value);
 	}
 
-	bool UniformSetter::setTextureLocation(const string &name, const GLuint location) noexcept
+	bool UniformSetter::setUniformUvec2(const string &name, const uvec2 &value) noexcept
 	{
-		return setUniformInt(name, location);
+		return setUniformUvec2(name, value_ptr(value));
 	}
 
-	bool UniformSetter::setUniformVec3(const string &name, const initializer_list<GLfloat> &values) noexcept
+	bool UniformSetter::setUniformUvec2(const string &name, const GLuint64 valueAsStream) noexcept
 	{
-		return setUniformVec3(name, values.begin());
+		return setUniformUvec2(name, reinterpret_cast<const GLuint *>(&valueAsStream));
 	}
 
 	bool UniformSetter::setUniformVec3(const string &name, const vec3 &values) noexcept
@@ -36,11 +36,6 @@ namespace ObjectGL
 		return setUniformVec3(name, { x, y, z });
 	}
 
-	bool UniformSetter::setUniformVec4(const string &name, const initializer_list<GLfloat> &values) noexcept
-	{
-		return setUniformVec4(name, values.begin());
-	}
-
 	bool UniformSetter::setUniformVec4(const string &name, const vec4 &values) noexcept
 	{
 		return setUniformVec4(name, value_ptr(values));
@@ -51,19 +46,9 @@ namespace ObjectGL
 		return setUniformVec4(name, { x, y, z, w });
 	}
 
-	bool UniformSetter::setUniformMat3(const string &name, const initializer_list<GLfloat> &values, const bool transposition) noexcept
-	{
-		return setUniformMat3(name, values.begin(), transposition);
-	}
-
 	bool UniformSetter::setUniformMat3(const string &name, const mat4 &values, const bool transposition) noexcept
 	{
 		return setUniformMat3(name, value_ptr(values), transposition);
-	}
-
-	bool UniformSetter::setUniformMat4(const string &name, const initializer_list<GLfloat> &values, const bool transposition) noexcept
-	{
-		return setUniformMat4(name, values.begin(), transposition);
 	}
 
 	bool UniformSetter::setUniformMat4(const string &name, const mat4 &values, const bool transposition) noexcept

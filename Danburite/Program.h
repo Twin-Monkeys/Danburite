@@ -105,6 +105,7 @@ namespace ObjectGL
 		virtual bool setUniformFloatArray(
 			const std::string &name, const GLfloat *const pValues, const GLsizei numElements) noexcept override;
 
+		virtual bool setUniformUvec2(const std::string &name, const GLuint *const pValues) noexcept override;
 		virtual bool setUniformVec3(const std::string &name, const GLfloat *const pValues) noexcept override;
 		virtual bool setUniformVec4(const std::string &name, const GLfloat *const pValues) noexcept override;
 		virtual bool setUniformMat3(const std::string &name, const GLfloat *const pValues, const bool transposition) noexcept override;

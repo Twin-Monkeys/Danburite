@@ -18,13 +18,10 @@ namespace Danburite
 		for (const ProgramType programType : programTypes)
 		{
 			UniformSetter *const pUniformSetter = &(programFactory.getProgram(programType));
-
-			if (initializedSet.count(pUniformSetter))
+			if (!initializedSet.emplace(pUniformSetter).second)
 				continue;
 
-			pUniformSetter->setTextureLocation(Name::Cubemap::ALBEDO_TEX, Value::Cubemap::ALBEDO_TEX_LOCATION);
-
-			initializedSet.emplace(pUniformSetter);
+			pUniformSetter->setUniformInt(Name::Cubemap::ALBEDO_TEX, Value::Cubemap::ALBEDO_TEX_LOCATION);
 		}
 	}
 
