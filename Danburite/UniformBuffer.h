@@ -27,6 +27,7 @@ namespace ObjectGL
 		bool registerProgram(Program &program) noexcept;
 		bool memoryAllocFit(const BufferUpdatePatternType updatePattern);
 
+		using UniformSetter::setUniformUvec2;
 		using UniformSetter::setUniformVec3;
 		using UniformSetter::setUniformVec4;
 		using UniformSetter::setUniformMat3;

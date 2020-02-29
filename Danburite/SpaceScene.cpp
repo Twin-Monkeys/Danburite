@@ -44,7 +44,6 @@ SpaceScene::SpaceScene()
 	Program &refractionProgram = programFactory.getProgram(ProgramType::REFRACTION);
 	Program &gammaCorrectionProgram = programFactory.getProgram(ProgramType::POST_PROCESS_GAMMA_CORRECTION);
 
-
 	//// Uniform Buffer »ý¼º ////
 
 	__pUBLight = make_shared<UniformBuffer>("UBLight", ShaderIdentifier::Value::UniformBlockBindingPoint::LIGHT);

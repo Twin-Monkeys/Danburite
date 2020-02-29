@@ -94,6 +94,7 @@ namespace ObjectGL
 		GLuint getUniformBlockIndex(const std::string &name) noexcept;
 		GLint getUniformBlockElementOffset(const std::string &name) noexcept;
 
+		using UniformSetter::setUniformUvec2;
 		using UniformSetter::setUniformVec3;
 		using UniformSetter::setUniformVec4;
 		using UniformSetter::setUniformMat3;
