@@ -18,6 +18,8 @@ struct Material
 
 	float shininess;
 
+	uvec2 diffuseHandle;
+
 	sampler2D ambientTex;
 	sampler2D diffuseTex;
 	sampler2D specularTex;
@@ -148,7 +150,8 @@ vec3 Material_getDiffuse()
 			(material.type == MATERIAL_TYPE_OUTLINING_PHONG) ||
 			(material.type == MATERIAL_TYPE_PHONG))
 		{
-			retVal = texture(material.diffuseTex, Material_texCoord).rgb;
+			// retVal = texture(material.diffuseTex, Material_texCoord).rgb;
+			retVal = texture(sampler2D(material.diffuseHandle), Material_texCoord).rgb;
 			retVal = pow(retVal, vec3(material.gamma));
 		}
 	}

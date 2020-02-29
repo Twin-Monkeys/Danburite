@@ -19,6 +19,15 @@ namespace Danburite
 		TextureUtil::bindIfExist(__pShininessTex, ShaderIdentifier::Value::Material::SHININESS_TEX_LOCATION);
 		TextureUtil::bindIfExist(__pAlphaTex, ShaderIdentifier::Value::Material::ALPHA_TEX_LOCATION);
 		TextureUtil::bindIfExist(__pNormalTex, ShaderIdentifier::Value::Material::NORMAL_TEX_LOCATION);
+
+		if (__pDiffuseTex)
+		{
+			if (!__pDiffuseTex->getHandle())
+				__pDiffuseTex->createHandle();
+
+			materialSetter.getProgram(ProgramType::PHONG).
+				setUniformUvec2("material.diffuseHandle", __pDiffuseTex->getHandle());
+		}
 	}
 
 	void PhongMaterialComponent::setAmbientTexture(const shared_ptr<Texture2D> &pTexture) noexcept
