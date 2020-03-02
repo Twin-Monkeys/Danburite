@@ -19,6 +19,13 @@ namespace Danburite
 		OutliningPhongMaterial(
 			const VertexAttributeType vertexType, ObjectGL::UniformSetter &uniformSetter) noexcept;
 
+		using Material::useLighting;
+		using Material::useAmbientTexture;
+		using Material::useSpecularTexture;
+		using Material::useShininessTexture;
+		using Material::useAlphaTexture;
+		using Material::useNormalTexture;
+
 		virtual ~OutliningPhongMaterial() = default;
 	};
 }

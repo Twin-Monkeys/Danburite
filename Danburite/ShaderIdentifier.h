@@ -123,7 +123,8 @@ namespace Danburite
 					LIGHT = 1U,
 					CAMERA = 2U,
 					CONVOLUTION = 3U,
-					GAMMA_CORRECTION = 4U;
+					GAMMA_CORRECTION = 4U,
+					CUBEMAP = 5U;
 			}
 
 			namespace Light

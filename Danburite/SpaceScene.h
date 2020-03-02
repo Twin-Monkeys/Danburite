@@ -25,6 +25,7 @@ private:
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBLight;
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBCamera;
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBGammaCorrection;
+	std::shared_ptr<ObjectGL::UniformBuffer> __pUBCubemap;
 
 	std::shared_ptr<Danburite::RenderUnit> __pNanosuitRU;
 	std::shared_ptr<Danburite::RenderUnit> __pStarshipRU;

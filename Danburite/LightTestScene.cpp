@@ -41,6 +41,13 @@ LightTestScene::LightTestScene()
 
 	//// Uniform Buffer 持失 ////
 
+	__pUBMaterial = make_shared<UniformBuffer>("UBMaterial", ShaderIdentifier::Value::UniformBlockBindingPoint::MATERIAL);
+	__pUBMaterial->registerProgram(monoColorProgram);
+	__pUBMaterial->registerProgram(phongProgram);
+	__pUBMaterial->registerProgram(silhouetteProgram);
+	__pUBMaterial->registerProgram(outlineProgram);
+	__pUBMaterial->registerProgram(skyboxProgram);
+
 	__pUBLight = make_shared<UniformBuffer>("UBLight", ShaderIdentifier::Value::UniformBlockBindingPoint::LIGHT);
 	__pUBLight->registerProgram(phongProgram);
 	__pUBLight->enableZeroInit(true);
@@ -56,6 +63,9 @@ LightTestScene::LightTestScene()
 	__pUBConv->registerProgram(convProgram);
 	__pUBConv->enableZeroInit(true);
 
+	__pUBCubemap = make_shared<UniformBuffer>("UBCubemap", ShaderIdentifier::Value::UniformBlockBindingPoint::CUBEMAP);
+	__pUBCubemap->registerProgram(skyboxProgram);
+
 
 	//// Rendering unit 持失 ////
 
@@ -63,27 +73,27 @@ LightTestScene::LightTestScene()
 
 	const mat4 rotationMat = rotate(-half_pi<float>(), vec3 { 1.f, 0.f, 0.f });
 
-	__pTerrainRU = AssetImporter::import("res/asset/mountain_terrain/Sasso.obj");
+	__pTerrainRU = AssetImporter::import("res/asset/mountain_terrain/Sasso.obj", *__pUBMaterial);
 	Transform &terrainTransform = __pTerrainRU->getTransform();
 	terrainTransform.setScale(5.f);
 
-	__pNanosuitRU = AssetImporter::import("res/asset/nanosuit/nanosuit.obj");
+	__pNanosuitRU = AssetImporter::import("res/asset/nanosuit/nanosuit.obj", *__pUBMaterial);
 	Transform &nanosuitTransform = __pNanosuitRU->getTransform();
 	nanosuitTransform.setScale(.7f);
 	nanosuitTransform.setPosition(15.f, -3.5f, 14.f);
 	nanosuitTransform.adjustRotationAngle(.7f);
 	
-	__pLizardManRU = AssetImporter::import("res/asset/lizard_man/scene.gltf");
+	__pLizardManRU = AssetImporter::import("res/asset/lizard_man/scene.gltf", *__pUBMaterial);
 	Transform &lizardManTransform = __pLizardManRU->getTransform();
 	lizardManTransform.setScale(4.f);
 	lizardManTransform.adjustRotationAngle(-.5f);
 	lizardManTransform.setPosition(-14.7f, 1.5f, 20.f);
 
-	__pStreetLightRU = AssetImporter::import("res/asset/street_light/scene.gltf", rotationMat);
+	__pStreetLightRU = AssetImporter::import("res/asset/street_light/scene.gltf", *__pUBMaterial, rotationMat);
 	Transform &streetLightTransform = __pStreetLightRU->getTransform();
 	streetLightTransform.setPosition(-13.f, -2.f, -13.f);
 
-	__pSkullRU = AssetImporter::import("res/asset/skull/scene.gltf");
+	__pSkullRU = AssetImporter::import("res/asset/skull/scene.gltf", *__pUBMaterial);
 	Transform &skullTransform = __pSkullRU->getTransform();
 	skullTransform.setPosition(12.f, -1.8f, -5.f);
 	skullTransform.setScale(5.f);
@@ -103,7 +113,7 @@ LightTestScene::LightTestScene()
 	pCubeTexture->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 
 	const shared_ptr<TransparentPhongMaterial> &pCubeMaterial =
-		make_shared<TransparentPhongMaterial>(VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
+		make_shared<TransparentPhongMaterial>(VertexAttributeType::POS3_NORMAL3_TEXCOORD2, *__pUBMaterial);
 
 	pCubeMaterial->setDiffuseTexture(pCubeTexture);
 
@@ -191,7 +201,7 @@ LightTestScene::LightTestScene()
 	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_WRAP_R, TextureWrapValue::CLAMP_TO_EDGE);
 
-	__pSkybox = make_shared<CubeSkybox>();
+	__pSkybox = make_shared<CubeSkybox>(*__pUBCubemap);
 	__pSkybox->setAlbedoTexture(pSkyboxAlbedoTex);
 
 	__pGrayscalePP = make_shared<GrayscalePostProcessor>();

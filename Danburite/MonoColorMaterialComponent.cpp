@@ -1,5 +1,6 @@
 #include "MonoColorMaterialComponent.h"
 #include "ShaderIdentifier.h"
+#include "UniformSetter.h"
 
 using namespace glm;
 using namespace ObjectGL;

@@ -32,6 +32,9 @@ ShadowTestScene::ShadowTestScene()
 
 	//// Uniform Buffer »ý¼º ////
 
+	__pUBMaterial = make_shared<UniformBuffer>("UBMaterial", ShaderIdentifier::Value::UniformBlockBindingPoint::MATERIAL);
+	__pUBMaterial->registerProgram(phongProgram);
+
 	__pUBLight = make_shared<UniformBuffer>("UBLight", ShaderIdentifier::Value::UniformBlockBindingPoint::LIGHT);
 	__pUBLight->enableZeroInit(true);
 	__pUBLight->registerProgram(phongProgram);
@@ -61,7 +64,9 @@ ShadowTestScene::ShadowTestScene()
 	pWoodTexture->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
 	pWoodTexture->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 
-	const shared_ptr<PhongMaterial> &pFloorMaterial = make_shared<PhongMaterial>(VertexAttributeType::POS3_COLOR4);
+	const shared_ptr<PhongMaterial> &pFloorMaterial =
+		make_shared<PhongMaterial>(VertexAttributeType::POS3_COLOR4, *__pUBMaterial);
+
 	pFloorMaterial->setDiffuseTexture(pWoodTexture);
 
 	unique_ptr<Mesh> pFloorMesh = make_unique<Mesh>(pFloorVA, pFloorMaterial);
@@ -75,7 +80,7 @@ ShadowTestScene::ShadowTestScene()
 		vaFactory.getVertexArrayPtr(ShapeType::CUBE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
 
 	const shared_ptr<PhongMaterial> &pCubeMaterial =
-		make_shared<PhongMaterial>(VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
+		make_shared<PhongMaterial>(VertexAttributeType::POS3_NORMAL3_TEXCOORD2, *__pUBMaterial);
 
 	pCubeMaterial->setDiffuseTexture(pWoodTexture);
 
@@ -184,33 +189,16 @@ bool ShadowTestScene::__keyFunc(const float deltaTime) noexcept
 
 void ShadowTestScene::draw() noexcept
 {
-	// Depth baking
-	{
-		__pUBCamera->directDeploy(*__pDepthBakingCamera);
-		Material::setRenderType(MaterialRenderType::DEPTH_BAKING);
-
-		__pDepthBaker->bind();
-		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::DEPTH);
-
-		__pDrawer->batchDraw();
-		__pDepthBaker->unbind();
-
-		// __pDepthBaker->getDepthAttachment();
-	}
-
 	// Gamma correction
-	{
-		__pLightDeployer->batchDeploy();
+	__pLightDeployer->batchDeploy();
 
-		__pUBCamera->directDeploy(*__pMainCamera);
-		Material::setRenderType(MaterialRenderType::NORMAL);
+	__pUBCamera->directDeploy(*__pMainCamera);
 
-		__pGammaCorrectionPP->bind();
-		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
+	__pGammaCorrectionPP->bind();
+	GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
 
-		__pDrawer->batchDraw();
-		PostProcessor::unbind();
-	}
+	__pDrawer->batchDraw();
+	PostProcessor::unbind();
 
 	// Render to screen
 	__pGammaCorrectionPP->render();

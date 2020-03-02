@@ -1,6 +1,7 @@
 #pragma once
 
 #include "UniformDeployable.h"
+#include <glm/glm.hpp>
 
 namespace Danburite
 {

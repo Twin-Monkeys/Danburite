@@ -18,6 +18,7 @@ class GeometryTestScene : public Danburite::Scene, public ObjectGL::ScreenEventH
 private:
 	bool __updated = false;
 
+	std::shared_ptr<ObjectGL::UniformBuffer> __pUBMaterial;
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBLight;
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBCamera;
 

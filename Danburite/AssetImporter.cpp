@@ -51,8 +51,54 @@ namespace Danburite
 		return pRetVal;
 	}
 
+	template <typename T>
+	static void __setupPhongStyleMaterial(
+		const shared_ptr<T> &pMaterial,
+		const shared_ptr<Texture2D> &pAmbientTex,
+		const shared_ptr<Texture2D> &pDiffuseTex,
+		const shared_ptr<Texture2D> &pSpecularTex,
+		const shared_ptr<Texture2D> &pEmissiveTex,
+		const shared_ptr<Texture2D> &pShininessTex,
+		const shared_ptr<Texture2D> &pAlphaTex,
+		const shared_ptr<Texture2D> &pNormalTex)
+	{
+		if (pAmbientTex)
+		{
+			pMaterial->setAmbientTexture(pAmbientTex);
+			pMaterial->useAmbientTexture(true);
+		}
+
+		pMaterial->setDiffuseTexture(pDiffuseTex);
+
+		if (pSpecularTex)
+		{
+			pMaterial->setSpecularTexture(pSpecularTex);
+			pMaterial->useSpecularTexture(true);
+		}
+
+		pMaterial->setEmissiveTexture(pEmissiveTex);
+
+		if (pShininessTex)
+		{
+			pMaterial->setShininessTexture(pShininessTex);
+			pMaterial->useShininessTexture(true);
+		}
+
+		if (pAlphaTex)
+		{
+			pMaterial->setAlphaTexture(pAlphaTex);
+			pMaterial->useAlphaTexture(true);
+		}
+
+		if (pNormalTex)
+		{
+			pMaterial->setNormalTexture(pNormalTex);
+			pMaterial->useNormalTexture(true);
+		}
+	}
+
 	shared_ptr<RenderUnit> AssetImporter::__parse(
-		const string &parentPath, const aiNode *const pNode, const aiScene* const pScene,
+		const string &parentPath, const aiNode *const pNode, const aiScene* const pScene, UniformSetter &uniformSetter,
 		const mat3 &vertexMatrix, const mat3 &normalMatrix, const MaterialType materialType, unordered_map<string, shared_ptr<Texture2D>> &textureCache)
 	{
 		RenderUnitManager &renderingUnitMgr = RenderUnitManager::getInstance();
@@ -153,7 +199,7 @@ namespace Danburite
 			switch (materialType)
 			{
 			case MaterialType::MONO_COLOR:
-				pMaterial = make_shared<MonoColorMaterial>(vertexType);
+				pMaterial = make_shared<MonoColorMaterial>(vertexType, uniformSetter);
 				break;
 
 			case MaterialType::EXPLODING_PHONG:
@@ -190,70 +236,58 @@ namespace Danburite
 
 				const shared_ptr<Texture2D> &pNormalTex =
 					__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_NORMALS);
-
-				shared_ptr<PhongMaterial> pPhongMaterial = nullptr;
 				
 				if (materialType == MaterialType::EXPLODING_PHONG)
-					pPhongMaterial = make_shared<ExplodingPhongMaterial>(vertexType);
+				{
+					pMaterial = make_shared<ExplodingPhongMaterial>(vertexType, uniformSetter);
 
+					__setupPhongStyleMaterial(
+						static_pointer_cast<ExplodingPhongMaterial>(pMaterial),
+						pAmbientTex, pDiffuseTex, pSpecularTex, pEmissiveTex, pShininessTex, pAlphaTex, pNormalTex);
+				}
 				else if (materialType == MaterialType::REFLECTION_PHONG)
-					pPhongMaterial = make_shared<ReflectionPhongMaterial>(vertexType);
+				{
+					pMaterial = make_shared<ReflectionPhongMaterial>(vertexType, uniformSetter);
 
+					__setupPhongStyleMaterial(
+						static_pointer_cast<ReflectionPhongMaterial>(pMaterial),
+						pAmbientTex, pDiffuseTex, pSpecularTex, pEmissiveTex, pShininessTex, pAlphaTex, pNormalTex);
+				}
 				else if (materialType == MaterialType::TRANSPARENT_PHONG)
-					pPhongMaterial = make_shared<TransparentPhongMaterial>(vertexType);
+				{
+					pMaterial = make_shared<TransparentPhongMaterial>(vertexType, uniformSetter);
 
+					__setupPhongStyleMaterial(
+						static_pointer_cast<TransparentPhongMaterial>(pMaterial),
+						pAmbientTex, pDiffuseTex, pSpecularTex, pEmissiveTex, pShininessTex, pAlphaTex, pNormalTex);
+				}
 				else if (materialType == MaterialType::OUTLINING_PHONG)
-					pPhongMaterial = make_shared<OutliningPhongMaterial>(vertexType);
+				{
+					pMaterial = make_shared<OutliningPhongMaterial>(vertexType, uniformSetter);
 
+					__setupPhongStyleMaterial(
+						static_pointer_cast<OutliningPhongMaterial>(pMaterial),
+						pAmbientTex, pDiffuseTex, pSpecularTex, pEmissiveTex, pShininessTex, pAlphaTex, pNormalTex);
+				}
 				else
-					pPhongMaterial = make_shared<PhongMaterial>(vertexType);
-
-				if (pAmbientTex)
 				{
-					pPhongMaterial->setAmbientTexture(pAmbientTex);
-					pPhongMaterial->useAmbientTexture(true);
+					pMaterial = make_shared<PhongMaterial>(vertexType, uniformSetter);
+
+					__setupPhongStyleMaterial(
+						static_pointer_cast<PhongMaterial>(pMaterial),
+						pAmbientTex, pDiffuseTex, pSpecularTex, pEmissiveTex, pShininessTex, pAlphaTex, pNormalTex);
 				}
-
-				pPhongMaterial->setDiffuseTexture(pDiffuseTex);
-
-				if (pSpecularTex)
-				{
-					pPhongMaterial->setSpecularTexture(pSpecularTex);
-					pPhongMaterial->useSpecularTexture(true);
-				}
-
-				pPhongMaterial->setEmissiveTexture(pEmissiveTex);
-
-				if (pShininessTex)
-				{
-					pPhongMaterial->setShininessTexture(pShininessTex);
-					pPhongMaterial->useShininessTexture(true);
-				}
-
-				if (pAlphaTex)
-				{
-					pPhongMaterial->setAlphaTexture(pAlphaTex);
-					pPhongMaterial->useAlphaTexture(true);
-				}
-
-				if (pNormalTex)
-				{
-					pPhongMaterial->setNormalTexture(pNormalTex);
-					pPhongMaterial->useNormalTexture(true);
-				}
-
-				pMaterial = pPhongMaterial;
 			}
 				break;
 
 			case MaterialType::SILHOUETTE:
-				pMaterial = make_shared<SilhouetteMaterial>(vertexType);
+				pMaterial = make_shared<SilhouetteMaterial>(vertexType, uniformSetter);
 				break;
 
 			case MaterialType::REFLECTION:
 			{
 				const shared_ptr<ReflectionMaterial> &pReflectionMaterial =
-					make_shared<ReflectionMaterial>(vertexType);
+					make_shared<ReflectionMaterial>(vertexType, uniformSetter);
 
 				const shared_ptr<Texture2D> &pNormalTex =
 					__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_NORMALS);
@@ -271,7 +305,7 @@ namespace Danburite
 			case MaterialType::REFRACTION:
 			{
 				const shared_ptr<RefractionMaterial> &pRefractionMaterial =
-					make_shared<RefractionMaterial>(vertexType);
+					make_shared<RefractionMaterial>(vertexType, uniformSetter);
 
 				const shared_ptr<Texture2D> &pNormalTex =
 					__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_NORMALS);
@@ -296,6 +330,7 @@ namespace Danburite
 
 	shared_ptr<RenderUnit> AssetImporter::import(
 		const string_view &assetPath,
+		UniformSetter &uniformSetter,
 		const mat4 &transformation,
 		const MaterialType materialType,
 		const string &unitName)
@@ -325,7 +360,8 @@ namespace Danburite
 			nodeStack.pop();
 
 			const shared_ptr<RenderUnit> &pParsedChild = __parse(
-				parentPath, pChild, pScene, vertexMatrix, normalMatrix, materialType, textureCache);
+				parentPath, pChild, pScene, uniformSetter,
+				vertexMatrix, normalMatrix, materialType, textureCache);
 
 			if (!pParent)
 				retVal = pParsedChild;

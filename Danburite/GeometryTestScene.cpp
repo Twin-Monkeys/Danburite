@@ -38,6 +38,9 @@ GeometryTestScene::GeometryTestScene()
 
 	//// Uniform Buffer »ý¼º ////
 
+	__pUBMaterial = make_shared<UniformBuffer>("UBMaterial", ShaderIdentifier::Value::UniformBlockBindingPoint::MATERIAL);
+	__pUBMaterial->registerProgram(explodingPhongProgram);
+
 	__pUBLight = make_shared<UniformBuffer>("UBLight", ShaderIdentifier::Value::UniformBlockBindingPoint::LIGHT);
 	__pUBLight->registerProgram(explodingPhongProgram);
 
@@ -50,7 +53,7 @@ GeometryTestScene::GeometryTestScene()
 	RenderUnitManager &ruManager = RenderUnitManager::getInstance();
 
 	__pCubeRU = AssetImporter::import(
-		"res/asset/nanosuit/nanosuit.obj", Constant::Matrix::IDENTITY_MATRIX, MaterialType::EXPLODING_PHONG);
+		"res/asset/nanosuit/nanosuit.obj", *__pUBMaterial, Constant::Matrix::IDENTITY_MATRIX, MaterialType::EXPLODING_PHONG);
 
 	__pCubeRU->getTransform().setScale(.5f);
 

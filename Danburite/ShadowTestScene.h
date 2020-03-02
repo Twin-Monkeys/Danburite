@@ -18,6 +18,7 @@ class ShadowTestScene : public Danburite::Scene, public ObjectGL::ScreenEventHan
 private:
 	bool __updated = false;
 
+	std::shared_ptr<ObjectGL::UniformBuffer> __pUBMaterial;
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBLight;
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBCamera;
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBGammaCorrection;

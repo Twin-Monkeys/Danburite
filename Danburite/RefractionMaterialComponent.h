@@ -3,6 +3,7 @@
 #include "UniformDeployable.h"
 #include "TextureCubemap.h"
 #include "Texture2D.h"
+#include <memory>
 
 namespace Danburite
 {

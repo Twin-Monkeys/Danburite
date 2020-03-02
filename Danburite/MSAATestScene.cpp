@@ -28,6 +28,9 @@ MSAATestScene::MSAATestScene()
 
 	//// Uniform Buffer »ý¼º ////
 
+	__pUBMaterial = make_shared<UniformBuffer>("UBMaterial", ShaderIdentifier::Value::UniformBlockBindingPoint::MATERIAL);
+	__pUBMaterial->registerProgram(monoColorProgram);
+
 	__pUBCamera = make_shared<UniformBuffer>("UBCamera", ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA);
 	__pUBCamera->registerProgram(monoColorProgram);
 
@@ -41,7 +44,7 @@ MSAATestScene::MSAATestScene()
 		vaFactory.getVertexArrayPtr(ShapeType::CUBE, VertexAttributeType::POS3_COLOR4);
 
 	const shared_ptr<MonoColorMaterial>& pCubeMaterial =
-		make_shared<MonoColorMaterial>(VertexAttributeType::POS3_COLOR4);
+		make_shared<MonoColorMaterial>(VertexAttributeType::POS3_COLOR4, *__pUBMaterial);
 
 	pCubeMaterial->setColor({ 0.f, 1.f, 0.f, 1.f });
 

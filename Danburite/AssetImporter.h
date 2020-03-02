@@ -25,6 +25,7 @@ namespace Danburite
 			const std::string &parentPath,
 			const aiNode *const pNode,
 			const aiScene *const pScene,
+			ObjectGL::UniformSetter &uniformSetter,
 			const glm::mat3 &vertexMatrix,
 			const glm::mat3 &normalMatrix,
 			const MaterialType materialType,
@@ -33,6 +34,7 @@ namespace Danburite
 	public:
 		static std::shared_ptr<RenderUnit> import(
 			const std::string_view &assetPath,
+			ObjectGL::UniformSetter &uniformSetter,
 			const glm::mat4 &transformation = Constant::Matrix::IDENTITY_MATRIX,
 			const MaterialType materialType = MaterialType::PHONG,
 			const std::string &unitName = RenderUnitManager::AUTO_MAPPED_NAME);

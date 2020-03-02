@@ -1,10 +1,8 @@
 #include "Transform.h"
 #include <glm/gtx/transform.hpp>
-#include "ShaderIdentifier.h"
 
 using namespace std;
 using namespace glm;
-using namespace ObjectGL;
 
 namespace Danburite
 {

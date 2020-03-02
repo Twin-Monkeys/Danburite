@@ -2,6 +2,7 @@
 
 #include "Material.h"
 #include "SilhouetteMaterialComponent.h"
+#include "Program.h"
 
 namespace Danburite
 {

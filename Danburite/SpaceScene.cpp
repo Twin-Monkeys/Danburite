@@ -61,13 +61,15 @@ SpaceScene::SpaceScene()
 
 	__pUBGammaCorrection->registerProgram(gammaCorrectionProgram);
 
+	__pUBCubemap = make_shared<UniformBuffer>("UBCubemap", ShaderIdentifier::Value::UniformBlockBindingPoint::CUBEMAP);
+	__pUBCubemap->registerProgram(skyboxProgram);
 
 	//// Rendering unit »ý¼º ////
 
 	RenderUnitManager &ruManager = RenderUnitManager::getInstance();
 
 	__pNanosuitRU = AssetImporter::import(
-		"res/asset/nanosuit/nanosuit.obj", Constant::Matrix::IDENTITY_MATRIX, MaterialType::REFRACTION);
+		"res/asset/nanosuit/nanosuit.obj", *__pUBMaterial, Constant::Matrix::IDENTITY_MATRIX, MaterialType::REFRACTION);
 
 	__pNanosuitRU->setNumInstances(25);
 
@@ -80,7 +82,7 @@ SpaceScene::SpaceScene()
 
 	mat4 starshipRotation = rotate(-half_pi<float>(), vec3{ 0.f, 1.f, 0.f });
 	starshipRotation = rotate(starshipRotation, pi<float>(), vec3{ 1.f, 0.f, 0.f });
-	__pStarshipRU = AssetImporter::import("res/asset/star_destroyer/scene.gltf", starshipRotation);
+	__pStarshipRU = AssetImporter::import("res/asset/star_destroyer/scene.gltf", *__pUBMaterial, starshipRotation);
 	__pStarshipRU->setNumInstances(6);
 
 	Transform &starship1Transform = __pStarshipRU->getTransform(0);
@@ -111,7 +113,7 @@ SpaceScene::SpaceScene()
 
 	mat4 halconRotation = rotate(pi<float>(), vec3{ 0.f, 1.f, 0.f });
 	halconRotation = rotate(halconRotation, -half_pi<float>(), vec3{ 1.f, 0.f, 0.f });
-	__pHalconRU = AssetImporter::import("res/asset/halcon/scene.gltf", halconRotation);
+	__pHalconRU = AssetImporter::import("res/asset/halcon/scene.gltf", *__pUBMaterial, halconRotation);
 	
 	Transform &halconTransform = __pHalconRU->getTransform();
 	halconTransform.setScale(.3f);
@@ -121,7 +123,7 @@ SpaceScene::SpaceScene()
 	mat4 fighterRotation = rotate(pi<float>(), vec3{ 0.f, 1.f, 0.f }); 
 	fighterRotation = rotate(fighterRotation, -half_pi<float>(), vec3{ 1.f, 0.f, 0.f });
 	fighterRotation = scale(fighterRotation, vec3 { .5f });
-	__pFighterRU = AssetImporter::import("res/asset/federation_attack_fighter/scene.gltf", fighterRotation);
+	__pFighterRU = AssetImporter::import("res/asset/federation_attack_fighter/scene.gltf", *__pUBMaterial, fighterRotation);
 	__pFighterRU->setNumInstances(NUM_FIGHTERS);
 
 	default_random_engine randEngine;
@@ -146,19 +148,19 @@ SpaceScene::SpaceScene()
 	}
 
 	mat4 mercuryRotation = rotate(half_pi<float>(), vec3{ 1.f, 0.f, 0.f });
-	__pMercuryRU = AssetImporter::import("res/asset/mercury_planet/scene.gltf", mercuryRotation);
+	__pMercuryRU = AssetImporter::import("res/asset/mercury_planet/scene.gltf", *__pUBMaterial, mercuryRotation);
 	Transform &mercuryTransform = __pMercuryRU->getTransform();
 	mercuryTransform.setScale(50.f);
 	mercuryTransform.setPosition(70.f, 80.f, 850.f);
 	mercuryTransform.setRotationAxis({ .3f, 1.f, 0.f });
 
-	__pJupiterRU = AssetImporter::import("res/asset/jupiter/scene.gltf", mercuryRotation);
+	__pJupiterRU = AssetImporter::import("res/asset/jupiter/scene.gltf", *__pUBMaterial, mercuryRotation);
 	Transform &jupiterTransform = __pJupiterRU->getTransform();
 	jupiterTransform.setScale(100.f);
 	jupiterTransform.setPosition(130.f, -90.f, -850.f);
 	jupiterTransform.setRotationAxis({ -.3f, 1.f, 0.f });
 
-	__pVenusRU = AssetImporter::import("res/asset/venus/scene.gltf", mercuryRotation);
+	__pVenusRU = AssetImporter::import("res/asset/venus/scene.gltf", *__pUBMaterial, mercuryRotation);
 	Transform &venusTransform = __pVenusRU->getTransform();
 	venusTransform.setScale(50.f);
 	venusTransform.setPosition(-730.f, 40.f, -350.f);
@@ -199,7 +201,7 @@ SpaceScene::SpaceScene()
 	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_WRAP_R, TextureWrapValue::CLAMP_TO_EDGE);
 
-	__pSkybox = make_shared<CubeSkybox>();
+	__pSkybox = make_shared<CubeSkybox>(*__pUBCubemap);
 	__pSkybox->setAlbedoTexture(pSkyboxAlbedoTex);
 
 	__pNanosuitRU->traverseMaterial<RefractionMaterial>(

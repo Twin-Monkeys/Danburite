@@ -3,7 +3,7 @@
 #ifndef __MSAA_HEADER__
 #define __MSAA_HEADER__
 
-const uint MAX_NUM_COLOR_ATTACHMENTS = 8U;
+#include "Constant_Header.glsl"
 
 struct Attachment
 {

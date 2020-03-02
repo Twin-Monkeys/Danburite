@@ -2,10 +2,13 @@
 
 namespace ObjectGL
 {
+	class UniformBatchDeployer;
+	class UniformSetter;
+
 	class UniformDeployable abstract
 	{
-		friend class UniformBatchDeployer;
-		friend class UniformSetter;
+		friend UniformBatchDeployer;
+		friend UniformSetter;
 
 	protected:
 		virtual void _onDeploy(UniformSetter &uniformSetter) noexcept = 0;

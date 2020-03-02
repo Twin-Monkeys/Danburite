@@ -1,22 +1,21 @@
 #include "CubeSkybox.h"
 #include "GLFunctionWrapper.h"
+#include "ProgramFactory.h"
 
 using namespace ObjectGL;
 
 namespace Danburite
 {
-	CubeSkybox::CubeSkybox() noexcept :
-		Skybox({ ProgramType::SKYBOX })
+	CubeSkybox::CubeSkybox(UniformSetter &uniformSetter) noexcept :
+		Skybox(uniformSetter),
+		__skyboxProgram(ProgramFactory::getInstance().getProgram(ProgramType::SKYBOX))
 	{}
 
-	void CubeSkybox::_onDeploy(SkyboxUniformSetter &target) noexcept
+	void CubeSkybox::_onDraw(UniformSetter &uniformSetter) noexcept
 	{
-		CubeSkyboxComponent::_onDeploy(target);
-	}
+		uniformSetter.directDeploy(*this);
 
-	void CubeSkybox::_onDraw(SkyboxUniformSetter &target) noexcept
-	{
-		target.getProgram(ProgramType::SKYBOX).bind();
+		__skyboxProgram.bind();
 
 		GLFunctionWrapper::setDepthFunction(DepthStencilFunctionType::LEQUAL);
 		GLFunctionWrapper::setCulledFace(FrameBufferPositionType::FRONT);

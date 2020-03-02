@@ -2,6 +2,7 @@
 
 #include "Material.h"
 #include "ReflectionMaterialComponent.h"
+#include "Program.h"
 
 namespace Danburite
 {

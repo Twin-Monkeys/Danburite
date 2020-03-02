@@ -3,16 +3,23 @@
 #ifndef __CUBEMAP_HEADER__
 #define __CUBEMAP_HEADER__
 
+#extension GL_ARB_bindless_texture : require
+
+#include "Constant_Header.glsl"
+
 struct Cubemap
 {
-	samplerCube albedoTex;
+	uvec2 albedoTex;
 };
 
-uniform Cubemap cubemap;
+layout(binding = BINDING_POINT_CUBEMAP) uniform UBCubemap
+{
+	Cubemap cubemap;
+};
 
 vec4 Cubemap_getAlbedo(const vec3 pos)
 {
-	return texture(cubemap.albedoTex, pos);
+	return texture(samplerCube(cubemap.albedoTex), pos);
 }
 
 #endif

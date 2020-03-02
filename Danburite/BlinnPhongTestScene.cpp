@@ -29,6 +29,9 @@ BlinnPhongTestScene::BlinnPhongTestScene()
 
 	//// Uniform Buffer »ý¼º ////
 
+	__pUBMaterial = make_shared<UniformBuffer>("UBMaterial", ShaderIdentifier::Value::UniformBlockBindingPoint::MATERIAL);
+	__pUBMaterial->registerProgram(phongProgram);
+
 	__pUBLight = make_shared<UniformBuffer>("UBLight", ShaderIdentifier::Value::UniformBlockBindingPoint::LIGHT);
 	__pUBLight->enableZeroInit(true);
 	__pUBLight->registerProgram(phongProgram);
@@ -57,7 +60,9 @@ BlinnPhongTestScene::BlinnPhongTestScene()
 	pFloorTexture->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
 	pFloorTexture->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 
-	const shared_ptr<PhongMaterial> &pFloorMaterial = make_shared<PhongMaterial>(VertexAttributeType::POS3_COLOR4);
+	const shared_ptr<PhongMaterial> &pFloorMaterial =
+		make_shared<PhongMaterial>(VertexAttributeType::POS3_COLOR4, *__pUBMaterial);
+
 	pFloorMaterial->setDiffuseTexture(pFloorTexture);
 
 	unique_ptr<Mesh> pMesh = make_unique<Mesh>(pFloorVA, pFloorMaterial);

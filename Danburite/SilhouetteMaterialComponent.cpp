@@ -1,5 +1,6 @@
 #include "SilhouetteMaterialComponent.h"
 #include "ShaderIdentifier.h"
+#include "UniformSetter.h"
 
 using namespace std;
 using namespace glm;

@@ -19,6 +19,7 @@ class MSAATestScene : public Danburite::Scene, public ObjectGL::ScreenEventHandl
 private:
 	bool __updated = false;
 
+	std::shared_ptr<ObjectGL::UniformBuffer> __pUBMaterial;
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBCamera;
 
 	std::shared_ptr<Danburite::RenderUnit> __pCubeRU;

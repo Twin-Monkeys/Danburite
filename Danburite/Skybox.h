@@ -1,21 +1,21 @@
 #pragma once
 
-#include "SkyboxUniformDeployable.h"
 #include "VertexArray.h"
+#include "UniformSetter.h"
 
 namespace Danburite
 {
-	class Skybox abstract : virtual public SkyboxUniformDeployable
+	class Skybox abstract
 	{
 	private:
-		SkyboxUniformSetter __skyboxUniformSetter;
+		ObjectGL::UniformSetter &__uniformSetter;
 
 	protected:
-		virtual void _onDraw(SkyboxUniformSetter &target) noexcept = 0;
+		virtual void _onDraw(ObjectGL::UniformSetter &uniformSetter) noexcept = 0;
 		static void _drawBoxVA() noexcept;
 
 	public:
-		Skybox(const std::unordered_set<ProgramType> &programTypes) noexcept;
+		Skybox(ObjectGL::UniformSetter &uniformSetter) noexcept;
 
 		void draw() noexcept;
 

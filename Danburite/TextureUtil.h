@@ -3,6 +3,7 @@
 #include "Texture2D.h"
 #include "TextureCubemap.h"
 #include "TextureUtilException.h"
+#include <string_view>
 #include <vector>
 #include <memory>
 

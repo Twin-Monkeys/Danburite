@@ -253,9 +253,6 @@
     <Filter Include="Library\Engine\Core\Skybox">
       <UniqueIdentifier>{a37ba400-20b3-4e6f-900f-8dbdf24793b6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Library\Engine\Core\Skybox\Deployment">
-      <UniqueIdentifier>{a85cb624-bffd-45f2-94f4-54496cba47f7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library\Engine\Core\Skybox\Component">
       <UniqueIdentifier>{79418b20-6535-4b5a-a261-e9cb6e23e93c}</UniqueIdentifier>
     </Filter>
@@ -569,9 +566,6 @@
     </ClCompile>
     <ClCompile Include="TextureCubemap.cpp">
       <Filter>Library\ObjectGL\Core\Texture\Cubemap</Filter>
-    </ClCompile>
-    <ClCompile Include="SkyboxUniformSetter.cpp">
-      <Filter>Library\Engine\Core\Skybox\Deployment</Filter>
     </ClCompile>
     <ClCompile Include="Skybox.cpp">
       <Filter>Library\Engine\Core\Skybox</Filter>
@@ -1036,12 +1030,6 @@
     </ClInclude>
     <ClInclude Include="Skybox.h">
       <Filter>Library\Engine\Core\Skybox</Filter>
-    </ClInclude>
-    <ClInclude Include="SkyboxUniformSetter.h">
-      <Filter>Library\Engine\Core\Skybox\Deployment</Filter>
-    </ClInclude>
-    <ClInclude Include="SkyboxUniformDeployable.h">
-      <Filter>Library\Engine\Core\Skybox\Deployment</Filter>
     </ClInclude>
     <ClInclude Include="CubeSkyboxComponent.h">
       <Filter>Library\Engine\Core\Skybox\Component</Filter>

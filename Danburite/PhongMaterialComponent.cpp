@@ -1,6 +1,7 @@
 #include "PhongMaterialComponent.h"
 #include "ShaderIdentifier.h"
 #include "TextureUtil.h"
+#include "UniformSetter.h"
 
 using namespace std;
 using namespace ObjectGL;

@@ -2,6 +2,7 @@
 
 #include "Texture2D.h"
 #include "Constant.h"
+#include <memory>
 
 namespace Danburite
 {

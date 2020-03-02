@@ -4,7 +4,8 @@
 #define __POST_PROCESS_HEADER__
 
 #extension GL_ARB_bindless_texture : require
-const uint MAX_NUM_COLOR_ATTACHMENTS = 8U;
+
+#include "Constant_Header.glsl"
 
 struct Attachment
 {

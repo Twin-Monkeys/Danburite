@@ -8,7 +8,7 @@ namespace Danburite
 {
 	PhongMaterial::PhongMaterial(
 		const MaterialType materialType,
-		const VertexAttributeType vertexType, ObjectGL::UniformSetter &uniformSetter) noexcept :
+		const VertexAttributeType vertexType, UniformSetter &uniformSetter) noexcept :
 		Material(materialType, vertexType, uniformSetter),
 		_phongProgram(ProgramFactory::getInstance().getProgram(ProgramType::PHONG))
 	{
