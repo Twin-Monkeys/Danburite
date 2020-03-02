@@ -1,5 +1,6 @@
 #include "UniformSetter.h"
 #include <glm/gtc/type_ptr.hpp>
+#include "UniformDeployable.h"
 
 using namespace std;
 using namespace glm;
@@ -54,5 +55,10 @@ namespace ObjectGL
 	bool UniformSetter::setUniformMat4(const string &name, const mat4 &values, const bool transposition) noexcept
 	{
 		return setUniformMat4(name, value_ptr(values), transposition);
+	}
+
+	void UniformSetter::directDeploy(UniformDeployable &deployable) noexcept
+	{
+		deployable._onDeploy(*this);
 	}
 }

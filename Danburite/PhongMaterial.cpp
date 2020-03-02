@@ -1,6 +1,5 @@
 #include "PhongMaterial.h"
-#include "ShaderIdentifier.h"
-#include "GLFunctionWrapper.h"
+#include "ProgramFactory.h"
 
 using namespace std;
 using namespace ObjectGL;
@@ -8,25 +7,25 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	PhongMaterial::PhongMaterial(
-		const unordered_set<ProgramType> &programTypes,
-		const MaterialType type, const VertexAttributeType vertexType) noexcept :
-		Material(programTypes, type, vertexType)
+		const MaterialType materialType,
+		const VertexAttributeType vertexType, ObjectGL::UniformSetter &uniformSetter) noexcept :
+		Material(materialType, vertexType, uniformSetter),
+		_phongProgram(ProgramFactory::getInstance().getProgram(ProgramType::PHONG))
 	{
 		useLighting(true);
 	}
 
-	PhongMaterial::PhongMaterial(const VertexAttributeType vertexType) noexcept :
-		PhongMaterial({ ProgramType::PHONG }, MaterialType::PHONG, vertexType)
+	PhongMaterial::PhongMaterial(
+		const VertexAttributeType vertexType, UniformSetter &uniformSetter) noexcept :
+		PhongMaterial(MaterialType::PHONG, vertexType, uniformSetter)
 	{}
 
-	void PhongMaterial::_onDeploy(MaterialUniformSetter &materialSetter) noexcept
+	void PhongMaterial::_onRender(
+		UniformSetter &uniformSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
-		PhongMaterialComponent::_onDeploy(materialSetter);
-	}
+		uniformSetter.directDeploy(*this);
 
-	void PhongMaterial::_onRender(MaterialUniformSetter &target, VertexArray &vertexArray, const GLsizei numInstances) noexcept
-	{
-		target.getProgram(ProgramType::PHONG).bind();
+		_phongProgram.bind();
 		vertexArray.draw(numInstances);
 	}
 }

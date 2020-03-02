@@ -7,10 +7,10 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	void RefractionMaterialComponent::_onDeploy(MaterialUniformSetter &materialSetter) noexcept
+	void RefractionMaterialComponent::_onDeploy(UniformSetter &uniformSetter) noexcept
 	{
-		TextureUtil::bindIfExist(__pEnvTex, ShaderIdentifier::Value::Material::ENVIRONMENT_TEX_LOCATION);
-		TextureUtil::bindIfExist(__pNormalTex, ShaderIdentifier::Value::Material::NORMAL_TEX_LOCATION);
+		uniformSetter.setUniformUvec2(ShaderIdentifier::Name::Material::ENVIRONMENT_TEX, TextureUtil::getHandleIfExist(__pEnvTex));
+		uniformSetter.setUniformUvec2(ShaderIdentifier::Name::Material::NORMAL_TEX, TextureUtil::getHandleIfExist(__pNormalTex));
 	}
 
 	void RefractionMaterialComponent::setEnvironmentTexture(const shared_ptr<TextureCubemap> &pTexture) noexcept

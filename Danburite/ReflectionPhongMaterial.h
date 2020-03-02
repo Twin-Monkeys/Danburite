@@ -5,18 +5,20 @@
 
 namespace Danburite
 {
-	class ReflectionPhongMaterial : public PhongMaterial
+	class ReflectionPhongMaterial : public Material, public PhongMaterialComponent
 	{
 	private:
 		std::shared_ptr<ObjectGL::TextureCubemap> __pEnvTex;
 
 	protected:
-		virtual void _onDeploy(MaterialUniformSetter &materialSetterr) noexcept override;
+		ObjectGL::Program &_reflectionPhongProgram;
+
 		virtual void _onRender(
-			MaterialUniformSetter &target, ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
+			ObjectGL::UniformSetter &uniformSetter,
+			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
 
 	public:
-		ReflectionPhongMaterial(const VertexAttributeType vertexType) noexcept;
+		ReflectionPhongMaterial(const VertexAttributeType vertexType, ObjectGL::UniformSetter &uniformSetter) noexcept;
 
 		void setEnvironmentTexture(const std::shared_ptr<ObjectGL::TextureCubemap> &pTexture) noexcept;
 

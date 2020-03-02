@@ -6,11 +6,9 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	void OutliningMaterialComponent::_onDeploy(MaterialUniformSetter &materialSetter) noexcept
+	void OutliningMaterialComponent::_onDeploy(UniformSetter &uniformSetter) noexcept
 	{
-		Program& monoColorProgram = materialSetter.getProgram(ProgramType::OUTLINE);
-
-		monoColorProgram.setUniformVec4(ShaderIdentifier::Name::Material::OUTLINE_COLOR, __outlineColor);
-		monoColorProgram.setUniformFloat(ShaderIdentifier::Name::Material::THICKNESS_RATIO, __outlineThicknessRatio);
+		uniformSetter.setUniformVec4(ShaderIdentifier::Name::Material::OUTLINE_COLOR, __outlineColor);
+		uniformSetter.setUniformFloat(ShaderIdentifier::Name::Material::THICKNESS_RATIO, __outlineThicknessRatio);
 	}
 }

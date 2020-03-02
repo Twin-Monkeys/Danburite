@@ -21,45 +21,15 @@ namespace Danburite
 			const GLint mipmapLevel = 0, const bool mipmapCreation = false);
 
 		template <typename T>
-		static void bindIfExist(T *const pTexture, const GLint location) noexcept;
-
-		template <>
-		static void bindIfExist<ObjectGL::Texture2D>(ObjectGL::Texture2D *const pTexture, const GLint location) noexcept;
-
-		template <>
-		static void bindIfExist<ObjectGL::TextureCubemap>(ObjectGL::TextureCubemap *const pTexture, const GLint location) noexcept;
-
-		template <typename T>
-		static void bindIfExist(const std::shared_ptr<T> &pTexture, const GLint location) noexcept;
+		static GLuint64 getHandleIfExist(const std::shared_ptr<T> &pTexture) noexcept;
 	};
 
 	template <typename T>
-	void TextureUtil::bindIfExist(T *const pTexture, const GLint location) noexcept
+	GLuint64 TextureUtil::getHandleIfExist(const std::shared_ptr<T> &pTexture) noexcept
 	{
-		static_assert(false, "not implemented yet.");
-	}
+		if (!pTexture)
+			return 0ULL;
 
-	template <>
-	void TextureUtil::bindIfExist<ObjectGL::Texture2D>(ObjectGL::Texture2D *const pTexture, const GLint location) noexcept
-	{
-		if (pTexture)
-			pTexture->bind(location);
-		else
-			ObjectGL::TextureBase::unbind(ObjectGL::TextureType::TEXTURE_2D, location);
-	}
-
-	template <>
-	void TextureUtil::bindIfExist<ObjectGL::TextureCubemap>(ObjectGL::TextureCubemap *const pTexture, const GLint location) noexcept
-	{
-		if (pTexture)
-			pTexture->bind(location);
-		else
-			ObjectGL::TextureBase::unbind(ObjectGL::TextureType::TEXTURE_CUBE_MAP, location);
-	}
-
-	template <typename T>
-	static void TextureUtil::bindIfExist(const std::shared_ptr<T> &pTexture, const GLint location) noexcept
-	{
-		bindIfExist(pTexture.get(), location);
+		return pTexture->getHandle();
 	}
 }

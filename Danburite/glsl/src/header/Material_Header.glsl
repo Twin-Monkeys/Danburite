@@ -18,15 +18,15 @@ struct Material
 
 	float shininess;
 
-	uvec2 diffuseHandle;
-
-	sampler2D ambientTex;
-	sampler2D diffuseTex;
-	sampler2D specularTex;
-	sampler2D emissiveTex;
-	sampler2D shininessTex;
-	sampler2D alphaTex;
-	sampler2D normalTex;
+	// texture handle
+	uvec2 ambientTex;
+	uvec2 diffuseTex;
+	uvec2 specularTex;
+	uvec2 emissiveTex;
+	uvec2 shininessTex;
+	uvec2 alphaTex;
+	uvec2 normalTex;
+	uvec2 environmentTex;
 
 	float zNear;
 	float zFar;
@@ -34,10 +34,12 @@ struct Material
 	vec4 outlineColor;
 	float thicknessRatio;
 
-	samplerCube environmentTex;
 };
 
-uniform Material material;
+layout (binding = BINDING_POINT_MATERIAL) uniform UBMaterial
+{
+	Material material;
+};
 
 vec2 Material_texCoord;
 vec3 Material_targetNormal;
@@ -123,10 +125,10 @@ vec3 Material_getAmbient()
 			(material.type == MATERIAL_TYPE_PHONG))
 		{
 			if (Material_isAmbientTextureEnabled())
-				retVal = texture(material.ambientTex, Material_texCoord).rgb;
+				retVal = texture(sampler2D(material.ambientTex), Material_texCoord).rgb;
 			else
 			{
-				retVal = texture(material.diffuseTex, Material_texCoord).rgb;
+				retVal = texture(sampler2D(material.diffuseTex), Material_texCoord).rgb;
 				retVal = Material_applyGamma(retVal);
 			}
 		}
@@ -150,8 +152,7 @@ vec3 Material_getDiffuse()
 			(material.type == MATERIAL_TYPE_OUTLINING_PHONG) ||
 			(material.type == MATERIAL_TYPE_PHONG))
 		{
-			// retVal = texture(material.diffuseTex, Material_texCoord).rgb;
-			retVal = texture(sampler2D(material.diffuseHandle), Material_texCoord).rgb;
+			retVal = texture(sampler2D(material.diffuseTex), Material_texCoord).rgb;
 			retVal = pow(retVal, vec3(material.gamma));
 		}
 	}
@@ -175,10 +176,10 @@ vec3 Material_getSpecular()
 			(material.type == MATERIAL_TYPE_PHONG))
 		{
 			if (Material_isSpecularTextureEnabled())
-				retVal = texture(material.specularTex, Material_texCoord).rgb;
+				retVal = texture(sampler2D(material.specularTex), Material_texCoord).rgb;
 			else
 			{
-				retVal = texture(material.diffuseTex, Material_texCoord).rgb;
+				retVal = texture(sampler2D(material.diffuseTex), Material_texCoord).rgb;
 				retVal = Material_applyGamma(retVal);
 			}
 		}
@@ -198,7 +199,7 @@ vec3 Material_getEmissive()
 		(material.type == MATERIAL_TYPE_OUTLINING_PHONG) ||
 		(material.type == MATERIAL_TYPE_PHONG))
 	{
-		retVal = texture(material.emissiveTex, Material_texCoord).rgb;
+		retVal = texture(sampler2D(material.emissiveTex), Material_texCoord).rgb;
 		retVal = Material_applyGamma(retVal);
 	}
 
@@ -208,7 +209,7 @@ vec3 Material_getEmissive()
 float Material_getShininess()
 {
 	if (Material_isShininessTextureEnabled())
-		return texture(material.shininessTex, Material_texCoord).r;
+		return texture(sampler2D(material.shininessTex), Material_texCoord).r;
 
 	return material.shininess;
 }
@@ -227,9 +228,9 @@ float Material_getAlpha()
 			(material.type == MATERIAL_TYPE_PHONG))
 			{
 				if (Material_isAlphaTextureEnabled())
-					return texture(material.alphaTex, Material_texCoord).r;
+					return texture(sampler2D(material.alphaTex), Material_texCoord).r;
 				else
-					return texture(material.diffuseTex, Material_texCoord).a;
+					return texture(sampler2D(material.diffuseTex), Material_texCoord).a;
 			}
 	}
 
@@ -259,7 +260,7 @@ vec4 Material_getEnvReflection(vec3 targetPos, vec3 viewPos)
 	vec3 viewDirection = normalize(targetPos - viewPos);
 	vec3 reflection = reflect(viewDirection, Material_getNormal());
 
-	vec4 retVal = texture(material.environmentTex, reflection);
+	vec4 retVal = texture(samplerCube(material.environmentTex), reflection);
 
 	retVal.rgb = Material_applyGamma(retVal.rgb);
 	return retVal;
@@ -270,7 +271,7 @@ vec4 Material_getEnvRefraction(vec3 targetPos, vec3 viewPos)
 	vec3 viewDirection = normalize(targetPos - viewPos);
 	vec3 refraction = refract(viewDirection, Material_getNormal(), 1.f / 1.52f);
 
-	vec4 retVal = texture(material.environmentTex, refraction);
+	vec4 retVal = texture(samplerCube(material.environmentTex), refraction);
 
 	retVal.rgb = Material_applyGamma(retVal.rgb);
 	return retVal;

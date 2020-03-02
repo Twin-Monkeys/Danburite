@@ -7,11 +7,9 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	void SilhouetteMaterialComponent::_onDeploy(MaterialUniformSetter &materialSetter) noexcept
+	void SilhouetteMaterialComponent::_onDeploy(UniformSetter &uniformSetter) noexcept
 	{
-		Program &silhouetteProgram = materialSetter.getProgram(ProgramType::SILHOUETTE);
-
-		silhouetteProgram.setUniformFloat(ShaderIdentifier::Name::Material::Z_NEAR, __zNear);
-		silhouetteProgram.setUniformFloat(ShaderIdentifier::Name::Material::Z_FAR, __zFar);
+		uniformSetter.setUniformFloat(ShaderIdentifier::Name::Material::Z_NEAR, __zNear);
+		uniformSetter.setUniformFloat(ShaderIdentifier::Name::Material::Z_FAR, __zFar);
 	}
 }

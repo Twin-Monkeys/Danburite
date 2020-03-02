@@ -4,6 +4,7 @@
 #include "AssetImporterException.h"
 #include <string_view>
 #include "Constant.h"
+#include "Texture2D.h"
 
 struct aiNode;
 struct aiScene;

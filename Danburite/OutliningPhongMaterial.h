@@ -5,15 +5,19 @@
 
 namespace Danburite
 {
-	class OutliningPhongMaterial : public PhongMaterial, public OutliningMaterialComponent
+	class OutliningPhongMaterial : public Material, public PhongMaterialComponent, public OutliningMaterialComponent
 	{
 	protected:
-		virtual void _onDeploy(MaterialUniformSetter &materialSetterr) noexcept override;
+		ObjectGL::Program &_phongProgram;
+		ObjectGL::Program &_outlineProgram;
+
 		virtual void _onRender(
-			MaterialUniformSetter &target, ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
+			ObjectGL::UniformSetter &uniformSetter,
+			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
 
 	public:
-		OutliningPhongMaterial(const VertexAttributeType vertexType) noexcept;
+		OutliningPhongMaterial(
+			const VertexAttributeType vertexType, ObjectGL::UniformSetter &uniformSetter) noexcept;
 
 		virtual ~OutliningPhongMaterial() = default;
 	};

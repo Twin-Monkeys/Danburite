@@ -1,5 +1,4 @@
 #include "TransparentPhongMaterial.h"
-#include "ShaderIdentifier.h"
 #include "GLFunctionWrapper.h"
 
 using namespace std;
@@ -8,11 +7,13 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	TransparentPhongMaterial::TransparentPhongMaterial(const VertexAttributeType vertexType) noexcept :
-		PhongMaterial({ ProgramType::PHONG }, MaterialType::TRANSPARENT_PHONG, vertexType)
+	TransparentPhongMaterial::TransparentPhongMaterial(
+		const VertexAttributeType vertexType, UniformSetter &uniformSetter) noexcept :
+		PhongMaterial(MaterialType::TRANSPARENT_PHONG, vertexType, uniformSetter)
 	{}
 
-	void TransparentPhongMaterial::_onRender(MaterialUniformSetter &target, VertexArray &vertexArray, const GLsizei numInstances) noexcept
+	void TransparentPhongMaterial::_onRender(
+		UniformSetter &uniformSetter, VertexArray& vertexArray, const GLsizei numInstances) noexcept
 	{
 		GLFunctionWrapper::setOption(GLOptionType::BLEND, true);
 		GLFunctionWrapper::setBlendingFunction(
@@ -21,7 +22,7 @@ namespace Danburite
 		GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, false);
 		GLFunctionWrapper::setDepthMask(false);
 
-		target.getProgram(ProgramType::PHONG).bind();
+		_phongProgram.bind();
 		vertexArray.draw(numInstances);
 
 		GLFunctionWrapper::setDepthMask(true);

@@ -1,5 +1,5 @@
 #include "OutliningPhongMaterial.h"
-#include "ShaderIdentifier.h"
+#include "ProgramFactory.h"
 #include "GLFunctionWrapper.h"
 
 using namespace std;
@@ -8,32 +8,33 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	OutliningPhongMaterial::OutliningPhongMaterial(const VertexAttributeType vertexType) noexcept :
-		PhongMaterial({ ProgramType::OUTLINE, ProgramType::PHONG }, MaterialType::OUTLINING_PHONG, vertexType)
+	OutliningPhongMaterial::OutliningPhongMaterial(
+		const VertexAttributeType vertexType, UniformSetter &uniformSetter) noexcept :
+		Material(MaterialType::OUTLINING_PHONG, vertexType, uniformSetter),
+		_phongProgram(ProgramFactory::getInstance().getProgram(ProgramType::PHONG)),
+		_outlineProgram(ProgramFactory::getInstance().getProgram(ProgramType::OUTLINE))
 	{
 		useLighting(true);
 	}
 
-	void OutliningPhongMaterial::_onDeploy(MaterialUniformSetter &materialUniformSetter) noexcept
+	void OutliningPhongMaterial::_onRender(
+		UniformSetter &uniformSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
-		PhongMaterial::_onDeploy(materialUniformSetter);
-		OutliningMaterialComponent::_onDeploy(materialUniformSetter);
-	}
+		PhongMaterialComponent::_onDeploy(uniformSetter);
+		OutliningMaterialComponent::_onDeploy(uniformSetter);
 
-	void OutliningPhongMaterial::_onRender(MaterialUniformSetter &target, VertexArray &vertexArray, const GLsizei numInstances) noexcept
-	{
 		GLFunctionWrapper::setStencilFunction(DepthStencilFunctionType::ALWAYS, 1);
 		GLFunctionWrapper::setStencilOperation(
 			StencilOperationType::KEEP, StencilOperationType::KEEP, StencilOperationType::REPLACE);
 
-		target.getProgram(ProgramType::PHONG).bind();
+		_phongProgram.bind();
 		vertexArray.draw(numInstances);
 
 		GLFunctionWrapper::setStencilFunction(DepthStencilFunctionType::NOTEQUAL, 1);
 		GLFunctionWrapper::setStencilOperation(
 			StencilOperationType::KEEP, StencilOperationType::KEEP, StencilOperationType::KEEP);
 
-		target.getProgram(ProgramType::OUTLINE).bind();
+		_outlineProgram.bind();
 		vertexArray.draw(numInstances);
 
 		GLFunctionWrapper::setStencilFunction(DepthStencilFunctionType::ALWAYS, 1);

@@ -8,7 +8,7 @@ namespace ObjectGL
 
 	void TextureMultisample::_onAttach(const AttachmentType type) noexcept
 	{
-		assert(!getHandle());
+		assert(!isHandleCreated());
 
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GLenum(type), _RAW_TYPE, ID, 0);
 		assert(glGetError() == GL_NO_ERROR);
@@ -16,7 +16,7 @@ namespace ObjectGL
 
 	void TextureMultisample::_onDetach(const AttachmentType type) noexcept
 	{
-		assert(!getHandle());
+		assert(!isHandleCreated());
 
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GLenum(type), _RAW_TYPE, 0, 0);
 		assert(glGetError() == GL_NO_ERROR);

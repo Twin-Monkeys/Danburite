@@ -7,27 +7,16 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	void PhongMaterialComponent::_onDeploy(MaterialUniformSetter &materialSetter) noexcept
+	void PhongMaterialComponent::_onDeploy(UniformSetter &uniformSetter) noexcept
 	{
-		materialSetter.traverseProgram(
-			&Program::setUniformFloat, ShaderIdentifier::Name::Material::SHININESS, __shininess);
-
-		TextureUtil::bindIfExist(__pAmbientTex, ShaderIdentifier::Value::Material::AMBIENT_TEX_LOCATION);
-		TextureUtil::bindIfExist(__pDiffuseTex, ShaderIdentifier::Value::Material::DIFFUSE_TEX_LOCATION);
-		TextureUtil::bindIfExist(__pSpecularTex, ShaderIdentifier::Value::Material::SPECULAR_TEX_LOCATION);
-		TextureUtil::bindIfExist(__pEmissiveTex, ShaderIdentifier::Value::Material::EMISSIVE_TEX_LOCATION);
-		TextureUtil::bindIfExist(__pShininessTex, ShaderIdentifier::Value::Material::SHININESS_TEX_LOCATION);
-		TextureUtil::bindIfExist(__pAlphaTex, ShaderIdentifier::Value::Material::ALPHA_TEX_LOCATION);
-		TextureUtil::bindIfExist(__pNormalTex, ShaderIdentifier::Value::Material::NORMAL_TEX_LOCATION);
-
-		if (__pDiffuseTex)
-		{
-			if (!__pDiffuseTex->getHandle())
-				__pDiffuseTex->createHandle();
-
-			materialSetter.getProgram(ProgramType::PHONG).
-				setUniformUvec2("material.diffuseHandle", __pDiffuseTex->getHandle());
-		}
+		uniformSetter.setUniformFloat(ShaderIdentifier::Name::Material::SHININESS, __shininess);
+		uniformSetter.setUniformUvec2(ShaderIdentifier::Name::Material::AMBIENT_TEX, TextureUtil::getHandleIfExist(__pAmbientTex));
+		uniformSetter.setUniformUvec2(ShaderIdentifier::Name::Material::DIFFUSE_TEX, TextureUtil::getHandleIfExist(__pDiffuseTex));
+		uniformSetter.setUniformUvec2(ShaderIdentifier::Name::Material::SPECULAR_TEX, TextureUtil::getHandleIfExist(__pSpecularTex));
+		uniformSetter.setUniformUvec2(ShaderIdentifier::Name::Material::EMISSIVE_TEX, TextureUtil::getHandleIfExist(__pEmissiveTex));
+		uniformSetter.setUniformUvec2(ShaderIdentifier::Name::Material::SHININESS_TEX, TextureUtil::getHandleIfExist(__pShininessTex));
+		uniformSetter.setUniformUvec2(ShaderIdentifier::Name::Material::ALPHA_TEX, TextureUtil::getHandleIfExist(__pAlphaTex));
+		uniformSetter.setUniformUvec2(ShaderIdentifier::Name::Material::NORMAL_TEX, TextureUtil::getHandleIfExist(__pNormalTex));
 	}
 
 	void PhongMaterialComponent::setAmbientTexture(const shared_ptr<Texture2D> &pTexture) noexcept

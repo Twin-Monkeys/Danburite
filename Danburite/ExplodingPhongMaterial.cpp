@@ -1,20 +1,25 @@
 #include "ExplodingPhongMaterial.h"
-#include "ShaderIdentifier.h"
-#include "GLFunctionWrapper.h"
+#include "ProgramFactory.h"
 
 using namespace std;
-using namespace glm;
 using namespace ObjectGL;
 
 namespace Danburite
 {
-	ExplodingPhongMaterial::ExplodingPhongMaterial(const VertexAttributeType vertexType) noexcept :
-		PhongMaterial({ ProgramType::EXPLODING_PHONG }, MaterialType::EXPLODING_PHONG, vertexType)
-	{}
-
-	void ExplodingPhongMaterial::_onRender(MaterialUniformSetter &target, VertexArray &vertexArray, const GLsizei numInstances) noexcept
+	ExplodingPhongMaterial::ExplodingPhongMaterial(
+		const VertexAttributeType vertexType, UniformSetter &uniformSetter) noexcept :
+		Material(MaterialType::EXPLODING_PHONG, vertexType, uniformSetter),
+		_explodingPhongProgram(ProgramFactory::getInstance().getProgram(ProgramType::EXPLODING_PHONG))
 	{
-		target.getProgram(ProgramType::EXPLODING_PHONG).bind();
+		useLighting(true);
+	}
+
+	void ExplodingPhongMaterial::_onRender(
+		UniformSetter &uniformSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
+	{
+		uniformSetter.directDeploy(*this);
+
+		_explodingPhongProgram.bind();
 		vertexArray.draw(numInstances);
 	}
 }

@@ -34,31 +34,26 @@ SpaceScene::SpaceScene()
 	// GLFunctionWrapper::setStencilMask(0xFF); -> 기본이므로 생략해도 무방.
 
 	ProgramFactory &programFactory = ProgramFactory::getInstance();
-	Program &monoColorProgram = programFactory.getProgram(ProgramType::MONO_COLOR);
 	Program &phongProgram = programFactory.getProgram(ProgramType::PHONG);
-	Program &silhouetteProgram = programFactory.getProgram(ProgramType::SILHOUETTE);
-	Program &outlineProgram = programFactory.getProgram(ProgramType::OUTLINE);
 	Program &skyboxProgram = programFactory.getProgram(ProgramType::SKYBOX);
-	Program &reflectionProgram = programFactory.getProgram(ProgramType::REFLECTION);
-	Program &reflectionPhongProgram = programFactory.getProgram(ProgramType::REFLECTION_PHONG);
 	Program &refractionProgram = programFactory.getProgram(ProgramType::REFRACTION);
 	Program &gammaCorrectionProgram = programFactory.getProgram(ProgramType::POST_PROCESS_GAMMA_CORRECTION);
 
+
 	//// Uniform Buffer 생성 ////
 
+	__pUBMaterial = make_shared<UniformBuffer>("UBMaterial", ShaderIdentifier::Value::UniformBlockBindingPoint::MATERIAL);
+	__pUBMaterial->registerProgram(phongProgram);
+	__pUBMaterial->registerProgram(skyboxProgram);
+	__pUBMaterial->registerProgram(refractionProgram);
+
 	__pUBLight = make_shared<UniformBuffer>("UBLight", ShaderIdentifier::Value::UniformBlockBindingPoint::LIGHT);
-	__pUBLight->enableZeroInit(true);
 	__pUBLight->registerProgram(phongProgram);
-	__pUBLight->registerProgram(reflectionPhongProgram);
+	__pUBLight->enableZeroInit(true);
 
 	__pUBCamera = make_shared<UniformBuffer>("UBCamera", ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA);
-	__pUBCamera->registerProgram(monoColorProgram);
 	__pUBCamera->registerProgram(phongProgram);
-	__pUBCamera->registerProgram(silhouetteProgram);
-	__pUBCamera->registerProgram(outlineProgram);
 	__pUBCamera->registerProgram(skyboxProgram);
-	__pUBCamera->registerProgram(reflectionProgram);
-	__pUBCamera->registerProgram(reflectionPhongProgram);
 	__pUBCamera->registerProgram(refractionProgram);
 
 	__pUBGammaCorrection = make_shared<UniformBuffer>(

@@ -1,5 +1,5 @@
 #include "SilhouetteMaterial.h"
-#include "ShaderIdentifier.h"
+#include "ProgramFactory.h"
 
 using namespace std;
 using namespace glm;
@@ -7,18 +7,18 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	SilhouetteMaterial::SilhouetteMaterial(const VertexAttributeType vertexType) noexcept :
-		Material({ ProgramType::SILHOUETTE }, MaterialType::SILHOUETTE, vertexType)
+	SilhouetteMaterial::SilhouetteMaterial(
+		const VertexAttributeType vertexType, UniformSetter &uniformSetter) noexcept :
+		Material(MaterialType::SILHOUETTE, vertexType, uniformSetter),
+		__silhouetteProgram(ProgramFactory::getInstance().getProgram(ProgramType::SILHOUETTE))
 	{}
 
-	void SilhouetteMaterial::_onDeploy(MaterialUniformSetter &materialSetter) noexcept
+	void SilhouetteMaterial::_onRender(
+		UniformSetter &uniformSetter, VertexArray& vertexArray, const GLsizei numInstances) noexcept
 	{
-		SilhouetteMaterialComponent::_onDeploy(materialSetter);
-	}
+		uniformSetter.directDeploy(*this);
 
-	void SilhouetteMaterial::_onRender(MaterialUniformSetter &target, VertexArray &vertexArray, const GLsizei numInstances) noexcept
-	{
-		target.getProgram(ProgramType::SILHOUETTE).bind();
+		__silhouetteProgram.bind();
 		vertexArray.draw(numInstances);
 	}
 }

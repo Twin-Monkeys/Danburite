@@ -2,6 +2,8 @@
 
 #include "Updatable.h"
 #include "UniformDeployable.h"
+#include <glm/glm.hpp>
+#include "UniformSetter.h"
 
 namespace Danburite
 {
@@ -14,7 +16,7 @@ namespace Danburite
 	protected:
 		virtual void _onUpdateViewMatrix(glm::mat4 &viewMatrix) noexcept = 0;
 		virtual void _onUpdateProjMatrix(glm::mat4 &projMatrix) noexcept = 0;
-		virtual void _onDeploy(ObjectGL::UniformSetter &target) noexcept override;
+		virtual void _onDeploy(ObjectGL::UniformSetter &uniformSetter) noexcept override;
 
 	public:
 		void updateViewMatrix() noexcept;

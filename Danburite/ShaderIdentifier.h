@@ -119,29 +119,17 @@ namespace Danburite
 			namespace UniformBlockBindingPoint
 			{
 				constexpr GLuint
-					LIGHT = 0U,
-					CAMERA = 1U,
-					CONVOLUTION = 2U,
-					GAMMA_CORRECTION = 3U;
+					MATERIAL = 0U,
+					LIGHT = 1U,
+					CAMERA = 2U,
+					CONVOLUTION = 3U,
+					GAMMA_CORRECTION = 4U;
 			}
 
 			namespace Light
 			{
 				constexpr GLuint
 					MAX_NUM_LIGHTS = 7U;
-			}
-
-			namespace Material
-			{
-				constexpr GLint
-					AMBIENT_TEX_LOCATION = 0,
-					DIFFUSE_TEX_LOCATION = 1,
-					SPECULAR_TEX_LOCATION = 2,
-					EMISSIVE_TEX_LOCATION = 3,
-					SHININESS_TEX_LOCATION = 4,
-					ALPHA_TEX_LOCATION = 5,
-					NORMAL_TEX_LOCATION = 6,
-					ENVIRONMENT_TEX_LOCATION = 7;
 			}
 
 			namespace PostProcess

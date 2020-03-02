@@ -1,26 +1,25 @@
 #include "MonoColorMaterial.h"
-#include "ShaderIdentifier.h"
+#include "ProgramFactory.h"
 
 using namespace std;
-using namespace glm;
 using namespace ObjectGL;
 
 namespace Danburite
 {
-	MonoColorMaterial::MonoColorMaterial(const VertexAttributeType vertexType) noexcept :
-		Material({ ProgramType::MONO_COLOR }, MaterialType::MONO_COLOR, vertexType)
+	MonoColorMaterial::MonoColorMaterial(
+		const VertexAttributeType vertexType, UniformSetter &uniformSetter) noexcept :
+		Material(MaterialType::MONO_COLOR, vertexType, uniformSetter),
+		_monoColorProgram(ProgramFactory::getInstance().getProgram(ProgramType::MONO_COLOR))
 	{
 		useLighting(false);
 	}
 
-	void MonoColorMaterial::_onDeploy(MaterialUniformSetter &materialSetter) noexcept
+	void MonoColorMaterial::_onRender(
+		UniformSetter &uniformSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
-		MonoColorMaterialComponent::_onDeploy(materialSetter);
-	}
+		uniformSetter.directDeploy(*this);
 
-	void MonoColorMaterial::_onRender(MaterialUniformSetter &target, VertexArray &vertexArray, const GLsizei numInstances) noexcept
-	{
-		target.getProgram(ProgramType::MONO_COLOR).bind();
+		_monoColorProgram.bind();
 		vertexArray.draw(numInstances);
 	}
 }

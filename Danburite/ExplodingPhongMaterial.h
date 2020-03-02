@@ -4,14 +4,18 @@
 
 namespace Danburite
 {
-	class ExplodingPhongMaterial : public PhongMaterial
+	class ExplodingPhongMaterial : public Material, public PhongMaterialComponent
 	{
 	protected:
+		ObjectGL::Program &_explodingPhongProgram;
+
 		virtual void _onRender(
-			MaterialUniformSetter& target, ObjectGL::VertexArray& vertexArray, const GLsizei numInstances) noexcept override;
+			ObjectGL::UniformSetter &uniformSetter,
+			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
 
 	public:
-		ExplodingPhongMaterial(const VertexAttributeType vertexType) noexcept;
+		ExplodingPhongMaterial(
+			const VertexAttributeType vertexType, ObjectGL::UniformSetter &uniformSetter) noexcept;
 
 		virtual ~ExplodingPhongMaterial() = default;
 	};

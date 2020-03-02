@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Material.h"
+#include "Program.h"
 #include "MonoColorMaterialComponent.h"
 
 namespace Danburite
@@ -8,12 +9,15 @@ namespace Danburite
 	class MonoColorMaterial : public Material, public MonoColorMaterialComponent
 	{
 	protected:
-		virtual void _onDeploy(MaterialUniformSetter &materialSetter) noexcept override;
+		ObjectGL::Program &_monoColorProgram;
+
 		virtual void _onRender(
-			MaterialUniformSetter &target, ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
+			ObjectGL::UniformSetter &uniformSetter,
+			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
 
 	public:
-		MonoColorMaterial(const VertexAttributeType vertexType) noexcept;
+		MonoColorMaterial(
+			const VertexAttributeType vertexType, ObjectGL::UniformSetter &uniformSetter) noexcept;
 
 		virtual ~MonoColorMaterial() = default;
 	};

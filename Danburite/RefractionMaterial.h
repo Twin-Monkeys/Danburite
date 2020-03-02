@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Material.h"
+#include "Program.h"
 #include "RefractionMaterialComponent.h"
 
 namespace Danburite
@@ -8,12 +9,13 @@ namespace Danburite
 	class RefractionMaterial : public Material, public RefractionMaterialComponent
 	{
 	protected:
-		virtual void _onDeploy(MaterialUniformSetter &materialSetterr) noexcept override;
+		ObjectGL::Program &_refractionProgram;
+
 		virtual void _onRender(
-			MaterialUniformSetter &target, ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
+			ObjectGL::UniformSetter &uniformSetter, ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
 
 	public:
-		RefractionMaterial(const VertexAttributeType vertexType) noexcept;
+		RefractionMaterial(const VertexAttributeType vertexType, ObjectGL::UniformSetter &uniformSetter) noexcept;
 
 		using Material::useNormalTexture;
 

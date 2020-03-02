@@ -13,7 +13,7 @@ namespace ObjectGL
 		const TextureInternalFormatType internalFormat, const TextureExternalFormatType externalFormat,
 		const TextureDataType dataType, const GLint mipmapLevel, const bool mipmapCreation) noexcept
 	{
-		assert(!getHandle());
+		assert(!isHandleCreated());
 
 		_bindID();
 		glTexImage2D(

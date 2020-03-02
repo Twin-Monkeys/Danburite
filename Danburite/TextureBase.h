@@ -4,13 +4,14 @@
 #include "TextureType.h"
 #include "TextureException.h"
 #include "UniformDeployable.h"
+#include <cassert>
 
 namespace ObjectGL
 {
 	class TextureBase abstract : public Object<GLuint>
 	{
 	private:
-		GLuint64 __handle {};
+		GLuint64 __handle = 0ULL;
 
 		TextureBase(const TextureBase &) = delete;
 		TextureBase& operator=(const TextureBase &) = delete;
@@ -37,8 +38,8 @@ namespace ObjectGL
 		template <typename T, size_t arrSize>
 		void setStates(const TextureParamType paramType, const T(&values)[arrSize]) noexcept;
 
-		GLuint64 createHandle(const bool residence = true) noexcept;
-		constexpr GLuint64 getHandle() const noexcept;
+		GLuint64 getHandle(const bool residence = true) noexcept;
+		constexpr bool isHandleCreated() const noexcept;
 
 		void reside() noexcept;
 		void unreside() noexcept;
@@ -93,7 +94,7 @@ namespace ObjectGL
 		setStates(paramType, values);
 	}
 
-	constexpr GLuint64 TextureBase::getHandle() const noexcept
+	constexpr bool TextureBase::isHandleCreated() const noexcept
 	{
 		return __handle;
 	}

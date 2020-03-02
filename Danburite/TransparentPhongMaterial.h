@@ -8,10 +8,12 @@ namespace Danburite
 	{
 	protected:
 		virtual void _onRender(
-			MaterialUniformSetter& target, ObjectGL::VertexArray& vertexArray, const GLsizei numInstances) noexcept override;
+			ObjectGL::UniformSetter &uniformSetter,
+			ObjectGL::VertexArray& vertexArray, const GLsizei numInstances) noexcept override;
 
 	public:
-		TransparentPhongMaterial(const VertexAttributeType vertexType) noexcept;
+		TransparentPhongMaterial(
+			const VertexAttributeType vertexType, ObjectGL::UniformSetter &uniformSetter) noexcept;
 
 		virtual ~TransparentPhongMaterial() = default;
 	};

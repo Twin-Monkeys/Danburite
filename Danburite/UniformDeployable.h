@@ -1,12 +1,11 @@
 #pragma once
 
-#include "UniformSetter.h"
-
 namespace ObjectGL
 {
 	class UniformDeployable abstract
 	{
-		friend class UniformDeployer;
+		friend class UniformBatchDeployer;
+		friend class UniformSetter;
 
 	protected:
 		virtual void _onDeploy(UniformSetter &uniformSetter) noexcept = 0;

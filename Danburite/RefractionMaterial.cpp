@@ -1,23 +1,22 @@
 #include "RefractionMaterial.h"
 #include "ShaderIdentifier.h"
+#include "ProgramFactory.h"
 
 using namespace std;
 using namespace ObjectGL;
 
 namespace Danburite
 {
-	RefractionMaterial::RefractionMaterial(const VertexAttributeType vertexType) noexcept :
-		Material({ ProgramType::REFRACTION }, MaterialType::REFRACTION, vertexType)
+	RefractionMaterial::RefractionMaterial(const VertexAttributeType vertexType, UniformSetter &uniformSetter) noexcept :
+		Material(MaterialType::REFRACTION, vertexType, uniformSetter),
+		_refractionProgram(ProgramFactory::getInstance().getProgram(ProgramType::REFRACTION))
 	{}
 
-	void RefractionMaterial::_onDeploy(MaterialUniformSetter &materialSetter) noexcept
+	void RefractionMaterial::_onRender(UniformSetter &uniformSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
-		RefractionMaterialComponent::_onDeploy(materialSetter);
-	}
+		uniformSetter.directDeploy(*this);
 
-	void RefractionMaterial::_onRender(MaterialUniformSetter &target, VertexArray &vertexArray, const GLsizei numInstances) noexcept
-	{
-		target.getProgram(ProgramType::REFRACTION).bind();
+		_refractionProgram.bind();
 		vertexArray.draw(numInstances);
 	}
 }

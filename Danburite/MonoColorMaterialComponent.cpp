@@ -6,10 +6,8 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	void MonoColorMaterialComponent::_onDeploy(MaterialUniformSetter &materialSetter) noexcept
+	void MonoColorMaterialComponent::_onDeploy(UniformSetter &materialSetter) noexcept
 	{
-		Program &monoColorProgram = materialSetter.getProgram(ProgramType::MONO_COLOR);
-
-		monoColorProgram.setUniformVec4(ShaderIdentifier::Name::Material::DIFFUSE_COLOR, __color);
+		materialSetter.setUniformVec4(ShaderIdentifier::Name::Material::DIFFUSE_COLOR, __color);
 	}
 }

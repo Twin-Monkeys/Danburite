@@ -8,12 +8,13 @@ namespace Danburite
 	class ReflectionMaterial : public Material, public ReflectionMaterialComponent
 	{
 	protected:
-		virtual void _onDeploy(MaterialUniformSetter &materialSetterr) noexcept override;
+		ObjectGL::Program &_reflectionProgram;
+
 		virtual void _onRender(
-			MaterialUniformSetter &target, ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
+			ObjectGL::UniformSetter &uniformSetter, ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
 
 	public:
-		ReflectionMaterial(const VertexAttributeType vertexType) noexcept;
+		ReflectionMaterial(const VertexAttributeType vertexType, ObjectGL::UniformSetter &uniformSetter) noexcept;
 
 		using Material::useNormalTexture;
 

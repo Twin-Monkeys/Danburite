@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Material.h"
+#include "Program.h"
 #include "PhongMaterialComponent.h"
 
 namespace Danburite
@@ -8,16 +9,18 @@ namespace Danburite
 	class PhongMaterial : public Material, public PhongMaterialComponent
 	{
 	protected:
-		PhongMaterial(
-			const std::unordered_set<ProgramType> &programTypes,
-			const MaterialType type, const VertexAttributeType vertexType) noexcept;
+		ObjectGL::Program &_phongProgram;
 
-		virtual void _onDeploy(MaterialUniformSetter &materialSetterr) noexcept override;
+		PhongMaterial(
+			const MaterialType materialType,
+			const VertexAttributeType vertexType, ObjectGL::UniformSetter &uniformSetter) noexcept;
+
 		virtual void _onRender(
-			MaterialUniformSetter &target, ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
+			ObjectGL::UniformSetter &uniformSetter,
+			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
 
 	public:
-		PhongMaterial(const VertexAttributeType vertexType) noexcept;
+		PhongMaterial(const VertexAttributeType vertexType, ObjectGL::UniformSetter &uniformSetter) noexcept;
 
 		using Material::useLighting;
 		using Material::useAmbientTexture;

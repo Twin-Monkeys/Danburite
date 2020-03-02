@@ -6,6 +6,8 @@
 
 namespace ObjectGL
 {
+	class UniformDeployable;
+
 	class UniformSetter abstract
 	{
 	public:
@@ -25,16 +27,14 @@ namespace ObjectGL
 		bool setUniformBool(const std::string &name, const GLboolean value) noexcept;
 		bool setUniformUvec2(const std::string &name, const glm::uvec2 &value) noexcept;
 		bool setUniformUvec2(const std::string &name, const GLuint64 valueAsStream) noexcept;
-
 		bool setUniformVec3(const std::string &name, const glm::vec3 &values) noexcept;
 		bool setUniformVec3(const std::string &name, const float x, const float y, const float z) noexcept;
-
 		bool setUniformVec4(const std::string &name, const glm::vec4 &values) noexcept;
 		bool setUniformVec4(const std::string &name, const float x, const float y, const float z, const float w) noexcept;
-
 		bool setUniformMat3(const std::string& name, const glm::mat4 &values, const bool transposition = false) noexcept;
-
 		bool setUniformMat4(const std::string &name, const glm::mat4 &values, const bool transposition = false) noexcept;
+
+		void directDeploy(UniformDeployable &deployable) noexcept;
 
 		virtual ~UniformSetter() = default;
 	};
