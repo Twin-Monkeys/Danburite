@@ -354,9 +354,6 @@
     <ClCompile Include="Shader.cpp">
       <Filter>Library\ObjectGL\Core\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleCamera.cpp">
-      <Filter>Library\Engine\Core\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="RCException.cpp">
       <Filter>Library\ObjectGL\Window\RenderContext</Filter>
     </ClCompile>
@@ -675,6 +672,9 @@
     <ClCompile Include="UniformBatchDeployer.cpp">
       <Filter>Library\ObjectGL\Core\Uniform</Filter>
     </ClCompile>
+    <ClCompile Include="PerspectiveCamera.cpp">
+      <Filter>Library\Engine\Core\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">
@@ -706,9 +706,6 @@
     </ClInclude>
     <ClInclude Include="Texture2D.h">
       <Filter>Library\ObjectGL\Core\Texture\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="SimpleCamera.h">
-      <Filter>Library\Engine\Core\Camera</Filter>
     </ClInclude>
     <ClInclude Include="stb_image.h">
       <Filter>Library\ThirdParty</Filter>
@@ -1156,6 +1153,9 @@
     </ClInclude>
     <ClInclude Include="UniformBatchDeployer.h">
       <Filter>Library\ObjectGL\Core\Uniform</Filter>
+    </ClInclude>
+    <ClInclude Include="PerspectiveCamera.h">
+      <Filter>Library\Engine\Core\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -15,4 +15,9 @@ namespace Danburite
 		LightBaseComponent::_onDeploy(target);
 		DirectionalLightComponent::_onDeploy(target);
 	}
+
+	void DirectionalLight::bakeDepthMap() noexcept
+	{
+
+	}
 }

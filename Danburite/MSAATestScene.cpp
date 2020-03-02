@@ -54,7 +54,7 @@ MSAATestScene::MSAATestScene()
 
 	//// 朝五虞 持失 ////
 
-	__pCamera = make_shared<SimpleCamera>();
+	__pCamera = make_shared<PerspectiveCamera>();
 	__pCamera->setPosition(10.f, 10.f, 10.f);
 	__pCamera->pitch(-quarter_pi<float>() * .7f);
 	__pCamera->yaw(quarter_pi<float>());

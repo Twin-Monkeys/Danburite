@@ -3,7 +3,7 @@
 #include "Scene.h"
 #include "ScreenEventHandler.h"
 #include "RenderUnit.h"
-#include "SimpleCamera.h"
+#include "PerspectiveCamera.h"
 #include "UniformBuffer.h"
 #include "DirectionalLight.h"
 #include "PointLight.h"
@@ -41,7 +41,7 @@ private:
 	std::shared_ptr<Danburite::SpotLight> __pBlueSpotLight;
 	std::shared_ptr<Danburite::PointLight> __pRotatingLight;
 
-	std::shared_ptr<Danburite::SimpleCamera> __pCamera;
+	std::shared_ptr<Danburite::PerspectiveCamera> __pCamera;
 
 	std::shared_ptr<Danburite::CubeSkybox> __pSkybox;
 

@@ -69,7 +69,7 @@ GeometryTestScene::GeometryTestScene()
 
 	//// 朝五虞 持失 ////
 
-	__pCamera = make_shared<SimpleCamera>();
+	__pCamera = make_shared<PerspectiveCamera>();
 	__pCamera->setPosition(0.f, 0.f, 25.f);
 
 	__pUBCamera->addDeployable(__pCamera);

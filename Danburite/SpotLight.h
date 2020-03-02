@@ -15,6 +15,8 @@ namespace Danburite
 	public:
 		SpotLight(ObjectGL::UniformSetter &uniformSetter) noexcept;
 
+		virtual void bakeDepthMap() noexcept override;
+
 		virtual ~SpotLight() = default;
 	};
 }

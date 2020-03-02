@@ -1,4 +1,4 @@
-#include "SimpleCamera.h"
+#include "PerspectiveCamera.h"
 #include <glm/gtx/rotate_vector.hpp>
 #include "ShaderIdentifier.h"
 
@@ -8,28 +8,28 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	SimpleCamera::SimpleCamera() noexcept
+	PerspectiveCamera::PerspectiveCamera() noexcept
 	{
 		updateProjMatrix();
 	}
 
-	void SimpleCamera::_onUpdateViewMatrix(mat4 &viewMatrix) noexcept
+	void PerspectiveCamera::_onUpdateViewMatrix(mat4 &viewMatrix) noexcept
 	{
 		viewMatrix = lookAt(__pos, __pos + __forward, __up);
 	}
 
-	void SimpleCamera::_onUpdateProjMatrix(mat4 &projMatrix) noexcept
+	void PerspectiveCamera::_onUpdateProjMatrix(mat4 &projMatrix) noexcept
 	{
 		projMatrix = perspective(__fov, __aspectRatio, __zNear, __zFar);
 	}
 
-	void SimpleCamera::_onDeploy(UniformSetter &target) noexcept
+	void PerspectiveCamera::_onDeploy(UniformSetter &target) noexcept
 	{
 		Camera::_onDeploy(target);
 		target.setUniformVec3(ShaderIdentifier::Name::Camera::POSITION, __pos);
 	}
 
-	void SimpleCamera::pitch(const float angle) noexcept
+	void PerspectiveCamera::pitch(const float angle) noexcept
 	{
 		float newPitch = (__pitch + angle);
 		float validAngle = angle;
@@ -50,7 +50,7 @@ namespace Danburite
 		__vertical = normalize(cross(__horizontal, __forward));
 	}
 
-	void SimpleCamera::yaw(const float angle) noexcept
+	void PerspectiveCamera::yaw(const float angle) noexcept
 	{
 		__forward = normalize(rotate(__forward, angle, __up));
 		__horizontal = normalize(cross(__forward, __up));

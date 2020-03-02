@@ -38,6 +38,8 @@ namespace Danburite
 		void setEnabled(const bool enabled) noexcept;
 		void selfDeploy() noexcept;
 
+		virtual void bakeDepthMap() noexcept = 0;
+
 		virtual ~Light() noexcept;
 	};
 }

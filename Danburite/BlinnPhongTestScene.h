@@ -3,7 +3,7 @@
 #include "Scene.h"
 #include "ScreenEventHandler.h"
 #include "RenderUnit.h"
-#include "SimpleCamera.h"
+#include "PerspectiveCamera.h"
 #include "UniformBuffer.h"
 #include "PointLight.h"
 #include "LightDeployer.h"
@@ -22,7 +22,7 @@ private:
 	std::shared_ptr<ObjectGL::UniformBuffer> __pUBGammaCorrection;
 
 	std::shared_ptr<Danburite::RenderUnit> __pFloorRU;
-	std::shared_ptr<Danburite::SimpleCamera> __pCamera;
+	std::shared_ptr<Danburite::PerspectiveCamera> __pCamera;
 
 	std::array<std::shared_ptr<Danburite::PointLight>, 4> __arrPointLight;
 

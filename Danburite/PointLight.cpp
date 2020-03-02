@@ -19,4 +19,9 @@ namespace Danburite
 		PositionableLightComponent::_onDeploy(target);
 		AttenuatedLightComponent::_onDeploy(target);
 	}
+
+	void PointLight::bakeDepthMap() noexcept
+	{
+
+	}
 }

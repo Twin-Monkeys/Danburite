@@ -176,7 +176,7 @@ LightTestScene::LightTestScene()
 
 	//// 朝五虞 持失 ////
 
-	__pCamera = make_shared<SimpleCamera>();
+	__pCamera = make_shared<PerspectiveCamera>();
 	__pCamera->setPosition(35.f, 20.f, 35.f);
 	__pCamera->yaw(quarter_pi<float>());
 	__pCamera->pitch(-quarter_pi<float>() * .7f);

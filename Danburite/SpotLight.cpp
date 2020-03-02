@@ -16,4 +16,9 @@ namespace Danburite
 		DirectionalLightComponent::_onDeploy(target);
 		SpotLightComponent::_onDeploy(target);
 	}
+
+	void SpotLight::bakeDepthMap() noexcept
+	{
+
+	}
 }

@@ -4,7 +4,7 @@
 #include "ScreenEventHandler.h"
 #include "RenderUnit.h"
 #include "DepthBakingCamera.h"
-#include "SimpleCamera.h"
+#include "PerspectiveCamera.h"
 #include "UniformBuffer.h"
 #include "DirectionalLight.h"
 #include "LightDeployer.h"
@@ -26,7 +26,7 @@ private:
 	std::shared_ptr<Danburite::RenderUnit> __pFloorRU;
 	std::shared_ptr<Danburite::RenderUnit> __pCubeRU;
 
-	std::shared_ptr<Danburite::SimpleCamera> __pMainCamera;
+	std::shared_ptr<Danburite::PerspectiveCamera> __pMainCamera;
 	std::shared_ptr<Danburite::DepthBakingCamera> __pDepthBakingCamera;
 
 	std::shared_ptr<Danburite::DirectionalLight> __pDirectionalLight;

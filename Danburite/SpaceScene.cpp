@@ -176,7 +176,7 @@ SpaceScene::SpaceScene()
 
 	//// 朝五虞 持失 ////
 
-	__pCamera = make_shared<SimpleCamera>();
+	__pCamera = make_shared<PerspectiveCamera>();
 	__pCamera->setPosition(15.f, 15.f, 25.f);
 	__pCamera->pitch(-quarter_pi<float>() * .2f);
 	__pCamera->yaw(quarter_pi<float>() * .7f);

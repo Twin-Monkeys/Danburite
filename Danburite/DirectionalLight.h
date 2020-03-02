@@ -15,6 +15,8 @@ namespace Danburite
 	public:
 		DirectionalLight(ObjectGL::UniformSetter &uniformSetter) noexcept;
 
+		void bakeDepthMap() noexcept override;
+
 		virtual ~DirectionalLight() = default;
 	};
 }

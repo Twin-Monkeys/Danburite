@@ -104,7 +104,7 @@ ShadowTestScene::ShadowTestScene()
 
 	//// 朝五虞 持失 ////
 
-	__pMainCamera = make_shared<SimpleCamera>();
+	__pMainCamera = make_shared<PerspectiveCamera>();
 	__pMainCamera->setPosition(10.f, 10.f, 10.f);
 	__pMainCamera->pitch(-quarter_pi<float>() * .7f);
 	__pMainCamera->yaw(quarter_pi<float>());
@@ -190,6 +190,8 @@ bool ShadowTestScene::__keyFunc(const float deltaTime) noexcept
 void ShadowTestScene::draw() noexcept
 {
 	// Gamma correction
+	// __pLightDeployer->batchBakeDepthMap();
+
 	__pLightDeployer->batchDeploy();
 
 	__pUBCamera->directDeploy(*__pMainCamera);
