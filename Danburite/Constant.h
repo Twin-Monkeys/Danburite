@@ -15,10 +15,10 @@ namespace Danburite
 
 		namespace Camera
 		{
-			constexpr float DEFAULT_X_LEFT		= -10.f;
-			constexpr float DEFAULT_X_RIGHT		= 10.f;
-			constexpr float DEFAULT_Y_BOTTOM	= -10.f;
-			constexpr float DEFAULT_Y_TOP		= 10.f;
+			constexpr float DEFAULT_X_LEFT		= -20.f;
+			constexpr float DEFAULT_X_RIGHT		= 20.f;
+			constexpr float DEFAULT_Y_BOTTOM	= -20.f;
+			constexpr float DEFAULT_Y_TOP		= 20.f;
 			constexpr float DEFAULT_Z_NEAR		= 1.f;
 			constexpr float DEFAULT_Z_FAR		= 1000.f;
 			constexpr float MAX_PITCH			= (glm::half_pi<float>() * .9f);
