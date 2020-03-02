@@ -38,7 +38,7 @@ namespace ObjectGL
 		template <typename T, size_t arrSize>
 		void setStates(const TextureParamType paramType, const T(&values)[arrSize]) noexcept;
 
-		GLuint64 getHandle(const bool residence = true) noexcept;
+		GLuint64 getHandle(const bool resideIfCreated = true) noexcept;
 		constexpr bool isHandleCreated() const noexcept;
 
 		void reside() noexcept;

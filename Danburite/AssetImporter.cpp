@@ -76,7 +76,11 @@ namespace Danburite
 			pMaterial->useSpecularTexture(true);
 		}
 
-		pMaterial->setEmissiveTexture(pEmissiveTex);
+		if (pEmissiveTex)
+		{
+			pMaterial->setEmissiveTexture(pEmissiveTex);
+			pMaterial->useEmissiveTexture(true);
+		}
 
 		if (pShininessTex)
 		{

@@ -69,6 +69,11 @@ bool Material_isSpecularTextureEnabled()
 	return ((material.optionFlag & MATERIAL_OPTION_FLAG_SPECULAR_TEXTURE) != 0);
 }
 
+bool Material_isEmissiveTextureEnabled()
+{
+	return ((material.optionFlag & MATERIAL_OPTION_FLAG_EMISSIVE_TEXTURE) != 0);
+}
+
 bool Material_isShininessTextureEnabled()
 {
 	return ((material.optionFlag & MATERIAL_OPTION_FLAG_SHININESS_TEXTURE) != 0);
@@ -199,8 +204,11 @@ vec3 Material_getEmissive()
 		(material.type == MATERIAL_TYPE_OUTLINING_PHONG) ||
 		(material.type == MATERIAL_TYPE_PHONG))
 	{
-		retVal = texture(sampler2D(material.emissiveTex), Material_texCoord).rgb;
-		retVal = Material_applyGamma(retVal);
+		if (Material_isEmissiveTextureEnabled())
+		{
+			retVal = texture(sampler2D(material.emissiveTex), Material_texCoord).rgb;
+			retVal = Material_applyGamma(retVal);
+		}
 	}
 
 	return retVal;

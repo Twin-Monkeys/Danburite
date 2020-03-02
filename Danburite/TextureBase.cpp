@@ -39,14 +39,14 @@ namespace ObjectGL
 		_bindID();
 	}
 
-	GLuint64 TextureBase::getHandle(const bool residence) noexcept
+	GLuint64 TextureBase::getHandle(const bool resideIfCreated) noexcept
 	{
 		if (!__handle)
 		{
 			__handle = glGetTextureHandleARB(ID);
 			assert(glGetError() == GL_NO_ERROR);
 
-			if (residence)
+			if (resideIfCreated)
 				reside();
 		}
 

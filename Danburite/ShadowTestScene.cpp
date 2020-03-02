@@ -185,7 +185,6 @@ void ShadowTestScene::draw() noexcept
 	// __pLightDeployer->batchBakeDepthMap();
 
 	__pLightDeployer->batchDeploy();
-
 	__pUBCamera->directDeploy(*__pMainCamera);
 
 	__pGammaCorrectionPP->bind();

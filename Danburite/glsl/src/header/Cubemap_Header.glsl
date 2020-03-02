@@ -4,7 +4,6 @@
 #define __CUBEMAP_HEADER__
 
 #extension GL_ARB_bindless_texture : require
-
 #include "Constant_Header.glsl"
 
 struct Cubemap
