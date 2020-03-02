@@ -109,9 +109,6 @@ ShadowTestScene::ShadowTestScene()
 	__pMainCamera->pitch(-quarter_pi<float>() * .7f);
 	__pMainCamera->yaw(quarter_pi<float>());
 
-	__pDepthBakingCamera = make_shared<DepthBakingCamera>();
-	__pDepthBakingCamera->setPosition(0.f, 10.f, 0.f);
-
 
 	// Light 초기화
 
@@ -119,8 +116,6 @@ ShadowTestScene::ShadowTestScene()
 	__pDirectionalLight->setDirection(1.f, -1.f, 1.f);
 	__pDirectionalLight->setAmbientStrength(.05f);
 	__pDirectionalLight->setDiffuseStrength(.3f);
-
-	__pDepthBakingCamera->setDirection(__pDirectionalLight->getDirection());
 
 
 	//// Deployer / Updater 초기화 ////
@@ -132,13 +127,10 @@ ShadowTestScene::ShadowTestScene()
 	__pUpdater->addUpdatable(__pFloorRU);
 	__pUpdater->addUpdatable(__pCubeRU);
 	__pUpdater->addUpdatable(__pMainCamera);
-	__pUpdater->addUpdatable(__pDepthBakingCamera);
 
 	__pDrawer = make_shared<Drawer>();
 	__pDrawer->addDrawable(__pFloorRU);
 	__pDrawer->addDrawable(__pCubeRU);
-
-	__pDepthBaker = make_shared<DepthBaker>();
 
 	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>(*__pUBGammaCorrection);
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
@@ -230,7 +222,6 @@ void ShadowTestScene::onResize(const int width, const int height) noexcept
 		return;
 
 	__pMainCamera->setAspectRatio(width, height);
-	__pDepthBaker->setScreenSize(width, height);
 	__pGammaCorrectionPP->setScreenSize(width, height);
 }
 

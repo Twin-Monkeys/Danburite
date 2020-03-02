@@ -648,9 +648,6 @@
     <ClCompile Include="ShadowTestScene.cpp">
       <Filter>Client\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="DepthBakingCamera.cpp">
-      <Filter>Library\Engine\Core\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="DepthBaker.cpp">
       <Filter>Library\Engine\Core\Shadow</Filter>
     </ClCompile>
@@ -673,6 +670,9 @@
       <Filter>Library\ObjectGL\Core\Uniform</Filter>
     </ClCompile>
     <ClCompile Include="PerspectiveCamera.cpp">
+      <Filter>Library\Engine\Core\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="OrthoCamera.cpp">
       <Filter>Library\Engine\Core\Camera</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1139,9 +1139,6 @@
     <ClInclude Include="ShadowTestScene.h">
       <Filter>Client\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="DepthBakingCamera.h">
-      <Filter>Library\Engine\Core\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="DepthBaker.h">
       <Filter>Library\Engine\Core\Shadow</Filter>
     </ClInclude>
@@ -1155,6 +1152,9 @@
       <Filter>Library\ObjectGL\Core\Uniform</Filter>
     </ClInclude>
     <ClInclude Include="PerspectiveCamera.h">
+      <Filter>Library\Engine\Core\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="OrthoCamera.h">
       <Filter>Library\Engine\Core\Camera</Filter>
     </ClInclude>
   </ItemGroup>

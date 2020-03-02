@@ -164,11 +164,11 @@
     <ClCompile Include="ConvolutionalPostProcessor.cpp" />
     <ClCompile Include="CubeSkybox.cpp" />
     <ClCompile Include="CubeSkyboxComponent.cpp" />
-    <ClCompile Include="DepthBakingCamera.cpp" />
     <ClCompile Include="DepthBaker.cpp" />
     <ClCompile Include="ElementType.cpp" />
     <ClCompile Include="GammaCorrectionPostProcessor.cpp" />
     <ClCompile Include="IndexType.cpp" />
+    <ClCompile Include="OrthoCamera.cpp" />
     <ClCompile Include="RCDSRegisterer.cpp" />
     <ClCompile Include="ShadowTestScene.cpp" />
     <ClCompile Include="SpaceScene.cpp" />
@@ -288,10 +288,10 @@
     <ClInclude Include="CubemapSideType.h" />
     <ClInclude Include="CubeSkybox.h" />
     <ClInclude Include="CubeSkyboxComponent.h" />
-    <ClInclude Include="DepthBakingCamera.h" />
     <ClInclude Include="DepthBaker.h" />
     <ClInclude Include="GammaCorrectionPostProcessor.h" />
     <ClInclude Include="MaterialRenderType.h" />
+    <ClInclude Include="OrthoCamera.h" />
     <ClInclude Include="RCDSRegisterer.h" />
     <ClInclude Include="ShadowTestScene.h" />
     <ClInclude Include="SpaceScene.h" />

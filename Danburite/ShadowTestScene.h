@@ -3,8 +3,8 @@
 #include "Scene.h"
 #include "ScreenEventHandler.h"
 #include "RenderUnit.h"
-#include "DepthBakingCamera.h"
 #include "PerspectiveCamera.h"
+#include "OrthoCamera.h"
 #include "UniformBuffer.h"
 #include "DirectionalLight.h"
 #include "LightDeployer.h"
@@ -27,7 +27,6 @@ private:
 	std::shared_ptr<Danburite::RenderUnit> __pCubeRU;
 
 	std::shared_ptr<Danburite::PerspectiveCamera> __pMainCamera;
-	std::shared_ptr<Danburite::DepthBakingCamera> __pDepthBakingCamera;
 
 	std::shared_ptr<Danburite::DirectionalLight> __pDirectionalLight;
 
@@ -35,7 +34,6 @@ private:
 	std::shared_ptr<Danburite::Updater> __pUpdater;
 	std::shared_ptr<Danburite::Drawer> __pDrawer;
 
-	std::shared_ptr<Danburite::DepthBaker> __pDepthBaker;
 	std::shared_ptr<Danburite::GammaCorrectionPostProcessor> __pGammaCorrectionPP;
 
 	bool __keyFunc(const float deltaTime) noexcept;

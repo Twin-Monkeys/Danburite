@@ -20,11 +20,11 @@ namespace Danburite
 		glm::vec3 __vertical = { 0.f, 1.f, 0.f };
 		const glm::vec3 __up = { 0.f, 1.f, 0.f };
 
-		float __fov = Constant::Camera::FOV;
+		float __fov = Constant::Camera::DEFAULT_FOV;
 		float __aspectRatio = 1.f;
 
-		float __zNear = Constant::Camera::Z_NEAR;
-		float __zFar = Constant::Camera::Z_FAR;
+		float __zNear = Constant::Camera::DEFAULT_Z_NEAR;
+		float __zFar = Constant::Camera::DEFAULT_Z_FAR;
 
 	protected:
 		virtual void _onUpdateViewMatrix(glm::mat4 &viewMatrix) noexcept override;
@@ -176,7 +176,7 @@ namespace Danburite
 
 	constexpr void PerspectiveCamera::resetFov() noexcept
 	{
-		setFov(Constant::Camera::FOV);
+		setFov(Constant::Camera::DEFAULT_FOV);
 	}
 
 	constexpr void PerspectiveCamera::adjustFov(const float delta) noexcept
