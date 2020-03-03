@@ -25,7 +25,7 @@ namespace Danburite
 		setRotationAxis(axis);
 	}
 
-	void Transform::calcModelMatrix(const mat4 &parentModelMat, mat4 &retVal) noexcept
+	void Transform::calcModelMatrix(const mat4 &parentModelMat, mat4 &retVal) const noexcept
 	{
 		retVal = translate(parentModelMat, __pos);
 		retVal = rotate(retVal, __rotation.first, __rotation.second);

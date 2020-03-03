@@ -52,7 +52,7 @@ namespace Danburite
 		void setRotation(const float angle, const glm::vec3 &axis) noexcept;
 		constexpr void adjustRotationAngle(const float delta) noexcept;
 
-		void calcModelMatrix(const glm::mat4 &parentModelMat, glm::mat4 &retVal) noexcept;
+		void calcModelMatrix(const glm::mat4 &parentModelMat, glm::mat4 &retVal) const noexcept;
 
 		virtual ~Transform() = default;
 	};
