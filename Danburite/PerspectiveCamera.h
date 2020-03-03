@@ -17,6 +17,8 @@ namespace Danburite
 		glm::vec3 __horizontal = { 1.f, 0.f, 0.f };
 
 		float __pitch = 0.f;
+		float __yaw = 0.f;
+
 		glm::vec3 __vertical = { 0.f, 1.f, 0.f };
 		const glm::vec3 __up = { 0.f, 1.f, 0.f };
 

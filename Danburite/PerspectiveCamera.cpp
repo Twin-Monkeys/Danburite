@@ -1,6 +1,7 @@
 #include "PerspectiveCamera.h"
 #include <glm/gtx/rotate_vector.hpp>
 #include "ShaderIdentifier.h"
+#include <glm/gtx/quaternion.hpp>
 
 using namespace std;
 using namespace glm;
@@ -15,7 +16,8 @@ namespace Danburite
 
 	void PerspectiveCamera::_onUpdateViewMatrix(mat4 &viewMatrix) noexcept
 	{
-		viewMatrix = lookAt(__pos, __pos + __forward, __up);
+		viewMatrix = toMat4(quat({ __pitch, __yaw, 0.f }));
+		viewMatrix = translate(viewMatrix, -__pos);
 	}
 
 	void PerspectiveCamera::_onUpdateProjMatrix(mat4 &projMatrix) noexcept
@@ -31,28 +33,11 @@ namespace Danburite
 
 	void PerspectiveCamera::pitch(const float angle) noexcept
 	{
-		float newPitch = (__pitch + angle);
-		float validAngle = angle;
-
-		if (newPitch > __maxPitch)
-		{
-			validAngle -= (newPitch - __maxPitch);
-			newPitch = __maxPitch;
-		}
-		else if (newPitch < -__maxPitch)
-		{
-			validAngle -= (newPitch + __maxPitch);
-			newPitch = -__maxPitch;
-		}
-
-		__pitch = newPitch;
-		__forward = normalize(rotate(__forward, validAngle, __horizontal));
-		__vertical = normalize(cross(__horizontal, __forward));
+		__pitch -= angle;
 	}
 
 	void PerspectiveCamera::yaw(const float angle) noexcept
 	{
-		__forward = normalize(rotate(__forward, angle, __up));
-		__horizontal = normalize(cross(__forward, __up));
+		__yaw -= angle;
 	}
 }
