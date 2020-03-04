@@ -70,7 +70,9 @@ GeometryTestScene::GeometryTestScene()
 	//// 朝五虞 持失 ////
 
 	__pCamera = make_shared<PerspectiveCamera>();
-	__pCamera->setPosition(0.f, 0.f, 25.f);
+
+	Transform &cameraTransform = __pCamera->getTransform();
+	cameraTransform.setPosition(0.f, 0.f, 25.f);
 
 	__pUBCamera->addDeployable(__pCamera);
 
@@ -115,23 +117,25 @@ bool GeometryTestScene::__keyFunc(const float deltaTime) noexcept
 		UP		= (GetAsyncKeyState('E') & 0x8000),
 		DOWN	= (GetAsyncKeyState('Q') & 0x8000);
 
+	Transform& cameraTransform = __pCamera->getTransform();
+
 	if (LEFT)
-		__pCamera->moveHorizontal(-MOVE_SPEED);
-	
+		cameraTransform.moveHorizontal(-MOVE_SPEED);
+
 	if (RIGHT)
-		__pCamera->moveHorizontal(MOVE_SPEED);
+		cameraTransform.moveHorizontal(MOVE_SPEED);
 
 	if (FRONT)
-		__pCamera->moveForward(MOVE_SPEED);
+		cameraTransform.moveForward(MOVE_SPEED);
 
 	if (BACK)
-		__pCamera->moveForward(-MOVE_SPEED);
+		cameraTransform.moveForward(-MOVE_SPEED);
 
 	if (UP)
-		__pCamera->moveVertical(MOVE_SPEED);
+		cameraTransform.moveVertical(MOVE_SPEED);
 
 	if (DOWN)
-		__pCamera->moveVertical(-MOVE_SPEED);
+		cameraTransform.moveVertical(-MOVE_SPEED);
 
 	return true;
 }
@@ -188,8 +192,8 @@ void GeometryTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcep
 {
 	constexpr float ROTATION_SPEED = .004f;
 
-	__pCamera->yaw(xDelta * ROTATION_SPEED);
-	__pCamera->pitch(yDelta * ROTATION_SPEED);
+	Transform& cameraTransform = __pCamera->getTransform();
+	cameraTransform.adjustRotation(yDelta * ROTATION_SPEED, xDelta * ROTATION_SPEED, 0.f);
 }
 
 void GeometryTestScene::onMouseMButtonDown(const int x, const int y) noexcept

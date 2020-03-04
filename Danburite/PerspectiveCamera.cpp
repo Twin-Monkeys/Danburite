@@ -16,8 +16,7 @@ namespace Danburite
 
 	void PerspectiveCamera::_onUpdateViewMatrix(mat4 &viewMatrix) noexcept
 	{
-		viewMatrix = toMat4(quat({ __pitch, __yaw, 0.f }));
-		viewMatrix = translate(viewMatrix, -__pos);
+		viewMatrix = translate(__transform.getRotationMatrix(), -__transform.getPosition());
 	}
 
 	void PerspectiveCamera::_onUpdateProjMatrix(mat4 &projMatrix) noexcept
@@ -25,19 +24,9 @@ namespace Danburite
 		projMatrix = perspective(__fov, __aspectRatio, __zNear, __zFar);
 	}
 
-	void PerspectiveCamera::_onDeploy(UniformSetter &target) noexcept
+	void PerspectiveCamera::_onDeploy(UniformSetter &uniformSetter) noexcept
 	{
-		Camera::_onDeploy(target);
-		target.setUniformVec3(ShaderIdentifier::Name::Camera::POSITION, __pos);
-	}
-
-	void PerspectiveCamera::pitch(const float angle) noexcept
-	{
-		__pitch -= angle;
-	}
-
-	void PerspectiveCamera::yaw(const float angle) noexcept
-	{
-		__yaw -= angle;
+		Camera::_onDeploy(uniformSetter);
+		uniformSetter.setUniformVec3(ShaderIdentifier::Name::Camera::POSITION, __transform.getPosition());
 	}
 }

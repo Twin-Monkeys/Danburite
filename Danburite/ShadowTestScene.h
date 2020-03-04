@@ -26,7 +26,7 @@ private:
 	std::shared_ptr<Danburite::RenderUnit> __pFloorRU;
 	std::shared_ptr<Danburite::RenderUnit> __pCubeRU;
 
-	std::shared_ptr<Danburite::PerspectiveCamera> __pMainCamera;
+	std::shared_ptr<Danburite::PerspectiveCamera> __pCamera;
 
 	std::shared_ptr<Danburite::DirectionalLight> __pDirectionalLight;
 

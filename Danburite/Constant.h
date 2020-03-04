@@ -8,6 +8,12 @@ namespace Danburite
 {
 	namespace Constant
 	{
+		namespace Transform
+		{
+			constexpr float MIN_SCALE = .001f;
+			constexpr float MAX_SCALE = 1000.f;
+		}
+
 		namespace Matrix
 		{
 			constexpr glm::mat4 IDENTITY_MATRIX { 1.f };

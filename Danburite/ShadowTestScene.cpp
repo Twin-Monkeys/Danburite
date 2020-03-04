@@ -74,7 +74,7 @@ ShadowTestScene::ShadowTestScene()
 
 	Transform &floorTransform = __pFloorRU->getTransform();
 	floorTransform.setScale(20.f);
-	floorTransform.setRotation(-half_pi<float>(), { 1.f, 0.f, 0.f });
+	floorTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
 
 	const shared_ptr<VertexArray> &pCubeVA =
 		vaFactory.getVertexArrayPtr(ShapeType::CUBE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
@@ -94,20 +94,21 @@ ShadowTestScene::ShadowTestScene()
 	Transform &cube2Transform = __pCubeRU->getTransform(1);
 	cube2Transform.setScale(.6f);
 	cube2Transform.setPosition(5.f, 5.f, 5.f);
-	cube2Transform.setRotation(quarter_pi<float>() * 1.2f, { 1.f, 2.f, 1.f });
+	cube2Transform.setRotation(1.f, 2.f, 1.f);
 
 	Transform &cube3Transform = __pCubeRU->getTransform(2);
 	cube3Transform.setScale(3.f);
 	cube3Transform.setPosition(-5.f, 6.f, 5.f);
-	cube3Transform.setRotation(quarter_pi<float>() * .3f, { -3.f, 1.f, 1.f });
+	cube3Transform.setRotation(-3.f, 1.f, 1.f);
 
 
 	//// 카메라 생성 ////
 
-	__pMainCamera = make_shared<PerspectiveCamera>();
-	__pMainCamera->setPosition(10.f, 10.f, 10.f);
-	__pMainCamera->pitch(-quarter_pi<float>() * .7f);
-	__pMainCamera->yaw(quarter_pi<float>());
+	__pCamera = make_shared<PerspectiveCamera>();
+
+	Transform& cameraTransform = __pCamera->getTransform();
+	cameraTransform.setPosition(10.f, 10.f, 10.f);
+	cameraTransform.setRotation(-quarter_pi<float>() * .7f, quarter_pi<float>(), 0.f);
 
 
 	// Light 초기화
@@ -126,7 +127,7 @@ ShadowTestScene::ShadowTestScene()
 	__pUpdater = make_shared<Updater>();
 	__pUpdater->addUpdatable(__pFloorRU);
 	__pUpdater->addUpdatable(__pCubeRU);
-	__pUpdater->addUpdatable(__pMainCamera);
+	__pUpdater->addUpdatable(__pCamera);
 
 	__pDrawer = make_shared<Drawer>();
 	__pDrawer->addDrawable(__pFloorRU);
@@ -158,23 +159,25 @@ bool ShadowTestScene::__keyFunc(const float deltaTime) noexcept
 		UP		= (GetAsyncKeyState('E') & 0x8000),
 		DOWN	= (GetAsyncKeyState('Q') & 0x8000);
 
+	Transform& cameraTransform = __pCamera->getTransform();
+
 	if (LEFT)
-		__pMainCamera->moveHorizontal(-MOVE_SPEED);
-	
+		cameraTransform.moveHorizontal(-MOVE_SPEED);
+
 	if (RIGHT)
-		__pMainCamera->moveHorizontal(MOVE_SPEED);
+		cameraTransform.moveHorizontal(MOVE_SPEED);
 
 	if (FRONT)
-		__pMainCamera->moveForward(MOVE_SPEED);
+		cameraTransform.moveForward(MOVE_SPEED);
 
 	if (BACK)
-		__pMainCamera->moveForward(-MOVE_SPEED);
+		cameraTransform.moveForward(-MOVE_SPEED);
 
 	if (UP)
-		__pMainCamera->moveVertical(MOVE_SPEED);
+		cameraTransform.moveVertical(MOVE_SPEED);
 
 	if (DOWN)
-		__pMainCamera->moveVertical(-MOVE_SPEED);
+		cameraTransform.moveVertical(-MOVE_SPEED);
 
 	return true;
 }
@@ -185,7 +188,7 @@ void ShadowTestScene::draw() noexcept
 	// __pLightDeployer->batchBakeDepthMap();
 
 	__pLightDeployer->batchDeploy();
-	__pUBCamera->directDeploy(*__pMainCamera);
+	__pUBCamera->directDeploy(*__pCamera);
 
 	__pGammaCorrectionPP->bind();
 	GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
@@ -220,7 +223,7 @@ void ShadowTestScene::onResize(const int width, const int height) noexcept
 	if (!width || !height)
 		return;
 
-	__pMainCamera->setAspectRatio(width, height);
+	__pCamera->setAspectRatio(width, height);
 	__pGammaCorrectionPP->setScreenSize(width, height);
 }
 
@@ -228,20 +231,20 @@ void ShadowTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
 {
 	constexpr float ROTATION_SPEED = .004f;
 
-	__pMainCamera->yaw(xDelta * ROTATION_SPEED);
-	__pMainCamera->pitch(yDelta * ROTATION_SPEED);
+	Transform& cameraTransform = __pCamera->getTransform();
+	cameraTransform.adjustRotation(yDelta * ROTATION_SPEED, xDelta * ROTATION_SPEED, 0.f);
 }
 
 void ShadowTestScene::onMouseMButtonDown(const int x, const int y) noexcept
 {
-	__pMainCamera->resetFov();
+	__pCamera->resetFov();
 }
 
 void ShadowTestScene::onMouseWheel(const short zDelta) noexcept
 {
 	constexpr float ZOOM_SPEED = -.0005f;
 
-	__pMainCamera->adjustFov(ZOOM_SPEED * zDelta);
+	__pCamera->adjustFov(ZOOM_SPEED * zDelta);
 }
 
 bool ShadowTestScene::onIdle(const float deltaTime) noexcept

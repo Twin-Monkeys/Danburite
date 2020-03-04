@@ -99,17 +99,17 @@ SpaceScene::SpaceScene()
 	Transform &enemyShip1Transform = __pStarshipRU->getTransform(3);
 	enemyShip1Transform.setScale(.01f);
 	enemyShip1Transform.setPosition(0.f, 0.f, 200.f);
-	enemyShip1Transform.setRotationAngle(pi<float>());
+	enemyShip1Transform.setRotation(0.f, pi<float>(), 0.f);
 
 	Transform &enemyShip2Transform = __pStarshipRU->getTransform(4);
 	enemyShip2Transform.setScale(.01f);
 	enemyShip2Transform.setPosition(-50.f, -20.f, 230.f);
-	enemyShip2Transform.setRotationAngle(pi<float>());
+	enemyShip2Transform.setRotation(0.f, pi<float>(), 0.f);
 
 	Transform &enemyShip3Transform = __pStarshipRU->getTransform(5);
 	enemyShip3Transform.setScale(.01f);
 	enemyShip3Transform.setPosition(50.f, -20.f, 230.f);
-	enemyShip3Transform.setRotationAngle(pi<float>());
+	enemyShip3Transform.setRotation(0.f, pi<float>(), 0.f);
 
 	mat4 halconRotation = rotate(pi<float>(), vec3{ 0.f, 1.f, 0.f });
 	halconRotation = rotate(halconRotation, -half_pi<float>(), vec3{ 1.f, 0.f, 0.f });
@@ -118,7 +118,7 @@ SpaceScene::SpaceScene()
 	Transform &halconTransform = __pHalconRU->getTransform();
 	halconTransform.setScale(.3f);
 	halconTransform.setPosition(-100.f, -130.f, 300.f);
-	halconTransform.adjustRotationAngle(half_pi<float>());
+	halconTransform.setRotation(0.f, half_pi<float>(), 0.f);
 
 	mat4 fighterRotation = rotate(pi<float>(), vec3{ 0.f, 1.f, 0.f }); 
 	fighterRotation = rotate(fighterRotation, -half_pi<float>(), vec3{ 1.f, 0.f, 0.f });
@@ -152,19 +152,19 @@ SpaceScene::SpaceScene()
 	Transform &mercuryTransform = __pMercuryRU->getTransform();
 	mercuryTransform.setScale(50.f);
 	mercuryTransform.setPosition(70.f, 80.f, 850.f);
-	mercuryTransform.setRotationAxis({ .3f, 1.f, 0.f });
+	mercuryTransform.setRotation({ .3f, 1.f, 0.f });
 
 	__pJupiterRU = AssetImporter::import("res/asset/jupiter/scene.gltf", *__pUBMaterial, mercuryRotation);
 	Transform &jupiterTransform = __pJupiterRU->getTransform();
 	jupiterTransform.setScale(100.f);
 	jupiterTransform.setPosition(130.f, -90.f, -850.f);
-	jupiterTransform.setRotationAxis({ -.3f, 1.f, 0.f });
+	jupiterTransform.setRotation({ -.3f, 1.f, 0.f });
 
 	__pVenusRU = AssetImporter::import("res/asset/venus/scene.gltf", *__pUBMaterial, mercuryRotation);
 	Transform &venusTransform = __pVenusRU->getTransform();
 	venusTransform.setScale(50.f);
 	venusTransform.setPosition(-730.f, 40.f, -350.f);
-	venusTransform.setRotationAxis({ .3f, -1.f, 0.2f });
+	venusTransform.setRotation({ .3f, -1.f, 0.2f });
 
 
 	//// 炼疙 积己 ////
@@ -177,9 +177,10 @@ SpaceScene::SpaceScene()
 	//// 墨皋扼 积己 ////
 
 	__pCamera = make_shared<PerspectiveCamera>();
-	__pCamera->setPosition(15.f, 15.f, 25.f);
-	__pCamera->pitch(-quarter_pi<float>() * .2f);
-	__pCamera->yaw(quarter_pi<float>() * .7f);
+
+	Transform& cameraTransform = __pCamera->getTransform();
+	cameraTransform.setPosition(15.f, 15.f, 25.f);
+	cameraTransform.setRotation(-quarter_pi<float>() * .2f, quarter_pi<float>() * .7f, 0.f);
 
 
 	// Skybox 积己
@@ -268,23 +269,25 @@ bool SpaceScene::__keyFunc(const float deltaTime) noexcept
 		UP		= (GetAsyncKeyState('E') & 0x8000),
 		DOWN	= (GetAsyncKeyState('Q') & 0x8000);
 
+	Transform& cameraTransform = __pCamera->getTransform();
+
 	if (LEFT)
-		__pCamera->moveHorizontal(-MOVE_SPEED);
-	
+		cameraTransform.moveHorizontal(-MOVE_SPEED);
+
 	if (RIGHT)
-		__pCamera->moveHorizontal(MOVE_SPEED);
+		cameraTransform.moveHorizontal(MOVE_SPEED);
 
 	if (FRONT)
-		__pCamera->moveForward(MOVE_SPEED);
+		cameraTransform.moveForward(MOVE_SPEED);
 
 	if (BACK)
-		__pCamera->moveForward(-MOVE_SPEED);
+		cameraTransform.moveForward(-MOVE_SPEED);
 
 	if (UP)
-		__pCamera->moveVertical(MOVE_SPEED);
+		cameraTransform.moveVertical(MOVE_SPEED);
 
 	if (DOWN)
-		__pCamera->moveVertical(-MOVE_SPEED);
+		cameraTransform.moveVertical(-MOVE_SPEED);
 
 	return true;
 }
@@ -324,25 +327,25 @@ bool SpaceScene::delta(const float deltaTime) noexcept
 		const vec3 &fighterPos = fighterTransform.getPosition();
 
 		if (fighterPos.x < -BOUNDARY)
-			fighterTransform.adjustPositionX(BOUNDARY * 2.f);
+			fighterTransform.adjustPosition(BOUNDARY * 2.f, 0.f, 0.f);
 		else if (fighterPos.x > BOUNDARY)
-			fighterTransform.adjustPositionX(-BOUNDARY * 2.f);
+			fighterTransform.adjustPosition(-BOUNDARY * 2.f, 0.f, 0.f);
 
 		if (fighterPos.y < -BOUNDARY)
-			fighterTransform.adjustPositionY(BOUNDARY * 2.f);
+			fighterTransform.adjustPosition(0.f, BOUNDARY * 2.f, 0.f);
 		else if (fighterPos.y > BOUNDARY)
-			fighterTransform.adjustPositionY(-BOUNDARY * 2.f);
+			fighterTransform.adjustPosition(0.f, -BOUNDARY * 2.f, 0.f);
 
 		if (fighterPos.z < -BOUNDARY)
-			fighterTransform.adjustPositionZ(BOUNDARY * 2.f);
+			fighterTransform.adjustPosition(0.f, 0.f, BOUNDARY * 2.f);
 		else if (fighterPos.z > BOUNDARY)
-			fighterTransform.adjustPositionZ(-BOUNDARY * 2.f);
+			fighterTransform.adjustPosition(0.f, 0.f, -BOUNDARY * 2.f);
 	}
 
 	const float ROTATION_SPEED = (deltaTime * .00002f);
-	__pMercuryRU->getTransform().adjustRotationAngle(ROTATION_SPEED);
-	__pJupiterRU->getTransform().adjustRotationAngle(ROTATION_SPEED);
-	__pVenusRU->getTransform().adjustRotationAngle(ROTATION_SPEED);
+	__pMercuryRU->getTransform().adjustRotation(0.f, ROTATION_SPEED, 0.f);
+	__pJupiterRU->getTransform().adjustRotation(0.f, ROTATION_SPEED, 0.f);
+	__pVenusRU->getTransform().adjustRotation(0.f, ROTATION_SPEED, 0.f);
 
 	return true;
 }
@@ -373,8 +376,8 @@ void SpaceScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
 {
 	constexpr float ROTATION_SPEED = .004f;
 
-	__pCamera->yaw(xDelta * ROTATION_SPEED);
-	__pCamera->pitch(yDelta * ROTATION_SPEED);
+	Transform &cameraTransform = __pCamera->getTransform();
+	cameraTransform.adjustRotation(yDelta * ROTATION_SPEED, xDelta * ROTATION_SPEED, 0.f);
 }
 
 void SpaceScene::onMouseMButtonDown(const int x, const int y) noexcept

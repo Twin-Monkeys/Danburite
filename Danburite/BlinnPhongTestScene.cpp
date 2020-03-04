@@ -70,15 +70,16 @@ BlinnPhongTestScene::BlinnPhongTestScene()
 
 	Transform &floorTransform = __pFloorRU->getTransform();
 	floorTransform.setScale(20.f);
-	floorTransform.setRotation(-half_pi<float>(), { 1.f, 0.f, 0.f });
+	floorTransform.setRotation(-pi<float>(), 0.f, 0.f);
 
 
 	//// 朝五虞 持失 ////
 
 	__pCamera = make_shared<PerspectiveCamera>();
-	__pCamera->setPosition(10.f, 10.f, 10.f);
-	__pCamera->pitch(-quarter_pi<float>() * .7f);
-	__pCamera->yaw(quarter_pi<float>());
+
+	Transform &cameraTransform = __pCamera->getTransform();
+	cameraTransform.setPosition(10.f, 10.f, 10.f);
+	cameraTransform.setRotation(-quarter_pi<float>() * .7f, quarter_pi<float>(), 0.f);
 
 	__pUBCamera->addDeployable(__pCamera);
 
@@ -141,23 +142,25 @@ bool BlinnPhongTestScene::__keyFunc(const float deltaTime) noexcept
 		UP		= (GetAsyncKeyState('E') & 0x8000),
 		DOWN	= (GetAsyncKeyState('Q') & 0x8000);
 
+	Transform& cameraTransform = __pCamera->getTransform();
+
 	if (LEFT)
-		__pCamera->moveHorizontal(-MOVE_SPEED);
+		cameraTransform.moveHorizontal(-MOVE_SPEED);
 	
 	if (RIGHT)
-		__pCamera->moveHorizontal(MOVE_SPEED);
+		cameraTransform.moveHorizontal(MOVE_SPEED);
 
 	if (FRONT)
-		__pCamera->moveForward(MOVE_SPEED);
+		cameraTransform.moveForward(MOVE_SPEED);
 
 	if (BACK)
-		__pCamera->moveForward(-MOVE_SPEED);
+		cameraTransform.moveForward(-MOVE_SPEED);
 
 	if (UP)
-		__pCamera->moveVertical(MOVE_SPEED);
+		cameraTransform.moveVertical(MOVE_SPEED);
 
 	if (DOWN)
-		__pCamera->moveVertical(-MOVE_SPEED);
+		cameraTransform.moveVertical(-MOVE_SPEED);
 
 	const bool
 		KEY_1	= (GetAsyncKeyState('1') & 0x8000),
@@ -232,8 +235,8 @@ void BlinnPhongTestScene::onMouseDelta(const int xDelta, const int yDelta) noexc
 {
 	constexpr float ROTATION_SPEED = .004f;
 
-	__pCamera->yaw(xDelta * ROTATION_SPEED);
-	__pCamera->pitch(yDelta * ROTATION_SPEED);
+	Transform &cameraTransform = __pCamera->getTransform();
+	cameraTransform.adjustRotation(yDelta * ROTATION_SPEED, xDelta * ROTATION_SPEED, 0.f);
 }
 
 void BlinnPhongTestScene::onMouseMButtonDown(const int x, const int y) noexcept

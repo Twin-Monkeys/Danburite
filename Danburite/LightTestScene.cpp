@@ -81,12 +81,12 @@ LightTestScene::LightTestScene()
 	Transform &nanosuitTransform = __pNanosuitRU->getTransform();
 	nanosuitTransform.setScale(.7f);
 	nanosuitTransform.setPosition(15.f, -3.5f, 14.f);
-	nanosuitTransform.adjustRotationAngle(.7f);
+	nanosuitTransform.adjustRotation(0.f, .7f, 0.f);
 	
 	__pLizardManRU = AssetImporter::import("res/asset/lizard_man/scene.gltf", *__pUBMaterial);
 	Transform &lizardManTransform = __pLizardManRU->getTransform();
 	lizardManTransform.setScale(4.f);
-	lizardManTransform.adjustRotationAngle(-.5f);
+	lizardManTransform.adjustRotation(0.f, -.5f, 0.f);
 	lizardManTransform.setPosition(-14.7f, 1.5f, 20.f);
 
 	__pStreetLightRU = AssetImporter::import("res/asset/street_light/scene.gltf", *__pUBMaterial, rotationMat);
@@ -97,7 +97,7 @@ LightTestScene::LightTestScene()
 	Transform &skullTransform = __pSkullRU->getTransform();
 	skullTransform.setPosition(12.f, -1.8f, -5.f);
 	skullTransform.setScale(5.f);
-	skullTransform.setRotation(-half_pi<float>() * 1.4f, { 1.f, 0.f, 0.f });
+	skullTransform.setRotation(-half_pi<float>() * 1.4f, 0.f, 0.f);
 
 	VertexArrayFactory &vaFactory = VertexArrayFactory::getInstance();
 
@@ -177,9 +177,11 @@ LightTestScene::LightTestScene()
 	//// 朝五虞 持失 ////
 
 	__pCamera = make_shared<PerspectiveCamera>();
-	__pCamera->setPosition(35.f, 20.f, 35.f);
-	__pCamera->yaw(quarter_pi<float>());
-	__pCamera->pitch(-quarter_pi<float>() * .7f);
+
+	Transform& cameraTransform = __pCamera->getTransform();
+
+	cameraTransform.setPosition(35.f, 20.f, 35.f);
+	cameraTransform.setRotation(-quarter_pi<float>() * .7f, quarter_pi<float>(), 0.f);
 
 
 	// Skybox 持失
@@ -260,23 +262,25 @@ bool LightTestScene::__keyFunc(const float deltaTime) noexcept
 		UP		= (GetAsyncKeyState('E') & 0x8000),
 		DOWN	= (GetAsyncKeyState('Q') & 0x8000);
 
+	Transform& cameraTransform = __pCamera->getTransform();
+
 	if (LEFT)
-		__pCamera->moveHorizontal(-MOVE_SPEED);
-	
+		cameraTransform.moveHorizontal(-MOVE_SPEED);
+
 	if (RIGHT)
-		__pCamera->moveHorizontal(MOVE_SPEED);
+		cameraTransform.moveHorizontal(MOVE_SPEED);
 
 	if (FRONT)
-		__pCamera->moveForward(MOVE_SPEED);
+		cameraTransform.moveForward(MOVE_SPEED);
 
 	if (BACK)
-		__pCamera->moveForward(-MOVE_SPEED);
+		cameraTransform.moveForward(-MOVE_SPEED);
 
 	if (UP)
-		__pCamera->moveVertical(MOVE_SPEED);
+		cameraTransform.moveVertical(MOVE_SPEED);
 
 	if (DOWN)
-		__pCamera->moveVertical(-MOVE_SPEED);
+		cameraTransform.moveVertical(-MOVE_SPEED);
 
 	return true;
 }
@@ -346,8 +350,8 @@ void LightTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
 {
 	constexpr float ROTATION_SPEED = .004f;
 
-	__pCamera->yaw(xDelta * ROTATION_SPEED);
-	__pCamera->pitch(yDelta * ROTATION_SPEED);
+	Transform &cameraTransform = __pCamera->getTransform();
+	cameraTransform.adjustRotation(yDelta * ROTATION_SPEED, xDelta * ROTATION_SPEED, 0.f);
 }
 
 void LightTestScene::onMouseMButtonDown(const int x, const int y) noexcept

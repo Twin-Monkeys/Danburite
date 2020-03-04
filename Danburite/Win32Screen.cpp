@@ -129,8 +129,8 @@ namespace Danburite
 			const int Y = GET_Y_LPARAM(lParam);
 			const SIZE WIN_SIZE_HALF = { getWidth() / 2, getHeight() / 2 };
 
-			const LONG X_DELTA = (WIN_SIZE_HALF.cx - X);
-			const LONG Y_DELTA = (WIN_SIZE_HALF.cy - Y);
+			const LONG X_DELTA = (X - WIN_SIZE_HALF.cx);
+			const LONG Y_DELTA = (Y - WIN_SIZE_HALF.cy);
 
 			if (!X_DELTA && !Y_DELTA)
 				break;
