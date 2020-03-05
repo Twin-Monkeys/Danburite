@@ -107,8 +107,8 @@ ShadowTestScene::ShadowTestScene()
 	__pCamera = make_shared<PerspectiveCamera>();
 
 	Transform& cameraTransform = __pCamera->getTransform();
-	cameraTransform.setPosition(10.f, 10.f, 10.f);
-	cameraTransform.setRotation(-quarter_pi<float>() * .7f, quarter_pi<float>(), 0.f);
+	cameraTransform.setPosition(0.f, 15.f, 40.f);
+	cameraTransform.setRotation(.5f, 0.f, 0.f);
 
 
 	// Light ÃÊ±âÈ­
@@ -162,16 +162,16 @@ bool ShadowTestScene::__keyFunc(const float deltaTime) noexcept
 	Transform& cameraTransform = __pCamera->getTransform();
 
 	if (LEFT)
-		cameraTransform.moveHorizontal(-MOVE_SPEED);
-
-	if (RIGHT)
 		cameraTransform.moveHorizontal(MOVE_SPEED);
 
+	if (RIGHT)
+		cameraTransform.moveHorizontal(-MOVE_SPEED);
+
 	if (FRONT)
-		cameraTransform.moveForward(MOVE_SPEED);
+		cameraTransform.moveForward(-MOVE_SPEED);
 
 	if (BACK)
-		cameraTransform.moveForward(-MOVE_SPEED);
+		cameraTransform.moveForward(MOVE_SPEED);
 
 	if (UP)
 		cameraTransform.moveVertical(MOVE_SPEED);

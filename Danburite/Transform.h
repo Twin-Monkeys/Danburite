@@ -59,7 +59,7 @@ namespace Danburite
 		void moveForward(const float delta) noexcept;
 		void moveHorizontal(const float delta) noexcept;
 		void moveVertical(const float delta) noexcept;
-		void orbit(const float angle, const glm::vec3& pivot, const glm::vec3 &axis) noexcept;
+		void orbit(const float angle, const glm::vec3& pivot, const glm::vec3 &axis, const bool angleRotation = true) noexcept;
 
 		const glm::mat4 &getTranslationMatrix() noexcept;
 		const glm::mat4 &getScaleMatrix() noexcept;
@@ -188,7 +188,7 @@ namespace Danburite
 
 	constexpr void Transform::__adjustAngleToPeriod(glm::vec3 &angle) noexcept
 	{
-		constexpr auto adjAngle = [](float& angle)
+		/*constexpr auto adjAngle = [](float& angle)
 		{
 			if (angle < -glm::pi<float>())
 				angle += glm::two_pi<float>();
@@ -199,6 +199,6 @@ namespace Danburite
 
 		adjAngle(angle.x);
 		adjAngle(angle.y);
-		adjAngle(angle.z);
+		adjAngle(angle.z);*/
 	}
 }

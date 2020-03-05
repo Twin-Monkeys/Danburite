@@ -30,8 +30,7 @@ namespace Danburite
 	{
 		if (__rotationDirty)
 		{
-			// __rotationMat = mat4_cast(quat{ __rotation });
-			__rotationMat = mat4_cast(quat { vec3 { __rotation.x, 0.f , 0.f } } * quat{ vec3 {0.f, __rotation.y, 0.f } } * quat{ vec3 {0.f, 0.f, __rotation.z } });
+			__rotationMat = eulerAngleXYZ(__rotation.x, __rotation.y, __rotation.z);
 			__rotationDirty = false;
 		}
 	}
@@ -42,8 +41,11 @@ namespace Danburite
 
 		__positionDirty = true;
 
-		const glm::vec3 direction { row(__rotationMat, 2) };
-		__position -= (direction * delta);
+		const vec4 &forward = __rotationMat[2];
+
+		__position.x += (forward.x * delta);
+		__position.y += (forward.y * delta);
+		__position.z += (forward.z * delta);
 	}
 
 	void Transform::moveHorizontal(const float delta) noexcept
@@ -52,8 +54,11 @@ namespace Danburite
 
 		__positionDirty = true;
 
-		const glm::vec3 right { row(__rotationMat, 0) };
-		__position += (right * delta);
+		const vec4 &right = __rotationMat[0];
+
+		__position.x += (right.x * delta);
+		__position.y += (right.y * delta);
+		__position.z += (right.z * delta);
 	}
 
 	void Transform::moveVertical(const float delta) noexcept
@@ -62,11 +67,14 @@ namespace Danburite
 
 		__positionDirty = true;
 
-		const glm::vec3 up { row(__rotationMat, 1) };
-		__position += (up * delta);
+		const vec4 &up = __rotationMat[1];
+
+		__position.x += (up.x * delta);
+		__position.y += (up.y * delta);
+		__position.z += (up.z * delta);
 	}
 
-	void Transform::orbit(const float angle, const vec3 &pivot, const vec3 &axis) noexcept
+	void Transform::orbit(const float angle, const vec3 &pivot, const vec3 &axis, const bool angleRotation) noexcept
 	{
 		__positionDirty = true;
 
@@ -76,6 +84,12 @@ namespace Danburite
 		movedPos = (mat3 { rotationMat } * movedPos);
 
 		__position = (movedPos + pivot);
+
+		if (angleRotation)
+		{
+			__rotationDirty = true;
+			__rotation += eulerAngles(angleAxis(angle, axis));
+		}
 	}
 
 	const mat4 &Transform::getTranslationMatrix() noexcept

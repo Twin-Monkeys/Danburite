@@ -1,7 +1,6 @@
 #include "PerspectiveCamera.h"
-#include <glm/gtx/rotate_vector.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include "ShaderIdentifier.h"
-#include <glm/gtx/quaternion.hpp>
 
 using namespace std;
 using namespace glm;

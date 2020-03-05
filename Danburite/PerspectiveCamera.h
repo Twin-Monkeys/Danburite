@@ -6,6 +6,9 @@
 
 namespace Danburite
 {
+	/*
+		카메라는 후면을 쳐다보고 있다는 사실을 잊지 말라.
+	*/
 	class PerspectiveCamera : public Camera
 	{
 	private:
