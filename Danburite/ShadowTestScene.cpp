@@ -107,8 +107,7 @@ ShadowTestScene::ShadowTestScene()
 	__pCamera = make_shared<PerspectiveCamera>();
 
 	Transform& cameraTransform = __pCamera->getTransform();
-	cameraTransform.setPosition(0.f, 15.f, 40.f);
-	cameraTransform.setRotation(.5f, 0.f, 0.f);
+	cameraTransform.setPosition(0.f, 5.f, 40.f);
 
 
 	// Light 초기화
@@ -159,13 +158,18 @@ bool ShadowTestScene::__keyFunc(const float deltaTime) noexcept
 		UP		= (GetAsyncKeyState('E') & 0x8000),
 		DOWN	= (GetAsyncKeyState('Q') & 0x8000);
 
+	/*
+		카메라 Rotation은 Transpose 시켜야 하지 않을까?
+		아래 move**들도 transpose된 값을 썼더니 잘됬었다!
+	*/
+
 	Transform& cameraTransform = __pCamera->getTransform();
 
 	if (LEFT)
-		cameraTransform.moveHorizontal(MOVE_SPEED);
+		cameraTransform.moveHorizontal(-MOVE_SPEED);
 
 	if (RIGHT)
-		cameraTransform.moveHorizontal(-MOVE_SPEED);
+		cameraTransform.moveHorizontal(MOVE_SPEED);
 
 	if (FRONT)
 		cameraTransform.moveForward(-MOVE_SPEED);

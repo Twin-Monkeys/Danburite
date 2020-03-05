@@ -188,7 +188,7 @@ namespace Danburite
 
 	constexpr void Transform::__adjustAngleToPeriod(glm::vec3 &angle) noexcept
 	{
-		/*constexpr auto adjAngle = [](float& angle)
+		constexpr auto adjAngle = [](float& angle)
 		{
 			if (angle < -glm::pi<float>())
 				angle += glm::two_pi<float>();
@@ -199,6 +199,6 @@ namespace Danburite
 
 		adjAngle(angle.x);
 		adjAngle(angle.y);
-		adjAngle(angle.z);*/
+		adjAngle(angle.z);
 	}
 }

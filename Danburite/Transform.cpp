@@ -41,7 +41,7 @@ namespace Danburite
 
 		__positionDirty = true;
 
-		const vec4 &forward = __rotationMat[2];
+		const vec4 &forward = row(__rotationMat, 2);
 
 		__position.x += (forward.x * delta);
 		__position.y += (forward.y * delta);
@@ -54,11 +54,11 @@ namespace Danburite
 
 		__positionDirty = true;
 
-		const vec4 &right = __rotationMat[0];
+		const vec4 &left = row(__rotationMat, 0);
 
-		__position.x += (right.x * delta);
-		__position.y += (right.y * delta);
-		__position.z += (right.z * delta);
+		__position.x += (left.x * delta);
+		__position.y += (left.y * delta);
+		__position.z += (left.z * delta);
 	}
 
 	void Transform::moveVertical(const float delta) noexcept
@@ -67,7 +67,7 @@ namespace Danburite
 
 		__positionDirty = true;
 
-		const vec4 &up = __rotationMat[1];
+		const vec4 &up = row(__rotationMat, 1);
 
 		__position.x += (up.x * delta);
 		__position.y += (up.y * delta);
