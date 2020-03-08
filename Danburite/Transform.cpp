@@ -41,7 +41,7 @@ namespace Danburite
 
 		__positionDirty = true;
 
-		const vec4& forward = __rotationMat[2];
+		const vec4& forward = transpose(eulerAngleXYZ(-__rotation.x, -__rotation.y, -__rotation.z))[2];
 
 		__position.x += (forward.x * delta);
 		__position.y += (forward.y * delta);
@@ -54,7 +54,7 @@ namespace Danburite
 
 		__positionDirty = true;
 
-		const vec4 &right = __rotationMat[0];
+		const vec4& right = transpose(eulerAngleXYZ(-__rotation.x, -__rotation.y, -__rotation.z))[0];
 
 		__position.x += (right.x * delta);
 		__position.y += (right.y * delta);
@@ -67,7 +67,7 @@ namespace Danburite
 
 		__positionDirty = true;
 
-		const vec4 &up = __rotationMat[1];
+		const vec4 &up = transpose(eulerAngleXYZ(-__rotation.x, -__rotation.y, -__rotation.z))[1];
 
 		__position.x += (up.x * delta);
 		__position.y += (up.y * delta);
