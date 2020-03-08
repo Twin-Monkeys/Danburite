@@ -119,7 +119,7 @@ namespace ObjectGL
 		return rcMap;
 	}
 
-	RenderContext *&RenderContext::__getCurrentSlot() noexcept
+	RenderContext *&RenderContext::__getCurrentPtrReference() noexcept
 	{
 		return __getCurrentMap()[this_thread::get_id()];
 	}
@@ -129,7 +129,7 @@ namespace ObjectGL
 		const BOOL result = wglMakeCurrent(__deviceContext, ID);
 		assert(result);
 
-		__getCurrentSlot() = this;
+		__getCurrentPtrReference() = this;
 	}
 
 	RenderContext::~RenderContext() noexcept
@@ -147,7 +147,7 @@ namespace ObjectGL
 
 	void RenderContext::unbind() noexcept
 	{
-		RenderContext *&pCurrent = __getCurrentSlot();
+		RenderContext *&pCurrent = __getCurrentPtrReference();
 		if (!pCurrent)
 			return;
 
@@ -160,6 +160,6 @@ namespace ObjectGL
 
 	RenderContext *RenderContext::getCurrent() noexcept
 	{
-		return __getCurrentSlot();
+		return __getCurrentPtrReference();
 	}
 }

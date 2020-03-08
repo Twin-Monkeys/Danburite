@@ -1,5 +1,6 @@
 #include "PerspectiveCamera.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/euler_angles.hpp>
 #include "ShaderIdentifier.h"
 
 using namespace std;
@@ -15,7 +16,9 @@ namespace Danburite
 
 	void PerspectiveCamera::_onUpdateViewMatrix(mat4 &viewMatrix) noexcept
 	{
-		viewMatrix = translate(__transform.getRotationMatrix(), -__transform.getPosition());
+		viewMatrix = translate(
+			eulerAngleXYZ(-__transform.getRotation().x, -__transform.getRotation().y, -__transform.getRotation().z),
+			-__transform.getPosition());
 	}
 
 	void PerspectiveCamera::_onUpdateProjMatrix(mat4 &projMatrix) noexcept

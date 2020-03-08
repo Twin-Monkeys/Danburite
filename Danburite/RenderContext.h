@@ -58,7 +58,7 @@ namespace ObjectGL
 		static std::unordered_map<std::thread::id, RenderContext *> &
 			__getCurrentMap() noexcept;
 
-		static RenderContext *&__getCurrentSlot() noexcept;
+		static RenderContext *&__getCurrentPtrReference() noexcept;
 
 	protected:
 		virtual void _onBind() noexcept override;
