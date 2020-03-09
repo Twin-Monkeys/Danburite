@@ -68,7 +68,11 @@ namespace Danburite
 			pMaterial->useAmbientTexture(true);
 		}
 
-		pMaterial->setDiffuseTexture(pDiffuseTex);
+		if (pDiffuseTex)
+		{
+			pMaterial->setDiffuseTexture(pDiffuseTex);
+			pMaterial->useDiffuseTexture(true);
+		}
 
 		if (pSpecularTex)
 		{

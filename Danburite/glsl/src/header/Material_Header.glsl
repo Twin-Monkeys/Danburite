@@ -64,6 +64,11 @@ bool Material_isAmbientTextureEnabled()
 	return ((material.optionFlag & MATERIAL_OPTION_FLAG_AMBIENT_TEXTURE) != 0);
 }
 
+bool Material_isDiffuseTextureEnabled()
+{
+	return ((material.optionFlag & MATERIAL_OPTION_FLAG_DIFFUSE_TEXTURE) != 0);
+}
+
 bool Material_isSpecularTextureEnabled()
 {
 	return ((material.optionFlag & MATERIAL_OPTION_FLAG_SPECULAR_TEXTURE) != 0);
@@ -131,7 +136,7 @@ vec3 Material_getAmbient()
 		{
 			if (Material_isAmbientTextureEnabled())
 				retVal = texture(sampler2D(material.ambientTex), Material_texCoord).rgb;
-			else
+			else if (Material_isDiffuseTextureEnabled())
 			{
 				retVal = texture(sampler2D(material.diffuseTex), Material_texCoord).rgb;
 				retVal = Material_applyGamma(retVal);
@@ -155,7 +160,8 @@ vec3 Material_getDiffuse()
 			(material.type == MATERIAL_TYPE_REFLECTION_PHONG) ||
 			(material.type == MATERIAL_TYPE_TRANSPARENT_PHONG) ||
 			(material.type == MATERIAL_TYPE_OUTLINING_PHONG) ||
-			(material.type == MATERIAL_TYPE_PHONG))
+			(material.type == MATERIAL_TYPE_PHONG) &&
+			Material_isDiffuseTextureEnabled())
 		{
 			retVal = texture(sampler2D(material.diffuseTex), Material_texCoord).rgb;
 			retVal = pow(retVal, vec3(material.gamma));
@@ -182,7 +188,7 @@ vec3 Material_getSpecular()
 		{
 			if (Material_isSpecularTextureEnabled())
 				retVal = texture(sampler2D(material.specularTex), Material_texCoord).rgb;
-			else
+			else if (Material_isDiffuseTextureEnabled())
 			{
 				retVal = texture(sampler2D(material.diffuseTex), Material_texCoord).rgb;
 				retVal = Material_applyGamma(retVal);
@@ -224,8 +230,10 @@ float Material_getShininess()
 
 float Material_getAlpha()
 {
+	float retVal = 1.f;
+
 	if (material.type == MATERIAL_TYPE_MONO_COLOR)
-		return material.diffuseColor.a;
+		retVal = material.diffuseColor.a;
 	else
 	{
 		if (
@@ -236,13 +244,13 @@ float Material_getAlpha()
 			(material.type == MATERIAL_TYPE_PHONG))
 			{
 				if (Material_isAlphaTextureEnabled())
-					return texture(sampler2D(material.alphaTex), Material_texCoord).r;
-				else
-					return texture(sampler2D(material.diffuseTex), Material_texCoord).a;
+					retVal = texture(sampler2D(material.alphaTex), Material_texCoord).r;
+				else if (Material_isDiffuseTextureEnabled())
+					retVal = texture(sampler2D(material.diffuseTex), Material_texCoord).a;
 			}
 	}
 
-	return 1.f;
+	return retVal;
 }
 
 vec3 Material_getNormal()

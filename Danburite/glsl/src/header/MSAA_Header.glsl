@@ -14,13 +14,9 @@ struct Attachment
 
 uniform Attachment attachment;
 
-vec4 MSAA_getPixel(const uint colorAttachmentIdx, const vec2 texCoord, const int samplePointIdx)
+vec4 MSAA_getPixel(const uint colorAttachmentIdx, const int samplePointIdx)
 {
-	ivec2 screenCoord;
-	screenCoord.x = int(1600 * texCoord.x);
-	screenCoord.y = int(900 * texCoord.y);
-
-	return texelFetch(attachment.colors[colorAttachmentIdx], screenCoord, samplePointIdx);
+	return texelFetch(attachment.colors[colorAttachmentIdx], ivec2(gl_FragCoord.xy), samplePointIdx);
 }
 
 #endif

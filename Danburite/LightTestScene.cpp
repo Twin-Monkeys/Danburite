@@ -271,10 +271,10 @@ bool LightTestScene::__keyFunc(const float deltaTime) noexcept
 		cameraTransform.moveHorizontal(MOVE_SPEED);
 
 	if (FRONT)
-		cameraTransform.moveForward(MOVE_SPEED);
+		cameraTransform.moveForward(-MOVE_SPEED);
 
 	if (BACK)
-		cameraTransform.moveForward(-MOVE_SPEED);
+		cameraTransform.moveForward(MOVE_SPEED);
 
 	if (UP)
 		cameraTransform.moveVertical(MOVE_SPEED);
@@ -351,7 +351,7 @@ void LightTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
 	constexpr float ROTATION_SPEED = .004f;
 
 	Transform &cameraTransform = __pCamera->getTransform();
-	cameraTransform.adjustRotation(yDelta * ROTATION_SPEED, xDelta * ROTATION_SPEED, 0.f);
+	cameraTransform.adjustRotation(-(yDelta * ROTATION_SPEED), -(xDelta * ROTATION_SPEED), 0.f);
 }
 
 void LightTestScene::onMouseMButtonDown(const int x, const int y) noexcept

@@ -35,6 +35,7 @@ namespace Danburite
 
 		constexpr void useLighting(const bool enabled) noexcept;
 		constexpr void useAmbientTexture(const bool enabled) noexcept;
+		constexpr void useDiffuseTexture(const bool enabled) noexcept;
 		constexpr void useSpecularTexture(const bool enabled) noexcept;
 		constexpr void useEmissiveTexture(const bool enabled) noexcept;
 		constexpr void useShininessTexture(const bool enabled) noexcept;
@@ -65,6 +66,11 @@ namespace Danburite
 	constexpr void Material::useAmbientTexture(const bool enabled) noexcept
 	{
 		__setOption(MaterialOptionFlag::AMBIENT_TEXTURE, enabled);
+	}
+
+	constexpr void Material::useDiffuseTexture(const bool enabled) noexcept
+	{
+		__setOption(MaterialOptionFlag::DIFFUSE_TEXTURE, enabled);
 	}
 
 	constexpr void Material::useSpecularTexture(const bool enabled) noexcept

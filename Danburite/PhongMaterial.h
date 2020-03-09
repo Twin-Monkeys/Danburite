@@ -24,6 +24,7 @@ namespace Danburite
 
 		using Material::useLighting;
 		using Material::useAmbientTexture;
+		using Material::useDiffuseTexture;
 		using Material::useSpecularTexture;
 		using Material::useEmissiveTexture;
 		using Material::useShininessTexture;
