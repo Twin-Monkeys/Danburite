@@ -13,7 +13,6 @@ namespace Danburite
 
 		// projection factors
 
-		float __maxPitch = Constant::Camera::MAX_PITCH;
 		float __maxFov = Constant::Camera::MAX_FOV;
 		float __minFov = Constant::Camera::MIN_FOV;
 
@@ -103,11 +102,6 @@ namespace Danburite
 	constexpr void PerspectiveCamera::setFar(const float zFar) noexcept
 	{
 		__zFar = zFar;
-	}
-
-	constexpr void PerspectiveCamera::setMaxPitch(const float maxPitch) noexcept
-	{
-		__maxPitch = maxPitch;
 	}
 
 	constexpr void PerspectiveCamera::setMaxFov(const float maxFov) noexcept

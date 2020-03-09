@@ -675,6 +675,9 @@
     <ClCompile Include="CameraTransform.cpp">
       <Filter>Library\Engine\Core\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="OrthoCamera.cpp">
+      <Filter>Library\Engine\Core\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">
@@ -1155,6 +1158,9 @@
       <Filter>Library\Engine\Core\Camera</Filter>
     </ClInclude>
     <ClInclude Include="CameraTransform.h">
+      <Filter>Library\Engine\Core\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="OrthoCamera.h">
       <Filter>Library\Engine\Core\Camera</Filter>
     </ClInclude>
   </ItemGroup>

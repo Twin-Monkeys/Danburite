@@ -68,6 +68,7 @@ ShadowTestScene::ShadowTestScene()
 		make_shared<PhongMaterial>(VertexAttributeType::POS3_COLOR4, *__pUBMaterial);
 
 	pFloorMaterial->setDiffuseTexture(pWoodTexture);
+	pFloorMaterial->useDiffuseTexture(true);
 
 	unique_ptr<Mesh> pFloorMesh = make_unique<Mesh>(pFloorVA, pFloorMaterial);
 	__pFloorRU = ruManager.createRenderUnit(move(pFloorMesh));
@@ -83,6 +84,7 @@ ShadowTestScene::ShadowTestScene()
 		make_shared<PhongMaterial>(VertexAttributeType::POS3_NORMAL3_TEXCOORD2, *__pUBMaterial);
 
 	pCubeMaterial->setDiffuseTexture(pWoodTexture);
+	pCubeMaterial->useDiffuseTexture(true);
 
 	unique_ptr<Mesh> pCubeMesh = make_unique<Mesh>(pCubeVA, pCubeMaterial);
 	__pCubeRU = ruManager.createRenderUnit(move(pCubeMesh));
