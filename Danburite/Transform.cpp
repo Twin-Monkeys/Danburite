@@ -8,41 +8,53 @@ using namespace glm;
 
 namespace Danburite
 {
-	void Transform::__validateTranslationMat() noexcept
+	void Transform::_validateTranslation() const noexcept
 	{
 		if (__positionDirty)
 		{
-			__translationMat = translate(__position);
+			_onValidateTranslation();
 			__positionDirty = false;
 		}
 	}
 
-	void Transform::__validateScaleMat() noexcept
+	void Transform::_validateScale() const noexcept
 	{
 		if (__scaleDirty)
 		{
-			__scaleMat = scale(__scale);
+			_onValidateScale();
 			__scaleDirty = false;
 		}
 	}
 
-	void Transform::__validateRotationMat() noexcept
+	void Transform::_validateRotation() const noexcept
 	{
 		if (__rotationDirty)
 		{
-			__rotationMat = eulerAngleXYZ(__rotation.x, __rotation.y, __rotation.z);
+			_onValidateRotation();
 			__rotationDirty = false;
 		}
 	}
 
+	void Transform::_onValidateTranslation() const noexcept
+	{
+		__translationMat = translate(__position);
+	}
+
+	void Transform::_onValidateScale() const noexcept
+	{
+		__scaleMat = scale(__scale);
+	}
+
+	void Transform::_onValidateRotation() const noexcept
+	{
+		__rotationMat = eulerAngleXYZ(__rotation.x, __rotation.y, __rotation.z);
+	}
+
 	void Transform::moveForward(const float delta) noexcept
 	{
-		__validateRotationMat();
-
 		__positionDirty = true;
 
-		const vec4& forward = transpose(eulerAngleXYZ(-__rotation.x, -__rotation.y, -__rotation.z))[2];
-
+		const vec4 &forward = getForward();
 		__position.x += (forward.x * delta);
 		__position.y += (forward.y * delta);
 		__position.z += (forward.z * delta);
@@ -50,28 +62,22 @@ namespace Danburite
 
 	void Transform::moveHorizontal(const float delta) noexcept
 	{
-		__validateRotationMat();
-
 		__positionDirty = true;
 
-		const vec4& right = transpose(eulerAngleXYZ(-__rotation.x, -__rotation.y, -__rotation.z))[0];
-
-		__position.x += (right.x * delta);
-		__position.y += (right.y * delta);
-		__position.z += (right.z * delta);
+		const vec4 &horizontal = getHorizontal();
+		__position.x += (horizontal.x * delta);
+		__position.y += (horizontal.y * delta);
+		__position.z += (horizontal.z * delta);
 	}
 
 	void Transform::moveVertical(const float delta) noexcept
 	{
-		__validateRotationMat();
-
 		__positionDirty = true;
 
-		const vec4 &up = transpose(eulerAngleXYZ(-__rotation.x, -__rotation.y, -__rotation.z))[1];
-
-		__position.x += (up.x * delta);
-		__position.y += (up.y * delta);
-		__position.z += (up.z * delta);
+		const vec4 &vertical = getVertical();
+		__position.x += (vertical.x * delta);
+		__position.y += (vertical.y * delta);
+		__position.z += (vertical.z * delta);
 	}
 
 	void Transform::orbit(const float angle, const vec3 &pivot, const vec3 &axis, const bool angleRotation) noexcept
@@ -92,30 +98,42 @@ namespace Danburite
 		}
 	}
 
-	const mat4 &Transform::getTranslationMatrix() noexcept
+	const vec4 &Transform::getForward() const noexcept
 	{
-		__validateTranslationMat();
+		return getRotationMatrix()[2];
+	}
+
+	const vec4 &Transform::getHorizontal() const noexcept
+	{
+		return getRotationMatrix()[0];
+	}
+
+	const vec4 &Transform::getVertical() const noexcept
+	{
+		return getRotationMatrix()[1];
+	}
+
+	const mat4 &Transform::getTranslationMatrix() const noexcept
+	{
+		_validateTranslation();
 		return __translationMat;
 	}
 
-	const mat4 &Transform::getScaleMatrix() noexcept
+	const mat4 &Transform::getScaleMatrix() const noexcept
 	{
-		__validateScaleMat();
+		_validateScale();
 		return __scaleMat;
 	}
 	
-	const mat4 &Transform::getRotationMatrix() noexcept
+	const mat4 &Transform::getRotationMatrix() const noexcept
 	{
-		__validateRotationMat();
+		_validateRotation();
 		return __rotationMat;
 	}
 
-	const mat4 &Transform::getModelMatrix() noexcept
+	const mat4 &Transform::getModelMatrix() const noexcept
 	{
-		const bool needToUpdateModelMat =
-			(__positionDirty || __scaleDirty || __rotationDirty);
-
-		if (needToUpdateModelMat)
+		if (_getPositionDirty() || _getScaleDirty() || _getRotationDirty())
 			__modelMat = (getTranslationMatrix() * getRotationMatrix() * getScaleMatrix());
 
 		return __modelMat;

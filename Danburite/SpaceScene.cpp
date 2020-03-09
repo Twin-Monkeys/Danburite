@@ -269,7 +269,7 @@ bool SpaceScene::__keyFunc(const float deltaTime) noexcept
 		UP		= (GetAsyncKeyState('E') & 0x8000),
 		DOWN	= (GetAsyncKeyState('Q') & 0x8000);
 
-	Transform& cameraTransform = __pCamera->getTransform();
+	CameraTransform &cameraTransform = __pCamera->getTransform();
 
 	if (LEFT)
 		cameraTransform.moveHorizontal(-MOVE_SPEED);

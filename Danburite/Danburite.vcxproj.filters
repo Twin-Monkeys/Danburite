@@ -672,6 +672,9 @@
     <ClCompile Include="PerspectiveCamera.cpp">
       <Filter>Library\Engine\Core\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="CameraTransform.cpp">
+      <Filter>Library\Engine\Core\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">
@@ -1149,6 +1152,9 @@
       <Filter>Library\ObjectGL\Core\Uniform</Filter>
     </ClInclude>
     <ClInclude Include="PerspectiveCamera.h">
+      <Filter>Library\Engine\Core\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraTransform.h">
       <Filter>Library\Engine\Core\Camera</Filter>
     </ClInclude>
   </ItemGroup>

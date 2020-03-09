@@ -2,17 +2,14 @@
 
 #include "Camera.h"
 #include "Constant.h"
-#include "Transform.h"
+#include "CameraTransform.h"
 
 namespace Danburite
 {
-	/*
-		카메라는 후면을 쳐다보고 있다는 사실을 잊지 말라.
-	*/
 	class PerspectiveCamera : public Camera
 	{
 	private:
-		Transform __transform;
+		CameraTransform __transform;
 
 		// projection factors
 
@@ -34,8 +31,8 @@ namespace Danburite
 	public:
 		PerspectiveCamera() noexcept;
 
-		constexpr Transform &getTransform() noexcept;
-		constexpr const Transform &getTransform() const noexcept;
+		constexpr CameraTransform &getTransform() noexcept;
+		constexpr const CameraTransform &getTransform() const noexcept;
 
 		// projection
 		constexpr void setFov(const float fov) noexcept;
@@ -56,12 +53,12 @@ namespace Danburite
 		virtual ~PerspectiveCamera() = default;
 	};
 
-	constexpr Transform& PerspectiveCamera::getTransform() noexcept
+	constexpr CameraTransform& PerspectiveCamera::getTransform() noexcept
 	{
 		return __transform;
 	}
 
-	constexpr const Transform& PerspectiveCamera::getTransform() const noexcept
+	constexpr const CameraTransform& PerspectiveCamera::getTransform() const noexcept
 	{
 		return __transform;
 	}

@@ -158,12 +158,7 @@ bool ShadowTestScene::__keyFunc(const float deltaTime) noexcept
 		UP		= (GetAsyncKeyState('E') & 0x8000),
 		DOWN	= (GetAsyncKeyState('Q') & 0x8000);
 
-	/*
-		카메라 Rotation은 Transpose 시켜야 하지 않을까?
-		아래 move**들도 transpose된 값을 썼더니 잘됬었다!
-	*/
-
-	Transform& cameraTransform = __pCamera->getTransform();
+	CameraTransform &cameraTransform = __pCamera->getTransform();
 
 	if (LEFT)
 		cameraTransform.moveHorizontal(-MOVE_SPEED);

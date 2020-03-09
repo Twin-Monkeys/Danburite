@@ -16,10 +16,7 @@ namespace Danburite
 
 	void PerspectiveCamera::_onUpdateViewMatrix(mat4 &viewMatrix) noexcept
 	{
-		const vec3 &rotation = __transform.getRotation();
-		const vec3 &position = __transform.getPosition();
-
-		viewMatrix = translate(eulerAngleXYZ(-rotation.x, -rotation.y, -rotation.z), -position);
+		viewMatrix = __transform.getViewMatrix();
 	}
 
 	void PerspectiveCamera::_onUpdateProjMatrix(mat4 &projMatrix) noexcept

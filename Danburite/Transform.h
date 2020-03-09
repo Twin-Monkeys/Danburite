@@ -11,25 +11,34 @@ namespace Danburite
 	class Transform
 	{
 	private:
-		bool __positionDirty = true;
+		mutable bool __positionDirty = true;
 		glm::vec3 __position { 0.f, 0.f, 0.f };
 
-		bool __scaleDirty = true;
+		mutable bool __scaleDirty = true;
 		glm::vec3 __scale { 1.f, 1.f, 1.f };
 
-		bool __rotationDirty = true;
+		mutable bool __rotationDirty = true;
 		glm::vec3 __rotation { 0.f, 0.f, 0.f };
 
-		glm::mat4 __translationMat;
-		glm::mat4 __scaleMat;
-		glm::mat4 __rotationMat;
-		glm::mat4 __modelMat;
-
-		void __validateTranslationMat() noexcept;
-		void __validateScaleMat() noexcept;
-		void __validateRotationMat() noexcept;
+		mutable glm::mat4 __translationMat	{ 1.f };
+		mutable glm::mat4 __scaleMat		{ 1.f };
+		mutable glm::mat4 __rotationMat		{ 1.f };
+		mutable glm::mat4 __modelMat		{ 1.f };
 
 		static constexpr void __adjustAngleToPeriod(glm::vec3 &angle) noexcept;
+
+	protected:
+		constexpr bool _getPositionDirty() const noexcept;
+		constexpr bool _getScaleDirty() const noexcept;
+		constexpr bool _getRotationDirty() const noexcept;
+
+		void _validateTranslation() const noexcept;
+		void _validateScale() const noexcept;
+		void _validateRotation() const noexcept;
+
+		virtual void _onValidateTranslation() const noexcept;
+		virtual void _onValidateScale() const noexcept;
+		virtual void _onValidateRotation() const noexcept;
 
 	public:
 		// position
@@ -61,13 +70,32 @@ namespace Danburite
 		void moveVertical(const float delta) noexcept;
 		void orbit(const float angle, const glm::vec3& pivot, const glm::vec3 &axis, const bool angleRotation = true) noexcept;
 
-		const glm::mat4 &getTranslationMatrix() noexcept;
-		const glm::mat4 &getScaleMatrix() noexcept;
-		const glm::mat4 &getRotationMatrix() noexcept;
-		const glm::mat4 &getModelMatrix() noexcept;
+		virtual const glm::vec4 &getForward() const noexcept;
+		virtual const glm::vec4 &getHorizontal() const noexcept;
+		virtual const glm::vec4 &getVertical() const noexcept;
+
+		const glm::mat4 &getTranslationMatrix() const noexcept;
+		const glm::mat4 &getScaleMatrix() const noexcept;
+		const glm::mat4 &getRotationMatrix() const noexcept;
+		const glm::mat4 &getModelMatrix() const noexcept;
 
 		virtual ~Transform() = default;
 	};
+
+	constexpr bool Transform::_getPositionDirty() const noexcept
+	{
+		return __positionDirty;
+	}
+
+	constexpr bool Transform::_getScaleDirty() const noexcept
+	{
+		return __scaleDirty;
+	}
+
+	constexpr bool Transform::_getRotationDirty() const noexcept
+	{
+		return __rotationDirty;
+	}
 
 	constexpr const glm::vec3& Transform::getPosition() const noexcept
 	{
