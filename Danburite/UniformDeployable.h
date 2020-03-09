@@ -11,7 +11,7 @@ namespace ObjectGL
 		friend UniformSetter;
 
 	protected:
-		virtual void _onDeploy(UniformSetter &uniformSetter) noexcept = 0;
+		virtual void _onDeploy(UniformSetter &uniformSetter) const noexcept = 0;
 
 	public:
 		virtual ~UniformDeployable() = default;

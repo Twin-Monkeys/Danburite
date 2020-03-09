@@ -10,10 +10,10 @@ namespace ObjectGL
 	class UniformBatchDeployer abstract : public UniformSetter
 	{
 	private:
-		WeakPointerContainer<UniformDeployable> __uniformDeployables;
+		WeakPointerContainer<const UniformDeployable> __uniformDeployables;
 
 	public:
-		void addDeployable(const std::weak_ptr<UniformDeployable> &pUpdatable) noexcept;
+		void addDeployable(const std::weak_ptr<const UniformDeployable> &pUpdatable) noexcept;
 		void batchDeploy() noexcept;
 
 		virtual ~UniformBatchDeployer() = default;

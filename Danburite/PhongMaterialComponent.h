@@ -20,7 +20,7 @@ namespace Danburite
 		float __shininess = Constant::Material::Phong::DEFAULT_SHININESS;
 
 	protected:
-		virtual void _onDeploy(ObjectGL::UniformSetter &uniformSetter) noexcept override;
+		virtual void _onDeploy(ObjectGL::UniformSetter &uniformSetter) const noexcept override;
 
 	public:
 		void setAmbientTexture(const std::shared_ptr<ObjectGL::Texture2D> &pTexture) noexcept;

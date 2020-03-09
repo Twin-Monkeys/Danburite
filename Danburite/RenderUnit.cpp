@@ -81,9 +81,22 @@ namespace Danburite
 		__pModelMatrixBuffer->selfDeploy();
 
 		const size_t NUM_INSTANCES = __pModelMatrixBuffer->getNumInstances();
+
 		for (const unique_ptr<Mesh> &pMesh : __meshes)
 			pMesh->draw(GLsizei(NUM_INSTANCES));
 
 		__children.safeTraverse(&RenderUnit::draw);
+	}
+
+	void RenderUnit::rawDrawCall() noexcept
+	{
+		__pModelMatrixBuffer->selfDeploy();
+
+		const size_t NUM_INSTANCES = __pModelMatrixBuffer->getNumInstances();
+
+		for (const unique_ptr<Mesh> &pMesh : __meshes)
+			pMesh->rawDrawCall(GLsizei(NUM_INSTANCES));
+
+		__children.safeTraverse(&RenderUnit::rawDrawCall);
 	}
 }

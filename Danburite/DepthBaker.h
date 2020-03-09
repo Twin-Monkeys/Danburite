@@ -1,7 +1,9 @@
 #pragma once
 
+#include "Program.h"
 #include "FrameBuffer.h"
 #include "AttachableTexture.h"
+#include "Camera.h"
 #include <memory>
 
 namespace Danburite
@@ -9,6 +11,8 @@ namespace Danburite
 	class DepthBaker
 	{
 	private:
+		ObjectGL::Program &__depthBakingProgram;
+
 		std::unique_ptr<ObjectGL::FrameBuffer> __pFrameBuffer;
 		std::unique_ptr<ObjectGL::AttachableTexture> __pDepthAttachment;
 
@@ -17,10 +21,13 @@ namespace Danburite
 
 		GLint __viewportArgs[4];
 
+		const Camera &__camera;
+
 	public:
-		DepthBaker();
+		DepthBaker(const Camera &camera);
 
 		void setResolution(const GLsizei width, const GLsizei height) noexcept;
+		void selfDeploy() noexcept;
 
 		void bind() noexcept;
 		void unbind() noexcept;

@@ -1,15 +1,19 @@
 #include "DepthBaker.h"
 #include "Constant.h"
 #include "GLFunctionWrapper.h"
+#include "Material.h"
+#include "ProgramFactory.h"
 
 using namespace std;
 using namespace ObjectGL;
 
 namespace Danburite
 {
-	DepthBaker::DepthBaker() :
+	DepthBaker::DepthBaker(const Camera &camera) :
+		__depthBakingProgram(ProgramFactory::getInstance().getProgram(ProgramType::DEPTH_BAKING)),
 		__pFrameBuffer(make_unique<FrameBuffer>()),
-		__pDepthAttachment(make_unique<AttachableTexture>())
+		__pDepthAttachment(make_unique<AttachableTexture>()),
+		__camera(camera)
 	{
 		__pFrameBuffer->setInputColorBuffer(ColorBufferType::NONE);
 		__pFrameBuffer->setOutputColorBuffer(ColorBufferType::NONE);
@@ -35,6 +39,11 @@ namespace Danburite
 		__pFrameBuffer->attach(AttachmentType::DEPTH_ATTACHMENT, *__pDepthAttachment);
 	}
 
+	void DepthBaker::selfDeploy() noexcept
+	{
+		__depthBakingProgram.directDeploy(__camera);
+	}
+
 	void DepthBaker::bind() noexcept
 	{
 		glGetIntegerv(GL_VIEWPORT, __viewportArgs);
@@ -43,6 +52,7 @@ namespace Danburite
 		glViewport(0, 0, __mapWidth, __mapHeight);
 		assert(glGetError() == GL_NO_ERROR);
 
+		__depthBakingProgram.bind();
 		__pFrameBuffer->bind();
 	}
 

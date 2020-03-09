@@ -7,7 +7,7 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	void Camera::_onDeploy(UniformSetter &uniformSetter) noexcept
+	void Camera::_onDeploy(UniformSetter &uniformSetter) const noexcept
 	{
 		uniformSetter.setUniformMat4(ShaderIdentifier::Name::Camera::VIEW_MATRIX, __viewMat);
 		uniformSetter.setUniformMat4(ShaderIdentifier::Name::Camera::PROJECTION_MATRIX, __projMat);

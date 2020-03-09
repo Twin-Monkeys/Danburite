@@ -22,11 +22,9 @@ namespace Danburite
 	protected:
 		virtual void _onUpdateViewMatrix(glm::mat4 &viewMatrix) noexcept override;
 		virtual void _onUpdateProjMatrix(glm::mat4 &projMatrix) noexcept override;
-		virtual void _onDeploy(ObjectGL::UniformSetter &uniformSetter) noexcept override;
+		virtual void _onDeploy(ObjectGL::UniformSetter &uniformSetter) const noexcept override;
 
 	public:
-		OrthoCamera() noexcept;
-
 		constexpr CameraTransform &getTransform() noexcept;
 		constexpr const CameraTransform &getTransform() const noexcept;
 

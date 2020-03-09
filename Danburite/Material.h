@@ -43,9 +43,9 @@ namespace Danburite
 		constexpr void useNormalTexture(const bool enabled) noexcept;
 
 	public:
-		static constexpr void setGamma(const float gamma) noexcept;
-
 		void render(ObjectGL::VertexArray &vertexArray, const GLsizei numInstances = 1) noexcept;
+
+		static constexpr void setGamma(const float gamma) noexcept;
 
 		virtual ~Material() = default;
 	};

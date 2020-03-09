@@ -34,7 +34,7 @@ namespace ObjectGL
 		bool setUniformMat3(const std::string& name, const glm::mat4 &values, const bool transposition = false) noexcept;
 		bool setUniformMat4(const std::string &name, const glm::mat4 &values, const bool transposition = false) noexcept;
 
-		void directDeploy(UniformDeployable &deployable) noexcept;
+		void directDeploy(const UniformDeployable &deployable) noexcept;
 
 		virtual ~UniformSetter() = default;
 	};

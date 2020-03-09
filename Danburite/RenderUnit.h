@@ -49,6 +49,7 @@ namespace Danburite
 		void update(const std::vector<glm::mat4> &parentModelMatrices) noexcept;
 
 		virtual void draw() noexcept override;
+		virtual void rawDrawCall() noexcept override;
 
 		template <typename MaterialType, typename FunctionType, typename ...Args>
 		void traverseMaterial(const FunctionType function, Args &&...args);

@@ -13,7 +13,7 @@ namespace Danburite
 		std::shared_ptr<ObjectGL::TextureCubemap> __pAlbedoTex;
 
 	protected:
-		virtual void _onDeploy(ObjectGL::UniformSetter &uniformSetter) noexcept override;
+		virtual void _onDeploy(ObjectGL::UniformSetter &uniformSetter) const noexcept override;
 
 	public:
 		void setAlbedoTexture(const std::shared_ptr<ObjectGL::TextureCubemap> &pTexture) noexcept;

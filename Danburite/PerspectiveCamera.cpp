@@ -9,11 +9,6 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	PerspectiveCamera::PerspectiveCamera() noexcept
-	{
-		updateProjMatrix();
-	}
-
 	void PerspectiveCamera::_onUpdateViewMatrix(mat4 &viewMatrix) noexcept
 	{
 		viewMatrix = __transform.getViewMatrix();
@@ -24,7 +19,7 @@ namespace Danburite
 		projMatrix = perspective(__fov, __aspectRatio, __zNear, __zFar);
 	}
 
-	void PerspectiveCamera::_onDeploy(UniformSetter &uniformSetter) noexcept
+	void PerspectiveCamera::_onDeploy(UniformSetter &uniformSetter) const noexcept
 	{
 		Camera::_onDeploy(uniformSetter);
 		uniformSetter.setUniformVec3(ShaderIdentifier::Name::Camera::POSITION, __transform.getPosition());

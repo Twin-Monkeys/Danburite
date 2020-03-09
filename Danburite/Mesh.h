@@ -22,6 +22,7 @@ namespace Danburite
 		void addVertexBuffer(const std::shared_ptr<ObjectGL::VertexBuffer> &pVertexBuffer) noexcept;
 
 		void draw(const GLsizei numInstances = 1) noexcept;
+		void rawDrawCall(const GLsizei numInstances = 1) noexcept;
 
 		virtual ~Mesh() = default;
 	};

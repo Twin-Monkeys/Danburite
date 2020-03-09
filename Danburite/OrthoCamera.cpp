@@ -9,11 +9,6 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	OrthoCamera::OrthoCamera() noexcept
-	{
-		updateProjMatrix();
-	}
-
 	void OrthoCamera::_onUpdateViewMatrix(mat4 &viewMatrix) noexcept
 	{
 		viewMatrix = __transform.getViewMatrix();
@@ -24,7 +19,7 @@ namespace Danburite
 		projMatrix = ortho(__xLeft, __xRight, __yBottom, __yTop, __zNear, __zFar);
 	}
 
-	void OrthoCamera::_onDeploy(UniformSetter &uniformSetter) noexcept
+	void OrthoCamera::_onDeploy(UniformSetter &uniformSetter) const noexcept
 	{
 		Camera::_onDeploy(uniformSetter);
 		uniformSetter.setUniformVec3(ShaderIdentifier::Name::Camera::POSITION, __transform.getPosition());

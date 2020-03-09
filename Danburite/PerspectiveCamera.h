@@ -25,11 +25,9 @@ namespace Danburite
 	protected:
 		virtual void _onUpdateViewMatrix(glm::mat4 &viewMatrix) noexcept override;
 		virtual void _onUpdateProjMatrix(glm::mat4 &projMatrix) noexcept override;
-		virtual void _onDeploy(ObjectGL::UniformSetter &uniformSetter) noexcept override;
+		virtual void _onDeploy(ObjectGL::UniformSetter &uniformSetter) const noexcept override;
 
 	public:
-		PerspectiveCamera() noexcept;
-
 		constexpr CameraTransform &getTransform() noexcept;
 		constexpr const CameraTransform &getTransform() const noexcept;
 
@@ -45,7 +43,6 @@ namespace Danburite
 		constexpr void setFar(const float zFar) noexcept;
 
 		// bounds
-		constexpr void setMaxPitch(const float maxPitch) noexcept;
 		constexpr void setMaxFov(const float maxFov) noexcept;
 		constexpr void setMinFov(const float minFov) noexcept;
 

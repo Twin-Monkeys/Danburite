@@ -13,4 +13,9 @@ namespace Danburite
 	{
 		__drawables.safeTraverse(&Drawable::draw);
 	}
+
+	void Drawer::batchRawDrawCall() noexcept
+	{
+		__drawables.safeTraverse(&Drawable::rawDrawCall);
+	}
 }

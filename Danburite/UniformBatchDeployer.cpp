@@ -5,7 +5,7 @@ using namespace std;
 
 namespace ObjectGL
 {
-	void UniformBatchDeployer::addDeployable(const weak_ptr<UniformDeployable> &pUpdatable) noexcept
+	void UniformBatchDeployer::addDeployable(const weak_ptr<const UniformDeployable> &pUpdatable) noexcept
 	{
 		__uniformDeployables.add(pUpdatable);
 	}

@@ -57,7 +57,7 @@ namespace ObjectGL
 		return setUniformMat4(name, value_ptr(values), transposition);
 	}
 
-	void UniformSetter::directDeploy(UniformDeployable &deployable) noexcept
+	void UniformSetter::directDeploy(const UniformDeployable &deployable) noexcept
 	{
 		deployable._onDeploy(*this);
 	}

@@ -29,6 +29,11 @@ namespace Danburite
 			return;
 		}
 
+		rawDrawCall(numInstances);
+	}
+
+	void Mesh::rawDrawCall(const GLsizei numInstances) noexcept
+	{
 		__pMaterial->render(*__pVertexArray, numInstances);
 	}
 }
