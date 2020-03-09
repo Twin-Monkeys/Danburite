@@ -6,34 +6,18 @@ using namespace glm;
 
 namespace Danburite
 {
-	void CameraTransform::_onValidateTranslation() const noexcept
+	void CameraTransform::_onValidateTranslation(mat4 &translationMat) const noexcept
 	{
-		Transform::_onValidateTranslation();
+		Transform::_onValidateTranslation(translationMat);
 		__viewTranslationMat = translate(-getPosition());
 	}
 
-	void CameraTransform::_onValidateRotation() const noexcept
+	void CameraTransform::_onValidateRotation(mat4 &rotationMat) const noexcept
 	{
-		Transform::_onValidateRotation();
-		
 		const vec3 &rotation = getRotation();
-		__viewRotationMat		= eulerAngleXYZ(-rotation.x, -rotation.y, -rotation.z);
-		__viewRotationInvMat	= transpose(__viewRotationMat);	// == inverse
-	}
 
-	const vec4 &CameraTransform::getForward() const noexcept
-	{
-		return getViewRotationInvMatrix()[2];
-	}
-
-	const vec4 &CameraTransform::getHorizontal() const noexcept
-	{
-		return getViewRotationInvMatrix()[0];
-	}
-
-	const vec4 &CameraTransform::getVertical() const noexcept
-	{
-		return getViewRotationInvMatrix()[1];
+		__viewRotationMat = eulerAngleXYZ(-rotation.x, -rotation.y, -rotation.z);
+		rotationMat = transpose(__viewRotationMat);	// == inverse
 	}
 
 	const mat4 &CameraTransform::getViewTranslationMatrix() const noexcept
@@ -46,12 +30,6 @@ namespace Danburite
 	{
 		_validateRotation();
 		return __viewRotationMat;
-	}
-
-	const mat4 &CameraTransform::getViewRotationInvMatrix() const noexcept
-	{
-		_validateRotation();
-		return __viewRotationInvMat;
 	}
 
 	const mat4 &CameraTransform::getViewMatrix() const noexcept

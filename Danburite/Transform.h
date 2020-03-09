@@ -36,9 +36,9 @@ namespace Danburite
 		void _validateScale() const noexcept;
 		void _validateRotation() const noexcept;
 
-		virtual void _onValidateTranslation() const noexcept;
-		virtual void _onValidateScale() const noexcept;
-		virtual void _onValidateRotation() const noexcept;
+		virtual void _onValidateTranslation(glm::mat4 &translationMat) const noexcept;
+		virtual void _onValidateScale(glm::mat4 &ScaleMat) const noexcept;
+		virtual void _onValidateRotation(glm::mat4 &RotationMat) const noexcept;
 
 	public:
 		// position
@@ -70,9 +70,9 @@ namespace Danburite
 		void moveVertical(const float delta) noexcept;
 		void orbit(const float angle, const glm::vec3& pivot, const glm::vec3 &axis, const bool angleRotation = true) noexcept;
 
-		virtual const glm::vec4 &getForward() const noexcept;
-		virtual const glm::vec4 &getHorizontal() const noexcept;
-		virtual const glm::vec4 &getVertical() const noexcept;
+		const glm::vec4 &getForward() const noexcept;
+		const glm::vec4 &getHorizontal() const noexcept;
+		const glm::vec4 &getVertical() const noexcept;
 
 		const glm::mat4 &getTranslationMatrix() const noexcept;
 		const glm::mat4 &getScaleMatrix() const noexcept;

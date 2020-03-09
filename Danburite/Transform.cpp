@@ -12,7 +12,7 @@ namespace Danburite
 	{
 		if (__positionDirty)
 		{
-			_onValidateTranslation();
+			_onValidateTranslation(__translationMat);
 			__positionDirty = false;
 		}
 	}
@@ -21,7 +21,7 @@ namespace Danburite
 	{
 		if (__scaleDirty)
 		{
-			_onValidateScale();
+			_onValidateScale(__scaleMat);
 			__scaleDirty = false;
 		}
 	}
@@ -30,24 +30,24 @@ namespace Danburite
 	{
 		if (__rotationDirty)
 		{
-			_onValidateRotation();
+			_onValidateRotation(__rotationMat);
 			__rotationDirty = false;
 		}
 	}
 
-	void Transform::_onValidateTranslation() const noexcept
+	void Transform::_onValidateTranslation(mat4 &translationMat) const noexcept
 	{
-		__translationMat = translate(__position);
+		translationMat = translate(__position);
 	}
 
-	void Transform::_onValidateScale() const noexcept
+	void Transform::_onValidateScale(mat4 &scaleMat) const noexcept
 	{
-		__scaleMat = scale(__scale);
+		scaleMat = scale(__scale);
 	}
 
-	void Transform::_onValidateRotation() const noexcept
+	void Transform::_onValidateRotation(mat4 &rotationMat) const noexcept
 	{
-		__rotationMat = eulerAngleXYZ(__rotation.x, __rotation.y, __rotation.z);
+		rotationMat = eulerAngleXYZ(__rotation.x, __rotation.y, __rotation.z);
 	}
 
 	void Transform::moveForward(const float delta) noexcept
