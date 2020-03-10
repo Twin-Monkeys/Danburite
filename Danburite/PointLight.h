@@ -17,8 +17,6 @@ namespace Danburite
 	public:
 		PointLight(ObjectGL::UniformSetter &uniformSetter) noexcept;
 
-		virtual void bakeDepthMap() noexcept override;
-
 		virtual ~PointLight() = default;
 	};
 }

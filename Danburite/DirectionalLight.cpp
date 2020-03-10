@@ -20,9 +20,4 @@ namespace Danburite
 		target.setUniformVec3(
 			ShaderIdentifier::Name::Light::DIRECTION, -forward.x, -forward.y, -forward.z);
 	}
-
-	void DirectionalLight::bakeDepthMap() noexcept
-	{
-
-	}
 }

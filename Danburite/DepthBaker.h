@@ -4,7 +4,6 @@
 #include "FrameBuffer.h"
 #include "AttachableTexture.h"
 #include <memory>
-#include "Camera.h"
 
 namespace Danburite
 {
@@ -14,7 +13,7 @@ namespace Danburite
 		ObjectGL::Program &__depthBakingProgram;
 
 		std::unique_ptr<ObjectGL::FrameBuffer> __pFrameBuffer;
-		std::unique_ptr<ObjectGL::AttachableTexture> __pDepthAttachment;
+		std::unique_ptr<ObjectGL::AttachableTexture> __pDepthMap;
 
 		GLsizei __mapWidth;
 		GLsizei __mapHeight;
@@ -27,12 +26,11 @@ namespace Danburite
 		DepthBaker(ObjectGL::UniformSetter &uniformSetter);
 
 		void setResolution(const GLsizei width, const GLsizei height) noexcept;
-		
+		void deployViewProjMatrix(const glm::mat4 &viewMat, const glm::mat4 &projMat) noexcept;
+
 		void bind() noexcept;
 		void unbind() noexcept;
 
-		void deployCamera(const Camera &camera) noexcept;
-
-		ObjectGL::AttachableTexture &getDepthAttachment() const noexcept;
+		ObjectGL::AttachableTexture &getDepthMap() const noexcept;
 	};
 }

@@ -1,18 +1,13 @@
 #pragma once
 
-#include "Camera.h"
+#include "TransformableCamera.h"
 #include "Constant.h"
-#include "CameraTransform.h"
 
 namespace Danburite
 {
-	class PerspectiveCamera : public Camera
+	class PerspectiveCamera : public TransformableCamera
 	{
 	private:
-		CameraTransform __transform;
-
-		// projection factors
-
 		float __maxFov = Constant::Camera::MAX_FOV;
 		float __minFov = Constant::Camera::MIN_FOV;
 
@@ -23,15 +18,9 @@ namespace Danburite
 		float __zFar = Constant::Camera::DEFAULT_Z_FAR;
 
 	protected:
-		virtual void _onUpdateViewMatrix(glm::mat4 &viewMatrix) noexcept override;
 		virtual void _onUpdateProjMatrix(glm::mat4 &projMatrix) noexcept override;
-		virtual void _onDeploy(ObjectGL::UniformSetter &uniformSetter) const noexcept override;
 
 	public:
-		constexpr CameraTransform &getTransform() noexcept;
-		constexpr const CameraTransform &getTransform() const noexcept;
-
-		// projection
 		constexpr void setFov(const float fov) noexcept;
 		constexpr void resetFov() noexcept;
 		constexpr void adjustFov(const float delta) noexcept;
@@ -48,16 +37,6 @@ namespace Danburite
 
 		virtual ~PerspectiveCamera() = default;
 	};
-
-	constexpr CameraTransform& PerspectiveCamera::getTransform() noexcept
-	{
-		return __transform;
-	}
-
-	constexpr const CameraTransform& PerspectiveCamera::getTransform() const noexcept
-	{
-		return __transform;
-	}
 
 	constexpr void PerspectiveCamera::setFov(const float fov) noexcept
 	{

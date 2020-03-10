@@ -3,6 +3,7 @@
 #include "GLFunctionWrapper.h"
 #include "Material.h"
 #include "ProgramFactory.h"
+#include "ShaderIdentifier.h"
 
 using namespace std;
 using namespace glm;
@@ -13,16 +14,16 @@ namespace Danburite
 	DepthBaker::DepthBaker(ObjectGL::UniformSetter &uniformSetter) :
 		__depthBakingProgram(ProgramFactory::getInstance().getProgram(ProgramType::DEPTH_BAKING)),
 		__pFrameBuffer(make_unique<FrameBuffer>()),
-		__pDepthAttachment(make_unique<AttachableTexture>()),
+		__pDepthMap(make_unique<AttachableTexture>()),
 		__uniformSetter(uniformSetter)
 	{
 		__pFrameBuffer->setInputColorBuffer(ColorBufferType::NONE);
 		__pFrameBuffer->setOutputColorBuffer(ColorBufferType::NONE);
 
-		__pDepthAttachment->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::NEAREST);
-		__pDepthAttachment->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::NEAREST);
-		__pDepthAttachment->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::REPEAT);
-		__pDepthAttachment->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::REPEAT);
+		__pDepthMap->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR);
+		__pDepthMap->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
+		__pDepthMap->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::REPEAT);
+		__pDepthMap->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::REPEAT);
 
 		setResolution(Constant::Shadow::DEFAULT_MAP_WIDTH, Constant::Shadow::DEFAULT_MAP_HEIGHT);
 	}
@@ -32,12 +33,18 @@ namespace Danburite
 		__mapWidth = width;
 		__mapHeight = height;
 
-		__pDepthAttachment->memoryAlloc(
+		__pDepthMap->memoryAlloc(
 			width, height,
 			TextureInternalFormatType::DEPTH_COMPONENT, TextureExternalFormatType::DEPTH_COMPONENT,
 			TextureDataType::FLOAT);
 
-		__pFrameBuffer->attach(AttachmentType::DEPTH_ATTACHMENT, *__pDepthAttachment);
+		__pFrameBuffer->attach(AttachmentType::DEPTH_ATTACHMENT, *__pDepthMap);
+	}
+
+	void DepthBaker::deployViewProjMatrix(const mat4 &viewMat, const mat4 &projMat) noexcept
+	{
+		__uniformSetter.setUniformMat4(ShaderIdentifier::Name::Camera::VIEW_MATRIX, viewMat);
+		__uniformSetter.setUniformMat4(ShaderIdentifier::Name::Camera::PROJECTION_MATRIX, projMat);
 	}
 
 	void DepthBaker::bind() noexcept
@@ -60,13 +67,8 @@ namespace Danburite
 		assert(glGetError() == GL_NO_ERROR);
 	}
 
-	void DepthBaker::deployCamera(const Camera &camera) noexcept
+	AttachableTexture &DepthBaker::getDepthMap() const noexcept
 	{
-		__uniformSetter.directDeploy(camera);
-	}
-
-	AttachableTexture &DepthBaker::getDepthAttachment() const noexcept
-	{
-		return *__pDepthAttachment;
+		return *__pDepthMap;
 	}
 }

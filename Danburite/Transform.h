@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Updatable.h"
 #include <utility>
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
@@ -8,37 +9,24 @@
 
 namespace Danburite
 {
-	class Transform
+	class Transform : public Updatable
 	{
 	private:
-		mutable bool __positionDirty = true;
-		glm::vec3 __position { 0.f, 0.f, 0.f };
+		glm::vec3 __position		{ 0.f, 0.f, 0.f };
+		glm::vec3 __scale			{ 1.f, 1.f, 1.f };
+		glm::vec3 __rotation		{ 0.f, 0.f, 0.f };
 
-		mutable bool __scaleDirty = true;
-		glm::vec3 __scale { 1.f, 1.f, 1.f };
-
-		mutable bool __rotationDirty = true;
-		glm::vec3 __rotation { 0.f, 0.f, 0.f };
-
-		mutable glm::mat4 __translationMat	{ 1.f };
-		mutable glm::mat4 __scaleMat		{ 1.f };
-		mutable glm::mat4 __rotationMat		{ 1.f };
-		mutable glm::mat4 __modelMat		{ 1.f };
+		glm::mat4 __translationMat	{ 1.f };
+		glm::mat4 __scaleMat		{ 1.f };
+		glm::mat4 __rotationMat		{ 1.f };
+		glm::mat4 __modelMat		{ 1.f };
 
 		static constexpr void __adjustAngleToPeriod(glm::vec3 &angle) noexcept;
 
 	protected:
-		constexpr bool _getPositionDirty() const noexcept;
-		constexpr bool _getScaleDirty() const noexcept;
-		constexpr bool _getRotationDirty() const noexcept;
-
-		void _validateTranslation() const noexcept;
-		void _validateScale() const noexcept;
-		void _validateRotation() const noexcept;
-
-		virtual void _onValidateTranslation(glm::mat4 &translationMat) const noexcept;
-		virtual void _onValidateScale(glm::mat4 &ScaleMat) const noexcept;
-		virtual void _onValidateRotation(glm::mat4 &RotationMat) const noexcept;
+		virtual void _onUpdateTranslation(glm::mat4 &translationMat) const noexcept;
+		virtual void _onUpdateScale(glm::mat4 &ScaleMat) const noexcept;
+		virtual void _onUpdateRotation(glm::mat4 &RotationMat) const noexcept;
 
 	public:
 		// position
@@ -70,31 +58,34 @@ namespace Danburite
 		void moveVertical(const float delta) noexcept;
 		void orbit(const float angle, const glm::vec3& pivot, const glm::vec3 &axis, const bool angleRotation = true) noexcept;
 
-		const glm::vec4 &getForward() const noexcept;
-		const glm::vec4 &getHorizontal() const noexcept;
-		const glm::vec4 &getVertical() const noexcept;
+		constexpr const glm::vec4 &getForward() const noexcept;
+		constexpr const glm::vec4 &getHorizontal() const noexcept;
+		constexpr const glm::vec4 &getVertical() const noexcept;
 
-		const glm::mat4 &getTranslationMatrix() const noexcept;
-		const glm::mat4 &getScaleMatrix() const noexcept;
-		const glm::mat4 &getRotationMatrix() const noexcept;
-		const glm::mat4 &getModelMatrix() const noexcept;
+		constexpr const glm::mat4 &getTranslationMatrix() const noexcept;
+		constexpr const glm::mat4 &getScaleMatrix() const noexcept;
+		constexpr const glm::mat4 &getRotationMatrix() const noexcept;
+		constexpr const glm::mat4 &getModelMatrix() const noexcept;
+
+		virtual void update() noexcept override;
 
 		virtual ~Transform() = default;
 	};
 
-	constexpr bool Transform::_getPositionDirty() const noexcept
+	constexpr void Transform::__adjustAngleToPeriod(glm::vec3 &angle) noexcept
 	{
-		return __positionDirty;
-	}
+		constexpr auto adjAngle = [](float& angle)
+		{
+			if (angle < -glm::pi<float>())
+				angle += glm::two_pi<float>();
 
-	constexpr bool Transform::_getScaleDirty() const noexcept
-	{
-		return __scaleDirty;
-	}
+			else if (angle > glm::pi<float>())
+				angle -= glm::two_pi<float>();
+		};
 
-	constexpr bool Transform::_getRotationDirty() const noexcept
-	{
-		return __rotationDirty;
+		adjAngle(angle.x);
+		adjAngle(angle.y);
+		adjAngle(angle.z);
 	}
 
 	constexpr const glm::vec3& Transform::getPosition() const noexcept
@@ -109,8 +100,6 @@ namespace Danburite
 
 	constexpr void Transform::setPosition(const float x, const float y, const float z) noexcept
 	{
-		__positionDirty = true;
-
 		__position.x = x;
 		__position.y = y;
 		__position.z = z;
@@ -123,8 +112,6 @@ namespace Danburite
 	
 	constexpr void Transform::adjustPosition(const float xDelta, const float yDelta, const float zDelta) noexcept
 	{
-		__positionDirty = true;
-
 		__position.x += xDelta;
 		__position.y += yDelta;
 		__position.z += zDelta;
@@ -147,8 +134,6 @@ namespace Danburite
 
 	constexpr void Transform::setScale(const float x, const float y, const float z) noexcept
 	{
-		__scaleDirty = true;
-
 		__scale.x = x;
 		__scale.y = y;
 		__scale.z = z;
@@ -168,8 +153,6 @@ namespace Danburite
 
 	constexpr void Transform::adjustScale(const float xDelta, const float yDelta, const float zDelta) noexcept
 	{
-		__scaleDirty = true;
-
 		__scale.x += xDelta;
 		__scale.y += yDelta;
 		__scale.z += zDelta;
@@ -189,8 +172,6 @@ namespace Danburite
 
 	constexpr void Transform::setRotation(const float pitch, const float yaw, const float roll) noexcept
 	{
-		__rotationDirty = true;
-
 		__rotation.x = pitch;
 		__rotation.y = yaw;
 		__rotation.z = roll;
@@ -205,8 +186,6 @@ namespace Danburite
 
 	constexpr void Transform::adjustRotation(const float pitch, const float yaw, const float roll) noexcept
 	{
-		__rotationDirty = true;
-
 		__rotation.x += pitch;
 		__rotation.y += yaw;
 		__rotation.z += roll;
@@ -214,19 +193,38 @@ namespace Danburite
 		__adjustAngleToPeriod(__rotation);
 	}
 
-	constexpr void Transform::__adjustAngleToPeriod(glm::vec3 &angle) noexcept
+	constexpr const glm::vec4 &Transform::getForward() const noexcept
 	{
-		constexpr auto adjAngle = [](float& angle)
-		{
-			if (angle < -glm::pi<float>())
-				angle += glm::two_pi<float>();
+		return __rotationMat[2];
+	}
 
-			else if (angle > glm::pi<float>())
-				angle -= glm::two_pi<float>();
-		};
+	constexpr const glm::vec4 &Transform::getHorizontal() const noexcept
+	{
+		return __rotationMat[0];
+	}
 
-		adjAngle(angle.x);
-		adjAngle(angle.y);
-		adjAngle(angle.z);
+	constexpr const glm::vec4 &Transform::getVertical() const noexcept
+	{
+		return __rotationMat[1];
+	}
+
+	constexpr const glm::mat4 &Transform::getTranslationMatrix() const noexcept
+	{
+		return __translationMat;
+	}
+
+	constexpr const glm::mat4 &Transform::getScaleMatrix() const noexcept
+	{
+		return __scaleMat;
+	}
+	
+	constexpr const glm::mat4 &Transform::getRotationMatrix() const noexcept
+	{
+		return __rotationMat;
+	}
+
+	constexpr const glm::mat4 &Transform::getModelMatrix() const noexcept
+	{
+		return __modelMat;
 	}
 }

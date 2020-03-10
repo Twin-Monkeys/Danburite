@@ -1,17 +1,13 @@
 #pragma once
 
-#include "Camera.h"
+#include "TransformableCamera.h"
 #include "Constant.h"
-#include "CameraTransform.h"
 
 namespace Danburite
 {
-	class OrthoCamera : public Camera
+	class OrthoCamera : public TransformableCamera
 	{
 	private:
-		CameraTransform __transform;
-
-		// projection factors
 		float __xLeft		= Constant::Camera::DEFAULT_X_LEFT;
 		float __xRight		= Constant::Camera::DEFAULT_X_RIGHT;
 		float __yBottom		= Constant::Camera::DEFAULT_Y_BOTTOM;
@@ -20,15 +16,9 @@ namespace Danburite
 		float __zFar		= Constant::Camera::DEFAULT_Z_FAR;
 
 	protected:
-		virtual void _onUpdateViewMatrix(glm::mat4 &viewMatrix) noexcept override;
 		virtual void _onUpdateProjMatrix(glm::mat4 &projMatrix) noexcept override;
-		virtual void _onDeploy(ObjectGL::UniformSetter &uniformSetter) const noexcept override;
 
 	public:
-		constexpr CameraTransform &getTransform() noexcept;
-		constexpr const CameraTransform &getTransform() const noexcept;
-
-		// projection
 		constexpr void setLeft(const float xLeft) noexcept;
 		constexpr void setRight(const float xRight) noexcept;
 		constexpr void setBottom(const float yBottom) noexcept;
@@ -43,16 +33,6 @@ namespace Danburite
 
 		virtual ~OrthoCamera() = default;
 	};
-
-	constexpr CameraTransform &OrthoCamera::getTransform() noexcept
-	{
-		return __transform;
-	}
-
-	constexpr const CameraTransform& OrthoCamera::getTransform() const noexcept
-	{
-		return __transform;
-	}
 
 	constexpr void OrthoCamera::setLeft(const float xLeft) noexcept
 	{

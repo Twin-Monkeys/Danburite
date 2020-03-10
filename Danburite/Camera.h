@@ -19,9 +19,6 @@ namespace Danburite
 		virtual void _onDeploy(ObjectGL::UniformSetter &uniformSetter) const noexcept override;
 
 	public:
-		void updateViewMatrix() noexcept;
-		void updateProjMatrix() noexcept;
-
 		virtual void update() noexcept override;
 
 		virtual ~Camera() = default;

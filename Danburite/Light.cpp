@@ -6,23 +6,27 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	Light::Light(UniformSetter &uniformSetter, const LightType type) noexcept :
-		Object(__getAllocatorMap()[&uniformSetter].allocate()),
-		__uniformSetter(uniformSetter),
-		__lightUniformSetter(uniformSetter, ID),
-		__enabledName(move("light[" + to_string(ID) + "]." + ShaderIdentifier::Name::Light::ENABLED))
+	Light::Light(
+		const LightType type,
+		ObjectGL::UniformSetter &lightParamSetter,
+		ObjectGL::UniformSetter &cameraParamSetter) noexcept :
+		Object(__getAllocatorMap()[&lightParamSetter].allocate()),
+		__lightParamSetter(lightParamSetter),
+		__lightParamSetterWrapper(lightParamSetter, ID),
+		__enabledName(move("light[" + to_string(ID) + "]." + ShaderIdentifier::Name::Light::ENABLED)),
+		__depthBaker(cameraParamSetter)
 	{
-		const string typeName =
-			move("light[" + to_string(ID) + "]." + ShaderIdentifier::Name::Light::TYPE);
+		const string &typeName =
+			("light[" + to_string(ID) + "]." + ShaderIdentifier::Name::Light::TYPE);
 
 		setEnabled(true);
-		__uniformSetter.setUniformUint(typeName, GLenum(type));
+		__lightParamSetter.setUniformUint(typeName, GLenum(type));
 	}
 
 	void Light::__release() noexcept
 	{
 		setEnabled(false);
-		__getAllocatorMap()[&__uniformSetter].deallocate(ID);
+		__getAllocatorMap()[&__lightParamSetter].deallocate(ID);
 	}
 
 	unordered_map<UniformSetter *, Light::LightIDAllocator> &Light::__getAllocatorMap() noexcept
@@ -33,12 +37,36 @@ namespace Danburite
 
 	void Light::setEnabled(const bool enabled) noexcept
 	{
-		__uniformSetter.setUniformBool(__enabledName, enabled);
+		__lightParamSetter.setUniformBool(__enabledName, enabled);
 	}
 
 	void Light::selfDeploy() noexcept
 	{
-		_onDeploy(__lightUniformSetter);
+		_onDeploy(__lightParamSetterWrapper);
+	}
+
+	void Light::setDepthMapResolution(const GLsizei width, const GLsizei height) noexcept
+	{
+		__depthBaker.setResolution(width, height);
+	}
+
+	void Light::startDepthBaking() noexcept
+	{
+		const mat4 &viewMat = _getViewMatrix();
+		const mat4 &projMat = _getProjMatrix();
+
+		__depthBaker.deployViewProjMatrix(viewMat, projMat);
+		__depthBaker.bind();
+	}
+
+	void Light::endDepthBaking() noexcept
+	{
+		__depthBaker.unbind();
+	}
+
+	AttachableTexture &Light::getDepthMap() const noexcept
+	{
+		return __depthBaker.getDepthMap();
 	}
 
 	Light::~Light() noexcept

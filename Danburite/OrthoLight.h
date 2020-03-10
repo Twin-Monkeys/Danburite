@@ -10,8 +10,15 @@ namespace Danburite
 	private:
 		OrthoCamera __camera;
 
+	protected:
+		virtual const glm::mat4 &_getViewMatrix() const noexcept override;
+		virtual const glm::mat4 &_getProjMatrix() const noexcept override;
+
 	public:
-		OrthoLight(ObjectGL::UniformSetter &uniformSetter, const LightType type);
+		OrthoLight(
+			const LightType type,
+			ObjectGL::UniformSetter& lightParamSetter,
+			ObjectGL::UniformSetter& cameraParamSetter);
 
 		constexpr CameraTransform &getTransform() noexcept;
 		constexpr const CameraTransform &getTransform() const noexcept;

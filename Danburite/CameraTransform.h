@@ -12,13 +12,14 @@ namespace Danburite
 		mutable glm::mat4 __viewMat				{ 1.f };
 
 	protected:
-		virtual void _onValidateTranslation(glm::mat4 &translationMat) const noexcept override;
-		virtual void _onValidateRotation(glm::mat4 &rotationMat) const noexcept override;
+		virtual void _onUpdateRotation(glm::mat4 &rotationMat) const noexcept override;
 
 	public:
 		const glm::mat4 &getViewTranslationMatrix() const noexcept;
 		const glm::mat4 &getViewRotationMatrix() const noexcept;
 		const glm::mat4 &getViewMatrix() const noexcept;
+
+		virtual void update() noexcept override;
 
 		virtual ~CameraTransform() = default;
 	};

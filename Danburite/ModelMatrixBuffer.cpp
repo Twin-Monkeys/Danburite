@@ -34,13 +34,23 @@ namespace Danburite
 	void ModelMatrixBuffer::update() noexcept
 	{
 		for (size_t i = 0; i < __numInstances; i++)
-			__modelMatrices[i] = __transforms[i].getModelMatrix();
+		{
+			Transform &transform = __transforms[i];
+			transform.update();
+
+			__modelMatrices[i] = transform.getModelMatrix();
+		}
 	}
 
 	void ModelMatrixBuffer::update(const vector<mat4> &parentModelMatrices) noexcept
 	{
 		for (size_t i = 0; i < __numInstances; i++)
-			__modelMatrices[i] = (parentModelMatrices[i] * __transforms[i].getModelMatrix());
+		{
+			Transform &transform = __transforms[i];
+			transform.update();
+
+			__modelMatrices[i] = (parentModelMatrices[i] * transform.getModelMatrix());
+		}
 	}
 
 	void ModelMatrixBuffer::selfDeploy() noexcept
