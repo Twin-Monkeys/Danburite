@@ -5,15 +5,16 @@
 #include "ProgramFactory.h"
 
 using namespace std;
+using namespace glm;
 using namespace ObjectGL;
 
 namespace Danburite
 {
-	DepthBaker::DepthBaker(ObjectGL::UniformSetter &viewProjSetter) :
+	DepthBaker::DepthBaker(ObjectGL::UniformSetter &uniformSetter) :
 		__depthBakingProgram(ProgramFactory::getInstance().getProgram(ProgramType::DEPTH_BAKING)),
 		__pFrameBuffer(make_unique<FrameBuffer>()),
 		__pDepthAttachment(make_unique<AttachableTexture>()),
-		__viewProjSetter(viewProjSetter)
+		__uniformSetter(uniformSetter)
 	{
 		__pFrameBuffer->setInputColorBuffer(ColorBufferType::NONE);
 		__pFrameBuffer->setOutputColorBuffer(ColorBufferType::NONE);
@@ -39,11 +40,6 @@ namespace Danburite
 		__pFrameBuffer->attach(AttachmentType::DEPTH_ATTACHMENT, *__pDepthAttachment);
 	}
 
-	void DepthBaker::selfDeploy() noexcept
-	{
-		__depthBakingProgram.directDeploy(__camera);
-	}
-
 	void DepthBaker::bind() noexcept
 	{
 		glGetIntegerv(GL_VIEWPORT, __viewportArgs);
@@ -62,6 +58,11 @@ namespace Danburite
 
 		glViewport(__viewportArgs[0], __viewportArgs[1], __viewportArgs[2], __viewportArgs[3]);
 		assert(glGetError() == GL_NO_ERROR);
+	}
+
+	void DepthBaker::deployCamera(const Camera &camera) noexcept
+	{
+		__uniformSetter.directDeploy(camera);
 	}
 
 	AttachableTexture &DepthBaker::getDepthAttachment() const noexcept

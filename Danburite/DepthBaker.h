@@ -4,6 +4,7 @@
 #include "FrameBuffer.h"
 #include "AttachableTexture.h"
 #include <memory>
+#include "Camera.h"
 
 namespace Danburite
 {
@@ -20,28 +21,18 @@ namespace Danburite
 
 		GLint __viewportArgs[4];
 
-		ObjectGL::UniformSetter &__viewProjSetter;
+		ObjectGL::UniformSetter &__uniformSetter;
 
 	public:
-		DepthBaker(ObjectGL::UniformSetter &viewProjSetter);
+		DepthBaker(ObjectGL::UniformSetter &uniformSetter);
 
 		void setResolution(const GLsizei width, const GLsizei height) noexcept;
-		constexpr void deployViewMatrix(const glm::mat4 &viewMat) noexcept;
-		constexpr void deployProjectionMatrix(const glm::mat4 &projMat) noexcept;
-
+		
 		void bind() noexcept;
 		void unbind() noexcept;
 
+		void deployCamera(const Camera &camera) noexcept;
+
 		ObjectGL::AttachableTexture &getDepthAttachment() const noexcept;
 	};
-
-	constexpr void DepthBaker::deployViewMatrix(const glm::mat4 &viewMat) noexcept
-	{
-
-	}
-
-	constexpr void DepthBaker::deployProjectionMatrix(const glm::mat4 &projMat) noexcept
-	{
-
-	}
 }
