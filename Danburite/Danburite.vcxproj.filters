@@ -444,9 +444,6 @@
     <ClCompile Include="SpotLight.cpp">
       <Filter>Library\Engine\Core\Light\SpotLight</Filter>
     </ClCompile>
-    <ClCompile Include="DirectionalLightComponent.cpp">
-      <Filter>Library\Engine\Core\Light\Component</Filter>
-    </ClCompile>
     <ClCompile Include="AttenuatedLightComponent.cpp">
       <Filter>Library\Engine\Core\Light\Component</Filter>
     </ClCompile>
@@ -678,6 +675,15 @@
     <ClCompile Include="OrthoCamera.cpp">
       <Filter>Library\Engine\Core\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="OrthoLight.cpp">
+      <Filter>Library\Engine\Core\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="PerspectiveLight.cpp">
+      <Filter>Library\Engine\Core\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionalLightComponent.cpp">
+      <Filter>Library\Engine\Core\Light\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">
@@ -841,9 +847,6 @@
     </ClInclude>
     <ClInclude Include="SpotLight.h">
       <Filter>Library\Engine\Core\Light\SpotLight</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectionalLightComponent.h">
-      <Filter>Library\Engine\Core\Light\Component</Filter>
     </ClInclude>
     <ClInclude Include="AttenuatedLightComponent.h">
       <Filter>Library\Engine\Core\Light\Component</Filter>
@@ -1162,6 +1165,15 @@
     </ClInclude>
     <ClInclude Include="OrthoCamera.h">
       <Filter>Library\Engine\Core\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="OrthoLight.h">
+      <Filter>Library\Engine\Core\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="PerspectiveLight.h">
+      <Filter>Library\Engine\Core\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLightComponent.h">
+      <Filter>Library\Engine\Core\Light\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

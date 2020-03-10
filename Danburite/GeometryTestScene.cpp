@@ -61,8 +61,7 @@ GeometryTestScene::GeometryTestScene()
 	//// 조명 생성 ////
 
 	__pDirectionalLight = make_shared<DirectionalLight>(*__pUBLight);
-	__pDirectionalLight->setDirection(1.f, -1.f, 0.f);
-	__pDirectionalLight->setAlbedo(.8f, .8f, .8f);
+	__pDirectionalLight->getTransform().adjustRotation(1.f, -1.f, 0.f); __pDirectionalLight->setAlbedo(.8f, .8f, .8f);
 	__pDirectionalLight->setDiffuseStrength(2.f);
 	__pDirectionalLight->setSpecularStrength(2.f);
 

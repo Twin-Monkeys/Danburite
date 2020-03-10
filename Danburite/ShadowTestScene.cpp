@@ -115,7 +115,7 @@ ShadowTestScene::ShadowTestScene()
 	// Light √ ±‚»≠
 
 	__pDirectionalLight = make_shared<DirectionalLight>(*__pUBLight);
-	__pDirectionalLight->setDirection(1.f, -1.f, 1.f);
+	__pDirectionalLight->getTransform().adjustRotation(-1.f, 1.f, 0.f);
 	__pDirectionalLight->setAmbientStrength(.05f);
 	__pDirectionalLight->setDiffuseStrength(.3f);
 

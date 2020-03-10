@@ -9,11 +9,11 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	DepthBaker::DepthBaker(const Camera &camera) :
+	DepthBaker::DepthBaker(ObjectGL::UniformSetter &viewProjSetter) :
 		__depthBakingProgram(ProgramFactory::getInstance().getProgram(ProgramType::DEPTH_BAKING)),
 		__pFrameBuffer(make_unique<FrameBuffer>()),
 		__pDepthAttachment(make_unique<AttachableTexture>()),
-		__camera(camera)
+		__viewProjSetter(viewProjSetter)
 	{
 		__pFrameBuffer->setInputColorBuffer(ColorBufferType::NONE);
 		__pFrameBuffer->setOutputColorBuffer(ColorBufferType::NONE);

@@ -23,7 +23,7 @@
     <ProjectGuid>{8FDCDE28-C10D-48DB-AA99-4EB23CD794F7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Danburite</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -43,14 +43,14 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -166,10 +166,13 @@
     <ClCompile Include="CubeSkybox.cpp" />
     <ClCompile Include="CubeSkyboxComponent.cpp" />
     <ClCompile Include="DepthBaker.cpp" />
+    <ClCompile Include="DirectionalLightComponent.cpp" />
     <ClCompile Include="ElementType.cpp" />
     <ClCompile Include="GammaCorrectionPostProcessor.cpp" />
     <ClCompile Include="IndexType.cpp" />
     <ClCompile Include="OrthoCamera.cpp" />
+    <ClCompile Include="OrthoLight.cpp" />
+    <ClCompile Include="PerspectiveLight.cpp" />
     <ClCompile Include="RCDSRegisterer.cpp" />
     <ClCompile Include="ShadowTestScene.cpp" />
     <ClCompile Include="SpaceScene.cpp" />
@@ -228,7 +231,6 @@
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="FragmentShaderCompiler.cpp" />
     <ClCompile Include="Light.cpp" />
-    <ClCompile Include="DirectionalLightComponent.cpp" />
     <ClCompile Include="LightBaseComponent.cpp" />
     <ClCompile Include="LightDeployer.cpp" />
     <ClCompile Include="LightException.cpp" />
@@ -291,9 +293,12 @@
     <ClInclude Include="CubeSkybox.h" />
     <ClInclude Include="CubeSkyboxComponent.h" />
     <ClInclude Include="DepthBaker.h" />
+    <ClInclude Include="DirectionalLightComponent.h" />
     <ClInclude Include="GammaCorrectionPostProcessor.h" />
     <ClInclude Include="MaterialRenderType.h" />
     <ClInclude Include="OrthoCamera.h" />
+    <ClInclude Include="OrthoLight.h" />
+    <ClInclude Include="PerspectiveLight.h" />
     <ClInclude Include="RCDSRegisterer.h" />
     <ClInclude Include="ShadowTestScene.h" />
     <ClInclude Include="SpaceScene.h" />
@@ -323,7 +328,6 @@
     <ClInclude Include="Cache.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="FragmentShaderCompiler.h" />
-    <ClInclude Include="DirectionalLightComponent.h" />
     <ClInclude Include="LightBaseComponent.h" />
     <ClInclude Include="LightDeployer.h" />
     <ClInclude Include="LightException.h" />

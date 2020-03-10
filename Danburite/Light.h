@@ -25,7 +25,6 @@ namespace Danburite
 
 		ObjectGL::UniformSetter &__uniformSetter;
 		LightUniformSetter __lightUniformSetter;
-
 		const std::string __enabledName;
 
 		void __release() noexcept;

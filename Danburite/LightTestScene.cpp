@@ -127,8 +127,7 @@ LightTestScene::LightTestScene()
 	//// 조명 생성 ////
 
 	__pDirectionalLight = make_shared<DirectionalLight>(*__pUBLight);
-	__pDirectionalLight->setDirection(1.f, -1.f, 0.f);
-	__pDirectionalLight->setAlbedo(.1f, .1f, .1f);
+	__pDirectionalLight->getTransform().adjustRotation(1.f, -1.f, 0.f); __pDirectionalLight->setAlbedo(.1f, .1f, .1f);
 
 	__pStreetLight = make_shared<PointLight>(*__pUBLight);
 
