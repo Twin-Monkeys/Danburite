@@ -169,7 +169,7 @@ SpaceScene::SpaceScene()
 
 	//// 조명 생성 ////
 
-	__pDirectionalLight = make_shared<DirectionalLight>(*__pUBLight);
+	__pDirectionalLight = make_shared<DirectionalLight>(*__pUBLight, *__pUBCamera);
 	__pDirectionalLight->getTransform().adjustRotation(1.f, -1.f, 0.f);
 	__pDirectionalLight->setAlbedo(.3f, .5f, .9f);
 	__pDirectionalLight->setDiffuseStrength(2.f);

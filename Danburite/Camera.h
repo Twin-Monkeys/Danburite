@@ -19,8 +19,21 @@ namespace Danburite
 		virtual void _onDeploy(ObjectGL::UniformSetter &uniformSetter) const noexcept override;
 
 	public:
+		constexpr const glm::mat4 &getViewMatrix() const noexcept;
+		constexpr const glm::mat4 &getProjectionMatrix() const noexcept;
+
 		virtual void update() noexcept override;
 
 		virtual ~Camera() = default;
 	};
+
+	constexpr const glm::mat4 &Camera::getViewMatrix() const noexcept
+	{
+		return __viewMat;
+	}
+
+	constexpr const glm::mat4 &Camera::getProjectionMatrix() const noexcept
+	{
+		return __projMat;
+	}
 }

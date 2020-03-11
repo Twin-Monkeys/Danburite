@@ -6,14 +6,14 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	SpotLight::SpotLight(UniformSetter &uniformSetter) noexcept :
-		PointLight(uniformSetter, LightType::SPOT)
+	SpotLight::SpotLight(UniformSetter &lightParamSetter, UniformSetter &cameraParamSetter) noexcept :
+		PointLight(LightType::SPOT, lightParamSetter, cameraParamSetter)
 	{}
 
-	void SpotLight::_onDeploy(LightUniformSetter &target) noexcept
+	void SpotLight::_onDeploy(LightUniformSetter &lightParamSetter) noexcept
 	{
-		PointLight::_onDeploy(target);
-		DirectionalLightComponent::_onDeploy(target);
-		SpotLightComponent::_onDeploy(target);
+		PointLight::_onDeploy(lightParamSetter);
+		SpotLightComponent::_onDeploy(lightParamSetter);
+		_deployDirection(lightParamSetter);
 	}
 }

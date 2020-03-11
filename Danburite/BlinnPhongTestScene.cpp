@@ -93,8 +93,10 @@ BlinnPhongTestScene::BlinnPhongTestScene()
 	{
 		shared_ptr<PointLight> &pPointLight = __arrPointLight[i];
 
-		pPointLight = make_shared<PointLight>(*__pUBLight);
-		pPointLight->setPosition(-15.f + 10.f * float(i), 2.f, 0.f);
+		pPointLight = make_shared<PointLight>(*__pUBLight, *__pUBCamera);
+		Transform &lightTransform = pPointLight->getTransform();
+
+		lightTransform.setPosition(-15.f + 10.f * float(i), 2.f, 0.f);
 		pPointLight->setAttenuation(1.f, .07f, .017f);
 		pPointLight->setAlbedo(1.f, 1.f, 1.f);
 		pPointLight->setAmbientStrength(.05f);

@@ -1,21 +1,24 @@
 #pragma once
 
-#include "Light.h"
+#include "PerspectiveCameraLight.h"
 #include "LightBaseComponent.h"
-#include "PositionableLightComponent.h"
 #include "AttenuatedLightComponent.h"
 
 namespace Danburite
 {
 	class PointLight :
-		public Light, public LightBaseComponent, public PositionableLightComponent, public AttenuatedLightComponent
+		public PerspectiveCameraLight, public LightBaseComponent, public AttenuatedLightComponent
 	{
 	protected:
-		PointLight(ObjectGL::UniformSetter& uniformSetter, const LightType type) noexcept;
-		virtual void _onDeploy(LightUniformSetter &target) noexcept override;
+		PointLight(
+			const LightType type,
+			ObjectGL::UniformSetter &lightParamSetter,
+			ObjectGL::UniformSetter &cameraParamSetter) noexcept;
+
+		virtual void _onDeploy(LightUniformSetter &lightParamSetter) noexcept override;
 
 	public:
-		PointLight(ObjectGL::UniformSetter &uniformSetter) noexcept;
+		PointLight(ObjectGL::UniformSetter &lightParamSetter, ObjectGL::UniformSetter &cameraParamSetter) noexcept;
 
 		virtual ~PointLight() = default;
 	};

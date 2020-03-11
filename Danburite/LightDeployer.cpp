@@ -14,9 +14,4 @@ namespace Danburite
 	{
 		__lights.safeTraverse(&Light::selfDeploy);
 	}
-
-	void LightDeployer::batchBakeDepthMap() noexcept
-	{
-		__lights.safeTraverse(&Light::bakeDepthMap);
-	}
 }

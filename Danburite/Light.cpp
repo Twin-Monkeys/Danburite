@@ -7,9 +7,7 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	Light::Light(
-		const LightType type,
-		ObjectGL::UniformSetter &lightParamSetter,
-		ObjectGL::UniformSetter &cameraParamSetter) noexcept :
+		const LightType type, UniformSetter &lightParamSetter, UniformSetter &cameraParamSetter) :
 		Object(__getAllocatorMap()[&lightParamSetter].allocate()),
 		__lightParamSetter(lightParamSetter),
 		__lightParamSetterWrapper(lightParamSetter, ID),

@@ -1,23 +1,18 @@
 #include "DirectionalLight.h"
 
-using namespace std;
 using namespace glm;
 using namespace ObjectGL;
 
 namespace Danburite
 {
-	DirectionalLight::DirectionalLight(UniformSetter &uniformSetter) noexcept :
-		OrthoLight(uniformSetter, LightType::DIRECTIONAL)
+	DirectionalLight::DirectionalLight(
+		UniformSetter &lightParamSetter, UniformSetter &cameraParamSetter) noexcept :
+		OrthoCameraLight(LightType::DIRECTIONAL, lightParamSetter, cameraParamSetter)
 	{}
 
-	void DirectionalLight::_onDeploy(LightUniformSetter &target) noexcept
+	void DirectionalLight::_onDeploy(LightUniformSetter &lightParamSetter) noexcept
 	{
-		LightBaseComponent::_onDeploy(target);
-
-		CameraTransform &transform = getTransform();
-		const vec4 &forward = transform.getForward();
-
-		target.setUniformVec3(
-			ShaderIdentifier::Name::Light::DIRECTION, -forward.x, -forward.y, -forward.z);
+		LightBaseComponent::_onDeploy(lightParamSetter);
+		_deployDirection(lightParamSetter);
 	}
 }

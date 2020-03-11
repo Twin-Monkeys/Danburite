@@ -447,9 +447,6 @@
     <ClCompile Include="AttenuatedLightComponent.cpp">
       <Filter>Library\Engine\Core\Light\Component</Filter>
     </ClCompile>
-    <ClCompile Include="PositionableLightComponent.cpp">
-      <Filter>Library\Engine\Core\Light\Component</Filter>
-    </ClCompile>
     <ClCompile Include="SpotLightComponent.cpp">
       <Filter>Library\Engine\Core\Light\Component</Filter>
     </ClCompile>
@@ -675,17 +672,17 @@
     <ClCompile Include="OrthoCamera.cpp">
       <Filter>Library\Engine\Core\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="OrthoLight.cpp">
-      <Filter>Library\Engine\Core\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="PerspectiveLight.cpp">
-      <Filter>Library\Engine\Core\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectionalLightComponent.cpp">
-      <Filter>Library\Engine\Core\Light\Component</Filter>
-    </ClCompile>
     <ClCompile Include="TransformableCamera.cpp">
       <Filter>Library\Engine\Core\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformableCameraLight.cpp">
+      <Filter>Library\Engine\Core\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="PerspectiveCameraLight.cpp">
+      <Filter>Library\Engine\Core\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="OrthoCameraLight.cpp">
+      <Filter>Library\Engine\Core\Light</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -852,9 +849,6 @@
       <Filter>Library\Engine\Core\Light\SpotLight</Filter>
     </ClInclude>
     <ClInclude Include="AttenuatedLightComponent.h">
-      <Filter>Library\Engine\Core\Light\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PositionableLightComponent.h">
       <Filter>Library\Engine\Core\Light\Component</Filter>
     </ClInclude>
     <ClInclude Include="SpotLightComponent.h">
@@ -1169,17 +1163,17 @@
     <ClInclude Include="OrthoCamera.h">
       <Filter>Library\Engine\Core\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="OrthoLight.h">
-      <Filter>Library\Engine\Core\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="PerspectiveLight.h">
-      <Filter>Library\Engine\Core\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectionalLightComponent.h">
-      <Filter>Library\Engine\Core\Light\Component</Filter>
-    </ClInclude>
     <ClInclude Include="TransformableCamera.h">
       <Filter>Library\Engine\Core\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformableCameraLight.h">
+      <Filter>Library\Engine\Core\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="PerspectiveCameraLight.h">
+      <Filter>Library\Engine\Core\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="OrthoCameraLight.h">
+      <Filter>Library\Engine\Core\Light</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

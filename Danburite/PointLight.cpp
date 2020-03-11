@@ -5,18 +5,19 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	PointLight::PointLight(UniformSetter &uniformSetter, const LightType type) noexcept :
-		Light(uniformSetter, type)
+	PointLight::PointLight(
+		const LightType type, UniformSetter &lightParamSetter, UniformSetter &cameraParamSetter) noexcept :
+		PerspectiveCameraLight(type, lightParamSetter, cameraParamSetter)
 	{}
 
-	PointLight::PointLight(UniformSetter &uniformSetter) noexcept :
-		Light(uniformSetter, LightType::POINT)
+	PointLight::PointLight(UniformSetter &lightParamSetter, UniformSetter &cameraParamSetter) noexcept :
+		PerspectiveCameraLight(LightType::POINT, lightParamSetter, cameraParamSetter)
 	{}
 
-	void PointLight::_onDeploy(LightUniformSetter &target) noexcept
+	void PointLight::_onDeploy(LightUniformSetter &lightParamSetter) noexcept
 	{
-		LightBaseComponent::_onDeploy(target);
-		PositionableLightComponent::_onDeploy(target);
-		AttenuatedLightComponent::_onDeploy(target);
+		LightBaseComponent::_onDeploy(lightParamSetter);
+		AttenuatedLightComponent::_onDeploy(lightParamSetter);
+		_deployPosition(lightParamSetter);
 	}
 }

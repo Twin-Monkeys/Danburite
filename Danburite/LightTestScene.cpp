@@ -126,47 +126,47 @@ LightTestScene::LightTestScene()
 
 	//// 조명 생성 ////
 
-	__pDirectionalLight = make_shared<DirectionalLight>(*__pUBLight);
+	__pDirectionalLight = make_shared<DirectionalLight>(*__pUBLight, *__pUBCamera);
 	__pDirectionalLight->getTransform().adjustRotation(1.f, -1.f, 0.f); __pDirectionalLight->setAlbedo(.1f, .1f, .1f);
 
-	__pStreetLight = make_shared<PointLight>(*__pUBLight);
+	__pStreetLight = make_shared<PointLight>(*__pUBLight, *__pUBCamera);
+	// const vec3 &streetLightPos = streetLightTransform.getPosition();
+	// streetLightTransform.setPosition(streetLightPos.x, streetLightPos.y + 10.f, streetLightPos.z);
 
-	const vec3 &streetLightPos = streetLightTransform.getPosition();
-	__pStreetLight->setPosition(streetLightPos.x, streetLightPos.y + 10.f, streetLightPos.z);
 	__pStreetLight->setAttenuation(1.f, .07f, .017f);
 	__pStreetLight->setAlbedo(.8f, .8f, .1f);
 	__pStreetLight->setDiffuseStrength(2.f);
 	__pStreetLight->setSpecularStrength(2.f);
 
-	__pRedSpotLight = make_shared<SpotLight>(*__pUBLight);
-	__pRedSpotLight->setPosition(35.f, 4.f, -35.f);
-	__pRedSpotLight->setDirection(-1.f, -.3f, 1.f);
+	__pRedSpotLight = make_shared<SpotLight>(*__pUBLight, *__pUBCamera);
+	// __pRedSpotLight->setPosition(35.f, 4.f, -35.f);
+	// __pRedSpotLight->setDirection(-1.f, -.3f, 1.f);
 	__pRedSpotLight->setAttenuation(1.f, .014f, .0007f);
 	__pRedSpotLight->setCutOff(.25f, .35f);
 	__pRedSpotLight->setAlbedo(.7f, .2f, .1f);
 	__pRedSpotLight->setDiffuseStrength(2.f);
 	__pRedSpotLight->setSpecularStrength(2.f);
 
-	__pGreenSpotLight = make_shared<SpotLight>(*__pUBLight);
-	__pGreenSpotLight->setPosition(35.f, 4.f, 35.f);
-	__pGreenSpotLight->setDirection(-1.f, -.3f, -1.f);
+	__pGreenSpotLight = make_shared<SpotLight>(*__pUBLight, *__pUBCamera);
+	// __pGreenSpotLight->setPosition(35.f, 4.f, 35.f);
+	// __pGreenSpotLight->setDirection(-1.f, -.3f, -1.f);
 	__pGreenSpotLight->setAttenuation(1.f, .014f, .0007f);
 	__pGreenSpotLight->setCutOff(.25f, .35f);
 	__pGreenSpotLight->setAlbedo(.3f, .6f, .2f);
 	__pGreenSpotLight->setDiffuseStrength(2.f);
 	__pGreenSpotLight->setSpecularStrength(2.f);
 
-	__pBlueSpotLight = make_shared<SpotLight>(*__pUBLight);
-	__pBlueSpotLight->setPosition(-35.f, 4.f, 35.f);
-	__pBlueSpotLight->setDirection(1.f, -.3f, -1.f);
+	__pBlueSpotLight = make_shared<SpotLight>(*__pUBLight, *__pUBCamera);
+	// __pBlueSpotLight->setPosition(-35.f, 4.f, 35.f);
+	// __pBlueSpotLight->setDirection(1.f, -.3f, -1.f);
 	__pBlueSpotLight->setAttenuation(1.f, .014f, .0007f);
 	__pBlueSpotLight->setCutOff(.25f, .35f);
 	__pBlueSpotLight->setAlbedo(.1f, .1f, .8f);
 	__pBlueSpotLight->setDiffuseStrength(2.f);
 	__pBlueSpotLight->setSpecularStrength(2.f);
 
-	__pRotatingLight = make_shared<PointLight>(*__pUBLight);
-	__pRotatingLight->setPosition(25.f, 3.f, 0.f);
+	__pRotatingLight = make_shared<PointLight>(*__pUBLight, *__pUBCamera);
+	// __pRotatingLight->setPosition(25.f, 3.f, 0.f);
 	__pRotatingLight->setAttenuation(1.f, .07f, .017f);
 	__pRotatingLight->setAlbedo(.1f, .8f, .9f);
 	__pRotatingLight->setDiffuseStrength(2.f);
@@ -313,12 +313,12 @@ bool LightTestScene::delta(const float deltaTime) noexcept
 
 	const float ROTATION_SPEED = (deltaTime * .0005f);
 
-	const vec3 &prevLightPos = __pRotatingLight->getPosition();
+	/*const vec3 &prevLightPos = __pRotatingLight->getPosition();
 
 	__pRotatingLight->setPosition(
 		(prevLightPos.x * cosf(ROTATION_SPEED)) - (prevLightPos.z * sinf(ROTATION_SPEED)),
 		prevLightPos.y,
-		(prevLightPos.x * sinf(ROTATION_SPEED)) + (prevLightPos.z * cosf(ROTATION_SPEED)));
+		(prevLightPos.x * sinf(ROTATION_SPEED)) + (prevLightPos.z * cosf(ROTATION_SPEED)));*/
 
 	return true;
 }

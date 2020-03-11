@@ -114,7 +114,7 @@ ShadowTestScene::ShadowTestScene()
 
 	// Light √ ±‚»≠
 
-	__pDirectionalLight = make_shared<DirectionalLight>(*__pUBLight);
+	__pDirectionalLight = make_shared<DirectionalLight>(*__pUBLight, *__pUBCamera);
 	__pDirectionalLight->getTransform().adjustRotation(-1.f, 1.f, 0.f);
 	__pDirectionalLight->setAmbientStrength(.05f);
 	__pDirectionalLight->setDiffuseStrength(.3f);
@@ -129,6 +129,7 @@ ShadowTestScene::ShadowTestScene()
 	__pUpdater->addUpdatable(__pFloorRU);
 	__pUpdater->addUpdatable(__pCubeRU);
 	__pUpdater->addUpdatable(__pCamera);
+	__pUpdater->addUpdatable(__pDirectionalLight);
 
 	__pDrawer = make_shared<Drawer>();
 	__pDrawer->addDrawable(__pFloorRU);

@@ -8,22 +8,8 @@ namespace Danburite
 {
 	void CameraTransform::_onUpdateRotation(mat4 &rotationMat) const noexcept
 	{
-		rotationMat = transpose(__viewRotationMat);	// == inverse
-	}
-
-	const mat4 &CameraTransform::getViewTranslationMatrix() const noexcept
-	{
-		return __viewTranslationMat;
-	}
-
-	const mat4 &CameraTransform::getViewRotationMatrix() const noexcept
-	{
-		return __viewRotationMat;
-	}
-
-	const mat4 &CameraTransform::getViewMatrix() const noexcept
-	{
-		return __viewMat;
+		// == inverse
+		rotationMat = transpose(__viewRotationMat);
 	}
 
 	void CameraTransform::update() noexcept
@@ -33,7 +19,6 @@ namespace Danburite
 
 		__viewTranslationMat = translate(-position);
 		__viewRotationMat = eulerAngleXYZ(-rotation.x, -rotation.y, -rotation.z);
-		__viewMat = (__viewRotationMat * __viewTranslationMat);
 
 		Transform::update();
 	}

@@ -5,7 +5,7 @@
 
 namespace Danburite
 {
-	class TransformableCamera : public Camera
+	class TransformableCamera abstract : public Camera
 	{
 	private:
 		CameraTransform __transform;

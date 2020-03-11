@@ -12,8 +12,6 @@ namespace Danburite
 
 	public:
 		void addLight(const std::weak_ptr<Light> &pLight) noexcept;
-
 		void batchDeploy() noexcept;
-		void batchBakeDepthMap() noexcept;
 	};
 }
