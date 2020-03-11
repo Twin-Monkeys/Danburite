@@ -8,23 +8,23 @@ namespace Danburite
 	class OrthoCamera : public TransformableCamera
 	{
 	private:
-		float __xLeft		= Constant::Camera::DEFAULT_X_LEFT;
-		float __xRight		= Constant::Camera::DEFAULT_X_RIGHT;
-		float __yBottom		= Constant::Camera::DEFAULT_Y_BOTTOM;
-		float __yTop		= Constant::Camera::DEFAULT_Y_TOP;
-		float __zNear		= Constant::Camera::DEFAULT_Z_NEAR;
-		float __zFar		= Constant::Camera::DEFAULT_Z_FAR;
+		float __xOrthoLeft		= Constant::Camera::DEFAULT_X_ORTHO_LEFT;
+		float __xOrthoRight		= Constant::Camera::DEFAULT_X_ORTHO_RIGHT;
+		float __yOrthoBottom	= Constant::Camera::DEFAULT_Y_ORTHO_BOTTOM;
+		float __yOrthoTop		= Constant::Camera::DEFAULT_Y_ORTHO_TOP;
+		float __zOrthoNear		= Constant::Camera::DEFAULT_Z_ORTHO_NEAR;
+		float __zOrthoFar		= Constant::Camera::DEFAULT_Z_ORTHO_FAR;
 
 	protected:
 		virtual void _onUpdateProjMatrix(glm::mat4 &projMatrix) noexcept override;
 
 	public:
-		constexpr void setLeft(const float xLeft) noexcept;
-		constexpr void setRight(const float xRight) noexcept;
-		constexpr void setBottom(const float yBottom) noexcept;
-		constexpr void setTop(const float yTop) noexcept;
-		constexpr void setNear(const float zNear) noexcept;
-		constexpr void setFar(const float zFar) noexcept;
+		constexpr void setOrthoLeft(const float xLeft) noexcept;
+		constexpr void setOrthoRight(const float xRight) noexcept;
+		constexpr void setOrthoBottom(const float yBottom) noexcept;
+		constexpr void setOrthoTop(const float yTop) noexcept;
+		constexpr void setOrthoNear(const float zNear) noexcept;
+		constexpr void setOrthoFar(const float zFar) noexcept;
 
 		constexpr void setOrtho(
 			const float xLeft, const float xRight,
@@ -34,34 +34,34 @@ namespace Danburite
 		virtual ~OrthoCamera() = default;
 	};
 
-	constexpr void OrthoCamera::setLeft(const float xLeft) noexcept
+	constexpr void OrthoCamera::setOrthoLeft(const float xLeft) noexcept
 	{
-		__xLeft = xLeft;
+		__xOrthoLeft = xLeft;
 	}
 
-	constexpr void OrthoCamera::setRight(const float xRight) noexcept
+	constexpr void OrthoCamera::setOrthoRight(const float xRight) noexcept
 	{
-		__xRight = xRight;
+		__xOrthoRight = xRight;
 	}
 
-	constexpr void OrthoCamera::setBottom(const float yBottom) noexcept
+	constexpr void OrthoCamera::setOrthoBottom(const float yBottom) noexcept
 	{
-		__yBottom = yBottom;
+		__yOrthoBottom = yBottom;
 	}
 
-	constexpr void OrthoCamera::setTop(const float yTop) noexcept
+	constexpr void OrthoCamera::setOrthoTop(const float yTop) noexcept
 	{
-		__yTop = yTop;
+		__yOrthoTop = yTop;
 	}
 
-	constexpr void OrthoCamera::setNear(const float zNear) noexcept
+	constexpr void OrthoCamera::setOrthoNear(const float zNear) noexcept
 	{
-		__zNear = zNear;
+		__zOrthoNear = zNear;
 	}
 
-	constexpr void OrthoCamera::setFar(const float zFar) noexcept
+	constexpr void OrthoCamera::setOrthoFar(const float zFar) noexcept
 	{
-		__zFar = zFar;
+		__zOrthoFar = zFar;
 	}
 
 	constexpr void OrthoCamera::setOrtho(
@@ -69,11 +69,11 @@ namespace Danburite
 		const float yBottom, const float yTop,
 		const float zNear, const float zFar) noexcept
 	{
-		__xLeft = xLeft;
-		__xRight = xRight;
-		__yBottom = yBottom;
-		__yTop = yTop;
-		__zNear = zNear;
-		__zFar = zFar;
+		__xOrthoLeft = xLeft;
+		__xOrthoRight = xRight;
+		__yOrthoBottom = yBottom;
+		__yOrthoTop = yTop;
+		__zOrthoNear = zNear;
+		__zOrthoFar = zFar;
 	}
 }

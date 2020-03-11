@@ -14,8 +14,8 @@ namespace Danburite
 		float __fov = Constant::Camera::DEFAULT_FOV;
 		float __aspectRatio = 1.f;
 
-		float __zNear = Constant::Camera::DEFAULT_Z_NEAR;
-		float __zFar = Constant::Camera::DEFAULT_Z_FAR;
+		float __zNear = Constant::Camera::DEFAULT_Z_ORTHO_NEAR;
+		float __zFar = Constant::Camera::DEFAULT_Z_ORTHO_FAR;
 
 	protected:
 		virtual void _onUpdateProjMatrix(glm::mat4 &projMatrix) noexcept override;

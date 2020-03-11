@@ -69,6 +69,7 @@ ShadowTestScene::ShadowTestScene()
 
 	pFloorMaterial->setDiffuseTexture(pWoodTexture);
 	pFloorMaterial->useDiffuseTexture(true);
+	pFloorMaterial->setShininess(150.f);
 
 	unique_ptr<Mesh> pFloorMesh = make_unique<Mesh>(pFloorVA, pFloorMaterial);
 	__pFloorRU = ruManager.createRenderUnit(move(pFloorMesh));
@@ -85,17 +86,18 @@ ShadowTestScene::ShadowTestScene()
 
 	pCubeMaterial->setDiffuseTexture(pWoodTexture);
 	pCubeMaterial->useDiffuseTexture(true);
+	pCubeMaterial->setShininess(150.f);
 
 	unique_ptr<Mesh> pCubeMesh = make_unique<Mesh>(pCubeVA, pCubeMaterial);
 	__pCubeRU = ruManager.createRenderUnit(move(pCubeMesh));
 	__pCubeRU->setNumInstances(3);
 
 	Transform &cube1Transform = __pCubeRU->getTransform(0);
-	cube1Transform.setPosition(5.f, 2.f, 0.f);
+	cube1Transform.setPosition(5.f, 1.f, -2.f);
 
 	Transform &cube2Transform = __pCubeRU->getTransform(1);
-	cube2Transform.setScale(.6f);
-	cube2Transform.setPosition(5.f, 5.f, 5.f);
+	cube2Transform.setScale(5.f);
+	cube2Transform.setPosition(5.f, 15.f, 5.f);
 	cube2Transform.setRotation(1.f, 2.f, 1.f);
 
 	Transform &cube3Transform = __pCubeRU->getTransform(2);
@@ -114,26 +116,41 @@ ShadowTestScene::ShadowTestScene()
 
 	// Light 초기화
 
-	__pDirectionalLight = make_shared<DirectionalLight>(*__pUBLight, *__pUBCamera);
-	Transform &lightTransform = __pDirectionalLight->getTransform();
+	__pRedLight = make_shared<DirectionalLight>(*__pUBLight, *__pUBCamera);
 
-	lightTransform.setPosition(0.f, 100.f, 0);
-	lightTransform.adjustRotation(-half_pi<float>(), 0.3f, 0.f);
+	Transform &redLightTransform = __pRedLight->getTransform();
+	redLightTransform.setPosition(20.f, 30.f, 0.f);
+	redLightTransform.adjustRotation(-quarter_pi<float>(), 1.1f, 0.f);
 
-	__pDirectionalLight->setAmbientStrength(.05f);
-	__pDirectionalLight->setDiffuseStrength(.3f);
+	__pRedLight->setAlbedo(1.f, .4f, .4f);
+	__pRedLight->setAmbientStrength(.03f);
+	__pRedLight->setDiffuseStrength(.3f);
+	__pRedLight->setDepthBakingOrtho(-100.f, 100.f, -100.f, 100.f, 1.f, 1000.f);
+	__pRedLight->setDepthMapResolution(3200, 1800);
 
+	__pBlueLight = make_shared<DirectionalLight>(*__pUBLight, *__pUBCamera);
+
+	Transform& blueLightTransform = __pBlueLight->getTransform();
+	blueLightTransform.setPosition(-20.f, 30.f, 0.f);
+	blueLightTransform.adjustRotation(-quarter_pi<float>(), -1.1f, 0.f);
+
+	__pBlueLight->setAmbientStrength(.03f);
+	__pBlueLight->setDiffuseStrength(.3f);
+	__pBlueLight->setDepthBakingOrtho(-100.f, 100.f, -100.f, 100.f, 1.f, 1000.f);
+	__pBlueLight->setDepthMapResolution(3200, 1800);
 
 	//// Deployer / Updater 초기화 ////
 
 	__pLightDeployer = make_shared<LightDeployer>();
-	__pLightDeployer->addLight(__pDirectionalLight);
+	__pLightDeployer->addLight(__pRedLight);
+	__pLightDeployer->addLight(__pBlueLight);
 
 	__pUpdater = make_shared<Updater>();
 	__pUpdater->addUpdatable(__pFloorRU);
 	__pUpdater->addUpdatable(__pCubeRU);
 	__pUpdater->addUpdatable(__pCamera);
-	__pUpdater->addUpdatable(__pDirectionalLight);
+	__pUpdater->addUpdatable(__pRedLight);
+	__pUpdater->addUpdatable(__pBlueLight);
 
 	__pDrawer = make_shared<Drawer>();
 	__pDrawer->addDrawable(__pFloorRU);
@@ -193,9 +210,13 @@ void ShadowTestScene::draw() noexcept
 	__pLightDeployer->batchDeploy();
 
 	// depth baking
-	__pDirectionalLight->startDepthBaking();
+	__pRedLight->startDepthBaking();
 	__pDrawer->batchRawDrawCall();
-	__pDirectionalLight->endDepthBaking();
+	__pRedLight->endDepthBaking();
+
+	__pBlueLight->startDepthBaking();
+	__pDrawer->batchRawDrawCall();
+	__pBlueLight->endDepthBaking();
 
 	// render scene onto Gamma correction frame buffer
 	__pUBCamera->directDeploy(*__pCamera);
