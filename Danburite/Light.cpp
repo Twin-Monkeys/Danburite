@@ -31,6 +31,8 @@ namespace Danburite
 
 	void Light::selfDeploy() noexcept
 	{
+		__lightParamSetterWrapper.setUniformMat4(ShaderIdentifier::Name::Light::VIEW_MATRIX, _getViewMatrix());
+		__lightParamSetterWrapper.setUniformMat4(ShaderIdentifier::Name::Light::PROJECTION_MATRIX, _getProjMatrix());
 		__lightParamSetterWrapper.setUniformUvec2(
 			ShaderIdentifier::Name::Light::DEPTH_MAP, __depthBaker.getDepthMap().getHandle());
 

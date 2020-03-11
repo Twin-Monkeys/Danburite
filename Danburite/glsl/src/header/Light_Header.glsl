@@ -32,6 +32,8 @@ struct Light
 	float outerCutOff;
 
 	// shadow
+	mat4 viewMat;
+	mat4 projMat;
 	uvec2 depthMap;
 };
 
@@ -42,14 +44,34 @@ layout(binding = BINDING_POINT_LIGHT) uniform UBLight
 
 vec3 Light_targetPos;
 
+bool Light_isLightEnabled(uint lightIndex)
+{
+	return light[lightIndex].enabled;
+}
+
 void Light_setLightTargetPos(vec3 targetPos)
 {
 	Light_targetPos = targetPos;
 }
 
-bool Light_isLightEnabled(uint lightIndex)
+bool Light_isOccluded(uint lightIndex)
 {
-	return light[lightIndex].enabled;
+	const vec4 lightSpaceTargetPos = (light[lightIndex].projMat * light[lightIndex].viewMat * vec4(Light_targetPos, 1.f));
+
+	/*
+		When using an orthographic projection matrix
+		The w component of a vertex remains untouched so this step is actually quite meaningless.
+				
+		However, it is necessary when using perspective projection so keeping this line
+		Ensures it works with both projection matrices.
+	*/
+	vec3 normalizedPos = (lightSpaceTargetPos.xyz / lightSpaceTargetPos.w);
+
+	// Map the value [-1, 1] to [0, 1]
+	normalizedPos = ((normalizedPos * .5f) + .5f);
+
+	const float mappedDepth = texture(sampler2D(light[lightIndex].depthMap), normalizedPos.xy).x;
+	return (mappedDepth < (normalizedPos.z - .001f));
 }
 
 vec3 Light_getLightDirection(uint lightIndex)

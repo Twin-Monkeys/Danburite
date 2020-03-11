@@ -43,6 +43,8 @@ namespace Danburite
 					INNER_CUTOFF,
 					OUTER_CUTOFF,
 					
+					VIEW_MATRIX,
+					PROJECTION_MATRIX,
 					DEPTH_MAP;
 			}
 

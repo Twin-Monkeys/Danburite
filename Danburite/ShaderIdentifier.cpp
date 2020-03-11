@@ -42,6 +42,8 @@ namespace Danburite
 					INNER_CUTOFF = "innerCutOff",
 					OUTER_CUTOFF = "outerCutOff",
 					
+					VIEW_MATRIX = "viewMat",
+					PROJECTION_MATRIX = "projMat",
 					DEPTH_MAP = "depthMap";
 			}
 

@@ -27,6 +27,7 @@ vec3 Phong_calcSpecular(uint lightIdx, vec3 materialSpecular, vec3 targetNormal,
 vec4 Phong_calcPhongColor(vec3 targetPos, vec3 targetNormal, vec2 materialTexCoord, vec4 vertexColor)
 {
 	Light_setLightTargetPos(targetPos);
+
 	Material_setTexCoord(materialTexCoord);
 	Material_setTargetNormal(targetNormal);
 
@@ -60,8 +61,12 @@ vec4 Phong_calcPhongColor(vec3 targetPos, vec3 targetNormal, vec2 materialTexCoo
 			continue;
 
 		ambient += Phong_calcAmbient(i, materialAmbient);
-		diffuse += Phong_calcDiffuse(i, materialDiffuse, materialNormal);
-		specular += Phong_calcSpecular(i, materialSpecular, materialNormal, materialShininess);
+
+		if (!Light_isOccluded(i))
+		{
+			diffuse += Phong_calcDiffuse(i, materialDiffuse, materialNormal);
+			specular += Phong_calcSpecular(i, materialSpecular, materialNormal, materialShininess);
+		}
 	}
 
 	return vec4(ambient + diffuse + specular + materialEmissive, materialAlpha);
