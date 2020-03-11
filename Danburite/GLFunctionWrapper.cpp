@@ -22,15 +22,20 @@ namespace ObjectGL
 		assert(glGetError() == GL_NO_ERROR);
 	}
 
-	void GLFunctionWrapper::setClearColor(const float r, const float g, const float b) noexcept
+	void GLFunctionWrapper::setClearColor(const float r, const float g, const float b, const float a) noexcept
 	{
-		glClearColor(r, g, b, 1.f);
+		glClearColor(r, g, b, a);
 		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	void GLFunctionWrapper::setClearColor(const vec3& color) noexcept
 	{
 		setClearColor(color.r, color.g, color.b);
+	}
+
+	void GLFunctionWrapper::setClearColor(const vec4 &color) noexcept
+	{
+		setClearColor(color.r, color.g, color.b, color.a);
 	}
 
 	void GLFunctionWrapper::clearBuffers(const FrameBufferBlitFlag flags) noexcept

@@ -22,6 +22,8 @@ namespace Danburite
 
 		ObjectGL::UniformSetter &__uniformSetter;
 
+		void __createDepthMap() noexcept;
+
 	public:
 		DepthBaker(ObjectGL::UniformSetter &uniformSetter);
 

@@ -3,6 +3,8 @@
 #ifndef __LIGHT_HEADER__
 #define __LIGHT_HEADER__
 
+#extension GL_ARB_bindless_texture : require
+
 #include "Constant_Header.glsl"
 
 struct Light
@@ -28,6 +30,9 @@ struct Light
 	// spot
 	float innerCutOff;
 	float outerCutOff;
+
+	// shadow
+	uvec2 depthMap;
 };
 
 layout(binding = BINDING_POINT_LIGHT) uniform UBLight

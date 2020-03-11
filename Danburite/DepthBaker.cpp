@@ -20,12 +20,17 @@ namespace Danburite
 		__pFrameBuffer->setInputColorBuffer(ColorBufferType::NONE);
 		__pFrameBuffer->setOutputColorBuffer(ColorBufferType::NONE);
 
+		__createDepthMap();
+		setResolution(Constant::Shadow::DEFAULT_MAP_WIDTH, Constant::Shadow::DEFAULT_MAP_HEIGHT);
+	}
+
+	void DepthBaker::__createDepthMap() noexcept
+	{
+		__pDepthMap = make_unique<AttachableTexture>();
 		__pDepthMap->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR);
 		__pDepthMap->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
 		__pDepthMap->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::REPEAT);
 		__pDepthMap->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::REPEAT);
-
-		setResolution(Constant::Shadow::DEFAULT_MAP_WIDTH, Constant::Shadow::DEFAULT_MAP_HEIGHT);
 	}
 
 	void DepthBaker::setResolution(const GLsizei width, const GLsizei height) noexcept
@@ -33,12 +38,16 @@ namespace Danburite
 		__mapWidth = width;
 		__mapHeight = height;
 
+		if (__pDepthMap->isHandleCreated())
+			__createDepthMap();
+
 		__pDepthMap->memoryAlloc(
 			width, height,
 			TextureInternalFormatType::DEPTH_COMPONENT, TextureExternalFormatType::DEPTH_COMPONENT,
 			TextureDataType::FLOAT);
 
 		__pFrameBuffer->attach(AttachmentType::DEPTH_ATTACHMENT, *__pDepthMap);
+		__pFrameBuffer->clearDepthBuffer(1.f);
 	}
 
 	void DepthBaker::deployViewProjMatrix(const mat4 &viewMat, const mat4 &projMat) noexcept

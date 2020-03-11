@@ -1,6 +1,8 @@
 #include "FrameBuffer.h"
+#include <glm/gtc/type_ptr.hpp>
 
 using namespace std;
+using namespace glm;
 
 namespace ObjectGL
 {
@@ -102,6 +104,30 @@ namespace ObjectGL
 
 		glDrawBuffer(GLenum(type));
 		assert(glGetError() == GL_NO_ERROR);
+	}
+
+	void FrameBuffer::clearColorBuffer(const GLuint attachmentIndex, const vec4 &clearValue)
+	{
+		bind();
+		glClearBufferfv(GL_COLOR, attachmentIndex, value_ptr(clearValue));
+		assert(glGetError() == GL_NO_ERROR);
+		unbind();
+	}
+
+	void FrameBuffer::clearDepthBuffer(const GLfloat clearValue)
+	{
+		bind();
+		glClearBufferfv(GL_DEPTH, 0, &clearValue);
+		assert(glGetError() == GL_NO_ERROR);
+		unbind();
+	}
+
+	void FrameBuffer::clearStencilBuffer(const GLuint clearValue)
+	{
+		bind();
+		glClearBufferuiv(GL_STENCIL, 0, &clearValue);
+		assert(glGetError() == GL_NO_ERROR);
+		unbind();
 	}
 
 	FrameBuffer::~FrameBuffer()

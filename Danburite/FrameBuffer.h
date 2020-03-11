@@ -7,6 +7,7 @@
 #include "Attachable.h"
 #include "FrameBufferBlitFlag.h"
 #include "ColorBufferType.h"
+#include <glm/glm.hpp>
 
 namespace ObjectGL
 {
@@ -39,6 +40,10 @@ namespace ObjectGL
 
 		void setInputColorBuffer(const ColorBufferType type) noexcept;
 		void setOutputColorBuffer(const ColorBufferType type) noexcept;
+
+		void clearColorBuffer(const GLuint attachmentIndex, const glm::vec4 &clearValue);
+		void clearDepthBuffer(const GLfloat	clearValue);
+		void clearStencilBuffer(const GLuint clearValue);
 
 		virtual ~FrameBuffer() noexcept;
 

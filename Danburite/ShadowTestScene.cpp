@@ -115,7 +115,11 @@ ShadowTestScene::ShadowTestScene()
 	// Light √ ±‚»≠
 
 	__pDirectionalLight = make_shared<DirectionalLight>(*__pUBLight, *__pUBCamera);
-	__pDirectionalLight->getTransform().adjustRotation(-1.f, 1.f, 0.f);
+	Transform &lightTransform = __pDirectionalLight->getTransform();
+
+	lightTransform.setPosition(-10.f, 10.f, 0);
+	lightTransform.adjustRotation(-1.f, 1.f, 0.f);
+
 	__pDirectionalLight->setAmbientStrength(.05f);
 	__pDirectionalLight->setDiffuseStrength(.3f);
 
@@ -186,10 +190,14 @@ bool ShadowTestScene::__keyFunc(const float deltaTime) noexcept
 
 void ShadowTestScene::draw() noexcept
 {
-	// Gamma correction
-	// __pLightDeployer->batchBakeDepthMap();
-
 	__pLightDeployer->batchDeploy();
+
+	// depth baking
+	__pDirectionalLight->startDepthBaking();
+	__pDrawer->batchRawDrawCall();
+	__pDirectionalLight->endDepthBaking();
+
+	// render scene onto Gamma correction frame buffer
 	__pUBCamera->directDeploy(*__pCamera);
 
 	__pGammaCorrectionPP->bind();

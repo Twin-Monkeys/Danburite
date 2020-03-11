@@ -11,19 +11,15 @@ namespace Danburite
 		Object(__getAllocatorMap()[&lightParamSetter].allocate()),
 		__lightParamSetter(lightParamSetter),
 		__lightParamSetterWrapper(lightParamSetter, ID),
-		__enabledName(move("light[" + to_string(ID) + "]." + ShaderIdentifier::Name::Light::ENABLED)),
 		__depthBaker(cameraParamSetter)
 	{
-		const string &typeName =
-			("light[" + to_string(ID) + "]." + ShaderIdentifier::Name::Light::TYPE);
-
-		setEnabled(true);
-		__lightParamSetter.setUniformUint(typeName, GLenum(type));
+		__lightParamSetterWrapper.setUniformBool(ShaderIdentifier::Name::Light::ENABLED, true);
+		__lightParamSetterWrapper.setUniformUint(ShaderIdentifier::Name::Light::TYPE, GLenum(type));
 	}
 
 	void Light::__release() noexcept
 	{
-		setEnabled(false);
+		__lightParamSetterWrapper.setUniformBool(ShaderIdentifier::Name::Light::ENABLED, false);
 		__getAllocatorMap()[&__lightParamSetter].deallocate(ID);
 	}
 
@@ -33,13 +29,11 @@ namespace Danburite
 		return instance;
 	}
 
-	void Light::setEnabled(const bool enabled) noexcept
-	{
-		__lightParamSetter.setUniformBool(__enabledName, enabled);
-	}
-
 	void Light::selfDeploy() noexcept
 	{
+		__lightParamSetterWrapper.setUniformUvec2(
+			ShaderIdentifier::Name::Light::DEPTH_MAP, __depthBaker.getDepthMap().getHandle());
+
 		_onDeploy(__lightParamSetterWrapper);
 	}
 
@@ -60,11 +54,6 @@ namespace Danburite
 	void Light::endDepthBaking() noexcept
 	{
 		__depthBaker.unbind();
-	}
-
-	AttachableTexture &Light::getDepthMap() const noexcept
-	{
-		return __depthBaker.getDepthMap();
 	}
 
 	Light::~Light() noexcept

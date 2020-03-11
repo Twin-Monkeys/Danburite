@@ -26,6 +26,7 @@ namespace Danburite
 	public:
 		LightUniformSetter(ObjectGL::UniformSetter &uniformSetter, const glm::uint id);
 
+		using UniformSetter::setUniformUvec2;
 		using UniformSetter::setUniformVec3;
 		using UniformSetter::setUniformVec4;
 		using UniformSetter::setUniformMat3;

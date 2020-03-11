@@ -26,7 +26,6 @@ namespace Danburite
 
 		ObjectGL::UniformSetter &__lightParamSetter;
 		LightUniformSetter __lightParamSetterWrapper;
-		const std::string __enabledName;
 
 		DepthBaker __depthBaker;
 
@@ -44,14 +43,11 @@ namespace Danburite
 			ObjectGL::UniformSetter &lightParamSetter,
 			ObjectGL::UniformSetter &cameraParamSetter);
 
-		void setEnabled(const bool enabled) noexcept;
 		void selfDeploy() noexcept;
 
 		void setDepthMapResolution(const GLsizei width, const GLsizei height) noexcept;
 		void startDepthBaking() noexcept;
 		void endDepthBaking() noexcept;
-
-		ObjectGL::AttachableTexture &getDepthMap() const noexcept;
 
 		virtual ~Light() noexcept;
 	};

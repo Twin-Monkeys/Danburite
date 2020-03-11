@@ -41,7 +41,9 @@ namespace Danburite
 					ATTENUATION_QUAD,
 
 					INNER_CUTOFF,
-					OUTER_CUTOFF;
+					OUTER_CUTOFF,
+					
+					DEPTH_MAP;
 			}
 
 			namespace Material
