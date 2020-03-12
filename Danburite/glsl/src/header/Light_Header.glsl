@@ -54,26 +54,6 @@ void Light_setLightTargetPos(vec3 targetPos)
 	Light_targetPos = targetPos;
 }
 
-bool Light_isOccluded(uint lightIndex)
-{
-	const vec4 lightSpaceTargetPos = (light[lightIndex].projMat * light[lightIndex].viewMat * vec4(Light_targetPos, 1.f));
-
-	/*
-		When using an orthographic projection matrix
-		The w component of a vertex remains untouched so this step is actually quite meaningless.
-				
-		However, it is necessary when using perspective projection so keeping this line
-		Ensures it works with both projection matrices.
-	*/
-	vec3 normalizedPos = (lightSpaceTargetPos.xyz / lightSpaceTargetPos.w);
-
-	// Map the value [-1, 1] to [0, 1]
-	normalizedPos = ((normalizedPos * .5f) + .5f);
-
-	const float mappedDepth = texture(sampler2D(light[lightIndex].depthMap), normalizedPos.xy).x;
-	return (mappedDepth < (normalizedPos.z - .001f));
-}
-
 vec3 Light_getLightDirection(uint lightIndex)
 {
 	const uint LIGHT_TYPE = light[lightIndex].type;
@@ -91,6 +71,31 @@ vec3 Light_getLightDirection(uint lightIndex)
 	}
 
 	return retVal;
+}
+
+bool Light_isOccluded(uint lightIndex, vec3 targetNormal)
+{
+	const vec4 lightSpaceTargetPos = (light[lightIndex].projMat * light[lightIndex].viewMat * vec4(Light_targetPos, 1.f));
+
+	/*
+		When using an orthographic projection matrix
+		The w component of a vertex remains untouched so this step is actually quite meaningless.
+				
+		However, it is necessary when using perspective projection so keeping this line
+		Ensures it works with both projection matrices.
+	*/
+	vec3 normalizedPos = (lightSpaceTargetPos.xyz / lightSpaceTargetPos.w);
+
+	// Map the value [-1, 1] to [0, 1]
+	normalizedPos = ((normalizedPos * .5f) + .5f);
+	normalizedPos.z = min(1.f, normalizedPos.z);
+
+	const float mappedDepth = texture(sampler2D(light[lightIndex].depthMap), normalizedPos.xy).x;
+
+	// To correct shadow acne issue change the amount of bias based on the surface angle towards the light
+	const float depthAdjustment = max(2e-4f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex))), 5e-5f);
+
+	return (mappedDepth < (normalizedPos.z - depthAdjustment));
 }
 
 float Light_getLightDistance(uint lightIndex)

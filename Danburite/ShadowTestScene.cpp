@@ -19,6 +19,7 @@ ShadowTestScene::ShadowTestScene()
 {
 	// 전역 옵션
 
+	GLFunctionWrapper::setOption(GLOptionType::MULTISAMPLE, true);
 	GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
 	GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, true);
 
@@ -75,7 +76,7 @@ ShadowTestScene::ShadowTestScene()
 	__pFloorRU = ruManager.createRenderUnit(move(pFloorMesh));
 
 	Transform &floorTransform = __pFloorRU->getTransform();
-	floorTransform.setScale(20.f);
+	floorTransform.setScale(70.f);
 	floorTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
 
 	const shared_ptr<VertexArray> &pCubeVA =
@@ -125,8 +126,8 @@ ShadowTestScene::ShadowTestScene()
 	__pRedLight->setAlbedo(1.f, .4f, .4f);
 	__pRedLight->setAmbientStrength(.03f);
 	__pRedLight->setDiffuseStrength(.3f);
-	__pRedLight->setDepthBakingOrtho(-100.f, 100.f, -100.f, 100.f, 1.f, 1000.f);
-	__pRedLight->setDepthMapResolution(3200, 1800);
+	__pRedLight->setDepthBakingOrtho(-50.f, 50.f, -50.f, 50.f, 1.f, 1000.f);
+	__pRedLight->setDepthMapResolution(2048, 2048);
 
 	__pBlueLight = make_shared<DirectionalLight>(*__pUBLight, *__pUBCamera);
 
@@ -136,8 +137,8 @@ ShadowTestScene::ShadowTestScene()
 
 	__pBlueLight->setAmbientStrength(.03f);
 	__pBlueLight->setDiffuseStrength(.3f);
-	__pBlueLight->setDepthBakingOrtho(-100.f, 100.f, -100.f, 100.f, 1.f, 1000.f);
-	__pBlueLight->setDepthMapResolution(3200, 1800);
+	__pBlueLight->setDepthBakingOrtho(-50.f, 50.f, -50.f, 50.f, 1.f, 1000.f);
+	__pBlueLight->setDepthMapResolution(2048, 2048);
 
 	//// Deployer / Updater 초기화 ////
 
@@ -157,6 +158,12 @@ ShadowTestScene::ShadowTestScene()
 	__pDrawer->addDrawable(__pCubeRU);
 
 	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>(*__pUBGammaCorrection);
+	__pMsaaPP = make_shared<MSAAPostProcessor>();
+
+	__pPPPipeline = make_shared<PostProcessingPipeline>();
+	__pPPPipeline->appendProcessor(__pMsaaPP);
+	__pPPPipeline->appendProcessor(__pGammaCorrectionPP);
+
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
 }
 
@@ -218,17 +225,17 @@ void ShadowTestScene::draw() noexcept
 	__pDrawer->batchRawDrawCall();
 	__pBlueLight->endDepthBaking();
 
-	// render scene onto Gamma correction frame buffer
 	__pUBCamera->directDeploy(*__pCamera);
 
-	__pGammaCorrectionPP->bind();
+	// Render scene onto gamma-corrected frame buffer
+	__pPPPipeline->bind();
 	GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
 
 	__pDrawer->batchDraw();
-	PostProcessor::unbind();
+	PostProcessingPipeline::unbind();
 
 	// Render to screen
-	__pGammaCorrectionPP->render();
+	__pPPPipeline->render();
 	RenderContext::getCurrent()->requestBufferSwapping();
 }
 
@@ -255,7 +262,7 @@ void ShadowTestScene::onResize(const int width, const int height) noexcept
 		return;
 
 	__pCamera->setAspectRatio(width, height);
-	__pGammaCorrectionPP->setScreenSize(width, height);
+	__pPPPipeline->setScreenSize(width, height);
 }
 
 void ShadowTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcept

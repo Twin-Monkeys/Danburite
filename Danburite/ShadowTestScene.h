@@ -11,7 +11,8 @@
 #include "Updater.h"
 #include "Drawer.h"
 #include "GammaCorrectionPostProcessor.h"
-#include "DepthBaker.h"
+#include "MSAAPostProcessor.h"
+#include "PostProcessingPipeline.h"
 
 class ShadowTestScene : public Danburite::Scene, public ObjectGL::ScreenEventHandler
 {
@@ -36,6 +37,8 @@ private:
 	std::shared_ptr<Danburite::Drawer> __pDrawer;
 
 	std::shared_ptr<Danburite::GammaCorrectionPostProcessor> __pGammaCorrectionPP;
+	std::shared_ptr<Danburite::MSAAPostProcessor> __pMsaaPP;
+	std::shared_ptr<Danburite::PostProcessingPipeline> __pPPPipeline;
 
 	bool __keyFunc(const float deltaTime) noexcept;
 

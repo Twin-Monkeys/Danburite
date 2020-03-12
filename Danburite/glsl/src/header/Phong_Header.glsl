@@ -62,7 +62,7 @@ vec4 Phong_calcPhongColor(vec3 targetPos, vec3 targetNormal, vec2 materialTexCoo
 
 		ambient += Phong_calcAmbient(i, materialAmbient);
 
-		if (Light_isOccluded(i))
+		if (Light_isOccluded(i, materialNormal))
 			continue;
 
 		diffuse += Phong_calcDiffuse(i, materialDiffuse, materialNormal);

@@ -10,6 +10,7 @@
 #include "BlendingFunctionType.h"
 #include "BlendingEquationType.h"
 #include "WindingOrderType.h"
+#include "FacetType.h"
 
 namespace ObjectGL
 {
@@ -24,7 +25,7 @@ namespace ObjectGL
 		static void clearBuffers(const FrameBufferBlitFlag flags) noexcept;
 
 		static void setPolygonMode(
-			const FrameBufferPositionType facetType, const RasterizationType rasterizationType) noexcept;
+			const FrameBufferPositionType positionType, const RasterizationType rasterizationType) noexcept;
 
 		static void setDepthMask(const bool enabled) noexcept;
 		static void setDepthFunction(const DepthStencilFunctionType func) noexcept;
@@ -47,7 +48,7 @@ namespace ObjectGL
 
 		static void setBlendingEquation(const BlendingEquationType type) noexcept;
 
-		static void setCulledFace(const FrameBufferPositionType type) noexcept;
+		static void setCulledFace(const FacetType type) noexcept;
 		static void setFrontFace(const WindingOrderType type) noexcept;
 	};
 }

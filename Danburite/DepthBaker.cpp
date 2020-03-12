@@ -1,3 +1,4 @@
+
 #include "DepthBaker.h"
 #include "Constant.h"
 #include "GLFunctionWrapper.h"
@@ -29,8 +30,9 @@ namespace Danburite
 		__pDepthMap = make_unique<AttachableTexture>();
 		__pDepthMap->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR);
 		__pDepthMap->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
-		__pDepthMap->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::REPEAT);
-		__pDepthMap->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::REPEAT);
+		__pDepthMap->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_BORDER);
+		__pDepthMap->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_BORDER);
+		__pDepthMap->setStates(TextureParamType::TEXTURE_BORDER_COLOR, {1.f, 1.f, 1.f, 1.f });
 	}
 
 	void DepthBaker::setResolution(const GLsizei width, const GLsizei height) noexcept
@@ -43,7 +45,7 @@ namespace Danburite
 
 		__pDepthMap->memoryAlloc(
 			width, height,
-			TextureInternalFormatType::DEPTH_COMPONENT, TextureExternalFormatType::DEPTH_COMPONENT,
+			TextureInternalFormatType::DEPTH_COMPONENT32, TextureExternalFormatType::DEPTH_COMPONENT,
 			TextureDataType::FLOAT);
 
 		__pFrameBuffer->attach(AttachmentType::DEPTH_ATTACHMENT, *__pDepthMap);

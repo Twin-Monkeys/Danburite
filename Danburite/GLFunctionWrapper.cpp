@@ -45,9 +45,9 @@ namespace ObjectGL
 	}
 
 	void GLFunctionWrapper::setPolygonMode(
-		const FrameBufferPositionType facetType, const RasterizationType rasterizationType) noexcept
+		const FrameBufferPositionType positionType, const RasterizationType rasterizationType) noexcept
 	{
-		glPolygonMode(GLenum(facetType), GLenum(rasterizationType));
+		glPolygonMode(GLenum(positionType), GLenum(rasterizationType));
 		assert(glGetError() == GL_NO_ERROR);
 	}
 
@@ -108,7 +108,7 @@ namespace ObjectGL
 		assert(glGetError() == GL_NO_ERROR);
 	}
 
-	void GLFunctionWrapper::setCulledFace(const FrameBufferPositionType type) noexcept
+	void GLFunctionWrapper::setCulledFace(const FacetType type) noexcept
 	{
 		glCullFace(GLenum(type));
 		assert(glGetError() == GL_NO_ERROR);

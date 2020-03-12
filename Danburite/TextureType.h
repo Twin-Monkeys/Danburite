@@ -20,10 +20,14 @@ namespace ObjectGL
 
 	enum class TextureInternalFormatType : GLint
 	{
-		// Base Internal Format
+		// Base Format (Depth / Stencil)
 
 		DEPTH_COMPONENT = GL_DEPTH_COMPONENT,
 		DEPTH_STENCIL = GL_DEPTH_STENCIL,
+
+
+		// Base Format (Color)
+
 		RED = GL_RED,
 		RG = GL_RG,
 		RGB = GL_RGB,
@@ -32,7 +36,18 @@ namespace ObjectGL
 		SRGB_ALPHA = GL_SRGB_ALPHA,
 
 
-		// Sized Internal Format
+		// Sized Format (Depth / Stencil)
+
+		DEPTH_COMPONENT16 = GL_DEPTH_COMPONENT16,
+		DEPTH_COMPONENT24 = GL_DEPTH_COMPONENT24,
+		DEPTH_COMPONENT32 = GL_DEPTH_COMPONENT32,
+		DEPTH_COMPONENT32F = GL_DEPTH_COMPONENT32F,
+		DEPTH24_STENCIL8 = GL_DEPTH24_STENCIL8,
+		DEPTH32F_STENCIL8 = GL_DEPTH32F_STENCIL8,
+		STENCIL_INDEX8 = GL_STENCIL_INDEX8,
+
+
+		// Sized Format (Color)
 
 		R8 = GL_R8,
 		R8_SNORM = GL_R8_SNORM,
@@ -94,10 +109,9 @@ namespace ObjectGL
 		RGBA16UI = GL_RGBA16UI,
 		RGBA32I = GL_RGBA32I,
 		RGBA32UI = GL_RGBA32UI,
-		DEPTH24_STENCIL8 = GL_DEPTH24_STENCIL8,
 
 
-		// Compressed Internal Format
+		// Compressed Format
 
 		COMPRESSED_RED = GL_COMPRESSED_RED,
 		COMPRESSED_RG = GL_COMPRESSED_RG,

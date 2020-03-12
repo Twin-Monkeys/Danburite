@@ -18,9 +18,9 @@ namespace Danburite
 		__skyboxProgram.bind();
 
 		GLFunctionWrapper::setDepthFunction(DepthStencilFunctionType::LEQUAL);
-		GLFunctionWrapper::setCulledFace(FrameBufferPositionType::FRONT);
+		GLFunctionWrapper::setCulledFace(FacetType::FRONT);
 		_drawBoxVA();
-		GLFunctionWrapper::setCulledFace(FrameBufferPositionType::BACK);
+		GLFunctionWrapper::setCulledFace(FacetType::BACK);
 		GLFunctionWrapper::setDepthFunction(DepthStencilFunctionType::LESS);
 	}
 }

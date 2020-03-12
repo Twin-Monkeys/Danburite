@@ -91,7 +91,7 @@ namespace ObjectGL
 	template <typename T, size_t arrSize>
 	void TextureBase::setStates(const TextureParamType paramType, const T(&values)[arrSize]) noexcept
 	{
-		setStates(paramType, values);
+		setStates(paramType, static_cast<const T *const>(values));
 	}
 
 	constexpr bool TextureBase::isHandleCreated() const noexcept

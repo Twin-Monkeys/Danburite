@@ -1175,6 +1175,9 @@
     <ClInclude Include="OrthoCameraLight.h">
       <Filter>Library\Engine\Core\Light</Filter>
     </ClInclude>
+    <ClInclude Include="FacetType.h">
+      <Filter>Library\ObjectGL\Base\Function</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glsl\src\Header\Camera_Header.glsl">
