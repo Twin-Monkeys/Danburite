@@ -7,6 +7,7 @@
 
 struct Convolution
 {
+	// textureSize() 함수로 대체해도 무방할 듯 함.
 	float samplingOffset;
 	uint kernelSize;
 
