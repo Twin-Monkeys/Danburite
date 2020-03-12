@@ -7,8 +7,6 @@
 
 struct Convolution
 {
-	// textureSize() 함수로 대체해도 무방할 듯 함.
-	float samplingOffset;
 	uint kernelSize;
 
 	// Rounding up to the base alignment of a vec4
@@ -27,6 +25,8 @@ float Convolutional_getKernelValue(const int index)
 
 vec4 Convolutional_convolve(sampler2D tex, const vec2 texCoord)
 {
+	const vec2 texelSize = (3.f / textureSize(tex, 0));
+
 	const int KERNEL_SIZE = int(convolution.kernelSize);
 	const int KERNEL_SIZE_HALF = (KERNEL_SIZE / 2);
 
@@ -36,10 +36,10 @@ vec4 Convolutional_convolve(sampler2D tex, const vec2 texCoord)
 	for (int i = 0; i < NUM_KERNEL_ELEMS; i++)
 	{
 		const float S_OFFSET =
-		(((i % KERNEL_SIZE) - KERNEL_SIZE_HALF) * convolution.samplingOffset);
+		(((i % KERNEL_SIZE) - KERNEL_SIZE_HALF) * texelSize.s);
 		
 		const float T_OFFSET =
-		(((i / KERNEL_SIZE) - KERNEL_SIZE_HALF) * convolution.samplingOffset);
+		(((i / KERNEL_SIZE) - KERNEL_SIZE_HALF) * texelSize.t);
 
 		vec3 pixel = texture(tex, texCoord + vec2(S_OFFSET, -T_OFFSET)).rgb;
 		retVal += (pixel * Convolutional_getKernelValue(i));

@@ -87,7 +87,6 @@ namespace Danburite
 			namespace Convolutional
 			{
 				const string
-					SAMPLING_OFFSET = "convolution.samplingOffset",
 					KERNEL_SIZE = "convolution.kernelSize",
 					KERNEL = "convolution.kernel";
 			}

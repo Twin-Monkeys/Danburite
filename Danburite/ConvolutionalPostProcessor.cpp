@@ -20,9 +20,6 @@ namespace Danburite
 	{
 		ForwardPostProcessor::_onRender();
 
-		__paramSetter.setUniformFloat(
-			ShaderIdentifier::Name::Convolutional::SAMPLING_OFFSET, __samplingOffset);
-
 		__paramSetter.setUniformUint(
 			ShaderIdentifier::Name::Convolutional::KERNEL_SIZE, __kernelSize);
 

@@ -133,7 +133,7 @@ ShadowTestScene::ShadowTestScene()
 
 	Transform& blueLightTransform = __pBlueLight->getTransform();
 	blueLightTransform.setPosition(-20.f, 30.f, 0.f);
-	blueLightTransform.adjustRotation(-quarter_pi<float>(), -1.1f, 0.f);
+	blueLightTransform.adjustRotation(-quarter_pi<float>() * .7f, -.6f, 0.f);
 
 	__pBlueLight->setAmbientStrength(.03f);
 	__pBlueLight->setDiffuseStrength(.3f);
@@ -241,6 +241,10 @@ void ShadowTestScene::draw() noexcept
 
 bool ShadowTestScene::delta(const float deltaTime) noexcept
 {
+	__pCubeRU->getTransform(1).adjustRotation(deltaTime * .00015f, deltaTime * .0005f, 0.f);
+	__pRedLight->getTransform().orbit(deltaTime * .0002f, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
+	__pBlueLight->getTransform().orbit(-deltaTime * .0001f, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
+
 	return __keyFunc(deltaTime);
 }
 

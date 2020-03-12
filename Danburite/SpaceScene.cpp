@@ -170,9 +170,16 @@ SpaceScene::SpaceScene()
 	//// 조명 생성 ////
 
 	__pDirectionalLight = make_shared<DirectionalLight>(*__pUBLight, *__pUBCamera);
-	__pDirectionalLight->getTransform().adjustRotation(1.f, -1.f, 0.f);
+	__pDirectionalLight->setDepthBakingOrtho(-200.f, 200.f, -200.f, 200.f, 1.f, 1000.f);
+	__pDirectionalLight->setDepthMapResolution(4096, 4096);
+
+	Transform &lightTransform = __pDirectionalLight->getTransform();
+	lightTransform.setPosition(0.f, 100.f, 0.f);
+	lightTransform.adjustRotation(-quarter_pi<float>(), 1.f, 0.f);
+
 	__pDirectionalLight->setAlbedo(.3f, .5f, .9f);
-	__pDirectionalLight->setDiffuseStrength(2.f);
+	__pDirectionalLight->setAmbientStrength(0.1f);
+	__pDirectionalLight->setDiffuseStrength(1.f);
 
 	//// 카메라 생성 ////
 
@@ -210,8 +217,6 @@ SpaceScene::SpaceScene()
 
 	//// Deployer / Updater 초기화 ////
 
-	__pUBCamera->addDeployable(__pCamera);
-
 	__pLightDeployer = make_shared<LightDeployer>();
 	__pLightDeployer->addLight(__pDirectionalLight);
 
@@ -224,6 +229,7 @@ SpaceScene::SpaceScene()
 	__pUpdater->addUpdatable(__pVenusRU);
 	__pUpdater->addUpdatable(__pFighterRU);
 	__pUpdater->addUpdatable(__pCamera);
+	__pUpdater->addUpdatable(__pDirectionalLight);
 
 	__pDrawer = make_shared<Drawer>();
 	__pDrawer->addDrawable(__pNanosuitRU);
@@ -294,8 +300,13 @@ bool SpaceScene::__keyFunc(const float deltaTime) noexcept
 
 void SpaceScene::draw() noexcept
 {
-	__pUBCamera->batchDeploy();
 	__pLightDeployer->batchDeploy();
+
+	__pDirectionalLight->startDepthBaking();
+	__pDrawer->batchRawDrawCall();
+	__pDirectionalLight->endDepthBaking();
+
+	__pUBCamera->directDeploy(*__pCamera);
 
 	__pPPPipeline->bind();
 	GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
@@ -307,7 +318,6 @@ void SpaceScene::draw() noexcept
 	PostProcessor::unbind();
 
 	__pPPPipeline->render();
-
 	RenderContext::getCurrent()->requestBufferSwapping();
 }
 

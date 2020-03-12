@@ -119,7 +119,6 @@ namespace ObjectGL
 		bind();
 		glClearBufferfv(GL_DEPTH, 0, &clearValue);
 		assert(glGetError() == GL_NO_ERROR);
-		unbind();
 	}
 
 	void FrameBuffer::clearStencilBuffer(const GLuint clearValue)
@@ -127,7 +126,6 @@ namespace ObjectGL
 		bind();
 		glClearBufferuiv(GL_STENCIL, 0, &clearValue);
 		assert(glGetError() == GL_NO_ERROR);
-		unbind();
 	}
 
 	FrameBuffer::~FrameBuffer()

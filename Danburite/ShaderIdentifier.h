@@ -88,7 +88,6 @@ namespace Danburite
 			namespace Convolutional
 			{
 				extern const std::string
-					SAMPLING_OFFSET,
 					KERNEL_SIZE,
 					KERNEL;
 			}

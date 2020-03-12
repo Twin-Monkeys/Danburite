@@ -12,9 +12,7 @@ namespace Danburite
 	{
 	private:
 		ObjectGL::UniformSetter &__paramSetter;
-
-		GLfloat __samplingOffset = .002f;
-		GLuint __kernelSize = 3;
+		GLuint __kernelSize = 3U;
 
 		std::array<GLfloat, ConvValue::MAX_KERNEL_SIZE * ConvValue::MAX_KERNEL_SIZE> __kernel =
 		{
@@ -33,9 +31,4 @@ namespace Danburite
 
 		virtual ~ConvolutionalPostProcessor() = default;
 	};
-
-	constexpr void ConvolutionalPostProcessor::setSamplingOffset(const GLfloat offset) noexcept
-	{
-		__samplingOffset = offset;
-	}
 }

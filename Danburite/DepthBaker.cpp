@@ -67,7 +67,7 @@ namespace Danburite
 		assert(glGetError() == GL_NO_ERROR);
 
 		__depthBakingProgram.bind();
-		__pFrameBuffer->bind();
+		__pFrameBuffer->clearDepthBuffer(1.f);
 	}
 
 	void DepthBaker::unbind() noexcept
