@@ -24,6 +24,8 @@ namespace Danburite
 			void deallocate(const glm::uint id) noexcept;
 		};
 
+		bool __enabled;
+
 		ObjectGL::UniformSetter &__lightParamSetter;
 		LightUniformSetter __lightParamSetterWrapper;
 
@@ -45,10 +47,18 @@ namespace Danburite
 
 		void selfDeploy() noexcept;
 
+		constexpr bool isEnabled() const noexcept;
+		void setEnabled(const bool enabled) noexcept;
 		void setDepthMapResolution(const GLsizei width, const GLsizei height) noexcept;
+
 		void startDepthBaking() noexcept;
 		void endDepthBaking() noexcept;
 
 		virtual ~Light() noexcept;
 	};
+
+	constexpr bool Light::isEnabled() const noexcept
+	{
+		return __enabled;
+	}
 }

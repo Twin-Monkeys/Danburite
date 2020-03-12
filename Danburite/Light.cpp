@@ -13,13 +13,13 @@ namespace Danburite
 		__lightParamSetterWrapper(lightParamSetter, ID),
 		__depthBaker(cameraParamSetter)
 	{
-		__lightParamSetterWrapper.setUniformBool(ShaderIdentifier::Name::Light::ENABLED, true);
+		setEnabled(true);
 		__lightParamSetterWrapper.setUniformUint(ShaderIdentifier::Name::Light::TYPE, GLenum(type));
 	}
 
 	void Light::__release() noexcept
 	{
-		__lightParamSetterWrapper.setUniformBool(ShaderIdentifier::Name::Light::ENABLED, false);
+		setEnabled(false);
 		__getAllocatorMap()[&__lightParamSetter].deallocate(ID);
 	}
 
@@ -37,6 +37,12 @@ namespace Danburite
 			ShaderIdentifier::Name::Light::DEPTH_MAP, __depthBaker.getDepthMap().getHandle());
 
 		_onDeploy(__lightParamSetterWrapper);
+	}
+
+	void Light::setEnabled(const bool enabled) noexcept
+	{
+		__enabled = enabled;
+		__lightParamSetterWrapper.setUniformBool(ShaderIdentifier::Name::Light::ENABLED, enabled);
 	}
 
 	void Light::setDepthMapResolution(const GLsizei width, const GLsizei height) noexcept
