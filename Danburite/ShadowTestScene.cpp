@@ -58,17 +58,22 @@ ShadowTestScene::ShadowTestScene()
 	const shared_ptr<VertexArray> &pFloorVA =
 		vaFactory.getVertexArrayPtr(ShapeType::RECTANGLE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
 
-	const shared_ptr<Texture2D> &pWoodTexture = TextureUtil::createTexture2DFromImage("res/image/wood.png");
+	const shared_ptr<Texture2D> &pFloorTexture = TextureUtil::createTexture2DFromImage("res/image/mosaic.jpg");
+	pFloorTexture->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR_MIPMAP_LINEAR);
+	pFloorTexture->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
+	pFloorTexture->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
+	pFloorTexture->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 
-	pWoodTexture->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR_MIPMAP_LINEAR);
-	pWoodTexture->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
-	pWoodTexture->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
-	pWoodTexture->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
+	const shared_ptr<Texture2D> &pCubeTexture = TextureUtil::createTexture2DFromImage("res/image/box.jpg");
+	pCubeTexture->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR_MIPMAP_LINEAR);
+	pCubeTexture->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
+	pCubeTexture->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
+	pCubeTexture->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 
 	const shared_ptr<PhongMaterial> &pFloorMaterial =
 		make_shared<PhongMaterial>(VertexAttributeType::POS3_COLOR4, *__pUBMaterial);
 
-	pFloorMaterial->setDiffuseTexture(pWoodTexture);
+	pFloorMaterial->setDiffuseTexture(pFloorTexture);
 	pFloorMaterial->useDiffuseTexture(true);
 	pFloorMaterial->setShininess(150.f);
 
@@ -76,7 +81,7 @@ ShadowTestScene::ShadowTestScene()
 	__pFloorRU = ruManager.createRenderUnit(move(pFloorMesh));
 
 	Transform &floorTransform = __pFloorRU->getTransform();
-	floorTransform.setScale(70.f);
+	floorTransform.setScale(80.f, 1.f, 45.f);
 	floorTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
 
 	const shared_ptr<VertexArray> &pCubeVA =
@@ -85,7 +90,7 @@ ShadowTestScene::ShadowTestScene()
 	const shared_ptr<PhongMaterial> &pCubeMaterial =
 		make_shared<PhongMaterial>(VertexAttributeType::POS3_NORMAL3_TEXCOORD2, *__pUBMaterial);
 
-	pCubeMaterial->setDiffuseTexture(pWoodTexture);
+	pCubeMaterial->setDiffuseTexture(pCubeTexture);
 	pCubeMaterial->useDiffuseTexture(true);
 	pCubeMaterial->setShininess(150.f);
 
@@ -124,34 +129,42 @@ ShadowTestScene::ShadowTestScene()
 	redLightTransform.adjustRotation(-quarter_pi<float>(), 1.1f, 0.f);
 
 	__pRedLight->setAlbedo(1.f, .4f, .4f);
-	__pRedLight->setAmbientStrength(.03f);
+	__pRedLight->setAmbientStrength(.02f);
 	__pRedLight->setDiffuseStrength(.3f);
+	__pRedLight->setSpecularStrength(1.f);
+
+	/*
+		You can reduce these blocky shadows
+		By increasing the depth map resolution or
+		By trying to fit the light frustum as closely to the scene as possible.
+	*/
 	__pRedLight->setDepthBakingOrtho(-50.f, 50.f, -50.f, 50.f, 1.f, 1000.f);
 	__pRedLight->setDepthMapResolution(2048, 2048);
 
-	__pBlueLight = make_shared<DirectionalLight>(*__pUBLight, *__pUBCamera);
+	__pWhiteLight = make_shared<DirectionalLight>(*__pUBLight, *__pUBCamera);
 
-	Transform& blueLightTransform = __pBlueLight->getTransform();
-	blueLightTransform.setPosition(-20.f, 30.f, 0.f);
-	blueLightTransform.adjustRotation(-quarter_pi<float>() * .7f, -.6f, 0.f);
+	Transform& whiteLightTransform = __pWhiteLight->getTransform();
+	whiteLightTransform.setPosition(-20.f, 30.f, 0.f);
+	whiteLightTransform.adjustRotation(-quarter_pi<float>() * .7f, -.6f, 0.f);
 
-	__pBlueLight->setAmbientStrength(.03f);
-	__pBlueLight->setDiffuseStrength(.3f);
-	__pBlueLight->setDepthBakingOrtho(-50.f, 50.f, -50.f, 50.f, 1.f, 1000.f);
-	__pBlueLight->setDepthMapResolution(2048, 2048);
+	__pWhiteLight->setAmbientStrength(.02f);
+	__pWhiteLight->setDiffuseStrength(.3f);
+	__pWhiteLight->setSpecularStrength(1.f);
+	__pWhiteLight->setDepthBakingOrtho(-50.f, 50.f, -50.f, 50.f, 1.f, 1000.f);
+	__pWhiteLight->setDepthMapResolution(2048, 2048);
 
 	//// Deployer / Updater √ ±‚»≠ ////
 
 	__pLightDeployer = make_shared<LightDeployer>();
 	__pLightDeployer->addLight(__pRedLight);
-	__pLightDeployer->addLight(__pBlueLight);
+	__pLightDeployer->addLight(__pWhiteLight);
 
 	__pUpdater = make_shared<Updater>();
 	__pUpdater->addUpdatable(__pFloorRU);
 	__pUpdater->addUpdatable(__pCubeRU);
 	__pUpdater->addUpdatable(__pCamera);
 	__pUpdater->addUpdatable(__pRedLight);
-	__pUpdater->addUpdatable(__pBlueLight);
+	__pUpdater->addUpdatable(__pWhiteLight);
 
 	__pDrawer = make_shared<Drawer>();
 	__pDrawer->addDrawable(__pFloorRU);
@@ -221,9 +234,9 @@ void ShadowTestScene::draw() noexcept
 	__pDrawer->batchRawDrawCall();
 	__pRedLight->endDepthBaking();
 
-	__pBlueLight->startDepthBaking();
+	__pWhiteLight->startDepthBaking();
 	__pDrawer->batchRawDrawCall();
-	__pBlueLight->endDepthBaking();
+	__pWhiteLight->endDepthBaking();
 
 	__pUBCamera->directDeploy(*__pCamera);
 
@@ -243,7 +256,7 @@ bool ShadowTestScene::delta(const float deltaTime) noexcept
 {
 	__pCubeRU->getTransform(1).adjustRotation(deltaTime * .00015f, deltaTime * .0005f, 0.f);
 	__pRedLight->getTransform().orbit(deltaTime * .0002f, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
-	__pBlueLight->getTransform().orbit(-deltaTime * .0001f, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
+	__pWhiteLight->getTransform().orbit(-deltaTime * .0001f, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
 
 	return __keyFunc(deltaTime);
 }
