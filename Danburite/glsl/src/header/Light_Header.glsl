@@ -73,14 +73,13 @@ vec3 Light_getLightDirection(uint lightIndex)
 	return retVal;
 }
 
-bool Light_isOccluded(uint lightIndex, vec3 targetNormal)
+float Light_getOcclusion(uint lightIndex, vec3 targetNormal)
 {
 	const vec4 lightSpaceTargetPos = (light[lightIndex].projMat * light[lightIndex].viewMat * vec4(Light_targetPos, 1.f));
 
 	/*
 		When using an orthographic projection matrix
 		The w component of a vertex remains untouched so this step is actually quite meaningless.
-				
 		However, it is necessary when using perspective projection so keeping this line
 		Ensures it works with both projection matrices.
 	*/
@@ -88,14 +87,26 @@ bool Light_isOccluded(uint lightIndex, vec3 targetNormal)
 
 	// Map the value [-1, 1] to [0, 1]
 	normalizedPos = ((normalizedPos * .5f) + .5f);
-	normalizedPos.z = min(1.f, normalizedPos.z);
+	if (normalizedPos.z >= 1.f)
+		return 0.f;
 
-	const float mappedDepth = texture(sampler2D(light[lightIndex].depthMap), normalizedPos.xy).x;
+	// Peter panning이 발생하지 않는 선에서 충분한 값을 주자.
+	const float depthAdjustment = max(5e-4f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex))), 2e-4f);
 
-	// To correct shadow acne issue change the amount of bias based on the surface angle towards the light
-	const float depthAdjustment = max(2e-4f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex))), 5e-5f);
+	const sampler2D depthMap = sampler2D(light[lightIndex].depthMap);
+	const vec2 texelSize = (2.f / textureSize(depthMap, 0));
 
-	return (mappedDepth < (normalizedPos.z - depthAdjustment));
+	float retVal = -1.f;
+	for (int x = -1; x <= 1; x++)
+		for (int y = -1; y <= 1; y++)
+		{
+			const float mappedDepth = texture(depthMap, normalizedPos.xy + (vec2(x, y) * texelSize)).x;
+
+			// To correct shadow acne issue change the amount of bias based on the surface angle towards the light
+			retVal += float(mappedDepth < (normalizedPos.z - depthAdjustment));
+		}
+
+	return (retVal / 9.f);
 }
 
 float Light_getLightDistance(uint lightIndex)

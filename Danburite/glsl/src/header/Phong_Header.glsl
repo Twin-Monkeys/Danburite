@@ -62,11 +62,13 @@ vec4 Phong_calcPhongColor(vec3 targetPos, vec3 targetNormal, vec2 materialTexCoo
 
 		ambient += Phong_calcAmbient(i, materialAmbient);
 
-		if (Light_isOccluded(i, materialNormal))
+		const float lightOcclusion = Light_getOcclusion(i, materialNormal);
+
+		if (lightOcclusion >= 1.f)
 			continue;
 
-		diffuse += Phong_calcDiffuse(i, materialDiffuse, materialNormal);
-		specular += Phong_calcSpecular(i, materialSpecular, materialNormal, materialShininess);
+		diffuse += ((1.f - lightOcclusion) * Phong_calcDiffuse(i, materialDiffuse, materialNormal));
+		specular += ((1.f - lightOcclusion) * Phong_calcSpecular(i, materialSpecular, materialNormal, materialShininess));
 	}
 
 	return vec4(ambient + diffuse + specular + materialEmissive, materialAlpha);
