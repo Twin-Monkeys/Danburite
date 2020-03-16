@@ -92,10 +92,7 @@ namespace ObjectGL
 			rawSources.emplace_back(preprocessedSrc.c_str());
 
 		glShaderSource(SHADER_ID, GLsizei(rawSources.size()), rawSources.data(), nullptr);
-		assert(glGetError() == GL_NO_ERROR);
-
 		glCompileShader(SHADER_ID);
-		assert(glGetError() == GL_NO_ERROR);
 
 		GLint success;
 		glGetShaderiv(SHADER_ID, GL_COMPILE_STATUS, &success);

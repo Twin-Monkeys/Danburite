@@ -1,4 +1,4 @@
-#include "Win32Screen.h"
+ï»¿#include "Win32Screen.h"
 #include "DeviceContext.h"
 #include "RenderContext.h"
 #include "GLFunctionWrapper.h"
@@ -14,11 +14,11 @@ using namespace ObjectGL;
 
 int APIENTRY _tWinMain(const HINSTANCE hInstance, HINSTANCE, LPTSTR, int)
 {
-	//// Window ÃÊ±âÈ­ ////
+	//// Window ì´ˆê¸°í™” ////
 	unique_ptr<Win32Screen> pScreen =
 		make_unique<Win32Screen>(hInstance, "screen", "Danburite", 1600, 900);
 
-	//// ÄÁÅØ½ºÆ® ¼³Á¤ ////
+	//// ì»¨í…ìŠ¤íŠ¸ ì„¤ì • ////
 	unique_ptr<DeviceContext> pDeviceContext = make_unique<DeviceContext>(*pScreen);
 
 	const PixelFormatDescriptor pixelFormatDesc {};
@@ -30,18 +30,35 @@ int APIENTRY _tWinMain(const HINSTANCE hInstance, HINSTANCE, LPTSTR, int)
 		make_unique<RenderContext>(*pDeviceContext, pixelFormatDesc, attributeDesc);
 
 	pRenderContext->bind();
+
+#ifndef NDEBUG
+	GLFunctionWrapper::setOption(GLOptionType::DEBUG_OUTPUT, true);
+	GLFunctionWrapper::setOption(GLOptionType::DEBUG_OUTPUT_SYNCHRONOUS, true);
+
+	pRenderContext->setDebugMessageCallback([](
+		const GLDebugMessageSourceType sourceâ€‹Type, const GLDebugMessageType messageTypeâ€‹,
+		const GLDebugMessageSeverityType severityâ€‹Type, const string_view message, GLuint messageIDâ€‹â€‹) noexcept
+	{
+		if (severityâ€‹Type != GLDebugMessageSeverityType::NOTIFICATION)
+		{
+			// ë²„ê·¸ ì¡ì!
+			int a = 0;
+		}
+	});
+#endif
+
 	GLFunctionWrapper::setVerticalSync(true);
 
-	//// Scene »ı¼º ////
+	//// Scene ìƒì„± ////
 	shared_ptr<ScreenEventHandler> pScene = make_shared<ShadowTestScene>();
 
-	//// ÀÌº¥Æ® ÇÚµé·¯ µî·Ï ////
+	//// ì´ë²¤íŠ¸ í•¸ë“¤ëŸ¬ ë“±ë¡ ////
 	pScreen->setEventHandler(pScene);
 
-	//// ¸ŞÀÎ ·çÇÁ ½ÃÀÛ ////
+	//// ë©”ì¸ ë£¨í”„ ì‹œì‘ ////
 	pScreen->startMainLoop();
 
-	// ¸®¼Ò½º ¹İÈ¯
+	// ë¦¬ì†ŒìŠ¤ ë°˜í™˜
 	pScene.reset();
 	pRenderContext.reset();
 	pDeviceContext.reset();

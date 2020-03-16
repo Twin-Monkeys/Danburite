@@ -69,13 +69,11 @@ namespace ObjectGL
 	void VertexArray::__release() noexcept
 	{
 		glDeleteVertexArrays(1, &ID);
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	void VertexArray::__drawArrays(const GLsizei numInstances) noexcept
 	{
 		glDrawArraysInstanced(__primitiveType, __vertexStartingIndex, __numVertices, numInstances);
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	void VertexArray::__drawElements(const GLsizei numInstances) noexcept
@@ -83,14 +81,11 @@ namespace ObjectGL
 		glDrawElementsInstanced(
 			__primitiveType, __numVertices, __IDX_TYPE,
 			reinterpret_cast<const void *>(__vertexStartingIndex * __IDX_SIZE), numInstances);
-
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	void VertexArray::_onBind() noexcept
 	{
 		glBindVertexArray(ID);
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	void VertexArray::addVertexBuffer(const shared_ptr<VertexBuffer> &pVertexBuffer) noexcept
@@ -119,7 +114,6 @@ namespace ObjectGL
 	void VertexArray::unbind() noexcept
 	{
 		glBindVertexArray(0);
-		assert(glGetError() == GL_NO_ERROR);
 
 		_unbind();
 	}

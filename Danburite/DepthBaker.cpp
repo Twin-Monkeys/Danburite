@@ -61,10 +61,7 @@ namespace Danburite
 	void DepthBaker::bind() noexcept
 	{
 		glGetIntegerv(GL_VIEWPORT, __viewportArgs);
-		assert(glGetError() == GL_NO_ERROR);
-
 		glViewport(0, 0, __mapWidth, __mapHeight);
-		assert(glGetError() == GL_NO_ERROR);
 
 		__depthBakingProgram.bind();
 		__pFrameBuffer->clearDepthBuffer(1.f);
@@ -75,7 +72,6 @@ namespace Danburite
 		FrameBuffer::unbind();
 
 		glViewport(__viewportArgs[0], __viewportArgs[1], __viewportArgs[2], __viewportArgs[3]);
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	AttachableTexture &DepthBaker::getDepthMap() const noexcept

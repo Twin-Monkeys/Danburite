@@ -1,4 +1,4 @@
-#include "RenderContext.h"
+ï»¿#include "RenderContext.h"
 #include "DeviceContext.h"
 #include <algorithm>
 #include <cassert>
@@ -9,8 +9,8 @@ using namespace ObjectGL;
 namespace ObjectGL
 {
 	HGLRC RenderContext::__createRC(
-		DeviceContext &deviceContext,
-		const PixelFormatDescriptor &pixelFormatDesc, const RCAttributeDescriptor &desc)
+		DeviceContext& deviceContext,
+		const PixelFormatDescriptor& pixelFormatDesc, const RCAttributeDescriptor& desc)
 	{
 		if (deviceContext.getOwnerThreadID() != this_thread::get_id())
 			throw RCException("Current thread is not identical with owner thread of the device context");
@@ -26,23 +26,23 @@ namespace ObjectGL
 	}
 
 	/*
-		RenderContext´Â ÇÏ³ªÀÇ dc¿¡ ´ëÇØ ÇÏ³ª¸¸ ¹ÙÀÎµå (make current) ÇÒ ¼ö ÀÖ´Ù.
+		RenderContextëŠ” í•˜ë‚˜ì˜ dcì— ëŒ€í•´ í•˜ë‚˜ë§Œ ë°”ì¸ë“œ (make current) í•  ìˆ˜ ìˆë‹¤.
 	*/
 	RenderContext::RenderContext(
-		DeviceContext &deviceContext,
-		const PixelFormatDescriptor &pixelFormatDesc, const RCAttributeDescriptor &desc) :
+		DeviceContext& deviceContext,
+		const PixelFormatDescriptor& pixelFormatDesc, const RCAttributeDescriptor& desc) :
 		BindableObject(__createRC(deviceContext, pixelFormatDesc, desc)), __deviceContext(deviceContext)
 	{
 		BOOL result = wglMakeCurrent(deviceContext, ID);
 		assert(result);
 
-		for (const auto &onCreateListener : __getOnCreateListenerContainer())
+		for (const auto& onCreateListener : __getOnCreateListenerContainer())
 			onCreateListener(this);
 	}
 
 	void RenderContext::__release() noexcept
 	{
-		// ÇöÀç ½º·¹µå »ó¿¡¼­, DC¿Í ¹ÙÀÎµù µÇ¾î ÀÖ´Â RC°¡ thisÀÎ °æ¿ì
+		// í˜„ì¬ ìŠ¤ë ˆë“œ ìƒì—ì„œ, DCì™€ ë°”ì¸ë”© ë˜ì–´ ìˆëŠ” RCê°€ thisì¸ ê²½ìš°
 		if (this == getCurrent())
 			unbind();
 
@@ -50,12 +50,12 @@ namespace ObjectGL
 		assert(result);
 	}
 
-	void RenderContext::__validate(DeviceContext &deviceContext)
+	void RenderContext::__validate(DeviceContext& deviceContext)
 	{
 		static unordered_map<thread::id, bool> initializedThreads;
 
 		// TODO: Checking thread safety
-		bool &initialized = initializedThreads[this_thread::get_id()];
+		bool& initialized = initializedThreads[this_thread::get_id()];
 		if (initialized)
 			return;
 
@@ -78,7 +78,7 @@ namespace ObjectGL
 		initialized = true;
 	}
 
-	void RenderContext::__setPixelFormat(const HDC hDC, const PIXELFORMATDESCRIPTOR &descRaw)
+	void RenderContext::__setPixelFormat(const HDC hDC, const PIXELFORMATDESCRIPTOR& descRaw)
 	{
 		/*
 			Warning:
@@ -99,27 +99,27 @@ namespace ObjectGL
 			throw RCException("Cannot deploy the pixel format");
 	}
 
-	unordered_set<void(*)(const RenderContext *)> &
+	unordered_set<void(*)(const RenderContext*)>&
 		RenderContext::__getOnCreateListenerContainer() noexcept
 	{
-		static unordered_set<void(*)(const RenderContext *)> onCreateListenerContainer;
+		static unordered_set<void(*)(const RenderContext*)> onCreateListenerContainer;
 		return onCreateListenerContainer;
 	}
 
-	unordered_set<void(*)(const RenderContext *)> &
+	unordered_set<void(*)(const RenderContext*)>&
 		RenderContext::__getOnDestroyListenerContainer() noexcept
 	{
-		static unordered_set<void(*)(const RenderContext *)> onDestroyListenerContainer;
+		static unordered_set<void(*)(const RenderContext*)> onDestroyListenerContainer;
 		return onDestroyListenerContainer;
 	}
 
-	unordered_map<thread::id, RenderContext *> &RenderContext::__getCurrentMap() noexcept
+	unordered_map<thread::id, RenderContext*>& RenderContext::__getCurrentMap() noexcept
 	{
-		static unordered_map<thread::id, RenderContext *> rcMap;
+		static unordered_map<thread::id, RenderContext*> rcMap;
 		return rcMap;
 	}
 
-	RenderContext *&RenderContext::__getCurrentPtrReference() noexcept
+	RenderContext*& RenderContext::__getCurrentPtrReference() noexcept
 	{
 		return __getCurrentMap()[this_thread::get_id()];
 	}
@@ -134,7 +134,7 @@ namespace ObjectGL
 
 	RenderContext::~RenderContext() noexcept
 	{
-		for (const auto &onDestroyListener : __getOnDestroyListenerContainer())
+		for (const auto& onDestroyListener : __getOnDestroyListenerContainer())
 			onDestroyListener(this);
 
 		__release();
@@ -145,9 +145,35 @@ namespace ObjectGL
 		__deviceContext.swapBuffers();
 	}
 
+	void RenderContext::setDebugMessageCallback(const GLDebugMessageCallbackFunction pCallback) noexcept
+	{
+		static constexpr GLDEBUGPROC pCallbackWrapper = [](
+			const GLenum source, const GLenum type, const GLuint id, const GLenum severity,
+			const GLsizei lengthâ€‹, const GLchar *const messageâ€‹, const void *const userParam)
+		{
+			const GLDebugMessageCallbackFunction pCallback =
+				reinterpret_cast<GLDebugMessageCallbackFunction>(userParam);
+
+			pCallback(
+				GLDebugMessageSourceType(source),
+				GLDebugMessageType(type),
+				GLDebugMessageSeverityType(severity),
+				string_view { messageâ€‹, size_t(lengthâ€‹) }, id);
+		};
+
+		if (this == getCurrent())
+			glDebugMessageCallback(pCallbackWrapper, pCallback);
+		else
+		{
+			wglMakeCurrent(__deviceContext, ID);
+			glDebugMessageCallback(pCallbackWrapper, pCallback);
+			wglMakeCurrent(__deviceContext, getCurrent()->ID);
+		}
+	}
+
 	void RenderContext::unbind() noexcept
 	{
-		RenderContext *&pCurrent = __getCurrentPtrReference();
+		RenderContext*& pCurrent = __getCurrentPtrReference();
 		if (!pCurrent)
 			return;
 
@@ -158,7 +184,7 @@ namespace ObjectGL
 		_unbind();
 	}
 
-	RenderContext *RenderContext::getCurrent() noexcept
+	RenderContext* RenderContext::getCurrent() noexcept
 	{
 		return __getCurrentPtrReference();
 	}

@@ -21,24 +21,20 @@ namespace ObjectGL
 	void RenderBufferBase::__release() noexcept
 	{
 		glDeleteRenderbuffers(1, &ID);
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	void RenderBufferBase::_onAttach(const AttachmentType type) noexcept
 	{
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GLenum(type), GL_RENDERBUFFER, ID);
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	void RenderBufferBase::_onDetach(const AttachmentType type) noexcept
 	{
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GLenum(type), GL_RENDERBUFFER, 0);
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	void RenderBufferBase::_onBind() noexcept
 	{
 		glBindRenderbuffer(GL_RENDERBUFFER, ID);
-		assert(glGetError() == GL_NO_ERROR);
 	}
 }

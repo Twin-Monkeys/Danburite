@@ -9,6 +9,5 @@ namespace ObjectGL
 		bind();
 
 		glRenderbufferStorage(GL_RENDERBUFFER, GLenum(internalFormat), width, height);
-		assert(glGetError() == GL_NO_ERROR);
 	}
 }

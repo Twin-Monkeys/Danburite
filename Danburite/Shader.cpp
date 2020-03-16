@@ -12,7 +12,6 @@ namespace ObjectGL
 	void Shader::__release() noexcept
 	{
 		glDeleteShader(ID);
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	Shader::~Shader() noexcept

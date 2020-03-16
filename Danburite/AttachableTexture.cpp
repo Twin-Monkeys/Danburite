@@ -6,16 +6,12 @@ namespace ObjectGL
 	{
 		assert(!isHandleCreated());
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GLenum(type), _RAW_TYPE, ID, 0);
-
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	void AttachableTexture::_onDetach(const AttachmentType type) noexcept
 	{
 		assert(!isHandleCreated());
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GLenum(type), _RAW_TYPE, 0, 0);
-
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	void AttachableTexture::memoryAlloc(

@@ -7,6 +7,7 @@
 #include <unordered_set>
 #include <cassert>
 #include <thread>
+#include "GLDebugMessageCallbackFunction.h"
 
 namespace ObjectGL
 {
@@ -69,6 +70,7 @@ namespace ObjectGL
 			const PixelFormatDescriptor& pixelFormatDesc, const RCAttributeDescriptor &attributeDesc);
 
 		void requestBufferSwapping() noexcept;
+		void setDebugMessageCallback(const GLDebugMessageCallbackFunction pCallback) noexcept;
 
 		virtual ~RenderContext() noexcept;
 

@@ -22,6 +22,17 @@ namespace ObjectGL
 		CONVOLUTION_1D = GL_CONVOLUTION_1D,
 		CONVOLUTION_2D = GL_CONVOLUTION_2D,
 		CULL_FACE = GL_CULL_FACE,
+
+		// During init, enable debug output
+		DEBUG_OUTPUT = GL_DEBUG_OUTPUT,
+
+		/*
+			If this flag is enabled, then OpenGL guarantees that your callback will be called:
+			- In the same thread as the context.
+			- In the scope of the OpenGL function call that fired the message.
+		*/
+		DEBUG_OUTPUT_SYNCHRONOUS = GL_DEBUG_OUTPUT_SYNCHRONOUS,
+
 		DEPTH_TEST = GL_DEPTH_TEST,
 		DITHER = GL_DITHER,
 		FOG = GL_FOG,

@@ -331,6 +331,9 @@
     <Filter Include="Library\Engine\Util\RCDSRegisterer">
       <UniqueIdentifier>{8a6973dc-b73e-44b5-9e74-e57e8200e459}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library\ObjectGL\Window\RenderContext\debug">
+      <UniqueIdentifier>{b16b60c1-526b-4ecc-8314-6afe305cf35f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Buffer.cpp">
@@ -1177,6 +1180,18 @@
     </ClInclude>
     <ClInclude Include="FacetType.h">
       <Filter>Library\ObjectGL\Base\Function</Filter>
+    </ClInclude>
+    <ClInclude Include="GLDebugMessageCallbackFunction.h">
+      <Filter>Library\ObjectGL\Window\RenderContext\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="GLDebugMessageSourceType.h">
+      <Filter>Library\ObjectGL\Window\RenderContext\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="GLDebugMessageType.h">
+      <Filter>Library\ObjectGL\Window\RenderContext\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="GLDebugMessageSeverityType.h">
+      <Filter>Library\ObjectGL\Window\RenderContext\debug</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

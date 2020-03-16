@@ -22,19 +22,16 @@ namespace ObjectGL
 	void TextureBase::__release() noexcept
 	{
 		glDeleteTextures(1, &ID);
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	void TextureBase::_bindID() noexcept
 	{
 		glBindTexture(_RAW_TYPE, ID);
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	void TextureBase::bind(const GLuint location) noexcept
 	{
 		glActiveTexture(GL_TEXTURE0 + location);
-		assert(glGetError() == GL_NO_ERROR);
 
 		_bindID();
 	}
@@ -44,7 +41,6 @@ namespace ObjectGL
 		if (!__handle)
 		{
 			__handle = glGetTextureHandleARB(ID);
-			assert(glGetError() == GL_NO_ERROR);
 
 			if (resideIfCreated)
 				reside();
@@ -58,7 +54,6 @@ namespace ObjectGL
 		assert(__handle);
 
 		glMakeTextureHandleResidentARB(__handle);
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	void TextureBase::unreside() noexcept
@@ -66,7 +61,6 @@ namespace ObjectGL
 		assert(__handle);
 
 		glMakeTextureHandleNonResidentARB(__handle);
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	TextureBase::~TextureBase() noexcept
@@ -77,9 +71,6 @@ namespace ObjectGL
 	void TextureBase::unbind(const TextureType type, const GLint location) noexcept
 	{
 		glActiveTexture(GL_TEXTURE0 + location);
-		assert(glGetError() == GL_NO_ERROR);
-
 		glBindTexture(GLenum(type), 0);
-		assert(glGetError() == GL_NO_ERROR);
 	}
 }

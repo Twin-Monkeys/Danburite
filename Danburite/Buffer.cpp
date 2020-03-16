@@ -32,21 +32,18 @@ namespace ObjectGL
 		if (!__moved)
 		{
 			glDeleteBuffers(1, &ID);
-			assert(glGetError() == GL_NO_ERROR);
 		}
 	}
 
 	void Buffer::_onBind() noexcept
 	{
 		glBindBuffer(__RAW_TYPE, ID);
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	void Buffer::memoryAlloc(const void *const pData, const GLsizeiptr size, const BufferUpdatePatternType updatePattern) noexcept
 	{
 		bind();
 		glBufferData(__RAW_TYPE, size, pData, GLenum(updatePattern));
-		assert(glGetError() == GL_NO_ERROR);
 
 		__memAllocated = true;
 		__memSize = size;
@@ -58,7 +55,6 @@ namespace ObjectGL
 
 		bind();
 		glBufferSubData(__RAW_TYPE, offset, size, pData);
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	void Buffer::memoryAlloc(const GLsizeiptr size, const BufferUpdatePatternType updatePattern) noexcept
@@ -73,7 +69,6 @@ namespace ObjectGL
 	{
 		bind();
 		glBufferData(__RAW_TYPE, 0, nullptr, GL_STATIC_DRAW);
-		assert(glGetError() == GL_NO_ERROR);
 
 		__memAllocated = false;
 		__memSize = 0;
@@ -92,7 +87,6 @@ namespace ObjectGL
 		bind();
 
 		void *const pRetVal = glMapBuffer(__RAW_TYPE, GLenum(accessType));
-		assert(glGetError() == GL_NO_ERROR);
 	
 		return pRetVal;
 	}
@@ -101,7 +95,6 @@ namespace ObjectGL
 	{
 		bind();
 		glUnmapBuffer(__RAW_TYPE);
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	Buffer &Buffer::operator=(const Buffer &src) noexcept
@@ -109,13 +102,8 @@ namespace ObjectGL
 		if (src.isMemoryAllocated())
 		{
 			glBindBuffer(GL_COPY_READ_BUFFER, src.ID);
-			assert(glGetError() == GL_NO_ERROR);
-
 			glBindBuffer(GL_COPY_WRITE_BUFFER, ID);
-			assert(glGetError() == GL_NO_ERROR);
-
 			glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, 0, 0, src.__memSize);
-			assert(glGetError() == GL_NO_ERROR);
 
 			__memAllocated = true;
 			__memSize = src.__memSize;

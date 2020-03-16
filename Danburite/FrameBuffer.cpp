@@ -24,13 +24,11 @@ namespace ObjectGL
 	void FrameBuffer::__release() noexcept
 	{
 		glDeleteFramebuffers(1, &ID);
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	void FrameBuffer::_onBind() noexcept
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, ID);
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	FrameBufferStatusType FrameBuffer::getStatus() noexcept
@@ -39,8 +37,6 @@ namespace ObjectGL
 
 		const FrameBufferStatusType retVal =
 			FrameBufferStatusType(glCheckFramebufferStatus(GL_FRAMEBUFFER));
-
-		assert(glGetError() == GL_NO_ERROR);
 
 		return retVal;
 	}
@@ -71,21 +67,17 @@ namespace ObjectGL
 		const GLint targetLeft, const GLint targetBottom, const GLint targetRight, const GLint targetUp) const noexcept
 	{
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, ID);
-		assert(glGetError() == GL_NO_ERROR);
 
 		GLuint targetObj = 0U;
 		if (pTarget)
 			targetObj = pTarget->ID;
 
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, targetObj);
-		assert(glGetError() == GL_NO_ERROR);
 
 		glBlitFramebuffer(
 			srcLeft, srcBottom, srcRight, srcUp,
 			targetLeft, targetBottom, targetRight, targetUp,
 			GLbitfield(mask), GL_NEAREST);
-
-		assert(glGetError() == GL_NO_ERROR);
 
 		unbind();
 	}
@@ -95,7 +87,6 @@ namespace ObjectGL
 		bind();
 
 		glReadBuffer(GLenum(type));
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	void FrameBuffer::setOutputColorBuffer(const ColorBufferType type) noexcept
@@ -103,14 +94,12 @@ namespace ObjectGL
 		bind();
 
 		glDrawBuffer(GLenum(type));
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	void FrameBuffer::clearColorBuffer(const GLuint attachmentIndex, const vec4 &clearValue)
 	{
 		bind();
 		glClearBufferfv(GL_COLOR, attachmentIndex, value_ptr(clearValue));
-		assert(glGetError() == GL_NO_ERROR);
 		unbind();
 	}
 
@@ -118,14 +107,12 @@ namespace ObjectGL
 	{
 		bind();
 		glClearBufferfv(GL_DEPTH, 0, &clearValue);
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	void FrameBuffer::clearStencilBuffer(const GLuint clearValue)
 	{
 		bind();
 		glClearBufferuiv(GL_STENCIL, 0, &clearValue);
-		assert(glGetError() == GL_NO_ERROR);
 	}
 
 	FrameBuffer::~FrameBuffer()
@@ -136,7 +123,6 @@ namespace ObjectGL
 	void FrameBuffer::unbind() noexcept
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0U);
-		assert(glGetError() == GL_NO_ERROR);
 
 		_unbind();
 	}

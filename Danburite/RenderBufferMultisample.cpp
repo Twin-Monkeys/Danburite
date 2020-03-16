@@ -11,7 +11,5 @@ namespace ObjectGL
 
 		glRenderbufferStorageMultisample(
 			GL_RENDERBUFFER, numSamplePoints, GLenum(internalFormat), width, height);
-
-		assert(glGetError() == GL_NO_ERROR);
 	}
 }
