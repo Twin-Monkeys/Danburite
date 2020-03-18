@@ -111,6 +111,15 @@ ShadowTestScene::ShadowTestScene()
 	cube3Transform.setPosition(-5.f, 6.f, 5.f);
 	cube3Transform.setRotation(-3.f, 1.f, 1.f);
 
+	__pNanosuitRU = AssetImporter::import("res/asset/nanosuit/nanosuit.obj", *__pUBMaterial);
+	Transform &nanosuitTransform = __pNanosuitRU->getTransform();
+	nanosuitTransform.setPosition(-10.f, 0.f, 15.f);
+
+	__pSkullRU = AssetImporter::import("res/asset/skull/scene.gltf", *__pUBMaterial);
+	Transform &skullTransform = __pSkullRU->getTransform();
+	skullTransform.setPosition(10.f, 5.f, 15.f);
+	skullTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
+	skullTransform.setScale(5.f);
 
 	//// 朝五虞 持失 ////
 
@@ -129,7 +138,7 @@ ShadowTestScene::ShadowTestScene()
 	redLightTransform.adjustRotation(-quarter_pi<float>(), 1.1f, 0.f);
 
 	__pRedLight->setAlbedo(1.f, .4f, .4f);
-	__pRedLight->setAmbientStrength(.02f);
+	__pRedLight->setAmbientStrength(.05f);
 	__pRedLight->setDiffuseStrength(.3f);
 	__pRedLight->setSpecularStrength(1.f);
 
@@ -147,7 +156,7 @@ ShadowTestScene::ShadowTestScene()
 	whiteLightTransform.setPosition(-20.f, 30.f, 0.f);
 	whiteLightTransform.adjustRotation(-quarter_pi<float>() * .7f, -.6f, 0.f);
 
-	__pWhiteLight->setAmbientStrength(.02f);
+	__pWhiteLight->setAmbientStrength(.05f);
 	__pWhiteLight->setDiffuseStrength(.3f);
 	__pWhiteLight->setSpecularStrength(1.f);
 	__pWhiteLight->setDepthBakingOrtho(-50.f, 50.f, -50.f, 50.f, 1.f, 1000.f);
@@ -165,10 +174,14 @@ ShadowTestScene::ShadowTestScene()
 	__pUpdater->addUpdatable(__pCamera);
 	__pUpdater->addUpdatable(__pRedLight);
 	__pUpdater->addUpdatable(__pWhiteLight);
+	__pUpdater->addUpdatable(__pNanosuitRU);
+	__pUpdater->addUpdatable(__pSkullRU);
 
 	__pDrawer = make_shared<Drawer>();
 	__pDrawer->addDrawable(__pFloorRU);
 	__pDrawer->addDrawable(__pCubeRU);
+	__pDrawer->addDrawable(__pNanosuitRU);
+	__pDrawer->addDrawable(__pSkullRU);
 
 	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>(*__pUBGammaCorrection);
 	__pMsaaPP = make_shared<MSAAPostProcessor>();
