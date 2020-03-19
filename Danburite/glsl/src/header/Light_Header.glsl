@@ -32,6 +32,7 @@ struct Light
 	float outerCutOff;
 
 	// shadow
+	bool shadowEnabled;
 	mat4 viewMat;
 	mat4 projMat;
 	uvec2 depthMap;
@@ -75,6 +76,9 @@ vec3 Light_getLightDirection(uint lightIndex)
 
 float Light_getOcclusion(uint lightIndex, vec3 targetNormal)
 {
+	if (!light[lightIndex].shadowEnabled)
+		return 0.f;
+
 	const vec4 lightSpaceTargetPos = (light[lightIndex].projMat * light[lightIndex].viewMat * vec4(Light_targetPos, 1.f));
 
 	/*
@@ -96,7 +100,7 @@ float Light_getOcclusion(uint lightIndex, vec3 targetNormal)
 	const sampler2D depthMap = sampler2D(light[lightIndex].depthMap);
 	const vec2 texelSize = (2.f / textureSize(depthMap, 0));
 
-	float retVal = -1.f;
+	float retVal = 0.f;
 	for (int x = -1; x <= 1; x++)
 		for (int y = -1; y <= 1; y++)
 		{

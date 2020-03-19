@@ -6,7 +6,7 @@
 #include "PerspectiveCamera.h"
 #include "UniformBuffer.h"
 #include "PointLight.h"
-#include "LightDeployer.h"
+#include "LightHandler.h"
 #include "Updater.h"
 #include "Drawer.h"
 #include "GammaCorrectionPostProcessor.h"
@@ -26,7 +26,7 @@ private:
 
 	std::array<std::shared_ptr<Danburite::PointLight>, 4> __arrPointLight;
 
-	std::shared_ptr<Danburite::LightDeployer> __pLightDeployer;
+	std::shared_ptr<Danburite::LightHandler> __pLightDeployer;
 	std::shared_ptr<Danburite::Updater> __pUpdater;
 	std::shared_ptr<Danburite::Drawer> __pDrawer;
 

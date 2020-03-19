@@ -217,7 +217,7 @@ SpaceScene::SpaceScene()
 
 	//// Deployer / Updater √ ±‚»≠ ////
 
-	__pLightDeployer = make_shared<LightDeployer>();
+	__pLightDeployer = make_shared<LightHandler>();
 	__pLightDeployer->addLight(__pDirectionalLight);
 
 	__pUpdater = make_shared<Updater>();

@@ -5,7 +5,7 @@
 
 namespace Danburite
 {
-	class LightDeployer
+	class LightHandler
 	{
 	private:
 		ObjectGL::WeakPointerContainer<Light> __lights;
@@ -13,5 +13,6 @@ namespace Danburite
 	public:
 		void addLight(const std::weak_ptr<Light> &pLight) noexcept;
 		void batchDeploy() noexcept;
+		void batchBakeDepthMap(Drawer &drawer, const bool skipIfShadowDisabled = true) noexcept;
 	};
 }

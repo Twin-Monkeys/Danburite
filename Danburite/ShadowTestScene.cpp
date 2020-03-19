@@ -149,6 +149,7 @@ ShadowTestScene::ShadowTestScene()
 	*/
 	__pRedLight->setDepthBakingOrtho(-50.f, 50.f, -50.f, 50.f, 1.f, 1000.f);
 	__pRedLight->setDepthMapResolution(2048, 2048);
+	__pRedLight->setShadowEnabled(true);
 
 	__pWhiteLight = make_shared<DirectionalLight>(*__pUBLight, *__pUBCamera);
 
@@ -161,12 +162,13 @@ ShadowTestScene::ShadowTestScene()
 	__pWhiteLight->setSpecularStrength(1.f);
 	__pWhiteLight->setDepthBakingOrtho(-50.f, 50.f, -50.f, 50.f, 1.f, 1000.f);
 	__pWhiteLight->setDepthMapResolution(2048, 2048);
+	__pWhiteLight->setShadowEnabled(true);
 
 	//// Deployer / Updater √ ±‚»≠ ////
 
-	__pLightDeployer = make_shared<LightDeployer>();
-	__pLightDeployer->addLight(__pRedLight);
-	__pLightDeployer->addLight(__pWhiteLight);
+	__pLightHandler = make_shared<LightHandler>();
+	__pLightHandler->addLight(__pRedLight);
+	__pLightHandler->addLight(__pWhiteLight);
 
 	__pUpdater = make_shared<Updater>();
 	__pUpdater->addUpdatable(__pFloorRU);
@@ -240,16 +242,8 @@ bool ShadowTestScene::__keyFunc(const float deltaTime) noexcept
 
 void ShadowTestScene::draw() noexcept
 {
-	__pLightDeployer->batchDeploy();
-
-	// depth baking
-	__pRedLight->startDepthBaking();
-	__pDrawer->batchRawDrawCall();
-	__pRedLight->endDepthBaking();
-
-	__pWhiteLight->startDepthBaking();
-	__pDrawer->batchRawDrawCall();
-	__pWhiteLight->endDepthBaking();
+	__pLightHandler->batchDeploy();
+	__pLightHandler->batchBakeDepthMap(*__pDrawer);
 
 	__pUBCamera->directDeploy(*__pCamera);
 

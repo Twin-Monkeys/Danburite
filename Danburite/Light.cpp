@@ -13,7 +13,6 @@ namespace Danburite
 		__lightParamSetterWrapper(lightParamSetter, ID),
 		__depthBaker(cameraParamSetter)
 	{
-		setEnabled(true);
 		__lightParamSetterWrapper.setUniformUint(ShaderIdentifier::Name::Light::TYPE, GLenum(type));
 	}
 
@@ -31,18 +30,14 @@ namespace Danburite
 
 	void Light::selfDeploy() noexcept
 	{
+		__lightParamSetterWrapper.setUniformBool(ShaderIdentifier::Name::Light::ENABLED, __enabled);
+		__lightParamSetterWrapper.setUniformBool(ShaderIdentifier::Name::Light::SHADOW_ENABLED, __shadowEnabled);
 		__lightParamSetterWrapper.setUniformMat4(ShaderIdentifier::Name::Light::VIEW_MATRIX, _getViewMatrix());
 		__lightParamSetterWrapper.setUniformMat4(ShaderIdentifier::Name::Light::PROJECTION_MATRIX, _getProjMatrix());
 		__lightParamSetterWrapper.setUniformUvec2(
 			ShaderIdentifier::Name::Light::DEPTH_MAP, __depthBaker.getDepthMap().getHandle());
 
 		_onDeploy(__lightParamSetterWrapper);
-	}
-
-	void Light::setEnabled(const bool enabled) noexcept
-	{
-		__enabled = enabled;
-		__lightParamSetterWrapper.setUniformBool(ShaderIdentifier::Name::Light::ENABLED, enabled);
 	}
 
 	void Light::setDepthMapResolution(const GLsizei width, const GLsizei height) noexcept
@@ -62,6 +57,16 @@ namespace Danburite
 	void Light::endDepthBaking() noexcept
 	{
 		__depthBaker.unbind();
+	}
+
+	void Light::bakeDepthMap(Drawer &drawer, const bool cancelIfShadowDisabled) noexcept
+	{
+		if (cancelIfShadowDisabled && !isShadowEnabled())
+			return;
+
+		startDepthBaking();
+		drawer.batchDraw();
+		endDepthBaking();
 	}
 
 	Light::~Light() noexcept

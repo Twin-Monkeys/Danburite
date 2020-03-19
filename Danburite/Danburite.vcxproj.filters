@@ -462,9 +462,6 @@
     <ClCompile Include="LightUniformSetter.cpp">
       <Filter>Library\Engine\Core\Light\Deployment</Filter>
     </ClCompile>
-    <ClCompile Include="LightDeployer.cpp">
-      <Filter>Library\Engine\Core\Light\Deployment</Filter>
-    </ClCompile>
     <ClCompile Include="LightBaseComponent.cpp">
       <Filter>Library\Engine\Core\Light\Component</Filter>
     </ClCompile>
@@ -687,6 +684,9 @@
     <ClCompile Include="OrthoCameraLight.cpp">
       <Filter>Library\Engine\Core\Light</Filter>
     </ClCompile>
+    <ClCompile Include="LightHandler.cpp">
+      <Filter>Library\Engine\Core\Light\Deployment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">
@@ -864,9 +864,6 @@
       <Filter>Library\Engine\Base\Interface</Filter>
     </ClInclude>
     <ClInclude Include="LightUniformSetter.h">
-      <Filter>Library\Engine\Core\Light\Deployment</Filter>
-    </ClInclude>
-    <ClInclude Include="LightDeployer.h">
       <Filter>Library\Engine\Core\Light\Deployment</Filter>
     </ClInclude>
     <ClInclude Include="LightUniformDeployable.h">
@@ -1192,6 +1189,9 @@
     </ClInclude>
     <ClInclude Include="GLDebugMessageSeverityType.h">
       <Filter>Library\ObjectGL\Window\RenderContext\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="LightHandler.h">
+      <Filter>Library\Engine\Core\Light\Deployment</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

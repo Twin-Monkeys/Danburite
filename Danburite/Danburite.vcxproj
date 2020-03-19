@@ -23,7 +23,7 @@
     <ProjectGuid>{8FDCDE28-C10D-48DB-AA99-4EB23CD794F7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Danburite</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -43,14 +43,14 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -233,7 +233,7 @@
     <ClCompile Include="FragmentShaderCompiler.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="LightBaseComponent.cpp" />
-    <ClCompile Include="LightDeployer.cpp" />
+    <ClCompile Include="LightHandler.cpp" />
     <ClCompile Include="LightException.cpp" />
     <ClCompile Include="LightUniformSetter.cpp" />
     <ClCompile Include="PointLight.cpp" />
@@ -334,7 +334,7 @@
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="FragmentShaderCompiler.h" />
     <ClInclude Include="LightBaseComponent.h" />
-    <ClInclude Include="LightDeployer.h" />
+    <ClInclude Include="LightHandler.h" />
     <ClInclude Include="LightException.h" />
     <ClInclude Include="LightType.h" />
     <ClInclude Include="AttenuatedLightComponent.h" />

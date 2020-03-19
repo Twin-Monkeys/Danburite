@@ -8,6 +8,7 @@
 #include "LightType.h"
 #include "LightException.h"
 #include "DepthBaker.h"
+#include "Drawer.h"
 
 namespace Danburite
 {
@@ -24,7 +25,8 @@ namespace Danburite
 			void deallocate(const glm::uint id) noexcept;
 		};
 
-		bool __enabled;
+		bool __enabled = true;
+		bool __shadowEnabled = false;
 
 		ObjectGL::UniformSetter &__lightParamSetter;
 		LightUniformSetter __lightParamSetterWrapper;
@@ -32,7 +34,7 @@ namespace Danburite
 		DepthBaker __depthBaker;
 
 		void __release() noexcept;
-
+		
 		static std::unordered_map<ObjectGL::UniformSetter *, LightIDAllocator> &__getAllocatorMap() noexcept;
 
 	protected:
@@ -48,11 +50,16 @@ namespace Danburite
 		void selfDeploy() noexcept;
 
 		constexpr bool isEnabled() const noexcept;
-		void setEnabled(const bool enabled) noexcept;
+		constexpr void setEnabled(const bool enabled) noexcept;
+
+		constexpr bool isShadowEnabled() const noexcept;
+		constexpr void setShadowEnabled(const bool enabled) noexcept;
+
 		void setDepthMapResolution(const GLsizei width, const GLsizei height) noexcept;
 
 		void startDepthBaking() noexcept;
 		void endDepthBaking() noexcept;
+		void bakeDepthMap(Drawer &drawer, const bool cancelIfShadowDisabled = true) noexcept;
 
 		virtual ~Light() noexcept;
 	};
@@ -60,5 +67,20 @@ namespace Danburite
 	constexpr bool Light::isEnabled() const noexcept
 	{
 		return __enabled;
+	}
+
+	constexpr void Light::setEnabled(const bool enabled) noexcept
+	{
+		__enabled = enabled;
+	}
+
+	constexpr bool Light::isShadowEnabled() const noexcept
+	{
+		return __shadowEnabled;
+	}
+
+	constexpr void Light::setShadowEnabled(const bool enabled) noexcept
+	{
+		__shadowEnabled = enabled;
 	}
 }

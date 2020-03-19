@@ -7,7 +7,7 @@
 #include "OrthoCamera.h"
 #include "UniformBuffer.h"
 #include "DirectionalLight.h"
-#include "LightDeployer.h"
+#include "LightHandler.h"
 #include "Updater.h"
 #include "Drawer.h"
 #include "GammaCorrectionPostProcessor.h"
@@ -34,7 +34,7 @@ private:
 	std::shared_ptr<Danburite::DirectionalLight> __pRedLight;
 	std::shared_ptr<Danburite::DirectionalLight> __pWhiteLight;
 
-	std::shared_ptr<Danburite::LightDeployer> __pLightDeployer;
+	std::shared_ptr<Danburite::LightHandler> __pLightHandler;
 	std::shared_ptr<Danburite::Updater> __pUpdater;
 	std::shared_ptr<Danburite::Drawer> __pDrawer;
 

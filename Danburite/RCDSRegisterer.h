@@ -2,6 +2,7 @@
 
 namespace Danburite
 {
+	// Render Context-Dependent Singleton Registerer
 	class RCDSRegisterer abstract final
 	{
 	public:

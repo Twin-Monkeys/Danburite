@@ -8,7 +8,7 @@
 #include "DirectionalLight.h"
 #include "PointLight.h"
 #include "SpotLight.h"
-#include "LightDeployer.h"
+#include "LightHandler.h"
 #include "Updater.h"
 #include "Drawer.h"
 #include "CubeSkybox.h"
@@ -28,7 +28,7 @@ private:
 
 	std::shared_ptr<Danburite::PerspectiveCamera> __pCamera;
 
-	std::shared_ptr<Danburite::LightDeployer> __pLightDeployer;
+	std::shared_ptr<Danburite::LightHandler> __pLightDeployer;
 	std::shared_ptr<Danburite::Updater> __pUpdater;
 	std::shared_ptr<Danburite::Drawer> __pDrawer;
 

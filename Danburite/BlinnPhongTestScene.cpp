@@ -104,7 +104,7 @@ BlinnPhongTestScene::BlinnPhongTestScene()
 
 	//// Deployer / Updater √ ±‚»≠ ////
 
-	__pLightDeployer = make_shared<LightDeployer>();
+	__pLightDeployer = make_shared<LightHandler>();
 
 	for (const shared_ptr<PointLight> &pPointLight : __arrPointLight)
 		__pLightDeployer->addLight(pPointLight);
