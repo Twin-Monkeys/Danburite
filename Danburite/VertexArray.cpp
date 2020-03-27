@@ -18,6 +18,11 @@ namespace ObjectGL
 		return retVal;
 	}
 
+	VertexArray::VertexArray(const GLsizei numVertices) :
+		BindableObject(__createVAO()), __numVertices(numVertices),
+		__pDrawFunc(&VertexArray::__drawArrays)
+	{}
+
 	VertexArray::VertexArray(
 		const shared_ptr<VertexBuffer> &pVertexBuffer,
 		const GLsizei numVertices) :

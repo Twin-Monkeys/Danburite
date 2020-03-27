@@ -334,6 +334,9 @@
     <Filter Include="Library\ObjectGL\Window\RenderContext\debug">
       <UniqueIdentifier>{b16b60c1-526b-4ecc-8314-6afe305cf35f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library\Engine\glsl\src\FullscreenQuad">
+      <UniqueIdentifier>{f512f6a4-908a-4994-8ee2-54a2aa0b81f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Buffer.cpp">
@@ -1243,9 +1246,6 @@
     <None Include="glsl\src\header\PostProcess_Header.glsl">
       <Filter>Library\Engine\glsl\src\header\PostProcess</Filter>
     </None>
-    <None Include="glsl\src\PostProcess_Common_Vert.glsl">
-      <Filter>Library\Engine\glsl\src\PostProcess</Filter>
-    </None>
     <None Include="glsl\src\PostProcess_Forward_Frag.glsl">
       <Filter>Library\Engine\glsl\src\PostProcess\Forward</Filter>
     </None>
@@ -1323,6 +1323,9 @@
     </None>
     <None Include="glsl\src\DepthBaking_Vert.glsl">
       <Filter>Library\Engine\glsl\src\DepthBaking</Filter>
+    </None>
+    <None Include="glsl\src\FullscreenQuad_Vert.glsl">
+      <Filter>Library\Engine\glsl\src\FullscreenQuad</Filter>
     </None>
   </ItemGroup>
 </Project>

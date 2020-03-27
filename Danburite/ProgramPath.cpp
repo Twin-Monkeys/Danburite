@@ -120,7 +120,7 @@ namespace Danburite
 				ProgramType::POST_PROCESS_FORWARD,
 				{
 					"glsl/binary/PostProcess_Forward.bin",
-					"glsl/src/PostProcess_Common_Vert.glsl",
+					"glsl/src/FullscreenQuad_Vert.glsl",
 					"",
 					"glsl/src/PostProcess_Forward_Frag.glsl"
 				}
@@ -129,7 +129,7 @@ namespace Danburite
 				ProgramType::POST_PROCESS_NEGATIVE,
 				{
 					"glsl/binary/PostProcess_Negative.bin",
-					"glsl/src/PostProcess_Common_Vert.glsl",
+					"glsl/src/FullscreenQuad_Vert.glsl",
 					"",
 					"glsl/src/PostProcess_Negative_Frag.glsl"
 				}
@@ -138,7 +138,7 @@ namespace Danburite
 				ProgramType::POST_PROCESS_GRAYSCALE,
 				{
 					"glsl/binary/PostProcess_Grayscale.bin",
-					"glsl/src/PostProcess_Common_Vert.glsl",
+					"glsl/src/FullscreenQuad_Vert.glsl",
 					"",
 					"glsl/src/PostProcess_Grayscale_Frag.glsl"
 				}
@@ -147,7 +147,7 @@ namespace Danburite
 				ProgramType::POST_PROCESS_CONVOLUTIONAL,
 				{
 					"glsl/binary/PostProcess_Convolutional.bin",
-					"glsl/src/PostProcess_Common_Vert.glsl",
+					"glsl/src/FullscreenQuad_Vert.glsl",
 					"",
 					"glsl/src/PostProcess_Convolutional_Frag.glsl"
 				}
@@ -156,7 +156,7 @@ namespace Danburite
 				ProgramType::POST_PROCESS_MSAA,
 				{
 					"glsl/binary/PostProcess_MSAA.bin",
-					"glsl/src/PostProcess_Common_Vert.glsl",
+					"glsl/src/FullscreenQuad_Vert.glsl",
 					"",
 					"glsl/src/PostProcess_MSAA_Frag.glsl"
 				}
@@ -165,7 +165,7 @@ namespace Danburite
 				ProgramType::POST_PROCESS_GAMMA_CORRECTION,
 				{
 					"glsl/binary/PostProcess_GammaCorrection.bin",
-					"glsl/src/PostProcess_Common_Vert.glsl",
+					"glsl/src/FullscreenQuad_Vert.glsl",
 					"",
 					"glsl/src/PostProcess_GammaCorrection_Frag.glsl"
 				}

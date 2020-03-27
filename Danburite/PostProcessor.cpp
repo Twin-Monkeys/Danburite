@@ -1,5 +1,4 @@
 #include "PostProcessor.h"
-#include "VertexArrayFactory.h"
 #include "ProgramFactory.h"
 #include "ShaderIdentifier.h"
 #include "GLFunctionWrapper.h"
@@ -11,7 +10,7 @@ namespace Danburite
 {
 	PostProcessor::PostProcessor(const ProgramType type) :
 		__pFrameBuffer(make_unique<FrameBuffer>()),
-		__pVertexArray(VertexArrayFactory::getInstance().getVertexArrayPtr(ShapeType::RECTANGLE, VertexAttributeType::POS3_TEXCOORD2)),
+		__fullscreenQuadVA(6),
 		__pProgram(&(ProgramFactory::getInstance().getProgram(type)))
 	{
 		using namespace ShaderIdentifier;
@@ -54,7 +53,7 @@ namespace Danburite
 
 		_onRender();
 		__pProgram->bind();
-		__pVertexArray->draw();
+		__fullscreenQuadVA.draw();
 
 		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
 	}

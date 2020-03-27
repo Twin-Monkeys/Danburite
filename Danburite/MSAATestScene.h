@@ -8,7 +8,7 @@
 #include "DirectionalLight.h"
 #include "PointLight.h"
 #include "SpotLight.h"
-#include "LightDeployer.h"
+#include "LightHandler.h"
 #include "Updater.h"
 #include "Drawer.h"
 #include "CubeSkybox.h"
