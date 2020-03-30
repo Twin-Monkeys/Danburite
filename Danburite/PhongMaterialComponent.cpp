@@ -8,18 +8,18 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	void PhongMaterialComponent::_onDeploy(UniformSetter &uniformSetter) const noexcept
+	void PhongMaterialComponent::_onDeploy(UniformSetter &materialSetter) const noexcept
 	{
 		using namespace ShaderIdentifier;
 
-		uniformSetter.setUniformFloat(Name::Material::SHININESS, __shininess);
-		uniformSetter.setUniformUvec2(Name::Material::AMBIENT_TEX, TextureUtil::getHandleIfExist(__pAmbientTex));
-		uniformSetter.setUniformUvec2(Name::Material::DIFFUSE_TEX, TextureUtil::getHandleIfExist(__pDiffuseTex));
-		uniformSetter.setUniformUvec2(Name::Material::SPECULAR_TEX, TextureUtil::getHandleIfExist(__pSpecularTex));
-		uniformSetter.setUniformUvec2(Name::Material::EMISSIVE_TEX, TextureUtil::getHandleIfExist(__pEmissiveTex));
-		uniformSetter.setUniformUvec2(Name::Material::SHININESS_TEX, TextureUtil::getHandleIfExist(__pShininessTex));
-		uniformSetter.setUniformUvec2(Name::Material::ALPHA_TEX, TextureUtil::getHandleIfExist(__pAlphaTex));
-		uniformSetter.setUniformUvec2(Name::Material::NORMAL_TEX, TextureUtil::getHandleIfExist(__pNormalTex));
+		materialSetter.setUniformFloat(Name::Material::SHININESS, __shininess);
+		materialSetter.setUniformUvec2(Name::Material::AMBIENT_TEX, TextureUtil::getHandleIfExist(__pAmbientTex));
+		materialSetter.setUniformUvec2(Name::Material::DIFFUSE_TEX, TextureUtil::getHandleIfExist(__pDiffuseTex));
+		materialSetter.setUniformUvec2(Name::Material::SPECULAR_TEX, TextureUtil::getHandleIfExist(__pSpecularTex));
+		materialSetter.setUniformUvec2(Name::Material::EMISSIVE_TEX, TextureUtil::getHandleIfExist(__pEmissiveTex));
+		materialSetter.setUniformUvec2(Name::Material::SHININESS_TEX, TextureUtil::getHandleIfExist(__pShininessTex));
+		materialSetter.setUniformUvec2(Name::Material::ALPHA_TEX, TextureUtil::getHandleIfExist(__pAlphaTex));
+		materialSetter.setUniformUvec2(Name::Material::NORMAL_TEX, TextureUtil::getHandleIfExist(__pNormalTex));
 	}
 
 	void PhongMaterialComponent::setAmbientTexture(const shared_ptr<Texture2D> &pTexture) noexcept

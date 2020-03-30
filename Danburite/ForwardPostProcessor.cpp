@@ -1,13 +1,15 @@
 #include "ForwardPostProcessor.h"
+#include "ProgramFactory.h"
 #include "ShaderIdentifier.h"
+#include "TextureUtil.h"
 
 using namespace std;
 using namespace ObjectGL;
 
 namespace Danburite
 {
-	ForwardPostProcessor::ForwardPostProcessor(const ProgramType type) :
-		PostProcessor(type),
+	ForwardPostProcessor::ForwardPostProcessor(Program &program) :
+		__program(program),
 		__pColorAttachment(make_unique<AttachableTexture>()),
 		__pDepthStencilAttachment(make_unique<RenderBuffer>())
 	{
@@ -18,13 +20,17 @@ namespace Danburite
 	}
 
 	ForwardPostProcessor::ForwardPostProcessor() :
-		ForwardPostProcessor(ProgramType::POST_PROCESS_FORWARD)
+		ForwardPostProcessor(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_FORWARD))
 	{}
 
-	void ForwardPostProcessor::_onRender() noexcept
+	void ForwardPostProcessor::_onRender(UniformSetter &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
 	{
-		__pColorAttachment->bind(
-			ShaderIdentifier::Value::PostProcess::COLOR_ATTACHMENT_ARRAY_LOCATION);
+		attachmentSetter.setUniformUvec2(
+			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT_ARRAY[0],
+			TextureUtil::getHandleIfExist(__pColorAttachment));
+
+		__program.bind();
+		fullscreenQuadVA.draw();
 	}
 
 	void ForwardPostProcessor::setScreenSize(const GLsizei width, const GLsizei height) noexcept

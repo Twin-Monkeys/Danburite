@@ -25,10 +25,6 @@ ShadowTestScene::ShadowTestScene()
 	GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, true);
 
 
-	UniformBufferFactory &ubFactory = UniformBufferFactory::getInstance();
-	UniformBuffer &ubGammaCorrection = ubFactory.getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::GAMMA_CORRECTION);
-
-
 	//// Rendering unit »ý¼º ////
 
 	RenderUnitManager &ruManager = RenderUnitManager::getInstance();
@@ -161,7 +157,7 @@ ShadowTestScene::ShadowTestScene()
 	__pDrawer->addDrawable(__pNanosuitRU);
 	__pDrawer->addDrawable(__pSkullRU);
 
-	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>(ubGammaCorrection);
+	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>();
 	__pMsaaPP = make_shared<MSAAPostProcessor>();
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
@@ -226,6 +222,8 @@ void ShadowTestScene::draw() noexcept
 		getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA);
 
 	ubCamera.directDeploy(*__pCamera);
+
+	GLFunctionWrapper::setOption(GLOptionType::MULTISAMPLE, true);
 
 	// Render scene onto gamma-corrected frame buffer
 	__pPPPipeline->bind();

@@ -1,8 +1,9 @@
 #include "NegativePostProcessor.h"
+#include "ProgramFactory.h"
 
 namespace Danburite
 {
 	NegativePostProcessor::NegativePostProcessor() :
-		ForwardPostProcessor(ProgramType::POST_PROCESS_NEGATIVE)
+		ForwardPostProcessor(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_NEGATIVE))
 	{}
 }

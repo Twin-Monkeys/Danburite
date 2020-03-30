@@ -8,15 +8,15 @@ namespace Danburite
 	class GammaCorrectionPostProcessor : public ForwardPostProcessor
 	{
 	private:
-		ObjectGL::UniformSetter &__paramSetter;
-
+		ObjectGL::UniformSetter &__gammaCorrectionSetter;
 		float __gamma = Constant::GammaCorrection::DEFAULT_GAMMA;
 
 	protected:
-		virtual void _onRender() noexcept override;
+		virtual void _onRender(
+			ObjectGL::UniformSetter &attachmentSetter, ObjectGL::VertexArray &fullscreenQuadVA) noexcept override;
 
 	public:
-		GammaCorrectionPostProcessor(ObjectGL::UniformSetter &parameterSetter);
+		GammaCorrectionPostProcessor();
 
 		void setGamma(const float gamma) noexcept;
 

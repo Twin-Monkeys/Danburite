@@ -17,7 +17,7 @@ namespace Danburite
 		const MaterialType __MATERIAL_TYPE;
 		const VertexAttributeType __VERTEX_TYPE;
 
-		ObjectGL::UniformSetter &__uniformSetter;
+		ObjectGL::UniformSetter &__materialSetter;
 
 		MaterialOptionFlag __optionFlag = MaterialOptionFlag::NONE;
 		static inline float __gamma = 1.f;

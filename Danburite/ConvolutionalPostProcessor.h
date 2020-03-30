@@ -11,7 +11,7 @@ namespace Danburite
 	class ConvolutionalPostProcessor : public ForwardPostProcessor
 	{
 	private:
-		ObjectGL::UniformSetter &__paramSetter;
+		ObjectGL::UniformSetter &__convSetter;
 		GLuint __kernelSize = 3U;
 
 		std::array<GLfloat, ConvValue::MAX_KERNEL_SIZE * ConvValue::MAX_KERNEL_SIZE> __kernel =
@@ -21,12 +21,12 @@ namespace Danburite
 			0.f, 0.f, 0.f
 		};
 
-		virtual void _onRender() noexcept override;
+		virtual void _onRender(
+			ObjectGL::UniformSetter &attachmentSetter, ObjectGL::VertexArray &fullscreenQuadVA) noexcept override;
 
 	public:
-		ConvolutionalPostProcessor(ObjectGL::UniformSetter &parameterSetter);
+		ConvolutionalPostProcessor();
 
-		constexpr void setSamplingOffset(const GLfloat offset) noexcept;
 		void setKernel(const GLfloat *const pData, const GLuint kernelSize) noexcept;
 
 		virtual ~ConvolutionalPostProcessor() = default;

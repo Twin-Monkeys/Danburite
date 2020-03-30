@@ -10,6 +10,8 @@ namespace Danburite
 	class MSAAPostProcessor : public PostProcessor
 	{
 	private:
+		ObjectGL::Program &__program;
+
 		const GLsizei NUM_SAMPLE_POINTS;
 		const bool FIXED_SAMPLE_LOCATIONS;
 
@@ -17,7 +19,8 @@ namespace Danburite
 		std::unique_ptr<ObjectGL::RenderBufferMultisample> __pDepthStencilAttachment;
 
 	protected:
-		virtual void _onRender() noexcept override;
+		virtual void _onRender(
+			ObjectGL::UniformSetter &attachmentSetter, ObjectGL::VertexArray &fullscreenQuadVA) noexcept override;
 
 	public:
 		MSAAPostProcessor(

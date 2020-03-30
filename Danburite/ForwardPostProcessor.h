@@ -9,12 +9,15 @@ namespace Danburite
 	class ForwardPostProcessor : public PostProcessor
 	{
 	private:
+		ObjectGL::Program &__program;
 		std::unique_ptr<ObjectGL::AttachableTexture> __pColorAttachment;
 		std::unique_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
 
 	protected:
-		ForwardPostProcessor(const ProgramType type);
-		virtual void _onRender() noexcept override;
+		ForwardPostProcessor(ObjectGL::Program &program);
+
+		virtual void _onRender(
+			ObjectGL::UniformSetter &attachmentSetter, ObjectGL::VertexArray &fullscreenQuadVA) noexcept override;
 
 	public:
 		ForwardPostProcessor();

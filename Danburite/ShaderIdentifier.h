@@ -80,12 +80,12 @@ namespace Danburite
 					ENVIRONMENT_TEX;
 			}
 
-			namespace PostProcess
+			namespace Attachment
 			{
 				extern const std::string
 					DEPTH_ATTACHMENT,
 					STENCIL_ATTACHMENT,
-					COLOR_ATTACHMENT_ARRAY;
+					COLOR_ATTACHMENT_ARRAY[];
 			}
 
 			namespace Convolutional
@@ -115,7 +115,8 @@ namespace Danburite
 					CAMERA,
 					CONVOLUTION,
 					GAMMA_CORRECTION,
-					CUBEMAP;
+					CUBEMAP,
+					ATTACHMENT;
 			}
 		}
 
@@ -155,11 +156,6 @@ namespace Danburite
 			{
 				constexpr GLuint
 					MAX_NUM_COLOR_ATTACHMENTS = 8U;
-
-				constexpr GLint
-					DEPTH_ATTACHMENT_LOCATION = 0,
-					STENCIL_ATTACHMENT_LOCATION = 1,
-					COLOR_ATTACHMENT_ARRAY_LOCATION = 2;
 			}
 
 			namespace MSAA
@@ -172,12 +168,6 @@ namespace Danburite
 			{
 				constexpr GLuint
 					MAX_KERNEL_SIZE = 7U;
-			}
-
-			namespace Cubemap
-			{
-				constexpr GLint
-					ALBEDO_TEX_LOCATION = 0;
 			}
 		}
 

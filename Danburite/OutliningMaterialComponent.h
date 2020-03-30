@@ -13,7 +13,7 @@ namespace Danburite
 		GLfloat __outlineThicknessRatio = 1.05f;
 
 	protected:
-		virtual void _onDeploy(ObjectGL::UniformSetter &uniformSetter) const noexcept override;
+		virtual void _onDeploy(ObjectGL::UniformSetter &materialSetter) const noexcept override;
 
 	public:
 		constexpr void setOutlineColor(const glm::vec4 &color) noexcept;

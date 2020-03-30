@@ -77,12 +77,23 @@ namespace Danburite
 					ENVIRONMENT_TEX = "material.environmentTex";
 			}
 
-			namespace PostProcess
+			namespace Attachment
 			{
 				const string
 					DEPTH_ATTACHMENT = "attachment.depth",
 					STENCIL_ATTACHMENT = "attachment.stencil",
-					COLOR_ATTACHMENT_ARRAY = "attachment.colors";
+					
+					COLOR_ATTACHMENT_ARRAY[] =
+					{
+						"attachment.colors[0]",
+						"attachment.colors[1]",
+						"attachment.colors[2]",
+						"attachment.colors[3]",
+						"attachment.colors[4]",
+						"attachment.colors[5]",
+						"attachment.colors[6]",
+						"attachment.colors[7]"
+					};
 			}
 
 			namespace Convolutional
@@ -112,7 +123,8 @@ namespace Danburite
 					CAMERA = "UBCamera",
 					CONVOLUTION = "UBConvolution",
 					GAMMA_CORRECTION = "UBGammaCorrection",
-					CUBEMAP = "UBCubemap";
+					CUBEMAP = "UBCubemap",
+					ATTACHMENT = "UBAttachment";
 			}
 		}
 
@@ -129,7 +141,8 @@ namespace Danburite
 						&Name::UniformBuffer::CAMERA,
 						&Name::UniformBuffer::CONVOLUTION,
 						&Name::UniformBuffer::GAMMA_CORRECTION,
-						&Name::UniformBuffer::CUBEMAP
+						&Name::UniformBuffer::CUBEMAP,
+						&Name::UniformBuffer::ATTACHMENT
 					};
 
 					return *bindingPointToNameMap[bindingPoint];
@@ -176,6 +189,16 @@ namespace Danburite
 						// Cubemap
 						{
 							ProgramType::SKYBOX
+						},
+
+						// Attachment
+						{
+							ProgramType::POST_PROCESS_FORWARD,
+							ProgramType::POST_PROCESS_NEGATIVE,
+							ProgramType::POST_PROCESS_GRAYSCALE,
+							ProgramType::POST_PROCESS_CONVOLUTIONAL,
+							ProgramType::POST_PROCESS_MSAA,
+							ProgramType::POST_PROCESS_GAMMA_CORRECTION
 						}
 					};
 

@@ -10,9 +10,7 @@
 vec4 MSAA_getPixel(const uint colorAttachmentIdx, const int samplePointIdx)
 {
 	return texelFetch(
-		sampler2DMS(attachment.colors[colorAttachmentIdx]),
-		ivec2(gl_FragCoord.xy),
-		samplePointIdx);
+		sampler2DMS(attachment.colors[colorAttachmentIdx]), ivec2(gl_FragCoord.xy), samplePointIdx);
 }
 
 #endif

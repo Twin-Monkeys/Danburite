@@ -14,18 +14,19 @@ namespace Danburite
 		std::unique_ptr<ObjectGL::FrameBuffer> __pFrameBuffer;
 		ObjectGL::VertexArray __fullscreenQuadVA { 6 };
 
-		ObjectGL::Program *const __pProgram;
+		ObjectGL::UniformSetter &__attachmentSetter;
 
 		PostProcessor(const PostProcessor &) = delete;
 		PostProcessor &operator=(const PostProcessor &) = delete;
 
 	protected:
-		PostProcessor(const ProgramType type);
+		PostProcessor();
 		
 		void _attach(const ObjectGL::AttachmentType attachmentType, ObjectGL::Attachable &attachment) noexcept;
 		bool _detach(const ObjectGL::AttachmentType attachmentType) noexcept;
 
-		virtual void _onRender() noexcept = 0;
+		virtual void _onRender(
+			ObjectGL::UniformSetter &attachmentSetter, ObjectGL::VertexArray &fullscreenQuadVA) noexcept = 0;
 
 	public:
 		void bind() noexcept;

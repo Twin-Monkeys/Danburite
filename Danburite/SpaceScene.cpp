@@ -213,7 +213,7 @@ SpaceScene::SpaceScene()
 	// Post Processing
 
 	__pMSAAPP = make_shared<MSAAPostProcessor>();
-	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>(*__pUBGammaCorrection);
+	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>();
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
 	__pPPPipeline->appendProcessor(__pMSAAPP);

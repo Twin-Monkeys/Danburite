@@ -23,10 +23,22 @@ namespace Danburite
 
 		template <typename T>
 		static GLuint64 getHandleIfExist(const std::shared_ptr<T> &pTexture) noexcept;
+
+		template <typename T>
+		static GLuint64 getHandleIfExist(const std::unique_ptr<T> &pTexture) noexcept;
 	};
 
 	template <typename T>
 	GLuint64 TextureUtil::getHandleIfExist(const std::shared_ptr<T> &pTexture) noexcept
+	{
+		if (!pTexture)
+			return 0ULL;
+
+		return pTexture->getHandle();
+	}
+
+	template <typename T>
+	GLuint64 TextureUtil::getHandleIfExist(const std::unique_ptr<T> &pTexture) noexcept
 	{
 		if (!pTexture)
 			return 0ULL;

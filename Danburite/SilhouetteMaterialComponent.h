@@ -12,7 +12,7 @@ namespace Danburite
 		float __zFar = Constant::Camera::DEFAULT_Z_ORTHO_FAR;
 
 	protected:
-		virtual void _onDeploy(ObjectGL::UniformSetter &uniformSetter) const noexcept override;
+		virtual void _onDeploy(ObjectGL::UniformSetter &materialSetter) const noexcept override;
 
 	public:
 		constexpr void setNearFar(const float zNear, const float zFar) noexcept;

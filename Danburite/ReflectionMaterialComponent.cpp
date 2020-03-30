@@ -8,12 +8,12 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	void ReflectionMaterialComponent::_onDeploy(UniformSetter &uniformSetter) const noexcept
+	void ReflectionMaterialComponent::_onDeploy(UniformSetter &materialSetter) const noexcept
 	{
 		using namespace ShaderIdentifier;
 
-		uniformSetter.setUniformUvec2(Name::Material::ENVIRONMENT_TEX, TextureUtil::getHandleIfExist(__pEnvTex));
-		uniformSetter.setUniformUvec2(Name::Material::NORMAL_TEX, TextureUtil::getHandleIfExist(__pNormalTex));
+		materialSetter.setUniformUvec2(Name::Material::ENVIRONMENT_TEX, TextureUtil::getHandleIfExist(__pEnvTex));
+		materialSetter.setUniformUvec2(Name::Material::NORMAL_TEX, TextureUtil::getHandleIfExist(__pNormalTex));
 	}
 
 	void ReflectionMaterialComponent::setEnvironmentTexture(const shared_ptr<TextureCubemap> &pTexture) noexcept

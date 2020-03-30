@@ -8,9 +8,9 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	void SilhouetteMaterialComponent::_onDeploy(UniformSetter &uniformSetter) const noexcept
+	void SilhouetteMaterialComponent::_onDeploy(UniformSetter &materialSetter) const noexcept
 	{
-		uniformSetter.setUniformFloat(ShaderIdentifier::Name::Material::Z_NEAR, __zNear);
-		uniformSetter.setUniformFloat(ShaderIdentifier::Name::Material::Z_FAR, __zFar);
+		materialSetter.setUniformFloat(ShaderIdentifier::Name::Material::Z_NEAR, __zNear);
+		materialSetter.setUniformFloat(ShaderIdentifier::Name::Material::Z_FAR, __zFar);
 	}
 }
