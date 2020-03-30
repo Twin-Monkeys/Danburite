@@ -221,9 +221,11 @@ void ShadowTestScene::draw() noexcept
 	__pLightHandler->batchDeploy();
 	__pLightHandler->batchBakeDepthMap(*__pDrawer);
 
-	UniformBufferFactory::getInstance().
-		getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA).
-		directDeploy(*__pCamera);
+	UniformBuffer &ubCamera =
+		UniformBufferFactory::getInstance().
+		getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA);
+
+	ubCamera.directDeploy(*__pCamera);
 
 	// Render scene onto gamma-corrected frame buffer
 	__pPPPipeline->bind();

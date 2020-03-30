@@ -36,8 +36,7 @@ namespace Danburite
 		__lightParamSetter.setUniformBool(ShaderIdentifier::Name::Light::SHADOW_ENABLED, __shadowEnabled);
 		__lightParamSetter.setUniformMat4(ShaderIdentifier::Name::Light::VIEW_MATRIX, _getViewMatrix());
 		__lightParamSetter.setUniformMat4(ShaderIdentifier::Name::Light::PROJECTION_MATRIX, _getProjMatrix());
-		__lightParamSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Light::DEPTH_MAP, __depthBaker.getDepthMap().getHandle());
+		__lightParamSetter.setUniformUvec2(ShaderIdentifier::Name::Light::DEPTH_MAP, __depthBaker.getDepthMap().getHandle());
 
 		_onDeploy(__lightParamSetter);
 	}

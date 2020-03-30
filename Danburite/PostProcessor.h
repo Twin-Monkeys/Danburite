@@ -12,7 +12,7 @@ namespace Danburite
 	{
 	private:
 		std::unique_ptr<ObjectGL::FrameBuffer> __pFrameBuffer;
-		ObjectGL::VertexArray __fullscreenQuadVA;
+		ObjectGL::VertexArray __fullscreenQuadVA { 6 };
 
 		ObjectGL::Program *const __pProgram;
 

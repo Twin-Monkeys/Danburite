@@ -38,7 +38,7 @@ namespace ObjectGL
 		virtual void _onBind() noexcept override;
 
 	public:
-		VertexArray(const GLsizei numVertices);
+		explicit VertexArray(const GLsizei numVertices);
 
 		VertexArray(
 			const std::shared_ptr<VertexBuffer> &pVertexBuffer,
