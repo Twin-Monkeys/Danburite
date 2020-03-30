@@ -22,9 +22,11 @@ namespace Danburite
 
 	void MSAAPostProcessor::_onRender(UniformSetter &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
 	{
-		attachmentSetter.setUniformUvec2(
+		/*attachmentSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT_ARRAY[0],
-			TextureUtil::getHandleIfExist(__pColorAttachment));
+			TextureUtil::getHandleIfExist(__pColorAttachment));*/
+
+		__pColorAttachment->bind(2);
 
 		__program.bind();
 		fullscreenQuadVA.draw();
