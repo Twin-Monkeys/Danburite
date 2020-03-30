@@ -10,15 +10,12 @@ namespace Danburite
 		public PerspectiveCameraLight, public LightBaseComponent, public AttenuatedLightComponent
 	{
 	protected:
-		PointLight(
-			const LightType type,
-			ObjectGL::UniformSetter &lightParamSetter,
-			ObjectGL::UniformSetter &cameraParamSetter) noexcept;
+		PointLight(const LightType type);
 
 		virtual void _onDeploy(LightUniformSetter &lightParamSetter) noexcept override;
 
 	public:
-		PointLight(ObjectGL::UniformSetter &lightParamSetter, ObjectGL::UniformSetter &cameraParamSetter) noexcept;
+		PointLight();
 
 		virtual ~PointLight() = default;
 	};

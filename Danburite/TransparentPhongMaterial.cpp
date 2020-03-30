@@ -7,9 +7,8 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	TransparentPhongMaterial::TransparentPhongMaterial(
-		const VertexAttributeType vertexType, UniformSetter &uniformSetter) noexcept :
-		PhongMaterial(MaterialType::TRANSPARENT_PHONG, vertexType, uniformSetter)
+	TransparentPhongMaterial::TransparentPhongMaterial(const VertexAttributeType vertexType) noexcept :
+		PhongMaterial(MaterialType::TRANSPARENT_PHONG, vertexType)
 	{}
 
 	void TransparentPhongMaterial::_onRender(

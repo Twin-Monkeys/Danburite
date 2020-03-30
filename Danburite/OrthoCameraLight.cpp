@@ -4,9 +4,8 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	OrthoCameraLight::OrthoCameraLight(
-		const LightType type, UniformSetter &lightParamSetter, UniformSetter &cameraParamSetter) :
-		TransformableCameraLight(type, lightParamSetter, cameraParamSetter)
+	OrthoCameraLight::OrthoCameraLight(const LightType type) :
+		TransformableCameraLight(type)
 	{}
 
 	TransformableCamera &OrthoCameraLight::_getCamera() noexcept

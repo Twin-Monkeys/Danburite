@@ -7,8 +7,8 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	RefractionMaterial::RefractionMaterial(const VertexAttributeType vertexType, UniformSetter &uniformSetter) noexcept :
-		Material(MaterialType::REFRACTION, vertexType, uniformSetter),
+	RefractionMaterial::RefractionMaterial(const VertexAttributeType vertexType) noexcept :
+		Material(MaterialType::REFRACTION, vertexType),
 		_refractionProgram(ProgramFactory::getInstance().getProgram(ProgramType::REFRACTION))
 	{}
 

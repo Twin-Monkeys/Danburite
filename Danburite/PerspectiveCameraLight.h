@@ -15,9 +15,6 @@ namespace Danburite
 		virtual const TransformableCamera &_getCamera() const noexcept override;
 
 	public:
-		PerspectiveCameraLight(
-			const LightType type,
-			ObjectGL::UniformSetter& lightParamSetter,
-			ObjectGL::UniformSetter& cameraParamSetter);
+		PerspectiveCameraLight(const LightType type);
 	};
 }

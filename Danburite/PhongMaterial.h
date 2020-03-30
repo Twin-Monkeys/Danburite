@@ -11,16 +11,14 @@ namespace Danburite
 	protected:
 		ObjectGL::Program &_phongProgram;
 
-		PhongMaterial(
-			const MaterialType materialType,
-			const VertexAttributeType vertexType, ObjectGL::UniformSetter &uniformSetter) noexcept;
+		PhongMaterial(const MaterialType materialType, const VertexAttributeType vertexType) noexcept;
 
 		virtual void _onRender(
 			ObjectGL::UniformSetter &uniformSetter,
 			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
 
 	public:
-		PhongMaterial(const VertexAttributeType vertexType, ObjectGL::UniformSetter &uniformSetter) noexcept;
+		PhongMaterial(const VertexAttributeType vertexType) noexcept;
 
 		using Material::useLighting;
 		using Material::useAmbientTexture;

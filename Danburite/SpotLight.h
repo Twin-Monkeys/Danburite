@@ -11,7 +11,7 @@ namespace Danburite
 		virtual void _onDeploy(LightUniformSetter &lightParamSetter) noexcept override;
 
 	public:
-		SpotLight(ObjectGL::UniformSetter &lightParamSetter, ObjectGL::UniformSetter &cameraParamSetter) noexcept;
+		SpotLight();
 
 		virtual ~SpotLight() = default;
 	};

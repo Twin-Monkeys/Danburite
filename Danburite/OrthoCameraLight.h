@@ -15,10 +15,7 @@ namespace Danburite
 		virtual const TransformableCamera &_getCamera() const noexcept override;
 
 	public:
-		OrthoCameraLight(
-			const LightType type,
-			ObjectGL::UniformSetter &lightParamSetter,
-			ObjectGL::UniformSetter &cameraParamSetter);
+		OrthoCameraLight(const LightType type);
 
 		constexpr void setDepthBakingOrthoLeft(const float xLeft) noexcept;
 		constexpr void setDepthBakingOrthoRight(const float xRight) noexcept;

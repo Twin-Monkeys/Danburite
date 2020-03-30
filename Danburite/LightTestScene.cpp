@@ -30,70 +30,33 @@ LightTestScene::LightTestScene()
 	// Depth mask도 같은 원리이다. (클리어 전 depth mask가 false이면 클리어 안됨.)
 	// GLFunctionWrapper::setStencilMask(0xFF); -> 기본이므로 생략해도 무방.
 
-	ProgramFactory &programFactory = ProgramFactory::getInstance();
-	Program &monoColorProgram = programFactory.getProgram(ProgramType::MONO_COLOR);
-	Program &phongProgram = programFactory.getProgram(ProgramType::PHONG);
-	Program &silhouetteProgram = programFactory.getProgram(ProgramType::SILHOUETTE);
-	Program &outlineProgram = programFactory.getProgram(ProgramType::OUTLINE);
-	Program &skyboxProgram = programFactory.getProgram(ProgramType::SKYBOX);
-	Program &convProgram = programFactory.getProgram(ProgramType::POST_PROCESS_CONVOLUTIONAL);
-
-
-	//// Uniform Buffer 생성 ////
-
-	__pUBMaterial = make_shared<UniformBuffer>("UBMaterial", ShaderIdentifier::Value::UniformBlockBindingPoint::MATERIAL);
-	__pUBMaterial->registerProgram(monoColorProgram);
-	__pUBMaterial->registerProgram(phongProgram);
-	__pUBMaterial->registerProgram(silhouetteProgram);
-	__pUBMaterial->registerProgram(outlineProgram);
-	__pUBMaterial->registerProgram(skyboxProgram);
-
-	__pUBLight = make_shared<UniformBuffer>("UBLight", ShaderIdentifier::Value::UniformBlockBindingPoint::LIGHT);
-	__pUBLight->registerProgram(phongProgram);
-	__pUBLight->enableZeroInit(true);
-
-	__pUBCamera = make_shared<UniformBuffer>("UBCamera", ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA);
-	__pUBCamera->registerProgram(monoColorProgram);
-	__pUBCamera->registerProgram(phongProgram);
-	__pUBCamera->registerProgram(silhouetteProgram);
-	__pUBCamera->registerProgram(outlineProgram);
-	__pUBCamera->registerProgram(skyboxProgram);
-
-	__pUBConv = make_shared<UniformBuffer>("UBConvolution", ShaderIdentifier::Value::UniformBlockBindingPoint::CONVOLUTION);
-	__pUBConv->registerProgram(convProgram);
-	__pUBConv->enableZeroInit(true);
-
-	__pUBCubemap = make_shared<UniformBuffer>("UBCubemap", ShaderIdentifier::Value::UniformBlockBindingPoint::CUBEMAP);
-	__pUBCubemap->registerProgram(skyboxProgram);
-
-
 	//// Rendering unit 생성 ////
 
 	RenderUnitManager &ruManager = RenderUnitManager::getInstance();
 
 	const mat4 rotationMat = rotate(-half_pi<float>(), vec3 { 1.f, 0.f, 0.f });
 
-	__pTerrainRU = AssetImporter::import("res/asset/mountain_terrain/Sasso.obj", *__pUBMaterial);
+	__pTerrainRU = AssetImporter::import("res/asset/mountain_terrain/Sasso.obj");
 	Transform &terrainTransform = __pTerrainRU->getTransform();
 	terrainTransform.setScale(5.f);
 
-	__pNanosuitRU = AssetImporter::import("res/asset/nanosuit/nanosuit.obj", *__pUBMaterial);
+	__pNanosuitRU = AssetImporter::import("res/asset/nanosuit/nanosuit.obj");
 	Transform &nanosuitTransform = __pNanosuitRU->getTransform();
 	nanosuitTransform.setScale(.7f);
 	nanosuitTransform.setPosition(15.f, -3.5f, 14.f);
 	nanosuitTransform.adjustRotation(0.f, .7f, 0.f);
 	
-	__pLizardManRU = AssetImporter::import("res/asset/lizard_man/scene.gltf", *__pUBMaterial);
+	__pLizardManRU = AssetImporter::import("res/asset/lizard_man/scene.gltf");
 	Transform &lizardManTransform = __pLizardManRU->getTransform();
 	lizardManTransform.setScale(4.f);
 	lizardManTransform.adjustRotation(0.f, -.5f, 0.f);
 	lizardManTransform.setPosition(-14.7f, 1.5f, 20.f);
 
-	__pStreetLightRU = AssetImporter::import("res/asset/street_light/scene.gltf", *__pUBMaterial, rotationMat);
+	__pStreetLightRU = AssetImporter::import("res/asset/street_light/scene.gltf", rotationMat);
 	Transform &streetLightTransform = __pStreetLightRU->getTransform();
 	streetLightTransform.setPosition(-13.f, -2.f, -13.f);
 
-	__pSkullRU = AssetImporter::import("res/asset/skull/scene.gltf", *__pUBMaterial);
+	__pSkullRU = AssetImporter::import("res/asset/skull/scene.gltf");
 	Transform &skullTransform = __pSkullRU->getTransform();
 	skullTransform.setPosition(12.f, -1.8f, -5.f);
 	skullTransform.setScale(5.f);
@@ -113,7 +76,7 @@ LightTestScene::LightTestScene()
 	pCubeTexture->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 
 	const shared_ptr<TransparentPhongMaterial> &pCubeMaterial =
-		make_shared<TransparentPhongMaterial>(VertexAttributeType::POS3_NORMAL3_TEXCOORD2, *__pUBMaterial);
+		make_shared<TransparentPhongMaterial>(VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
 
 	pCubeMaterial->setDiffuseTexture(pCubeTexture);
 
@@ -126,10 +89,10 @@ LightTestScene::LightTestScene()
 
 	//// 조명 생성 ////
 
-	__pDirectionalLight = make_shared<DirectionalLight>(*__pUBLight, *__pUBCamera);
+	__pDirectionalLight = make_shared<DirectionalLight>();
 	__pDirectionalLight->getTransform().adjustRotation(1.f, -1.f, 0.f); __pDirectionalLight->setAlbedo(.1f, .1f, .1f);
 
-	__pStreetLight = make_shared<PointLight>(*__pUBLight, *__pUBCamera);
+	__pStreetLight = make_shared<PointLight>();
 	// const vec3 &streetLightPos = streetLightTransform.getPosition();
 	// streetLightTransform.setPosition(streetLightPos.x, streetLightPos.y + 10.f, streetLightPos.z);
 
@@ -138,7 +101,7 @@ LightTestScene::LightTestScene()
 	__pStreetLight->setDiffuseStrength(2.f);
 	__pStreetLight->setSpecularStrength(2.f);
 
-	__pRedSpotLight = make_shared<SpotLight>(*__pUBLight, *__pUBCamera);
+	__pRedSpotLight = make_shared<SpotLight>();
 	// __pRedSpotLight->setPosition(35.f, 4.f, -35.f);
 	// __pRedSpotLight->setDirection(-1.f, -.3f, 1.f);
 	__pRedSpotLight->setAttenuation(1.f, .014f, .0007f);
@@ -147,7 +110,7 @@ LightTestScene::LightTestScene()
 	__pRedSpotLight->setDiffuseStrength(2.f);
 	__pRedSpotLight->setSpecularStrength(2.f);
 
-	__pGreenSpotLight = make_shared<SpotLight>(*__pUBLight, *__pUBCamera);
+	__pGreenSpotLight = make_shared<SpotLight>();
 	// __pGreenSpotLight->setPosition(35.f, 4.f, 35.f);
 	// __pGreenSpotLight->setDirection(-1.f, -.3f, -1.f);
 	__pGreenSpotLight->setAttenuation(1.f, .014f, .0007f);
@@ -156,7 +119,7 @@ LightTestScene::LightTestScene()
 	__pGreenSpotLight->setDiffuseStrength(2.f);
 	__pGreenSpotLight->setSpecularStrength(2.f);
 
-	__pBlueSpotLight = make_shared<SpotLight>(*__pUBLight, *__pUBCamera);
+	__pBlueSpotLight = make_shared<SpotLight>();
 	// __pBlueSpotLight->setPosition(-35.f, 4.f, 35.f);
 	// __pBlueSpotLight->setDirection(1.f, -.3f, -1.f);
 	__pBlueSpotLight->setAttenuation(1.f, .014f, .0007f);
@@ -165,7 +128,7 @@ LightTestScene::LightTestScene()
 	__pBlueSpotLight->setDiffuseStrength(2.f);
 	__pBlueSpotLight->setSpecularStrength(2.f);
 
-	__pRotatingLight = make_shared<PointLight>(*__pUBLight, *__pUBCamera);
+	__pRotatingLight = make_shared<PointLight>();
 	// __pRotatingLight->setPosition(25.f, 3.f, 0.f);
 	__pRotatingLight->setAttenuation(1.f, .07f, .017f);
 	__pRotatingLight->setAlbedo(.1f, .8f, .9f);

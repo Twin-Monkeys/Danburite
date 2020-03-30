@@ -8,9 +8,8 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	OutliningPhongMaterial::OutliningPhongMaterial(
-		const VertexAttributeType vertexType, UniformSetter &uniformSetter) noexcept :
-		Material(MaterialType::OUTLINING_PHONG, vertexType, uniformSetter),
+	OutliningPhongMaterial::OutliningPhongMaterial(const VertexAttributeType vertexType) noexcept :
+		Material(MaterialType::OUTLINING_PHONG, vertexType),
 		_phongProgram(ProgramFactory::getInstance().getProgram(ProgramType::PHONG)),
 		_outlineProgram(ProgramFactory::getInstance().getProgram(ProgramType::OUTLINE))
 	{

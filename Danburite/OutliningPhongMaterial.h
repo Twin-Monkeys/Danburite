@@ -16,8 +16,7 @@ namespace Danburite
 			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
 
 	public:
-		OutliningPhongMaterial(
-			const VertexAttributeType vertexType, ObjectGL::UniformSetter &uniformSetter) noexcept;
+		OutliningPhongMaterial(const VertexAttributeType vertexType) noexcept;
 
 		using Material::useLighting;
 		using Material::useAmbientTexture;

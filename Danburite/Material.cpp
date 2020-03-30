@@ -1,6 +1,7 @@
 #include "Material.h"
 #include "ProgramFactory.h"
 #include "ShaderIdentifier.h"
+#include "UniformBufferFactory.h"
 
 using namespace std;
 using namespace glm;
@@ -8,10 +9,10 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	Material::Material(
-		const MaterialType materialType,
-		const VertexAttributeType vertexType, UniformSetter &uniformSetter) noexcept :
-		__MATERIAL_TYPE(materialType), __VERTEX_TYPE(vertexType), __uniformSetter(uniformSetter)
+	Material::Material(const MaterialType materialType, const VertexAttributeType vertexType) noexcept :
+		__MATERIAL_TYPE(materialType), __VERTEX_TYPE(vertexType),
+		__uniformSetter(UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::MATERIAL))
 	{}
 
 	void Material::render(VertexArray &vertexArray, const GLsizei numInstances) noexcept

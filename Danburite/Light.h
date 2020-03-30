@@ -28,24 +28,19 @@ namespace Danburite
 		bool __enabled = true;
 		bool __shadowEnabled = false;
 
-		ObjectGL::UniformSetter &__lightParamSetter;
-		LightUniformSetter __lightParamSetterWrapper;
-
+		LightUniformSetter __lightParamSetter;
 		DepthBaker __depthBaker;
 
 		void __release() noexcept;
 		
-		static std::unordered_map<ObjectGL::UniformSetter *, LightIDAllocator> &__getAllocatorMap() noexcept;
+		constexpr static LightIDAllocator &__getAllocator() noexcept;
 
 	protected:
 		virtual const glm::mat4 &_getViewMatrix() const noexcept = 0;
 		virtual const glm::mat4 &_getProjMatrix() const noexcept = 0;
 
 	public:
-		Light(
-			const LightType type,
-			ObjectGL::UniformSetter &lightParamSetter,
-			ObjectGL::UniformSetter &cameraParamSetter);
+		Light(const LightType type);
 
 		void selfDeploy() noexcept;
 

@@ -17,7 +17,7 @@ namespace Danburite
 			ObjectGL::VertexArray& vertexArray, const GLsizei numInstances) noexcept override;
 
 	public:
-		SilhouetteMaterial(const VertexAttributeType vertexType, ObjectGL::UniformSetter &uniformSetter) noexcept;
+		SilhouetteMaterial(const VertexAttributeType vertexType) noexcept;
 
 		virtual ~SilhouetteMaterial() = default;
 	};

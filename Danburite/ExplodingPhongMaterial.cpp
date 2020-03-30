@@ -6,9 +6,8 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	ExplodingPhongMaterial::ExplodingPhongMaterial(
-		const VertexAttributeType vertexType, UniformSetter &uniformSetter) noexcept :
-		Material(MaterialType::EXPLODING_PHONG, vertexType, uniformSetter),
+	ExplodingPhongMaterial::ExplodingPhongMaterial(const VertexAttributeType vertexType) noexcept :
+		Material(MaterialType::EXPLODING_PHONG, vertexType),
 		_explodingPhongProgram(ProgramFactory::getInstance().getProgram(ProgramType::EXPLODING_PHONG))
 	{
 		useLighting(true);

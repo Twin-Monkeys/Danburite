@@ -15,7 +15,7 @@ namespace Danburite
 			ObjectGL::UniformSetter &uniformSetter, ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
 
 	public:
-		RefractionMaterial(const VertexAttributeType vertexType, ObjectGL::UniformSetter &uniformSetter) noexcept;
+		RefractionMaterial(const VertexAttributeType vertexType) noexcept;
 
 		using Material::useNormalTexture;
 

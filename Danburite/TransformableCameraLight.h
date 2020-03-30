@@ -18,10 +18,7 @@ namespace Danburite
 		void _deployPosition(LightUniformSetter &lightParamSetter) noexcept;
 
 	public:
-		TransformableCameraLight(
-			const LightType type,
-			ObjectGL::UniformSetter& lightParamSetter,
-			ObjectGL::UniformSetter& cameraParamSetter);
+		TransformableCameraLight(const LightType type);
 
 		CameraTransform &getTransform() noexcept;
 		const CameraTransform &getTransform() const noexcept;

@@ -6,8 +6,8 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	SpotLight::SpotLight(UniformSetter &lightParamSetter, UniformSetter &cameraParamSetter) noexcept :
-		PointLight(LightType::SPOT, lightParamSetter, cameraParamSetter)
+	SpotLight::SpotLight() :
+		PointLight(LightType::SPOT)
 	{}
 
 	void SpotLight::_onDeploy(LightUniformSetter &lightParamSetter) noexcept

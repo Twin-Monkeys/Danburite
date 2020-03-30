@@ -25,9 +25,7 @@ namespace Danburite
 		constexpr void __setOption(const MaterialOptionFlag flags, const bool enabled) noexcept;
 
 	protected:
-		Material(
-			const MaterialType materialType,
-			const VertexAttributeType vertexType, ObjectGL::UniformSetter &uniformSetter) noexcept;
+		Material(const MaterialType materialType, const VertexAttributeType vertexType) noexcept;
 
 		virtual void _onRender(
 			ObjectGL::UniformSetter &uniformSetter,

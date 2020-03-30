@@ -11,8 +11,7 @@ namespace Danburite
 		virtual void _onDeploy(LightUniformSetter &lightParamSetter) noexcept override;
 
 	public:
-		DirectionalLight(
-			ObjectGL::UniformSetter &lightParamSetter, ObjectGL::UniformSetter &cameraParamSetter) noexcept;
+		DirectionalLight();
 
 		virtual ~DirectionalLight() = default;
 	};

@@ -106,8 +106,9 @@ namespace Danburite
 	}
 
 	shared_ptr<RenderUnit> AssetImporter::__parse(
-		const string &parentPath, const aiNode *const pNode, const aiScene* const pScene, UniformSetter &uniformSetter,
-		const mat3 &vertexMatrix, const mat3 &normalMatrix, const MaterialType materialType, unordered_map<string, shared_ptr<Texture2D>> &textureCache)
+		const string &parentPath, const aiNode *const pNode, const aiScene* const pScene,
+		const mat3 &vertexMatrix, const mat3 &normalMatrix, const MaterialType materialType,
+		unordered_map<string, shared_ptr<Texture2D>> &textureCache)
 	{
 		RenderUnitManager &renderingUnitMgr = RenderUnitManager::getInstance();
 		const aiMesh *const *const pAiMeshes = pScene->mMeshes;
@@ -207,7 +208,7 @@ namespace Danburite
 			switch (materialType)
 			{
 			case MaterialType::MONO_COLOR:
-				pMaterial = make_shared<MonoColorMaterial>(vertexType, uniformSetter);
+				pMaterial = make_shared<MonoColorMaterial>(vertexType);
 				break;
 
 			case MaterialType::EXPLODING_PHONG:
@@ -247,7 +248,7 @@ namespace Danburite
 				
 				if (materialType == MaterialType::EXPLODING_PHONG)
 				{
-					pMaterial = make_shared<ExplodingPhongMaterial>(vertexType, uniformSetter);
+					pMaterial = make_shared<ExplodingPhongMaterial>(vertexType);
 
 					__setupPhongStyleMaterial(
 						static_pointer_cast<ExplodingPhongMaterial>(pMaterial),
@@ -255,7 +256,7 @@ namespace Danburite
 				}
 				else if (materialType == MaterialType::REFLECTION_PHONG)
 				{
-					pMaterial = make_shared<ReflectionPhongMaterial>(vertexType, uniformSetter);
+					pMaterial = make_shared<ReflectionPhongMaterial>(vertexType);
 
 					__setupPhongStyleMaterial(
 						static_pointer_cast<ReflectionPhongMaterial>(pMaterial),
@@ -263,7 +264,7 @@ namespace Danburite
 				}
 				else if (materialType == MaterialType::TRANSPARENT_PHONG)
 				{
-					pMaterial = make_shared<TransparentPhongMaterial>(vertexType, uniformSetter);
+					pMaterial = make_shared<TransparentPhongMaterial>(vertexType);
 
 					__setupPhongStyleMaterial(
 						static_pointer_cast<TransparentPhongMaterial>(pMaterial),
@@ -271,7 +272,7 @@ namespace Danburite
 				}
 				else if (materialType == MaterialType::OUTLINING_PHONG)
 				{
-					pMaterial = make_shared<OutliningPhongMaterial>(vertexType, uniformSetter);
+					pMaterial = make_shared<OutliningPhongMaterial>(vertexType);
 
 					__setupPhongStyleMaterial(
 						static_pointer_cast<OutliningPhongMaterial>(pMaterial),
@@ -279,7 +280,7 @@ namespace Danburite
 				}
 				else
 				{
-					pMaterial = make_shared<PhongMaterial>(vertexType, uniformSetter);
+					pMaterial = make_shared<PhongMaterial>(vertexType);
 
 					__setupPhongStyleMaterial(
 						static_pointer_cast<PhongMaterial>(pMaterial),
@@ -289,13 +290,12 @@ namespace Danburite
 				break;
 
 			case MaterialType::SILHOUETTE:
-				pMaterial = make_shared<SilhouetteMaterial>(vertexType, uniformSetter);
+				pMaterial = make_shared<SilhouetteMaterial>(vertexType);
 				break;
 
 			case MaterialType::REFLECTION:
 			{
-				const shared_ptr<ReflectionMaterial> &pReflectionMaterial =
-					make_shared<ReflectionMaterial>(vertexType, uniformSetter);
+				const shared_ptr<ReflectionMaterial> &pReflectionMaterial = make_shared<ReflectionMaterial>(vertexType);
 
 				const shared_ptr<Texture2D> &pNormalTex =
 					__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_NORMALS);
@@ -312,8 +312,7 @@ namespace Danburite
 
 			case MaterialType::REFRACTION:
 			{
-				const shared_ptr<RefractionMaterial> &pRefractionMaterial =
-					make_shared<RefractionMaterial>(vertexType, uniformSetter);
+				const shared_ptr<RefractionMaterial> &pRefractionMaterial = make_shared<RefractionMaterial>(vertexType);
 
 				const shared_ptr<Texture2D> &pNormalTex =
 					__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_NORMALS);
@@ -338,7 +337,6 @@ namespace Danburite
 
 	shared_ptr<RenderUnit> AssetImporter::import(
 		const string_view &assetPath,
-		UniformSetter &uniformSetter,
 		const mat4 &transformation,
 		const MaterialType materialType,
 		const string &unitName)
@@ -368,8 +366,7 @@ namespace Danburite
 			nodeStack.pop();
 
 			const shared_ptr<RenderUnit> &pParsedChild = __parse(
-				parentPath, pChild, pScene, uniformSetter,
-				vertexMatrix, normalMatrix, materialType, textureCache);
+				parentPath, pChild, pScene, vertexMatrix, normalMatrix, materialType, textureCache);
 
 			if (!pParent)
 				retVal = pParsedChild;

@@ -25,12 +25,7 @@ ShadowTestScene::ShadowTestScene()
 	GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, true);
 
 
-	//// Uniform Buffer 로딩 ////
-
 	UniformBufferFactory &ubFactory = UniformBufferFactory::getInstance();
-	UniformBuffer &ubMaterial = ubFactory.getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::MATERIAL);
-	UniformBuffer &ubLight = ubFactory.getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::LIGHT);
-	UniformBuffer &ubCamera = ubFactory.getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA);
 	UniformBuffer &ubGammaCorrection = ubFactory.getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::GAMMA_CORRECTION);
 
 
@@ -54,9 +49,7 @@ ShadowTestScene::ShadowTestScene()
 	pCubeTexture->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
 	pCubeTexture->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 
-	const shared_ptr<PhongMaterial> &pFloorMaterial =
-		make_shared<PhongMaterial>(VertexAttributeType::POS3_COLOR4, ubMaterial);
-
+	const shared_ptr<PhongMaterial> &pFloorMaterial = make_shared<PhongMaterial>(VertexAttributeType::POS3_COLOR4);
 	pFloorMaterial->setDiffuseTexture(pFloorTexture);
 	pFloorMaterial->useDiffuseTexture(true);
 	pFloorMaterial->setShininess(150.f);
@@ -71,9 +64,7 @@ ShadowTestScene::ShadowTestScene()
 	const shared_ptr<VertexArray> &pCubeVA =
 		vaFactory.getVertexArrayPtr(ShapeType::CUBE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
 
-	const shared_ptr<PhongMaterial> &pCubeMaterial =
-		make_shared<PhongMaterial>(VertexAttributeType::POS3_NORMAL3_TEXCOORD2, ubMaterial);
-
+	const shared_ptr<PhongMaterial> &pCubeMaterial = make_shared<PhongMaterial>(VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
 	pCubeMaterial->setDiffuseTexture(pCubeTexture);
 	pCubeMaterial->useDiffuseTexture(true);
 	pCubeMaterial->setShininess(150.f);
@@ -95,27 +86,28 @@ ShadowTestScene::ShadowTestScene()
 	cube3Transform.setPosition(-5.f, 6.f, 5.f);
 	cube3Transform.setRotation(-3.f, 1.f, 1.f);
 
-	__pNanosuitRU = AssetImporter::import("res/asset/nanosuit/nanosuit.obj", ubMaterial);
+	__pNanosuitRU = AssetImporter::import("res/asset/nanosuit/nanosuit.obj");
 	Transform &nanosuitTransform = __pNanosuitRU->getTransform();
 	nanosuitTransform.setPosition(-10.f, 0.f, 15.f);
 
-	__pSkullRU = AssetImporter::import("res/asset/skull/scene.gltf", ubMaterial);
+	__pSkullRU = AssetImporter::import("res/asset/skull/scene.gltf");
 	Transform &skullTransform = __pSkullRU->getTransform();
 	skullTransform.setPosition(10.f, 5.f, 15.f);
 	skullTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
 	skullTransform.setScale(5.f);
 
+
 	//// 카메라 생성 ////
 
 	__pCamera = make_shared<PerspectiveCamera>();
 
-	Transform& cameraTransform = __pCamera->getTransform();
+	Transform &cameraTransform = __pCamera->getTransform();
 	cameraTransform.setPosition(0.f, 5.f, 40.f);
 
 
 	// Light 초기화
 
-	__pRedLight = make_shared<DirectionalLight>(ubLight, ubCamera);
+	__pRedLight = make_shared<DirectionalLight>();
 
 	Transform &redLightTransform = __pRedLight->getTransform();
 	redLightTransform.setPosition(20.f, 30.f, 0.f);
@@ -135,7 +127,7 @@ ShadowTestScene::ShadowTestScene()
 	__pRedLight->setDepthMapResolution(2048, 2048);
 	__pRedLight->setShadowEnabled(true);
 
-	__pWhiteLight = make_shared<DirectionalLight>(ubLight, ubCamera);
+	__pWhiteLight = make_shared<DirectionalLight>();
 
 	Transform& whiteLightTransform = __pWhiteLight->getTransform();
 	whiteLightTransform.setPosition(-20.f, 30.f, 0.f);

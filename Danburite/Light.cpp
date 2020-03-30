@@ -1,4 +1,5 @@
 #include "Light.h"
+#include "UniformBufferFactory.h"
 
 using namespace std;
 using namespace glm;
@@ -6,38 +7,39 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	Light::Light(
-		const LightType type, UniformSetter &lightParamSetter, UniformSetter &cameraParamSetter) :
-		Object(__getAllocatorMap()[&lightParamSetter].allocate()),
-		__lightParamSetter(lightParamSetter),
-		__lightParamSetterWrapper(lightParamSetter, ID),
-		__depthBaker(cameraParamSetter)
+	constexpr Light::LightIDAllocator &Light::__getAllocator() noexcept
 	{
-		__lightParamSetterWrapper.setUniformUint(ShaderIdentifier::Name::Light::TYPE, GLenum(type));
+		static LightIDAllocator instance;
+		return instance;
+	}
+
+	Light::Light(const LightType type) :
+		Object(__getAllocator().allocate()),
+		__lightParamSetter(UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::LIGHT), ID),
+
+		__depthBaker(UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA))
+	{
+		__lightParamSetter.setUniformUint(ShaderIdentifier::Name::Light::TYPE, GLenum(type));
 	}
 
 	void Light::__release() noexcept
 	{
 		setEnabled(false);
-		__getAllocatorMap()[&__lightParamSetter].deallocate(ID);
-	}
-
-	unordered_map<UniformSetter *, Light::LightIDAllocator> &Light::__getAllocatorMap() noexcept
-	{
-		static unordered_map<UniformSetter *, LightIDAllocator> instance;
-		return instance;
+		__getAllocator().deallocate(ID);
 	}
 
 	void Light::selfDeploy() noexcept
 	{
-		__lightParamSetterWrapper.setUniformBool(ShaderIdentifier::Name::Light::ENABLED, __enabled);
-		__lightParamSetterWrapper.setUniformBool(ShaderIdentifier::Name::Light::SHADOW_ENABLED, __shadowEnabled);
-		__lightParamSetterWrapper.setUniformMat4(ShaderIdentifier::Name::Light::VIEW_MATRIX, _getViewMatrix());
-		__lightParamSetterWrapper.setUniformMat4(ShaderIdentifier::Name::Light::PROJECTION_MATRIX, _getProjMatrix());
-		__lightParamSetterWrapper.setUniformUvec2(
+		__lightParamSetter.setUniformBool(ShaderIdentifier::Name::Light::ENABLED, __enabled);
+		__lightParamSetter.setUniformBool(ShaderIdentifier::Name::Light::SHADOW_ENABLED, __shadowEnabled);
+		__lightParamSetter.setUniformMat4(ShaderIdentifier::Name::Light::VIEW_MATRIX, _getViewMatrix());
+		__lightParamSetter.setUniformMat4(ShaderIdentifier::Name::Light::PROJECTION_MATRIX, _getProjMatrix());
+		__lightParamSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Light::DEPTH_MAP, __depthBaker.getDepthMap().getHandle());
 
-		_onDeploy(__lightParamSetterWrapper);
+		_onDeploy(__lightParamSetter);
 	}
 
 	void Light::setDepthMapResolution(const GLsizei width, const GLsizei height) noexcept

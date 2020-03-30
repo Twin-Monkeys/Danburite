@@ -33,51 +33,13 @@ SpaceScene::SpaceScene()
 	// Depth mask도 같은 원리이다. (클리어 전 depth mask가 false이면 클리어 안됨.)
 	// GLFunctionWrapper::setStencilMask(0xFF); -> 기본이므로 생략해도 무방.
 
-	ProgramFactory &programFactory = ProgramFactory::getInstance();
-	Program &phongProgram = programFactory.getProgram(ProgramType::PHONG);
-	Program &skyboxProgram = programFactory.getProgram(ProgramType::SKYBOX);
-	Program &refractionProgram = programFactory.getProgram(ProgramType::REFRACTION);
-	Program &gammaCorrectionProgram = programFactory.getProgram(ProgramType::POST_PROCESS_GAMMA_CORRECTION);
-
-
-	//// Uniform Buffer 생성 ////
-
-	__pUBMaterial = make_shared<UniformBuffer>(
-		ShaderIdentifier::Name::UniformBuffer::MATERIAL, ShaderIdentifier::Value::UniformBlockBindingPoint::MATERIAL);
-
-	__pUBMaterial->registerProgram(phongProgram);
-	__pUBMaterial->registerProgram(skyboxProgram);
-	__pUBMaterial->registerProgram(refractionProgram);
-
-	__pUBLight = make_shared<UniformBuffer>(
-		ShaderIdentifier::Name::UniformBuffer::LIGHT, ShaderIdentifier::Value::UniformBlockBindingPoint::LIGHT);
-
-	__pUBLight->registerProgram(phongProgram);
-	__pUBLight->enableZeroInit(true);
-
-	__pUBCamera = make_shared<UniformBuffer>(
-		ShaderIdentifier::Name::UniformBuffer::CAMERA, ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA);
-
-	__pUBCamera->registerProgram(phongProgram);
-	__pUBCamera->registerProgram(skyboxProgram);
-	__pUBCamera->registerProgram(refractionProgram);
-
-	__pUBGammaCorrection = make_shared<UniformBuffer>(
-		ShaderIdentifier::Name::UniformBuffer::GAMMA_CORRECTION, ShaderIdentifier::Value::UniformBlockBindingPoint::GAMMA_CORRECTION);
-
-	__pUBGammaCorrection->registerProgram(gammaCorrectionProgram);
-
-	__pUBCubemap = make_shared<UniformBuffer>(
-		ShaderIdentifier::Name::UniformBuffer::CUBEMAP, ShaderIdentifier::Value::UniformBlockBindingPoint::CUBEMAP);
-	
-	__pUBCubemap->registerProgram(skyboxProgram);
 
 	//// Rendering unit 생성 ////
 
 	RenderUnitManager &ruManager = RenderUnitManager::getInstance();
 
 	__pNanosuitRU = AssetImporter::import(
-		"res/asset/nanosuit/nanosuit.obj", *__pUBMaterial, Constant::Matrix::IDENTITY_MATRIX, MaterialType::REFRACTION);
+		"res/asset/nanosuit/nanosuit.obj", Constant::Matrix::IDENTITY_MATRIX, MaterialType::REFRACTION);
 
 	__pNanosuitRU->setNumInstances(25);
 
@@ -90,7 +52,7 @@ SpaceScene::SpaceScene()
 
 	mat4 starshipRotation = rotate(-half_pi<float>(), vec3{ 0.f, 1.f, 0.f });
 	starshipRotation = rotate(starshipRotation, pi<float>(), vec3{ 1.f, 0.f, 0.f });
-	__pStarshipRU = AssetImporter::import("res/asset/star_destroyer/scene.gltf", *__pUBMaterial, starshipRotation);
+	__pStarshipRU = AssetImporter::import("res/asset/star_destroyer/scene.gltf", starshipRotation);
 	__pStarshipRU->setNumInstances(6);
 
 	Transform &starship1Transform = __pStarshipRU->getTransform(0);
@@ -121,7 +83,7 @@ SpaceScene::SpaceScene()
 
 	mat4 halconRotation = rotate(pi<float>(), vec3{ 0.f, 1.f, 0.f });
 	halconRotation = rotate(halconRotation, -half_pi<float>(), vec3{ 1.f, 0.f, 0.f });
-	__pHalconRU = AssetImporter::import("res/asset/halcon/scene.gltf", *__pUBMaterial, halconRotation);
+	__pHalconRU = AssetImporter::import("res/asset/halcon/scene.gltf", halconRotation);
 	
 	Transform &halconTransform = __pHalconRU->getTransform();
 	halconTransform.setScale(.3f);
@@ -129,9 +91,9 @@ SpaceScene::SpaceScene()
 	halconTransform.setRotation(0.f, half_pi<float>(), 0.f);
 
 	mat4 fighterRotation = rotate(pi<float>(), vec3{ 0.f, 1.f, 0.f }); 
-	fighterRotation = rotate(fighterRotation, -half_pi<float>(), vec3{ 1.f, 0.f, 0.f });
+	fighterRotation = rotate(fighterRotation, -half_pi<float>(), vec3 { 1.f, 0.f, 0.f });
 	fighterRotation = scale(fighterRotation, vec3 { .5f });
-	__pFighterRU = AssetImporter::import("res/asset/federation_attack_fighter/scene.gltf", *__pUBMaterial, fighterRotation);
+	__pFighterRU = AssetImporter::import("res/asset/federation_attack_fighter/scene.gltf", fighterRotation);
 	__pFighterRU->setNumInstances(NUM_FIGHTERS);
 
 	default_random_engine randEngine;
@@ -156,19 +118,19 @@ SpaceScene::SpaceScene()
 	}
 
 	mat4 mercuryRotation = rotate(half_pi<float>(), vec3{ 1.f, 0.f, 0.f });
-	__pMercuryRU = AssetImporter::import("res/asset/mercury_planet/scene.gltf", *__pUBMaterial, mercuryRotation);
+	__pMercuryRU = AssetImporter::import("res/asset/mercury_planet/scene.gltf", mercuryRotation);
 	Transform &mercuryTransform = __pMercuryRU->getTransform();
 	mercuryTransform.setScale(50.f);
 	mercuryTransform.setPosition(70.f, 80.f, 850.f);
 	mercuryTransform.setRotation({ .3f, 1.f, 0.f });
 
-	__pJupiterRU = AssetImporter::import("res/asset/jupiter/scene.gltf", *__pUBMaterial, mercuryRotation);
+	__pJupiterRU = AssetImporter::import("res/asset/jupiter/scene.gltf", mercuryRotation);
 	Transform &jupiterTransform = __pJupiterRU->getTransform();
 	jupiterTransform.setScale(100.f);
 	jupiterTransform.setPosition(130.f, -90.f, -850.f);
 	jupiterTransform.setRotation({ -.3f, 1.f, 0.f });
 
-	__pVenusRU = AssetImporter::import("res/asset/venus/scene.gltf", *__pUBMaterial, mercuryRotation);
+	__pVenusRU = AssetImporter::import("res/asset/venus/scene.gltf", mercuryRotation);
 	Transform &venusTransform = __pVenusRU->getTransform();
 	venusTransform.setScale(50.f);
 	venusTransform.setPosition(-730.f, 40.f, -350.f);
@@ -177,7 +139,7 @@ SpaceScene::SpaceScene()
 
 	//// 조명 생성 ////
 
-	__pDirectionalLight = make_shared<DirectionalLight>(*__pUBLight, *__pUBCamera);
+	__pDirectionalLight = make_shared<DirectionalLight>();
 	__pDirectionalLight->setDepthBakingOrtho(-200.f, 200.f, -200.f, 200.f, 1.f, 1000.f);
 	__pDirectionalLight->setDepthMapResolution(4096, 4096);
 
