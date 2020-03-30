@@ -103,6 +103,17 @@ namespace Danburite
 				const string
 					ALBEDO_TEX = "cubemap.albedoTex";
 			}
+
+			namespace UniformBuffer
+			{
+				extern const string
+					MATERIAL = "UBMaterial",
+					LIGHT = "UBLight",
+					CAMERA = "UBCamera",
+					CONVOLUTION = "UBConvolution",
+					GAMMA_CORRECTION = "UBGammaCorrection",
+					CUBEMAP = "UBCubemap";
+			}
 		}
 	}
 }

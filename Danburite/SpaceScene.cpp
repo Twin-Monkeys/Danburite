@@ -42,26 +42,34 @@ SpaceScene::SpaceScene()
 
 	//// Uniform Buffer 持失 ////
 
-	__pUBMaterial = make_shared<UniformBuffer>("UBMaterial", ShaderIdentifier::Value::UniformBlockBindingPoint::MATERIAL);
+	__pUBMaterial = make_shared<UniformBuffer>(
+		ShaderIdentifier::Name::UniformBuffer::MATERIAL, ShaderIdentifier::Value::UniformBlockBindingPoint::MATERIAL);
+
 	__pUBMaterial->registerProgram(phongProgram);
 	__pUBMaterial->registerProgram(skyboxProgram);
 	__pUBMaterial->registerProgram(refractionProgram);
 
-	__pUBLight = make_shared<UniformBuffer>("UBLight", ShaderIdentifier::Value::UniformBlockBindingPoint::LIGHT);
+	__pUBLight = make_shared<UniformBuffer>(
+		ShaderIdentifier::Name::UniformBuffer::LIGHT, ShaderIdentifier::Value::UniformBlockBindingPoint::LIGHT);
+
 	__pUBLight->registerProgram(phongProgram);
 	__pUBLight->enableZeroInit(true);
 
-	__pUBCamera = make_shared<UniformBuffer>("UBCamera", ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA);
+	__pUBCamera = make_shared<UniformBuffer>(
+		ShaderIdentifier::Name::UniformBuffer::CAMERA, ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA);
+
 	__pUBCamera->registerProgram(phongProgram);
 	__pUBCamera->registerProgram(skyboxProgram);
 	__pUBCamera->registerProgram(refractionProgram);
 
 	__pUBGammaCorrection = make_shared<UniformBuffer>(
-		"UBGammaCorrection", ShaderIdentifier::Value::UniformBlockBindingPoint::GAMMA_CORRECTION);
+		ShaderIdentifier::Name::UniformBuffer::GAMMA_CORRECTION, ShaderIdentifier::Value::UniformBlockBindingPoint::GAMMA_CORRECTION);
 
 	__pUBGammaCorrection->registerProgram(gammaCorrectionProgram);
 
-	__pUBCubemap = make_shared<UniformBuffer>("UBCubemap", ShaderIdentifier::Value::UniformBlockBindingPoint::CUBEMAP);
+	__pUBCubemap = make_shared<UniformBuffer>(
+		ShaderIdentifier::Name::UniformBuffer::CUBEMAP, ShaderIdentifier::Value::UniformBlockBindingPoint::CUBEMAP);
+	
 	__pUBCubemap->registerProgram(skyboxProgram);
 
 	//// Rendering unit 持失 ////

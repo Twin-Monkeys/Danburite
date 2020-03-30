@@ -3,6 +3,7 @@
 #include "VertexArrayFactory.h"
 #include "RenderUnitManager.h"
 #include "ProgramFactory.h"
+#include "UniformBufferFactory.h"
 
 using namespace ObjectGL;
 
@@ -13,5 +14,6 @@ namespace Danburite
 		RenderContext::registerContextDependentSingleton<VertexArrayFactory>();
 		RenderContext::registerContextDependentSingleton<RenderUnitManager>();
 		RenderContext::registerContextDependentSingleton<ProgramFactory>();
+		RenderContext::registerContextDependentSingleton<UniformBufferFactory>();
 	}
 }

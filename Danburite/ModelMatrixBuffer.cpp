@@ -26,7 +26,7 @@ namespace Danburite
 	{
 		__numInstances = numInstances;
 		__transforms.resize(numInstances);
-		__modelMatrices.resize(numInstances);
+		__modelMatrices.resize(numInstances, mat4 { 1.f });
 
 		memoryAlloc(__modelMatrices.data(), numInstances * sizeof(mat4), BufferUpdatePatternType::STREAM);
 	}

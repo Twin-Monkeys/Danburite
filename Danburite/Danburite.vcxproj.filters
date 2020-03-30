@@ -337,6 +337,9 @@
     <Filter Include="Library\Engine\glsl\src\FullscreenQuad">
       <UniqueIdentifier>{f512f6a4-908a-4994-8ee2-54a2aa0b81f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library\Engine\Core\UniformBuffer">
+      <UniqueIdentifier>{fe0f8538-1828-4756-b6b0-26cf2f536f13}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Buffer.cpp">
@@ -630,15 +633,6 @@
     <ClCompile Include="SpaceScene.cpp">
       <Filter>Client\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="GeometryTestScene.cpp">
-      <Filter>Client\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="MSAATestScene.cpp">
-      <Filter>Client\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="BlinnPhongTestScene.cpp">
-      <Filter>Client\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="GammaCorrectionPostProcessor.cpp">
       <Filter>Library\Engine\Core\PostProcess\GammaCorrection</Filter>
     </ClCompile>
@@ -689,6 +683,9 @@
     </ClCompile>
     <ClCompile Include="LightHandler.cpp">
       <Filter>Library\Engine\Core\Light\Deployment</Filter>
+    </ClCompile>
+    <ClCompile Include="UniformBufferFactory.cpp">
+      <Filter>Library\Engine\Core\UniformBuffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1121,15 +1118,6 @@
     <ClInclude Include="SpaceScene.h">
       <Filter>Client\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="GeometryTestScene.h">
-      <Filter>Client\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="MSAATestScene.h">
-      <Filter>Client\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="BlinnPhongTestScene.h">
-      <Filter>Client\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="GammaCorrectionPostProcessor.h">
       <Filter>Library\Engine\Core\PostProcess\GammaCorrection</Filter>
     </ClInclude>
@@ -1195,6 +1183,9 @@
     </ClInclude>
     <ClInclude Include="LightHandler.h">
       <Filter>Library\Engine\Core\Light\Deployment</Filter>
+    </ClInclude>
+    <ClInclude Include="UniformBufferFactory.h">
+      <Filter>Library\Engine\Core\UniformBuffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

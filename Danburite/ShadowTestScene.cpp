@@ -9,6 +9,7 @@
 #include "Constant.h"
 #include "PhongMaterial.h"
 #include "TextureUtil.h"
+#include "UniformBufferFactory.h"
 
 using namespace std;
 using namespace glm;
@@ -27,27 +28,30 @@ ShadowTestScene::ShadowTestScene()
 	// 프로그램 로딩
 
 	ProgramFactory &programFactory = ProgramFactory::getInstance();
-	Program& phongProgram = programFactory.getProgram(ProgramType::PHONG);
+	Program &phongProgram = programFactory.getProgram(ProgramType::PHONG);
 	Program &gammaCorrectionProgram = programFactory.getProgram(ProgramType::POST_PROCESS_GAMMA_CORRECTION);
 	Program &depthBakingProgram = programFactory.getProgram(ProgramType::DEPTH_BAKING);
 
-	//// Uniform Buffer 생성 ////
 
-	__pUBMaterial = make_shared<UniformBuffer>("UBMaterial", ShaderIdentifier::Value::UniformBlockBindingPoint::MATERIAL);
-	__pUBMaterial->registerProgram(phongProgram);
+	//// Uniform Buffer 로딩 ////
 
-	__pUBLight = make_shared<UniformBuffer>("UBLight", ShaderIdentifier::Value::UniformBlockBindingPoint::LIGHT);
-	__pUBLight->enableZeroInit(true);
-	__pUBLight->registerProgram(phongProgram);
+	UniformBufferFactory &ubFactory = UniformBufferFactory::getInstance();
+	UniformBuffer &ubMaterial = ubFactory.getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::MATERIAL);
+	UniformBuffer &ubLight = ubFactory.getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::LIGHT);
+	UniformBuffer &ubCamera = ubFactory.getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA);
+	UniformBuffer &ubGammaCorrection = ubFactory.getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::GAMMA_CORRECTION);
 
-	__pUBCamera = make_shared<UniformBuffer>("UBCamera", ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA);
-	__pUBCamera->registerProgram(phongProgram);
-	__pUBCamera->registerProgram(depthBakingProgram);
+	ubMaterial.registerProgram(phongProgram);
+	ubMaterial.enableZeroInit(false);
 
-	__pUBGammaCorrection = make_shared<UniformBuffer>(
-		"UBGammaCorrection", ShaderIdentifier::Value::UniformBlockBindingPoint::GAMMA_CORRECTION);
+	ubLight.registerProgram(phongProgram);
 
-	__pUBGammaCorrection->registerProgram(gammaCorrectionProgram);
+	ubCamera.registerProgram(phongProgram);
+	ubCamera.registerProgram(depthBakingProgram);
+	ubCamera.enableZeroInit(false);
+
+	ubGammaCorrection.registerProgram(gammaCorrectionProgram);
+	ubGammaCorrection.enableZeroInit(false);
 
 
 	//// Rendering unit 생성 ////
@@ -71,7 +75,7 @@ ShadowTestScene::ShadowTestScene()
 	pCubeTexture->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 
 	const shared_ptr<PhongMaterial> &pFloorMaterial =
-		make_shared<PhongMaterial>(VertexAttributeType::POS3_COLOR4, *__pUBMaterial);
+		make_shared<PhongMaterial>(VertexAttributeType::POS3_COLOR4, ubMaterial);
 
 	pFloorMaterial->setDiffuseTexture(pFloorTexture);
 	pFloorMaterial->useDiffuseTexture(true);
@@ -88,7 +92,7 @@ ShadowTestScene::ShadowTestScene()
 		vaFactory.getVertexArrayPtr(ShapeType::CUBE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
 
 	const shared_ptr<PhongMaterial> &pCubeMaterial =
-		make_shared<PhongMaterial>(VertexAttributeType::POS3_NORMAL3_TEXCOORD2, *__pUBMaterial);
+		make_shared<PhongMaterial>(VertexAttributeType::POS3_NORMAL3_TEXCOORD2, ubMaterial);
 
 	pCubeMaterial->setDiffuseTexture(pCubeTexture);
 	pCubeMaterial->useDiffuseTexture(true);
@@ -111,11 +115,11 @@ ShadowTestScene::ShadowTestScene()
 	cube3Transform.setPosition(-5.f, 6.f, 5.f);
 	cube3Transform.setRotation(-3.f, 1.f, 1.f);
 
-	__pNanosuitRU = AssetImporter::import("res/asset/nanosuit/nanosuit.obj", *__pUBMaterial);
+	__pNanosuitRU = AssetImporter::import("res/asset/nanosuit/nanosuit.obj", ubMaterial);
 	Transform &nanosuitTransform = __pNanosuitRU->getTransform();
 	nanosuitTransform.setPosition(-10.f, 0.f, 15.f);
 
-	__pSkullRU = AssetImporter::import("res/asset/skull/scene.gltf", *__pUBMaterial);
+	__pSkullRU = AssetImporter::import("res/asset/skull/scene.gltf", ubMaterial);
 	Transform &skullTransform = __pSkullRU->getTransform();
 	skullTransform.setPosition(10.f, 5.f, 15.f);
 	skullTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
@@ -131,7 +135,7 @@ ShadowTestScene::ShadowTestScene()
 
 	// Light 초기화
 
-	__pRedLight = make_shared<DirectionalLight>(*__pUBLight, *__pUBCamera);
+	__pRedLight = make_shared<DirectionalLight>(ubLight, ubCamera);
 
 	Transform &redLightTransform = __pRedLight->getTransform();
 	redLightTransform.setPosition(20.f, 30.f, 0.f);
@@ -151,7 +155,7 @@ ShadowTestScene::ShadowTestScene()
 	__pRedLight->setDepthMapResolution(2048, 2048);
 	__pRedLight->setShadowEnabled(true);
 
-	__pWhiteLight = make_shared<DirectionalLight>(*__pUBLight, *__pUBCamera);
+	__pWhiteLight = make_shared<DirectionalLight>(ubLight, ubCamera);
 
 	Transform& whiteLightTransform = __pWhiteLight->getTransform();
 	whiteLightTransform.setPosition(-20.f, 30.f, 0.f);
@@ -185,7 +189,7 @@ ShadowTestScene::ShadowTestScene()
 	__pDrawer->addDrawable(__pNanosuitRU);
 	__pDrawer->addDrawable(__pSkullRU);
 
-	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>(*__pUBGammaCorrection);
+	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>(ubGammaCorrection);
 	__pMsaaPP = make_shared<MSAAPostProcessor>();
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
@@ -245,7 +249,9 @@ void ShadowTestScene::draw() noexcept
 	__pLightHandler->batchDeploy();
 	__pLightHandler->batchBakeDepthMap(*__pDrawer);
 
-	__pUBCamera->directDeploy(*__pCamera);
+	UniformBufferFactory::getInstance().
+		getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA).
+		directDeploy(*__pCamera);
 
 	// Render scene onto gamma-corrected frame buffer
 	__pPPPipeline->bind();

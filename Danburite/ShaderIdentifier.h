@@ -104,6 +104,17 @@ namespace Danburite
 				extern const std::string
 					ALBEDO_TEX;
 			}
+
+			namespace UniformBuffer
+			{
+				extern const std::string
+					MATERIAL,
+					LIGHT,
+					CAMERA,
+					CONVOLUTION,
+					GAMMA_CORRECTION,
+					CUBEMAP;
+			}
 		}
 
 		namespace Value

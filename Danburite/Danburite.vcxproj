@@ -160,7 +160,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AttachableTexture.cpp" />
-    <ClCompile Include="BlinnPhongTestScene.cpp" />
     <ClCompile Include="CameraTransform.cpp" />
     <ClCompile Include="ConvolutionalPostProcessor.cpp" />
     <ClCompile Include="CubeSkybox.cpp" />
@@ -175,8 +174,6 @@
     <ClCompile Include="RCDSRegisterer.cpp" />
     <ClCompile Include="ShadowTestScene.cpp" />
     <ClCompile Include="SpaceScene.cpp" />
-    <ClCompile Include="GeometryTestScene.cpp" />
-    <ClCompile Include="MSAATestScene.cpp" />
     <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="ExplodingPhongMaterial.cpp" />
     <ClCompile Include="ForwardPostProcessor.cpp" />
@@ -222,6 +219,7 @@
     <ClCompile Include="TransformableCameraLight.cpp" />
     <ClCompile Include="TransparentPhongMaterial.cpp" />
     <ClCompile Include="UniformBatchDeployer.cpp" />
+    <ClCompile Include="UniformBufferFactory.cpp" />
     <ClCompile Include="UniformSetter.cpp" />
     <ClCompile Include="Updater.cpp" />
     <ClCompile Include="Buffer.cpp" />
@@ -283,7 +281,6 @@
     <ClInclude Include="AttachmentType.h" />
     <ClInclude Include="BlendingEquationType.h" />
     <ClInclude Include="BlendingFunctionType.h" />
-    <ClInclude Include="BlinnPhongTestScene.h" />
     <ClInclude Include="BufferAccessType.h" />
     <ClInclude Include="FacetType.h" />
     <ClInclude Include="GLDebugMessageCallbackFunction.h" />
@@ -307,8 +304,6 @@
     <ClInclude Include="RCDSRegisterer.h" />
     <ClInclude Include="ShadowTestScene.h" />
     <ClInclude Include="SpaceScene.h" />
-    <ClInclude Include="GeometryTestScene.h" />
-    <ClInclude Include="MSAATestScene.h" />
     <ClInclude Include="DepthStencilFunctionType.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="Drawer.h" />
@@ -375,6 +370,7 @@
     <ClInclude Include="TextureUtilException.h" />
     <ClInclude Include="TransformableCamera.h" />
     <ClInclude Include="TransparentPhongMaterial.h" />
+    <ClInclude Include="UniformBufferFactory.h" />
     <ClInclude Include="UniformDeployable.h" />
     <ClInclude Include="UniformBatchDeployer.h" />
     <ClInclude Include="UniformSetter.h" />

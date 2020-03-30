@@ -5,7 +5,6 @@
 #include "RenderUnit.h"
 #include "PerspectiveCamera.h"
 #include "OrthoCamera.h"
-#include "UniformBuffer.h"
 #include "DirectionalLight.h"
 #include "LightHandler.h"
 #include "Updater.h"
@@ -18,11 +17,6 @@ class ShadowTestScene : public Danburite::Scene, public ObjectGL::ScreenEventHan
 {
 private:
 	bool __updated = false;
-
-	std::shared_ptr<ObjectGL::UniformBuffer> __pUBMaterial;
-	std::shared_ptr<ObjectGL::UniformBuffer> __pUBLight;
-	std::shared_ptr<ObjectGL::UniformBuffer> __pUBCamera;
-	std::shared_ptr<ObjectGL::UniformBuffer> __pUBGammaCorrection;
 
 	std::shared_ptr<Danburite::RenderUnit> __pNanosuitRU;
 	std::shared_ptr<Danburite::RenderUnit> __pSkullRU;

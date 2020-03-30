@@ -16,7 +16,7 @@ namespace ObjectGL
 		GLsizeiptr __memSize = 0;
 
 		bool __moved = false;
-		bool __zeroInit = false;
+		bool __zeroInit = true;
 
 		void __release() noexcept;
 
