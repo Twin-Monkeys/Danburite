@@ -115,5 +115,73 @@ namespace Danburite
 					CUBEMAP = "UBCubemap";
 			}
 		}
+
+		namespace Util
+		{
+			namespace UniformBuffer
+			{
+				const string &getUniformBufferNameFromBindingPoint(const GLuint bindingPoint) noexcept
+				{
+					static const string *const bindingPointToNameMap[] =
+					{
+						&Name::UniformBuffer::MATERIAL,
+						&Name::UniformBuffer::LIGHT,
+						&Name::UniformBuffer::CAMERA,
+						&Name::UniformBuffer::CONVOLUTION,
+						&Name::UniformBuffer::GAMMA_CORRECTION,
+						&Name::UniformBuffer::CUBEMAP
+					};
+
+					return *bindingPointToNameMap[bindingPoint];
+				}
+
+				const unordered_set<ProgramType> &getTargetProgramTypesFromBindingPoint(const GLuint bindingPoint) noexcept
+				{
+					static const unordered_set<ProgramType> bindingPointToTargetTypeSet[] =
+					{
+						// Material
+						{
+							ProgramType::MONO_COLOR,
+							ProgramType::PHONG,
+							ProgramType::SILHOUETTE,
+							ProgramType::OUTLINE,
+							ProgramType::SKYBOX
+						},
+
+						// Light
+						{
+							ProgramType::PHONG
+						},
+
+						// Camera
+						{
+							ProgramType::MONO_COLOR,
+							ProgramType::PHONG,
+							ProgramType::SILHOUETTE,
+							ProgramType::OUTLINE,
+							ProgramType::SKYBOX,
+							ProgramType::DEPTH_BAKING
+						},
+
+						// Convolution
+						{
+							ProgramType::POST_PROCESS_CONVOLUTIONAL
+						},
+
+						// Gamma Correction
+						{
+							ProgramType::POST_PROCESS_GAMMA_CORRECTION
+						},
+
+						// Cubemap
+						{
+							ProgramType::SKYBOX
+						}
+					};
+
+					return bindingPointToTargetTypeSet[bindingPoint];
+				}
+			}
+		}
 	}
 }

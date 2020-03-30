@@ -25,14 +25,6 @@ ShadowTestScene::ShadowTestScene()
 	GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, true);
 
 
-	// 프로그램 로딩
-
-	ProgramFactory &programFactory = ProgramFactory::getInstance();
-	Program &phongProgram = programFactory.getProgram(ProgramType::PHONG);
-	Program &gammaCorrectionProgram = programFactory.getProgram(ProgramType::POST_PROCESS_GAMMA_CORRECTION);
-	Program &depthBakingProgram = programFactory.getProgram(ProgramType::DEPTH_BAKING);
-
-
 	//// Uniform Buffer 로딩 ////
 
 	UniformBufferFactory &ubFactory = UniformBufferFactory::getInstance();
@@ -41,23 +33,11 @@ ShadowTestScene::ShadowTestScene()
 	UniformBuffer &ubCamera = ubFactory.getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA);
 	UniformBuffer &ubGammaCorrection = ubFactory.getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::GAMMA_CORRECTION);
 
-	ubMaterial.registerProgram(phongProgram);
-	ubMaterial.enableZeroInit(false);
-
-	ubLight.registerProgram(phongProgram);
-
-	ubCamera.registerProgram(phongProgram);
-	ubCamera.registerProgram(depthBakingProgram);
-	ubCamera.enableZeroInit(false);
-
-	ubGammaCorrection.registerProgram(gammaCorrectionProgram);
-	ubGammaCorrection.enableZeroInit(false);
-
 
 	//// Rendering unit 생성 ////
 
 	RenderUnitManager &ruManager = RenderUnitManager::getInstance();
-	VertexArrayFactory& vaFactory = VertexArrayFactory::getInstance();
+	VertexArrayFactory &vaFactory = VertexArrayFactory::getInstance();
 
 	const shared_ptr<VertexArray> &pFloorVA =
 		vaFactory.getVertexArrayPtr(ShapeType::RECTANGLE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
