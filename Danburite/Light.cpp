@@ -7,7 +7,7 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	constexpr Light::LightIDAllocator &Light::__getAllocator() noexcept
+	Light::LightIDAllocator &Light::__getAllocator() noexcept
 	{
 		static LightIDAllocator instance;
 		return instance;

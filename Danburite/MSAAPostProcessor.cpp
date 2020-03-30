@@ -20,15 +20,15 @@ namespace Danburite
 
 	void MSAAPostProcessor::_onRender(UniformSetter &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
 	{
-		// AMD Bug; Cannot use bindless sampler2DMS
 		
-		/*attachmentSetter.setUniformUvec2(
+		attachmentSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT_ARRAY[0],
-			TextureUtil::getHandleIfExist(__pColorAttachment));*/
+			TextureUtil::getHandleIfExist(__pColorAttachment));
 
-		__program.setUniformInt(ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT_ARRAY[0], 0);
-		__pColorAttachment->bind(0);
-
+		// AMD Bug; Cannot use bindless sampler2DMS
+		/*__program.setUniformInt(ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT_ARRAY[0], 0);
+		__pColorAttachment->bind(0);*/
+		__program.bind();
 		fullscreenQuadVA.draw();
 	}
 

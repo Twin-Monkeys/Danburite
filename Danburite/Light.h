@@ -33,7 +33,7 @@ namespace Danburite
 
 		void __release() noexcept;
 		
-		constexpr static LightIDAllocator &__getAllocator() noexcept;
+		static LightIDAllocator &__getAllocator() noexcept;
 
 	protected:
 		virtual const glm::mat4 &_getViewMatrix() const noexcept = 0;
