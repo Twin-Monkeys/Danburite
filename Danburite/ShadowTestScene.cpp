@@ -223,8 +223,6 @@ void ShadowTestScene::draw() noexcept
 
 	ubCamera.directDeploy(*__pCamera);
 
-	GLFunctionWrapper::setOption(GLOptionType::MULTISAMPLE, true);
-
 	// Render scene onto gamma-corrected frame buffer
 	__pPPPipeline->bind();
 	GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);

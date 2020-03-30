@@ -9,9 +9,7 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	MSAAPostProcessor::MSAAPostProcessor(const GLsizei numSamplePoints, const bool fixedSampleLocations) :
-		__program(ProgramFactory::getInstance().
-			getProgram(ProgramType::POST_PROCESS_MSAA)),
-
+		__program(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_MSAA)),
 		NUM_SAMPLE_POINTS(numSamplePoints),
 		FIXED_SAMPLE_LOCATIONS(fixedSampleLocations),
 		__pColorAttachment(make_unique<TextureMultisample>()),
@@ -22,13 +20,15 @@ namespace Danburite
 
 	void MSAAPostProcessor::_onRender(UniformSetter &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
 	{
+		// AMD Bug; Cannot use bindless sampler2DMS
+		
 		/*attachmentSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT_ARRAY[0],
 			TextureUtil::getHandleIfExist(__pColorAttachment));*/
 
-		__pColorAttachment->bind(2);
+		__program.setUniformInt("attachment.colors[0]", 0);
+		__pColorAttachment->bind(0);
 
-		__program.bind();
 		fullscreenQuadVA.draw();
 	}
 

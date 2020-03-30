@@ -32,7 +32,6 @@ namespace ObjectGL
 	void TextureBase::bind(const GLuint location) noexcept
 	{
 		glActiveTexture(GL_TEXTURE0 + location);
-
 		_bindID();
 	}
 
@@ -52,14 +51,12 @@ namespace ObjectGL
 	void TextureBase::reside() noexcept
 	{
 		assert(__handle);
-
 		glMakeTextureHandleResidentARB(__handle);
 	}
 
 	void TextureBase::unreside() noexcept
 	{
 		assert(__handle);
-
 		glMakeTextureHandleNonResidentARB(__handle);
 	}
 

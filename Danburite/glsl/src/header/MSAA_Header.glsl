@@ -1,10 +1,10 @@
+
 //? #version 460 core
 
 #ifndef __MSAA_HEADER__
 #define __MSAA_HEADER__
 
-#extension GL_ARB_bindless_texture : require
-
+// AMD Bug; Cannot use bindless sampler2DMS
 // #include "Attachment_Header.glsl"
 #include "Constant_Header.glsl"
 
