@@ -12,7 +12,7 @@ namespace Danburite
 		float __outerCutOff = cosf(glm::quarter_pi<float>() * .6f);
 
 	protected:
-		virtual void _onDeploy(LightUniformSetter &target) noexcept override;
+		virtual void _onDeploy(LightUniformSetter &lightSetter) noexcept override;
 
 	public:
 		void setCutOff(const float innerAngle, const float outerAngle) noexcept;

@@ -9,9 +9,9 @@ namespace Danburite
 		OrthoCameraLight(LightType::DIRECTIONAL)
 	{}
 
-	void DirectionalLight::_onDeploy(LightUniformSetter &lightParamSetter) noexcept
+	void DirectionalLight::_onDeploy(LightUniformSetter &lightSetter) noexcept
 	{
-		LightBaseComponent::_onDeploy(lightParamSetter);
-		_deployDirection(lightParamSetter);
+		LightBaseComponent::_onDeploy(lightSetter);
+		_deployDirection(lightSetter);
 	}
 }

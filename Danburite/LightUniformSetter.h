@@ -24,7 +24,7 @@ namespace Danburite
 		LightUniformNameCache __uniformNameCache;
 
 	public:
-		LightUniformSetter(ObjectGL::UniformSetter &uniformSetter, const glm::uint id);
+		LightUniformSetter(ObjectGL::UniformSetter &lightSetter, const glm::uint id);
 
 		using UniformSetter::setUniformUvec2;
 		using UniformSetter::setUniformVec3;

@@ -13,7 +13,7 @@ namespace Danburite
 
 	protected:
 		virtual void _onRender(
-			ObjectGL::UniformSetter &uniformSetter,
+			ObjectGL::UniformSetter &materialSetter,
 			ObjectGL::VertexArray& vertexArray, const GLsizei numInstances) noexcept override;
 
 	public:

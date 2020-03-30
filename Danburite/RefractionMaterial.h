@@ -12,7 +12,7 @@ namespace Danburite
 		ObjectGL::Program &_refractionProgram;
 
 		virtual void _onRender(
-			ObjectGL::UniformSetter &uniformSetter, ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
+			ObjectGL::UniformSetter &materialSetter, ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
 
 	public:
 		RefractionMaterial(const VertexAttributeType vertexType) noexcept;

@@ -14,7 +14,7 @@ namespace Danburite
 		float __specularStrength = .6f;
 
 	protected:
-		virtual void _onDeploy(LightUniformSetter &target) noexcept override;
+		virtual void _onDeploy(LightUniformSetter &lightSetter) noexcept override;
 
 	public:
 		constexpr const glm::vec3 &getAlbedo() const noexcept;

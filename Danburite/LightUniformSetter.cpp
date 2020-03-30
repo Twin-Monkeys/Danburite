@@ -6,8 +6,8 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	LightUniformSetter::LightUniformSetter(UniformSetter &uniformSetter, const uint id) :
-		__uniformSetter(uniformSetter), __uniformNameCache(id)
+	LightUniformSetter::LightUniformSetter(UniformSetter &lightSetter, const uint id) :
+		__uniformSetter(lightSetter), __uniformNameCache(id)
 	{}
 
 	bool LightUniformSetter::isExistent(const string &name) noexcept

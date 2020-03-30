@@ -7,11 +7,11 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	void LightBaseComponent::_onDeploy(LightUniformSetter &target) noexcept
+	void LightBaseComponent::_onDeploy(LightUniformSetter &lightSetter) noexcept
 	{
-		target.setUniformVec3(ShaderIdentifier::Name::Light::ALBEDO, __albedo);
-		target.setUniformFloat(ShaderIdentifier::Name::Light::AMBIENT_STRENGTH, __ambientStrength);
-		target.setUniformFloat(ShaderIdentifier::Name::Light::DIFFUSE_STRENGTH, __diffuseStrength);
-		target.setUniformFloat(ShaderIdentifier::Name::Light::SPECULAR_STRENGTH, __specularStrength);
+		lightSetter.setUniformVec3(ShaderIdentifier::Name::Light::ALBEDO, __albedo);
+		lightSetter.setUniformFloat(ShaderIdentifier::Name::Light::AMBIENT_STRENGTH, __ambientStrength);
+		lightSetter.setUniformFloat(ShaderIdentifier::Name::Light::DIFFUSE_STRENGTH, __diffuseStrength);
+		lightSetter.setUniformFloat(ShaderIdentifier::Name::Light::SPECULAR_STRENGTH, __specularStrength);
 	}
 }

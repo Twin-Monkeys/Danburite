@@ -455,6 +455,7 @@
     <None Include="glsl\src\GeometryDemo_Frag.glsl" />
     <None Include="glsl\src\GeometryDemo_Geo.glsl" />
     <None Include="glsl\src\GeometryDemo_Vert.glsl" />
+    <None Include="glsl\src\header\Attachment_Header.glsl" />
     <None Include="glsl\src\Header\Camera_Header.glsl" />
     <None Include="glsl\src\header\Constant_Header.glsl" />
     <None Include="glsl\src\header\Convolutional_Header.glsl" />

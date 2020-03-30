@@ -14,8 +14,8 @@ namespace Danburite
 		virtual const glm::mat4 &_getViewMatrix() const noexcept override;
 		virtual const glm::mat4 &_getProjMatrix() const noexcept override;
 
-		void _deployDirection(LightUniformSetter &lightParamSetter) noexcept;
-		void _deployPosition(LightUniformSetter &lightParamSetter) noexcept;
+		void _deployDirection(LightUniformSetter &lightSetter) noexcept;
+		void _deployPosition(LightUniformSetter &lightSetter) noexcept;
 
 	public:
 		TransformableCameraLight(const LightType type);

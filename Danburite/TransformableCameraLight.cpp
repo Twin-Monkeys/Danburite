@@ -19,21 +19,21 @@ namespace Danburite
 		return _getCamera().getProjectionMatrix();
 	}
 
-	void TransformableCameraLight::_deployDirection(LightUniformSetter &lightParamSetter) noexcept
+	void TransformableCameraLight::_deployDirection(LightUniformSetter &lightSetter) noexcept
 	{
 		CameraTransform &transform = getTransform();
 		const vec4 &forward = transform.getForward();
 
-		lightParamSetter.setUniformVec3(
+		lightSetter.setUniformVec3(
 			ShaderIdentifier::Name::Light::DIRECTION, -forward.x, -forward.y, -forward.z);
 	}
 
-	void TransformableCameraLight::_deployPosition(LightUniformSetter &lightParamSetter) noexcept
+	void TransformableCameraLight::_deployPosition(LightUniformSetter &lightSetter) noexcept
 	{
 		CameraTransform &transform = getTransform();
 		const vec3 &position = transform.getPosition();
 
-		lightParamSetter.setUniformVec3(ShaderIdentifier::Name::Light::POSITION, position);
+		lightSetter.setUniformVec3(ShaderIdentifier::Name::Light::POSITION, position);
 	}
 
 	CameraTransform &TransformableCameraLight::getTransform() noexcept

@@ -12,9 +12,9 @@ namespace Danburite
 	{}
 
 	void ReflectionMaterial::_onRender(
-		UniformSetter &uniformSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
+		UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
-		uniformSetter.directDeploy(*this);
+		materialSetter.directDeploy(*this);
 
 		_reflectionProgram.bind();
 		vertexArray.draw(numInstances);

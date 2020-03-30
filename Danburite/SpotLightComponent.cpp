@@ -7,10 +7,10 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	void SpotLightComponent::_onDeploy(LightUniformSetter &target) noexcept
+	void SpotLightComponent::_onDeploy(LightUniformSetter &lightSetter) noexcept
 	{
-		target.setUniformFloat(ShaderIdentifier::Name::Light::INNER_CUTOFF, __innerCutOff);
-		target.setUniformFloat(ShaderIdentifier::Name::Light::OUTER_CUTOFF, __outerCutOff);
+		lightSetter.setUniformFloat(ShaderIdentifier::Name::Light::INNER_CUTOFF, __innerCutOff);
+		lightSetter.setUniformFloat(ShaderIdentifier::Name::Light::OUTER_CUTOFF, __outerCutOff);
 	}
 
 	void SpotLightComponent::setCutOff(const float innerAngle, const float outerAngle) noexcept

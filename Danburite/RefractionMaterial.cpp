@@ -12,9 +12,9 @@ namespace Danburite
 		_refractionProgram(ProgramFactory::getInstance().getProgram(ProgramType::REFRACTION))
 	{}
 
-	void RefractionMaterial::_onRender(UniformSetter &uniformSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
+	void RefractionMaterial::_onRender(UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
-		uniformSetter.directDeploy(*this);
+		materialSetter.directDeploy(*this);
 
 		_refractionProgram.bind();
 		vertexArray.draw(numInstances);

@@ -7,7 +7,7 @@ namespace Danburite
 	class LightUniformDeployable abstract
 	{
 	protected:
-		virtual void _onDeploy(LightUniformSetter &target) noexcept = 0;
+		virtual void _onDeploy(LightUniformSetter &lightSetter) noexcept = 0;
 
 	public:
 		virtual ~LightUniformDeployable() = default;

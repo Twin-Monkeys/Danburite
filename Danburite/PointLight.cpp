@@ -13,10 +13,10 @@ namespace Danburite
 		PerspectiveCameraLight(LightType::POINT)
 	{}
 
-	void PointLight::_onDeploy(LightUniformSetter &lightParamSetter) noexcept
+	void PointLight::_onDeploy(LightUniformSetter &lightSetter) noexcept
 	{
-		LightBaseComponent::_onDeploy(lightParamSetter);
-		AttenuatedLightComponent::_onDeploy(lightParamSetter);
-		_deployPosition(lightParamSetter);
+		LightBaseComponent::_onDeploy(lightSetter);
+		AttenuatedLightComponent::_onDeploy(lightSetter);
+		_deployPosition(lightSetter);
 	}
 }

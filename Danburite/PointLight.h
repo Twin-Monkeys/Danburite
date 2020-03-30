@@ -12,7 +12,7 @@ namespace Danburite
 	protected:
 		PointLight(const LightType type);
 
-		virtual void _onDeploy(LightUniformSetter &lightParamSetter) noexcept override;
+		virtual void _onDeploy(LightUniformSetter &lightSetter) noexcept override;
 
 	public:
 		PointLight();

@@ -17,10 +17,10 @@ namespace Danburite
 	}
 
 	void OutliningPhongMaterial::_onRender(
-		UniformSetter &uniformSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
+		UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
-		PhongMaterialComponent::_onDeploy(uniformSetter);
-		OutliningMaterialComponent::_onDeploy(uniformSetter);
+		PhongMaterialComponent::_onDeploy(materialSetter);
+		OutliningMaterialComponent::_onDeploy(materialSetter);
 
 		GLFunctionWrapper::setStencilFunction(DepthStencilFunctionType::ALWAYS, 1);
 		GLFunctionWrapper::setStencilOperation(

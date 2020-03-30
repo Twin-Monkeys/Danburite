@@ -12,7 +12,7 @@ namespace Danburite
 		float __attQuad = 0.f;
 
 	protected:
-		virtual void _onDeploy(LightUniformSetter &target) noexcept override;
+		virtual void _onDeploy(LightUniformSetter &lightSetter) noexcept override;
 
 	public:
 		constexpr void setAttenuation(const float constant, const float linear, const float quadratic) noexcept;

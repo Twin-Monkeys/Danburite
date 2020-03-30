@@ -10,6 +10,7 @@ namespace Danburite
 {
 	PostProcessor::PostProcessor(const ProgramType type) :
 		__pFrameBuffer(make_unique<FrameBuffer>()),
+		__fullscreenQuadVA(6),
 		__pProgram(&(ProgramFactory::getInstance().getProgram(type)))
 	{
 		using namespace ShaderIdentifier;

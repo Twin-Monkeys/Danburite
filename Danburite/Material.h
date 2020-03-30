@@ -28,7 +28,7 @@ namespace Danburite
 		Material(const MaterialType materialType, const VertexAttributeType vertexType) noexcept;
 
 		virtual void _onRender(
-			ObjectGL::UniformSetter &uniformSetter,
+			ObjectGL::UniformSetter &materialSetter,
 			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept = 0;
 
 		constexpr void useLighting(const bool enabled) noexcept;

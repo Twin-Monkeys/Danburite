@@ -12,7 +12,7 @@ namespace Danburite
 	{}
 
 	void TransparentPhongMaterial::_onRender(
-		UniformSetter &uniformSetter, VertexArray& vertexArray, const GLsizei numInstances) noexcept
+		UniformSetter &materialSetter, VertexArray& vertexArray, const GLsizei numInstances) noexcept
 	{
 		GLFunctionWrapper::setOption(GLOptionType::BLEND, true);
 		GLFunctionWrapper::setBlendingFunction(
@@ -21,8 +21,7 @@ namespace Danburite
 		GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, false);
 		GLFunctionWrapper::setDepthMask(false);
 
-		_phongProgram.bind();
-		vertexArray.draw(numInstances);
+		PhongMaterial::_onRender(materialSetter, vertexArray, numInstances);
 
 		GLFunctionWrapper::setDepthMask(true);
 		GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, true);

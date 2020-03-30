@@ -28,7 +28,7 @@ namespace Danburite
 		bool __enabled = true;
 		bool __shadowEnabled = false;
 
-		LightUniformSetter __lightParamSetter;
+		LightUniformSetter __lightSetter;
 		DepthBaker __depthBaker;
 
 		void __release() noexcept;

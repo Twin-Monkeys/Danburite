@@ -13,9 +13,9 @@ namespace Danburite
 	{}
 
 	void SilhouetteMaterial::_onRender(
-		UniformSetter &uniformSetter, VertexArray& vertexArray, const GLsizei numInstances) noexcept
+		UniformSetter &materialSetter, VertexArray& vertexArray, const GLsizei numInstances) noexcept
 	{
-		uniformSetter.directDeploy(*this);
+		materialSetter.directDeploy(*this);
 
 		__silhouetteProgram.bind();
 		vertexArray.draw(numInstances);

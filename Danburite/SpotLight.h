@@ -8,7 +8,7 @@ namespace Danburite
 	class SpotLight : public PointLight, public SpotLightComponent
 	{
 	protected:
-		virtual void _onDeploy(LightUniformSetter &lightParamSetter) noexcept override;
+		virtual void _onDeploy(LightUniformSetter &lightSetter) noexcept override;
 
 	public:
 		SpotLight();

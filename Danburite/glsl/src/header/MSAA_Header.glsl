@@ -3,20 +3,16 @@
 #ifndef __MSAA_HEADER__
 #define __MSAA_HEADER__
 
-#include "Constant_Header.glsl"
+#extension GL_ARB_bindless_texture : require
 
-struct Attachment
-{
-	sampler2DMS depth;
-	sampler2DMS stencil;
-	sampler2DMS colors[MAX_NUM_COLOR_ATTACHMENTS];
-};
-
-uniform Attachment attachment;
+#include "Attachment_Header.glsl"
 
 vec4 MSAA_getPixel(const uint colorAttachmentIdx, const int samplePointIdx)
 {
-	return texelFetch(attachment.colors[colorAttachmentIdx], ivec2(gl_FragCoord.xy), samplePointIdx);
+	return texelFetch(
+		sampler2DMS(attachment.colors[colorAttachmentIdx]),
+		ivec2(gl_FragCoord.xy),
+		samplePointIdx);
 }
 
 #endif
