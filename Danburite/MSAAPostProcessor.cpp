@@ -26,7 +26,7 @@ namespace Danburite
 			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT_ARRAY[0],
 			TextureUtil::getHandleIfExist(__pColorAttachment));*/
 
-		__program.setUniformInt("attachment.colors[0]", 0);
+		__program.setUniformInt(ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT_ARRAY[0], 0);
 		__pColorAttachment->bind(0);
 
 		fullscreenQuadVA.draw();
