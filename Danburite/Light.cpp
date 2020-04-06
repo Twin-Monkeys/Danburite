@@ -30,12 +30,18 @@ namespace Danburite
 	void Light::selfDeploy() noexcept
 	{
 		__lightSetter.setUniformBool(ShaderIdentifier::Name::Light::ENABLED, __enabled);
-		__lightSetter.setUniformBool(ShaderIdentifier::Name::Light::SHADOW_ENABLED, __shadowEnabled);
-		__lightSetter.setUniformMat4(ShaderIdentifier::Name::Light::VIEW_MATRIX, _getViewMatrix());
-		__lightSetter.setUniformMat4(ShaderIdentifier::Name::Light::PROJECTION_MATRIX, _getProjMatrix());
-		__lightSetter.setUniformUvec2(ShaderIdentifier::Name::Light::DEPTH_MAP, __depthBaker.getDepthMap().getHandle());
+		if (!__enabled)
+			return;
 
 		_onDeploy(__lightSetter);
+
+		__lightSetter.setUniformBool(ShaderIdentifier::Name::Light::SHADOW_ENABLED, __shadowEnabled);
+		if (!__shadowEnabled)
+			return;
+
+		__lightSetter.setUniformMat4(ShaderIdentifier::Name::Light::VIEW_MATRIX, _getViewMatrix());
+		__lightSetter.setUniformMat4(ShaderIdentifier::Name::Light::PROJECTION_MATRIX, _getProjMatrix());
+		__lightSetter.setUniformUvec2(ShaderIdentifier::Name::Light::DEPTH_MAP, __depthBaker.getDepthMapHandle());
 	}
 
 	void Light::setDepthMapResolution(const GLsizei width, const GLsizei height) noexcept

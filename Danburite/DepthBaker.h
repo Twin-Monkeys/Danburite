@@ -33,6 +33,6 @@ namespace Danburite
 		void bind() noexcept;
 		void unbind() noexcept;
 
-		ObjectGL::AttachableTexture &getDepthMap() const noexcept;
+		GLuint64 getDepthMapHandle() noexcept;
 	};
 }

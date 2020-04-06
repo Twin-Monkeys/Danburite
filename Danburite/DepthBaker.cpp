@@ -74,8 +74,8 @@ namespace Danburite
 		glViewport(__viewportArgs[0], __viewportArgs[1], __viewportArgs[2], __viewportArgs[3]);
 	}
 
-	AttachableTexture &DepthBaker::getDepthMap() const noexcept
+	GLuint64 DepthBaker::getDepthMapHandle() noexcept
 	{
-		return *__pDepthMap;
+		return __pDepthMap->getHandle();
 	}
 }
