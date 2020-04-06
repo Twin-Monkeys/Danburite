@@ -1,10 +1,10 @@
-
 #include "DepthBaker.h"
 #include "Constant.h"
 #include "GLFunctionWrapper.h"
 #include "Material.h"
 #include "ProgramFactory.h"
 #include "ShaderIdentifier.h"
+#include "UniformBufferFactory.h"
 
 using namespace std;
 using namespace glm;
@@ -12,11 +12,12 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	DepthBaker::DepthBaker(ObjectGL::UniformSetter &uniformSetter) :
+	DepthBaker::DepthBaker() :
 		__depthBakingProgram(ProgramFactory::getInstance().getProgram(ProgramType::DEPTH_BAKING)),
 		__pFrameBuffer(make_unique<FrameBuffer>()),
 		__pDepthMap(make_unique<AttachableTexture>()),
-		__uniformSetter(uniformSetter)
+		__cameraSetter(UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA))
 	{
 		__pFrameBuffer->setInputColorBuffer(ColorBufferType::NONE);
 		__pFrameBuffer->setOutputColorBuffer(ColorBufferType::NONE);
@@ -45,7 +46,7 @@ namespace Danburite
 
 		__pDepthMap->memoryAlloc(
 			width, height,
-			TextureInternalFormatType::DEPTH_COMPONENT32, TextureExternalFormatType::DEPTH_COMPONENT,
+			TextureInternalFormatType::DEPTH_COMPONENT, TextureExternalFormatType::DEPTH_COMPONENT,
 			TextureDataType::FLOAT);
 
 		__pFrameBuffer->attach(AttachmentType::DEPTH_ATTACHMENT, *__pDepthMap);
@@ -54,8 +55,8 @@ namespace Danburite
 
 	void DepthBaker::deployViewProjMatrix(const mat4 &viewMat, const mat4 &projMat) noexcept
 	{
-		__uniformSetter.setUniformMat4(ShaderIdentifier::Name::Camera::VIEW_MATRIX, viewMat);
-		__uniformSetter.setUniformMat4(ShaderIdentifier::Name::Camera::PROJECTION_MATRIX, projMat);
+		__cameraSetter.setUniformMat4(ShaderIdentifier::Name::Camera::VIEW_MATRIX, viewMat);
+		__cameraSetter.setUniformMat4(ShaderIdentifier::Name::Camera::PROJECTION_MATRIX, projMat);
 	}
 
 	void DepthBaker::bind() noexcept

@@ -16,10 +16,7 @@ namespace Danburite
 	Light::Light(const LightType type) :
 		Object(__getAllocator().allocate()),
 		__lightSetter(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::LIGHT), ID),
-
-		__depthBaker(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA))
+			getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::LIGHT), ID)
 	{
 		__lightSetter.setUniformUint(ShaderIdentifier::Name::Light::TYPE, GLenum(type));
 	}

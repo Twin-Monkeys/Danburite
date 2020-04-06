@@ -20,12 +20,12 @@ namespace Danburite
 
 		GLint __viewportArgs[4];
 
-		ObjectGL::UniformSetter &__uniformSetter;
+		ObjectGL::UniformSetter &__cameraSetter;
 
 		void __createDepthMap() noexcept;
 
 	public:
-		DepthBaker(ObjectGL::UniformSetter &uniformSetter);
+		DepthBaker();
 
 		void setResolution(const GLsizei width, const GLsizei height) noexcept;
 		void deployViewProjMatrix(const glm::mat4 &viewMat, const glm::mat4 &projMat) noexcept;

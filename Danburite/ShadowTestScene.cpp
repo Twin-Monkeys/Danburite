@@ -161,7 +161,7 @@ ShadowTestScene::ShadowTestScene()
 	__pMsaaPP = make_shared<MSAAPostProcessor>();
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
-	__pPPPipeline->appendProcessor(__pMsaaPP);
+	// __pPPPipeline->appendProcessor(__pMsaaPP);
 	__pPPPipeline->appendProcessor(__pGammaCorrectionPP);
 
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
