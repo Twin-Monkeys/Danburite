@@ -21,12 +21,6 @@ class SpaceScene : public Danburite::Scene, public ObjectGL::ScreenEventHandler
 private:
 	bool __updated = false;
 
-	std::shared_ptr<ObjectGL::UniformBuffer> __pUBMaterial;
-	std::shared_ptr<ObjectGL::UniformBuffer> __pUBLight;
-	std::shared_ptr<ObjectGL::UniformBuffer> __pUBCamera;
-	std::shared_ptr<ObjectGL::UniformBuffer> __pUBGammaCorrection;
-	std::shared_ptr<ObjectGL::UniformBuffer> __pUBCubemap;
-
 	std::shared_ptr<Danburite::RenderUnit> __pNanosuitRU;
 	std::shared_ptr<Danburite::RenderUnit> __pStarshipRU;
 	std::shared_ptr<Danburite::RenderUnit> __pHalconRU;
@@ -44,7 +38,7 @@ private:
 	std::shared_ptr<Danburite::PerspectiveCamera> __pCamera;
 	std::shared_ptr<Danburite::CubeSkybox> __pSkybox;
 
-	std::shared_ptr<Danburite::LightHandler> __pLightDeployer;
+	std::shared_ptr<Danburite::LightHandler> __pLightHandler;
 	std::shared_ptr<Danburite::Updater> __pUpdater;
 	std::shared_ptr<Danburite::Drawer> __pDrawer;
 

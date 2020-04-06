@@ -10,7 +10,7 @@ namespace Danburite
 	void CubeSkyboxComponent::_onDeploy(UniformSetter &uniformSetter) const noexcept
 	{
 		uniformSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Cubemap::ALBEDO_TEX, TextureUtil::getHandleIfExist(__pAlbedoTex));
+			ShaderIdentifier::Name::Skybox::ALBEDO_TEX, TextureUtil::getHandleIfExist(__pAlbedoTex));
 	}
 
 	void CubeSkyboxComponent::setAlbedoTexture(const shared_ptr<TextureCubemap> &pTexture) noexcept

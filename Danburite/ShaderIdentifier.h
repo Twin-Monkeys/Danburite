@@ -101,7 +101,7 @@ namespace Danburite
 					GAMMA;
 			}
 
-			namespace Cubemap
+			namespace Skybox
 			{
 				extern const std::string
 					ALBEDO_TEX;
@@ -115,7 +115,7 @@ namespace Danburite
 					CAMERA,
 					CONVOLUTION,
 					GAMMA_CORRECTION,
-					CUBEMAP,
+					SKYBOX,
 					ATTACHMENT;
 			}
 		}
@@ -142,7 +142,7 @@ namespace Danburite
 					CAMERA = 2U,
 					CONVOLUTION = 3U,
 					GAMMA_CORRECTION = 4U,
-					CUBEMAP = 5U,
+					SKYBOX = 5U,
 					ATTACHMENT = 6U;
 			}
 

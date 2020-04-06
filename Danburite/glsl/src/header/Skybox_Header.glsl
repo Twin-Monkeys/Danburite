@@ -6,19 +6,19 @@
 #extension GL_ARB_bindless_texture : require
 #include "Constant_Header.glsl"
 
-struct Cubemap
+struct Skybox
 {
 	uvec2 albedoTex;
 };
 
-layout(binding = BINDING_POINT_CUBEMAP) uniform UBCubemap
+layout(binding = BINDING_POINT_SKYBOX) uniform UBSkybox
 {
-	Cubemap cubemap;
+	Skybox skybox;
 };
 
-vec4 Cubemap_getAlbedo(const vec3 pos)
+vec4 Skybox_getAlbedo(const vec3 pos)
 {
-	return texture(samplerCube(cubemap.albedoTex), pos);
+	return texture(samplerCube(skybox.albedoTex), pos);
 }
 
 #endif

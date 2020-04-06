@@ -109,10 +109,10 @@ namespace Danburite
 					GAMMA = "gammaCorrection.gamma";
 			}
 
-			namespace Cubemap
+			namespace Skybox
 			{
 				const string
-					ALBEDO_TEX = "cubemap.albedoTex";
+					ALBEDO_TEX = "skybox.albedoTex";
 			}
 
 			namespace UniformBuffer
@@ -123,7 +123,7 @@ namespace Danburite
 					CAMERA = "UBCamera",
 					CONVOLUTION = "UBConvolution",
 					GAMMA_CORRECTION = "UBGammaCorrection",
-					CUBEMAP = "UBCubemap",
+					SKYBOX = "UBSkybox",
 					ATTACHMENT = "UBAttachment";
 			}
 		}
@@ -141,7 +141,7 @@ namespace Danburite
 						&Name::UniformBuffer::CAMERA,
 						&Name::UniformBuffer::CONVOLUTION,
 						&Name::UniformBuffer::GAMMA_CORRECTION,
-						&Name::UniformBuffer::CUBEMAP,
+						&Name::UniformBuffer::SKYBOX,
 						&Name::UniformBuffer::ATTACHMENT
 					};
 
@@ -186,7 +186,7 @@ namespace Danburite
 							ProgramType::POST_PROCESS_GAMMA_CORRECTION
 						},
 
-						// Cubemap
+						// Skybox
 						{
 							ProgramType::SKYBOX
 						},

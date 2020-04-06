@@ -108,10 +108,10 @@ namespace Danburite
 			{
 				ProgramType::SKYBOX,
 				{
-					"glsl/binary/Cubemap.bin",
-					"glsl/src/Cubemap_Vert.glsl",
+					"glsl/binary/Skybox.bin",
+					"glsl/src/Skybox_Vert.glsl",
 					"",
-					"glsl/src/Cubemap_Frag.glsl"
+					"glsl/src/Skybox_Frag.glsl"
 				}
 			},
 

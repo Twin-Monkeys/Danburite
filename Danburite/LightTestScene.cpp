@@ -165,7 +165,7 @@ LightTestScene::LightTestScene()
 	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_WRAP_R, TextureWrapValue::CLAMP_TO_EDGE);
 
-	__pSkybox = make_shared<CubeSkybox>(*__pUBCubemap);
+	__pSkybox = make_shared<CubeSkybox>();
 	__pSkybox->setAlbedoTexture(pSkyboxAlbedoTex);
 
 	__pGrayscalePP = make_shared<GrayscalePostProcessor>();

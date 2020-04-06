@@ -444,8 +444,8 @@
     <ClInclude Include="PostProcessor.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="glsl\src\Cubemap_Frag.glsl" />
-    <None Include="glsl\src\Cubemap_Vert.glsl" />
+    <None Include="glsl\src\Skybox_Frag.glsl" />
+    <None Include="glsl\src\Skybox_Vert.glsl" />
     <None Include="glsl\src\DepthBaking_Frag.glsl" />
     <None Include="glsl\src\DepthBaking_Vert.glsl" />
     <None Include="glsl\src\ExplodingPhong_Frag.glsl" />
@@ -459,7 +459,7 @@
     <None Include="glsl\src\Header\Camera_Header.glsl" />
     <None Include="glsl\src\header\Constant_Header.glsl" />
     <None Include="glsl\src\header\Convolutional_Header.glsl" />
-    <None Include="glsl\src\header\Cubemap_Header.glsl" />
+    <None Include="glsl\src\header\Skybox_Header.glsl" />
     <None Include="glsl\src\header\GammaCorrection_Header.glsl" />
     <None Include="glsl\src\Header\Light_Header.glsl" />
     <None Include="glsl\src\Header\Material_Header.glsl" />

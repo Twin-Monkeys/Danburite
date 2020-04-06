@@ -6,14 +6,13 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	CubeSkybox::CubeSkybox(UniformSetter &uniformSetter) noexcept :
-		Skybox(uniformSetter),
+	CubeSkybox::CubeSkybox() noexcept :
 		__skyboxProgram(ProgramFactory::getInstance().getProgram(ProgramType::SKYBOX))
 	{}
 
-	void CubeSkybox::_onDraw(UniformSetter &uniformSetter) noexcept
+	void CubeSkybox::_onDraw(UniformSetter &skyBoxSetter) noexcept
 	{
-		uniformSetter.directDeploy(*this);
+		skyBoxSetter.directDeploy(*this);
 
 		__skyboxProgram.bind();
 

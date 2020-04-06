@@ -15,6 +15,7 @@
 #include "ReflectionMaterial.h"
 #include "ReflectionPhongMaterial.h"
 #include "RefractionMaterial.h"
+#include "UniformBufferFactory.h"
 
 using namespace std;
 using namespace glm;
@@ -179,7 +180,7 @@ SpaceScene::SpaceScene()
 	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_WRAP_R, TextureWrapValue::CLAMP_TO_EDGE);
 
-	__pSkybox = make_shared<CubeSkybox>(*__pUBCubemap);
+	__pSkybox = make_shared<CubeSkybox>();
 	__pSkybox->setAlbedoTexture(pSkyboxAlbedoTex);
 
 	__pNanosuitRU->traverseMaterial<RefractionMaterial>(
@@ -187,8 +188,8 @@ SpaceScene::SpaceScene()
 
 	//// Deployer / Updater √ ±‚»≠ ////
 
-	__pLightDeployer = make_shared<LightHandler>();
-	__pLightDeployer->addLight(__pDirectionalLight);
+	__pLightHandler = make_shared<LightHandler>();
+	__pLightHandler->addLight(__pDirectionalLight);
 
 	__pUpdater = make_shared<Updater>();
 	__pUpdater->addUpdatable(__pNanosuitRU);
@@ -212,7 +213,7 @@ SpaceScene::SpaceScene()
 
 	// Post Processing
 
-	__pMSAAPP = make_shared<MSAAPostProcessor>();
+	// __pMSAAPP = make_shared<MSAAPostProcessor>();
 	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>();
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
@@ -270,13 +271,14 @@ bool SpaceScene::__keyFunc(const float deltaTime) noexcept
 
 void SpaceScene::draw() noexcept
 {
-	__pLightDeployer->batchDeploy();
+	__pLightHandler->batchDeploy();
+	__pLightHandler->batchBakeDepthMap(*__pDrawer);
 
-	__pDirectionalLight->startDepthBaking();
-	__pDrawer->batchRawDrawCall();
-	__pDirectionalLight->endDepthBaking();
+	UniformBuffer &ubCamera =
+		UniformBufferFactory::getInstance().
+		getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA);
 
-	__pUBCamera->directDeploy(*__pCamera);
+	ubCamera.directDeploy(*__pCamera);
 
 	__pPPPipeline->bind();
 	GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
