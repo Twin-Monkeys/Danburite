@@ -537,9 +537,6 @@
     <ClCompile Include="RenderBufferException.cpp">
       <Filter>Library\ObjectGL\Core\RenderBuffer</Filter>
     </ClCompile>
-    <ClCompile Include="AttachableTexture.cpp">
-      <Filter>Library\ObjectGL\Core\Texture\2D\Attachable</Filter>
-    </ClCompile>
     <ClCompile Include="ForwardPostProcessor.cpp">
       <Filter>Library\Engine\Core\PostProcess\Forward</Filter>
     </ClCompile>
@@ -686,6 +683,9 @@
     </ClCompile>
     <ClCompile Include="UniformBufferFactory.cpp">
       <Filter>Library\Engine\Core\UniformBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="AttachableTexture2D.cpp">
+      <Filter>Library\ObjectGL\Core\Texture\2D\Attachable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -992,9 +992,6 @@
     <ClInclude Include="RenderBufferInternalFormatType.h">
       <Filter>Library\ObjectGL\Core\RenderBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="AttachableTexture.h">
-      <Filter>Library\ObjectGL\Core\Texture\2D\Attachable</Filter>
-    </ClInclude>
     <ClInclude Include="PostProcessor.h">
       <Filter>Library\Engine\Core\PostProcess</Filter>
     </ClInclude>
@@ -1186,6 +1183,9 @@
     </ClInclude>
     <ClInclude Include="UniformBufferFactory.h">
       <Filter>Library\Engine\Core\UniformBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="AttachableTexture2D.h">
+      <Filter>Library\ObjectGL\Core\Texture\2D\Attachable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -10,7 +10,7 @@ namespace Danburite
 {
 	ForwardPostProcessor::ForwardPostProcessor(Program &program) :
 		__program(program),
-		__pColorAttachment(make_unique<AttachableTexture>()),
+		__pColorAttachment(make_unique<AttachableTexture2D>()),
 		__pDepthStencilAttachment(make_unique<RenderBuffer>())
 	{
 		__pColorAttachment->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);

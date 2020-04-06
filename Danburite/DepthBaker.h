@@ -2,7 +2,7 @@
 
 #include "Program.h"
 #include "FrameBuffer.h"
-#include "AttachableTexture.h"
+#include "AttachableTexture2D.h"
 #include <memory>
 
 namespace Danburite
@@ -13,7 +13,7 @@ namespace Danburite
 		ObjectGL::Program &__depthBakingProgram;
 
 		std::unique_ptr<ObjectGL::FrameBuffer> __pFrameBuffer;
-		std::unique_ptr<ObjectGL::AttachableTexture> __pDepthMap;
+		std::unique_ptr<ObjectGL::AttachableTexture2D> __pDepthMap;
 
 		GLsizei __mapWidth;
 		GLsizei __mapHeight;

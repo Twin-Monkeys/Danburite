@@ -159,7 +159,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AttachableTexture.cpp" />
+    <ClCompile Include="AttachableTexture2D.cpp" />
     <ClCompile Include="CameraTransform.cpp" />
     <ClCompile Include="ConvolutionalPostProcessor.cpp" />
     <ClCompile Include="CubeSkybox.cpp" />
@@ -277,7 +277,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Attachable.h" />
-    <ClInclude Include="AttachableTexture.h" />
+    <ClInclude Include="AttachableTexture2D.h" />
     <ClInclude Include="AttachmentType.h" />
     <ClInclude Include="BlendingEquationType.h" />
     <ClInclude Include="BlendingFunctionType.h" />

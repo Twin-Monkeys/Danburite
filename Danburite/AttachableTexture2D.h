@@ -5,7 +5,7 @@
 
 namespace ObjectGL
 {
-	class AttachableTexture : public Texture2D, public Attachable
+	class AttachableTexture2D : public Texture2D, public Attachable
 	{
 	private:
 		using Texture2D::memoryAlloc;
@@ -21,6 +21,6 @@ namespace ObjectGL
 			const TextureExternalFormatType externalFormat,
 			const TextureDataType dataType = TextureDataType::UNSIGNED_BYTE) noexcept;
 
-		virtual ~AttachableTexture() = default;
+		virtual ~AttachableTexture2D() = default;
 	};
 }

@@ -15,7 +15,7 @@ namespace Danburite
 	DepthBaker::DepthBaker() :
 		__depthBakingProgram(ProgramFactory::getInstance().getProgram(ProgramType::DEPTH_BAKING)),
 		__pFrameBuffer(make_unique<FrameBuffer>()),
-		__pDepthMap(make_unique<AttachableTexture>()),
+		__pDepthMap(make_unique<AttachableTexture2D>()),
 		__cameraSetter(UniformBufferFactory::getInstance().
 			getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA))
 	{
@@ -28,7 +28,7 @@ namespace Danburite
 
 	void DepthBaker::__createDepthMap() noexcept
 	{
-		__pDepthMap = make_unique<AttachableTexture>();
+		__pDepthMap = make_unique<AttachableTexture2D>();
 		__pDepthMap->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR);
 		__pDepthMap->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
 		__pDepthMap->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_BORDER);
@@ -70,7 +70,6 @@ namespace Danburite
 	void DepthBaker::unbind() noexcept
 	{
 		FrameBuffer::unbind();
-
 		glViewport(__viewportArgs[0], __viewportArgs[1], __viewportArgs[2], __viewportArgs[3]);
 	}
 

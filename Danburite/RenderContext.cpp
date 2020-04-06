@@ -2,6 +2,7 @@
 #include "DeviceContext.h"
 #include <algorithm>
 #include <cassert>
+#include <mutex>
 
 using namespace std;
 using namespace ObjectGL;
@@ -52,12 +53,16 @@ namespace ObjectGL
 
 	void RenderContext::__validate(DeviceContext& deviceContext)
 	{
+		static mutex mut;
 		static unordered_map<thread::id, bool> initializedThreads;
 
-		// TODO: Checking thread safety
-		bool& initialized = initializedThreads[this_thread::get_id()];
+		mut.lock();
+
+		bool &initialized = initializedThreads[this_thread::get_id()];
 		if (initialized)
 			return;
+
+		mut.unlock();
 
 		const HGLRC hTmpRC = wglCreateContext(deviceContext);
 		if (!hTmpRC)
