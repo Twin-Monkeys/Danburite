@@ -1,7 +1,7 @@
 //? #version 460 core
 
-#ifndef __CUBEMAP_HEADER__
-#define __CUBEMAP_HEADER__
+#ifndef __SKYBOX_HEADER__
+#define __SKYBOX_HEADER__
 
 #extension GL_ARB_bindless_texture : require
 #include "Constant_Header.glsl"
