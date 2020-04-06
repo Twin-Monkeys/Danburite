@@ -50,7 +50,6 @@ namespace Danburite
 			TextureDataType::FLOAT);
 
 		__pFrameBuffer->attach(AttachmentType::DEPTH_ATTACHMENT, *__pDepthMap);
-		__pFrameBuffer->clearDepthBuffer(1.f);
 	}
 
 	void DepthBaker::deployViewProjMatrix(const mat4 &viewMat, const mat4 &projMat) noexcept
