@@ -1,4 +1,4 @@
-#include "DepthBaker.h"
+#include "DepthBaker2D.h"
 #include "Constant.h"
 #include "GLFunctionWrapper.h"
 #include "Material.h"
@@ -12,21 +12,17 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	DepthBaker::DepthBaker() :
+	DepthBaker2D::DepthBaker2D() :
 		__depthBakingProgram(ProgramFactory::getInstance().getProgram(ProgramType::DEPTH_BAKING)),
-		__pFrameBuffer(make_unique<FrameBuffer>()),
 		__pDepthMap(make_unique<AttachableTexture2D>()),
 		__cameraSetter(UniformBufferFactory::getInstance().
 			getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA))
 	{
-		__pFrameBuffer->setInputColorBuffer(ColorBufferType::NONE);
-		__pFrameBuffer->setOutputColorBuffer(ColorBufferType::NONE);
-
 		__createDepthMap();
 		setResolution(Constant::Shadow::DEFAULT_MAP_WIDTH, Constant::Shadow::DEFAULT_MAP_HEIGHT);
 	}
 
-	void DepthBaker::__createDepthMap() noexcept
+	void DepthBaker2D::__createDepthMap() noexcept
 	{
 		__pDepthMap = make_unique<AttachableTexture2D>();
 		__pDepthMap->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR);
@@ -36,11 +32,8 @@ namespace Danburite
 		__pDepthMap->setStates(TextureParamType::TEXTURE_BORDER_COLOR, {1.f, 1.f, 1.f, 1.f });
 	}
 
-	void DepthBaker::setResolution(const GLsizei width, const GLsizei height) noexcept
+	void DepthBaker2D::_onSetResolution(const GLsizei width, const GLsizei height) noexcept
 	{
-		__mapWidth = width;
-		__mapHeight = height;
-
 		if (__pDepthMap->isHandleCreated())
 			__createDepthMap();
 
@@ -49,31 +42,21 @@ namespace Danburite
 			TextureInternalFormatType::DEPTH_COMPONENT, TextureExternalFormatType::DEPTH_COMPONENT,
 			TextureDataType::FLOAT);
 
-		__pFrameBuffer->attach(AttachmentType::DEPTH_ATTACHMENT, *__pDepthMap);
+		_attachTextureToFrameBuffer(AttachmentType::DEPTH_ATTACHMENT, *__pDepthMap);
 	}
 
-	void DepthBaker::deployViewProjMatrix(const mat4 &viewMat, const mat4 &projMat) noexcept
+	void DepthBaker2D::_onBind() noexcept
+	{
+		__depthBakingProgram.bind();
+	}
+
+	void DepthBaker2D::deployViewProjMatrix(const mat4 &viewMat, const mat4 &projMat) noexcept
 	{
 		__cameraSetter.setUniformMat4(ShaderIdentifier::Name::Camera::VIEW_MATRIX, viewMat);
 		__cameraSetter.setUniformMat4(ShaderIdentifier::Name::Camera::PROJECTION_MATRIX, projMat);
 	}
 
-	void DepthBaker::bind() noexcept
-	{
-		glGetIntegerv(GL_VIEWPORT, __viewportArgs);
-		glViewport(0, 0, __mapWidth, __mapHeight);
-
-		__depthBakingProgram.bind();
-		__pFrameBuffer->clearDepthBuffer(1.f);
-	}
-
-	void DepthBaker::unbind() noexcept
-	{
-		FrameBuffer::unbind();
-		glViewport(__viewportArgs[0], __viewportArgs[1], __viewportArgs[2], __viewportArgs[3]);
-	}
-
-	GLuint64 DepthBaker::getDepthMapHandle() noexcept
+	GLuint64 DepthBaker2D::getDepthMapHandle() noexcept
 	{
 		return __pDepthMap->getHandle();
 	}

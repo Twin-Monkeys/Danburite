@@ -7,7 +7,7 @@
 #include "LightUniformSetter.h"
 #include "LightType.h"
 #include "LightException.h"
-#include "DepthBaker.h"
+#include "DepthBaker2D.h"
 #include "Drawer.h"
 
 namespace Danburite
@@ -29,7 +29,7 @@ namespace Danburite
 		bool __shadowEnabled = false;
 
 		LightUniformSetter __lightSetter;
-		DepthBaker __depthBaker;
+		DepthBaker2D __depthBaker;
 
 		void __release() noexcept;
 		

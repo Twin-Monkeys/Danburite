@@ -1,38 +1,29 @@
 #pragma once
 
+#include "DepthBakerBase.h"
 #include "Program.h"
-#include "FrameBuffer.h"
 #include "AttachableTexture2D.h"
-#include <memory>
 
 namespace Danburite
 {
-	class DepthBaker
+	class DepthBaker2D : public DepthBakerBase
 	{
 	private:
 		ObjectGL::Program &__depthBakingProgram;
 
-		std::unique_ptr<ObjectGL::FrameBuffer> __pFrameBuffer;
 		std::unique_ptr<ObjectGL::AttachableTexture2D> __pDepthMap;
-
-		GLsizei __mapWidth;
-		GLsizei __mapHeight;
-
-		GLint __viewportArgs[4];
-
 		ObjectGL::UniformSetter &__cameraSetter;
 
 		void __createDepthMap() noexcept;
 
-	public:
-		DepthBaker();
+	protected:
+		virtual void _onSetResolution(const GLsizei width, const GLsizei height) noexcept override;
+		virtual void _onBind() noexcept override;
 
-		void setResolution(const GLsizei width, const GLsizei height) noexcept;
+	public:
+		DepthBaker2D();
 		void deployViewProjMatrix(const glm::mat4 &viewMat, const glm::mat4 &projMat) noexcept;
 
-		void bind() noexcept;
-		void unbind() noexcept;
-
-		GLuint64 getDepthMapHandle() noexcept;
+		virtual GLuint64 getDepthMapHandle() noexcept override;
 	};
 }
