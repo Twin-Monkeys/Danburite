@@ -23,8 +23,8 @@ namespace Danburite
 		{
 			// Ortho
 			constexpr float DEFAULT_ORTHO_HEIGHT	= 40.f;
-			constexpr float MAX_ORTHO_HEIGHT		= 200.f;
-			constexpr float MIN_ORTHO_HEIGHT		= 5.f;
+			constexpr float MAX_ORTHO_HEIGHT		= 400.f;
+			constexpr float MIN_ORTHO_HEIGHT		= 10.f;
 
 			// Perspective
 			constexpr float MAX_PITCH				= (glm::half_pi<float>() * .9f);
