@@ -119,7 +119,7 @@ ShadowTestScene::ShadowTestScene()
 		By increasing the depth map resolution or
 		By trying to fit the light frustum as closely to the scene as possible.
 	*/
-	__pRedLight->setDepthBakingOrtho(-50.f, 50.f, -50.f, 50.f, 1.f, 1000.f);
+	__pRedLight->setDepthBakingOrthoHeight(100.f);
 	__pRedLight->setDepthMapResolution(2048, 2048);
 	__pRedLight->setShadowEnabled(true);
 
@@ -129,11 +129,11 @@ ShadowTestScene::ShadowTestScene()
 	whiteLightTransform.setPosition(-20.f, 30.f, 0.f);
 	whiteLightTransform.adjustRotation(-quarter_pi<float>() * .7f, -.6f, 0.f);
 
+	__pWhiteLight->setDepthBakingOrthoHeight(100.f);
+	__pWhiteLight->setDepthMapResolution(2048, 2048);
 	__pWhiteLight->setAmbientStrength(.05f);
 	__pWhiteLight->setDiffuseStrength(.3f);
 	__pWhiteLight->setSpecularStrength(1.f);
-	__pWhiteLight->setDepthBakingOrtho(-50.f, 50.f, -50.f, 50.f, 1.f, 1000.f);
-	__pWhiteLight->setDepthMapResolution(2048, 2048);
 	__pWhiteLight->setShadowEnabled(true);
 
 	//// Deployer / Updater √ ±‚»≠ ////

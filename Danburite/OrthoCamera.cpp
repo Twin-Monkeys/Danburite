@@ -7,6 +7,12 @@ namespace Danburite
 {
 	void OrthoCamera::_onUpdateProjMatrix(mat4 &projMatrix) noexcept
 	{
-		projMatrix = ortho(__xOrthoLeft, __xOrthoRight, __yOrthoBottom, __yOrthoTop, __zOrthoNear, __zOrthoFar);
+		const float yTop	= (__orthoHeight * .5f);
+		const float yBottom = -yTop;
+
+		const float xRight	= (yTop * __aspectRatio);
+		const float xLeft	= -xRight;
+
+		projMatrix = ortho(xLeft, xRight, yBottom, yTop, __zNear, __zFar);
 	}
 }

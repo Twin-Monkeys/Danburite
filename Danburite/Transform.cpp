@@ -22,7 +22,6 @@ namespace Danburite
 	{
 		rotationMat = eulerAngleXYZ(__rotation.x, __rotation.y, __rotation.z);
 	}
-
 	
 	void Transform::moveForward(const float delta) noexcept
 	{

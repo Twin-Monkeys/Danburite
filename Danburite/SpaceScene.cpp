@@ -141,7 +141,7 @@ SpaceScene::SpaceScene()
 	//// 조명 생성 ////
 
 	__pDirectionalLight = make_shared<DirectionalLight>();
-	__pDirectionalLight->setDepthBakingOrtho(-200.f, 200.f, -200.f, 200.f, 1.f, 1000.f);
+	__pDirectionalLight->setDepthBakingOrthoHeight(200.f);
 	__pDirectionalLight->setDepthMapResolution(4096, 4096);
 
 	Transform &lightTransform = __pDirectionalLight->getTransform();

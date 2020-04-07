@@ -8,8 +8,8 @@ namespace Danburite
 	class SilhouetteMaterialComponent : public ObjectGL::UniformDeployable
 	{
 	private:
-		float __zNear = Constant::Camera::DEFAULT_Z_ORTHO_NEAR;
-		float __zFar = Constant::Camera::DEFAULT_Z_ORTHO_FAR;
+		float __zNear = Constant::Camera::DEFAULT_Z_NEAR;
+		float __zFar = Constant::Camera::DEFAULT_Z_FAR;
 
 	protected:
 		virtual void _onDeploy(ObjectGL::UniformSetter &materialSetter) const noexcept override;

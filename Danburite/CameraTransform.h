@@ -7,8 +7,8 @@ namespace Danburite
 	class CameraTransform : public Transform
 	{
 	private:
-		mutable glm::mat4 __viewTranslationMat	{ 1.f };
-		mutable glm::mat4 __viewRotationMat		{ 1.f };
+		glm::mat4 __viewTranslationMat	{ 1.f };
+		glm::mat4 __viewRotationMat		{ 1.f };
 
 	protected:
 		virtual void _onUpdateRotation(glm::mat4 &rotationMat) const noexcept override;

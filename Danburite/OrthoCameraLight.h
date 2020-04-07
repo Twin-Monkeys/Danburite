@@ -17,54 +17,63 @@ namespace Danburite
 	public:
 		OrthoCameraLight(const LightType type);
 
-		constexpr void setDepthBakingOrthoLeft(const float xLeft) noexcept;
-		constexpr void setDepthBakingOrthoRight(const float xRight) noexcept;
-		constexpr void setDepthBakingOrthoBottom(const float yBottom) noexcept;
-		constexpr void setDepthBakingOrthoTop(const float yTop) noexcept;
-		constexpr void setDepthBakingOrthoNear(const float zNear) noexcept;
-		constexpr void setDepthBakingOrthoFar(const float zFar) noexcept;
+		constexpr void setDepthBakingOrthoHeight(const float height) noexcept;
+		constexpr void resetDepthBakingOrthoHeight() noexcept;
+		constexpr void adjustDepthBakingOrthoHeight(const float delta) noexcept;
 
-		constexpr void setDepthBakingOrtho(
-			const float xLeft, const float xRight,
-			const float yBottom, const float yTop,
-			const float zNear, const float zFar) noexcept;
+		constexpr void setDepthBakingAspectRatio(const float ratio) noexcept;
+		constexpr void setDepthBakingAspectRatio(const int width, const int height) noexcept;
+
+		constexpr void setDepthBakingNear(const float zNear) noexcept;
+		constexpr void setDepthBakingFar(const float zFar) noexcept;
+
+		// bounds
+		constexpr void setDepthBakingMaxOrthoHeight(const float maxHeight) noexcept;
+		constexpr void setDepthBakingMinOrthoHeight(const float minHeight) noexcept;
 	};
 
-	constexpr void OrthoCameraLight::setDepthBakingOrthoLeft(const float xLeft) noexcept
+	constexpr void OrthoCameraLight::setDepthBakingOrthoHeight(const float height) noexcept
 	{
-		__camera.setOrthoLeft(xLeft);
+		__camera.setOrthoHeight(height);
 	}
 
-	constexpr void OrthoCameraLight::setDepthBakingOrthoRight(const float xRight) noexcept
+	constexpr void OrthoCameraLight::resetDepthBakingOrthoHeight() noexcept
 	{
-		__camera.setOrthoRight(xRight);
+		__camera.resetOrthoHeight();
 	}
 
-	constexpr void OrthoCameraLight::setDepthBakingOrthoBottom(const float yBottom) noexcept
+	constexpr void OrthoCameraLight::adjustDepthBakingOrthoHeight(const float delta) noexcept
 	{
-		__camera.setOrthoBottom(yBottom);
+		__camera.adjustOrthoHeight(delta);
 	}
 
-	constexpr void OrthoCameraLight::setDepthBakingOrthoTop(const float yTop) noexcept
+	constexpr void OrthoCameraLight::setDepthBakingAspectRatio(const float ratio) noexcept
 	{
-		__camera.setOrthoTop(yTop);
+		__camera.setAspectRatio(ratio);
 	}
 
-	constexpr void OrthoCameraLight::setDepthBakingOrthoNear(const float zNear) noexcept
+	constexpr void OrthoCameraLight::setDepthBakingAspectRatio(const int width, const int height) noexcept
 	{
-		__camera.setOrthoNear(zNear);
+		__camera.setAspectRatio(width, height);
 	}
 
-	constexpr void OrthoCameraLight::setDepthBakingOrthoFar(const float zFar) noexcept
+	constexpr void OrthoCameraLight::setDepthBakingNear(const float zNear) noexcept
 	{
-		__camera.setOrthoFar(zFar);
+		__camera.setNear(zNear);
 	}
 
-	constexpr void OrthoCameraLight::setDepthBakingOrtho(
-		const float xLeft, const float xRight,
-		const float yBottom, const float yTop,
-		const float zNear, const float zFar) noexcept
+	constexpr void OrthoCameraLight::setDepthBakingFar(const float zFar) noexcept
 	{
-		__camera.setOrtho(xLeft, xRight, yBottom, yTop, zNear, zFar);
+		__camera.setFar(zFar);
+	}
+
+	constexpr void OrthoCameraLight::setDepthBakingMaxOrthoHeight(const float maxHeight) noexcept
+	{
+		__camera.setMaxOrthoHeight(maxHeight);
+	}
+
+	constexpr void OrthoCameraLight::setDepthBakingMinOrthoHeight(const float minHeight) noexcept
+	{
+		__camera.setMinOrthoHeight(minHeight);
 	}
 }

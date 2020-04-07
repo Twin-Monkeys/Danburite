@@ -8,72 +8,78 @@ namespace Danburite
 	class OrthoCamera : public TransformableCamera
 	{
 	private:
-		float __xOrthoLeft		= Constant::Camera::DEFAULT_X_ORTHO_LEFT;
-		float __xOrthoRight		= Constant::Camera::DEFAULT_X_ORTHO_RIGHT;
-		float __yOrthoBottom	= Constant::Camera::DEFAULT_Y_ORTHO_BOTTOM;
-		float __yOrthoTop		= Constant::Camera::DEFAULT_Y_ORTHO_TOP;
-		float __zOrthoNear		= Constant::Camera::DEFAULT_Z_ORTHO_NEAR;
-		float __zOrthoFar		= Constant::Camera::DEFAULT_Z_ORTHO_FAR;
+		float __maxOrthoHeight = Constant::Camera::MAX_ORTHO_HEIGHT;
+		float __minOrthoHeight = Constant::Camera::MIN_ORTHO_HEIGHT;
+		float __orthoHeight = Constant::Camera::DEFAULT_ORTHO_HEIGHT;
+
+		float __aspectRatio = Constant::Camera::DEFAULT_ASPECT_RATIO;
+
+		float __zNear		= Constant::Camera::DEFAULT_Z_NEAR;
+		float __zFar		= Constant::Camera::DEFAULT_Z_FAR;
 
 	protected:
 		virtual void _onUpdateProjMatrix(glm::mat4 &projMatrix) noexcept override;
 
 	public:
-		constexpr void setOrthoLeft(const float xLeft) noexcept;
-		constexpr void setOrthoRight(const float xRight) noexcept;
-		constexpr void setOrthoBottom(const float yBottom) noexcept;
-		constexpr void setOrthoTop(const float yTop) noexcept;
-		constexpr void setOrthoNear(const float zNear) noexcept;
-		constexpr void setOrthoFar(const float zFar) noexcept;
+		constexpr void setOrthoHeight(const float height) noexcept;
+		constexpr void resetOrthoHeight() noexcept;
+		constexpr void adjustOrthoHeight(const float delta) noexcept;
 
-		constexpr void setOrtho(
-			const float xLeft, const float xRight,
-			const float yBottom, const float yTop,
-			const float zNear, const float zFar) noexcept;
+		constexpr void setAspectRatio(const float ratio) noexcept;
+		constexpr void setAspectRatio(const int width, const int height) noexcept;
+
+		constexpr void setNear(const float zNear) noexcept;
+		constexpr void setFar(const float zFar) noexcept;
+
+		// bounds
+		constexpr void setMaxOrthoHeight(const float maxHeight) noexcept;
+		constexpr void setMinOrthoHeight(const float minHeight) noexcept;
 
 		virtual ~OrthoCamera() = default;
 	};
 
-	constexpr void OrthoCamera::setOrthoLeft(const float xLeft) noexcept
+	constexpr void OrthoCamera::setOrthoHeight(const float height) noexcept
 	{
-		__xOrthoLeft = xLeft;
+		__orthoHeight = glm::clamp(height, __minOrthoHeight, __maxOrthoHeight);
 	}
 
-	constexpr void OrthoCamera::setOrthoRight(const float xRight) noexcept
+	constexpr void OrthoCamera::resetOrthoHeight() noexcept
 	{
-		__xOrthoRight = xRight;
+		setOrthoHeight(Constant::Camera::DEFAULT_ORTHO_HEIGHT);
 	}
 
-	constexpr void OrthoCamera::setOrthoBottom(const float yBottom) noexcept
+	constexpr void OrthoCamera::adjustOrthoHeight(const float delta) noexcept
 	{
-		__yOrthoBottom = yBottom;
+		setOrthoHeight(__orthoHeight + delta);
 	}
 
-	constexpr void OrthoCamera::setOrthoTop(const float yTop) noexcept
+	constexpr void OrthoCamera::setAspectRatio(const float ratio) noexcept
 	{
-		__yOrthoTop = yTop;
+		__aspectRatio = ratio;
 	}
 
-	constexpr void OrthoCamera::setOrthoNear(const float zNear) noexcept
+	constexpr void OrthoCamera::setAspectRatio(const int width, const int height) noexcept
 	{
-		__zOrthoNear = zNear;
+		setAspectRatio(float(width) / float(height));
 	}
 
-	constexpr void OrthoCamera::setOrthoFar(const float zFar) noexcept
+	constexpr void OrthoCamera::setNear(const float zNear) noexcept
 	{
-		__zOrthoFar = zFar;
+		__zNear = zNear;
 	}
 
-	constexpr void OrthoCamera::setOrtho(
-		const float xLeft, const float xRight,
-		const float yBottom, const float yTop,
-		const float zNear, const float zFar) noexcept
+	constexpr void OrthoCamera::setFar(const float zFar) noexcept
 	{
-		__xOrthoLeft = xLeft;
-		__xOrthoRight = xRight;
-		__yOrthoBottom = yBottom;
-		__yOrthoTop = yTop;
-		__zOrthoNear = zNear;
-		__zOrthoFar = zFar;
+		__zFar = zFar;
+	}
+
+	constexpr void OrthoCamera::setMaxOrthoHeight(const float maxHeight) noexcept
+	{
+		__maxOrthoHeight = maxHeight;
+	}
+
+	constexpr void OrthoCamera::setMinOrthoHeight(const float minHeight) noexcept
+	{
+		__minOrthoHeight = minHeight;
 	}
 }

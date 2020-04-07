@@ -1,10 +1,8 @@
 #pragma once
 
 #include "Updatable.h"
-#include <utility>
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
-#include <glm/gtc/matrix_access.hpp>
 #include "Constant.h"
 
 namespace Danburite

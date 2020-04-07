@@ -10,12 +10,12 @@ namespace Danburite
 	private:
 		float __maxFov = Constant::Camera::MAX_FOV;
 		float __minFov = Constant::Camera::MIN_FOV;
-
 		float __fov = Constant::Camera::DEFAULT_FOV;
-		float __aspectRatio = 1.f;
 
-		float __zNear = Constant::Camera::DEFAULT_Z_ORTHO_NEAR;
-		float __zFar = Constant::Camera::DEFAULT_Z_ORTHO_FAR;
+		float __aspectRatio = Constant::Camera::DEFAULT_ASPECT_RATIO;
+
+		float __zNear = Constant::Camera::DEFAULT_Z_NEAR;
+		float __zFar = Constant::Camera::DEFAULT_Z_FAR;
 
 	protected:
 		virtual void _onUpdateProjMatrix(glm::mat4 &projMatrix) noexcept override;
@@ -40,14 +40,7 @@ namespace Danburite
 
 	constexpr void PerspectiveCamera::setFov(const float fov) noexcept
 	{
-		float validFov = fov;
-
-		if (validFov > __maxFov)
-			validFov = __maxFov;
-		else if (validFov < __minFov)
-			validFov = __minFov;
-
-		__fov = validFov;
+		__fov = glm::clamp(fov, __minFov, __maxFov);
 	}
 
 	constexpr void PerspectiveCamera::resetFov() noexcept
