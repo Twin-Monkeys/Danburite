@@ -3,7 +3,6 @@
 #include "BindableObject.h"
 #include "FrameBufferException.h"
 #include "FrameBufferStatusType.h"
-#include "Texture2D.h"
 #include "Attachable.h"
 #include "FrameBufferBlitFlag.h"
 #include "ColorBufferType.h"

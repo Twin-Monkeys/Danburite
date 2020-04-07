@@ -126,6 +126,18 @@ namespace ObjectGL
 		return true;
 	}
 
+	bool Program::setUniformMat4Array(
+		const string &name, const GLfloat *const pValues, const GLsizei numElements, const bool transposition) noexcept
+	{
+		const GLint LOCATION = __getUniformLocation(name);
+		if (LOCATION < 0)
+			return false;
+
+		bind();
+		glUniformMatrix4fv(LOCATION, numElements, transposition, pValues);
+		return true;
+	}
+
 	bool Program::setUniformUvec2(const string &name, const GLuint *const pValues) noexcept
 	{
 		const GLint LOCATION = __getUniformLocation(name);
@@ -167,17 +179,6 @@ namespace ObjectGL
 
 		bind();
 		glUniformMatrix3fv(LOCATION, 1, transposition, pValues);
-		return true;
-	}
-
-	bool Program::setUniformMat4(const string &name, const GLfloat *const pValues, const bool transposition) noexcept
-	{
-		const GLint LOCATION = __getUniformLocation(name);
-		if (LOCATION < 0)
-			return false;
-
-		bind();
-		glUniformMatrix4fv(LOCATION, 1, transposition, pValues);
 		return true;
 	}
 

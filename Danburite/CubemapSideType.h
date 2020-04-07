@@ -18,4 +18,9 @@ namespace ObjectGL
 	{
 		return CubemapSideType(unsigned(lhs) + rhs);
 	}
+
+	constexpr CubemapSideType operator-(const CubemapSideType lhs, const CubemapSideType rhs)
+	{
+		return CubemapSideType(unsigned(lhs) - unsigned(rhs));
+	}
 }

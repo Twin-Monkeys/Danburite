@@ -14,6 +14,9 @@ namespace Danburite
 		std::unique_ptr<ObjectGL::AttachableTexture2D> __pDepthMap;
 		ObjectGL::UniformSetter &__cameraSetter;
 
+		glm::mat4 __viewMat { 1.f };
+		glm::mat4 __projMat { 1.f };
+
 		void __createDepthMap() noexcept;
 
 	protected:
@@ -22,7 +25,7 @@ namespace Danburite
 
 	public:
 		DepthBaker2D();
-		void deployViewProjMatrix(const glm::mat4 &viewMat, const glm::mat4 &projMat) noexcept;
+		void setViewProjMatrix(const glm::mat4 &viewMat, const glm::mat4 &projMat) noexcept;
 
 		virtual GLuint64 getDepthMapHandle() noexcept override;
 	};

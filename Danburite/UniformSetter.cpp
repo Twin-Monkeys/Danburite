@@ -52,6 +52,11 @@ namespace ObjectGL
 		return setUniformMat3(name, value_ptr(values), transposition);
 	}
 
+	bool UniformSetter::setUniformMat4(const string &name, const GLfloat *const pValues, const bool transposition) noexcept
+	{
+		return setUniformMat4Array(name, pValues, 1, transposition);
+	}
+
 	bool UniformSetter::setUniformMat4(const string &name, const mat4 &values, const bool transposition) noexcept
 	{
 		return setUniformMat4(name, value_ptr(values), transposition);

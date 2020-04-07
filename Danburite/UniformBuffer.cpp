@@ -80,6 +80,31 @@ namespace ObjectGL
 		return _setUniformValue(name, pValues, sizeof(GLfloat) * numElements);
 	}
 
+	bool UniformBuffer::setUniformMat4Array(
+		const string &name, const GLfloat *const pValues, const GLsizei numElements, const bool transposition) noexcept
+	{
+		const size_t MEM_SIZE = (sizeof(GLfloat) * 16 * numElements);
+
+		if (transposition)
+		{
+			vector<GLfloat> arrTransposed;
+			arrTransposed.resize(16 * numElements);
+			
+			for (GLsizei i = 0; i < numElements; i++)
+				for (GLsizei j = 0; j < 4; j++)
+				{
+					arrTransposed[(4 * ((4 * i) + j)) + 0] = pValues[(16 * i) + (0 + j)];
+					arrTransposed[(4 * ((4 * i) + j)) + 1] = pValues[(16 * i) + (4 + j)];
+					arrTransposed[(4 * ((4 * i) + j)) + 2] = pValues[(16 * i) + (8 + j)];
+					arrTransposed[(4 * ((4 * i) + j)) + 3] = pValues[(16 * i) + (12 + j)];
+				}
+
+			return _setUniformValue(name, arrTransposed.data(), MEM_SIZE);
+		}
+
+		return _setUniformValue(name, pValues, MEM_SIZE);
+	}
+
 	bool UniformBuffer::setUniformUvec2(const string &name, const GLuint *const pValues) noexcept
 	{
 		return _setUniformValue(name, pValues, sizeof(GLuint) * 2);
@@ -97,6 +122,8 @@ namespace ObjectGL
 
 	bool UniformBuffer::setUniformMat3(const string &name, const GLfloat *const pValues, const bool transposition) noexcept
 	{
+		const size_t MEM_SIZE = (sizeof(GLfloat) * 9);
+
 		if (transposition)
 		{
 			const GLfloat arrTransposed[] =
@@ -106,27 +133,9 @@ namespace ObjectGL
 				pValues[2], pValues[5], pValues[8]
 			};
 
-			return _setUniformValue(name, arrTransposed, sizeof(GLfloat) * 9);
+			return _setUniformValue(name, arrTransposed, MEM_SIZE);
 		}
 
-		return _setUniformValue(name, pValues, sizeof(GLfloat) * 9);
-	}
-
-	bool UniformBuffer::setUniformMat4(const string &name, const GLfloat *const pValues, const bool transposition) noexcept
-	{
-		if (transposition)
-		{
-			const GLfloat arrTransposed[] =
-			{
-				pValues[0], pValues[4], pValues[8], pValues[12],
-				pValues[1], pValues[5], pValues[9], pValues[13],
-				pValues[2], pValues[6], pValues[10], pValues[14],
-				pValues[3], pValues[7], pValues[11], pValues[15]
-			};
-
-			return _setUniformValue(name, arrTransposed, sizeof(GLfloat) * 16);
-		}
-
-		return _setUniformValue(name, pValues, sizeof(GLfloat) * 16);
+		return _setUniformValue(name, pValues, MEM_SIZE);
 	}
 }

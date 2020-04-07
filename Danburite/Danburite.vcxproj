@@ -167,6 +167,7 @@
     <ClCompile Include="CubeSkyboxComponent.cpp" />
     <ClCompile Include="DepthBaker2D.cpp" />
     <ClCompile Include="DepthBakerBase.cpp" />
+    <ClCompile Include="DepthBakerCubemap.cpp" />
     <ClCompile Include="ElementType.cpp" />
     <ClCompile Include="GammaCorrectionPostProcessor.cpp" />
     <ClCompile Include="IndexType.cpp" />
@@ -287,6 +288,7 @@
     <ClInclude Include="BufferAccessType.h" />
     <ClInclude Include="DepthBaker2D.h" />
     <ClInclude Include="DepthBakerBase.h" />
+    <ClInclude Include="DepthBakerCubemap.h" />
     <ClInclude Include="FacetType.h" />
     <ClInclude Include="GLDebugMessageCallbackFunction.h" />
     <ClInclude Include="GLDebugMessageSeverityType.h" />

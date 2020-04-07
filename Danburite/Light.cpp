@@ -54,7 +54,7 @@ namespace Danburite
 		const mat4 &viewMat = _getViewMatrix();
 		const mat4 &projMat = _getProjMatrix();
 
-		__depthBaker.deployViewProjMatrix(viewMat, projMat);
+		__depthBaker.setViewProjMatrix(viewMat, projMat);
 		__depthBaker.bind();
 	}
 

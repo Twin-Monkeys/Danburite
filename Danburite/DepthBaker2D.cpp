@@ -14,7 +14,6 @@ namespace Danburite
 {
 	DepthBaker2D::DepthBaker2D() :
 		__depthBakingProgram(ProgramFactory::getInstance().getProgram(ProgramType::DEPTH_BAKING)),
-		__pDepthMap(make_unique<AttachableTexture2D>()),
 		__cameraSetter(UniformBufferFactory::getInstance().
 			getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA))
 	{
@@ -46,13 +45,15 @@ namespace Danburite
 
 	void DepthBaker2D::_onBind() noexcept
 	{
+		__cameraSetter.setUniformMat4(ShaderIdentifier::Name::Camera::VIEW_MATRIX, __viewMat);
+		__cameraSetter.setUniformMat4(ShaderIdentifier::Name::Camera::PROJECTION_MATRIX, __projMat);
 		__depthBakingProgram.bind();
 	}
 
-	void DepthBaker2D::deployViewProjMatrix(const mat4 &viewMat, const mat4 &projMat) noexcept
+	void DepthBaker2D::setViewProjMatrix(const mat4 &viewMat, const mat4 &projMat) noexcept
 	{
-		__cameraSetter.setUniformMat4(ShaderIdentifier::Name::Camera::VIEW_MATRIX, viewMat);
-		__cameraSetter.setUniformMat4(ShaderIdentifier::Name::Camera::PROJECTION_MATRIX, projMat);
+		__viewMat = viewMat;
+		__projMat = projMat;
 	}
 
 	GLuint64 DepthBaker2D::getDepthMapHandle() noexcept
