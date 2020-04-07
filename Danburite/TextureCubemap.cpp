@@ -10,15 +10,17 @@ namespace ObjectGL
 		const CubemapSideType sideType,
 		const GLsizei width, const GLsizei height, const void* const pData,
 		const TextureInternalFormatType internalFormat, const TextureExternalFormatType externalFormat,
-		const TextureDataType dataType, const GLint mipmapLevel, const bool mipmapCreation) noexcept
+		const TextureDataType dataType, const GLint mipmapLevel) noexcept
 	{
 		_bindID();
-
 		glTexImage2D(
 			GLenum(sideType), mipmapLevel, GLint(internalFormat),
 			width, height, 0, GLenum(externalFormat), GLenum(dataType), pData);
+	}
 
-		if (mipmapCreation)
-			glGenerateMipmap(_RAW_TYPE);
+	void TextureCubemap::createMipmap() noexcept
+	{
+		_bindID();
+		glGenerateMipmap(_RAW_TYPE);
 	}
 }

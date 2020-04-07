@@ -86,8 +86,11 @@ namespace Danburite
 
 			pRetVal->memoryAlloc(
 				CubemapSideType::POSITIVE_X + i, width, height, pImage.get(),
-				internalFormat, externalFormat, dataType, mipmapLevel, mipmapCreation);
+				internalFormat, externalFormat, dataType, mipmapLevel);
 		}
+
+		if (mipmapCreation)
+			pRetVal->createMipmap();
 
 		return pRetVal;
 	}

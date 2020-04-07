@@ -16,7 +16,9 @@ namespace ObjectGL
 			const TextureInternalFormatType internalFormat = TextureInternalFormatType::RGB,
 			const TextureExternalFormatType externalFormat = TextureExternalFormatType::RGB,
 			const TextureDataType dataType = TextureDataType::UNSIGNED_BYTE,
-			const GLint mipmapLevel = 0, const bool mipmapCreation = false) noexcept;
+			const GLint mipmapLevel = 0) noexcept;
+
+		void createMipmap() noexcept;
 
 		virtual ~TextureCubemap() = default;
 	};
