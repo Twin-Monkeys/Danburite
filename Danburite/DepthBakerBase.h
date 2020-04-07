@@ -10,6 +10,7 @@ namespace Danburite
 	private:
 		std::unique_ptr<ObjectGL::FrameBuffer> __pFrameBuffer;
 
+		bool __resolutionInit = false;
 		GLsizei __mapWidth;
 		GLsizei __mapHeight;
 		GLint __viewportArgs[4];

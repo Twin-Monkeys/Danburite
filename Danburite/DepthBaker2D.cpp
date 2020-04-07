@@ -19,7 +19,6 @@ namespace Danburite
 			getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA))
 	{
 		__createDepthMap();
-		setResolution(Constant::Shadow::DEFAULT_MAP_WIDTH, Constant::Shadow::DEFAULT_MAP_HEIGHT);
 	}
 
 	void DepthBaker2D::__createDepthMap() noexcept
