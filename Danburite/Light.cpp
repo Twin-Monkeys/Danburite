@@ -69,7 +69,7 @@ namespace Danburite
 			return;
 
 		startDepthBaking();
-		drawer.batchDraw();
+		drawer.batchRawDrawCall();
 		endDepthBaking();
 	}
 
