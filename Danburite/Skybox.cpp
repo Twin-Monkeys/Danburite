@@ -9,7 +9,8 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	Skybox::Skybox() noexcept :
-		__skyBoxSetter(UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::SKYBOX))
+		__skyBoxSetter(UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::SKYBOX))
 	{}
 
 	void Skybox::draw() noexcept

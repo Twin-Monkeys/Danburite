@@ -1,10 +1,11 @@
 #include "ProgramFactory.h"
-#include "ProgramPath.h"
+#include <array>
 #include <filesystem>
 #include "ResourceManager.h"
 #include "VertexShaderCompiler.h"
 #include "GeometryShaderCompiler.h"
 #include "FragmentShaderCompiler.h"
+#include "ShaderIdentifier.h"
 
 using namespace std;
 using namespace filesystem;
@@ -12,14 +13,174 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
+	const string &ProgramFactory::__getProgramPath(const ProgramPathType pathType, const ProgramType programType) noexcept
+	{
+		static const unordered_map<ProgramType, array<string, 4>> pathMap =
+		{
+			// Normal programs
+			{
+				ProgramType::MONO_COLOR,
+				{
+					"glsl/binary/MonoColor.bin",		// binary
+					"glsl/src/MonoColor_Vert.glsl",		// vertex shader
+					"",									// geometry shader
+					"glsl/src/MonoColor_Frag.glsl"		// fragment shader
+				},
+			},
+			{
+				ProgramType::PHONG,
+				{
+					"glsl/binary/Phong.bin",
+					"glsl/src/Phong_Vert.glsl",
+					"",
+					"glsl/src/Phong_Frag.glsl"
+				}
+			},
+			{
+				ProgramType::SILHOUETTE,
+				{
+					"glsl/binary/Silhouette.bin",
+					"glsl/src/Silhouette_Vert.glsl",
+					"",
+					"glsl/src/Silhouette_Frag.glsl"
+				}
+			},
+			{
+				ProgramType::OUTLINE,
+				{
+					"glsl/binary/Outline.bin",
+					"glsl/src/Outline_Vert.glsl",
+					"",
+					"glsl/src/Outline_Frag.glsl"
+				}
+			},
+			{
+				ProgramType::REFLECTION,
+				{
+					"glsl/binary/Reflection.bin",
+					"glsl/src/Reflection_Vert.glsl",
+					"",
+					"glsl/src/Reflection_Frag.glsl"
+				}
+			},
+			{
+				ProgramType::REFLECTION_PHONG,
+				{
+					"glsl/binary/ReflectionPhong.bin",
+					"glsl/src/Phong_Vert.glsl",
+					"",
+					"glsl/src/ReflectionPhong_Frag.glsl"
+				}
+			},
+			{
+				ProgramType::REFRACTION,
+				{
+					"glsl/binary/Refraction.bin",
+					"glsl/src/Refraction_Vert.glsl",
+					"",
+					"glsl/src/Refraction_Frag.glsl"
+				}
+			},
+			{
+				ProgramType::EXPLODING_PHONG,
+				{
+					"glsl/binary/ExplodingPhong.bin",
+					"glsl/src/ExplodingPhong_Vert.glsl",
+					"glsl/src/ExplodingPhong_Geo.glsl",
+					"glsl/src/ExplodingPhong_Frag.glsl"
+				}
+			},
+
+			// Skybox
+			{
+				ProgramType::SKYBOX,
+				{
+					"glsl/binary/Skybox.bin",
+					"glsl/src/Skybox_Vert.glsl",
+					"",
+					"glsl/src/Skybox_Frag.glsl"
+				}
+			},
+
+			// Post processing programs
+			{
+				ProgramType::POST_PROCESS_FORWARD,
+				{
+					"glsl/binary/PostProcess_Forward.bin",
+					"glsl/src/FullscreenQuad_Vert.glsl",
+					"",
+					"glsl/src/PostProcess_Forward_Frag.glsl"
+				}
+			},
+			{
+				ProgramType::POST_PROCESS_NEGATIVE,
+				{
+					"glsl/binary/PostProcess_Negative.bin",
+					"glsl/src/FullscreenQuad_Vert.glsl",
+					"",
+					"glsl/src/PostProcess_Negative_Frag.glsl"
+				}
+			},
+			{
+				ProgramType::POST_PROCESS_GRAYSCALE,
+				{
+					"glsl/binary/PostProcess_Grayscale.bin",
+					"glsl/src/FullscreenQuad_Vert.glsl",
+					"",
+					"glsl/src/PostProcess_Grayscale_Frag.glsl"
+				}
+			},
+			{
+				ProgramType::POST_PROCESS_CONVOLUTIONAL,
+				{
+					"glsl/binary/PostProcess_Convolutional.bin",
+					"glsl/src/FullscreenQuad_Vert.glsl",
+					"",
+					"glsl/src/PostProcess_Convolutional_Frag.glsl"
+				}
+			},
+			{
+				ProgramType::POST_PROCESS_MSAA,
+				{
+					"glsl/binary/PostProcess_MSAA.bin",
+					"glsl/src/FullscreenQuad_Vert.glsl",
+					"",
+					"glsl/src/PostProcess_MSAA_Frag.glsl"
+				}
+			},
+			{
+				ProgramType::POST_PROCESS_GAMMA_CORRECTION,
+				{
+					"glsl/binary/PostProcess_GammaCorrection.bin",
+					"glsl/src/FullscreenQuad_Vert.glsl",
+					"",
+					"glsl/src/PostProcess_GammaCorrection_Frag.glsl"
+				}
+			},
+
+			// Depth baking
+			{
+				ProgramType::DEPTH_BAKING,
+				{
+					"glsl/binary/DepthBaking.bin",
+					"glsl/src/DepthBaking_Vert.glsl",
+					"",
+					"glsl/src/DepthBaking_Frag.glsl"
+				}
+			}
+		};
+
+		return pathMap.at(programType)[size_t(pathType)];
+	}
+
 	Program *ProgramFactory::__createProgram(const ProgramType type)
 	{
 		ResourceManager &resManager = ResourceManager::getInstance();
 		
-		const string &BIN_PATH = ProgramPath::getPath(ProgramPathType::BINARY, type);
-		const string &VS_PATH = ProgramPath::getPath(ProgramPathType::VERTEX_SHADER, type);
-		const string &GS_PATH = ProgramPath::getPath(ProgramPathType::GEOMETRY_SHADER, type);
-		const string &FS_PATH = ProgramPath::getPath(ProgramPathType::FRAGMENT_SHADER, type);
+		const string &BIN_PATH = __getProgramPath(ProgramPathType::BINARY, type);
+		const string &VS_PATH = __getProgramPath(ProgramPathType::VERTEX_SHADER, type);
+		const string &GS_PATH = __getProgramPath(ProgramPathType::GEOMETRY_SHADER, type);
+		const string &FS_PATH = __getProgramPath(ProgramPathType::FRAGMENT_SHADER, type);
 
 		if (exists(BIN_PATH))
 		{
@@ -77,5 +238,80 @@ namespace Danburite
 	shared_ptr<Program> ProgramFactory::ProgramCache::_onProvideValue(const ProgramType &key)
 	{
 		return shared_ptr<Program>(__createProgram(key));
+	}
+
+	const unordered_set<ProgramType> &ProgramFactory::getUsingProgramsFromUniformBufferName(const string &uniformBufferName) noexcept
+	{
+		static const unordered_map<string, unordered_set<ProgramType>> uniformBufferNameToUsingProgrmsMap =
+		{
+			{
+				ShaderIdentifier::Name::UniformBuffer::MATERIAL,
+				{
+					ProgramType::MONO_COLOR,
+					ProgramType::PHONG,
+					ProgramType::SILHOUETTE,
+					ProgramType::OUTLINE,
+					ProgramType::REFLECTION,
+					ProgramType::REFLECTION_PHONG,
+					ProgramType::REFRACTION,
+					ProgramType::EXPLODING_PHONG,
+					ProgramType::SKYBOX
+				}
+			},
+			{
+				ShaderIdentifier::Name::UniformBuffer::LIGHT,
+				{
+					ProgramType::PHONG,
+					ProgramType::REFLECTION_PHONG,
+					ProgramType::EXPLODING_PHONG
+				}
+			},
+			{
+				ShaderIdentifier::Name::UniformBuffer::CAMERA,
+				{
+					ProgramType::MONO_COLOR,
+					ProgramType::PHONG,
+					ProgramType::SILHOUETTE,
+					ProgramType::OUTLINE,
+					ProgramType::REFLECTION,
+					ProgramType::REFLECTION_PHONG,
+					ProgramType::REFRACTION,
+					ProgramType::EXPLODING_PHONG,
+					ProgramType::SKYBOX,
+					ProgramType::DEPTH_BAKING
+				}
+			},
+			{
+				ShaderIdentifier::Name::UniformBuffer::CONVOLUTION,
+				{
+					ProgramType::POST_PROCESS_CONVOLUTIONAL
+				}
+			},
+			{
+				ShaderIdentifier::Name::UniformBuffer::GAMMA_CORRECTION,
+				{
+					ProgramType::POST_PROCESS_GAMMA_CORRECTION
+				}
+			},
+			{
+				ShaderIdentifier::Name::UniformBuffer::SKYBOX,
+				{
+					ProgramType::SKYBOX
+				}
+			},
+			{
+				ShaderIdentifier::Name::UniformBuffer::ATTACHMENT,
+				{
+					ProgramType::POST_PROCESS_FORWARD,
+					ProgramType::POST_PROCESS_NEGATIVE,
+					ProgramType::POST_PROCESS_GRAYSCALE,
+					ProgramType::POST_PROCESS_CONVOLUTIONAL,
+					ProgramType::POST_PROCESS_MSAA,
+					ProgramType::POST_PROCESS_GAMMA_CORRECTION
+				}
+			}
+		};
+
+		return uniformBufferNameToUsingProgrmsMap.at(uniformBufferName);
 	}
 }

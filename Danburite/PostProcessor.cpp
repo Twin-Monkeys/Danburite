@@ -11,8 +11,9 @@ namespace Danburite
 {
 	PostProcessor::PostProcessor() :
 		__pFrameBuffer(make_unique<FrameBuffer>()),
+
 		__attachmentSetter(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::ATTACHMENT))
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::ATTACHMENT))
 	{}
 
 	void PostProcessor::_attach(const AttachmentType attachmentType, Attachable &attachment) noexcept

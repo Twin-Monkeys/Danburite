@@ -1,4 +1,5 @@
 #include "ShaderIdentifier.h"
+#include <unordered_map>
 
 using namespace std;
 
@@ -117,7 +118,7 @@ namespace Danburite
 
 			namespace UniformBuffer
 			{
-				extern const string
+				const string
 					MATERIAL = "UBMaterial",
 					LIGHT = "UBLight",
 					CAMERA = "UBCamera",
@@ -132,77 +133,41 @@ namespace Danburite
 		{
 			namespace UniformBuffer
 			{
-				const string &getUniformBufferNameFromBindingPoint(const GLuint bindingPoint) noexcept
+				GLuint getBindingPointFromName(const string &name) noexcept
 				{
-					static const string *const bindingPointToNameMap[] =
+					static const unordered_map<string, GLuint> nameToBindingPointMap =
 					{
-						&Name::UniformBuffer::MATERIAL,
-						&Name::UniformBuffer::LIGHT,
-						&Name::UniformBuffer::CAMERA,
-						&Name::UniformBuffer::CONVOLUTION,
-						&Name::UniformBuffer::GAMMA_CORRECTION,
-						&Name::UniformBuffer::SKYBOX,
-						&Name::UniformBuffer::ATTACHMENT
-					};
-
-					return *bindingPointToNameMap[bindingPoint];
-				}
-
-				const unordered_set<ProgramType> &getTargetProgramTypesFromBindingPoint(const GLuint bindingPoint) noexcept
-				{
-					static const unordered_set<ProgramType> bindingPointToTargetTypeSet[] =
-					{
-						// Material
 						{
-							ProgramType::MONO_COLOR,
-							ProgramType::PHONG,
-							ProgramType::SILHOUETTE,
-							ProgramType::OUTLINE,
-							ProgramType::SKYBOX
+							Name::UniformBuffer::MATERIAL,
+							Value::UniformBlockBindingPoint::MATERIAL
 						},
-
-						// Light
 						{
-							ProgramType::PHONG
+							Name::UniformBuffer::LIGHT,
+							Value::UniformBlockBindingPoint::LIGHT
 						},
-
-						// Camera
 						{
-							ProgramType::MONO_COLOR,
-							ProgramType::PHONG,
-							ProgramType::SILHOUETTE,
-							ProgramType::OUTLINE,
-							ProgramType::SKYBOX,
-							ProgramType::DEPTH_BAKING
+							Name::UniformBuffer::CAMERA,
+							Value::UniformBlockBindingPoint::CAMERA
 						},
-
-						// Convolution
 						{
-							ProgramType::POST_PROCESS_CONVOLUTIONAL
+							Name::UniformBuffer::CONVOLUTION,
+							Value::UniformBlockBindingPoint::CONVOLUTION
 						},
-
-						// Gamma Correction
 						{
-							ProgramType::POST_PROCESS_GAMMA_CORRECTION
+							Name::UniformBuffer::GAMMA_CORRECTION,
+							Value::UniformBlockBindingPoint::GAMMA_CORRECTION
 						},
-
-						// Skybox
 						{
-							ProgramType::SKYBOX
+							Name::UniformBuffer::SKYBOX,
+							Value::UniformBlockBindingPoint::SKYBOX
 						},
-
-						// Attachment
 						{
-							ProgramType::POST_PROCESS_FORWARD,
-							ProgramType::POST_PROCESS_NEGATIVE,
-							ProgramType::POST_PROCESS_GRAYSCALE,
-							ProgramType::POST_PROCESS_CONVOLUTIONAL,
-							ProgramType::POST_PROCESS_MSAA,
-							ProgramType::POST_PROCESS_GAMMA_CORRECTION
+							Name::UniformBuffer::ATTACHMENT,
+							Value::UniformBlockBindingPoint::ATTACHMENT
 						}
 					};
 
-					return bindingPointToTargetTypeSet[bindingPoint];
+					return nameToBindingPointMap.at(name);
 				}
 			}
 		}

@@ -4,6 +4,8 @@ namespace Danburite
 {
 	enum class ProgramType
 	{
+		BEGIN = -1,
+
 		// Normal programs
 		MONO_COLOR,
 		PHONG,
@@ -12,7 +14,6 @@ namespace Danburite
 		REFLECTION,
 		REFLECTION_PHONG,
 		REFRACTION,
-		GEOMETRY_DEMO,
 		EXPLODING_PHONG,
 
 		// Skybox
@@ -27,6 +28,21 @@ namespace Danburite
 		POST_PROCESS_GAMMA_CORRECTION,
 
 		// Depth baking
-		DEPTH_BAKING
+		DEPTH_BAKING,
+
+		END
 	};
+
+	constexpr ProgramType operator+(const ProgramType lhs, const int rhs) noexcept
+	{
+		return ProgramType(int(lhs) + rhs);
+	}
+
+	constexpr ProgramType operator++(ProgramType &type, int) noexcept
+	{
+		const ProgramType retVal = type;
+		type = (type + 1);
+
+		return retVal;
+	}
 }

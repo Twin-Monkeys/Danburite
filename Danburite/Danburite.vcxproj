@@ -240,7 +240,6 @@
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="ProgramFactory.cpp" />
-    <ClCompile Include="ProgramPath.cpp" />
     <ClCompile Include="RenderUnit.cpp" />
     <ClCompile Include="RenderUnitManager.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
@@ -348,8 +347,6 @@
     <ClInclude Include="MaterialOptionFlag.h" />
     <ClInclude Include="PhongMaterialComponent.h" />
     <ClInclude Include="PostProcessingPipeline.h" />
-    <ClInclude Include="ProgramPath.h" />
-    <ClInclude Include="ProgramPathType.h" />
     <ClInclude Include="ReflectionMaterial.h" />
     <ClInclude Include="ReflectionMaterialComponent.h" />
     <ClInclude Include="ReflectionPhongMaterial.h" />
@@ -458,9 +455,6 @@
     <None Include="glsl\src\ExplodingPhong_Geo.glsl" />
     <None Include="glsl\src\ExplodingPhong_Vert.glsl" />
     <None Include="glsl\src\FullscreenQuad_Vert.glsl" />
-    <None Include="glsl\src\GeometryDemo_Frag.glsl" />
-    <None Include="glsl\src\GeometryDemo_Geo.glsl" />
-    <None Include="glsl\src\GeometryDemo_Vert.glsl" />
     <None Include="glsl\src\header\Attachment_Header.glsl" />
     <None Include="glsl\src\Header\Camera_Header.glsl" />
     <None Include="glsl\src\header\Constant_Header.glsl" />

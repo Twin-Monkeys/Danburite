@@ -11,8 +11,8 @@ namespace Danburite
 		ForwardPostProcessor(ProgramFactory::getInstance().
 			getProgram(ProgramType::POST_PROCESS_GAMMA_CORRECTION)),
 
-		__gammaCorrectionSetter(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::GAMMA_CORRECTION))
+		__gammaCorrectionSetter(
+			UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::GAMMA_CORRECTION))
 	{}
 
 	void GammaCorrectionPostProcessor::_onRender(UniformSetter &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept

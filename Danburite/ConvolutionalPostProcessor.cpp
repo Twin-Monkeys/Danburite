@@ -9,11 +9,11 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	ConvolutionalPostProcessor::ConvolutionalPostProcessor() :
-		ForwardPostProcessor(ProgramFactory::getInstance().
-			getProgram(ProgramType::POST_PROCESS_CONVOLUTIONAL)),
+		ForwardPostProcessor(
+			ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_CONVOLUTIONAL)),
 
-		__convSetter(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::CONVOLUTION))
+		__convSetter(
+			UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::CONVOLUTION))
 	{}
 
 	void ConvolutionalPostProcessor::setKernel(const GLfloat *const pData, const GLuint kernelSize) noexcept

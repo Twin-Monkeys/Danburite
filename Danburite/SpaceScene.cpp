@@ -275,8 +275,7 @@ void SpaceScene::draw() noexcept
 	__pLightHandler->batchBakeDepthMap(*__pDrawer);
 
 	UniformBuffer &ubCamera =
-		UniformBufferFactory::getInstance().
-		getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA);
+		UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::CAMERA);
 
 	ubCamera.directDeploy(*__pCamera);
 

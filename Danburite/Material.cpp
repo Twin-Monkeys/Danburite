@@ -12,7 +12,7 @@ namespace Danburite
 	Material::Material(const MaterialType materialType, const VertexAttributeType vertexType) noexcept :
 		__MATERIAL_TYPE(materialType), __VERTEX_TYPE(vertexType),
 		__materialSetter(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::MATERIAL))
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::MATERIAL))
 	{}
 
 	void Material::render(VertexArray &vertexArray, const GLsizei numInstances) noexcept

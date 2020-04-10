@@ -2,8 +2,6 @@
 
 #include <string>
 #include <gl/glew.h>
-#include <unordered_set>
-#include "ProgramType.h"
 
 namespace Danburite
 {
@@ -175,8 +173,7 @@ namespace Danburite
 		{
 			namespace UniformBuffer
 			{
-				const std::string &getUniformBufferNameFromBindingPoint(const GLuint bindingPoint) noexcept;
-				const std::unordered_set<ProgramType> &getTargetProgramTypesFromBindingPoint(const GLuint bindingPoint) noexcept;
+				GLuint getBindingPointFromName(const std::string &name) noexcept;
 			}
 		}
 	}

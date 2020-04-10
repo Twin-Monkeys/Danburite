@@ -283,9 +283,6 @@
     <Filter Include="Library\ObjectGL\Core\Shader\Compiler\GeometryShaderCompiler">
       <UniqueIdentifier>{55ce2923-a802-4c6d-a7c7-3ec1bd089d37}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Library\Engine\glsl\src\Demo">
-      <UniqueIdentifier>{6d11e425-bb98-414a-b64a-eae9a1428e4f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library\Engine\glsl\src\ExplodingPhong">
       <UniqueIdentifier>{e3f5c97a-e6a0-4b6b-affd-4c80df66110d}</UniqueIdentifier>
     </Filter>
@@ -443,9 +440,6 @@
     </ClCompile>
     <ClCompile Include="FragmentShaderCompiler.cpp">
       <Filter>Library\ObjectGL\Core\Shader\Compiler\FragmentShaderCompiler</Filter>
-    </ClCompile>
-    <ClCompile Include="ProgramPath.cpp">
-      <Filter>Library\Engine\Core\Program</Filter>
     </ClCompile>
     <ClCompile Include="PointLight.cpp">
       <Filter>Library\Engine\Core\Light\PointLight</Filter>
@@ -844,12 +838,6 @@
     </ClInclude>
     <ClInclude Include="FragmentShaderCompiler.h">
       <Filter>Library\ObjectGL\Core\Shader\Compiler\FragmentShaderCompiler</Filter>
-    </ClInclude>
-    <ClInclude Include="ProgramPath.h">
-      <Filter>Library\Engine\Core\Program</Filter>
-    </ClInclude>
-    <ClInclude Include="ProgramPathType.h">
-      <Filter>Library\Engine\Core\Program</Filter>
     </ClInclude>
     <ClInclude Include="LightType.h">
       <Filter>Library\Engine\Core\Light</Filter>
@@ -1287,15 +1275,6 @@
     </None>
     <None Include="glsl\src\Refraction_Vert.glsl">
       <Filter>Library\Engine\glsl\src\Refraction</Filter>
-    </None>
-    <None Include="glsl\src\GeometryDemo_Frag.glsl">
-      <Filter>Library\Engine\glsl\src\Demo</Filter>
-    </None>
-    <None Include="glsl\src\GeometryDemo_Vert.glsl">
-      <Filter>Library\Engine\glsl\src\Demo</Filter>
-    </None>
-    <None Include="glsl\src\GeometryDemo_Geo.glsl">
-      <Filter>Library\Engine\glsl\src\Demo</Filter>
     </None>
     <None Include="glsl\src\ExplodingPhong_Geo.glsl">
       <Filter>Library\Engine\glsl\src\ExplodingPhong</Filter>

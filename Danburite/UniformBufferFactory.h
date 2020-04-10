@@ -11,10 +11,10 @@ namespace Danburite
 		friend ObjectGL::ContextDependentSingleton<UniformBufferFactory>;
 
 	private:
-		class UniformBufferCache : public ObjectGL::Cache<GLuint, std::shared_ptr<ObjectGL::UniformBuffer>>
+		class UniformBufferCache : public ObjectGL::Cache<std::string, std::shared_ptr<ObjectGL::UniformBuffer>>
 		{
 		protected:
-			virtual std::shared_ptr<ObjectGL::UniformBuffer> _onProvideValue(const GLuint &key) override;
+			virtual std::shared_ptr<ObjectGL::UniformBuffer> _onProvideValue(const std::string &key) override;
 		};
 
 		UniformBufferCache __uniformBufferCache;
@@ -22,6 +22,6 @@ namespace Danburite
 		UniformBufferFactory() = default;
 
 	public:
-		ObjectGL::UniformBuffer &getUniformBuffer(const GLuint uniformBlockBindingPoint);
+		ObjectGL::UniformBuffer &getUniformBuffer(const std::string &bufferName);
 	};
 }

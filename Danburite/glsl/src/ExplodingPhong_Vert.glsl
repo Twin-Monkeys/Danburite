@@ -14,10 +14,10 @@ vsOut;
 
 void main()
 {
-	vsOut.worldPos = Model_getWorldPosition(VertexAttribute_pos);
+	vsOut.worldPos = Model_getWorldPosition(VertexAttribute_modelMat, VertexAttribute_pos);
 	vsOut.color = VertexAttribute_color;
-	vsOut.worldNormal = Model_getWorldNormal(VertexAttribute_normal);
+	vsOut.worldNormal = Model_getWorldNormal(VertexAttribute_modelMat, VertexAttribute_normal);
 	vsOut.texCoord = VertexAttribute_texCoord;
 
-	gl_Position = ModelCamera_getNDCPosition(VertexAttribute_pos);
+	gl_Position = ModelCamera_getNDCPosition(VertexAttribute_modelMat, VertexAttribute_pos);
 } 

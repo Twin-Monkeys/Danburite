@@ -14,8 +14,9 @@ namespace Danburite
 {
 	DepthBaker2D::DepthBaker2D() :
 		__depthBakingProgram(ProgramFactory::getInstance().getProgram(ProgramType::DEPTH_BAKING)),
-		__cameraSetter(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA))
+
+		__cameraSetter(
+			UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::CAMERA))
 	{
 		__createDepthMap();
 	}

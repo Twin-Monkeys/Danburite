@@ -7,25 +7,20 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	UniformBuffer &UniformBufferFactory::getUniformBuffer(const GLuint uniformBlockBindingPoint)
+	UniformBuffer &UniformBufferFactory::getUniformBuffer(const string &bufferName)
 	{
-		return *__uniformBufferCache.getValue(uniformBlockBindingPoint);
+		return *__uniformBufferCache.getValue(bufferName);
 	}
 
-	shared_ptr<UniformBuffer> UniformBufferFactory::UniformBufferCache::_onProvideValue(const GLuint &key)
+	shared_ptr<UniformBuffer> UniformBufferFactory::UniformBufferCache::_onProvideValue(const string &key)
 	{
-		const string &bufferName =
-			ShaderIdentifier::Util::UniformBuffer::getUniformBufferNameFromBindingPoint(key);
-
-		const shared_ptr<UniformBuffer> &pRetVal = make_shared<UniformBuffer>(bufferName, key);
-
-		const unordered_set<ProgramType> &targetProgramTypes =
-			ShaderIdentifier::Util::UniformBuffer::getTargetProgramTypesFromBindingPoint(key);
-
 		ProgramFactory &programFactory = ProgramFactory::getInstance();
 
-		for (const ProgramType targetType : targetProgramTypes)
-			pRetVal->registerProgram(programFactory.getProgram(targetType));
+		const GLuint bindingPoint = ShaderIdentifier::Util::UniformBuffer::getBindingPointFromName(key);
+		const shared_ptr<UniformBuffer> pRetVal = make_shared<UniformBuffer>(key, bindingPoint);
+
+		for (const ProgramType programType : ProgramFactory::getUsingProgramsFromUniformBufferName(key))
+			pRetVal->registerProgram(programFactory.getProgram(programType));
 
 		return pRetVal;
 	}
