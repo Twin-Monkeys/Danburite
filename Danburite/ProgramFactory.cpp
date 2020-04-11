@@ -173,7 +173,7 @@ namespace Danburite
 				{
 					"glsl/binary/DepthBakingCubemap.bin",
 					"glsl/src/DepthBakingCubemap_Vert.glsl",
-					"",
+					"glsl/src/DepthBakingCubemap_Geo.glsl",
 					"glsl/src/DepthBakingCubemap_Frag.glsl"
 				}
 			}
