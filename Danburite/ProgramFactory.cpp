@@ -160,12 +160,12 @@ namespace Danburite
 
 			// Depth baking
 			{
-				ProgramType::DEPTH_BAKING,
+				ProgramType::DEPTH_BAKING_2D,
 				{
 					"glsl/binary/DepthBaking.bin",
-					"glsl/src/DepthBaking_Vert.glsl",
+					"glsl/src/DepthBaking2D_Vert.glsl",
 					"",
-					"glsl/src/DepthBaking_Frag.glsl"
+					"glsl/src/DepthBaking2D_Frag.glsl"
 				}
 			}
 		};
@@ -277,8 +277,7 @@ namespace Danburite
 					ProgramType::REFLECTION_PHONG,
 					ProgramType::REFRACTION,
 					ProgramType::EXPLODING_PHONG,
-					ProgramType::SKYBOX,
-					ProgramType::DEPTH_BAKING
+					ProgramType::SKYBOX
 				}
 			},
 			{
@@ -308,6 +307,12 @@ namespace Danburite
 					ProgramType::POST_PROCESS_CONVOLUTIONAL,
 					ProgramType::POST_PROCESS_MSAA,
 					ProgramType::POST_PROCESS_GAMMA_CORRECTION
+				}
+			},
+			{
+				ShaderIdentifier::Name::UniformBuffer::DEPTH_BAKING_2D,
+				{
+					ProgramType::DEPTH_BAKING_2D
 				}
 			}
 		};

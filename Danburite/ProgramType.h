@@ -28,7 +28,7 @@ namespace Danburite
 		POST_PROCESS_GAMMA_CORRECTION,
 
 		// Depth baking
-		DEPTH_BAKING,
+		DEPTH_BAKING_2D,
 
 		END
 	};

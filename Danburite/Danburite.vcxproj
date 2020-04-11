@@ -23,7 +23,7 @@
     <ProjectGuid>{8FDCDE28-C10D-48DB-AA99-4EB23CD794F7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Danburite</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -43,14 +43,14 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -302,7 +302,6 @@
     <ClInclude Include="CubeSkybox.h" />
     <ClInclude Include="CubeSkyboxComponent.h" />
     <ClInclude Include="GammaCorrectionPostProcessor.h" />
-    <ClInclude Include="MaterialRenderType.h" />
     <ClInclude Include="OrthoCamera.h" />
     <ClInclude Include="OrthoCameraLight.h" />
     <ClInclude Include="PerspectiveCameraLight.h" />
@@ -447,10 +446,11 @@
     <ClInclude Include="PostProcessor.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="glsl\src\header\DepthBaking2D_Header.glsl" />
     <None Include="glsl\src\Skybox_Frag.glsl" />
     <None Include="glsl\src\Skybox_Vert.glsl" />
-    <None Include="glsl\src\DepthBaking_Frag.glsl" />
-    <None Include="glsl\src\DepthBaking_Vert.glsl" />
+    <None Include="glsl\src\DepthBaking2D_Frag.glsl" />
+    <None Include="glsl\src\DepthBaking2D_Vert.glsl" />
     <None Include="glsl\src\ExplodingPhong_Frag.glsl" />
     <None Include="glsl\src\ExplodingPhong_Geo.glsl" />
     <None Include="glsl\src\ExplodingPhong_Vert.glsl" />

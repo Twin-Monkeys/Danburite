@@ -13,7 +13,7 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	DepthBakerCubemap::DepthBakerCubemap() :
-		__depthBakingProgram(ProgramFactory::getInstance().getProgram(ProgramType::DEPTH_BAKING))
+		__depthBakingProgram(ProgramFactory::getInstance().getProgram(ProgramType::DEPTH_BAKING_2D))
 	{
 		__createDepthMap();
 	}

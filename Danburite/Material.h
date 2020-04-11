@@ -6,7 +6,6 @@
 #include "VertexArray.h"
 #include "VertexAttributeType.h"
 #include "Constant.h"
-#include "MaterialRenderType.h"
 #include "UniformSetter.h"
 
 namespace Danburite

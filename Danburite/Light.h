@@ -51,9 +51,6 @@ namespace Danburite
 		constexpr void setShadowEnabled(const bool enabled) noexcept;
 
 		void setDepthMapResolution(const GLsizei width, const GLsizei height) noexcept;
-
-		void startDepthBaking() noexcept;
-		void endDepthBaking() noexcept;
 		void bakeDepthMap(Drawer &drawer, const bool cancelIfShadowDisabled = true) noexcept;
 
 		virtual ~Light() noexcept;

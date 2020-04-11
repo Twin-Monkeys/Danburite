@@ -13,10 +13,12 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	DepthBaker2D::DepthBaker2D() :
-		__depthBakingProgram(ProgramFactory::getInstance().getProgram(ProgramType::DEPTH_BAKING)),
+		__depthBakingProgram(
+			ProgramFactory::getInstance().getProgram(ProgramType::DEPTH_BAKING_2D)),
 
-		__cameraSetter(
-			UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::CAMERA))
+		__depthBaking2DSetter(
+			UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::DEPTH_BAKING_2D))
 	{
 		__createDepthMap();
 	}
@@ -46,15 +48,15 @@ namespace Danburite
 
 	void DepthBaker2D::_onBind() noexcept
 	{
-		__cameraSetter.setUniformMat4(ShaderIdentifier::Name::Camera::VIEW_MATRIX, __viewMat);
-		__cameraSetter.setUniformMat4(ShaderIdentifier::Name::Camera::PROJECTION_MATRIX, __projMat);
+		__depthBaking2DSetter.setUniformMat4(
+			ShaderIdentifier::Name::DepthBaking2D::PROJ_VIEW_MATRIX, __projViewMat);
+
 		__depthBakingProgram.bind();
 	}
 
-	void DepthBaker2D::setViewProjMatrix(const mat4 &viewMat, const mat4 &projMat) noexcept
+	void DepthBaker2D::setProjViewMatrix(const mat4 &projViewMat) noexcept
 	{
-		__viewMat = viewMat;
-		__projMat = projMat;
+		__projViewMat = projViewMat;
 	}
 
 	GLuint64 DepthBaker2D::getDepthMapHandle() noexcept

@@ -105,6 +105,12 @@ namespace Danburite
 					ALBEDO_TEX;
 			}
 
+			namespace DepthBaking2D
+			{
+				extern const std::string
+					PROJ_VIEW_MATRIX;
+			}
+
 			namespace UniformBuffer
 			{
 				extern const std::string
@@ -114,7 +120,9 @@ namespace Danburite
 					CONVOLUTION,
 					GAMMA_CORRECTION,
 					SKYBOX,
-					ATTACHMENT;
+					ATTACHMENT,
+					DEPTH_BAKING_2D
+					;
 			}
 		}
 
@@ -135,13 +143,15 @@ namespace Danburite
 			namespace UniformBlockBindingPoint
 			{
 				constexpr GLuint
-					MATERIAL = 0U,
-					LIGHT = 1U,
-					CAMERA = 2U,
-					CONVOLUTION = 3U,
-					GAMMA_CORRECTION = 4U,
-					SKYBOX = 5U,
-					ATTACHMENT = 6U;
+					MATERIAL			= 0U,
+					LIGHT				= 1U,
+					CAMERA				= 2U,
+					CONVOLUTION			= 3U,
+					GAMMA_CORRECTION	= 4U,
+					SKYBOX				= 5U,
+					ATTACHMENT			= 6U,
+					DEPTH_BAKING_2D		= 7U
+					;
 			}
 
 			namespace Light

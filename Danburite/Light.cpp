@@ -50,28 +50,17 @@ namespace Danburite
 		__depthBaker.setResolution(width, height);
 	}
 
-	void Light::startDepthBaking() noexcept
-	{
-		const mat4 &viewMat = _getViewMatrix();
-		const mat4 &projMat = _getProjMatrix();
-
-		__depthBaker.setViewProjMatrix(viewMat, projMat);
-		__depthBaker.bind();
-	}
-
-	void Light::endDepthBaking() noexcept
-	{
-		__depthBaker.unbind();
-	}
-
 	void Light::bakeDepthMap(Drawer &drawer, const bool cancelIfShadowDisabled) noexcept
 	{
 		if (cancelIfShadowDisabled && !isShadowEnabled())
 			return;
 
-		startDepthBaking();
+		__depthBaker.setProjViewMatrix(_getProjMatrix() * _getViewMatrix());
+		__depthBaker.bind();
+
 		drawer.batchRawDrawCall();
-		endDepthBaking();
+
+		__depthBaker.unbind();
 	}
 
 	Light::~Light() noexcept
