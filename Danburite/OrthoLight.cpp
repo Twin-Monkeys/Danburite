@@ -11,11 +11,11 @@ namespace Danburite
 
 	void OrthoLight::_onDeployShadowData(LightUniformSetter &lightSetter) noexcept
 	{
-		lightSetter.setUniformMat4(
-			ShaderIdentifier::Name::Light::VIEW_MATRIX, __camera.getViewMatrix());
+		const mat4 &viewMat = __camera.getViewMatrix();
+		const mat4 &projMat = __camera.getProjectionMatrix();
 
 		lightSetter.setUniformMat4(
-			ShaderIdentifier::Name::Light::PROJECTION_MATRIX, __camera.getProjectionMatrix());
+			ShaderIdentifier::Name::Light::PROJ_VIEW_MATRIX, projMat * viewMat);
 
 		lightSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Light::DEPTH_MAP, __depthBaker.getDepthMapHandle());

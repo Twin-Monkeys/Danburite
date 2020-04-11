@@ -33,8 +33,7 @@ struct Light
 
 	// shadow
 	bool shadowEnabled;
-	mat4 viewMat;
-	mat4 projMat;
+	mat4 projViewMat;
 	uvec2 depthMap;
 };
 
@@ -79,7 +78,7 @@ float Light_getOcclusion(uint lightIndex, vec3 targetNormal)
 	if (!light[lightIndex].shadowEnabled)
 		return 0.f;
 
-	const vec4 lightSpaceTargetPos = (light[lightIndex].projMat * light[lightIndex].viewMat * vec4(Light_targetPos, 1.f));
+	const vec4 lightSpaceTargetPos = (light[lightIndex].projViewMat * vec4(Light_targetPos, 1.f));
 
 	/*
 		When using an orthographic projection matrix

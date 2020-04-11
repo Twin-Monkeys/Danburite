@@ -44,8 +44,7 @@ namespace Danburite
 					OUTER_CUTOFF = "outerCutOff",
 					
 					SHADOW_ENABLED = "shadowEnabled",
-					VIEW_MATRIX = "viewMat",
-					PROJECTION_MATRIX = "projMat",
+					PROJ_VIEW_MATRIX = "projViewMat",
 					DEPTH_MAP = "depthMap";
 			}
 

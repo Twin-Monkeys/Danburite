@@ -44,8 +44,7 @@ namespace Danburite
 					OUTER_CUTOFF,
 					
 					SHADOW_ENABLED,
-					VIEW_MATRIX,
-					PROJECTION_MATRIX,
+					PROJ_VIEW_MATRIX,
 					DEPTH_MAP;
 			}
 
