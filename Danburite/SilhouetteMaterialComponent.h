@@ -1,18 +1,18 @@
 #pragma once
 
-#include "UniformDeployable.h"
 #include "Constant.h"
+#include "UniformSetter.h"
 
 namespace Danburite
 {
-	class SilhouetteMaterialComponent : public ObjectGL::UniformDeployable
+	class SilhouetteMaterialComponent
 	{
 	private:
 		float __zNear = Constant::Camera::DEFAULT_Z_NEAR;
 		float __zFar = Constant::Camera::DEFAULT_Z_FAR;
 
 	protected:
-		virtual void _onDeploy(ObjectGL::UniformSetter &materialSetter) const noexcept override;
+		void _deploySilhouetteComponent(ObjectGL::UniformSetter &materialSetter) const noexcept;
 
 	public:
 		constexpr void setNearFar(const float zNear, const float zFar) noexcept;

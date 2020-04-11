@@ -16,7 +16,7 @@ namespace Danburite
 	void ExplodingPhongMaterial::_onRender(
 		UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
-		materialSetter.directDeploy(*this);
+		_deployPhongComponent(materialSetter);
 
 		_explodingPhongProgram.bind();
 		vertexArray.draw(numInstances);

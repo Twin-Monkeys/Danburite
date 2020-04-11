@@ -1,17 +1,17 @@
 #pragma once
 
-#include "UniformDeployable.h"
 #include <glm/glm.hpp>
+#include "UniformSetter.h"
 
 namespace Danburite
 {
-	class MonoColorMaterialComponent : public ObjectGL::UniformDeployable
+	class MonoColorMaterialComponent
 	{
 	private:
 		glm::vec4 __color { 1.f, 1.f, 1.f, 1.f };
 
 	protected:
-		virtual void _onDeploy(ObjectGL::UniformSetter &materialSetter) const noexcept override;
+		void _deployMonoColorComponent(ObjectGL::UniformSetter &materialSetter) const noexcept;
 
 	public:
 		constexpr void setColor(const glm::vec4 &color) noexcept;

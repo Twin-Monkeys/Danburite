@@ -3,10 +3,11 @@
 #include "Texture2D.h"
 #include "Constant.h"
 #include <memory>
+#include "UniformSetter.h"
 
 namespace Danburite
 {
-	class PhongMaterialComponent : public ObjectGL::UniformDeployable
+	class PhongMaterialComponent
 	{
 	private:
 		std::shared_ptr<ObjectGL::Texture2D> __pAmbientTex;
@@ -20,7 +21,7 @@ namespace Danburite
 		float __shininess = Constant::Material::Phong::DEFAULT_SHININESS;
 
 	protected:
-		virtual void _onDeploy(ObjectGL::UniformSetter &materialSetter) const noexcept override;
+		void _deployPhongComponent(ObjectGL::UniformSetter &materialSetter) const noexcept;
 
 	public:
 		void setAmbientTexture(const std::shared_ptr<ObjectGL::Texture2D> &pTexture) noexcept;

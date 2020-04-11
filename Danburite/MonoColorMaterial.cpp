@@ -16,7 +16,7 @@ namespace Danburite
 	void MonoColorMaterial::_onRender(
 		UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
-		materialSetter.directDeploy(*this);
+		_deployMonoColorComponent(materialSetter);
 
 		_monoColorProgram.bind();
 		vertexArray.draw(numInstances);

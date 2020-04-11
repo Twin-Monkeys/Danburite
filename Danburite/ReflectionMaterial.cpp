@@ -14,7 +14,7 @@ namespace Danburite
 	void ReflectionMaterial::_onRender(
 		UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
-		materialSetter.directDeploy(*this);
+		_deployReflectionComponent(materialSetter);
 
 		_reflectionProgram.bind();
 		vertexArray.draw(numInstances);

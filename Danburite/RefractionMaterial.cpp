@@ -14,7 +14,7 @@ namespace Danburite
 
 	void RefractionMaterial::_onRender(UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
-		materialSetter.directDeploy(*this);
+		_deployRefractionComponent(materialSetter);
 
 		_refractionProgram.bind();
 		vertexArray.draw(numInstances);

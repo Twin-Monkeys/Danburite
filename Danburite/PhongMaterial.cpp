@@ -20,7 +20,7 @@ namespace Danburite
 	void PhongMaterial::_onRender(
 		UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
-		materialSetter.directDeploy(*this);
+		_deployPhongComponent(materialSetter);
 
 		_phongProgram.bind();
 		vertexArray.draw(numInstances);

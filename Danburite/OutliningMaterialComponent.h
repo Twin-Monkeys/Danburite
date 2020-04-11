@@ -1,19 +1,19 @@
 #pragma once
 
-#include "UniformDeployable.h"
 #include <glm/glm.hpp>
 #include <gl/glew.h>
+#include "UniformSetter.h"
 
 namespace Danburite
 {
-	class OutliningMaterialComponent : public ObjectGL::UniformDeployable
+	class OutliningMaterialComponent
 	{
 	private:
 		glm::vec4 __outlineColor { .1f, .2f, .9f, 1.f };
 		GLfloat __outlineThicknessRatio = 1.05f;
 
 	protected:
-		virtual void _onDeploy(ObjectGL::UniformSetter &materialSetter) const noexcept override;
+		void _deployOutliningComponent(ObjectGL::UniformSetter &materialSetter) const noexcept;
 
 	public:
 		constexpr void setOutlineColor(const glm::vec4 &color) noexcept;
