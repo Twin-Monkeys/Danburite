@@ -28,9 +28,9 @@ namespace Danburite
 		__depthBaker.unbind();
 	}
 
-	void OrthoLight::setDepthMapResolution(const GLsizei width, const GLsizei height) noexcept
+	void OrthoLight::setDepthMapSize(const GLsizei width, const GLsizei height) noexcept
 	{
-		__depthBaker.setResolution(width, height);
+		__depthBaker.setDepthMapSize(width, height);
 	}
 
 	Transform &OrthoLight::getTransform() noexcept
@@ -47,8 +47,8 @@ namespace Danburite
 	{
 		__camera.update();
 
-		const mat4& viewMat = __camera.getViewMatrix();
-		const mat4& projMat = __camera.getProjectionMatrix();
+		const mat4 &viewMat = __camera.getViewMatrix();
+		const mat4 &projMat = __camera.getProjectionMatrix();
 
 		__depthBaker.setProjViewMatrix(projMat * viewMat);
 	}

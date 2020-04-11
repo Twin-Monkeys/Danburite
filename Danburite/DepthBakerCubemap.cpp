@@ -30,7 +30,7 @@ namespace Danburite
 		__pDepthMap->setState(TextureParamType::TEXTURE_WRAP_R, TextureWrapValue::CLAMP_TO_EDGE);
 	}
 
-	void DepthBakerCubemap::_onSetResolution(const GLsizei width, const GLsizei height) noexcept
+	void DepthBakerCubemap::_onSetDepthMapSize(const GLsizei width, const GLsizei height) noexcept
 	{
 		if (__pDepthMap->isHandleCreated())
 			__createDepthMap();

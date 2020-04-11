@@ -25,7 +25,7 @@ namespace Danburite
 		constexpr void setDepthBakingNear(const float zNear) noexcept;
 		constexpr void setDepthBakingFar(const float zFar) noexcept;
 
-		virtual void setDepthMapResolution(const GLsizei width, const GLsizei height) noexcept override;
+		virtual void setDepthMapSize(const GLsizei width, const GLsizei height) noexcept override;
 
 		virtual Transform &getTransform() noexcept override;
 		virtual const Transform &getTransform() const noexcept override;

@@ -32,7 +32,7 @@ namespace Danburite
 		constexpr void setDepthBakingMaxOrthoHeight(const float maxHeight) noexcept;
 		constexpr void setDepthBakingMinOrthoHeight(const float minHeight) noexcept;
 
-		virtual void setDepthMapResolution(const GLsizei width, const GLsizei height) noexcept override;
+		virtual void setDepthMapSize(const GLsizei width, const GLsizei height) noexcept override;
 
 		virtual Transform &getTransform() noexcept override;
 		virtual const Transform &getTransform() const noexcept override;

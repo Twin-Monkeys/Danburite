@@ -142,7 +142,7 @@ SpaceScene::SpaceScene()
 
 	__pDirectionalLight = make_shared<DirectionalLight>();
 	__pDirectionalLight->setDepthBakingOrthoHeight(200.f);
-	__pDirectionalLight->setDepthMapResolution(4096, 4096);
+	__pDirectionalLight->setDepthMapSize(4096, 4096);
 
 	Transform &lightTransform = __pDirectionalLight->getTransform();
 	lightTransform.setPosition(0.f, 100.f, 0.f);

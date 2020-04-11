@@ -1,5 +1,4 @@
 #include "DepthBakerBase.h"
-#include "Constant.h"
 
 using namespace std;
 using namespace glm;
@@ -19,22 +18,22 @@ namespace Danburite
 		__pFrameBuffer->attach(attachmentType, attachment);
 	}
 
-	void DepthBakerBase::setResolution(const GLsizei width, const GLsizei height) noexcept
+	void DepthBakerBase::setDepthMapSize(const GLsizei width, const GLsizei height) noexcept
 	{
-		__mapWidth = width;
-		__mapHeight = height;
+		__depthMapSize.x = width;
+		__depthMapSize.y = height;
 
-		_onSetResolution(width, height);
+		_onSetDepthMapSize(width, height);
 		__resolutionInit = true;
 	}
 
 	void DepthBakerBase::bind() noexcept
 	{
 		if (!__resolutionInit)
-			setResolution(Constant::DepthBaking::DEFAULT_MAP_WIDTH, Constant::DepthBaking::DEFAULT_MAP_HEIGHT);
+			setDepthMapSize(Constant::DepthBaking::DEFAULT_MAP_WIDTH, Constant::DepthBaking::DEFAULT_MAP_HEIGHT);
 
 		glGetIntegerv(GL_VIEWPORT, __viewportArgs);
-		glViewport(0, 0, __mapWidth, __mapHeight);
+		glViewport(0, 0, __depthMapSize.x, __depthMapSize.y);
 
 		__pFrameBuffer->clearDepthBuffer(1.f);
 		_onBind();

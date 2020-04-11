@@ -30,7 +30,7 @@ namespace Danburite
 		__pDepthMap->setStates(TextureParamType::TEXTURE_BORDER_COLOR, {1.f, 1.f, 1.f, 1.f });
 	}
 
-	void DepthBaker2D::_onSetResolution(const GLsizei width, const GLsizei height) noexcept
+	void DepthBaker2D::_onSetDepthMapSize(const GLsizei width, const GLsizei height) noexcept
 	{
 		if (__pDepthMap->isHandleCreated())
 			__createDepthMap();

@@ -19,7 +19,7 @@ namespace Danburite
 		void __createDepthMap() noexcept;
 
 	protected:
-		virtual void _onSetResolution(const GLsizei width, const GLsizei height) noexcept override;
+		virtual void _onSetDepthMapSize(const GLsizei width, const GLsizei height) noexcept override;
 		virtual void _onBind() noexcept override;
 
 	public:

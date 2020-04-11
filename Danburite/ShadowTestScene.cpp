@@ -120,7 +120,7 @@ ShadowTestScene::ShadowTestScene()
 		By trying to fit the light frustum as closely to the scene as possible.
 	*/
 	__pRedLight->setDepthBakingOrthoHeight(100.f);
-	__pRedLight->setDepthMapResolution(2048, 2048);
+	__pRedLight->setDepthMapSize(2048, 2048);
 	__pRedLight->setShadowEnabled(true);
 
 	__pWhiteLight = make_shared<DirectionalLight>();
@@ -130,7 +130,7 @@ ShadowTestScene::ShadowTestScene()
 	whiteLightTransform.adjustRotation(-quarter_pi<float>() * .7f, -.6f, 0.f);
 
 	__pWhiteLight->setDepthBakingOrthoHeight(100.f);
-	__pWhiteLight->setDepthMapResolution(2048, 2048);
+	__pWhiteLight->setDepthMapSize(2048, 2048);
 	__pWhiteLight->setAmbientStrength(.05f);
 	__pWhiteLight->setDiffuseStrength(.3f);
 	__pWhiteLight->setSpecularStrength(1.f);

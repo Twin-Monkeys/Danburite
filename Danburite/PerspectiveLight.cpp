@@ -1,5 +1,7 @@
 #include "PerspectiveLight.h"
+#include <glm/gtc/matrix_transform.hpp>
 
+using namespace glm;
 using namespace ObjectGL;
 
 namespace Danburite
@@ -10,7 +12,8 @@ namespace Danburite
 
 	void PerspectiveLight::_onDeployShadowData(LightUniformSetter &lightSetter) noexcept
 	{
-
+		lightSetter.setUniformUvec2(
+			ShaderIdentifier::Name::Light::DEPTH_MAP, __depthBaker.getDepthMapHandle());
 	}
 
 	void PerspectiveLight::_onBakeDepthMap(Drawer &drawer) noexcept
@@ -20,9 +23,9 @@ namespace Danburite
 		__depthBaker.unbind();
 	}
 
-	void PerspectiveLight::setDepthMapResolution(const GLsizei width, const GLsizei height) noexcept
+	void PerspectiveLight::setDepthMapSize(const GLsizei width, const GLsizei height) noexcept
 	{
-		__depthBaker.setResolution(width, height);
+		__depthBaker.setDepthMapSize(width, height);
 	}
 
 	Transform &PerspectiveLight::getTransform() noexcept
@@ -39,9 +42,39 @@ namespace Danburite
 	{
 		__transform.update();
 
-		/*const mat4& viewMat = __camera.getViewMatrix();
-		const mat4& projMat = __camera.getProjectionMatrix();
+		static constexpr vec3
+			Y_BASIS = { 0.f, 1.f, 0.f },
+			Z_BASIS = { 0.f, 0.f, 1.f };
 
-		__depthBaker.setProjViewMatrix(projMat * viewMat);*/
+		const vec3 &position = __transform.getPosition();
+
+		const ivec2 &depthMapSize = __depthBaker.getDepthMapSize();
+		const float aspectRatio = (float(depthMapSize.x) / float(depthMapSize.y));
+	
+		const mat4 &projMat = perspective(half_pi<float>(), aspectRatio, __zNear, __zFar);
+
+		__depthBaker.setProjViewMatrix(
+			CubemapSideType::POSITIVE_X,
+			projMat * lookAt(position, position + vec3 { 1.f, 0.f, 0.f }, Y_BASIS));
+
+		__depthBaker.setProjViewMatrix(
+			CubemapSideType::NEGATIVE_X,
+			projMat * lookAt(position, position - vec3 { 1.f, 0.f, 0.f }, Y_BASIS));
+
+		__depthBaker.setProjViewMatrix(
+			CubemapSideType::POSITIVE_Y,
+			projMat * lookAt(position, position + vec3 { 0.f, 1.f, 0.f }, Z_BASIS));
+
+		__depthBaker.setProjViewMatrix(
+			CubemapSideType::NEGATIVE_Y,
+			projMat * lookAt(position, position - vec3 { 0.f, 1.f, 0.f }, Z_BASIS));
+
+		__depthBaker.setProjViewMatrix(
+			CubemapSideType::POSITIVE_Z,
+			projMat * lookAt(position, position + vec3 { 0.f, 0.f, 1.f }, Y_BASIS));
+
+		__depthBaker.setProjViewMatrix(
+			CubemapSideType::NEGATIVE_Z,
+			projMat * lookAt(position, position - vec3 { 0.f, 0.f, 1.f }, Y_BASIS));
 	}
 }
