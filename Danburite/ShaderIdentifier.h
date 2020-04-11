@@ -110,6 +110,15 @@ namespace Danburite
 					PROJ_VIEW_MATRIX;
 			}
 
+			namespace DepthBakingCubemap
+			{
+				extern const std::string
+					CENTER,
+					Z_FAR,
+					PROJ_VIEW_MATRICES
+					;
+			}
+
 			namespace UniformBuffer
 			{
 				extern const std::string

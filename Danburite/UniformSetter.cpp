@@ -47,7 +47,7 @@ namespace ObjectGL
 		return setUniformVec4(name, { x, y, z, w });
 	}
 
-	bool UniformSetter::setUniformMat3(const string &name, const mat4 &values, const bool transposition) noexcept
+	bool UniformSetter::setUniformMat3(const string &name, const mat3 &values, const bool transposition) noexcept
 	{
 		return setUniformMat3(name, value_ptr(values), transposition);
 	}
@@ -60,6 +60,12 @@ namespace ObjectGL
 	bool UniformSetter::setUniformMat4(const string &name, const mat4 &values, const bool transposition) noexcept
 	{
 		return setUniformMat4(name, value_ptr(values), transposition);
+	}
+
+	bool UniformSetter::setUniformMat4Array(
+		const string &name, const mat4 *const pValues, const GLsizei numElements, const bool transposition) noexcept
+	{
+		return setUniformMat4Array(name, reinterpret_cast<const GLfloat *>(pValues), numElements, transposition);
 	}
 
 	void UniformSetter::directDeploy(const UniformDeployable &deployable) noexcept

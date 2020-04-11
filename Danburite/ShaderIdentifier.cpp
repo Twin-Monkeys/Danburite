@@ -123,7 +123,11 @@ namespace Danburite
 
 			namespace DepthBakingCubemap
 			{
-
+				const std::string
+					CENTER = "depthBakingCubemap.center",
+					Z_FAR = "depthBakingCubemap.zFar",
+					PROJ_VIEW_MATRICES = "depthBakingCubemap.projViewMatrices"
+					;
 			}
 
 			namespace UniformBuffer

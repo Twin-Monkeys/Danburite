@@ -13,6 +13,9 @@ namespace Danburite
 		ObjectGL::UniformSetter &__depthBakingCubemapSetter;
 
 		std::unique_ptr<ObjectGL::AttachableTextureCubemap> __pDepthMap;
+
+		glm::vec3 __center;
+		float __zFar;
 		glm::mat4 __viewProjMatrices[6];
 
 		void __createDepthMap() noexcept;
@@ -23,8 +26,21 @@ namespace Danburite
 
 	public:
 		DepthBakerCubemap();
+
+		constexpr void setCenter(const glm::vec3& center) noexcept;
+		constexpr void setFar(const float zFar) noexcept;
 		void setProjViewMatrix(const ObjectGL::CubemapSideType sideType, const glm::mat4 &projViewMat) noexcept;
 
 		virtual GLuint64 getDepthMapHandle() noexcept override;
 	};
+
+	constexpr void DepthBakerCubemap::setCenter(const glm::vec3 &center) noexcept
+	{
+		__center = center;
+	}
+
+	constexpr void DepthBakerCubemap::setFar(const float zFar) noexcept
+	{
+		__zFar = zFar;
+	}
 }

@@ -33,12 +33,27 @@ namespace ObjectGL
 		bool setUniformVec3(const std::string &name, const float x, const float y, const float z) noexcept;
 		bool setUniformVec4(const std::string &name, const glm::vec4 &values) noexcept;
 		bool setUniformVec4(const std::string &name, const float x, const float y, const float z, const float w) noexcept;
-		bool setUniformMat3(const std::string &name, const glm::mat4 &values, const bool transposition = false) noexcept;
+		bool setUniformMat3(const std::string &name, const glm::mat3 &values, const bool transposition = false) noexcept;
 		bool setUniformMat4(const std::string &name, const GLfloat *const pValues, const bool transposition = false) noexcept;
 		bool setUniformMat4(const std::string &name, const glm::mat4 &values, const bool transposition = false) noexcept;
+
+		bool setUniformMat4Array(
+			const std::string& name, const glm::mat4* const pValues,
+			const GLsizei numElements, const bool transposition = false) noexcept;
+
+		template <GLsizei NUM_ELEMS>
+		bool setUniformMat4Array(
+			const std::string &name, const glm::mat4 (&arrValues)[NUM_ELEMS], const bool transposition = false) noexcept;
 
 		void directDeploy(const UniformDeployable &deployable) noexcept;
 
 		virtual ~UniformSetter() = default;
 	};
+
+	template <GLsizei NUM_ELEMS>
+	bool UniformSetter::setUniformMat4Array(
+		const std::string &name, const glm::mat4(&arrValues)[NUM_ELEMS], const bool transposition) noexcept
+	{
+		return setUniformMat4Array(name, arrValues, NUM_ELEMS, transposition);
+	}
 }

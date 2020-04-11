@@ -49,8 +49,14 @@ namespace Danburite
 
 	void DepthBakerCubemap::_onBind() noexcept
 	{
-		/*__depthBakingCubemapSetter.setUniformMat4(
-			ShaderIdentifier::Name::DepthBaking2D::PROJ_VIEW_MATRIX, __projViewMat);*/
+		__depthBakingCubemapSetter.setUniformVec3(
+			ShaderIdentifier::Name::DepthBakingCubemap::CENTER, __center);
+
+		__depthBakingCubemapSetter.setUniformFloat(
+			ShaderIdentifier::Name::DepthBakingCubemap::Z_FAR, __zFar);
+
+		__depthBakingCubemapSetter.setUniformMat4Array(
+			ShaderIdentifier::Name::DepthBakingCubemap::PROJ_VIEW_MATRICES, __viewProjMatrices);
 
 		__depthBakingProgram.bind();
 	}
