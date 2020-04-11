@@ -10,11 +10,11 @@ namespace Danburite
 	{
 	private:
 		ObjectGL::Program &__depthBakingProgram;
-
-		std::unique_ptr<ObjectGL::AttachableTexture2D> __pDepthMap;
 		ObjectGL::UniformSetter &__depthBaking2DSetter;
 
-		glm::mat4 __projViewMat{ 1.f };
+		std::unique_ptr<ObjectGL::AttachableTexture2D> __pDepthMap;
+
+		glm::mat4 __projViewMat { 1.f };
 
 		void __createDepthMap() noexcept;
 

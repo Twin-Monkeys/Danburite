@@ -23,4 +23,12 @@ namespace ObjectGL
 	{
 		return CubemapSideType(unsigned(lhs) - unsigned(rhs));
 	}
+
+	constexpr CubemapSideType operator++(CubemapSideType &value, int)
+	{
+		const CubemapSideType retVal = value;
+		value = CubemapSideType(unsigned(value) + 1U);
+
+		return retVal;
+	}
 }

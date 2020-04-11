@@ -23,14 +23,8 @@ namespace Danburite
 
 	void OrthoLight::_onBakeDepthMap(Drawer &drawer) noexcept
 	{
-		const mat4 &viewMat = __camera.getViewMatrix();
-		const mat4 &projMat = __camera.getProjectionMatrix();
-
-		__depthBaker.setProjViewMatrix(projMat * viewMat);
 		__depthBaker.bind();
-
 		drawer.batchRawDrawCall();
-
 		__depthBaker.unbind();
 	}
 
@@ -52,5 +46,10 @@ namespace Danburite
 	void OrthoLight::update() noexcept
 	{
 		__camera.update();
+
+		const mat4& viewMat = __camera.getViewMatrix();
+		const mat4& projMat = __camera.getProjectionMatrix();
+
+		__depthBaker.setProjViewMatrix(projMat * viewMat);
 	}
 }

@@ -15,12 +15,14 @@ namespace Danburite
 
 	void PerspectiveLight::_onBakeDepthMap(Drawer &drawer) noexcept
 	{
-
+		__depthBaker.bind();
+		drawer.batchRawDrawCall();
+		__depthBaker.unbind();
 	}
 
 	void PerspectiveLight::setDepthMapResolution(const GLsizei width, const GLsizei height) noexcept
 	{
-
+		__depthBaker.setResolution(width, height);
 	}
 
 	Transform &PerspectiveLight::getTransform() noexcept
@@ -36,5 +38,10 @@ namespace Danburite
 	void PerspectiveLight::update() noexcept
 	{
 		__transform.update();
+
+		/*const mat4& viewMat = __camera.getViewMatrix();
+		const mat4& projMat = __camera.getProjectionMatrix();
+
+		__depthBaker.setProjViewMatrix(projMat * viewMat);*/
 	}
 }

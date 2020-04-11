@@ -1,7 +1,4 @@
 #include "DepthBaker2D.h"
-#include "Constant.h"
-#include "GLFunctionWrapper.h"
-#include "Material.h"
 #include "ProgramFactory.h"
 #include "ShaderIdentifier.h"
 #include "UniformBufferFactory.h"

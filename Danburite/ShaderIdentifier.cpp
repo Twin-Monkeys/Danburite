@@ -122,17 +122,23 @@ namespace Danburite
 					PROJ_VIEW_MATRIX = "depthBaking2D.projViewMat";
 			}
 
+			namespace DepthBakingCubemap
+			{
+
+			}
+
 			namespace UniformBuffer
 			{
 				const string
-					MATERIAL			= "UBMaterial",
-					LIGHT				= "UBLight",
-					CAMERA				= "UBCamera",
-					CONVOLUTION			= "UBConvolution",
-					GAMMA_CORRECTION	= "UBGammaCorrection",
-					SKYBOX				= "UBSkybox",
-					ATTACHMENT			= "UBAttachment",
-					DEPTH_BAKING_2D		= "UBDepthBaking2D"
+					MATERIAL				= "UBMaterial",
+					LIGHT					= "UBLight",
+					CAMERA					= "UBCamera",
+					CONVOLUTION				= "UBConvolution",
+					GAMMA_CORRECTION		= "UBGammaCorrection",
+					SKYBOX					= "UBSkybox",
+					ATTACHMENT				= "UBAttachment",
+					DEPTH_BAKING_2D			= "UBDepthBaking2D",
+					DEPTH_BAKING_CUBEMAP	= "UBDepthBakingCubemap"
 					;
 			}
 		}
@@ -176,6 +182,10 @@ namespace Danburite
 						{
 							Name::UniformBuffer::DEPTH_BAKING_2D,
 							Value::UniformBlockBindingPoint::DEPTH_BAKING_2D
+						},
+						{
+							Name::UniformBuffer::DEPTH_BAKING_CUBEMAP,
+							Value::UniformBlockBindingPoint::DEPTH_BAKING_CUBEMAP
 						}
 					};
 

@@ -11,7 +11,7 @@
 
 namespace Danburite
 {
-	class Light abstract : public ObjectGL::Object<glm::uint>, public LightUniformDeployable
+	class Light abstract : public ObjectGL::Object<glm::uint>, protected LightUniformDeployable
 	{
 	private:
 		class LightIDAllocator

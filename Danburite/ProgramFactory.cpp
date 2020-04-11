@@ -162,10 +162,19 @@ namespace Danburite
 			{
 				ProgramType::DEPTH_BAKING_2D,
 				{
-					"glsl/binary/DepthBaking.bin",
+					"glsl/binary/DepthBaking2D.bin",
 					"glsl/src/DepthBaking2D_Vert.glsl",
 					"",
 					"glsl/src/DepthBaking2D_Frag.glsl"
+				}
+			},
+			{
+				ProgramType::DEPTH_BAKING_CUBEMAP,
+				{
+					"glsl/binary/DepthBakingCubemap.bin",
+					"glsl/src/DepthBakingCubemap_Vert.glsl",
+					"",
+					"glsl/src/DepthBakingCubemap_Frag.glsl"
 				}
 			}
 		};
@@ -313,6 +322,12 @@ namespace Danburite
 				ShaderIdentifier::Name::UniformBuffer::DEPTH_BAKING_2D,
 				{
 					ProgramType::DEPTH_BAKING_2D
+				}
+			},
+			{
+				ShaderIdentifier::Name::UniformBuffer::DEPTH_BAKING_CUBEMAP,
+				{
+					ProgramType::DEPTH_BAKING_CUBEMAP
 				}
 			}
 		};

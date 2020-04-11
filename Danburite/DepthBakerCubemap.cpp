@@ -1,7 +1,4 @@
 #include "DepthBakerCubemap.h"
-#include "Constant.h"
-#include "GLFunctionWrapper.h"
-#include "Material.h"
 #include "ProgramFactory.h"
 #include "ShaderIdentifier.h"
 #include "UniformBufferFactory.h"
@@ -13,7 +10,12 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	DepthBakerCubemap::DepthBakerCubemap() :
-		__depthBakingProgram(ProgramFactory::getInstance().getProgram(ProgramType::DEPTH_BAKING_2D))
+		__depthBakingProgram(
+			ProgramFactory::getInstance().getProgram(ProgramType::DEPTH_BAKING_CUBEMAP)),
+
+		__depthBakingCubemapSetter(
+			UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::DEPTH_BAKING_CUBEMAP))
 	{
 		__createDepthMap();
 	}
@@ -33,11 +35,12 @@ namespace Danburite
 		if (__pDepthMap->isHandleCreated())
 			__createDepthMap();
 
-		for (GLuint i = 0; i < 6; i++)
+		for (CubemapSideType i = CubemapSideType::POSITIVE_X; i < CubemapSideType::NEGATIVE_Z; i++)
 		{
 			__pDepthMap->memoryAlloc(
-				CubemapSideType::POSITIVE_X + i, width, height,
-				TextureInternalFormatType::DEPTH_COMPONENT, TextureExternalFormatType::DEPTH_COMPONENT,
+				i, width, height,
+				TextureInternalFormatType::DEPTH_COMPONENT,
+				TextureExternalFormatType::DEPTH_COMPONENT,
 				TextureDataType::FLOAT);
 		}
 
@@ -46,19 +49,15 @@ namespace Danburite
 
 	void DepthBakerCubemap::_onBind() noexcept
 	{
+		/*__depthBakingCubemapSetter.setUniformMat4(
+			ShaderIdentifier::Name::DepthBaking2D::PROJ_VIEW_MATRIX, __projViewMat);*/
+
 		__depthBakingProgram.bind();
 	}
 
-	void DepthBakerCubemap::setViewProjMatrix(
-		const CubemapSideType sideType, const mat4 &viewProjMat) noexcept
+	void DepthBakerCubemap::setProjViewMatrix(const CubemapSideType sideType, const mat4 &projViewMat) noexcept
 	{
-		__viewProjMatrices[unsigned(sideType - CubemapSideType::POSITIVE_X)] = viewProjMat;
-	}
-
-	void DepthBakerCubemap::setViewProjMatrix(
-		const CubemapSideType sideType, const mat4 &viewMat, const mat4 &projMat) noexcept
-	{
-		setViewProjMatrix(sideType, projMat * viewMat);
+		__viewProjMatrices[unsigned(sideType - CubemapSideType::POSITIVE_X)] = projViewMat;
 	}
 
 	GLuint64 DepthBakerCubemap::getDepthMapHandle() noexcept

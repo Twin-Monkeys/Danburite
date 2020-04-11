@@ -4,8 +4,6 @@ namespace Danburite
 {
 	enum class ProgramType
 	{
-		BEGIN = -1,
-
 		// Normal programs
 		MONO_COLOR,
 		PHONG,
@@ -29,8 +27,7 @@ namespace Danburite
 
 		// Depth baking
 		DEPTH_BAKING_2D,
-
-		END
+		DEPTH_BAKING_CUBEMAP
 	};
 
 	constexpr ProgramType operator+(const ProgramType lhs, const int rhs) noexcept
