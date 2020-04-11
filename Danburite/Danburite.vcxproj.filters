@@ -1330,5 +1330,8 @@
     <None Include="glsl\src\DepthBakingCubemap_Geo.glsl">
       <Filter>Library\Engine\glsl\src\DepthBaking</Filter>
     </None>
+    <None Include="glsl\src\header\DepthBakingCubemap_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header</Filter>
+    </None>
   </ItemGroup>
 </Project>
