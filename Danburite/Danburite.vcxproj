@@ -172,8 +172,8 @@
     <ClCompile Include="GammaCorrectionPostProcessor.cpp" />
     <ClCompile Include="IndexType.cpp" />
     <ClCompile Include="OrthoCamera.cpp" />
-    <ClCompile Include="OrthoCameraLight.cpp" />
-    <ClCompile Include="PerspectiveCameraLight.cpp" />
+    <ClCompile Include="OrthoLight.cpp" />
+    <ClCompile Include="PerspectiveLight.cpp" />
     <ClCompile Include="RCDSRegisterer.cpp" />
     <ClCompile Include="ShadowTestScene.cpp" />
     <ClCompile Include="SpaceScene.cpp" />
@@ -219,7 +219,7 @@
     <ClCompile Include="TextureUtil.cpp" />
     <ClCompile Include="TextureUtilException.cpp" />
     <ClCompile Include="TransformableCamera.cpp" />
-    <ClCompile Include="TransformableCameraLight.cpp" />
+    <ClCompile Include="TransformableLight.cpp" />
     <ClCompile Include="TransparentPhongMaterial.cpp" />
     <ClCompile Include="UniformBatchDeployer.cpp" />
     <ClCompile Include="UniformBufferFactory.cpp" />
@@ -293,7 +293,7 @@
     <ClInclude Include="GLDebugMessageSeverityType.h" />
     <ClInclude Include="GLDebugMessageSourceType.h" />
     <ClInclude Include="GLDebugMessageType.h" />
-    <ClInclude Include="TransformableCameraLight.h" />
+    <ClInclude Include="TransformableLight.h" />
     <ClInclude Include="CameraTransform.h" />
     <ClInclude Include="ColorBufferType.h" />
     <ClInclude Include="Constant.h" />
@@ -303,8 +303,8 @@
     <ClInclude Include="CubeSkyboxComponent.h" />
     <ClInclude Include="GammaCorrectionPostProcessor.h" />
     <ClInclude Include="OrthoCamera.h" />
-    <ClInclude Include="OrthoCameraLight.h" />
-    <ClInclude Include="PerspectiveCameraLight.h" />
+    <ClInclude Include="OrthoLight.h" />
+    <ClInclude Include="PerspectiveLight.h" />
     <ClInclude Include="RCDSRegisterer.h" />
     <ClInclude Include="ShadowTestScene.h" />
     <ClInclude Include="SpaceScene.h" />

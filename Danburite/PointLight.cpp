@@ -6,11 +6,11 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	PointLight::PointLight(const LightType type) :
-		PerspectiveCameraLight(type)
+		PerspectiveLight(type)
 	{}
 
 	PointLight::PointLight() :
-		PerspectiveCameraLight(LightType::POINT)
+		PerspectiveLight(LightType::POINT)
 	{}
 
 	void PointLight::_onDeploy(LightUniformSetter &lightSetter) noexcept

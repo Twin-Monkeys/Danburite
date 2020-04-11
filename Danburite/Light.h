@@ -7,7 +7,6 @@
 #include "LightUniformSetter.h"
 #include "LightType.h"
 #include "LightException.h"
-#include "DepthBaker2D.h"
 #include "Drawer.h"
 
 namespace Danburite
@@ -29,15 +28,14 @@ namespace Danburite
 		bool __shadowEnabled = false;
 
 		LightUniformSetter __lightSetter;
-		DepthBaker2D __depthBaker;
 
 		void __release() noexcept;
 		
 		static LightIDAllocator &__getAllocator() noexcept;
 
 	protected:
-		virtual const glm::mat4 &_getViewMatrix() const noexcept = 0;
-		virtual const glm::mat4 &_getProjMatrix() const noexcept = 0;
+		virtual void _onBakeDepthMap(Drawer &drawer) noexcept = 0;
+		virtual void _onDeployShadowData(LightUniformSetter &lightSetter) noexcept = 0;
 
 	public:
 		Light(const LightType type);
@@ -50,7 +48,7 @@ namespace Danburite
 		constexpr bool isShadowEnabled() const noexcept;
 		constexpr void setShadowEnabled(const bool enabled) noexcept;
 
-		void setDepthMapResolution(const GLsizei width, const GLsizei height) noexcept;
+		virtual void setDepthMapResolution(const GLsizei width, const GLsizei height) noexcept = 0;
 		void bakeDepthMap(Drawer &drawer, const bool cancelIfShadowDisabled = true) noexcept;
 
 		virtual ~Light() noexcept;

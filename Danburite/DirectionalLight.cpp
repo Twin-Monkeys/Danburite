@@ -6,7 +6,7 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	DirectionalLight::DirectionalLight() :
-		OrthoCameraLight(LightType::DIRECTIONAL)
+		OrthoLight(LightType::DIRECTIONAL)
 	{}
 
 	void DirectionalLight::_onDeploy(LightUniformSetter &lightSetter) noexcept

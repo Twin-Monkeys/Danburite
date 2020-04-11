@@ -40,14 +40,7 @@ namespace Danburite
 		if (!__shadowEnabled)
 			return;
 
-		__lightSetter.setUniformMat4(ShaderIdentifier::Name::Light::VIEW_MATRIX, _getViewMatrix());
-		__lightSetter.setUniformMat4(ShaderIdentifier::Name::Light::PROJECTION_MATRIX, _getProjMatrix());
-		__lightSetter.setUniformUvec2(ShaderIdentifier::Name::Light::DEPTH_MAP, __depthBaker.getDepthMapHandle());
-	}
-
-	void Light::setDepthMapResolution(const GLsizei width, const GLsizei height) noexcept
-	{
-		__depthBaker.setResolution(width, height);
+		_onDeployShadowData(__lightSetter);
 	}
 
 	void Light::bakeDepthMap(Drawer &drawer, const bool cancelIfShadowDisabled) noexcept
@@ -55,12 +48,7 @@ namespace Danburite
 		if (cancelIfShadowDisabled && !isShadowEnabled())
 			return;
 
-		__depthBaker.setProjViewMatrix(_getProjMatrix() * _getViewMatrix());
-		__depthBaker.bind();
-
-		drawer.batchRawDrawCall();
-
-		__depthBaker.unbind();
+		_onBakeDepthMap(drawer);
 	}
 
 	Light::~Light() noexcept

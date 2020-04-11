@@ -1,11 +1,11 @@
 #pragma once
 
-#include "OrthoCameraLight.h"
+#include "OrthoLight.h"
 #include "LightBaseComponent.h"
 
 namespace Danburite
 {
-	class DirectionalLight : public OrthoCameraLight, public LightBaseComponent
+	class DirectionalLight : public OrthoLight, public LightBaseComponent
 	{
 	protected:
 		virtual void _onDeploy(LightUniformSetter &lightSetter) noexcept override;
