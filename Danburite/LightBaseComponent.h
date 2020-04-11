@@ -1,11 +1,11 @@
  #pragma once
 
 #include <glm/glm.hpp>
-#include "LightUniformDeployable.h"
+#include "LightUniformSetter.h"
 
 namespace Danburite
 {
-	class LightBaseComponent abstract : virtual public LightUniformDeployable
+	class LightBaseComponent abstract
 	{
 	private:
 		glm::vec3 __albedo = { 1.f, 1.f, 1.f };
@@ -14,7 +14,7 @@ namespace Danburite
 		float __specularStrength = .6f;
 
 	protected:
-		virtual void _onDeploy(LightUniformSetter &lightSetter) noexcept override;
+		void _deployBaseComponent(LightUniformSetter &lightSetter) noexcept;
 
 	public:
 		constexpr const glm::vec3 &getAlbedo() const noexcept;

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "LightUniformDeployable.h"
+#include "LightUniformSetter.h"
 
 namespace Danburite
 {
-	class AttenuatedLightComponent abstract : virtual public LightUniformDeployable
+	class AttenuatedLightComponent abstract
 	{
 	private:
 		float __attConst = 1.f;
@@ -12,7 +12,7 @@ namespace Danburite
 		float __attQuad = 0.f;
 
 	protected:
-		virtual void _onDeploy(LightUniformSetter &lightSetter) noexcept override;
+		void _deployAttenuatedComponent(LightUniformSetter &lightSetter) noexcept;
 
 	public:
 		constexpr void setAttenuation(const float constant, const float linear, const float quadratic) noexcept;

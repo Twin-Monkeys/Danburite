@@ -7,7 +7,7 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	void AttenuatedLightComponent::_onDeploy(LightUniformSetter &lightSetter) noexcept
+	void AttenuatedLightComponent::_deployAttenuatedComponent(LightUniformSetter &lightSetter) noexcept
 	{
 		lightSetter.setUniformFloat(ShaderIdentifier::Name::Light::ATTENUATION_CONST, __attConst);
 		lightSetter.setUniformFloat(ShaderIdentifier::Name::Light::ATTENUATION_LINEAR, __attLinear);

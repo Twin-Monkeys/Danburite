@@ -7,7 +7,7 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	void LightBaseComponent::_onDeploy(LightUniformSetter &lightSetter) noexcept
+	void LightBaseComponent::_deployBaseComponent(LightUniformSetter &lightSetter) noexcept
 	{
 		lightSetter.setUniformVec3(ShaderIdentifier::Name::Light::ALBEDO, __albedo);
 		lightSetter.setUniformFloat(ShaderIdentifier::Name::Light::AMBIENT_STRENGTH, __ambientStrength);

@@ -13,7 +13,7 @@ namespace Danburite
 	void SpotLight::_onDeploy(LightUniformSetter &lightSetter) noexcept
 	{
 		PointLight::_onDeploy(lightSetter);
-		SpotLightComponent::_onDeploy(lightSetter);
+		_deploySpotComponent(lightSetter);
 		_deployDirection(lightSetter);
 	}
 }

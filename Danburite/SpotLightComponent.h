@@ -1,18 +1,18 @@
 #pragma once
 
-#include "LightUniformDeployable.h"
 #include <glm/gtc/constants.hpp>
+#include "LightUniformSetter.h"
 
 namespace Danburite
 {
-	class SpotLightComponent abstract : virtual public LightUniformDeployable
+	class SpotLightComponent abstract
 	{
 	private:
 		float __innerCutOff = cosf(glm::quarter_pi<float>() * .5f);
 		float __outerCutOff = cosf(glm::quarter_pi<float>() * .6f);
 
 	protected:
-		virtual void _onDeploy(LightUniformSetter &lightSetter) noexcept override;
+		void _deploySpotComponent(LightUniformSetter &lightSetter) noexcept;
 
 	public:
 		void setCutOff(const float innerAngle, const float outerAngle) noexcept;

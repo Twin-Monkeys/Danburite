@@ -15,8 +15,8 @@ namespace Danburite
 
 	void PointLight::_onDeploy(LightUniformSetter &lightSetter) noexcept
 	{
-		LightBaseComponent::_onDeploy(lightSetter);
-		AttenuatedLightComponent::_onDeploy(lightSetter);
+		_deployBaseComponent(lightSetter);
+		_deployAttenuatedComponent(lightSetter);
 		_deployPosition(lightSetter);
 	}
 }

@@ -11,7 +11,7 @@ namespace Danburite
 
 	void DirectionalLight::_onDeploy(LightUniformSetter &lightSetter) noexcept
 	{
-		LightBaseComponent::_onDeploy(lightSetter);
+		_deployBaseComponent(lightSetter);
 		_deployDirection(lightSetter);
 	}
 }
