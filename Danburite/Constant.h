@@ -19,6 +19,30 @@ namespace Danburite
 			constexpr glm::mat4 IDENTITY_MATRIX { 1.f };
 		}
 
+		namespace Light
+		{
+			namespace BaseComponent
+			{
+				constexpr glm::vec3 ALBEDO			= { 1.f, 1.f, 1.f };
+				constexpr float AMBIENT_STRENGTH	= .1f;
+				constexpr float DIFFUSE_STRENGH		= .8f;
+				constexpr float SPECULAR_STRENGH	= .6f;
+			}
+
+			namespace AttenuatedComponent
+			{
+				constexpr float ATT_CONST	= 1.f;
+				constexpr float ATT_LINEAR	= 0.f;
+				constexpr float ATT_QUAD	= 0.f;
+			}
+
+			namespace SpotComponent
+			{
+				constexpr float INNER_CUTOFF_ANGLE = (glm::quarter_pi<float>() * .5f);
+				constexpr float OUTER_CUTOFF_ANGLE = (glm::quarter_pi<float>() * .6f);
+			}
+		}
+
 		namespace Camera
 		{
 			// Ortho
@@ -84,7 +108,7 @@ namespace Danburite
 			constexpr float DEFAULT_GAMMA = 2.2f;
 		}
 
-		namespace Shadow
+		namespace DepthBaking
 		{
 			constexpr GLsizei DEFAULT_MAP_WIDTH		= 1024;
 			constexpr GLsizei DEFAULT_MAP_HEIGHT	= 1024;

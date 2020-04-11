@@ -1,15 +1,16 @@
 #pragma once
 
 #include "LightUniformSetter.h"
+#include "Constant.h"
 
 namespace Danburite
 {
 	class AttenuatedLightComponent abstract
 	{
 	private:
-		float __attConst = 1.f;
-		float __attLinear = 0.f;
-		float __attQuad = 0.f;
+		float __attConst	= Constant::Light::AttenuatedComponent::ATT_CONST;
+		float __attLinear	= Constant::Light::AttenuatedComponent::ATT_LINEAR;
+		float __attQuad		= Constant::Light::AttenuatedComponent::ATT_QUAD;
 
 	protected:
 		void _deployAttenuatedComponent(LightUniformSetter &lightSetter) noexcept;

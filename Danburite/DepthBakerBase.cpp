@@ -31,7 +31,7 @@ namespace Danburite
 	void DepthBakerBase::bind() noexcept
 	{
 		if (!__resolutionInit)
-			setResolution(Constant::Shadow::DEFAULT_MAP_WIDTH, Constant::Shadow::DEFAULT_MAP_HEIGHT);
+			setResolution(Constant::DepthBaking::DEFAULT_MAP_WIDTH, Constant::DepthBaking::DEFAULT_MAP_HEIGHT);
 
 		glGetIntegerv(GL_VIEWPORT, __viewportArgs);
 		glViewport(0, 0, __mapWidth, __mapHeight);

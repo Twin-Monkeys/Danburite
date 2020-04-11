@@ -2,16 +2,17 @@
 
 #include <glm/glm.hpp>
 #include "LightUniformSetter.h"
+#include "Constant.h"
 
 namespace Danburite
 {
 	class LightBaseComponent abstract
 	{
 	private:
-		glm::vec3 __albedo = { 1.f, 1.f, 1.f };
-		float __ambientStrength = .1f;
-		float __diffuseStrength = .8f;
-		float __specularStrength = .6f;
+		glm::vec3 __albedo			= Constant::Light::BaseComponent::ALBEDO;
+		float __ambientStrength		= Constant::Light::BaseComponent::AMBIENT_STRENGTH;
+		float __diffuseStrength		= Constant::Light::BaseComponent::DIFFUSE_STRENGH;
+		float __specularStrength	= Constant::Light::BaseComponent::SPECULAR_STRENGH;
 
 	protected:
 		void _deployBaseComponent(LightUniformSetter &lightSetter) noexcept;
