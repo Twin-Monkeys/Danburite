@@ -44,10 +44,6 @@ namespace Danburite
 	{
 		__transform.update();
 
-		static constexpr vec3
-			Y_BASIS = { 0.f, 1.f, 0.f },
-			Z_BASIS = { 0.f, 0.f, 1.f };
-
 		const vec3 &position = __transform.getPosition();
 
 		const ivec2 &depthMapSize = __depthBaker.getDepthMapSize();
@@ -60,26 +56,26 @@ namespace Danburite
 
 		__depthBaker.setProjViewMatrix(
 			CubemapSideType::POSITIVE_X,
-			projMat * lookAt(position, position + vec3 { 1.f, 0.f, 0.f }, Y_BASIS));
+			projMat * lookAt(position, position + vec3 { 1.f, 0.f, 0.f }, { 0.f, -1.f, 0.f }));
 
 		__depthBaker.setProjViewMatrix(
 			CubemapSideType::NEGATIVE_X,
-			projMat * lookAt(position, position - vec3 { 1.f, 0.f, 0.f }, Y_BASIS));
+			projMat * lookAt(position, position - vec3 { 1.f, 0.f, 0.f }, { 0.f, -1.f, 0.f }));
 
 		__depthBaker.setProjViewMatrix(
 			CubemapSideType::POSITIVE_Y,
-			projMat * lookAt(position, position + vec3 { 0.f, 1.f, 0.f }, Z_BASIS));
+			projMat * lookAt(position, position + vec3 { 0.f, 1.f, 0.f }, { 0.f, 0.f, 1.f }));
 
 		__depthBaker.setProjViewMatrix(
 			CubemapSideType::NEGATIVE_Y,
-			projMat * lookAt(position, position - vec3 { 0.f, 1.f, 0.f }, Z_BASIS));
+			projMat * lookAt(position, position - vec3 { 0.f, 1.f, 0.f }, { 0.f, 0.f, -1.f }));
 
 		__depthBaker.setProjViewMatrix(
 			CubemapSideType::POSITIVE_Z,
-			projMat * lookAt(position, position + vec3 { 0.f, 0.f, 1.f }, Y_BASIS));
+			projMat * lookAt(position, position + vec3 { 0.f, 0.f, 1.f }, { 0.f, -1.f, 0.f }));
 
 		__depthBaker.setProjViewMatrix(
 			CubemapSideType::NEGATIVE_Z,
-			projMat * lookAt(position, position - vec3 { 0.f, 0.f, 1.f }, Y_BASIS));
+			projMat * lookAt(position, position - vec3 { 0.f, 0.f, 1.f }, { 0.f, -1.f, 0.f }));
 	}
 }

@@ -111,8 +111,9 @@ ShadowTestScene::ShadowTestScene()
 
 	__pRedLight->setAlbedo(1.f, .4f, .4f);
 	__pRedLight->setAmbientStrength(.05f);
-	__pRedLight->setDiffuseStrength(.3f);
+	__pRedLight->setDiffuseStrength(.4f);
 	__pRedLight->setSpecularStrength(1.f);
+	__pRedLight->setAttenuation(1.f, .007f, .0007f);
 
 	/*
 		You can reduce these blocky shadows
@@ -129,8 +130,9 @@ ShadowTestScene::ShadowTestScene()
 	whiteLightTransform.adjustRotation(-quarter_pi<float>() * .7f, -.6f, 0.f);
 
 	__pWhiteLight->setAmbientStrength(.05f);
-	__pWhiteLight->setDiffuseStrength(.3f);
+	__pWhiteLight->setDiffuseStrength(.4f);
 	__pWhiteLight->setSpecularStrength(1.f);
+	__pWhiteLight->setAttenuation(1.f, .007f, .0007f);
 
 	__pWhiteLight->setDepthMapSize(2048, 2048);
 	__pWhiteLight->setShadowEnabled(true);

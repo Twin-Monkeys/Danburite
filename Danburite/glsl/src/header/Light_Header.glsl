@@ -79,12 +79,6 @@ vec3 Light_getLightDirection(uint lightIndex)
 	return retVal;
 }
 
-float Light_getDepthMapAdjustment(uint lightIndex, vec3 targetNormal)
-{
-	// Peter panning이 발생하지 않는 선에서 충분한 값을 주자.
-	return max(5e-4f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex))), 2e-4f);
-}
-
 float Light_getOcclusion_ortho(uint lightIndex, vec3 targetNormal)
 {
 	const vec4 lightSpaceTargetPos = (light[lightIndex].projViewMat * vec4(Light_targetPos, 1.f));
@@ -102,7 +96,7 @@ float Light_getOcclusion_ortho(uint lightIndex, vec3 targetNormal)
 	if (normalizedPos.z >= 1.f)
 		return 0.f;
 
-	const float depthAdjustment = Light_getDepthMapAdjustment(lightIndex, targetNormal);
+	const float depthAdjustment = max(5e-4f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex))), 2e-4f);
 
 	const sampler2D depthMap = sampler2D(light[lightIndex].depthMap);
 	const vec2 texelSize = (2.f / textureSize(depthMap, 0));
@@ -129,7 +123,7 @@ float Light_getOcclusion_cubemap(uint lightIndex, vec3 targetNormal)
 	const float mappedDepth = (texture(depthMap, lightPosToTarget).x * light[lightIndex].zFar);
 	const float curDepth = length(lightPosToTarget);
 
-	const float depthAdjustment = Light_getDepthMapAdjustment(lightIndex, targetNormal);
+	const float depthAdjustment = max(5e-2f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex))), 1e-2f);
 
 	return float(mappedDepth < (curDepth - depthAdjustment));
 }
