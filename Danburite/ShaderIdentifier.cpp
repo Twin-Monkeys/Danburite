@@ -27,15 +27,16 @@ namespace Danburite
 			{
 				const string
 					ENABLED				= "enabled",
-					TYPE				= "type",
 
+					TYPE				= "type",
 					ALBEDO				= "albedo",
 					AMBIENT_STRENGTH	= "ambientStrength",
 					DIFFUSE_STRENGTH	= "diffuseStrength",
 					SPECULAR_STRENGTH	= "specularStrength",
 
-					POSITION			= "pos",
 					DIRECTION			= "direction",
+
+					POSITION			= "pos",
 					ATTENUATION_CONST	= "attConst",
 					ATTENUATION_LINEAR	= "attLinear",
 					ATTENUATION_QUAD	= "attQuad",
@@ -45,8 +46,11 @@ namespace Danburite
 					
 					SHADOW_ENABLED		= "shadowEnabled",
 					DEPTH_BAKING_TYPE	= "depthBakingType",
+					DEPTH_MAP			= "depthMap",
+
 					PROJ_VIEW_MATRIX	= "projViewMat",
-					DEPTH_MAP			= "depthMap"
+
+					Z_FAR				= "zFar"
 					;
 			}
 

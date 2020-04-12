@@ -14,6 +14,8 @@ namespace Danburite
 	{
 		lightSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Light::DEPTH_MAP, __depthBaker.getDepthMapHandle());
+
+		lightSetter.setUniformUvec2(ShaderIdentifier::Name::Light::Z_FAR, __zFar);
 	}
 
 	void PerspectiveLight::_onBakeDepthMap(Drawer &drawer) noexcept
@@ -52,6 +54,9 @@ namespace Danburite
 		const float aspectRatio = (float(depthMapSize.x) / float(depthMapSize.y));
 	
 		const mat4 &projMat = perspective(half_pi<float>(), aspectRatio, __zNear, __zFar);
+
+		__depthBaker.setCenter(position);
+		__depthBaker.setFar(__zFar);
 
 		__depthBaker.setProjViewMatrix(
 			CubemapSideType::POSITIVE_X,

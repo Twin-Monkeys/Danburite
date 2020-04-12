@@ -32,10 +32,15 @@ struct Light
 	float outerCutOff;
 
 	// shadow
-	uint depthBakingType;
 	bool shadowEnabled;
-	mat4 projViewMat;
+	uint depthBakingType;
 	uvec2 depthMap;
+
+	// ortho depth baking
+	mat4 projViewMat;
+
+	// cubemap depth baking
+	float zFar;
 };
 
 layout(binding = BINDING_POINT_LIGHT) uniform UBLight

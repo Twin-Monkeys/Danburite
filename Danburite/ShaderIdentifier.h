@@ -27,26 +27,37 @@ namespace Danburite
 			{
 				extern const std::string
 					ENABLED,
-					TYPE,
 
+					// base properties
+					TYPE,
 					ALBEDO,
 					AMBIENT_STRENGTH,
 					DIFFUSE_STRENGTH,
 					SPECULAR_STRENGTH,
 
-					POSITION,
+					// directional, spot
 					DIRECTION,
+
+					// point, spot
+					POSITION,
 					ATTENUATION_CONST,
 					ATTENUATION_LINEAR,
 					ATTENUATION_QUAD,
 
+					// spot
 					INNER_CUTOFF,
 					OUTER_CUTOFF,
 					
+					// shadow
 					SHADOW_ENABLED,
 					DEPTH_BAKING_TYPE,
+					DEPTH_MAP,
+
+					// ortho depth baking
 					PROJ_VIEW_MATRIX,
-					DEPTH_MAP
+
+					// cubemap depth baking
+					Z_FAR
 					;
 			}
 
