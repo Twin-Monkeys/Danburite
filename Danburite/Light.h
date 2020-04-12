@@ -8,6 +8,7 @@
 #include "LightType.h"
 #include "LightException.h"
 #include "Drawer.h"
+#include "DepthBakingType.h"
 
 namespace Danburite
 {

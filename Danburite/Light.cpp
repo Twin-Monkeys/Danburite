@@ -20,6 +20,7 @@ namespace Danburite
 			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::LIGHT), ID)
 	{
 		__lightSetter.setUniformUint(ShaderIdentifier::Name::Light::TYPE, GLenum(type));
+		__lightSetter.setUniformUint(ShaderIdentifier::Name::Light::DEPTH_BAKING_TYPE, GLenum(DepthBakingType::CUBEMAP));
 	}
 
 	void Light::__release() noexcept

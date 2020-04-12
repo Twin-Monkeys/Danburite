@@ -27,9 +27,6 @@ namespace ObjectGL
 		if (OFFSET < 0)
 			return false;
 
-		if (!isMemoryAllocated())
-			memoryAllocFit(BufferUpdatePatternType::STREAM);
-
 		memoryCopy(pValue, size, OFFSET);
 		return true;
 	}

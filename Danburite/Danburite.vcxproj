@@ -288,6 +288,7 @@
     <ClInclude Include="DepthBaker2D.h" />
     <ClInclude Include="DepthBakerBase.h" />
     <ClInclude Include="DepthBakerCubemap.h" />
+    <ClInclude Include="DepthBakingType.h" />
     <ClInclude Include="FacetType.h" />
     <ClInclude Include="GLDebugMessageCallbackFunction.h" />
     <ClInclude Include="GLDebugMessageSeverityType.h" />

@@ -22,6 +22,7 @@ namespace Danburite
 		for (const ProgramType programType : ProgramFactory::getUsingProgramsFromUniformBufferName(key))
 			pRetVal->registerProgram(programFactory.getProgram(programType));
 
+		pRetVal->memoryAllocFit(BufferUpdatePatternType::STREAM);
 		return pRetVal;
 	}
 }

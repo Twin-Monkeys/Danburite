@@ -69,6 +69,11 @@ const uint
 	LIGHT_TYPE_POINT		= 1U,
 	LIGHT_TYPE_SPOT			= 2U;
 
+const uint
+	LIGHT_DEPTH_BAKING_TYPE_ORTHO		= 0U,
+	LIGHT_DEPTH_BAKING_TYPE_CUBEMAP		= 1U
+	;
+
 
 // Post Process //
 

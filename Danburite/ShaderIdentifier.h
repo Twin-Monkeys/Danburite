@@ -44,8 +44,10 @@ namespace Danburite
 					OUTER_CUTOFF,
 					
 					SHADOW_ENABLED,
+					DEPTH_BAKING_TYPE,
 					PROJ_VIEW_MATRIX,
-					DEPTH_MAP;
+					DEPTH_MAP
+					;
 			}
 
 			namespace Material

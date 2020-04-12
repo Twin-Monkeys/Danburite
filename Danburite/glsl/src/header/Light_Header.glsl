@@ -32,6 +32,7 @@ struct Light
 	float outerCutOff;
 
 	// shadow
+	uint depthBakingType;
 	bool shadowEnabled;
 	mat4 projViewMat;
 	uvec2 depthMap;
@@ -73,11 +74,8 @@ vec3 Light_getLightDirection(uint lightIndex)
 	return retVal;
 }
 
-float Light_getOcclusion(uint lightIndex, vec3 targetNormal)
+float Light_getOcclusion_ortho(uint lightIndex, vec3 targetNormal)
 {
-	if (!light[lightIndex].shadowEnabled)
-		return 0.f;
-
 	const vec4 lightSpaceTargetPos = (light[lightIndex].projViewMat * vec4(Light_targetPos, 1.f));
 
 	/*
@@ -110,6 +108,25 @@ float Light_getOcclusion(uint lightIndex, vec3 targetNormal)
 		}
 
 	return (retVal / 9.f);
+}
+
+float Light_getOcclusion_cubemap(uint lightIndex, vec3 targetNormal)
+{
+	return 1.f;
+}
+
+float Light_getOcclusion(uint lightIndex, vec3 targetNormal)
+{
+	if (!light[lightIndex].shadowEnabled)
+		return 0.f;
+
+	if (light[lightIndex].depthBakingType == LIGHT_DEPTH_BAKING_TYPE_ORTHO)
+		return Light_getOcclusion_ortho(lightIndex, targetNormal);
+
+	else if (light[lightIndex].depthBakingType == LIGHT_DEPTH_BAKING_TYPE_CUBEMAP)
+		return Light_getOcclusion_cubemap(lightIndex, targetNormal);
+
+	return 1.f;
 }
 
 float Light_getLightDistance(uint lightIndex)

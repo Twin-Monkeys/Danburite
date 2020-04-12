@@ -26,26 +26,28 @@ namespace Danburite
 			namespace Light
 			{
 				const string
-					ENABLED = "enabled",
-					TYPE = "type",
+					ENABLED				= "enabled",
+					TYPE				= "type",
 
-					ALBEDO = "albedo",
-					AMBIENT_STRENGTH = "ambientStrength",
-					DIFFUSE_STRENGTH = "diffuseStrength",
-					SPECULAR_STRENGTH = "specularStrength",
+					ALBEDO				= "albedo",
+					AMBIENT_STRENGTH	= "ambientStrength",
+					DIFFUSE_STRENGTH	= "diffuseStrength",
+					SPECULAR_STRENGTH	= "specularStrength",
 
-					POSITION = "pos",
-					DIRECTION = "direction",
-					ATTENUATION_CONST = "attConst",
-					ATTENUATION_LINEAR = "attLinear",
-					ATTENUATION_QUAD = "attQuad",
+					POSITION			= "pos",
+					DIRECTION			= "direction",
+					ATTENUATION_CONST	= "attConst",
+					ATTENUATION_LINEAR	= "attLinear",
+					ATTENUATION_QUAD	= "attQuad",
 
-					INNER_CUTOFF = "innerCutOff",
-					OUTER_CUTOFF = "outerCutOff",
+					INNER_CUTOFF		 = "innerCutOff",
+					OUTER_CUTOFF		 = "outerCutOff",
 					
-					SHADOW_ENABLED = "shadowEnabled",
-					PROJ_VIEW_MATRIX = "projViewMat",
-					DEPTH_MAP = "depthMap";
+					SHADOW_ENABLED		= "shadowEnabled",
+					DEPTH_BAKING_TYPE	= "depthBakingType",
+					PROJ_VIEW_MATRIX	= "projViewMat",
+					DEPTH_MAP			= "depthMap"
+					;
 			}
 
 			namespace Material

@@ -313,9 +313,6 @@
     <Filter Include="Library\Engine\glsl\src\PostProcess\GammaCorrection">
       <UniqueIdentifier>{0a370d87-62b4-4a9c-9fb1-300d9115d36c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Library\Engine\Core\Shadow">
-      <UniqueIdentifier>{9be01203-6085-4989-847c-cbbc193e71ba}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library\Engine\glsl\src\DepthBaking">
       <UniqueIdentifier>{1ec03cb1-c1b1-4011-a6e0-17b22f064259}</UniqueIdentifier>
     </Filter>
@@ -339,6 +336,9 @@
     </Filter>
     <Filter Include="Library\ObjectGL\Core\Texture\Cubemap\Attachable">
       <UniqueIdentifier>{d348c4ca-7d25-4494-9a15-a10708887741}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\DepthBaker">
+      <UniqueIdentifier>{9be01203-6085-4989-847c-cbbc193e71ba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -673,16 +673,16 @@
       <Filter>Library\ObjectGL\Core\Texture\2D\Attachable</Filter>
     </ClCompile>
     <ClCompile Include="DepthBakerBase.cpp">
-      <Filter>Library\Engine\Core\Shadow</Filter>
+      <Filter>Library\Engine\Core\DepthBaker</Filter>
     </ClCompile>
     <ClCompile Include="DepthBaker2D.cpp">
-      <Filter>Library\Engine\Core\Shadow</Filter>
+      <Filter>Library\Engine\Core\DepthBaker</Filter>
     </ClCompile>
     <ClCompile Include="AttachableTextureCubemap.cpp">
       <Filter>Library\ObjectGL\Core\Texture\Cubemap\Attachable</Filter>
     </ClCompile>
     <ClCompile Include="DepthBakerCubemap.cpp">
-      <Filter>Library\Engine\Core\Shadow</Filter>
+      <Filter>Library\Engine\Core\DepthBaker</Filter>
     </ClCompile>
     <ClCompile Include="TransformableLight.cpp">
       <Filter>Library\Engine\Core\Light</Filter>
@@ -1173,16 +1173,16 @@
       <Filter>Library\ObjectGL\Core\Texture\2D\Attachable</Filter>
     </ClInclude>
     <ClInclude Include="DepthBakerBase.h">
-      <Filter>Library\Engine\Core\Shadow</Filter>
+      <Filter>Library\Engine\Core\DepthBaker</Filter>
     </ClInclude>
     <ClInclude Include="DepthBaker2D.h">
-      <Filter>Library\Engine\Core\Shadow</Filter>
+      <Filter>Library\Engine\Core\DepthBaker</Filter>
     </ClInclude>
     <ClInclude Include="AttachableTextureCubemap.h">
       <Filter>Library\ObjectGL\Core\Texture\Cubemap\Attachable</Filter>
     </ClInclude>
     <ClInclude Include="DepthBakerCubemap.h">
-      <Filter>Library\Engine\Core\Shadow</Filter>
+      <Filter>Library\Engine\Core\DepthBaker</Filter>
     </ClInclude>
     <ClInclude Include="TransformableLight.h">
       <Filter>Library\Engine\Core\Light</Filter>
@@ -1192,6 +1192,9 @@
     </ClInclude>
     <ClInclude Include="PerspectiveLight.h">
       <Filter>Library\Engine\Core\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="DepthBakingType.h">
+      <Filter>Library\Engine\Core\DepthBaker</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
