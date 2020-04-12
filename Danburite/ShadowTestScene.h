@@ -13,6 +13,7 @@
 #include "GammaCorrectionPostProcessor.h"
 #include "MSAAPostProcessor.h"
 #include "PostProcessingPipeline.h"
+#include "CubeSkybox.h"
 
 class ShadowTestScene : public Danburite::Scene, public ObjectGL::ScreenEventHandler
 {
@@ -21,12 +22,13 @@ private:
 
 	std::shared_ptr<Danburite::RenderUnit> __pNanosuitRU;
 	std::shared_ptr<Danburite::RenderUnit> __pSkullRU;
-	std::shared_ptr<Danburite::RenderUnit> __pFloorRU;
 	std::shared_ptr<Danburite::RenderUnit> __pCubeRU;
+	std::shared_ptr<Danburite::RenderUnit> __pRockSurroundRU;
 
 	std::shared_ptr<Danburite::PerspectiveCamera> __pCamera;
+	std::shared_ptr<Danburite::CubeSkybox> __pSkybox;
 
-	std::shared_ptr<Danburite::PointLight> __pRedLight;
+	std::shared_ptr<Danburite::PointLight> __pBlueLight;
 	std::shared_ptr<Danburite::PointLight> __pWhiteLight;
 
 	std::shared_ptr<Danburite::LightHandler> __pLightHandler;

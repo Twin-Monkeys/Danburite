@@ -30,32 +30,11 @@ ShadowTestScene::ShadowTestScene()
 	RenderUnitManager &ruManager = RenderUnitManager::getInstance();
 	VertexArrayFactory &vaFactory = VertexArrayFactory::getInstance();
 
-	const shared_ptr<VertexArray> &pFloorVA =
-		vaFactory.getVertexArrayPtr(ShapeType::RECTANGLE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
-
-	const shared_ptr<Texture2D> &pFloorTexture = TextureUtil::createTexture2DFromImage("res/image/mosaic.jpg");
-	pFloorTexture->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR_MIPMAP_LINEAR);
-	pFloorTexture->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
-	pFloorTexture->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
-	pFloorTexture->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
-
 	const shared_ptr<Texture2D> &pCubeTexture = TextureUtil::createTexture2DFromImage("res/image/box.jpg");
 	pCubeTexture->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR_MIPMAP_LINEAR);
 	pCubeTexture->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
 	pCubeTexture->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
 	pCubeTexture->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
-
-	const shared_ptr<PhongMaterial> &pFloorMaterial = make_shared<PhongMaterial>(VertexAttributeType::POS3_COLOR4);
-	pFloorMaterial->setDiffuseTexture(pFloorTexture);
-	pFloorMaterial->useDiffuseTexture(true);
-	pFloorMaterial->setShininess(150.f);
-
-	unique_ptr<Mesh> pFloorMesh = make_unique<Mesh>(pFloorVA, pFloorMaterial);
-	__pFloorRU = ruManager.createRenderUnit(move(pFloorMesh));
-
-	Transform &floorTransform = __pFloorRU->getTransform();
-	floorTransform.setScale(80.f, 1.f, 45.f);
-	floorTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
 
 	const shared_ptr<VertexArray> &pCubeVA =
 		vaFactory.getVertexArrayPtr(ShapeType::CUBE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
@@ -70,7 +49,7 @@ ShadowTestScene::ShadowTestScene()
 	__pCubeRU->setNumInstances(3);
 
 	Transform &cube1Transform = __pCubeRU->getTransform(0);
-	cube1Transform.setPosition(5.f, 1.f, -2.f);
+	cube1Transform.setPosition(5.f, 2.f, -2.f);
 
 	Transform &cube2Transform = __pCubeRU->getTransform(1);
 	cube2Transform.setScale(5.f);
@@ -92,6 +71,11 @@ ShadowTestScene::ShadowTestScene()
 	skullTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
 	skullTransform.setScale(5.f);
 
+	__pRockSurroundRU = AssetImporter::import("res/asset/rock_surround/scene.gltf");
+	Transform &rockSurroundTransform = __pRockSurroundRU->getTransform();
+	rockSurroundTransform.setPosition(0.f, -82.f, 0.f);
+	rockSurroundTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
+	rockSurroundTransform.setScale(8.f);
 
 	//// 카메라 생성 ////
 
@@ -100,70 +84,84 @@ ShadowTestScene::ShadowTestScene()
 	Transform &cameraTransform = __pCamera->getTransform();
 	cameraTransform.setPosition(0.f, 5.f, 40.f);
 
+	// Skybox 생성
+
+	const shared_ptr<TextureCubemap>& pSkyboxAlbedoTex =
+		TextureUtil::createTextureCubemapFromImage(
+			{
+				"res/image/skybox/space/right.png",
+				"res/image/skybox/space/left.png",
+				"res/image/skybox/space/top.png",
+				"res/image/skybox/space/bot.png",
+				"res/image/skybox/space/front.png",
+				"res/image/skybox/space/back.png"
+			});
+
+	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR);
+	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
+	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
+	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
+	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_WRAP_R, TextureWrapValue::CLAMP_TO_EDGE);
+
+	__pSkybox = make_shared<CubeSkybox>();
+	__pSkybox->setAlbedoTexture(pSkyboxAlbedoTex);
+
 
 	// Light 초기화
 
-	__pRedLight = make_shared<PointLight>();
+	__pBlueLight = make_shared<PointLight>();
 
-	Transform &redLightTransform = __pRedLight->getTransform();
-	redLightTransform.setPosition(20.f, 30.f, 0.f);
+	Transform &redLightTransform = __pBlueLight->getTransform();
+	redLightTransform.setPosition(20.f, 20.f, 0.f);
 	redLightTransform.adjustRotation(-quarter_pi<float>(), 1.1f, 0.f);
 
-	__pRedLight->setAlbedo(1.f, .4f, .4f);
-	__pRedLight->setAmbientStrength(.05f);
-	__pRedLight->setDiffuseStrength(.4f);
-	__pRedLight->setSpecularStrength(1.f);
-	__pRedLight->setAttenuation(1.f, .007f, .0007f);
+	__pBlueLight->setAlbedo(.1f, .4f, .7f);
+	__pBlueLight->setAttenuation(1.f, .007f, .0002f);
 
 	/*
 		You can reduce these blocky shadows
 		By increasing the depth map resolution or
 		By trying to fit the light frustum as closely to the scene as possible.
 	*/
-	__pRedLight->setDepthMapSize(2048, 2048);
-	__pRedLight->setShadowEnabled(true);
+	__pBlueLight->setDepthMapSize(2048, 2048);
+	__pBlueLight->setShadowEnabled(true);
 
 	__pWhiteLight = make_shared<PointLight>();
+	__pWhiteLight->setAttenuation(1.f, .007f, .0002f);
 
 	Transform& whiteLightTransform = __pWhiteLight->getTransform();
-	whiteLightTransform.setPosition(-20.f, 30.f, 0.f);
+	whiteLightTransform.setPosition(-20.f, 20.f, 0.f);
 	whiteLightTransform.adjustRotation(-quarter_pi<float>() * .7f, -.6f, 0.f);
-
-	__pWhiteLight->setAmbientStrength(.05f);
-	__pWhiteLight->setDiffuseStrength(.4f);
-	__pWhiteLight->setSpecularStrength(1.f);
-	__pWhiteLight->setAttenuation(1.f, .007f, .0007f);
 
 	__pWhiteLight->setDepthMapSize(2048, 2048);
 	__pWhiteLight->setShadowEnabled(true);
-
 	//// Deployer / Updater 초기화 ////
 
 	__pLightHandler = make_shared<LightHandler>();
-	__pLightHandler->addLight(__pRedLight);
+	__pLightHandler->addLight(__pBlueLight);
 	__pLightHandler->addLight(__pWhiteLight);
 
 	__pUpdater = make_shared<Updater>();
-	__pUpdater->addUpdatable(__pFloorRU);
 	__pUpdater->addUpdatable(__pCubeRU);
 	__pUpdater->addUpdatable(__pCamera);
-	__pUpdater->addUpdatable(__pRedLight);
+	__pUpdater->addUpdatable(__pBlueLight);
 	__pUpdater->addUpdatable(__pWhiteLight);
 	__pUpdater->addUpdatable(__pNanosuitRU);
 	__pUpdater->addUpdatable(__pSkullRU);
+	__pUpdater->addUpdatable(__pRockSurroundRU);
 
 	__pDrawer = make_shared<Drawer>();
-	__pDrawer->addDrawable(__pFloorRU);
 	__pDrawer->addDrawable(__pCubeRU);
 	__pDrawer->addDrawable(__pNanosuitRU);
 	__pDrawer->addDrawable(__pSkullRU);
+	__pDrawer->addDrawable(__pRockSurroundRU);
 
 	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>();
 	__pMsaaPP = make_shared<MSAAPostProcessor>();
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
 	__pPPPipeline->appendProcessor(__pMsaaPP);
-	__pPPPipeline->appendProcessor(__pGammaCorrectionPP);
+	// __pPPPipeline->appendProcessor(__pGammaCorrectionPP);
 
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
 }
@@ -228,6 +226,7 @@ void ShadowTestScene::draw() noexcept
 	GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
 
 	__pDrawer->batchDraw();
+	__pSkybox->draw();
 	PostProcessingPipeline::unbind();
 
 	// Render to screen
@@ -238,8 +237,8 @@ void ShadowTestScene::draw() noexcept
 bool ShadowTestScene::delta(const float deltaTime) noexcept
 {
 	__pCubeRU->getTransform(1).adjustRotation(deltaTime * .00015f, deltaTime * .0005f, 0.f);
-	__pRedLight->getTransform().orbit(deltaTime * .0002f, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
-	__pWhiteLight->getTransform().orbit(-deltaTime * .0001f, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
+	__pBlueLight->getTransform().orbit(-deltaTime * .0002f, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
+	__pWhiteLight->getTransform().orbit(deltaTime * .0001f, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
 
 	return __keyFunc(deltaTime);
 }
