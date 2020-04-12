@@ -13,14 +13,14 @@ namespace Danburite
 		return instance;
 	}
 
-	Light::Light(const LightType type) :
+	Light::Light(const LightType type, const DepthBakingType depthBakingType) :
 		Object(__getAllocator().allocate()),
 
 		__lightSetter(UniformBufferFactory::getInstance().
 			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::LIGHT), ID)
 	{
 		__lightSetter.setUniformUint(ShaderIdentifier::Name::Light::TYPE, GLenum(type));
-		__lightSetter.setUniformUint(ShaderIdentifier::Name::Light::DEPTH_BAKING_TYPE, GLenum(DepthBakingType::CUBEMAP));
+		__lightSetter.setUniformUint(ShaderIdentifier::Name::Light::DEPTH_BAKING_TYPE, GLenum(depthBakingType));
 	}
 
 	void Light::__release() noexcept

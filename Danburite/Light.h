@@ -39,7 +39,7 @@ namespace Danburite
 		virtual void _onDeployShadowData(LightUniformSetter &lightSetter) noexcept = 0;
 
 	public:
-		Light(const LightType type);
+		Light(const LightType type, const DepthBakingType depthBakingType);
 
 		void selfDeploy() noexcept;
 

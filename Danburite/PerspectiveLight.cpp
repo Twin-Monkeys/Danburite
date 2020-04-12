@@ -7,7 +7,7 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	PerspectiveLight::PerspectiveLight(const LightType type) :
-		TransformableLight(type)
+		TransformableLight(type, DepthBakingType::CUBEMAP)
 	{}
 
 	void PerspectiveLight::_onDeployShadowData(LightUniformSetter &lightSetter) noexcept
