@@ -131,7 +131,7 @@ float Light_getOcclusion_cubemap(uint lightIndex, vec3 targetNormal)
 
 	const float depthAdjustment = Light_getDepthMapAdjustment(lightIndex, targetNormal);
 
-	return texture(depthMap, lightPosToTarget).x;
+	return float(mappedDepth < (curDepth - depthAdjustment));
 }
 
 float Light_getOcclusion(uint lightIndex, vec3 targetNormal)
