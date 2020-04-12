@@ -15,7 +15,7 @@ namespace Danburite
 		lightSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Light::DEPTH_MAP, __depthBaker.getDepthMapHandle());
 
-		lightSetter.setUniformUvec2(ShaderIdentifier::Name::Light::Z_FAR, __zFar);
+		lightSetter.setUniformFloat(ShaderIdentifier::Name::Light::Z_FAR, __zFar);
 	}
 
 	void PerspectiveLight::_onBakeDepthMap(Drawer &drawer) noexcept
