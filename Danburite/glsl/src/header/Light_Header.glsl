@@ -124,14 +124,14 @@ float Light_getOcclusion_cubemap(uint lightIndex, vec3 targetNormal)
 {
 	const vec3 lightPosToTarget = (Light_targetPos - light[lightIndex].pos);
 
-	const samplerCube depthMap = samplerCube(light[lightIndex].depthMap);
+	samplerCube depthMap = samplerCube(light[lightIndex].depthMap);
 
 	const float mappedDepth = (texture(depthMap, lightPosToTarget).x * light[lightIndex].zFar);
 	const float curDepth = length(lightPosToTarget);
 
 	const float depthAdjustment = Light_getDepthMapAdjustment(lightIndex, targetNormal);
 
-	return float(mappedDepth < (curDepth - depthAdjustment));
+	return texture(depthMap, lightPosToTarget).x;
 }
 
 float Light_getOcclusion(uint lightIndex, vec3 targetNormal)

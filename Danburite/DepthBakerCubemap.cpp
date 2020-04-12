@@ -35,7 +35,7 @@ namespace Danburite
 		if (__pDepthMap->isHandleCreated())
 			__createDepthMap();
 
-		for (CubemapSideType i = CubemapSideType::POSITIVE_X; i < CubemapSideType::NEGATIVE_Z; i++)
+		for (CubemapSideType i = CubemapSideType::POSITIVE_X; i <= CubemapSideType::NEGATIVE_Z; i++)
 		{
 			__pDepthMap->memoryAlloc(
 				i, width, height,

@@ -103,7 +103,7 @@ ShadowTestScene::ShadowTestScene()
 
 	// Light 초기화
 
-	__pRedLight = make_shared<DirectionalLight>();
+	__pRedLight = make_shared<PointLight>();
 
 	Transform &redLightTransform = __pRedLight->getTransform();
 	redLightTransform.setPosition(20.f, 30.f, 0.f);
@@ -119,21 +119,20 @@ ShadowTestScene::ShadowTestScene()
 		By increasing the depth map resolution or
 		By trying to fit the light frustum as closely to the scene as possible.
 	*/
-	__pRedLight->setDepthBakingOrthoHeight(100.f);
 	__pRedLight->setDepthMapSize(2048, 2048);
 	__pRedLight->setShadowEnabled(true);
 
-	__pWhiteLight = make_shared<DirectionalLight>();
+	__pWhiteLight = make_shared<PointLight>();
 
 	Transform& whiteLightTransform = __pWhiteLight->getTransform();
 	whiteLightTransform.setPosition(-20.f, 30.f, 0.f);
 	whiteLightTransform.adjustRotation(-quarter_pi<float>() * .7f, -.6f, 0.f);
 
-	__pWhiteLight->setDepthBakingOrthoHeight(100.f);
-	__pWhiteLight->setDepthMapSize(2048, 2048);
 	__pWhiteLight->setAmbientStrength(.05f);
 	__pWhiteLight->setDiffuseStrength(.3f);
 	__pWhiteLight->setSpecularStrength(1.f);
+
+	__pWhiteLight->setDepthMapSize(2048, 2048);
 	__pWhiteLight->setShadowEnabled(true);
 
 	//// Deployer / Updater 초기화 ////

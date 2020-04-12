@@ -5,6 +5,7 @@
 #include "RenderUnit.h"
 #include "PerspectiveCamera.h"
 #include "OrthoCamera.h"
+#include "PointLight.h"
 #include "DirectionalLight.h"
 #include "LightHandler.h"
 #include "Updater.h"
@@ -25,8 +26,8 @@ private:
 
 	std::shared_ptr<Danburite::PerspectiveCamera> __pCamera;
 
-	std::shared_ptr<Danburite::DirectionalLight> __pRedLight;
-	std::shared_ptr<Danburite::DirectionalLight> __pWhiteLight;
+	std::shared_ptr<Danburite::PointLight> __pRedLight;
+	std::shared_ptr<Danburite::PointLight> __pWhiteLight;
 
 	std::shared_ptr<Danburite::LightHandler> __pLightHandler;
 	std::shared_ptr<Danburite::Updater> __pUpdater;

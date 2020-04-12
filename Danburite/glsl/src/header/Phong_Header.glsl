@@ -63,6 +63,7 @@ vec4 Phong_calcPhongColor(vec3 targetPos, vec3 targetNormal, vec2 materialTexCoo
 		ambient += Phong_calcAmbient(i, materialAmbient);
 
 		const float lightOcclusion = Light_getOcclusion(i, materialNormal);
+		return vec4(lightOcclusion, lightOcclusion, lightOcclusion, 1.f);
 
 		if (lightOcclusion >= 1.f)
 			continue;
