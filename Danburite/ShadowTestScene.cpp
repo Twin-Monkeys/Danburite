@@ -45,18 +45,18 @@ ShadowTestScene::ShadowTestScene()
 	pCubeMaterial->setShininess(150.f);
 
 	unique_ptr<Mesh> pCubeMesh = make_unique<Mesh>(pCubeVA, pCubeMaterial);
-	__pCubeRU = ruManager.createRenderUnit(move(pCubeMesh));
-	__pCubeRU->setNumInstances(3);
+	__pWallRU = ruManager.createRenderUnit(move(pCubeMesh));
+	__pWallRU->setNumInstances(3);
 
-	Transform &cube1Transform = __pCubeRU->getTransform(0);
+	Transform &cube1Transform = __pWallRU->getTransform(0);
 	cube1Transform.setPosition(5.f, 2.f, -2.f);
 
-	Transform &cube2Transform = __pCubeRU->getTransform(1);
+	Transform &cube2Transform = __pWallRU->getTransform(1);
 	cube2Transform.setScale(5.f);
 	cube2Transform.setPosition(5.f, 15.f, 5.f);
 	cube2Transform.setRotation(1.f, 2.f, 1.f);
 
-	Transform &cube3Transform = __pCubeRU->getTransform(2);
+	Transform &cube3Transform = __pWallRU->getTransform(2);
 	cube3Transform.setScale(3.f);
 	cube3Transform.setPosition(-5.f, 6.f, 5.f);
 	cube3Transform.setRotation(-3.f, 1.f, 1.f);
@@ -142,7 +142,7 @@ ShadowTestScene::ShadowTestScene()
 	__pLightHandler->addLight(__pWhiteLight);
 
 	__pUpdater = make_shared<Updater>();
-	__pUpdater->addUpdatable(__pCubeRU);
+	__pUpdater->addUpdatable(__pWallRU);
 	__pUpdater->addUpdatable(__pCamera);
 	__pUpdater->addUpdatable(__pBlueLight);
 	__pUpdater->addUpdatable(__pWhiteLight);
@@ -151,7 +151,7 @@ ShadowTestScene::ShadowTestScene()
 	__pUpdater->addUpdatable(__pRockSurroundRU);
 
 	__pDrawer = make_shared<Drawer>();
-	__pDrawer->addDrawable(__pCubeRU);
+	__pDrawer->addDrawable(__pWallRU);
 	__pDrawer->addDrawable(__pNanosuitRU);
 	__pDrawer->addDrawable(__pSkullRU);
 	__pDrawer->addDrawable(__pRockSurroundRU);
@@ -236,7 +236,7 @@ void ShadowTestScene::draw() noexcept
 
 bool ShadowTestScene::delta(const float deltaTime) noexcept
 {
-	__pCubeRU->getTransform(1).adjustRotation(deltaTime * .00015f, deltaTime * .0005f, 0.f);
+	__pWallRU->getTransform(1).adjustRotation(deltaTime * .00015f, deltaTime * .0005f, 0.f);
 	__pBlueLight->getTransform().orbit(-deltaTime * .0002f, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
 	__pWhiteLight->getTransform().orbit(deltaTime * .0001f, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
 

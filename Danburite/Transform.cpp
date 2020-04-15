@@ -72,6 +72,6 @@ namespace Danburite
 		_onUpdateScale(__scaleMat);
 		_onUpdateRotation(__rotationMat);
 
-		__modelMat = (__translationMat * __scaleMat * __rotationMat);
+		__modelMat = (__translationMat * __rotationMat * __scaleMat);
 	}
 }

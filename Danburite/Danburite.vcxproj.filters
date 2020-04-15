@@ -693,6 +693,9 @@
     <ClCompile Include="PerspectiveLight.cpp">
       <Filter>Library\Engine\Core\Light</Filter>
     </ClCompile>
+    <ClCompile Include="NormalMapTestScene.cpp">
+      <Filter>Client\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">
@@ -1195,6 +1198,9 @@
     </ClInclude>
     <ClInclude Include="DepthBakingType.h">
       <Filter>Library\Engine\Core\DepthBaker</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalMapTestScene.h">
+      <Filter>Client\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

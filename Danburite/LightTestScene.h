@@ -32,7 +32,7 @@ private:
 	std::shared_ptr<Danburite::RenderUnit> __pLizardManRU;
 	std::shared_ptr<Danburite::RenderUnit> __pStreetLightRU;
 	std::shared_ptr<Danburite::RenderUnit> __pSkullRU;
-	std::shared_ptr<Danburite::RenderUnit> __pCubeRU;
+	std::shared_ptr<Danburite::RenderUnit> __pWallRU;
 
 	std::shared_ptr<Danburite::DirectionalLight> __pDirectionalLight;
 	std::shared_ptr<Danburite::PointLight> __pStreetLight;

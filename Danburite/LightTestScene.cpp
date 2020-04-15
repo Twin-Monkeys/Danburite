@@ -81,8 +81,8 @@ LightTestScene::LightTestScene()
 	pCubeMaterial->setDiffuseTexture(pCubeTexture);
 
 	unique_ptr<Mesh> pMesh = make_unique<Mesh>(pCubeVA, pCubeMaterial);
-	__pCubeRU = ruManager.createRenderUnit(move(pMesh));
-	Transform &cubeTransform = __pCubeRU->getTransform();
+	__pWallRU = ruManager.createRenderUnit(move(pMesh));
+	Transform &cubeTransform = __pWallRU->getTransform();
 	cubeTransform.setScale(3.f);
 	cubeTransform.setPosition(-13.f, 7.f, -13.f);
 
@@ -196,7 +196,7 @@ LightTestScene::LightTestScene()
 	__pUpdater->addUpdatable(__pLizardManRU);
 	__pUpdater->addUpdatable(__pStreetLightRU);
 	__pUpdater->addUpdatable(__pSkullRU);
-	__pUpdater->addUpdatable(__pCubeRU);
+	__pUpdater->addUpdatable(__pWallRU);
 	__pUpdater->addUpdatable(__pCamera);
 
 	__pDrawer = make_shared<Drawer>();
@@ -261,7 +261,7 @@ void LightTestScene::draw() noexcept
 	// __pSkybox->draw();
 
 	// 반투명한 물체들은 불투명한 물체(배경 포함)를 그린 이후에 그려야 함.
-	//__pCubeRU->draw();
+	//__pWallRU->draw();
 
 	PostProcessingPipeline::unbind();
 	__pPPP->render();
