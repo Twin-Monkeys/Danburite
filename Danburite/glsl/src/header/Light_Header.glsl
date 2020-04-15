@@ -79,7 +79,7 @@ vec3 Light_getLightDirection(uint lightIndex)
 	return retVal;
 }
 
-float Light_getOcclusion_ortho(uint lightIndex, vec3 targetNormal)
+float Light_getOcclusion_ortho(const uint lightIndex, const vec3 targetNormal)
 {
 	const vec4 lightSpaceTargetPos = (light[lightIndex].projViewMat * vec4(Light_targetPos, 1.f));
 
@@ -97,15 +97,13 @@ float Light_getOcclusion_ortho(uint lightIndex, vec3 targetNormal)
 		return 0.f;
 
 	const float depthAdjustment = max(5e-4f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex))), 2e-4f);
-
 	const sampler2D depthMap = sampler2D(light[lightIndex].depthMap);
-	const vec2 texelSize = (2.f / textureSize(depthMap, 0));
 
 	float retVal = 0.f;
 	for (int x = -1; x <= 1; x++)
 		for (int y = -1; y <= 1; y++)
 		{
-			const float mappedDepth = texture(depthMap, normalizedPos.xy + (vec2(x, y) * texelSize)).x;
+			const float mappedDepth = texture(depthMap, normalizedPos.xy + (vec2(x, y) * .01f)).x;
 
 			// To correct shadow acne issue change the amount of bias based on the surface angle towards the light
 			retVal += float(mappedDepth < (normalizedPos.z - depthAdjustment));
@@ -114,18 +112,37 @@ float Light_getOcclusion_ortho(uint lightIndex, vec3 targetNormal)
 	return (retVal / 9.f);
 }
 
-float Light_getOcclusion_cubemap(uint lightIndex, vec3 targetNormal)
+float Light_getOcclusion_cubemap(const uint lightIndex, const vec3 targetNormal)
 {
+	const uint NUM_SAMPLES = 20U;
+	const vec3 sampleBiases[NUM_SAMPLES] = vec3[]
+	(
+	   vec3( 1.f,  1.f,  1.f), vec3( 1.f, -1.f,  1.f), vec3(-1.f, -1.f,  1.f), vec3(-1.f,  1.f,  1.f), 
+	   vec3( 1.f,  1.f, -1.f), vec3( 1.f, -1.f, -1.f), vec3(-1.f, -1.f, -1.f), vec3(-1.f,  1.f, -1.f),
+	   vec3( 1.f,  1.f,  0.f), vec3( 1.f, -1.f,  0.f), vec3(-1.f, -1.f,  0.f), vec3(-1.f,  1.f,  0.f),
+	   vec3( 1.f,  0.f,  1.f), vec3(-1.f,  0.f,  1.f), vec3( 1.f,  0.f, -1.f), vec3(-1.f,  0.f, -1.f),
+	   vec3( 0.f,  1.f,  1.f), vec3( 0.f, -1.f,  1.f), vec3( 0.f, -1.f, -1.f), vec3( 0.f,  1.f, -1.f)
+	);
+
 	const vec3 lightPosToTarget = (Light_targetPos - light[lightIndex].pos);
-
-	samplerCube depthMap = samplerCube(light[lightIndex].depthMap);
-
-	const float mappedDepth = (texture(depthMap, lightPosToTarget).x * light[lightIndex].zFar);
 	const float curDepth = length(lightPosToTarget);
 
-	const float depthAdjustment = max(5e-2f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex))), 1e-2f);
+	// 광원으로부터 물체가 멀어질수록 그림자가 흐려지도록 한다.
+	const float biasAdj_lightDistance = (pow(curDepth / light[lightIndex].zFar, 1.5f) * 20.f);
 
-	return float(mappedDepth < (curDepth - depthAdjustment));
+	const float depthAdjustment = max(15e-2f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex))), 10e-2f);
+	const samplerCube depthMap = samplerCube(light[lightIndex].depthMap);
+
+	float retVal = 0.f;
+	for (uint i = 0; i < NUM_SAMPLES; i++)
+	{
+		const float mappedDepth =
+			(texture(depthMap, lightPosToTarget + (sampleBiases[i] * biasAdj_lightDistance)).x * light[lightIndex].zFar);
+
+		retVal += float(mappedDepth < (curDepth - depthAdjustment));
+	}
+
+	return (retVal / float(NUM_SAMPLES));
 }
 
 float Light_getOcclusion(uint lightIndex, vec3 targetNormal)
@@ -139,7 +156,7 @@ float Light_getOcclusion(uint lightIndex, vec3 targetNormal)
 	else if (light[lightIndex].depthBakingType == LIGHT_DEPTH_BAKING_TYPE_CUBEMAP)
 		return Light_getOcclusion_cubemap(lightIndex, targetNormal);
 
-	return 1.f;
+	return 0.f;
 }
 
 float Light_getLightDistance(uint lightIndex)

@@ -163,7 +163,7 @@ ShadowTestScene::ShadowTestScene()
 	__pPPPipeline->appendProcessor(__pMsaaPP);
 	// __pPPPipeline->appendProcessor(__pGammaCorrectionPP);
 
-	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
+	// Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
 }
 
 bool ShadowTestScene::__keyFunc(const float deltaTime) noexcept
