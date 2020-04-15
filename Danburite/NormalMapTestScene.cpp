@@ -22,7 +22,7 @@ NormalMapTestScene::NormalMapTestScene()
 
 	GLFunctionWrapper::setOption(GLOptionType::MULTISAMPLE, true);
 	GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
-	GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, true);
+	GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, false);
 
 
 	//// Rendering unit 생성 ////
@@ -62,28 +62,25 @@ NormalMapTestScene::NormalMapTestScene()
 	__pWallRU = ruManager.createRenderUnit(move(pWallMesh));
 
 	Transform& wallTransform = __pWallRU->getTransform();
-	wallTransform.setPosition(0.f, 0.f, 0.f);
 	wallTransform.setScale(10.f, 10.f, 1.f);
-	wallTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
 
 	//// 카메라 생성 ////
 
 	__pCamera = make_shared<PerspectiveCamera>();
 
 	Transform& cameraTransform = __pCamera->getTransform();
-	cameraTransform.setPosition(0.f, 20.f, 20.f);
-	cameraTransform.setRotation(.7f, 0.f, 0.f);
+	cameraTransform.setPosition(0.f, 0.f, 30.f);
 
 	// Light 초기화
 
 	__pWhiteLight = make_shared<PointLight>();
-	__pWhiteLight->setAmbientStrength(.05f);
+	__pWhiteLight->setAmbientStrength(.0f);
 	__pWhiteLight->setDiffuseStrength(2.f);
 	__pWhiteLight->setSpecularStrength(2.f);
 	__pWhiteLight->setAttenuation(1.f, 0.09f, 0.032f);
 
 	Transform& whiteLightTransform = __pWhiteLight->getTransform();
-	whiteLightTransform.setPosition(0.f, 5.f, 0.f);
+	whiteLightTransform.setPosition(0.f, 5.f, 2.f);
 
 	//// Deployer / Updater 초기화 ////
 
@@ -102,10 +99,9 @@ NormalMapTestScene::NormalMapTestScene()
 	__pMsaaPP = make_shared<MSAAPostProcessor>();
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
-	__pPPPipeline->appendProcessor(__pMsaaPP);
-	// __pPPPipeline->appendProcessor(__pGammaCorrectionPP);
+	__pPPPipeline->appendProcessor(__pGammaCorrectionPP);
 
-	// Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
+	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
 }
 
 bool NormalMapTestScene::__keyFunc(const float deltaTime) noexcept
