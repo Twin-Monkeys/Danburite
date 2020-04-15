@@ -30,24 +30,39 @@ NormalMapTestScene::NormalMapTestScene()
 	RenderUnitManager& ruManager = RenderUnitManager::getInstance();
 	VertexArrayFactory& vaFactory = VertexArrayFactory::getInstance();
 
-	const shared_ptr<Texture2D> &pWallTexture = TextureUtil::createTexture2DFromImage("res/image/wall/brickwall.jpg");
-	pWallTexture->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR_MIPMAP_LINEAR);
-	pWallTexture->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
-	pWallTexture->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
-	pWallTexture->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
+	const shared_ptr<Texture2D> &pWallTexture_diffuse =
+		TextureUtil::createTexture2DFromImage("res/image/wall/brickwall.jpg");
+
+	pWallTexture_diffuse->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR_MIPMAP_LINEAR);
+	pWallTexture_diffuse->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
+	pWallTexture_diffuse->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
+	pWallTexture_diffuse->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
+
+	const shared_ptr<Texture2D> &pWallTexture_normal =
+		TextureUtil::createTexture2DFromImage("res/image/wall/brickwall_normal.jpg");
+
+	pWallTexture_normal->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR_MIPMAP_LINEAR);
+	pWallTexture_normal->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
+	pWallTexture_normal->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
+	pWallTexture_normal->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 
 	const shared_ptr<VertexArray> &pWallVA =
 		vaFactory.getVertexArrayPtr(ShapeType::RECTANGLE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
 
 	const shared_ptr<PhongMaterial> &pWallMaterial = make_shared<PhongMaterial>(VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
-	pWallMaterial->setDiffuseTexture(pWallTexture);
+	pWallMaterial->setDiffuseTexture(pWallTexture_diffuse);
 	pWallMaterial->useDiffuseTexture(true);
+
+	pWallMaterial->setNormalTexture(pWallTexture_normal);
+	pWallMaterial->useNormalTexture(true);
+
 	pWallMaterial->setShininess(150.f);
 
 	unique_ptr<Mesh> pWallMesh = make_unique<Mesh>(pWallVA, pWallMaterial);
 	__pWallRU = ruManager.createRenderUnit(move(pWallMesh));
 
 	Transform& wallTransform = __pWallRU->getTransform();
+	wallTransform.setPosition(0.f, 0.f, 0.f);
 	wallTransform.setScale(10.f, 10.f, 1.f);
 	wallTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
 
@@ -56,34 +71,19 @@ NormalMapTestScene::NormalMapTestScene()
 	__pCamera = make_shared<PerspectiveCamera>();
 
 	Transform& cameraTransform = __pCamera->getTransform();
-	cameraTransform.setPosition(0.f, 5.f, 40.f);
-
-	// Skybox 생성
-
-	const shared_ptr<TextureCubemap>& pSkyboxAlbedoTex =
-		TextureUtil::createTextureCubemapFromImage(
-			{
-				"res/image/skybox/space/right.png",
-				"res/image/skybox/space/left.png",
-				"res/image/skybox/space/top.png",
-				"res/image/skybox/space/bot.png",
-				"res/image/skybox/space/front.png",
-				"res/image/skybox/space/back.png"
-			});
-
-	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR);
-	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
-	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
-	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
-	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_WRAP_R, TextureWrapValue::CLAMP_TO_EDGE);
+	cameraTransform.setPosition(0.f, 20.f, 20.f);
+	cameraTransform.setRotation(.7f, 0.f, 0.f);
 
 	// Light 초기화
 
-	__pWhiteLight = make_shared<DirectionalLight>();
+	__pWhiteLight = make_shared<PointLight>();
+	__pWhiteLight->setAmbientStrength(.05f);
+	__pWhiteLight->setDiffuseStrength(2.f);
+	__pWhiteLight->setSpecularStrength(2.f);
+	__pWhiteLight->setAttenuation(1.f, 0.09f, 0.032f);
 
 	Transform& whiteLightTransform = __pWhiteLight->getTransform();
-	whiteLightTransform.setPosition(-20.f, 20.f, 0.f);
-	whiteLightTransform.adjustRotation(-quarter_pi<float>() * .7f, -.6f, 0.f);
+	whiteLightTransform.setPosition(0.f, 5.f, 0.f);
 
 	//// Deployer / Updater 초기화 ////
 
@@ -103,9 +103,9 @@ NormalMapTestScene::NormalMapTestScene()
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
 	__pPPPipeline->appendProcessor(__pMsaaPP);
-	__pPPPipeline->appendProcessor(__pGammaCorrectionPP);
+	// __pPPPipeline->appendProcessor(__pGammaCorrectionPP);
 
-	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
+	// Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
 }
 
 bool NormalMapTestScene::__keyFunc(const float deltaTime) noexcept

@@ -68,9 +68,9 @@ namespace Danburite
 
 	void Transform::update() noexcept
 	{
-		_onUpdateTranslation(__translationMat);
 		_onUpdateScale(__scaleMat);
 		_onUpdateRotation(__rotationMat);
+		_onUpdateTranslation(__translationMat);
 
 		__modelMat = (__translationMat * __rotationMat * __scaleMat);
 	}

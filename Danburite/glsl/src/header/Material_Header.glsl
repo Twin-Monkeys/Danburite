@@ -245,6 +245,7 @@ float Material_getAlpha()
 			{
 				if (Material_isAlphaTextureEnabled())
 					retVal = texture(sampler2D(material.alphaTex), Material_texCoord).r;
+
 				else if (Material_isDiffuseTextureEnabled())
 					retVal = texture(sampler2D(material.diffuseTex), Material_texCoord).a;
 			}
@@ -255,8 +256,11 @@ float Material_getAlpha()
 
 vec3 Material_getNormal()
 {
-	//if (isMaterialNormalTextureEnabled())
-	//	return texture(material.normalTex, Material_texCoord).xyz;
+	if (Material_isNormalTextureEnabled())
+	{
+		const vec3 fetched = texture(sampler2D(material.normalTex), Material_texCoord).xyz;
+		return normalize((fetched * 2.f) - 1.f);
+	}
 
 	return Material_targetNormal;
 }
