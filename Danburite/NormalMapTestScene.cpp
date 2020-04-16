@@ -80,7 +80,7 @@ NormalMapTestScene::NormalMapTestScene()
 	__pWhiteLight->setAttenuation(1.f, 0.09f, 0.032f);
 
 	Transform& whiteLightTransform = __pWhiteLight->getTransform();
-	whiteLightTransform.setPosition(0.f, 5.f, 2.f);
+	whiteLightTransform.setPosition(0.f, 6.f, 1.f);
 
 	//// Deployer / Updater ÃÊ±âÈ­ ////
 
@@ -172,6 +172,8 @@ void NormalMapTestScene::draw() noexcept
 
 bool NormalMapTestScene::delta(const float deltaTime) noexcept
 {
+	__pWhiteLight->getTransform().orbit(deltaTime * .0003f, { 0.f, 0.f, 0.f }, { 0.f, 0.f, 1.f });
+
 	return __keyFunc(deltaTime);
 }
 

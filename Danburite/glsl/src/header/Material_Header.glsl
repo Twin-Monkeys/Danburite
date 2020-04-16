@@ -259,6 +259,8 @@ vec3 Material_getNormal()
 	if (Material_isNormalTextureEnabled())
 	{
 		const vec3 fetched = texture(sampler2D(material.normalTex), Material_texCoord).xyz;
+
+		// Normalize explicitly to prevent floating point error
 		return normalize((fetched * 2.f) - 1.f);
 	}
 
