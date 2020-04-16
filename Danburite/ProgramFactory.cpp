@@ -81,15 +81,6 @@ namespace Danburite
 					"glsl/src/Refraction_Frag.glsl"
 				}
 			},
-			{
-				ProgramType::EXPLODING_PHONG,
-				{
-					"glsl/binary/ExplodingPhong.bin",
-					"glsl/src/ExplodingPhong_Vert.glsl",
-					"glsl/src/ExplodingPhong_Geo.glsl",
-					"glsl/src/ExplodingPhong_Frag.glsl"
-				}
-			},
 
 			// Skybox
 			{
@@ -263,7 +254,6 @@ namespace Danburite
 					ProgramType::REFLECTION,
 					ProgramType::REFLECTION_PHONG,
 					ProgramType::REFRACTION,
-					ProgramType::EXPLODING_PHONG,
 					ProgramType::SKYBOX
 				}
 			},
@@ -271,8 +261,7 @@ namespace Danburite
 				ShaderIdentifier::Name::UniformBuffer::LIGHT,
 				{
 					ProgramType::PHONG,
-					ProgramType::REFLECTION_PHONG,
-					ProgramType::EXPLODING_PHONG
+					ProgramType::REFLECTION_PHONG
 				}
 			},
 			{
@@ -285,7 +274,6 @@ namespace Danburite
 					ProgramType::REFLECTION,
 					ProgramType::REFLECTION_PHONG,
 					ProgramType::REFRACTION,
-					ProgramType::EXPLODING_PHONG,
 					ProgramType::SKYBOX
 				}
 			},

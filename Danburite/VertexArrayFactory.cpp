@@ -41,6 +41,8 @@ namespace Danburite
 			{ 0.f, 1.f }
 		};
 
+		constexpr vec3 tangent = { 1.f, 0.f, 0.f };
+
 		vector<GLfloat> vertices;
 		for (unsigned i = 0; i < 4; i++)
 		{
@@ -61,6 +63,9 @@ namespace Danburite
 				const vec2 &texCoord = texCoords[i];
 				vertices.insert(vertices.end(), { texCoord.x, texCoord.y });
 			}
+
+			if (key & VertexAttributeFlag::TANGENT3)
+				vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
 		}
 
 		const VertexAttributeList &attribList = VertexAttributeListFactory::getInstance(key);
@@ -134,6 +139,27 @@ namespace Danburite
 			{ 0.f, 1.f }
 		};
 
+		constexpr vec3 tangents[] =
+		{
+			// Top
+			{ 1.f, 0.f, 0.f },
+
+			// Bottom
+			{ 1.f, 0.f, 0.f },
+
+			// Right
+			{ 0.f, 0.f, -1.f },
+
+			// Left
+			{ 0.f, 0.f, 1.f },
+
+			// Forward
+			{ 1.f, 0.f, 0.f },
+
+			// Backward
+			{ -1.f, 0.f, 0.f }
+		};
+
 		vector<GLfloat> vertices;
 		for (unsigned i = 0; i < 24; i++)
 		{
@@ -156,6 +182,12 @@ namespace Danburite
 			{
 				const vec2 &texCoord = texCoords[i % 4];
 				vertices.insert(vertices.end(), { texCoord.x, texCoord.y });
+			}
+
+			if (key & VertexAttributeFlag::TANGENT3)
+			{
+				const vec3 &tangent = tangents[i / 4];
+				vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
 			}
 		}
 

@@ -43,15 +43,21 @@ layout (binding = BINDING_POINT_MATERIAL) uniform UBMaterial
 
 vec2 Material_texCoord;
 vec3 Material_targetNormal;
+mat3 Material_targetTBN;
 
-void Material_setTexCoord(vec2 texCoord)
+void Material_setTexCoord(const vec2 texCoord)
 {
 	Material_texCoord = texCoord;
 }
 
-void Material_setTargetNormal(vec3 normal)
+void Material_setTargetNormal(const vec3 normal)
 {
 	Material_targetNormal = normal;
+}
+
+void Material_setTargetTBN(const mat3 TBN)
+{
+	Material_targetTBN = TBN;
 }
 
 bool Material_isLightingEnabled()
@@ -112,6 +118,11 @@ bool Material_isVertexNormalEnabled()
 bool Material_isVertexTexCoordEnabled()
 {
 	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_TEXCOORD2) != 0);
+}
+
+bool Material_isVertexTangentEnabled()
+{
+	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_TANGENT3) != 0);
 }
 
 vec3 Material_applyGamma(const vec3 source)
@@ -188,6 +199,7 @@ vec3 Material_getSpecular()
 		{
 			if (Material_isSpecularTextureEnabled())
 				retVal = texture(sampler2D(material.specularTex), Material_texCoord).rgb;
+
 			else if (Material_isDiffuseTextureEnabled())
 			{
 				retVal = texture(sampler2D(material.diffuseTex), Material_texCoord).rgb;
@@ -256,12 +268,12 @@ float Material_getAlpha()
 
 vec3 Material_getNormal()
 {
-	if (Material_isNormalTextureEnabled())
+	if (Material_isNormalTextureEnabled() && Material_isVertexTangentEnabled())
 	{
 		const vec3 fetched = texture(sampler2D(material.normalTex), Material_texCoord).xyz;
+		const vec3 tangentSpaceNormal = ((fetched * 2.f) - 1.f);
 
-		// Normalize explicitly to prevent floating point error
-		return normalize((fetched * 2.f) - 1.f);
+		return normalize(Material_targetTBN * tangentSpaceNormal);
 	}
 
 	return Material_targetNormal;

@@ -14,7 +14,6 @@
 #include "ReflectionMaterial.h"
 #include "ReflectionPhongMaterial.h"
 #include "RefractionMaterial.h"
-#include "ExplodingPhongMaterial.h"
 
 using namespace std;
 using namespace filesystem;
@@ -107,7 +106,7 @@ namespace Danburite
 
 	shared_ptr<RenderUnit> AssetImporter::__parse(
 		const string &parentPath, const aiNode *const pNode, const aiScene* const pScene,
-		const mat3 &vertexMatrix, const mat3 &normalMatrix, const MaterialType materialType,
+		const mat4 &vertexMatrix, const mat3 &normalMatrix, const MaterialType materialType,
 		unordered_map<string, shared_ptr<Texture2D>> &textureCache)
 	{
 		RenderUnitManager &renderingUnitMgr = RenderUnitManager::getInstance();
@@ -133,6 +132,9 @@ namespace Danburite
 			if (pAiMesh->HasNormals())
 				vertexType |= VertexAttributeFlag::NORMAL3;
 
+			if (pAiMesh->HasTangentsAndBitangents())
+				vertexType |= VertexAttributeFlag::TANGENT3;
+
 
 			/*
 				a vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't
@@ -148,7 +150,7 @@ namespace Danburite
 				if (vertexType & VertexAttributeFlag::POS3)
 				{
 					const aiVector3D &aiPos = pAiMesh->mVertices[j];
-					const vec3 pos = (vertexMatrix * (vec3 {aiPos.x, aiPos.y, aiPos.z}));
+					const vec3 &pos = vec3 { vertexMatrix * (vec4 {aiPos.x, aiPos.y, aiPos.z, 1.f}) };
 
 					vertices.insert(vertices.end(), { pos.x, pos.y, pos.z });
 				}
@@ -162,7 +164,7 @@ namespace Danburite
 				if (vertexType & VertexAttributeFlag::NORMAL3)
 				{
 					const aiVector3D &aiNormal = pAiMesh->mNormals[j];
-					const vec3 normal = (normalMatrix * (vec3 { aiNormal.x, aiNormal.y, aiNormal.z }));
+					const vec3 &normal = (normalMatrix * (vec3 { aiNormal.x, aiNormal.y, aiNormal.z }));
 
 					vertices.insert(vertices.end(), { normal.x, normal.y, normal.z });
 				}
@@ -171,6 +173,13 @@ namespace Danburite
 				{
 					const aiVector3D &texCoord = pAiMesh->mTextureCoords[0][j];
 					vertices.insert(vertices.end(), { texCoord.x, texCoord.y });
+				}
+
+				if (vertexType & VertexAttributeFlag::TANGENT3)
+				{
+					const aiVector3D &aiTangent = pAiMesh->mTangents[j];
+					const vec3 &tangent = (normalMatrix * (vec3 { aiTangent.x, aiTangent.y, aiTangent.z }));
+					vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
 				}
 			}
 
@@ -246,15 +255,7 @@ namespace Danburite
 				const shared_ptr<Texture2D> &pNormalTex =
 					__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_NORMALS);
 				
-				if (materialType == MaterialType::EXPLODING_PHONG)
-				{
-					pMaterial = make_shared<ExplodingPhongMaterial>(vertexType);
-
-					__setupPhongStyleMaterial(
-						static_pointer_cast<ExplodingPhongMaterial>(pMaterial),
-						pAmbientTex, pDiffuseTex, pSpecularTex, pEmissiveTex, pShininessTex, pAlphaTex, pNormalTex);
-				}
-				else if (materialType == MaterialType::REFLECTION_PHONG)
+				if (materialType == MaterialType::REFLECTION_PHONG)
 				{
 					pMaterial = make_shared<ReflectionPhongMaterial>(vertexType);
 
@@ -344,7 +345,7 @@ namespace Danburite
 		Assimp::Importer importer;
 
 		const aiScene* const pScene = importer.ReadFile(
-			assetPath.data(), aiProcess_Triangulate /*| aiProcess_CalcTangentSpace*/);
+			assetPath.data(), aiProcess_Triangulate | aiProcess_CalcTangentSpace);
 
 		if (!pScene || (pScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) || !(pScene->mRootNode))
 			throw AssetImporterException(importer.GetErrorString());
@@ -352,8 +353,7 @@ namespace Danburite
 		const string &parentPath = path(assetPath).parent_path().string();
 		unordered_map<string, shared_ptr<Texture2D>> textureCache;
 
-		const mat3 vertexMatrix { transformation };
-		const mat3 normalMatrix = transpose(inverse(vertexMatrix));
+		const mat3 normalMatrix = transpose(inverse(mat3 { transformation }));
 
 		// <parent(unit), child(node)> pair stack
 		stack<pair<const shared_ptr<RenderUnit>, const aiNode *>> nodeStack;
@@ -366,7 +366,7 @@ namespace Danburite
 			nodeStack.pop();
 
 			const shared_ptr<RenderUnit> &pParsedChild = __parse(
-				parentPath, pChild, pScene, vertexMatrix, normalMatrix, materialType, textureCache);
+				parentPath, pChild, pScene, transformation, normalMatrix, materialType, textureCache);
 
 			if (!pParent)
 				retVal = pParsedChild;

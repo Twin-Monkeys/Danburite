@@ -12,7 +12,6 @@ namespace Danburite
 		REFLECTION,
 		REFLECTION_PHONG,
 		REFRACTION,
-		EXPLODING_PHONG,
 
 		// Skybox
 		SKYBOX,

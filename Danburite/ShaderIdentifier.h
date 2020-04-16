@@ -156,10 +156,10 @@ namespace Danburite
 					POSITION_LOCATION = 0,
 					COLOR_LOCATION = 1,
 					NORMAL_LOCATION = 2,
-					TEX_COORD_LOCATION = 3;
-
-				constexpr GLuint
-					MODEL_MATRIX_LOCATION = 4;
+					TEX_COORD_LOCATION = 3,
+					TANGENT_LOCATION = 4,
+					MODEL_MATRIX_LOCATION = 5
+					;
 			}
 
 			namespace UniformBlockBindingPoint

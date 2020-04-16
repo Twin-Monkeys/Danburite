@@ -57,6 +57,21 @@ namespace Danburite
 		}
 			break;
 
+		case VertexAttributeType::POS3_COLOR4_NORMAL3:
+		{
+			const GLsizei STRIDE = (VEC3.memSize() + VEC4.memSize() + VEC3.memSize());
+			GLsizei offset = 0;
+
+			retVal.add(ShaderIdentifier::Value::VertexAttribute::POSITION_LOCATION, VEC3, STRIDE, 0);
+			offset += VEC3.memSize();
+
+			retVal.add(ShaderIdentifier::Value::VertexAttribute::COLOR_LOCATION, VEC4, STRIDE, offset);
+			offset += VEC4.memSize();
+
+			retVal.add(ShaderIdentifier::Value::VertexAttribute::NORMAL_LOCATION, VEC3, STRIDE, offset);
+		}
+			break;
+
 		case VertexAttributeType::POS3_TEXCOORD2:
 		{
 			const GLsizei STRIDE = (VEC3.memSize() + VEC2.memSize());
@@ -116,6 +131,24 @@ namespace Danburite
 			retVal.add(ShaderIdentifier::Value::VertexAttribute::TEX_COORD_LOCATION, VEC2, STRIDE, offset);
 		}
 			break;
+
+		case VertexAttributeType::POS3_NORMAL3_TEXCOORD2_TANGENT3:
+		{
+			const GLsizei STRIDE = (VEC3.memSize() + VEC3.memSize() + VEC2.memSize() + VEC3.memSize());
+			GLsizei offset = 0;
+
+			retVal.add(ShaderIdentifier::Value::VertexAttribute::POSITION_LOCATION, VEC3, STRIDE, 0);
+			offset += VEC3.memSize();
+
+			retVal.add(ShaderIdentifier::Value::VertexAttribute::NORMAL_LOCATION, VEC3, STRIDE, offset);
+			offset += VEC3.memSize();
+
+			retVal.add(ShaderIdentifier::Value::VertexAttribute::TEX_COORD_LOCATION, VEC2, STRIDE, offset);
+			offset += VEC2.memSize();
+
+			retVal.add(ShaderIdentifier::Value::VertexAttribute::TANGENT_LOCATION, VEC3, STRIDE, offset);
+		}
+		break;
 
 		case VertexAttributeType::MODELMAT16:
 		{

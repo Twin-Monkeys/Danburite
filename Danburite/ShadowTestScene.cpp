@@ -27,41 +27,7 @@ ShadowTestScene::ShadowTestScene()
 
 	//// Rendering unit 持失 ////
 
-	RenderUnitManager &ruManager = RenderUnitManager::getInstance();
-	VertexArrayFactory &vaFactory = VertexArrayFactory::getInstance();
-
-	const shared_ptr<Texture2D> &pCubeTexture = TextureUtil::createTexture2DFromImage("res/image/box.jpg");
-	pCubeTexture->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR_MIPMAP_LINEAR);
-	pCubeTexture->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
-	pCubeTexture->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
-	pCubeTexture->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
-
-	const shared_ptr<VertexArray> &pCubeVA =
-		vaFactory.getVertexArrayPtr(ShapeType::CUBE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
-
-	const shared_ptr<PhongMaterial> &pCubeMaterial = make_shared<PhongMaterial>(VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
-	pCubeMaterial->setDiffuseTexture(pCubeTexture);
-	pCubeMaterial->useDiffuseTexture(true);
-	pCubeMaterial->setShininess(150.f);
-
-	unique_ptr<Mesh> pCubeMesh = make_unique<Mesh>(pCubeVA, pCubeMaterial);
-	__pWallRU = ruManager.createRenderUnit(move(pCubeMesh));
-	__pWallRU->setNumInstances(3);
-
-	Transform &cube1Transform = __pWallRU->getTransform(0);
-	cube1Transform.setPosition(5.f, 2.f, -2.f);
-
-	Transform &cube2Transform = __pWallRU->getTransform(1);
-	cube2Transform.setScale(5.f);
-	cube2Transform.setPosition(5.f, 15.f, 5.f);
-	cube2Transform.setRotation(1.f, 2.f, 1.f);
-
-	Transform &cube3Transform = __pWallRU->getTransform(2);
-	cube3Transform.setScale(3.f);
-	cube3Transform.setPosition(-5.f, 6.f, 5.f);
-	cube3Transform.setRotation(-3.f, 1.f, 1.f);
-
-	__pNanosuitRU = AssetImporter::import("res/asset/nanosuit/nanosuit.obj");
+	__pNanosuitRU = AssetImporter::import("res/asset/nanosuit/scene.gltf");
 	Transform &nanosuitTransform = __pNanosuitRU->getTransform();
 	nanosuitTransform.setPosition(-10.f, 0.f, 15.f);
 
@@ -76,6 +42,11 @@ ShadowTestScene::ShadowTestScene()
 	rockSurroundTransform.setPosition(0.f, -82.f, 0.f);
 	rockSurroundTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
 	rockSurroundTransform.setScale(8.f);
+
+	__pChestRU = AssetImporter::import("res/asset/medieval_chest/scene.gltf");
+	Transform &chestTransform = __pChestRU->getTransform();
+	chestTransform.setPosition(2.f, 4.f, 0.f);
+	chestTransform.setScale(6.f);
 
 	//// 朝五虞 持失 ////
 
@@ -142,19 +113,19 @@ ShadowTestScene::ShadowTestScene()
 	__pLightHandler->addLight(__pWhiteLight);
 
 	__pUpdater = make_shared<Updater>();
-	__pUpdater->addUpdatable(__pWallRU);
 	__pUpdater->addUpdatable(__pCamera);
 	__pUpdater->addUpdatable(__pBlueLight);
 	__pUpdater->addUpdatable(__pWhiteLight);
 	__pUpdater->addUpdatable(__pNanosuitRU);
 	__pUpdater->addUpdatable(__pSkullRU);
 	__pUpdater->addUpdatable(__pRockSurroundRU);
+	__pUpdater->addUpdatable(__pChestRU);
 
 	__pDrawer = make_shared<Drawer>();
-	__pDrawer->addDrawable(__pWallRU);
 	__pDrawer->addDrawable(__pNanosuitRU);
 	__pDrawer->addDrawable(__pSkullRU);
 	__pDrawer->addDrawable(__pRockSurroundRU);
+	__pDrawer->addDrawable(__pChestRU);
 
 	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>();
 	__pMsaaPP = make_shared<MSAAPostProcessor>();
@@ -236,7 +207,6 @@ void ShadowTestScene::draw() noexcept
 
 bool ShadowTestScene::delta(const float deltaTime) noexcept
 {
-	__pWallRU->getTransform(1).adjustRotation(deltaTime * .00015f, deltaTime * .0005f, 0.f);
 	__pBlueLight->getTransform().orbit(-deltaTime * .0002f, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
 	__pWhiteLight->getTransform().orbit(deltaTime * .0001f, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
 

@@ -23,7 +23,7 @@
     <ProjectGuid>{8FDCDE28-C10D-48DB-AA99-4EB23CD794F7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Danburite</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -43,14 +43,14 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -179,7 +179,6 @@
     <ClCompile Include="ShadowTestScene.cpp" />
     <ClCompile Include="SpaceScene.cpp" />
     <ClCompile Include="Drawer.cpp" />
-    <ClCompile Include="ExplodingPhongMaterial.cpp" />
     <ClCompile Include="ForwardPostProcessor.cpp" />
     <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="FrameBufferException.cpp" />
@@ -314,7 +313,6 @@
     <ClInclude Include="DepthStencilFunctionType.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="Drawer.h" />
-    <ClInclude Include="ExplodingPhongMaterial.h" />
     <ClInclude Include="ForwardPostProcessor.h" />
     <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="FrameBufferException.h" />
@@ -458,9 +456,6 @@
     <None Include="glsl\src\Skybox_Vert.glsl" />
     <None Include="glsl\src\DepthBaking2D_Frag.glsl" />
     <None Include="glsl\src\DepthBaking2D_Vert.glsl" />
-    <None Include="glsl\src\ExplodingPhong_Frag.glsl" />
-    <None Include="glsl\src\ExplodingPhong_Geo.glsl" />
-    <None Include="glsl\src\ExplodingPhong_Vert.glsl" />
     <None Include="glsl\src\FullscreenQuad_Vert.glsl" />
     <None Include="glsl\src\header\Attachment_Header.glsl" />
     <None Include="glsl\src\Header\Camera_Header.glsl" />

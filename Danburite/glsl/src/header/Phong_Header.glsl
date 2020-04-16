@@ -24,12 +24,15 @@ vec3 Phong_calcSpecular(uint lightIdx, vec3 materialSpecular, vec3 targetNormal,
 		Light_getLightSpecular(lightIdx, targetNormal, Camera_getPosition(), materialShininess));
 }
  
-vec4 Phong_calcPhongColor(vec3 targetPos, vec3 targetNormal, vec2 materialTexCoord, vec4 vertexColor)
+vec4 Phong_calcPhongColor(
+	const vec3 targetPos, const vec3 targetNormal, const mat3 targetTBN,
+	const vec2 materialTexCoord, const vec4 vertexColor)
 {
 	Light_setLightTargetPos(targetPos);
 
 	Material_setTexCoord(materialTexCoord);
 	Material_setTargetNormal(targetNormal);
+	Material_setTargetTBN(targetTBN);
 
 	vec3 materialAmbient = Material_getAmbient();
 	vec3 materialDiffuse = Material_getDiffuse();

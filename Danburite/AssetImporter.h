@@ -25,7 +25,7 @@ namespace Danburite
 			const std::string &parentPath,
 			const aiNode *const pNode,
 			const aiScene *const pScene,
-			const glm::mat3 &vertexMatrix,
+			const glm::mat4 &vertexMatrix,
 			const glm::mat3 &normalMatrix,
 			const MaterialType materialType,
 			std::unordered_map<std::string, std::shared_ptr<ObjectGL::Texture2D>> &textureCache);

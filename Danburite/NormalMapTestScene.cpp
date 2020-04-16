@@ -47,9 +47,11 @@ NormalMapTestScene::NormalMapTestScene()
 	pWallTexture_normal->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 
 	const shared_ptr<VertexArray> &pWallVA =
-		vaFactory.getVertexArrayPtr(ShapeType::RECTANGLE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
+		vaFactory.getVertexArrayPtr(ShapeType::RECTANGLE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2_TANGENT3);
 
-	const shared_ptr<PhongMaterial> &pWallMaterial = make_shared<PhongMaterial>(VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
+	const shared_ptr<PhongMaterial> &pWallMaterial =
+		make_shared<PhongMaterial>(VertexAttributeType::POS3_NORMAL3_TEXCOORD2_TANGENT3);
+
 	pWallMaterial->setDiffuseTexture(pWallTexture_diffuse);
 	pWallMaterial->useDiffuseTexture(true);
 

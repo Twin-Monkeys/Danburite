@@ -22,8 +22,8 @@ private:
 
 	std::shared_ptr<Danburite::RenderUnit> __pNanosuitRU;
 	std::shared_ptr<Danburite::RenderUnit> __pSkullRU;
-	std::shared_ptr<Danburite::RenderUnit> __pWallRU;
 	std::shared_ptr<Danburite::RenderUnit> __pRockSurroundRU;
+	std::shared_ptr<Danburite::RenderUnit> __pChestRU;
 
 	std::shared_ptr<Danburite::PerspectiveCamera> __pCamera;
 	std::shared_ptr<Danburite::CubeSkybox> __pSkybox;
