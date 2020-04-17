@@ -1,5 +1,8 @@
 //? #version 460 core
 
+#ifndef __VARIABLE_IN_OUT_VERT_HEADER__
+#define __VARIABLE_IN_OUT_VERT_HEADER__
+
 #if (defined(VariableInOut_Vert_export_worldPos) || defined(VariableInOut_Vert_export_color) || defined(VariableInOut_Vert_export_worldNormal) || defined(VariableInOut_Vert_export_texCoord) || defined(VariableInOut_Vert_export_TBN))
 #include "VertexAttribute_Header.glsl"
 #endif
@@ -32,7 +35,6 @@ out VariableInOut_Vert
 }
 variableInOut_Vert;
 
-
 void VariableInOut_Vert_exportVariables()
 {
 	#ifdef VariableInOut_Vert_export_worldPos
@@ -58,3 +60,5 @@ void VariableInOut_Vert_exportVariables()
 	variableInOut_Vert.TBN = mat3(T, B, variableInOut_Vert.worldNormal);
 	#endif
 }
+
+#endif
