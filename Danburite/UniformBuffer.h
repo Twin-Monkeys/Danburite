@@ -1,14 +1,14 @@
 #pragma once
 
 #include "Buffer.h"
-#include "UniformBatchDeployer.h"
+#include "UniformSetter.h"
 #include "Program.h"
 #include <unordered_map>
 #include <map>
 
 namespace ObjectGL
 {
-	class UniformBuffer : public Buffer, public UniformBatchDeployer
+	class UniformBuffer : public Buffer, public UniformSetter
 	{
 	private:
 		std::string __blockName;

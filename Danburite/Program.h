@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BindableObject.h"
-#include "UniformBatchDeployer.h"
+#include "UniformSetter.h"
 #include "Shader.h"
 #include "ProgramException.h"
 #include "Cache.h"
@@ -11,7 +11,7 @@ namespace ObjectGL
 {
 	class UniformBuffer;
 
-	class Program : public BindableObject<Program, GLuint>, public UniformBatchDeployer
+	class Program : public BindableObject<Program, GLuint>, public UniformSetter
 	{
 	private:
 		template <typename KeyType, typename ValueType>

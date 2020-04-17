@@ -3,7 +3,6 @@
 #include "RenderContext.h"
 #include "GLFunctionWrapper.h"
 #include "RCDSRegisterer.h"
-#include "LightTestScene.h"
 #include "SpaceScene.h"
 #include "ShadowTestScene.h"
 #include "NormalMapTestScene.h"

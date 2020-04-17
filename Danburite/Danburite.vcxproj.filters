@@ -612,9 +612,6 @@
     <ClCompile Include="RenderBuffer.cpp">
       <Filter>Library\ObjectGL\Core\RenderBuffer</Filter>
     </ClCompile>
-    <ClCompile Include="LightTestScene.cpp">
-      <Filter>Client\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="SpaceScene.cpp">
       <Filter>Client\Scene</Filter>
     </ClCompile>
@@ -638,9 +635,6 @@
     </ClCompile>
     <ClCompile Include="VertexAttributeDescriptor.cpp">
       <Filter>Library\ObjectGL\Core\Buffer\VetexBuffer\Attribute</Filter>
-    </ClCompile>
-    <ClCompile Include="UniformBatchDeployer.cpp">
-      <Filter>Library\ObjectGL\Core\Uniform</Filter>
     </ClCompile>
     <ClCompile Include="PerspectiveCamera.cpp">
       <Filter>Library\Engine\Core\Camera</Filter>
@@ -1100,9 +1094,6 @@
     <ClInclude Include="RenderBuffer.h">
       <Filter>Library\ObjectGL\Core\RenderBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="LightTestScene.h">
-      <Filter>Client\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="SpaceScene.h">
       <Filter>Client\Scene</Filter>
     </ClInclude>
@@ -1123,9 +1114,6 @@
     </ClInclude>
     <ClInclude Include="RCDSRegisterer.h">
       <Filter>Library\Engine\Util\RCDSRegisterer</Filter>
-    </ClInclude>
-    <ClInclude Include="UniformBatchDeployer.h">
-      <Filter>Library\ObjectGL\Core\Uniform</Filter>
     </ClInclude>
     <ClInclude Include="PerspectiveCamera.h">
       <Filter>Library\Engine\Core\Camera</Filter>

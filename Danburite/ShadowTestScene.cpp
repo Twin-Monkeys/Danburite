@@ -193,15 +193,15 @@ void ShadowTestScene::draw() noexcept
 	ubCamera.directDeploy(*__pCamera);
 
 	// Render scene onto gamma-corrected frame buffer
-	__pPPPipeline->bind();
+	// __pPPPipeline->bind();
 	GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
 
 	__pDrawer->batchDraw();
 	__pSkybox->draw();
-	PostProcessingPipeline::unbind();
+	// PostProcessingPipeline::unbind();
 
 	// Render to screen
-	__pPPPipeline->render();
+	// __pPPPipeline->render();
 	RenderContext::getCurrent()->requestBufferSwapping();
 }
 
