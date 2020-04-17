@@ -2,11 +2,15 @@
 
 #include "header/Phong_Header.glsl"
 
-in vec3 worldPos;
-in vec4 color;
-in vec3 worldNormal;
-in vec2 texCoord;
-in mat3 TBN;
+in VariableInOut_Vert
+{
+	vec3 worldPos;
+	vec4 color;
+	vec3 worldNormal;
+	vec2 texCoord;
+	mat3 TBN;
+}
+variableInOut_Vert;
 
 out vec4 fragColor;
 
@@ -16,5 +20,5 @@ void main()
 	// doesn't ensure they are normalized after being passed.
 	// By only passing the normals in the vertex shader and then
 	// normalizing them in the fragment shader the problem (multisample white dot artifact) was fixed.
-	fragColor = Phong_calcPhongColor(worldPos, normalize(worldNormal), TBN, texCoord, color);
+	fragColor = Phong_calcPhongColor(variableInOut_Vert.worldPos, normalize(variableInOut_Vert.worldNormal), variableInOut_Vert.TBN, variableInOut_Vert.texCoord, variableInOut_Vert.color);
 } 

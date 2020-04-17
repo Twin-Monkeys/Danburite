@@ -448,6 +448,7 @@
     <None Include="glsl\src\DepthBakingCubemap_Vert.glsl" />
     <None Include="glsl\src\header\DepthBaking2D_Header.glsl" />
     <None Include="glsl\src\header\DepthBakingCubemap_Header.glsl" />
+    <None Include="glsl\src\header\VariableInOut_Vert_Header.glsl" />
     <None Include="glsl\src\Skybox_Frag.glsl" />
     <None Include="glsl\src\Skybox_Vert.glsl" />
     <None Include="glsl\src\DepthBaking2D_Frag.glsl" />

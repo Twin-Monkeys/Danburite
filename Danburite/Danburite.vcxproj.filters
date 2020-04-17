@@ -1309,5 +1309,8 @@
     <None Include="glsl\src\header\DepthBakingCubemap_Header.glsl">
       <Filter>Library\Engine\glsl\src\header</Filter>
     </None>
+    <None Include="glsl\src\header\VariableInOut_Vert_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header</Filter>
+    </None>
   </ItemGroup>
 </Project>
