@@ -3,61 +3,72 @@
 #ifndef __VARIABLE_IN_OUT_VERT_HEADER__
 #define __VARIABLE_IN_OUT_VERT_HEADER__
 
-#if (defined(VariableInOut_Vert_export_worldPos) || defined(VariableInOut_Vert_export_color) || defined(VariableInOut_Vert_export_worldNormal) || defined(VariableInOut_Vert_export_texCoord) || defined(VariableInOut_Vert_export_TBN))
+#if (															\
+	defined(VariableInOut_Vert_exportToFrag_worldPos) ||		\
+	defined(VariableInOut_Vert_exportToFrag_color) ||			\
+	defined(VariableInOut_Vert_exportToFrag_worldNormal) ||		\
+	defined(VariableInOut_Vert_exportToFrag_texCoord) ||		\
+	defined(VariableInOut_Vert_exportToFrag_TBN)				\
+	)
 #include "VertexAttribute_Header.glsl"
-#endif
 
-#if (defined(VariableInOut_Vert_export_worldPos) || defined(VariableInOut_Vert_export_worldNormal) || defined(VariableInOut_Vert_export_TBN))
+#if (															\
+	defined(VariableInOut_Vert_exportToFrag_worldPos) ||		\
+	defined(VariableInOut_Vert_exportToFrag_worldNormal) ||		\
+	defined(VariableInOut_Vert_exportToFrag_TBN)				\
+	)
 #include "Model_Header.glsl"
 #endif
 
-out VariableInOut_Vert
+out VariableInOut_VertToFrag
 {
-	#ifdef VariableInOut_Vert_export_worldPos
+	#ifdef VariableInOut_Vert_exportToFrag_worldPos
 	vec3 worldPos;
 	#endif
 
-	#ifdef VariableInOut_Vert_export_color
+	#ifdef VariableInOut_Vert_exportToFrag_color
 	vec4 color;
 	#endif
 
-	#ifdef VariableInOut_Vert_export_worldNormal
+	#ifdef VariableInOut_Vert_exportToFrag_worldNormal
 	vec3 worldNormal;
 	#endif
 
-	#ifdef VariableInOut_Vert_export_texCoord
+	#ifdef VariableInOut_Vert_exportToFrag_texCoord
 	vec2 texCoord;
 	#endif
 
-	#ifdef VariableInOut_Vert_export_TBN
+	#ifdef VariableInOut_Vert_exportToFrag_TBN
 	mat3 TBN;
 	#endif
 }
-variableInOut_Vert;
+variableInOut_VertToFrag;
 
-void VariableInOut_Vert_exportVariables()
+#endif
+
+void VariableInOut_Vert_exportVariablesToFrag()
 {
-	#ifdef VariableInOut_Vert_export_worldPos
-	variableInOut_Vert.worldPos = Model_getWorldPosition(VertexAttribute_modelMat, VertexAttribute_pos);
+	#ifdef VariableInOut_Vert_exportToFrag_worldPos
+	variableInOut_VertToFrag.worldPos = Model_getWorldPosition(VertexAttribute_modelMat, VertexAttribute_pos);
 	#endif
 
-	#ifdef VariableInOut_Vert_export_color
-	variableInOut_Vert.color = VertexAttribute_color;
+	#ifdef VariableInOut_Vert_exportToFrag_color
+	variableInOut_VertToFrag.color = VertexAttribute_color;
 	#endif
 
-	#ifdef VariableInOut_Vert_export_worldNormal
-	variableInOut_Vert.worldNormal = Model_getWorldNormal(VertexAttribute_modelMat, VertexAttribute_normal);
+	#ifdef VariableInOut_Vert_exportToFrag_worldNormal
+	variableInOut_VertToFrag.worldNormal = Model_getWorldNormal(VertexAttribute_modelMat, VertexAttribute_normal);
 	#endif
 
-	#ifdef VariableInOut_Vert_export_texCoord
-	variableInOut_Vert.texCoord = VertexAttribute_texCoord;
+	#ifdef VariableInOut_Vert_exportToFrag_texCoord
+	variableInOut_VertToFrag.texCoord = VertexAttribute_texCoord;
 	#endif
 
-	#ifdef VariableInOut_Vert_export_TBN
+	#ifdef VariableInOut_Vert_exportToFrag_TBN
 	const vec3 T = Model_getWorldNormal(VertexAttribute_modelMat, VertexAttribute_tangent);
-	const vec3 B = cross(variableInOut_Vert.worldNormal, T);
+	const vec3 B = cross(variableInOut_VertToFrag.worldNormal, T);
 
-	variableInOut_Vert.TBN = mat3(T, B, variableInOut_Vert.worldNormal);
+	variableInOut_VertToFrag.TBN = mat3(T, B, variableInOut_VertToFrag.worldNormal);
 	#endif
 }
 
