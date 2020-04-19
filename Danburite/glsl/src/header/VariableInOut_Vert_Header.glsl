@@ -1,5 +1,10 @@
 //? #version 460 core
 
+/*
+	VariableInOut_Vert_export.. 등의 #define 문은 반드시
+	본 헤더를 include 하기 전에 정의한다.
+*/
+
 #ifndef __VARIABLE_IN_OUT_VERT_HEADER__
 #define __VARIABLE_IN_OUT_VERT_HEADER__
 

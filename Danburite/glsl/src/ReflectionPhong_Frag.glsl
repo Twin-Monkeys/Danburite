@@ -1,16 +1,7 @@
 #version 460 core
 
 #include "header/Phong_Header.glsl"
-
-in VariableInOut_VertToFrag
-{
-	vec3 worldPos;
-	vec4 color;
-	vec3 worldNormal;
-	vec2 texCoord;
-	mat3 TBN;
-}
-variableInOut_VertToFrag;
+#include "header/VariableInOut_Frag_Header.glsl"
 
 out vec4 fragColor;
 
