@@ -7,29 +7,28 @@
 #include "Material_Header.glsl"
 #include "Camera_Header.glsl"
 
-vec3 Phong_calcAmbient(uint lightIdx, vec3 materialAmbient)
+vec3 Phong_calcAmbient(uint lightIdx, const vec3 targetPos, vec3 materialAmbient)
 {
-	return (materialAmbient * Light_getLightAmbient(lightIdx));
+	return (materialAmbient * Light_getLightAmbient(lightIdx, targetPos));
 }
 
-vec3 Phong_calcDiffuse(uint lightIdx, vec3 materialDiffuse, vec3 targetNormal)
+vec3 Phong_calcDiffuse(uint lightIdx, vec3 materialDiffuse, const vec3 targetPos, vec3 targetNormal)
 {
-	return (materialDiffuse * Light_getLightDiffuse(lightIdx, targetNormal));
+	return (materialDiffuse * Light_getLightDiffuse(lightIdx, targetPos, targetNormal));
 }
 
-vec3 Phong_calcSpecular(uint lightIdx, vec3 materialSpecular, vec3 targetNormal, float materialShininess)
+vec3 Phong_calcSpecular(
+uint lightIdx, vec3 materialSpecular, const vec3 targetPos, vec3 targetNormal, float materialShininess)
 {
 	return (
 		materialSpecular *
-		Light_getLightSpecular(lightIdx, targetNormal, Camera_getPosition(), materialShininess));
+		Light_getLightSpecular(lightIdx, targetPos, targetNormal, Camera_getPosition(), materialShininess));
 }
  
 vec4 Phong_calcPhongColor(
 	const vec3 targetPos, const vec3 targetNormal, const mat3 targetTBN,
 	const vec2 materialTexCoord, const vec4 vertexColor)
 {
-	Light_setLightTargetPos(targetPos);
-
 	vec3 materialAmbient = Material_getAmbient(materialTexCoord);
 	vec3 materialDiffuse = Material_getDiffuse(materialTexCoord);
 	vec3 materialSpecular = Material_getSpecular(materialTexCoord);
@@ -59,14 +58,14 @@ vec4 Phong_calcPhongColor(
 		if (!Light_isLightEnabled(i))
 			continue;
 
-		ambient += Phong_calcAmbient(i, materialAmbient);
+		ambient += Phong_calcAmbient(i, targetPos, materialAmbient);
 
-		const float lightOcclusion = Light_getOcclusion(i, materialNormal);
+		const float lightOcclusion = Light_getOcclusion(i, targetPos, materialNormal);
 		if (lightOcclusion >= 1.f)
 			continue;
 
-		diffuse += ((1.f - lightOcclusion) * Phong_calcDiffuse(i, materialDiffuse, materialNormal));
-		specular += ((1.f - lightOcclusion) * Phong_calcSpecular(i, materialSpecular, materialNormal, materialShininess));
+		diffuse += ((1.f - lightOcclusion) * Phong_calcDiffuse(i, materialDiffuse, targetPos, materialNormal));
+		specular += ((1.f - lightOcclusion) * Phong_calcSpecular(i, materialSpecular, targetPos, materialNormal, materialShininess));
 	}
 
 	return vec4(ambient + diffuse + specular + materialEmissive, materialAlpha);

@@ -461,11 +461,11 @@
     <None Include="glsl\src\header\Convolutional_Header.glsl" />
     <None Include="glsl\src\header\Skybox_Header.glsl" />
     <None Include="glsl\src\header\GammaCorrection_Header.glsl" />
-    <None Include="glsl\src\Header\Light_Header.glsl" />
+    <None Include="glsl\src\header\Light_Header.glsl" />
     <None Include="glsl\src\Header\Material_Header.glsl" />
     <None Include="glsl\src\header\ModelCamera_Header.glsl" />
     <None Include="glsl\src\header\MSAA_Header.glsl" />
-    <None Include="glsl\src\Header\Phong_Header.glsl" />
+    <None Include="glsl\src\header\Phong_Header.glsl" />
     <None Include="glsl\src\Header\Model_Header.glsl" />
     <None Include="glsl\src\header\PostProcess_Header.glsl" />
     <None Include="glsl\src\header\VertexAttribute_Header.glsl" />

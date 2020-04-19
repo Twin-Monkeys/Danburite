@@ -1183,13 +1183,7 @@
     <None Include="glsl\src\Header\Camera_Header.glsl">
       <Filter>Library\Engine\glsl\src\header</Filter>
     </None>
-    <None Include="glsl\src\Header\Light_Header.glsl">
-      <Filter>Library\Engine\glsl\src\header</Filter>
-    </None>
     <None Include="glsl\src\Header\Material_Header.glsl">
-      <Filter>Library\Engine\glsl\src\header</Filter>
-    </None>
-    <None Include="glsl\src\Header\Phong_Header.glsl">
       <Filter>Library\Engine\glsl\src\header</Filter>
     </None>
     <None Include="glsl\src\Phong_Vert.glsl">
@@ -1314,6 +1308,12 @@
     </None>
     <None Include="glsl\src\DepthBaking2D_Frag.glsl">
       <Filter>Library\Engine\glsl\src\DepthBaking</Filter>
+    </None>
+    <None Include="glsl\src\header\Light_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header</Filter>
+    </None>
+    <None Include="glsl\src\header\Phong_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header</Filter>
     </None>
   </ItemGroup>
 </Project>
