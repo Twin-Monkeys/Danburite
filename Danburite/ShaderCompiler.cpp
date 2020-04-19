@@ -98,7 +98,7 @@ namespace ObjectGL
 		glGetShaderiv(SHADER_ID, GL_COMPILE_STATUS, &success);
 		if (!success)
 		{
-			char log[512];
+			char log[4096];
 			glGetShaderInfoLog(SHADER_ID, sizeof(log), nullptr, log);
 
 			throw ShaderCompilerException(log);

@@ -1,7 +1,13 @@
 #version 460 core
 
-#include "header/Phong_Header.glsl"
+#define VariableInOut_Frag_importFromVert_worldPos
+#define VariableInOut_Frag_importFromVert_color
+#define VariableInOut_Frag_importFromVert_worldNormal
+#define VariableInOut_Frag_importFromVert_texCoord
+#define VariableInOut_Frag_importFromVert_TBN
 #include "header/VariableInOut_Frag_Header.glsl"
+
+#include "header/Phong_Header.glsl"
 
 out vec4 fragColor;
 

@@ -1,10 +1,11 @@
 #version 460 core
 
-#include "header/DepthBakingCubemap_Header.glsl"
+#define VariableInOut_Frag_importFromGeo_worldPos
+#include "header/VariableInOut_Frag_Header.glsl"
 
-in vec3 worldPos;
+#include "header/DepthBakingCubemap_Header.glsl"
 
 void main()
 {
-    gl_FragDepth = DepthBakingCubemap_getDepth(worldPos);
+    gl_FragDepth = DepthBakingCubemap_getDepth(variableInOut_GeoToFrag.worldPos);
 }

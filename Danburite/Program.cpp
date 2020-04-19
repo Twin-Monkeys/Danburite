@@ -48,7 +48,7 @@ namespace ObjectGL
 		{
 			string msg = "Link error occurred: ";
 
-			char log[512];
+			char log[4096];
 			glGetProgramInfoLog(ID, sizeof(log), nullptr, log);
 
 			msg += log;

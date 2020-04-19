@@ -6,24 +6,6 @@
 #include "Light_Header.glsl"
 #include "Material_Header.glsl"
 #include "Camera_Header.glsl"
-
-vec3 Phong_calcAmbient(uint lightIdx, const vec3 targetPos, vec3 materialAmbient)
-{
-	return (materialAmbient * Light_getLightAmbient(lightIdx, targetPos));
-}
-
-vec3 Phong_calcDiffuse(uint lightIdx, vec3 materialDiffuse, const vec3 targetPos, vec3 targetNormal)
-{
-	return (materialDiffuse * Light_getLightDiffuse(lightIdx, targetPos, targetNormal));
-}
-
-vec3 Phong_calcSpecular(
-uint lightIdx, vec3 materialSpecular, const vec3 targetPos, vec3 targetNormal, float materialShininess)
-{
-	return (
-		materialSpecular *
-		Light_getLightSpecular(lightIdx, targetPos, targetNormal, Camera_getPosition(), materialShininess));
-}
  
 vec4 Phong_calcPhongColor(
 	const vec3 targetPos, const vec3 targetNormal, const mat3 targetTBN,
@@ -53,19 +35,27 @@ vec4 Phong_calcPhongColor(
 	vec3 diffuse = vec3(0.f);
 	vec3 specular = vec3(0.f);
 
-	for (uint i = 0; i < MAX_NUM_LIGHTS; i++)
+	const vec3 viewPos = Camera_getPosition();
+	for (uint lightIdx = 0; lightIdx < MAX_NUM_LIGHTS; lightIdx++)
 	{
-		if (!Light_isLightEnabled(i))
+		if (!Light_isLightEnabled(lightIdx))
 			continue;
 
-		ambient += Phong_calcAmbient(i, targetPos, materialAmbient);
+		ambient += (materialAmbient * Light_getLightAmbient(lightIdx, targetPos));
 
-		const float lightOcclusion = Light_getOcclusion(i, targetPos, materialNormal);
+		const float lightOcclusion = Light_getOcclusion(lightIdx, targetPos, materialNormal);
 		if (lightOcclusion >= 1.f)
 			continue;
 
-		diffuse += ((1.f - lightOcclusion) * Phong_calcDiffuse(i, materialDiffuse, targetPos, materialNormal));
-		specular += ((1.f - lightOcclusion) * Phong_calcSpecular(i, materialSpecular, targetPos, materialNormal, materialShininess));
+		const float occlusionInv = (1.f - lightOcclusion);
+
+		diffuse += (
+			occlusionInv * materialDiffuse *
+			Light_getLightDiffuse(lightIdx, targetPos, materialNormal));
+
+		specular += (
+			occlusionInv * materialSpecular *
+			Light_getLightSpecular(lightIdx, targetPos, materialNormal, viewPos, materialShininess));
 	}
 
 	return vec4(ambient + diffuse + specular + materialEmissive, materialAlpha);

@@ -2,9 +2,9 @@
 layout (triangles) in;
 layout (triangle_strip, max_vertices = 18) out;
 
+#define VariableInOut_Geo_exportToFrag_worldPos
+#include "header/VariableInOut_Geo_Header.glsl"
 #include "header/DepthBakingCubemap_Header.glsl"
-
-out vec3 worldPos;
 
 void main()
 {
@@ -13,8 +13,8 @@ void main()
     {
         for(int i = 0; i < 3; i++)
         {
-            worldPos = gl_in[i].gl_Position.xyz;
-            gl_Position = DepthBakingCubemap_getNDCPosition(gl_Layer, worldPos);
+            variableInOut_GeoToFrag.worldPos = gl_in[i].gl_Position.xyz;
+            gl_Position = DepthBakingCubemap_getNDCPosition(gl_Layer, variableInOut_GeoToFrag.worldPos);
             EmitVertex();
         }    
         EndPrimitive();

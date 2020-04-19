@@ -1315,5 +1315,8 @@
     <None Include="glsl\src\header\Phong_Header.glsl">
       <Filter>Library\Engine\glsl\src\header</Filter>
     </None>
+    <None Include="glsl\src\header\VariableInOut_Geo_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header</Filter>
+    </None>
   </ItemGroup>
 </Project>
