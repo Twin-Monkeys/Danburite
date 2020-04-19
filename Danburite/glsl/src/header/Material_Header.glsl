@@ -41,25 +41,6 @@ layout (binding = BINDING_POINT_MATERIAL) uniform UBMaterial
 	Material material;
 };
 
-vec2 Material_texCoord;
-vec3 Material_targetNormal;
-mat3 Material_targetTBN;
-
-void Material_setTexCoord(const vec2 texCoord)
-{
-	Material_texCoord = texCoord;
-}
-
-void Material_setTargetNormal(const vec3 normal)
-{
-	Material_targetNormal = normal;
-}
-
-void Material_setTargetTBN(const mat3 TBN)
-{
-	Material_targetTBN = TBN;
-}
-
 bool Material_isLightingEnabled()
 {
 	return ((material.optionFlag & MATERIAL_OPTION_FLAG_LIGHTING) != 0);
@@ -130,7 +111,7 @@ vec3 Material_applyGamma(const vec3 source)
 	return pow(source, vec3(material.gamma));
 }
 
-vec3 Material_getAmbient()
+vec3 Material_getAmbient(const vec2 texCoord)
 {
 	vec3 retVal = vec3(0.f);
 
@@ -146,10 +127,10 @@ vec3 Material_getAmbient()
 			(material.type == MATERIAL_TYPE_PHONG))
 		{
 			if (Material_isAmbientTextureEnabled())
-				retVal = texture(sampler2D(material.ambientTex), Material_texCoord).rgb;
+				retVal = texture(sampler2D(material.ambientTex), texCoord).rgb;
 			else if (Material_isDiffuseTextureEnabled())
 			{
-				retVal = texture(sampler2D(material.diffuseTex), Material_texCoord).rgb;
+				retVal = texture(sampler2D(material.diffuseTex), texCoord).rgb;
 				retVal = Material_applyGamma(retVal);
 			}
 		}
@@ -158,7 +139,7 @@ vec3 Material_getAmbient()
 	return retVal;
 }
 
-vec3 Material_getDiffuse()
+vec3 Material_getDiffuse(const vec2 texCoord)
 {
 	vec3 retVal = vec3(0.f);
 
@@ -174,15 +155,15 @@ vec3 Material_getDiffuse()
 			(material.type == MATERIAL_TYPE_PHONG) &&
 			Material_isDiffuseTextureEnabled())
 		{
-			retVal = texture(sampler2D(material.diffuseTex), Material_texCoord).rgb;
-			retVal = pow(retVal, vec3(material.gamma));
+			retVal = texture(sampler2D(material.diffuseTex), texCoord).rgb;
+			retVal = Material_applyGamma(retVal);
 		}
 	}
 
 	return retVal;
 }
 
-vec3 Material_getSpecular()
+vec3 Material_getSpecular(const vec2 texCoord)
 {
 	vec3 retVal = vec3(0.f);
 
@@ -198,11 +179,11 @@ vec3 Material_getSpecular()
 			(material.type == MATERIAL_TYPE_PHONG))
 		{
 			if (Material_isSpecularTextureEnabled())
-				retVal = texture(sampler2D(material.specularTex), Material_texCoord).rgb;
+				retVal = texture(sampler2D(material.specularTex), texCoord).rgb;
 
 			else if (Material_isDiffuseTextureEnabled())
 			{
-				retVal = texture(sampler2D(material.diffuseTex), Material_texCoord).rgb;
+				retVal = texture(sampler2D(material.diffuseTex), texCoord).rgb;
 				retVal = Material_applyGamma(retVal);
 			}
 		}
@@ -211,7 +192,7 @@ vec3 Material_getSpecular()
 	return retVal;
 }
 
-vec3 Material_getEmissive()
+vec3 Material_getEmissive(const vec2 texCoord)
 {
 	vec3 retVal = vec3(0.f);
 
@@ -224,7 +205,7 @@ vec3 Material_getEmissive()
 	{
 		if (Material_isEmissiveTextureEnabled())
 		{
-			retVal = texture(sampler2D(material.emissiveTex), Material_texCoord).rgb;
+			retVal = texture(sampler2D(material.emissiveTex), texCoord).rgb;
 			retVal = Material_applyGamma(retVal);
 		}
 	}
@@ -232,15 +213,15 @@ vec3 Material_getEmissive()
 	return retVal;
 }
 
-float Material_getShininess()
+float Material_getShininess(const vec2 texCoord)
 {
 	if (Material_isShininessTextureEnabled())
-		return texture(sampler2D(material.shininessTex), Material_texCoord).r;
+		return texture(sampler2D(material.shininessTex), texCoord).r;
 
 	return material.shininess;
 }
 
-float Material_getAlpha()
+float Material_getAlpha(const vec2 texCoord)
 {
 	float retVal = 1.f;
 
@@ -256,27 +237,27 @@ float Material_getAlpha()
 			(material.type == MATERIAL_TYPE_PHONG))
 			{
 				if (Material_isAlphaTextureEnabled())
-					retVal = texture(sampler2D(material.alphaTex), Material_texCoord).r;
+					retVal = texture(sampler2D(material.alphaTex), texCoord).r;
 
 				else if (Material_isDiffuseTextureEnabled())
-					retVal = texture(sampler2D(material.diffuseTex), Material_texCoord).a;
+					retVal = texture(sampler2D(material.diffuseTex), texCoord).a;
 			}
 	}
 
 	return retVal;
 }
 
-vec3 Material_getNormal()
+vec3 Material_getNormal(const vec2 texCoord, const vec3 targetNormal, const mat3 TBN)
 {
 	if (Material_isNormalTextureEnabled() && Material_isVertexTangentEnabled())
 	{
-		const vec3 fetched = texture(sampler2D(material.normalTex), Material_texCoord).xyz;
+		const vec3 fetched = texture(sampler2D(material.normalTex), texCoord).xyz;
 		const vec3 tangentSpaceNormal = ((fetched * 2.f) - 1.f);
 
-		return normalize(Material_targetTBN * tangentSpaceNormal);
+		return normalize(TBN * tangentSpaceNormal);
 	}
 
-	return Material_targetNormal;
+	return targetNormal;
 }
 
 float Material_getLinearDepth(float fragDepth)
@@ -289,10 +270,11 @@ float Material_getLinearDepth(float fragDepth)
 	return (linearDepth / material.zFar);
 }
 
-vec4 Material_getEnvReflection(vec3 targetPos, vec3 viewPos)
+vec4 Material_getEnvReflection(
+	const vec3 targetPos, const vec3 targetNormal, const vec3 viewPos, const vec2 texCoord)
 {
 	vec3 viewDirection = normalize(targetPos - viewPos);
-	vec3 reflection = reflect(viewDirection, Material_getNormal());
+	vec3 reflection = reflect(viewDirection, targetNormal);
 
 	vec4 retVal = texture(samplerCube(material.environmentTex), reflection);
 
@@ -300,10 +282,11 @@ vec4 Material_getEnvReflection(vec3 targetPos, vec3 viewPos)
 	return retVal;
 }
 
-vec4 Material_getEnvRefraction(vec3 targetPos, vec3 viewPos)
+vec4 Material_getEnvRefraction(
+	const vec3 targetPos, const vec3 targetNormal, const vec3 viewPos, const vec2 texCoord)
 {
 	vec3 viewDirection = normalize(targetPos - viewPos);
-	vec3 refraction = refract(viewDirection, Material_getNormal(), 1.f / 1.52f);
+	vec3 refraction = refract(viewDirection, targetNormal, 1.f / 1.52f);
 
 	vec4 retVal = texture(samplerCube(material.environmentTex), refraction);
 

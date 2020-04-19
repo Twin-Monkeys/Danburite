@@ -1195,9 +1195,6 @@
     <None Include="glsl\src\Phong_Vert.glsl">
       <Filter>Library\Engine\glsl\src\Phong</Filter>
     </None>
-    <None Include="glsl\src\Phong_Frag.glsl">
-      <Filter>Library\Engine\glsl\src\Phong</Filter>
-    </None>
     <None Include="glsl\src\header\VertexAttribute_Header.glsl">
       <Filter>Library\Engine\glsl\src\header</Filter>
     </None>
@@ -1291,9 +1288,6 @@
     <None Include="glsl\src\DepthBaking2D_Vert.glsl">
       <Filter>Library\Engine\glsl\src\DepthBaking</Filter>
     </None>
-    <None Include="glsl\src\DepthBaking2D_Frag.glsl">
-      <Filter>Library\Engine\glsl\src\DepthBaking</Filter>
-    </None>
     <None Include="glsl\src\header\DepthBaking2D_Header.glsl">
       <Filter>Library\Engine\glsl\src\header</Filter>
     </None>
@@ -1314,6 +1308,12 @@
     </None>
     <None Include="glsl\src\header\VariableInOut_Frag_Header.glsl">
       <Filter>Library\Engine\glsl\src\header</Filter>
+    </None>
+    <None Include="glsl\src\Phong_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\Phong</Filter>
+    </None>
+    <None Include="glsl\src\DepthBaking2D_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\DepthBaking</Filter>
     </None>
   </ItemGroup>
 </Project>

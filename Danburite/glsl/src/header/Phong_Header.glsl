@@ -30,15 +30,11 @@ vec4 Phong_calcPhongColor(
 {
 	Light_setLightTargetPos(targetPos);
 
-	Material_setTexCoord(materialTexCoord);
-	Material_setTargetNormal(targetNormal);
-	Material_setTargetTBN(targetTBN);
-
-	vec3 materialAmbient = Material_getAmbient();
-	vec3 materialDiffuse = Material_getDiffuse();
-	vec3 materialSpecular = Material_getSpecular();
-	vec3 materialEmissive = Material_getEmissive();
-	float materialAlpha = Material_getAlpha();
+	vec3 materialAmbient = Material_getAmbient(materialTexCoord);
+	vec3 materialDiffuse = Material_getDiffuse(materialTexCoord);
+	vec3 materialSpecular = Material_getSpecular(materialTexCoord);
+	vec3 materialEmissive = Material_getEmissive(materialTexCoord);
+	float materialAlpha = Material_getAlpha(materialTexCoord);
 
 	if (Material_isVertexColorEnabled())
 	{
@@ -51,8 +47,8 @@ vec4 Phong_calcPhongColor(
 	if (!Material_isLightingEnabled())
 		return vec4(materialAmbient + materialDiffuse + materialSpecular + materialEmissive, materialAlpha);
 
-	float materialShininess = Material_getShininess();
-	vec3 materialNormal = Material_getNormal();
+	const float materialShininess = Material_getShininess(materialTexCoord);
+	const vec3 materialNormal = Material_getNormal(materialTexCoord, targetNormal, targetTBN);
 
 	vec3 ambient = vec3(0.f);
 	vec3 diffuse = vec3(0.f);

@@ -16,5 +16,9 @@ void main()
 	
 	fragColor.rgb = mix(
 		fragColor.rgb,
-		Material_getEnvReflection(variableInOut_VertToFrag.worldPos, Camera_getPosition()).rgb, .3f);
+		Material_getEnvReflection(
+			variableInOut_VertToFrag.worldPos,
+			normalize(variableInOut_VertToFrag.worldNormal),
+			Camera_getPosition(),
+			variableInOut_VertToFrag.texCoord).rgb, .3f);
 } 

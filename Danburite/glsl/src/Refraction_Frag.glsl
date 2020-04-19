@@ -12,10 +12,6 @@ out vec4 fragColor;
 
 void main()
 {
-	Material_setTexCoord(texCoord);
-	Material_setTargetNormal(normalize(worldNormal));
-	Material_setTargetTBN(TBN);
-
-	vec3 envRefraction = Material_getEnvRefraction(worldPos, Camera_getPosition()).rgb;
+	vec3 envRefraction = Material_getEnvRefraction(worldPos, normalize(worldNormal), Camera_getPosition(), texCoord).rgb;
 	fragColor = vec4(envRefraction, 1.f);
 } 
