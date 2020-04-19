@@ -1,22 +1,15 @@
 #version 460 core
 
-#include "header/VertexAttribute_Header.glsl"
-#include "header/ModelCamera_Header.glsl"
+#define VariableInOut_Vert_exportToFrag_worldPos
+#define VariableInOut_Vert_exportToFrag_worldNormal
+#define VariableInOut_Vert_exportToFrag_texCoord
+#define VariableInOut_Vert_exportToFrag_TBN
+#include "header/VariableInOut_Vert_Header.glsl"
 
-out vec3 worldPos;
-out vec3 worldNormal;
-out vec2 texCoord;
-out mat3 TBN;
+#include "header/ModelCamera_Header.glsl"
 
 void main()
 {
-	worldPos = Model_getWorldPosition(VertexAttribute_modelMat, VertexAttribute_pos);
-	worldNormal = Model_getWorldNormal(VertexAttribute_modelMat, VertexAttribute_normal);
-	texCoord = VertexAttribute_texCoord;
-
-	const vec3 T = Model_getWorldNormal(VertexAttribute_modelMat, VertexAttribute_tangent);
-	const vec3 B = cross(worldNormal, T);
-	TBN = mat3(T, B, worldNormal);
-
+	VariableInOut_Vert_exportVariablesToFrag();
 	gl_Position = ModelCamera_getNDCPosition(VertexAttribute_modelMat, VertexAttribute_pos);
 } 

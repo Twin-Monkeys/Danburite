@@ -13,9 +13,11 @@ out vec4 fragColor;
 
 void main()
 {
+	const vec3 worldNormal = normalize(variableInOut_VertToFrag.worldNormal);
+
 	fragColor = Phong_calcPhongColor(
 		variableInOut_VertToFrag.worldPos,
-		normalize(variableInOut_VertToFrag.worldNormal),
+		worldNormal,
 		variableInOut_VertToFrag.TBN,
 		variableInOut_VertToFrag.texCoord,
 		variableInOut_VertToFrag.color);
@@ -24,7 +26,7 @@ void main()
 		fragColor.rgb,
 		Material_getEnvReflection(
 			variableInOut_VertToFrag.worldPos,
-			normalize(variableInOut_VertToFrag.worldNormal),
+			worldNormal,
 			Camera_getPosition(),
 			variableInOut_VertToFrag.texCoord).rgb, .3f);
 } 
