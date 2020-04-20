@@ -33,9 +33,15 @@ ShadowTestScene::ShadowTestScene()
 
 	__pSkullRU = AssetImporter::import("res/asset/skull/scene.gltf");
 	Transform &skullTransform = __pSkullRU->getTransform();
-	skullTransform.setPosition(10.f, 5.f, 15.f);
-	skullTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
+	skullTransform.setPosition(10.f, 3.f, 15.f);
+	skullTransform.setRotation(-half_pi<float>() * 1.5f, 0.f, 0.f);
 	skullTransform.setScale(5.f);
+
+	__pGoldenSkullRU = AssetImporter::import("res/asset/golden_skull/scene.gltf");
+	Transform& goldenSkullTransform = __pGoldenSkullRU->getTransform();
+	goldenSkullTransform.setPosition(20.f, 4.f, 10.f);
+	goldenSkullTransform.setRotation(0.f, 0.6f, 0.f);
+	goldenSkullTransform.setScale(5.f);
 
 	__pRockSurroundRU = AssetImporter::import("res/asset/rock_surround/scene.gltf");
 	Transform &rockSurroundTransform = __pRockSurroundRU->getTransform();
@@ -46,6 +52,7 @@ ShadowTestScene::ShadowTestScene()
 	__pChestRU = AssetImporter::import("res/asset/medieval_chest/scene.gltf");
 	Transform &chestTransform = __pChestRU->getTransform();
 	chestTransform.setPosition(2.f, 4.f, 0.f);
+	chestTransform.setRotation(0.f, pi<float>(), 0.f);
 	chestTransform.setScale(6.f);
 
 	//// 朝五虞 持失 ////
@@ -118,12 +125,14 @@ ShadowTestScene::ShadowTestScene()
 	__pUpdater->addUpdatable(__pWhiteLight);
 	__pUpdater->addUpdatable(__pNanosuitRU);
 	__pUpdater->addUpdatable(__pSkullRU);
+	__pUpdater->addUpdatable(__pGoldenSkullRU);
 	__pUpdater->addUpdatable(__pRockSurroundRU);
 	__pUpdater->addUpdatable(__pChestRU);
 
 	__pDrawer = make_shared<Drawer>();
 	__pDrawer->addDrawable(__pNanosuitRU);
 	__pDrawer->addDrawable(__pSkullRU);
+	__pDrawer->addDrawable(__pGoldenSkullRU);
 	__pDrawer->addDrawable(__pRockSurroundRU);
 	__pDrawer->addDrawable(__pChestRU);
 

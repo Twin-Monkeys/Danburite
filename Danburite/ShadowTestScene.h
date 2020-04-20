@@ -22,6 +22,7 @@ private:
 
 	std::shared_ptr<Danburite::RenderUnit> __pNanosuitRU;
 	std::shared_ptr<Danburite::RenderUnit> __pSkullRU;
+	std::shared_ptr<Danburite::RenderUnit> __pGoldenSkullRU;
 	std::shared_ptr<Danburite::RenderUnit> __pRockSurroundRU;
 	std::shared_ptr<Danburite::RenderUnit> __pChestRU;
 

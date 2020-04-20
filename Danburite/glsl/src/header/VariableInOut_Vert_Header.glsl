@@ -65,10 +65,23 @@ void VariableInOut_Vert_exportVariablesToFrag()
 	#endif
 
 	#ifdef VariableInOut_Vert_exportToFrag_TBN
-	const vec3 T = Model_getWorldNormal(VertexAttribute_modelMat, VertexAttribute_tangent);
-	const vec3 B = cross(variableInOut_VertToFrag.worldNormal, T);
+	const vec3 N = variableInOut_VertToFrag.worldNormal;
 
-	variableInOut_VertToFrag.TBN = mat3(T, B, variableInOut_VertToFrag.worldNormal);
+	/*
+		When tangent vectors are calculated on larger meshes that
+		Share a considerable amount of vertices,
+		The tangent vectors are generally averaged to give nice and smooth results.
+		
+		A problem with this approach is that the three TBN vectors
+		Could end up non-perpendicular, which means the resulting TBN matrix
+		Would no longer be orthogonal.
+	*/
+	const vec3 T = Model_getWorldNormal(VertexAttribute_modelMat, VertexAttribute_tangent);
+	const vec3 normalizedT = normalize(T - (dot(N, T) * N));
+
+	const vec3 B = cross(N, normalizedT);
+
+	variableInOut_VertToFrag.TBN = mat3(normalizedT, B, N);
 	#endif
 }
 
