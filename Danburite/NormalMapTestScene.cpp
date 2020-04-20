@@ -22,7 +22,7 @@ NormalMapTestScene::NormalMapTestScene()
 
 	GLFunctionWrapper::setOption(GLOptionType::MULTISAMPLE, true);
 	GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
-	GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, false);
+	GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, true);
 
 
 	//// Rendering unit »ý¼º ////

@@ -14,16 +14,23 @@ vec4 Phong_calcPhongColor(
 	const vec3 viewPos = Camera_getPosition();
 	const vec3 viewDir = normalize(viewPos - targetPos);
 
-	const vec2 texCoord = Material_getTexCoord(materialTexCoord, viewDir, targetTBN);
+	// texture 좌표 범위가 -1 ~ 1 사이에 들어오도록 조정
+	const vec2 periodicTexCoord = vec2
+	(
+		materialTexCoord.x - int(materialTexCoord.x),
+		materialTexCoord.y - int(materialTexCoord.y)
+	);
 
-	if ((texCoord.x > 1.f) || (texCoord.y > 1.f) || (texCoord.x < 0.f) || (texCoord.y < 0.f))
+	const vec2 finalTexCoord = Material_getTexCoord(periodicTexCoord, viewDir, targetTBN);
+
+	if (finalTexCoord.x > 1.0 || finalTexCoord.y > 1.0 || finalTexCoord.x < 0.0 || finalTexCoord.y < 0.0)
 		discard;
 
-	vec3 materialAmbient = Material_getAmbient(texCoord);
-	vec3 materialDiffuse = Material_getDiffuse(texCoord);
-	vec3 materialSpecular = Material_getSpecular(texCoord);
-	vec3 materialEmissive = Material_getEmissive(texCoord);
-	float materialAlpha = Material_getAlpha(texCoord);
+	vec3 materialAmbient = Material_getAmbient(finalTexCoord);
+	vec3 materialDiffuse = Material_getDiffuse(finalTexCoord);
+	vec3 materialSpecular = Material_getSpecular(finalTexCoord);
+	vec3 materialEmissive = Material_getEmissive(finalTexCoord);
+	float materialAlpha = Material_getAlpha(finalTexCoord);
 
 	if (Material_isVertexColorEnabled())
 	{
@@ -36,8 +43,8 @@ vec4 Phong_calcPhongColor(
 	if (!Material_isLightingEnabled())
 		return vec4(materialAmbient + materialDiffuse + materialSpecular + materialEmissive, materialAlpha);
 
-	const float materialShininess = Material_getShininess(texCoord);
-	const vec3 materialNormal = Material_getNormal(texCoord, targetNormal, targetTBN);
+	const float materialShininess = Material_getShininess(finalTexCoord);
+	const vec3 materialNormal = Material_getNormal(finalTexCoord, targetNormal, targetTBN);
 
 	vec3 ambient = vec3(0.f);
 	vec3 diffuse = vec3(0.f);

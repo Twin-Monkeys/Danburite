@@ -122,11 +122,15 @@ vec2 Material_getTexCoord(const vec2 vertexTexCoord, const vec3 viewDirection, c
 	if (!Material_isHeightTextureEnabled())
 		return vertexTexCoord;
 
-	const float height = (1.f - texture(sampler2D(material.heightTex), vertexTexCoord).r);
-
+	/*
+		With parallax mapping it makes more sense to use the inverse of the heightmap
+		as it's easier to fake depth than height on flat surfaces.
+	*/
+	const float depth = (1.f - texture(sampler2D(material.heightTex), vertexTexCoord).r);
 	const vec3 tangentSpaceViewDir = (transpose(TBN) * viewDirection);
 
-	const vec2 texCoordOffset = ((tangentSpaceViewDir.xy / tangentSpaceViewDir.z) * (height * .1f));
+	const vec2 texCoordOffset = ((tangentSpaceViewDir.xy / tangentSpaceViewDir.z) * (depth * .1f));
+
 	return (vertexTexCoord - texCoordOffset);
 }
 
