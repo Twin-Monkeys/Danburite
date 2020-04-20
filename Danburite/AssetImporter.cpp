@@ -59,7 +59,8 @@ namespace Danburite
 		const shared_ptr<Texture2D> &pEmissiveTex,
 		const shared_ptr<Texture2D> &pShininessTex,
 		const shared_ptr<Texture2D> &pAlphaTex,
-		const shared_ptr<Texture2D> &pNormalTex)
+		const shared_ptr<Texture2D> &pNormalTex,
+		const shared_ptr<Texture2D> &pHeightTex)
 	{
 		if (pAmbientTex)
 		{
@@ -101,6 +102,12 @@ namespace Danburite
 		{
 			pMaterial->setNormalTexture(pNormalTex);
 			pMaterial->useNormalTexture(true);
+		}
+
+		if (pHeightTex)
+		{
+			pMaterial->setHeightTexture(pHeightTex);
+			pMaterial->useHeightTexture(true);
 		}
 	}
 
@@ -254,6 +261,9 @@ namespace Danburite
 
 				const shared_ptr<Texture2D> &pNormalTex =
 					__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_NORMALS);
+
+				const shared_ptr<Texture2D> &pHeightTex =
+					__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_HEIGHT);
 				
 				if (materialType == MaterialType::REFLECTION_PHONG)
 				{
@@ -261,7 +271,8 @@ namespace Danburite
 
 					__setupPhongStyleMaterial(
 						static_pointer_cast<ReflectionPhongMaterial>(pMaterial),
-						pAmbientTex, pDiffuseTex, pSpecularTex, pEmissiveTex, pShininessTex, pAlphaTex, pNormalTex);
+						pAmbientTex, pDiffuseTex, pSpecularTex, pEmissiveTex,
+						pShininessTex, pAlphaTex, pNormalTex, pHeightTex);
 				}
 				else if (materialType == MaterialType::TRANSPARENT_PHONG)
 				{
@@ -269,7 +280,8 @@ namespace Danburite
 
 					__setupPhongStyleMaterial(
 						static_pointer_cast<TransparentPhongMaterial>(pMaterial),
-						pAmbientTex, pDiffuseTex, pSpecularTex, pEmissiveTex, pShininessTex, pAlphaTex, pNormalTex);
+						pAmbientTex, pDiffuseTex, pSpecularTex, pEmissiveTex,
+						pShininessTex, pAlphaTex, pNormalTex, pHeightTex);
 				}
 				else if (materialType == MaterialType::OUTLINING_PHONG)
 				{
@@ -277,7 +289,8 @@ namespace Danburite
 
 					__setupPhongStyleMaterial(
 						static_pointer_cast<OutliningPhongMaterial>(pMaterial),
-						pAmbientTex, pDiffuseTex, pSpecularTex, pEmissiveTex, pShininessTex, pAlphaTex, pNormalTex);
+						pAmbientTex, pDiffuseTex, pSpecularTex, pEmissiveTex,
+						pShininessTex, pAlphaTex, pNormalTex, pHeightTex);
 				}
 				else
 				{
@@ -285,7 +298,8 @@ namespace Danburite
 
 					__setupPhongStyleMaterial(
 						static_pointer_cast<PhongMaterial>(pMaterial),
-						pAmbientTex, pDiffuseTex, pSpecularTex, pEmissiveTex, pShininessTex, pAlphaTex, pNormalTex);
+						pAmbientTex, pDiffuseTex, pSpecularTex, pEmissiveTex,
+						pShininessTex, pAlphaTex, pNormalTex, pHeightTex);
 				}
 			}
 				break;

@@ -17,6 +17,7 @@ namespace Danburite
 		std::shared_ptr<ObjectGL::Texture2D> __pShininessTex;
 		std::shared_ptr<ObjectGL::Texture2D> __pAlphaTex;
 		std::shared_ptr<ObjectGL::Texture2D> __pNormalTex;
+		std::shared_ptr<ObjectGL::Texture2D> __pHeightTex;
 
 		float __shininess = Constant::Material::Phong::DEFAULT_SHININESS;
 
@@ -33,6 +34,7 @@ namespace Danburite
 		void setShininessTexture(const std::shared_ptr<ObjectGL::Texture2D> &pTexture) noexcept;
 		void setAlphaTexture(const std::shared_ptr<ObjectGL::Texture2D> &pTexture) noexcept;
 		void setNormalTexture(const std::shared_ptr<ObjectGL::Texture2D> &pTexture) noexcept;
+		void setHeightTexture(const std::shared_ptr<ObjectGL::Texture2D> &pTexture) noexcept;
 
 		constexpr const std::shared_ptr<ObjectGL::Texture2D> &getAmbientTexture() const noexcept;
 		constexpr const std::shared_ptr<ObjectGL::Texture2D> &getDiffuseTexture() const noexcept;
@@ -43,6 +45,7 @@ namespace Danburite
 		constexpr const std::shared_ptr<ObjectGL::Texture2D> &getShininessTexture() const noexcept;
 		constexpr const std::shared_ptr<ObjectGL::Texture2D> &getAlphaTexture() const noexcept;
 		constexpr const std::shared_ptr<ObjectGL::Texture2D> &getNormalTexture() const noexcept;
+		constexpr const std::shared_ptr<ObjectGL::Texture2D> &getHeightTexture() const noexcept;
 
 		virtual ~PhongMaterialComponent() = default;
 	};

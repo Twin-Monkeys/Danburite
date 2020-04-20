@@ -19,6 +19,7 @@ namespace Danburite
 		materialSetter.setUniformUvec2(SHININESS_TEX, TextureUtil::getHandleIfExist(__pShininessTex));
 		materialSetter.setUniformUvec2(ALPHA_TEX, TextureUtil::getHandleIfExist(__pAlphaTex));
 		materialSetter.setUniformUvec2(NORMAL_TEX, TextureUtil::getHandleIfExist(__pNormalTex));
+		materialSetter.setUniformUvec2(HEIGHT_TEX, TextureUtil::getHandleIfExist(__pHeightTex));
 	}
 
 	void PhongMaterialComponent::setAmbientTexture(const shared_ptr<Texture2D> &pTexture) noexcept
@@ -59,5 +60,10 @@ namespace Danburite
 	void PhongMaterialComponent::setNormalTexture(const shared_ptr<Texture2D> &pTexture) noexcept
 	{
 		__pNormalTex = pTexture;
+	}
+
+	void PhongMaterialComponent::setHeightTexture(const shared_ptr<Texture2D> &pTexture) noexcept
+	{
+		__pHeightTex = pTexture;
 	}
 }

@@ -11,11 +11,19 @@ vec4 Phong_calcPhongColor(
 	const vec3 targetPos, const vec3 targetNormal, const mat3 targetTBN,
 	const vec2 materialTexCoord, const vec4 vertexColor)
 {
-	vec3 materialAmbient = Material_getAmbient(materialTexCoord);
-	vec3 materialDiffuse = Material_getDiffuse(materialTexCoord);
-	vec3 materialSpecular = Material_getSpecular(materialTexCoord);
-	vec3 materialEmissive = Material_getEmissive(materialTexCoord);
-	float materialAlpha = Material_getAlpha(materialTexCoord);
+	const vec3 viewPos = Camera_getPosition();
+	const vec3 viewDir = normalize(viewPos - targetPos);
+
+	const vec2 texCoord = Material_getTexCoord(materialTexCoord, viewDir, targetTBN);
+
+	if ((texCoord.x > 1.f) || (texCoord.y > 1.f) || (texCoord.x < 0.f) || (texCoord.y < 0.f))
+		discard;
+
+	vec3 materialAmbient = Material_getAmbient(texCoord);
+	vec3 materialDiffuse = Material_getDiffuse(texCoord);
+	vec3 materialSpecular = Material_getSpecular(texCoord);
+	vec3 materialEmissive = Material_getEmissive(texCoord);
+	float materialAlpha = Material_getAlpha(texCoord);
 
 	if (Material_isVertexColorEnabled())
 	{
@@ -28,14 +36,13 @@ vec4 Phong_calcPhongColor(
 	if (!Material_isLightingEnabled())
 		return vec4(materialAmbient + materialDiffuse + materialSpecular + materialEmissive, materialAlpha);
 
-	const float materialShininess = Material_getShininess(materialTexCoord);
-	const vec3 materialNormal = Material_getNormal(materialTexCoord, targetNormal, targetTBN);
+	const float materialShininess = Material_getShininess(texCoord);
+	const vec3 materialNormal = Material_getNormal(texCoord, targetNormal, targetTBN);
 
 	vec3 ambient = vec3(0.f);
 	vec3 diffuse = vec3(0.f);
 	vec3 specular = vec3(0.f);
 
-	const vec3 viewPos = Camera_getPosition();
 	for (uint lightIdx = 0; lightIdx < MAX_NUM_LIGHTS; lightIdx++)
 	{
 		if (!Light_isLightEnabled(lightIdx))

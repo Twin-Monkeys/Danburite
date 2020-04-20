@@ -26,6 +26,7 @@ namespace Danburite
 		using Material::useShininessTexture;
 		using Material::useAlphaTexture;
 		using Material::useNormalTexture;
+		using Material::useHeightTexture;
 
 		virtual ~OutliningPhongMaterial() = default;
 	};

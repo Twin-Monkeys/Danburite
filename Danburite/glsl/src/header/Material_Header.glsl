@@ -26,6 +26,7 @@ struct Material
 	uvec2 shininessTex;
 	uvec2 alphaTex;
 	uvec2 normalTex;
+	uvec2 heightTex;
 	uvec2 environmentTex;
 
 	float zNear;
@@ -81,6 +82,11 @@ bool Material_isNormalTextureEnabled()
 	return ((material.optionFlag & MATERIAL_OPTION_FLAG_NORMAL_TEXTURE) != 0);
 }
 
+bool Material_isHeightTextureEnabled()
+{
+	return ((material.optionFlag & MATERIAL_OPTION_FLAG_HEIGHT_TEXTURE) != 0);
+}
+
 bool Material_isVertexPositionEnabled()
 {
 	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_POS3) != 0);
@@ -109,6 +115,19 @@ bool Material_isVertexTangentEnabled()
 vec3 Material_applyGamma(const vec3 source)
 {
 	return pow(source, vec3(material.gamma));
+}
+
+vec2 Material_getTexCoord(const vec2 vertexTexCoord, const vec3 viewDirection, const mat3 TBN)
+{
+	if (!Material_isHeightTextureEnabled())
+		return vertexTexCoord;
+
+	const float height = (1.f - texture(sampler2D(material.heightTex), vertexTexCoord).r);
+
+	const vec3 tangentSpaceViewDir = (transpose(TBN) * viewDirection);
+
+	const vec2 texCoordOffset = ((tangentSpaceViewDir.xy / tangentSpaceViewDir.z) * (height * .1f));
+	return (vertexTexCoord - texCoordOffset);
 }
 
 vec3 Material_getAmbient(const vec2 texCoord)

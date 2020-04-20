@@ -31,7 +31,7 @@ NormalMapTestScene::NormalMapTestScene()
 	VertexArrayFactory& vaFactory = VertexArrayFactory::getInstance();
 
 	const shared_ptr<Texture2D> &pWallTexture_diffuse =
-		TextureUtil::createTexture2DFromImage("res/image/wall/brickwall.jpg");
+		TextureUtil::createTexture2DFromImage("res/image/brickwall/bricks2.jpg");
 
 	pWallTexture_diffuse->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR_MIPMAP_LINEAR);
 	pWallTexture_diffuse->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
@@ -39,12 +39,20 @@ NormalMapTestScene::NormalMapTestScene()
 	pWallTexture_diffuse->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 
 	const shared_ptr<Texture2D> &pWallTexture_normal =
-		TextureUtil::createTexture2DFromImage("res/image/wall/brickwall_normal.jpg");
+		TextureUtil::createTexture2DFromImage("res/image/brickwall/bricks2_normal.jpg");
 
 	pWallTexture_normal->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR_MIPMAP_LINEAR);
 	pWallTexture_normal->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
 	pWallTexture_normal->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
 	pWallTexture_normal->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
+
+	const shared_ptr<Texture2D> &pWallTexture_height =
+		TextureUtil::createTexture2DFromImage("res/image/brickwall/bricks2_height.jpg");
+
+	pWallTexture_height->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR_MIPMAP_LINEAR);
+	pWallTexture_height->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
+	pWallTexture_height->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
+	pWallTexture_height->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 
 	const shared_ptr<VertexArray> &pWallVA =
 		vaFactory.getVertexArrayPtr(ShapeType::RECTANGLE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2_TANGENT3);
@@ -58,12 +66,15 @@ NormalMapTestScene::NormalMapTestScene()
 	pWallMaterial->setNormalTexture(pWallTexture_normal);
 	pWallMaterial->useNormalTexture(true);
 
+	pWallMaterial->setHeightTexture(pWallTexture_height);
+	pWallMaterial->useHeightTexture(true);
+
 	pWallMaterial->setShininess(150.f);
 
 	unique_ptr<Mesh> pWallMesh = make_unique<Mesh>(pWallVA, pWallMaterial);
-	__pWallRU = ruManager.createRenderUnit(move(pWallMesh));
+	__pBrickWallRU = ruManager.createRenderUnit(move(pWallMesh));
 
-	Transform& wallTransform = __pWallRU->getTransform();
+	Transform& wallTransform = __pBrickWallRU->getTransform();
 	wallTransform.setScale(10.f, 10.f, 1.f);
 
 	//// 카메라 생성 ////
@@ -76,7 +87,7 @@ NormalMapTestScene::NormalMapTestScene()
 	// Light 초기화
 
 	__pWhiteLight = make_shared<PointLight>();
-	__pWhiteLight->setAmbientStrength(.0f);
+	__pWhiteLight->setAmbientStrength(.05f);
 	__pWhiteLight->setDiffuseStrength(2.f);
 	__pWhiteLight->setSpecularStrength(2.f);
 	__pWhiteLight->setAttenuation(1.f, 0.09f, 0.032f);
@@ -90,12 +101,12 @@ NormalMapTestScene::NormalMapTestScene()
 	__pLightHandler->addLight(__pWhiteLight);
 
 	__pUpdater = make_shared<Updater>();
-	__pUpdater->addUpdatable(__pWallRU);
+	__pUpdater->addUpdatable(__pBrickWallRU);
 	__pUpdater->addUpdatable(__pCamera);
 	__pUpdater->addUpdatable(__pWhiteLight);
 
 	__pDrawer = make_shared<Drawer>();
-	__pDrawer->addDrawable(__pWallRU);
+	__pDrawer->addDrawable(__pBrickWallRU);
 
 	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>();
 	__pMsaaPP = make_shared<MSAAPostProcessor>();

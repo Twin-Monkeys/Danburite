@@ -80,6 +80,7 @@ namespace Danburite
 					SHININESS_TEX,
 					ALPHA_TEX,
 					NORMAL_TEX,
+					HEIGHT_TEX,
 
 					Z_NEAR,
 					Z_FAR,

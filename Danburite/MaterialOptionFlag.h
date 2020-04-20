@@ -15,7 +15,8 @@ namespace Danburite
 		EMISSIVE_TEXTURE	= 0b0000'0000'0001'0000U,
 		SHININESS_TEXTURE	= 0b0000'0000'0010'0000U,
 		ALPHA_TEXTURE		= 0b0000'0000'0100'0000U,
-		NORMAL_TEXTURE		= 0b0000'0000'1000'0000U
+		NORMAL_TEXTURE		= 0b0000'0000'1000'0000U,
+		HEIGHT_TEXTURE		= 0b0000'0001'0000'0000U
 	};
 
 	constexpr MaterialOptionFlag operator|(const MaterialOptionFlag lhs, const MaterialOptionFlag rhs)

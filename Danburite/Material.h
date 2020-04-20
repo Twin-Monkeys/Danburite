@@ -38,6 +38,7 @@ namespace Danburite
 		constexpr void useShininessTexture(const bool enabled) noexcept;
 		constexpr void useAlphaTexture(const bool enabled) noexcept;
 		constexpr void useNormalTexture(const bool enabled) noexcept;
+		constexpr void useHeightTexture(const bool enabled) noexcept;
 
 	public:
 		void render(ObjectGL::VertexArray &vertexArray, const GLsizei numInstances = 1) noexcept;
@@ -93,6 +94,11 @@ namespace Danburite
 	constexpr void Material::useNormalTexture(const bool enabled) noexcept
 	{
 		__setOption(MaterialOptionFlag::NORMAL_TEXTURE, enabled);
+	}
+
+	constexpr void Material::useHeightTexture(const bool enabled) noexcept
+	{
+		__setOption(MaterialOptionFlag::HEIGHT_TEXTURE, enabled);
 	}
 
 	constexpr void Material::setGamma(const float gamma) noexcept

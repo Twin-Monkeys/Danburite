@@ -73,6 +73,7 @@ namespace Danburite
 					SHININESS_TEX = "material.shininessTex",
 					ALPHA_TEX = "material.alphaTex",
 					NORMAL_TEX = "material.normalTex",
+					HEIGHT_TEX = "material.heightTex",
 					
 					Z_NEAR = "material.zNear",
 					Z_FAR = "material.zFar",

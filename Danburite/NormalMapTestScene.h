@@ -17,7 +17,7 @@ class NormalMapTestScene : public Danburite::Scene, public ObjectGL::ScreenEvent
 private:
 	bool __updated = false;
 
-	std::shared_ptr<Danburite::RenderUnit> __pWallRU;
+	std::shared_ptr<Danburite::RenderUnit> __pBrickWallRU;
 	std::shared_ptr<Danburite::PerspectiveCamera> __pCamera;
 
 	std::shared_ptr<Danburite::PointLight> __pWhiteLight;

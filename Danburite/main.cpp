@@ -46,10 +46,10 @@ int APIENTRY _tWinMain(const HINSTANCE hInstance, HINSTANCE, LPTSTR, int)
 	});
 #endif
 
-	GLFunctionWrapper::setVerticalSync(false);
+	GLFunctionWrapper::setVerticalSync(true);
 
 	//// Scene 생성 ////
-	shared_ptr<ScreenEventHandler> pScene = make_shared<ShadowTestScene>();
+	shared_ptr<ScreenEventHandler> pScene = make_shared<NormalMapTestScene>();
 
 	//// 이벤트 핸들러 등록 ////
 	pScreen->setEventHandler(pScene);
