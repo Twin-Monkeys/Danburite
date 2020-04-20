@@ -23,7 +23,7 @@ vec4 Phong_calcPhongColor(
 
 	const vec2 finalTexCoord = Material_getTexCoord(periodicTexCoord, viewDir, targetTBN);
 
-	if (finalTexCoord.x > 1.0 || finalTexCoord.y > 1.0 || finalTexCoord.x < 0.0 || finalTexCoord.y < 0.0)
+	if ((finalTexCoord.x > 1.f) || (finalTexCoord.y > 1.f) || (finalTexCoord.x < 0.f) || (finalTexCoord.y < 0.f))
 		discard;
 
 	vec3 materialAmbient = Material_getAmbient(finalTexCoord);

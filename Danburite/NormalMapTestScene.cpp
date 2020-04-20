@@ -30,52 +30,53 @@ NormalMapTestScene::NormalMapTestScene()
 	RenderUnitManager& ruManager = RenderUnitManager::getInstance();
 	VertexArrayFactory& vaFactory = VertexArrayFactory::getInstance();
 
-	const shared_ptr<Texture2D> &pWallTexture_diffuse =
-		TextureUtil::createTexture2DFromImage("res/image/brickwall/bricks2.jpg");
+	const shared_ptr<Texture2D>& pWoodToyTexture_diffuse =
+		TextureUtil::createTexture2DFromImage("res/image/wood_toy/wood_toy_diffuse.png");
 
-	pWallTexture_diffuse->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR_MIPMAP_LINEAR);
-	pWallTexture_diffuse->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
-	pWallTexture_diffuse->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
-	pWallTexture_diffuse->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
+	pWoodToyTexture_diffuse->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR_MIPMAP_LINEAR);
+	pWoodToyTexture_diffuse->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
+	pWoodToyTexture_diffuse->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
+	pWoodToyTexture_diffuse->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 
-	const shared_ptr<Texture2D> &pWallTexture_normal =
-		TextureUtil::createTexture2DFromImage("res/image/brickwall/bricks2_normal.jpg");
+	const shared_ptr<Texture2D>& pWoodToyTexture_normal =
+		TextureUtil::createTexture2DFromImage("res/image/wood_toy/wood_toy_normal.png");
 
-	pWallTexture_normal->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR_MIPMAP_LINEAR);
-	pWallTexture_normal->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
-	pWallTexture_normal->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
-	pWallTexture_normal->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
+	pWoodToyTexture_normal->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR_MIPMAP_LINEAR);
+	pWoodToyTexture_normal->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
+	pWoodToyTexture_normal->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
+	pWoodToyTexture_normal->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 
-	const shared_ptr<Texture2D> &pWallTexture_height =
-		TextureUtil::createTexture2DFromImage("res/image/brickwall/bricks2_height.jpg");
+	const shared_ptr<Texture2D>& pWoodToyTexture_height =
+		TextureUtil::createTexture2DFromImage("res/image/wood_toy/wood_toy_height.png");
 
-	pWallTexture_height->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR_MIPMAP_LINEAR);
-	pWallTexture_height->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
-	pWallTexture_height->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
-	pWallTexture_height->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
+	pWoodToyTexture_height->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR_MIPMAP_LINEAR);
+	pWoodToyTexture_height->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
+	pWoodToyTexture_height->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
+	pWoodToyTexture_height->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 
-	const shared_ptr<VertexArray> &pWallVA =
+	const shared_ptr<VertexArray>& pWoodToyVA =
 		vaFactory.getVertexArrayPtr(ShapeType::RECTANGLE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2_TANGENT3);
 
-	const shared_ptr<PhongMaterial> &pWallMaterial =
+	const shared_ptr<PhongMaterial>& pWoodToyMaterial =
 		make_shared<PhongMaterial>(VertexAttributeType::POS3_NORMAL3_TEXCOORD2_TANGENT3);
 
-	pWallMaterial->setDiffuseTexture(pWallTexture_diffuse);
-	pWallMaterial->useDiffuseTexture(true);
+	pWoodToyMaterial->setDiffuseTexture(pWoodToyTexture_diffuse);
+	pWoodToyMaterial->useDiffuseTexture(true);
 
-	pWallMaterial->setNormalTexture(pWallTexture_normal);
-	pWallMaterial->useNormalTexture(true);
+	pWoodToyMaterial->setNormalTexture(pWoodToyTexture_normal);
+	pWoodToyMaterial->useNormalTexture(true);
 
-	pWallMaterial->setHeightTexture(pWallTexture_height);
-	pWallMaterial->useHeightTexture(true);
+	pWoodToyMaterial->setHeightTexture(pWoodToyTexture_height);
+	pWoodToyMaterial->useHeightTexture(true);
 
-	pWallMaterial->setShininess(150.f);
+	pWoodToyMaterial->setShininess(150.f);
 
-	unique_ptr<Mesh> pWallMesh = make_unique<Mesh>(pWallVA, pWallMaterial);
-	__pBrickWallRU = ruManager.createRenderUnit(move(pWallMesh));
+	unique_ptr<Mesh> pWoodToyMesh = make_unique<Mesh>(pWoodToyVA, pWoodToyMaterial);
+	__pWoodToyRU = ruManager.createRenderUnit(move(pWoodToyMesh));
 
-	Transform& wallTransform = __pBrickWallRU->getTransform();
-	wallTransform.setScale(10.f, 10.f, 1.f);
+	Transform& woodToyTransform = __pWoodToyRU->getTransform();
+	woodToyTransform.setScale(10.f, 10.f, 1.f);
+
 
 	//// 카메라 생성 ////
 
@@ -93,7 +94,7 @@ NormalMapTestScene::NormalMapTestScene()
 	__pWhiteLight->setAttenuation(1.f, 0.09f, 0.032f);
 
 	Transform& whiteLightTransform = __pWhiteLight->getTransform();
-	whiteLightTransform.setPosition(0.f, 6.f, 1.f);
+	whiteLightTransform.setPosition(0.f, 6.f, 2.f);
 
 	//// Deployer / Updater 초기화 ////
 
@@ -101,12 +102,12 @@ NormalMapTestScene::NormalMapTestScene()
 	__pLightHandler->addLight(__pWhiteLight);
 
 	__pUpdater = make_shared<Updater>();
-	__pUpdater->addUpdatable(__pBrickWallRU);
+	__pUpdater->addUpdatable(__pWoodToyRU);
 	__pUpdater->addUpdatable(__pCamera);
 	__pUpdater->addUpdatable(__pWhiteLight);
 
 	__pDrawer = make_shared<Drawer>();
-	__pDrawer->addDrawable(__pBrickWallRU);
+	__pDrawer->addDrawable(__pWoodToyRU);
 
 	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>();
 	__pMsaaPP = make_shared<MSAAPostProcessor>();
