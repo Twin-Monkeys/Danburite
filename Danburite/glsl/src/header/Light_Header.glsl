@@ -220,29 +220,26 @@ vec3 Light_getLightDiffuse(uint lightIndex, const vec3 targetPos, vec3 targetNor
 }
 
 float Light_getLightSpecularPower(
-	uint lightIndex, const vec3 targetPos, vec3 targetNormal, vec3 viewPos, float materialShininess)
+	uint lightIndex, const vec3 targetPos, vec3 targetNormal, const vec3 viewDirection, float materialShininess)
 {
 	//	Traditional Phong specular
 	//	vec3 lightReflection = reflect(Light_getLightDirection(lightIndex), targetNormal);
-	//	vec3 viewDirection = normalize(viewPos - targetPos);
-	//
 	//	return pow(max(dot(lightReflection, viewDirection), 0.f), materialShininess);
 
 	// Blinn-Phong specular
 	vec3 lightDirection = -Light_getLightDirection(lightIndex, targetPos);
-	vec3 viewDirection = normalize(viewPos - targetPos);
 	vec3 halfwayDirection = normalize(lightDirection + viewDirection);
 
 	return pow(max(dot(targetNormal, halfwayDirection), 0.f), materialShininess);
 }
 
-vec3 Light_getLightSpecular(uint lightIndex, const vec3 targetPos, vec3 targetNormal, vec3 viewPos, float materialShininess)
+vec3 Light_getLightSpecular(uint lightIndex, const vec3 targetPos, vec3 targetNormal, vec3 viewDirection, float materialShininess)
 {
 	return (
 		light[lightIndex].albedo *
 		light[lightIndex].specularStrength *
 		Light_getLightStrength(lightIndex, targetPos) *
-		Light_getLightSpecularPower(lightIndex, targetPos, targetNormal, viewPos, materialShininess));
+		Light_getLightSpecularPower(lightIndex, targetPos, targetNormal, viewDirection, materialShininess));
 }
 
 #endif

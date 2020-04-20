@@ -62,7 +62,7 @@ vec4 Phong_calcPhongColor(
 
 		specular += (
 			occlusionInv * materialSpecular *
-			Light_getLightSpecular(lightIdx, targetPos, materialNormal, viewPos, materialShininess));
+			Light_getLightSpecular(lightIdx, targetPos, materialNormal, viewDir, materialShininess));
 	}
 
 	return vec4(ambient + diffuse + specular + materialEmissive, materialAlpha);

@@ -13,11 +13,12 @@ out vec4 fragColor;
 
 void main()
 {
+	const vec3 viewDirection = normalize(variableInOut_VertToFrag.worldPos - Camera_getPosition());
+
 	vec3 envRefraction = Material_getEnvRefraction
 	(
-		variableInOut_VertToFrag.worldPos,
 		normalize(variableInOut_VertToFrag.worldNormal),
-		Camera_getPosition(),
+		viewDirection,
 		variableInOut_VertToFrag.texCoord
 	).rgb;
 

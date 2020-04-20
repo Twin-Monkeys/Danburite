@@ -289,10 +289,8 @@ float Material_getLinearDepth(float fragDepth)
 	return (linearDepth / material.zFar);
 }
 
-vec4 Material_getEnvReflection(
-	const vec3 targetPos, const vec3 targetNormal, const vec3 viewPos, const vec2 texCoord)
+vec4 Material_getEnvReflection(const vec3 targetNormal, const vec3 viewDirection, const vec2 texCoord)
 {
-	vec3 viewDirection = normalize(targetPos - viewPos);
 	vec3 reflection = reflect(viewDirection, targetNormal);
 
 	vec4 retVal = texture(samplerCube(material.environmentTex), reflection);
@@ -301,14 +299,11 @@ vec4 Material_getEnvReflection(
 	return retVal;
 }
 
-vec4 Material_getEnvRefraction(
-	const vec3 targetPos, const vec3 targetNormal, const vec3 viewPos, const vec2 texCoord)
+vec4 Material_getEnvRefraction(const vec3 targetNormal, const vec3 viewDirection, const vec2 texCoord)
 {
-	vec3 viewDirection = normalize(targetPos - viewPos);
 	vec3 refraction = refract(viewDirection, targetNormal, 1.f / 1.52f);
 
 	vec4 retVal = texture(samplerCube(material.environmentTex), refraction);
-
 	retVal.rgb = Material_applyGamma(retVal.rgb);
 	return retVal;
 }
