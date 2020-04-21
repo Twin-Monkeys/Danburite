@@ -14,17 +14,7 @@ vec4 Phong_calcPhongColor(
 	const vec3 viewPos = Camera_getPosition();
 	const vec3 viewDir = normalize(viewPos - targetPos);
 
-	// texture 좌표 범위가 -1 ~ 1 사이에 들어오도록 조정
-	const vec2 periodicTexCoord = vec2
-	(
-		materialTexCoord.x - int(materialTexCoord.x),
-		materialTexCoord.y - int(materialTexCoord.y)
-	);
-
-	const vec2 finalTexCoord = Material_getTexCoord(periodicTexCoord, viewDir, targetTBN);
-
-	if ((finalTexCoord.x > 1.f) || (finalTexCoord.y > 1.f) || (finalTexCoord.x < 0.f) || (finalTexCoord.y < 0.f))
-		discard;
+	const vec2 finalTexCoord = Material_getTexCoord(materialTexCoord, viewDir, targetTBN);
 
 	vec3 materialAmbient = Material_getAmbient(finalTexCoord);
 	vec3 materialDiffuse = Material_getDiffuse(finalTexCoord);

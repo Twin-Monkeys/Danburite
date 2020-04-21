@@ -129,6 +129,18 @@ vec2 Material_getTexCoord(const vec2 vertexTexCoord, const vec3 viewDirection, c
 	const float depth = (1.f - texture(sampler2D(material.heightTex), vertexTexCoord).r);
 	const vec3 tangentSpaceViewDir = (transpose(TBN) * viewDirection);
 
+	/*
+		tangentSpaceViewDir.z will be somewhere in the range between 0.0 and 1.0.
+		When tangentSpaceViewDir is largely parallel to the surface,
+		Its z component is close to 0.0 and the division
+		(tangentSpaceViewDir.xy / tangentSpaceViewDir.z) returns a much larger offset
+		Compared to when tangentSpaceViewDir is largely perpendicular to the surface.
+		
+		We're adjusting the size of tangentSpaceViewDir.xy in such a way
+		That it offsets the texture coordinates at a larger scale when
+		Looking at a surface from an angle compared to when looking at it from the top;
+		This gives more realistic results at angles.
+	*/
 	const vec2 texCoordOffset = ((tangentSpaceViewDir.xy / tangentSpaceViewDir.z) * (depth * .1f));
 
 	return (vertexTexCoord - texCoordOffset);
