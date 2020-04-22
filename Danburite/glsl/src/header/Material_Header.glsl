@@ -125,29 +125,47 @@ vec2 Material_getTexCoord(const vec2 vertexTexCoord, const vec3 viewDirection, c
 	const sampler2D heightTex = sampler2D(material.heightTex);
 	const vec3 tangentSpaceViewDir = (transpose(TBN) * viewDirection);
 
-	const float MIN_NUM_LAYERS = 30.f;
-	const float MAX_NUM_LAYERS = 90.f;
+	const float MIN_NUM_LAYERS = 15.f;
+	const float MAX_NUM_LAYERS = 80.f;
 	const float NUM_LAYERS = mix(MAX_NUM_LAYERS, MIN_NUM_LAYERS, abs(tangentSpaceViewDir.z));
 
 	const float stepDepth = (1.f / NUM_LAYERS);
+
+	// Parallax mapping with offset limiting
 	const vec2 stepOffset = ((-tangentSpaceViewDir.xy / tangentSpaceViewDir.z) * (stepDepth * .1f));
 
 	vec2 curTexCoord = vertexTexCoord;
-	float curDepth = 0.f;
+	vec2 prevTexCoord = vertexTexCoord;
 
+	float curLayerDepth = 0.f;
+	float prevLayerDepth = 0.f;
+
+	float curMappedDepth = 0.f;
+	float prevMappedDepth = 0.f;
+
+	// Steep parallax mapping
 	do
 	{
-		const float mappedDepth = (1.f - texture(heightTex, curTexCoord).r);
+		prevMappedDepth = curMappedDepth;
+		curMappedDepth = (1.f - texture(heightTex, curTexCoord).r);
 
-		if (curDepth > mappedDepth)
+		if (curLayerDepth > curMappedDepth)
 			break;
 
-		curDepth += stepDepth;
+		prevLayerDepth = curLayerDepth;
+		prevTexCoord = curTexCoord;
+
+		curLayerDepth += stepDepth;
 		curTexCoord += stepOffset;
 	}
 	while (true);
 
-	return curTexCoord;
+	// Parallax occlusion mapping
+	const float curDepthDelta	= (curMappedDepth - curLayerDepth);
+	const float prevDepthDelta	= (prevMappedDepth - prevLayerDepth);
+	const float weight			= (prevDepthDelta / (prevDepthDelta - curDepthDelta));
+
+	return mix(prevTexCoord, curTexCoord, weight);
 }
 
 vec3 Material_getAmbient(const vec2 texCoord)
