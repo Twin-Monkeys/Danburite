@@ -36,7 +36,7 @@ namespace Danburite
 	void ForwardPostProcessor::setScreenSize(const GLsizei width, const GLsizei height) noexcept
 	{
 		__pColorAttachment->memoryAlloc(
-			width, height, TextureInternalFormatType::RGB, TextureExternalFormatType::RGB);
+			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB);
 
 		__pDepthStencilAttachment->memoryAlloc(
 			width, height, RenderBufferInternalFormatType::DEPTH24_STENCIL8);

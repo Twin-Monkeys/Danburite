@@ -33,7 +33,7 @@ namespace Danburite
 	void MSAAPostProcessor::setScreenSize(const GLsizei width, const GLsizei height) noexcept
 	{
 		__pColorAttachment->memoryAlloc(
-			width, height, TextureInternalFormatType::RGB, NUM_SAMPLE_POINTS, FIXED_SAMPLE_LOCATIONS);
+			width, height, TextureInternalFormatType::RGB16F, NUM_SAMPLE_POINTS, FIXED_SAMPLE_LOCATIONS);
 
 		__pDepthStencilAttachment->memoryAlloc(
 			width, height, RenderBufferInternalFormatType::DEPTH24_STENCIL8, NUM_SAMPLE_POINTS);
