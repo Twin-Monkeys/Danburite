@@ -414,9 +414,6 @@
     <ClCompile Include="TextReader.cpp">
       <Filter>Library\ObjectGL\Util\TextReader</Filter>
     </ClCompile>
-    <ClCompile Include="VertexAttributeDescriptorFactory.cpp">
-      <Filter>Library\Engine\Core\VertexAttribute</Filter>
-    </ClCompile>
     <ClCompile Include="Win32ScreenException.cpp">
       <Filter>Library\Engine\Screen\Window\Win32</Filter>
     </ClCompile>
@@ -630,12 +627,6 @@
     <ClCompile Include="IndexType.cpp">
       <Filter>Library\ObjectGL\Core\Buffer\IndexBuffer</Filter>
     </ClCompile>
-    <ClCompile Include="ElementType.cpp">
-      <Filter>Library\ObjectGL\Core\Buffer\VetexBuffer\Attribute</Filter>
-    </ClCompile>
-    <ClCompile Include="VertexAttributeDescriptor.cpp">
-      <Filter>Library\ObjectGL\Core\Buffer\VetexBuffer\Attribute</Filter>
-    </ClCompile>
     <ClCompile Include="PerspectiveCamera.cpp">
       <Filter>Library\Engine\Core\Camera</Filter>
     </ClCompile>
@@ -680,6 +671,9 @@
     </ClCompile>
     <ClCompile Include="ParallaxMapTestScene.cpp">
       <Filter>Client\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexAttributeDataStructureFactory.cpp">
+      <Filter>Library\Engine\Core\VertexAttribute</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -794,12 +788,6 @@
     <ClInclude Include="TextReader.h">
       <Filter>Library\ObjectGL\Util\TextReader</Filter>
     </ClInclude>
-    <ClInclude Include="VertexAttributeDescriptorType.h">
-      <Filter>Library\Engine\Core\VertexAttribute</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexAttributeDescriptorFactory.h">
-      <Filter>Library\Engine\Core\VertexAttribute</Filter>
-    </ClInclude>
     <ClInclude Include="Win32ScreenException.h">
       <Filter>Library\Engine\Screen\Window\Win32</Filter>
     </ClInclude>
@@ -807,9 +795,6 @@
       <Filter>Library\ObjectGL\Core\Buffer\VetexBuffer\Attribute</Filter>
     </ClInclude>
     <ClInclude Include="ElementType.h">
-      <Filter>Library\ObjectGL\Core\Buffer\VetexBuffer\Attribute</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexAttributeDescriptor.h">
       <Filter>Library\ObjectGL\Core\Buffer\VetexBuffer\Attribute</Filter>
     </ClInclude>
     <ClInclude Include="VertexAttributeList.h">
@@ -1177,6 +1162,15 @@
     </ClInclude>
     <ClInclude Include="ParallaxMapTestScene.h">
       <Filter>Client\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexAttributeDataStructure.h">
+      <Filter>Library\ObjectGL\Core\Buffer\VetexBuffer\Attribute</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexAttributeDataStructureType.h">
+      <Filter>Library\Engine\Core\VertexAttribute</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexAttributeDataStructureFactory.h">
+      <Filter>Library\Engine\Core\VertexAttribute</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

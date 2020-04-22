@@ -4,23 +4,28 @@
 
 namespace ObjectGL
 {
-	class VertexAttributeDescriptor
+	class VertexAttributeDataStructure
 	{
 	public:
 		GLint numElements;
 		ElementType elementType;
 		bool normalized;
 
-		constexpr VertexAttributeDescriptor(
+		constexpr VertexAttributeDataStructure(
 			const GLint numElements, const ElementType elementType, const bool normalized = false) noexcept;
 
-		GLsizei memSize() const noexcept;
+		constexpr GLsizei memSize() const noexcept;
 
-		virtual ~VertexAttributeDescriptor() = default;
+		virtual ~VertexAttributeDataStructure() = default;
 	};
 
-	constexpr VertexAttributeDescriptor::VertexAttributeDescriptor(
+	constexpr VertexAttributeDataStructure::VertexAttributeDataStructure(
 		const GLint numElements, const ElementType elementType, const bool normalized) noexcept :
 		numElements(numElements), elementType(elementType), normalized(normalized)
 	{}
+
+	constexpr GLsizei VertexAttributeDataStructure::memSize() const noexcept
+	{
+		return (numElements * elementSize(elementType));
+	}
 }

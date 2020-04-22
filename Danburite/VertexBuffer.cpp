@@ -17,7 +17,7 @@ namespace ObjectGL
 	}
 
 	void VertexBuffer::addAttribute(
-		const GLuint location, const VertexAttributeDescriptor &desc,
+		const GLuint location, const VertexAttributeDataStructure &desc,
 		const GLsizei stride, const GLsizei offset, const GLuint divisor) noexcept
 	{
 		__attribList.add(location, desc, stride, offset, divisor);

@@ -1,5 +1,5 @@
 #include "VertexAttributeListFactory.h"
-#include "VertexAttributeDescriptorFactory.h"
+#include "VertexAttributeDataStructureFactory.h"
 #include "ShaderIdentifier.h"
 #include <cassert>
 
@@ -18,14 +18,14 @@ namespace Danburite
 	{
 		VertexAttributeList retVal;
 
-		const VertexAttributeDescriptor &VEC2 =
-			VertexAttributeDescriptorFactory::getInstance(VertexAttributeDescriptorType::VEC2);
+		const VertexAttributeDataStructure &VEC2 =
+			VertexAttributeDataStructureFactory::getInstance(VertexAttributeDataStructureType::VEC2);
 
-		const VertexAttributeDescriptor &VEC3 =
-			VertexAttributeDescriptorFactory::getInstance(VertexAttributeDescriptorType::VEC3);
+		const VertexAttributeDataStructure &VEC3 =
+			VertexAttributeDataStructureFactory::getInstance(VertexAttributeDataStructureType::VEC3);
 
-		const VertexAttributeDescriptor &VEC4 =
-			VertexAttributeDescriptorFactory::getInstance(VertexAttributeDescriptorType::VEC4);
+		const VertexAttributeDataStructure &VEC4 =
+			VertexAttributeDataStructureFactory::getInstance(VertexAttributeDataStructureType::VEC4);
 
 		switch (key)
 		{

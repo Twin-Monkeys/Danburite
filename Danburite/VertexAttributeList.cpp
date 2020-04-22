@@ -13,11 +13,11 @@ namespace ObjectGL
 		const GLsizei stride, const GLsizei offset, const GLuint divisor, const bool normalized) noexcept
 	{
 		__entries.emplace_back(
-			location, VertexAttributeDescriptor{ numElements, elementType, normalized }, stride, offset, divisor);
+			location, VertexAttributeDataStructure{ numElements, elementType, normalized }, stride, offset, divisor);
 	}
 
 	void VertexAttributeList::add(
-		const GLuint location, const VertexAttributeDescriptor& desc,
+		const GLuint location, const VertexAttributeDataStructure& desc,
 		const GLsizei stride, const GLsizei offset, const GLuint divisor) noexcept
 	{
 		__entries.emplace_back(location, desc, stride, offset, divisor);

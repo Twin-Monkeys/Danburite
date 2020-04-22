@@ -2,7 +2,7 @@
 
 namespace Danburite
 {
-	enum class VertexAttributeDescriptorType
+	enum class VertexAttributeDataStructureType
 	{
 		VEC2,
 		VEC3,
