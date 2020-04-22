@@ -122,28 +122,32 @@ vec2 Material_getTexCoord(const vec2 vertexTexCoord, const vec3 viewDirection, c
 	if (!Material_isHeightTextureEnabled())
 		return vertexTexCoord;
 
-	/*
-		With parallax mapping it makes more sense to use the inverse of the heightmap
-		as it's easier to fake depth than height on flat surfaces.
-	*/
-	const float depth = (1.f - texture(sampler2D(material.heightTex), vertexTexCoord).r);
+	const sampler2D heightTex = sampler2D(material.heightTex);
 	const vec3 tangentSpaceViewDir = (transpose(TBN) * viewDirection);
 
-	/*
-		tangentSpaceViewDir.z will be somewhere in the range between 0.0 and 1.0.
-		When tangentSpaceViewDir is largely parallel to the surface,
-		Its z component is close to 0.0 and the division
-		(tangentSpaceViewDir.xy / tangentSpaceViewDir.z) returns a much larger offset
-		Compared to when tangentSpaceViewDir is largely perpendicular to the surface.
-		
-		We're adjusting the size of tangentSpaceViewDir.xy in such a way
-		That it offsets the texture coordinates at a larger scale when
-		Looking at a surface from an angle compared to when looking at it from the top;
-		This gives more realistic results at angles.
-	*/
-	const vec2 texCoordOffset = ((tangentSpaceViewDir.xy / tangentSpaceViewDir.z) * (depth * .1f));
+	const float MIN_NUM_LAYERS = 30.f;
+	const float MAX_NUM_LAYERS = 90.f;
+	const float NUM_LAYERS = mix(MAX_NUM_LAYERS, MIN_NUM_LAYERS, abs(tangentSpaceViewDir.z));
 
-	return (vertexTexCoord - texCoordOffset);
+	const float stepDepth = (1.f / NUM_LAYERS);
+	const vec2 stepOffset = ((-tangentSpaceViewDir.xy / tangentSpaceViewDir.z) * (stepDepth * .1f));
+
+	vec2 curTexCoord = vertexTexCoord;
+	float curDepth = 0.f;
+
+	do
+	{
+		const float mappedDepth = (1.f - texture(heightTex, curTexCoord).r);
+
+		if (curDepth > mappedDepth)
+			break;
+
+		curDepth += stepDepth;
+		curTexCoord += stepOffset;
+	}
+	while (true);
+
+	return curTexCoord;
 }
 
 vec3 Material_getAmbient(const vec2 texCoord)
