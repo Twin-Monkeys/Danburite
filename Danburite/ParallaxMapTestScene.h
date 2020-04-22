@@ -12,7 +12,7 @@
 #include "MSAAPostProcessor.h"
 #include "PostProcessingPipeline.h"
 
-class NormalMapTestScene : public Danburite::Scene, public ObjectGL::ScreenEventHandler
+class ParallaxMapTestScene : public Danburite::Scene, public ObjectGL::ScreenEventHandler
 {
 private:
 	bool __updated = false;
@@ -33,7 +33,7 @@ private:
 	bool __keyFunc(const float deltaTime) noexcept;
 
 public:
-	NormalMapTestScene();
+	ParallaxMapTestScene();
 
 	virtual bool delta(const float deltaTime) noexcept override;
 	virtual void update() noexcept override;
@@ -46,5 +46,5 @@ public:
 	virtual void onMouseWheel(const short zDelta) noexcept override;
 	virtual bool onIdle(const float deltaTime) noexcept override;
 
-	virtual ~NormalMapTestScene() = default;
+	virtual ~ParallaxMapTestScene() = default;
 };

@@ -5,7 +5,7 @@
 #include "RCDSRegisterer.h"
 #include "SpaceScene.h"
 #include "ShadowTestScene.h"
-#include "NormalMapTestScene.h"
+#include "ParallaxMapTestScene.h"
 
 using namespace std;
 using namespace Danburite;
@@ -49,7 +49,7 @@ int APIENTRY _tWinMain(const HINSTANCE hInstance, HINSTANCE, LPTSTR, int)
 	GLFunctionWrapper::setVerticalSync(true);
 
 	//// Scene 생성 ////
-	shared_ptr<ScreenEventHandler> pScene = make_shared<NormalMapTestScene>();
+	shared_ptr<ScreenEventHandler> pScene = make_shared<ParallaxMapTestScene>();
 
 	//// 이벤트 핸들러 등록 ////
 	pScreen->setEventHandler(pScene);

@@ -678,7 +678,7 @@
     <ClCompile Include="PerspectiveLight.cpp">
       <Filter>Library\Engine\Core\Light</Filter>
     </ClCompile>
-    <ClCompile Include="NormalMapTestScene.cpp">
+    <ClCompile Include="ParallaxMapTestScene.cpp">
       <Filter>Client\Scene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1175,7 +1175,7 @@
     <ClInclude Include="DepthBakingType.h">
       <Filter>Library\Engine\Core\DepthBaker</Filter>
     </ClInclude>
-    <ClInclude Include="NormalMapTestScene.h">
+    <ClInclude Include="ParallaxMapTestScene.h">
       <Filter>Client\Scene</Filter>
     </ClInclude>
   </ItemGroup>

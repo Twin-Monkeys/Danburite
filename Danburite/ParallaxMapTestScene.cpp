@@ -1,4 +1,4 @@
-#include "NormalMapTestScene.h"
+#include "ParallaxMapTestScene.h"
 #include "ProgramFactory.h"
 #include "VertexAttributeListFactory.h"
 #include "RenderUnitManager.h"
@@ -16,7 +16,7 @@ using namespace glm;
 using namespace ObjectGL;
 using namespace Danburite;
 
-NormalMapTestScene::NormalMapTestScene()
+ParallaxMapTestScene::ParallaxMapTestScene()
 {
 	// 전역 옵션
 
@@ -118,7 +118,7 @@ NormalMapTestScene::NormalMapTestScene()
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
 }
 
-bool NormalMapTestScene::__keyFunc(const float deltaTime) noexcept
+bool ParallaxMapTestScene::__keyFunc(const float deltaTime) noexcept
 {
 	const bool ESC = (GetAsyncKeyState(VK_ESCAPE) & 0x8000);
 	if (ESC)
@@ -163,7 +163,7 @@ bool NormalMapTestScene::__keyFunc(const float deltaTime) noexcept
 	return true;
 }
 
-void NormalMapTestScene::draw() noexcept
+void ParallaxMapTestScene::draw() noexcept
 {
 	__pLightHandler->batchDeploy();
 
@@ -184,26 +184,26 @@ void NormalMapTestScene::draw() noexcept
 	RenderContext::getCurrent()->requestBufferSwapping();
 }
 
-bool NormalMapTestScene::delta(const float deltaTime) noexcept
+bool ParallaxMapTestScene::delta(const float deltaTime) noexcept
 {
 	__pWhiteLight->getTransform().orbit(deltaTime * .0003f, { 0.f, 0.f, 0.f }, { 0.f, 0.f, 1.f });
 
 	return __keyFunc(deltaTime);
 }
 
-void NormalMapTestScene::update() noexcept
+void ParallaxMapTestScene::update() noexcept
 {
 	__pUpdater->batchUpdate();
 	__updated = true;
 }
 
-void NormalMapTestScene::onDisplay() noexcept
+void ParallaxMapTestScene::onDisplay() noexcept
 {
 	if (__updated)
 		draw();
 }
 
-void NormalMapTestScene::onResize(const int width, const int height) noexcept
+void ParallaxMapTestScene::onResize(const int width, const int height) noexcept
 {
 	if (!width || !height)
 		return;
@@ -212,7 +212,7 @@ void NormalMapTestScene::onResize(const int width, const int height) noexcept
 	__pPPPipeline->setScreenSize(width, height);
 }
 
-void NormalMapTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
+void ParallaxMapTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
 {
 	constexpr float ROTATION_SPEED = .004f;
 
@@ -220,19 +220,19 @@ void NormalMapTestScene::onMouseDelta(const int xDelta, const int yDelta) noexce
 	cameraTransform.adjustRotation(-(yDelta * ROTATION_SPEED), -(xDelta * ROTATION_SPEED), 0.f);
 }
 
-void NormalMapTestScene::onMouseMButtonDown(const int x, const int y) noexcept
+void ParallaxMapTestScene::onMouseMButtonDown(const int x, const int y) noexcept
 {
 	__pCamera->resetFov();
 }
 
-void NormalMapTestScene::onMouseWheel(const short zDelta) noexcept
+void ParallaxMapTestScene::onMouseWheel(const short zDelta) noexcept
 {
 	constexpr float ZOOM_SPEED = -.0005f;
 
 	__pCamera->adjustFov(ZOOM_SPEED * zDelta);
 }
 
-bool NormalMapTestScene::onIdle(const float deltaTime) noexcept
+bool ParallaxMapTestScene::onIdle(const float deltaTime) noexcept
 {
 	if (!delta(deltaTime))
 		return false;
