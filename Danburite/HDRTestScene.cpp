@@ -21,7 +21,7 @@ HDRTestScene::HDRTestScene()
 
 	GLFunctionWrapper::setOption(GLOptionType::MULTISAMPLE, true);
 	GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
-	GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, true);
+	GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, false);
 
 
 	//// Rendering unit 持失 ////
@@ -32,12 +32,49 @@ HDRTestScene::HDRTestScene()
 	__pBlubRU = AssetImporter::import("res/asset/bulb_fish/scene.gltf");
 	Transform &blubTransform = __pBlubRU->getTransform();
 	blubTransform.setScale(0.01f);
-	blubTransform.setPosition(0.f, 15.f, -35.f);
+	blubTransform.setPosition(0.f, 10.f, -20.f);
 
 	__pCargoBayRU = AssetImporter::import("res/asset/cargo_bay/scene.gltf");
 	Transform &cargoBayTransform = __pCargoBayRU->getTransform();
-	cargoBayTransform.setScale(20.f);
+	cargoBayTransform.setScale(10.f);
+	__pCargoBayRU->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 
+	__pPulseCoreRU = AssetImporter::import("res/asset/arc_pulse_core/scene.gltf");
+	Transform& pulseCoreTransform = __pPulseCoreRU->getTransform();
+	pulseCoreTransform.setScale(3.f);
+	pulseCoreTransform.setPosition(20.f, 0.f, 0.f);
+	pulseCoreTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
+	__pPulseCoreRU->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
+
+	__pDoorRU = AssetImporter::import("res/asset/scifi_door/scene.gltf");
+	__pDoorRU->setNumInstances(4);
+	__pDoorRU->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
+
+	Transform& door1Transform = __pDoorRU->getTransform(0);
+	door1Transform.setScale(.1f);
+	door1Transform.setPosition(0.f, 0.f, -50.f);
+	door1Transform.setRotation(0.f, pi<float>(), 0.f);
+
+	Transform& door2Transform = __pDoorRU->getTransform(1);
+	door2Transform.setScale(.1f);
+	door2Transform.setPosition(0.f, 0.f, 50.f);
+
+	Transform& door3Transform = __pDoorRU->getTransform(2);
+	door3Transform.setScale(.1f);
+	door3Transform.setPosition(-50.f, 0.f, 0.f);
+	door3Transform.setRotation(0.f, half_pi<float>(), 0.f);
+
+	Transform& door4Transform = __pDoorRU->getTransform(3);
+	door4Transform.setScale(.1f);
+	door4Transform.setPosition(50.f, 0.f, 0.f);
+	door4Transform.setRotation(0.f, -half_pi<float>(), 0.f);
+
+	/*__pWallRU = AssetImporter::import("res/asset/sci-fi_wall/scene.gltf");
+	Transform& wallTransform = __pWallRU->getTransform();
+	wallTransform.setScale(.2f);
+	wallTransform.setPosition(40.f, 0.f, 40.f);
+	wallTransform.setRotation(0.f, pi<float>(), 0.f);
+	__pWallRU->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);*/
 
 	//// 朝五虞 持失 ////
 
@@ -70,12 +107,18 @@ HDRTestScene::HDRTestScene()
 	__pUpdater = make_shared<Updater>();
 	__pUpdater->addUpdatable(__pBlubRU);
 	__pUpdater->addUpdatable(__pCargoBayRU);
+	__pUpdater->addUpdatable(__pPulseCoreRU);
+	__pUpdater->addUpdatable(__pDoorRU);
+	// __pUpdater->addUpdatable(__pWallRU);
 	__pUpdater->addUpdatable(__pCamera);
 	__pUpdater->addUpdatable(__pWhiteLight);
 
 	__pDrawer = make_shared<Drawer>();
 	__pDrawer->addDrawable(__pBlubRU);
 	__pDrawer->addDrawable(__pCargoBayRU);
+	__pDrawer->addDrawable(__pPulseCoreRU);
+	__pDrawer->addDrawable(__pDoorRU);
+	// __pDrawer->addDrawable(__pWallRU);
 
 	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>();
 	__pMsaaPP = make_shared<MSAAPostProcessor>();
