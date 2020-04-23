@@ -609,9 +609,6 @@
     <ClCompile Include="RenderBuffer.cpp">
       <Filter>Library\ObjectGL\Core\RenderBuffer</Filter>
     </ClCompile>
-    <ClCompile Include="SpaceScene.cpp">
-      <Filter>Client\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="GammaCorrectionPostProcessor.cpp">
       <Filter>Library\Engine\Core\PostProcess\GammaCorrection</Filter>
     </ClCompile>
@@ -674,6 +671,9 @@
     </ClCompile>
     <ClCompile Include="VertexAttributeDataStructureFactory.cpp">
       <Filter>Library\Engine\Core\VertexAttribute</Filter>
+    </ClCompile>
+    <ClCompile Include="HDRTestScene.cpp">
+      <Filter>Client\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1079,9 +1079,6 @@
     <ClInclude Include="RenderBuffer.h">
       <Filter>Library\ObjectGL\Core\RenderBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="SpaceScene.h">
-      <Filter>Client\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="GammaCorrectionPostProcessor.h">
       <Filter>Library\Engine\Core\PostProcess\GammaCorrection</Filter>
     </ClInclude>
@@ -1171,6 +1168,9 @@
     </ClInclude>
     <ClInclude Include="VertexAttributeDataStructureFactory.h">
       <Filter>Library\Engine\Core\VertexAttribute</Filter>
+    </ClInclude>
+    <ClInclude Include="HDRTestScene.h">
+      <Filter>Client\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

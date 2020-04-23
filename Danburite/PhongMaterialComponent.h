@@ -89,4 +89,9 @@ namespace Danburite
 	{
 		return __pNormalTex;
 	}
+
+	constexpr const std::shared_ptr<ObjectGL::Texture2D> &PhongMaterialComponent::getHeightTexture() const noexcept
+	{
+		return __pHeightTex;
+	}
 }

@@ -169,6 +169,7 @@
     <ClCompile Include="DepthBakerBase.cpp" />
     <ClCompile Include="DepthBakerCubemap.cpp" />
     <ClCompile Include="GammaCorrectionPostProcessor.cpp" />
+    <ClCompile Include="HDRTestScene.cpp" />
     <ClCompile Include="IndexType.cpp" />
     <ClCompile Include="ParallaxMapTestScene.cpp" />
     <ClCompile Include="OrthoCamera.cpp" />
@@ -176,7 +177,6 @@
     <ClCompile Include="PerspectiveLight.cpp" />
     <ClCompile Include="RCDSRegisterer.cpp" />
     <ClCompile Include="ShadowTestScene.cpp" />
-    <ClCompile Include="SpaceScene.cpp" />
     <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="ForwardPostProcessor.cpp" />
     <ClCompile Include="FrameBuffer.cpp" />
@@ -290,6 +290,7 @@
     <ClInclude Include="GLDebugMessageSeverityType.h" />
     <ClInclude Include="GLDebugMessageSourceType.h" />
     <ClInclude Include="GLDebugMessageType.h" />
+    <ClInclude Include="HDRTestScene.h" />
     <ClInclude Include="ParallaxMapTestScene.h" />
     <ClInclude Include="TransformableLight.h" />
     <ClInclude Include="CameraTransform.h" />
@@ -305,7 +306,6 @@
     <ClInclude Include="PerspectiveLight.h" />
     <ClInclude Include="RCDSRegisterer.h" />
     <ClInclude Include="ShadowTestScene.h" />
-    <ClInclude Include="SpaceScene.h" />
     <ClInclude Include="DepthStencilFunctionType.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="Drawer.h" />
