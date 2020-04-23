@@ -24,6 +24,11 @@ namespace Danburite
 			externalFormat = TextureExternalFormatType::RED;
 			break;
 
+		case 2:
+			internalFormat = TextureInternalFormatType::RG;
+			externalFormat = TextureExternalFormatType::RG;
+			break;
+
 		case 3:
 			internalFormat = TextureInternalFormatType::RGB;
 			externalFormat = TextureExternalFormatType::RGB;

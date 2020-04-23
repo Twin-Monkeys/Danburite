@@ -29,52 +29,63 @@ HDRTestScene::HDRTestScene()
 	RenderUnitManager& ruManager = RenderUnitManager::getInstance();
 	VertexArrayFactory& vaFactory = VertexArrayFactory::getInstance();
 
+	const shared_ptr<Texture2D>& pFloor_diffuse =
+		TextureUtil::createTexture2DFromImage("res/image/metal.jpg");
+
+	pFloor_diffuse->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR_MIPMAP_LINEAR);
+	pFloor_diffuse->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
+	pFloor_diffuse->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
+	pFloor_diffuse->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
+
+	const shared_ptr<VertexArray>& pFloorVA =
+		vaFactory.getVertexArrayPtr(ShapeType::RECTANGLE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
+
+	const shared_ptr<PhongMaterial>& pFloorMaterial =
+		make_shared<PhongMaterial>(VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
+
+	pFloorMaterial->setDiffuseTexture(pFloor_diffuse);
+	pFloorMaterial->useDiffuseTexture(true);
+	pFloorMaterial->setShininess(150.f);
+
+	unique_ptr<Mesh> pWoodToyMesh = make_unique<Mesh>(pFloorVA, pFloorMaterial);
+	__pFloorRU = ruManager.createRenderUnit(move(pWoodToyMesh));
+
+	Transform& floorTransform = __pFloorRU->getTransform();
+	floorTransform.setScale(60.f, 60.f, 1.f);
+	floorTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
+
 	__pBlubRU = AssetImporter::import("res/asset/bulb_fish/scene.gltf");
-	Transform &blubTransform = __pBlubRU->getTransform();
-	blubTransform.setScale(0.01f);
-	blubTransform.setPosition(0.f, 10.f, -20.f);
+	__pBlubRU->setNumInstances(2);
+
+	Transform &blub1Transform = __pBlubRU->getTransform(0);
+	blub1Transform.setScale(3.f);
+	blub1Transform.setPosition(0.f, 10.f, -20.f);
+	blub1Transform.setRotation(0.f, pi<float>(), 0.f);
+
+	Transform& blub2Transform = __pBlubRU->getTransform(1);
+	blub2Transform.setScale(3.f);
+	blub2Transform.setPosition(10.f, 3.f, 10.f);
+	blub2Transform.setRotation(0.f, pi<float>() * 0.25f, 0.f);
 
 	__pCargoBayRU = AssetImporter::import("res/asset/cargo_bay/scene.gltf");
 	Transform &cargoBayTransform = __pCargoBayRU->getTransform();
 	cargoBayTransform.setScale(10.f);
+	cargoBayTransform.setPosition(0.f, 3.5f, 0.f);
 	__pCargoBayRU->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 
 	__pPulseCoreRU = AssetImporter::import("res/asset/arc_pulse_core/scene.gltf");
 	Transform& pulseCoreTransform = __pPulseCoreRU->getTransform();
 	pulseCoreTransform.setScale(3.f);
-	pulseCoreTransform.setPosition(20.f, 0.f, 0.f);
+	pulseCoreTransform.setPosition(17.f, 0.f, 0.f);
 	pulseCoreTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
 	__pPulseCoreRU->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 
 	__pDoorRU = AssetImporter::import("res/asset/scifi_door/scene.gltf");
-	__pDoorRU->setNumInstances(4);
+	Transform &doorTransform = __pDoorRU->getTransform();
+	doorTransform.setScale(.1f);
+	doorTransform.setPosition(0.f, 0.f, -30.f);
+	doorTransform.setRotation(0.f, 0, 0.f);
 	__pDoorRU->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
-
-	Transform& door1Transform = __pDoorRU->getTransform(0);
-	door1Transform.setScale(.1f);
-	door1Transform.setPosition(0.f, 0.f, -50.f);
-	door1Transform.setRotation(0.f, pi<float>(), 0.f);
-
-	Transform& door2Transform = __pDoorRU->getTransform(1);
-	door2Transform.setScale(.1f);
-	door2Transform.setPosition(0.f, 0.f, 50.f);
-
-	Transform& door3Transform = __pDoorRU->getTransform(2);
-	door3Transform.setScale(.1f);
-	door3Transform.setPosition(-50.f, 0.f, 0.f);
-	door3Transform.setRotation(0.f, half_pi<float>(), 0.f);
-
-	Transform& door4Transform = __pDoorRU->getTransform(3);
-	door4Transform.setScale(.1f);
-	door4Transform.setPosition(50.f, 0.f, 0.f);
-	door4Transform.setRotation(0.f, -half_pi<float>(), 0.f);
-
-	/*__pWallRU = AssetImporter::import("res/asset/sci-fi_wall/scene.gltf");
-	Transform& wallTransform = __pWallRU->getTransform();
-	wallTransform.setScale(.2f);
-	wallTransform.setPosition(40.f, 0.f, 40.f);
-	wallTransform.setRotation(0.f, pi<float>(), 0.f);
-	__pWallRU->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);*/
 
 	//// 카메라 생성 ////
 
@@ -88,42 +99,55 @@ HDRTestScene::HDRTestScene()
 
 	__pWhiteLight = make_shared<PointLight>();
 	__pWhiteLight->setAmbientStrength(.05f);
-	__pWhiteLight->setDiffuseStrength(2.f);
-	__pWhiteLight->setSpecularStrength(2.f);
-	__pWhiteLight->setAttenuation(1.f, 0.027f, 0.0028f);
-
+	__pWhiteLight->setDiffuseStrength(6.f);
+	__pWhiteLight->setSpecularStrength(6.f);
+	__pWhiteLight->setAttenuation(1.f, 0.07f, 0.017f);
 	__pWhiteLight->setDepthMapSize(2048, 2048);
 	__pWhiteLight->setShadowEnabled(true);
 
 	Transform& whiteLightTransform = __pWhiteLight->getTransform();
-	whiteLightTransform.setPosition(blubTransform.getPosition() + vec3 { 0.f, .3f, 1.5f });
+	whiteLightTransform.setPosition(blub1Transform.getPosition() + vec3 { 0.f, 1.f, 3.5f });
 
+	__pRedLight = make_shared<PointLight>();
+	__pRedLight->setAlbedo(1.f, .3f, .2f);
+	__pRedLight->setAmbientStrength(.05f);
+	__pRedLight->setDiffuseStrength(6.f);
+	__pRedLight->setSpecularStrength(6.f);
+	__pRedLight->setAttenuation(1.f, 0.07f, 0.017f);
+	__pRedLight->setDepthMapSize(2048, 2048);
+	__pRedLight->setShadowEnabled(true);
+
+	Transform& redLightTransform = __pRedLight->getTransform();
+	redLightTransform.setPosition(blub2Transform.getPosition() + vec3{ -2.f, 1.f, -2.f });
 
 	//// Deployer / Updater 초기화 ////
 
 	__pLightHandler = make_shared<LightHandler>();
 	__pLightHandler->addLight(__pWhiteLight);
+	__pLightHandler->addLight(__pRedLight);
 
 	__pUpdater = make_shared<Updater>();
+	__pUpdater->addUpdatable(__pFloorRU);
 	__pUpdater->addUpdatable(__pBlubRU);
 	__pUpdater->addUpdatable(__pCargoBayRU);
 	__pUpdater->addUpdatable(__pPulseCoreRU);
 	__pUpdater->addUpdatable(__pDoorRU);
-	// __pUpdater->addUpdatable(__pWallRU);
 	__pUpdater->addUpdatable(__pCamera);
 	__pUpdater->addUpdatable(__pWhiteLight);
+	__pUpdater->addUpdatable(__pRedLight);
 
 	__pDrawer = make_shared<Drawer>();
+	__pDrawer->addDrawable(__pFloorRU);
 	__pDrawer->addDrawable(__pBlubRU);
 	__pDrawer->addDrawable(__pCargoBayRU);
 	__pDrawer->addDrawable(__pPulseCoreRU);
 	__pDrawer->addDrawable(__pDoorRU);
-	// __pDrawer->addDrawable(__pWallRU);
 
 	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>();
 	__pMsaaPP = make_shared<MSAAPostProcessor>();
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
+	__pPPPipeline->appendProcessor(__pMsaaPP);
 	__pPPPipeline->appendProcessor(__pGammaCorrectionPP);
 
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);

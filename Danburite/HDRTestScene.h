@@ -5,6 +5,7 @@
 #include "RenderUnit.h"
 #include "PerspectiveCamera.h"
 #include "PointLight.h"
+#include "SpotLight.h"
 #include "LightHandler.h"
 #include "Updater.h"
 #include "Drawer.h"
@@ -17,15 +18,16 @@ class HDRTestScene : public Danburite::Scene, public ObjectGL::ScreenEventHandle
 private:
 	bool __updated = false;
 
+	std::shared_ptr<Danburite::RenderUnit> __pFloorRU;
 	std::shared_ptr<Danburite::RenderUnit> __pBlubRU;
 	std::shared_ptr<Danburite::RenderUnit> __pCargoBayRU;
 	std::shared_ptr<Danburite::RenderUnit> __pPulseCoreRU;
 	std::shared_ptr<Danburite::RenderUnit> __pDoorRU;
-	std::shared_ptr<Danburite::RenderUnit> __pWallRU;
 
 	std::shared_ptr<Danburite::PerspectiveCamera> __pCamera;
 
 	std::shared_ptr<Danburite::PointLight> __pWhiteLight;
+	std::shared_ptr<Danburite::PointLight> __pRedLight;
 
 	std::shared_ptr<Danburite::LightHandler> __pLightHandler;
 	std::shared_ptr<Danburite::Updater> __pUpdater;
