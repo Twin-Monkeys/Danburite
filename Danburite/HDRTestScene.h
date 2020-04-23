@@ -19,7 +19,7 @@ private:
 	bool __updated = false;
 
 	std::shared_ptr<Danburite::RenderUnit> __pFloorRU;
-	std::shared_ptr<Danburite::RenderUnit> __pBlubRU;
+	std::shared_ptr<Danburite::RenderUnit> __pLampRU;
 	std::shared_ptr<Danburite::RenderUnit> __pCargoBayRU;
 	std::shared_ptr<Danburite::RenderUnit> __pPulseCoreRU;
 	std::shared_ptr<Danburite::RenderUnit> __pDoorRU;

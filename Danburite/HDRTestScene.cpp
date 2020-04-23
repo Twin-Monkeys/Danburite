@@ -21,7 +21,7 @@ HDRTestScene::HDRTestScene()
 
 	GLFunctionWrapper::setOption(GLOptionType::MULTISAMPLE, true);
 	GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
-	GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, false);
+	GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, true);
 
 
 	//// Rendering unit 생성 ////
@@ -54,18 +54,18 @@ HDRTestScene::HDRTestScene()
 	floorTransform.setScale(60.f, 60.f, 1.f);
 	floorTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
 
-	__pBlubRU = AssetImporter::import("res/asset/bulb_fish/scene.gltf");
-	__pBlubRU->setNumInstances(2);
+	__pLampRU = AssetImporter::import("res/asset/japanese_lamp/scene.gltf");
+	__pLampRU->setNumInstances(2);
 
-	Transform &blub1Transform = __pBlubRU->getTransform(0);
-	blub1Transform.setScale(3.f);
-	blub1Transform.setPosition(0.f, 10.f, -20.f);
-	blub1Transform.setRotation(0.f, pi<float>(), 0.f);
+	Transform &lamp1Transform = __pLampRU->getTransform(0);
+	lamp1Transform.setScale(.01f);
+	lamp1Transform.setPosition(0.f, 10.f, -20.f);
+	lamp1Transform.setRotation(-half_pi<float>(), 0.f, 0.f);
 
-	Transform& blub2Transform = __pBlubRU->getTransform(1);
-	blub2Transform.setScale(3.f);
-	blub2Transform.setPosition(10.f, 3.f, 10.f);
-	blub2Transform.setRotation(0.f, pi<float>() * 0.25f, 0.f);
+	Transform& lamp2Transform = __pLampRU->getTransform(1);
+	lamp2Transform.setScale(.01f);
+	lamp2Transform.setPosition(10.f, 3.f, 10.f);
+	lamp2Transform.setRotation(-half_pi<float>(), 0.f, 0.f);
 
 	__pCargoBayRU = AssetImporter::import("res/asset/cargo_bay/scene.gltf");
 	Transform &cargoBayTransform = __pCargoBayRU->getTransform();
@@ -106,7 +106,7 @@ HDRTestScene::HDRTestScene()
 	__pWhiteLight->setShadowEnabled(true);
 
 	Transform& whiteLightTransform = __pWhiteLight->getTransform();
-	whiteLightTransform.setPosition(blub1Transform.getPosition() + vec3 { 0.f, 1.f, 3.5f });
+	whiteLightTransform.setPosition(lamp1Transform.getPosition() + vec3 { 0.f, 0.f, 2.f });
 
 	__pRedLight = make_shared<PointLight>();
 	__pRedLight->setAlbedo(1.f, .3f, .2f);
@@ -118,7 +118,7 @@ HDRTestScene::HDRTestScene()
 	__pRedLight->setShadowEnabled(true);
 
 	Transform& redLightTransform = __pRedLight->getTransform();
-	redLightTransform.setPosition(blub2Transform.getPosition() + vec3{ -2.f, 1.f, -2.f });
+	redLightTransform.setPosition(lamp2Transform.getPosition() + vec3{ -1.4f, 0.f, -1.4f });
 
 	//// Deployer / Updater 초기화 ////
 
@@ -128,7 +128,7 @@ HDRTestScene::HDRTestScene()
 
 	__pUpdater = make_shared<Updater>();
 	__pUpdater->addUpdatable(__pFloorRU);
-	__pUpdater->addUpdatable(__pBlubRU);
+	__pUpdater->addUpdatable(__pLampRU);
 	__pUpdater->addUpdatable(__pCargoBayRU);
 	__pUpdater->addUpdatable(__pPulseCoreRU);
 	__pUpdater->addUpdatable(__pDoorRU);
@@ -138,7 +138,7 @@ HDRTestScene::HDRTestScene()
 
 	__pDrawer = make_shared<Drawer>();
 	__pDrawer->addDrawable(__pFloorRU);
-	__pDrawer->addDrawable(__pBlubRU);
+	__pDrawer->addDrawable(__pLampRU);
 	__pDrawer->addDrawable(__pCargoBayRU);
 	__pDrawer->addDrawable(__pPulseCoreRU);
 	__pDrawer->addDrawable(__pDoorRU);
@@ -147,7 +147,7 @@ HDRTestScene::HDRTestScene()
 	__pMsaaPP = make_shared<MSAAPostProcessor>();
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
-	__pPPPipeline->appendProcessor(__pMsaaPP);
+	// __pPPPipeline->appendProcessor(__pMsaaPP);
 	__pPPPipeline->appendProcessor(__pGammaCorrectionPP);
 
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
@@ -224,8 +224,8 @@ bool HDRTestScene::delta(const float deltaTime) noexcept
 {
 	constexpr vec3 pivot { 0.f, 0.f, 0.f };
 	constexpr vec3 axis { 0.f, 1.f, 0.f };
-	__pBlubRU->getTransform().orbit(deltaTime * .0003f, pivot, axis);
-	__pWhiteLight->getTransform().orbit(deltaTime * .0003f, pivot, axis);
+	__pLampRU->getTransform().orbit(deltaTime * .0003f, pivot, axis, false);
+	__pWhiteLight->getTransform().orbit(deltaTime * .0003f, pivot, axis, false);
 
 	return __keyFunc(deltaTime);
 }
