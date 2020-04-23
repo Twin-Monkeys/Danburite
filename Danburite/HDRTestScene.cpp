@@ -54,18 +54,17 @@ HDRTestScene::HDRTestScene()
 	floorTransform.setScale(60.f, 60.f, 1.f);
 	floorTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
 
-	__pLampRU = AssetImporter::import("res/asset/japanese_lamp/scene.gltf");
+	__pLampRU = AssetImporter::import("res/asset/bulb_fish/scene.gltf");
 	__pLampRU->setNumInstances(2);
 
 	Transform &lamp1Transform = __pLampRU->getTransform(0);
 	lamp1Transform.setScale(.01f);
 	lamp1Transform.setPosition(0.f, 10.f, -20.f);
-	lamp1Transform.setRotation(-half_pi<float>(), 0.f, 0.f);
 
 	Transform& lamp2Transform = __pLampRU->getTransform(1);
 	lamp2Transform.setScale(.01f);
 	lamp2Transform.setPosition(10.f, 3.f, 10.f);
-	lamp2Transform.setRotation(-half_pi<float>(), 0.f, 0.f);
+	lamp2Transform.setRotation(0.f, pi<float>(), 0.f);
 
 	__pCargoBayRU = AssetImporter::import("res/asset/cargo_bay/scene.gltf");
 	Transform &cargoBayTransform = __pCargoBayRU->getTransform();
@@ -99,26 +98,26 @@ HDRTestScene::HDRTestScene()
 
 	__pWhiteLight = make_shared<PointLight>();
 	__pWhiteLight->setAmbientStrength(.05f);
-	__pWhiteLight->setDiffuseStrength(6.f);
-	__pWhiteLight->setSpecularStrength(6.f);
+	__pWhiteLight->setDiffuseStrength(20.f);
+	__pWhiteLight->setSpecularStrength(20.f);
 	__pWhiteLight->setAttenuation(1.f, 0.07f, 0.017f);
 	__pWhiteLight->setDepthMapSize(2048, 2048);
 	__pWhiteLight->setShadowEnabled(true);
 
 	Transform& whiteLightTransform = __pWhiteLight->getTransform();
-	whiteLightTransform.setPosition(lamp1Transform.getPosition() + vec3 { 0.f, 0.f, 2.f });
+	whiteLightTransform.setPosition(lamp1Transform.getPosition() + vec3 { 0.f, .3f, 3.5f });
 
 	__pRedLight = make_shared<PointLight>();
 	__pRedLight->setAlbedo(1.f, .3f, .2f);
 	__pRedLight->setAmbientStrength(.05f);
-	__pRedLight->setDiffuseStrength(6.f);
-	__pRedLight->setSpecularStrength(6.f);
+	__pRedLight->setDiffuseStrength(20.f);
+	__pRedLight->setSpecularStrength(20.f);
 	__pRedLight->setAttenuation(1.f, 0.07f, 0.017f);
 	__pRedLight->setDepthMapSize(2048, 2048);
 	__pRedLight->setShadowEnabled(true);
 
 	Transform& redLightTransform = __pRedLight->getTransform();
-	redLightTransform.setPosition(lamp2Transform.getPosition() + vec3{ -1.4f, 0.f, -1.4f });
+	redLightTransform.setPosition(lamp2Transform.getPosition() + vec3{ -2.f, .3f, -2.f });
 
 	//// Deployer / Updater ÃÊ±âÈ­ ////
 
@@ -224,8 +223,8 @@ bool HDRTestScene::delta(const float deltaTime) noexcept
 {
 	constexpr vec3 pivot { 0.f, 0.f, 0.f };
 	constexpr vec3 axis { 0.f, 1.f, 0.f };
-	__pLampRU->getTransform().orbit(deltaTime * .0003f, pivot, axis, false);
-	__pWhiteLight->getTransform().orbit(deltaTime * .0003f, pivot, axis, false);
+	__pLampRU->getTransform().orbit(deltaTime * .0001f, pivot, axis);
+	__pWhiteLight->getTransform().orbit(deltaTime * .0001f, pivot, axis, false);
 
 	return __keyFunc(deltaTime);
 }
