@@ -21,9 +21,9 @@ namespace Danburite
 		glm::mat4 __modelMat		{ 1.f };
 
 	protected:
-		virtual void _onUpdateTranslation(glm::mat4 &translationMat) const noexcept;
-		virtual void _onUpdateScale(glm::mat4 &ScaleMat) const noexcept;
-		virtual void _onUpdateRotation(glm::mat4 &RotationMat) const noexcept;
+		virtual void _onUpdateTranslationMatrix(glm::mat4 &translationMat) const noexcept;
+		virtual void _onUpdateScaleMatrix(glm::mat4 &scaleMat) const noexcept;
+		virtual void _onUpdateRotationMatrix(glm::mat4 &rotationMat) const noexcept;
 
 	public:
 		// position
@@ -48,6 +48,7 @@ namespace Danburite
 		Transform &setRotation(const float pitch, const float yaw, const float roll) noexcept;
 		Transform &adjustRotation(const glm::vec3 &eularAngles) noexcept;
 		Transform &adjustRotation(const float pitch, const float yaw, const float roll) noexcept;
+
 		Transform &adjustLocalRotation(const glm::vec3 &eularAngles) noexcept;
 		Transform &adjustLocalRotation(const float pitch, const float yaw, const float roll) noexcept;
 

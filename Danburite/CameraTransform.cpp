@@ -6,7 +6,7 @@ using namespace glm;
 
 namespace Danburite
 {
-	void CameraTransform::_onUpdateRotation(mat4 &rotationMat) const noexcept
+	void CameraTransform::_onUpdateRotationMatrix(mat4 &rotationMat) const noexcept
 	{
 		// == inverse
 		rotationMat = transpose(__viewRotationMat);

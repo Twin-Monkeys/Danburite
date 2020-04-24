@@ -8,17 +8,17 @@ using namespace glm;
 
 namespace Danburite
 {
-	void Transform::_onUpdateTranslation(mat4 &translationMat) const noexcept
+	void Transform::_onUpdateTranslationMatrix(mat4 &translationMat) const noexcept
 	{
 		translationMat = translate(__position);
 	}
 
-	void Transform::_onUpdateScale(mat4 &scaleMat) const noexcept
+	void Transform::_onUpdateScaleMatrix(mat4 &scaleMat) const noexcept
 	{
 		scaleMat = scale(__scale);
 	}
 
-	void Transform::_onUpdateRotation(mat4 &rotationMat) const noexcept
+	void Transform::_onUpdateRotationMatrix(mat4 &rotationMat) const noexcept
 	{
 		__rotation.getMatrix(rotationMat);
 	}
@@ -54,7 +54,7 @@ namespace Danburite
 
 	Transform &Transform::adjustLocalRotation(const float pitch, const float yaw, const float roll) noexcept
 	{
-		_onUpdateRotation(__rotationMat);
+		_onUpdateRotationMatrix(__rotationMat);
 		const vec4 &horizontal	= getHorizontal();
 		const vec4 &vertical	= getVertical();
 		const vec4 &forward		= getForward();
@@ -69,7 +69,7 @@ namespace Danburite
 
 	Transform &Transform::moveForward(const float delta) noexcept
 	{
-		_onUpdateRotation(__rotationMat);
+		_onUpdateRotationMatrix(__rotationMat);
 		const vec4 &forward = getForward();
 
 		return adjustPosition(forward.x * delta, forward.y * delta, forward.z * delta);
@@ -77,7 +77,7 @@ namespace Danburite
 
 	Transform &Transform::moveHorizontal(const float delta) noexcept
 	{
-		_onUpdateRotation(__rotationMat);
+		_onUpdateRotationMatrix(__rotationMat);
 		const vec4 &horizontal = getHorizontal();
 
 		return adjustPosition(horizontal.x * delta, horizontal.y * delta, horizontal.z * delta);
@@ -85,7 +85,7 @@ namespace Danburite
 
 	Transform &Transform::moveVertical(const float delta) noexcept
 	{
-		_onUpdateRotation(__rotationMat);
+		_onUpdateRotationMatrix(__rotationMat);
 		const vec4 &vertical = getVertical();
 
 		return adjustPosition(vertical.x * delta, vertical.y * delta, vertical.z * delta);
@@ -104,9 +104,9 @@ namespace Danburite
 
 	void Transform::update() noexcept
 	{
-		_onUpdateScale(__scaleMat);
-		_onUpdateRotation(__rotationMat);
-		_onUpdateTranslation(__translationMat);
+		_onUpdateScaleMatrix(__scaleMat);
+		_onUpdateRotationMatrix(__rotationMat);
+		_onUpdateTranslationMatrix(__translationMat);
 
 		__modelMat = (__translationMat * __rotationMat * __scaleMat);
 	}

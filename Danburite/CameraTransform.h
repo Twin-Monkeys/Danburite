@@ -11,7 +11,7 @@ namespace Danburite
 		glm::mat4 __viewRotationMat		{ 1.f };
 
 	protected:
-		virtual void _onUpdateRotation(glm::mat4 &rotationMat) const noexcept override;
+		virtual void _onUpdateRotationMatrix(glm::mat4 &rotationMat) const noexcept override;
 
 	public:
 		constexpr const glm::mat4 &getViewTranslationMatrix() const noexcept;

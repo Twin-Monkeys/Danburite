@@ -40,7 +40,7 @@ namespace Danburite
 
 	Quaternion &Quaternion::rotate(const quat &quaternion) noexcept
 	{
-		__quaternion = (quaternion  * __quaternion);
+		__quaternion = (quaternion * __quaternion);
 		return *this;
 	}
 
