@@ -15,12 +15,12 @@ namespace Danburite
 	void CameraTransform::update() noexcept
 	{
 		const vec3 &position = getPosition();
-		const vec3 &rotation = getRotation();
+		const vec3& eularAngles = getRotation().getEularAngles();
 
 		__viewTranslationMat = translate(-position);
 
 		// 카메라 조작은 euler angle이 좀더 직관적임.
-		__viewRotationMat = eulerAngleXYZ(-rotation.x, -rotation.y, -rotation.z);
+		__viewRotationMat = eulerAngleXYZ(-eularAngles.x, -eularAngles.y, -eularAngles.z);
 
 		Transform::update();
 	}

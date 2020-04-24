@@ -60,7 +60,7 @@ HDRTestScene::HDRTestScene()
 	Transform &lamp1Transform = __pLampRU->getTransform(0);
 	lamp1Transform.setScale(.01f);
 	lamp1Transform.setPosition(0.f, 10.f, -20.f);
-	lamp1Transform.setRotation(half_pi<float>() * .5f, half_pi<float>(), 0.f);
+	lamp1Transform.setRotation(half_pi<float>() * .5f, pi<float>() * .9f, 1.f);
 
 	Transform& lamp2Transform = __pLampRU->getTransform(1);
 	lamp2Transform.setScale(.01f);
@@ -236,8 +236,8 @@ bool HDRTestScene::delta(const float deltaTime) noexcept
 {
 	constexpr vec3 pivot { 0.f, 0.f, 0.f };
 	constexpr vec3 axis { 0.f, 1.f, 0.f };
-	__pLampRU->getTransform().orbit(deltaTime * .0001f, pivot, axis);
-	__pWhiteLight->getTransform().orbit(deltaTime * .0001f, pivot, axis, false);
+	__pLampRU->getTransform().orbit(deltaTime * .0005f, pivot, axis);
+	__pWhiteLight->getTransform().orbit(deltaTime * .0005f, pivot, axis, false);
 
 	return __keyFunc(deltaTime);
 }

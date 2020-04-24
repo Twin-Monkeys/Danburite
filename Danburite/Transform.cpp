@@ -20,46 +20,66 @@ namespace Danburite
 
 	void Transform::_onUpdateRotation(mat4 &rotationMat) const noexcept
 	{
-		rotationMat = mat4_cast(quat{ __rotation });
+		__rotation.getMatrix(rotationMat);
 	}
 	
-	void Transform::moveForward(const float delta) noexcept
+	Transform &Transform::setRotation(const vec3 &eularAngles) noexcept
+	{
+		__rotation.setRotation(eularAngles);
+		return *this;
+	}
+
+	Transform &Transform::setRotation(const float pitch, const float yaw, const float roll) noexcept
+	{
+		__rotation.setRotation(pitch, yaw, roll);
+		return *this;
+	}
+
+	Transform &Transform::adjustRotation(const glm::vec3 &eularAngles) noexcept
+	{
+		__rotation.adjustRotation(eularAngles);
+		return *this;
+	}
+
+	Transform &Transform::adjustRotation(const float pitch, const float yaw, const float roll) noexcept
+	{
+		__rotation.adjustRotation(pitch, yaw, roll);
+		return *this;
+	}
+
+	Transform &Transform::moveForward(const float delta) noexcept
 	{
 		_onUpdateRotation(__rotationMat);
-
 		const vec4 &forward = getForward();
-		__position.x += (forward.x * delta);
-		__position.y += (forward.y * delta);
-		__position.z += (forward.z * delta);
+
+		return adjustPosition(forward.x * delta, forward.y * delta, forward.z * delta);
 	}
 
-	void Transform::moveHorizontal(const float delta) noexcept
+	Transform &Transform::moveHorizontal(const float delta) noexcept
 	{
 		_onUpdateRotation(__rotationMat);
-
 		const vec4 &horizontal = getHorizontal();
-		__position.x += (horizontal.x * delta);
-		__position.y += (horizontal.y * delta);
-		__position.z += (horizontal.z * delta);
+
+		return adjustPosition(horizontal.x * delta, horizontal.y * delta, horizontal.z * delta);
 	}
 
-	void Transform::moveVertical(const float delta) noexcept
+	Transform &Transform::moveVertical(const float delta) noexcept
 	{
 		_onUpdateRotation(__rotationMat);
-
 		const vec4 &vertical = getVertical();
-		__position.x += (vertical.x * delta);
-		__position.y += (vertical.y * delta);
-		__position.z += (vertical.z * delta);
+
+		return adjustPosition(vertical.x * delta, vertical.y * delta, vertical.z * delta);
 	}
 
-	void Transform::orbit(const float angle, const vec3 &pivot, const vec3 &axis, const bool angleRotation) noexcept
+	Transform &Transform::orbit(const float angle, const vec3 &pivot, const vec3 &axis, const bool angleRotation) noexcept
 	{
 		const quat &rotationQuat = angleAxis(angle, axis);
 		__position = ((rotationQuat * (__position - pivot)) + pivot);
 
 		if (angleRotation)
-			__rotation += eulerAngles(rotationQuat);
+			__rotation.rotate(rotationQuat);
+
+		return *this;
 	}
 
 	void Transform::update() noexcept
