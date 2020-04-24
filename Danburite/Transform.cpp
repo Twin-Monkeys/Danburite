@@ -35,7 +35,7 @@ namespace Danburite
 		return *this;
 	}
 
-	Transform &Transform::adjustRotation(const glm::vec3 &eularAngles) noexcept
+	Transform &Transform::adjustRotation(const vec3 &eularAngles) noexcept
 	{
 		__rotation.adjustRotation(eularAngles);
 		return *this;
@@ -44,6 +44,26 @@ namespace Danburite
 	Transform &Transform::adjustRotation(const float pitch, const float yaw, const float roll) noexcept
 	{
 		__rotation.adjustRotation(pitch, yaw, roll);
+		return *this;
+	}
+
+	Transform &Transform::adjustLocalRotation(const vec3 &eularAngles) noexcept
+	{
+		return adjustLocalRotation(eularAngles.x, eularAngles.y, eularAngles.z);
+	}
+
+	Transform &Transform::adjustLocalRotation(const float pitch, const float yaw, const float roll) noexcept
+	{
+		_onUpdateRotation(__rotationMat);
+		const vec4 &horizontal	= getHorizontal();
+		const vec4 &vertical	= getVertical();
+		const vec4 &forward		= getForward();
+
+		__rotation.
+			rotate(roll, vec3 { forward }).
+			rotate(pitch, vec3 { horizontal }).
+			rotate(yaw, vec3 { vertical });
+
 		return *this;
 	}
 

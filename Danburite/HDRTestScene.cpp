@@ -60,7 +60,6 @@ HDRTestScene::HDRTestScene()
 	Transform &lamp1Transform = __pLampRU->getTransform(0);
 	lamp1Transform.setScale(.01f);
 	lamp1Transform.setPosition(0.f, 10.f, -20.f);
-	lamp1Transform.setRotation(half_pi<float>() * .5f, pi<float>() * .9f, 1.f);
 
 	Transform& lamp2Transform = __pLampRU->getTransform(1);
 	lamp2Transform.setScale(.01f);
@@ -97,22 +96,23 @@ HDRTestScene::HDRTestScene()
 
 	// Light 초기화
 
-	__pWhiteLight = make_shared<PointLight>();
-	__pWhiteLight->setAmbientStrength(.05f);
-	__pWhiteLight->setDiffuseStrength(2.f);
-	__pWhiteLight->setSpecularStrength(2.f);
-	__pWhiteLight->setAttenuation(1.f, 0.09f, 0.032f);
-	__pWhiteLight->setDepthMapSize(2048, 2048);
-	__pWhiteLight->setShadowEnabled(true);
+	__pBlueLight = make_shared<PointLight>();
+	__pBlueLight->setAlbedo(.2f, .3f, 1.f);
+	__pBlueLight->setAmbientStrength(.05f);
+	__pBlueLight->setDiffuseStrength(1.f);
+	__pBlueLight->setSpecularStrength(1.f);
+	__pBlueLight->setAttenuation(1.f, 0.09f, 0.032f);
+	__pBlueLight->setDepthMapSize(2048, 2048);
+	__pBlueLight->setShadowEnabled(true);
 
-	Transform& whiteLightTransform = __pWhiteLight->getTransform();
-	whiteLightTransform.setPosition(lamp1Transform.getPosition() + vec3 { 0.f, .3f, 3.5f });
+	Transform& blueLightTransform = __pBlueLight->getTransform();
+	blueLightTransform.setPosition(lamp1Transform.getPosition() + vec3 { 0.f, .3f, 3.5f });
 
 	__pRedLight = make_shared<PointLight>();
 	__pRedLight->setAlbedo(1.f, .3f, .2f);
 	__pRedLight->setAmbientStrength(.05f);
-	__pRedLight->setDiffuseStrength(2.f);
-	__pRedLight->setSpecularStrength(2.f);
+	__pRedLight->setDiffuseStrength(1.f);
+	__pRedLight->setSpecularStrength(1.f);
 	__pRedLight->setAttenuation(1.f, 0.09f, 0.032f);
 	__pRedLight->setDepthMapSize(2048, 2048);
 	__pRedLight->setShadowEnabled(true);
@@ -123,7 +123,7 @@ HDRTestScene::HDRTestScene()
 	//// Deployer / Updater 초기화 ////
 
 	__pLightHandler = make_shared<LightHandler>();
-	__pLightHandler->addLight(__pWhiteLight);
+	__pLightHandler->addLight(__pBlueLight);
 	__pLightHandler->addLight(__pRedLight);
 
 	__pUpdater = make_shared<Updater>();
@@ -133,7 +133,7 @@ HDRTestScene::HDRTestScene()
 	__pUpdater->addUpdatable(__pPulseCoreRU);
 	__pUpdater->addUpdatable(__pDoorRU);
 	__pUpdater->addUpdatable(__pCamera);
-	__pUpdater->addUpdatable(__pWhiteLight);
+	__pUpdater->addUpdatable(__pBlueLight);
 	__pUpdater->addUpdatable(__pRedLight);
 
 	__pDrawer = make_shared<Drawer>();
@@ -148,7 +148,7 @@ HDRTestScene::HDRTestScene()
 	__pMsaaPP = make_shared<MSAAPostProcessor>();
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
-	// __pPPPipeline->appendProcessor(__pMsaaPP);
+	__pPPPipeline->appendProcessor(__pMsaaPP);
 	__pPPPipeline->appendProcessor(__pGammaCorrectionPP);
 	__pPPPipeline->appendProcessor(__pHDRPP);
 
@@ -237,7 +237,8 @@ bool HDRTestScene::delta(const float deltaTime) noexcept
 	constexpr vec3 pivot { 0.f, 0.f, 0.f };
 	constexpr vec3 axis { 0.f, 1.f, 0.f };
 	__pLampRU->getTransform().orbit(deltaTime * .0005f, pivot, axis);
-	__pWhiteLight->getTransform().orbit(deltaTime * .0005f, pivot, axis, false);
+	__pBlueLight->getTransform().orbit(deltaTime * .0005f, pivot, axis, false);
+	__pCamera->getTransform().orbit(deltaTime * .0002f, pivot, axis);
 
 	return __keyFunc(deltaTime);
 }
@@ -268,7 +269,7 @@ void HDRTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
 	constexpr float ROTATION_SPEED = .004f;
 
 	Transform& cameraTransform = __pCamera->getTransform();
-	cameraTransform.adjustRotation(-(yDelta * ROTATION_SPEED), -(xDelta * ROTATION_SPEED), 0.f);
+	cameraTransform.adjustLocalRotation(-(yDelta * ROTATION_SPEED), -(xDelta * ROTATION_SPEED), 0.f);
 }
 
 void HDRTestScene::onMouseMButtonDown(const int x, const int y) noexcept
