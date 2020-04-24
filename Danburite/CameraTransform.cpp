@@ -18,6 +18,8 @@ namespace Danburite
 		const vec3 &rotation = getRotation();
 
 		__viewTranslationMat = translate(-position);
+
+		// 카메라 조작은 euler angle이 좀더 직관적임.
 		__viewRotationMat = eulerAngleXYZ(-rotation.x, -rotation.y, -rotation.z);
 
 		Transform::update();

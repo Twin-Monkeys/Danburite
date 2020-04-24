@@ -20,7 +20,7 @@ namespace Danburite
 
 	void Transform::_onUpdateRotation(mat4 &rotationMat) const noexcept
 	{
-		rotationMat = eulerAngleXYZ(__rotation.x, __rotation.y, __rotation.z);
+		rotationMat = mat4_cast(quat{ __rotation });
 	}
 	
 	void Transform::moveForward(const float delta) noexcept
@@ -55,15 +55,11 @@ namespace Danburite
 
 	void Transform::orbit(const float angle, const vec3 &pivot, const vec3 &axis, const bool angleRotation) noexcept
 	{
-		const mat4 &rotationMat = rotate(angle, axis);
-
-		vec3 movedPos = (__position - pivot);
-		movedPos = (mat3 { rotationMat } * movedPos);
-
-		__position = (movedPos + pivot);
+		const quat &rotationQuat = angleAxis(angle, axis);
+		__position = ((rotationQuat * (__position - pivot)) + pivot);
 
 		if (angleRotation)
-			__rotation += eulerAngles(angleAxis(angle, axis));
+			__rotation += eulerAngles(rotationQuat);
 	}
 
 	void Transform::update() noexcept

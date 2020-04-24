@@ -60,6 +60,7 @@ HDRTestScene::HDRTestScene()
 	Transform &lamp1Transform = __pLampRU->getTransform(0);
 	lamp1Transform.setScale(.01f);
 	lamp1Transform.setPosition(0.f, 10.f, -20.f);
+	lamp1Transform.setRotation(half_pi<float>() * .5f, half_pi<float>(), 0.f);
 
 	Transform& lamp2Transform = __pLampRU->getTransform(1);
 	lamp2Transform.setScale(.01f);
@@ -92,14 +93,14 @@ HDRTestScene::HDRTestScene()
 
 	Transform& cameraTransform = __pCamera->getTransform();
 	cameraTransform.setPosition(0.f, 15.f, 50.f);
-	cameraTransform.setRotation(-.4f, 0.f, 0.f);
+	cameraTransform.setRotation(-0.4f, 0.f, 0.f);
 
 	// Light √ ±‚»≠
 
 	__pWhiteLight = make_shared<PointLight>();
 	__pWhiteLight->setAmbientStrength(.05f);
-	__pWhiteLight->setDiffuseStrength(150.f);
-	__pWhiteLight->setSpecularStrength(150.f);
+	__pWhiteLight->setDiffuseStrength(2.f);
+	__pWhiteLight->setSpecularStrength(2.f);
 	__pWhiteLight->setAttenuation(1.f, 0.09f, 0.032f);
 	__pWhiteLight->setDepthMapSize(2048, 2048);
 	__pWhiteLight->setShadowEnabled(true);
@@ -110,8 +111,8 @@ HDRTestScene::HDRTestScene()
 	__pRedLight = make_shared<PointLight>();
 	__pRedLight->setAlbedo(1.f, .3f, .2f);
 	__pRedLight->setAmbientStrength(.05f);
-	__pRedLight->setDiffuseStrength(150.f);
-	__pRedLight->setSpecularStrength(150.f);
+	__pRedLight->setDiffuseStrength(2.f);
+	__pRedLight->setSpecularStrength(2.f);
 	__pRedLight->setAttenuation(1.f, 0.09f, 0.032f);
 	__pRedLight->setDepthMapSize(2048, 2048);
 	__pRedLight->setShadowEnabled(true);
