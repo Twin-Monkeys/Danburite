@@ -10,6 +10,7 @@
 #include "Updater.h"
 #include "Drawer.h"
 #include "GammaCorrectionPostProcessor.h"
+#include "HDRPostProcessor.h"
 #include "MSAAPostProcessor.h"
 #include "PostProcessingPipeline.h"
 
@@ -33,6 +34,7 @@ private:
 	std::shared_ptr<Danburite::Updater> __pUpdater;
 	std::shared_ptr<Danburite::Drawer> __pDrawer;
 
+	std::shared_ptr<Danburite::HDRPostProcessor> __pHDRPP;
 	std::shared_ptr<Danburite::GammaCorrectionPostProcessor> __pGammaCorrectionPP;
 	std::shared_ptr<Danburite::MSAAPostProcessor> __pMsaaPP;
 	std::shared_ptr<Danburite::PostProcessingPipeline> __pPPPipeline;

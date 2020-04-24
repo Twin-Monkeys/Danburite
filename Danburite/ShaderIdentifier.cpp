@@ -112,8 +112,14 @@ namespace Danburite
 
 			namespace GammaCorrection
 			{
-				const std::string
+				const string
 					GAMMA = "gammaCorrection.gamma";
+			}
+
+			namespace HDR
+			{
+				const string
+					EXPOSURE = "hdr.exposure";
 			}
 
 			namespace Skybox
@@ -148,7 +154,8 @@ namespace Danburite
 					SKYBOX					= "UBSkybox",
 					ATTACHMENT				= "UBAttachment",
 					DEPTH_BAKING_2D			= "UBDepthBaking2D",
-					DEPTH_BAKING_CUBEMAP	= "UBDepthBakingCubemap"
+					DEPTH_BAKING_CUBEMAP	= "UBDepthBakingCubemap",
+					HDR						= "UBHDR"
 					;
 			}
 		}
@@ -196,6 +203,10 @@ namespace Danburite
 						{
 							Name::UniformBuffer::DEPTH_BAKING_CUBEMAP,
 							Value::UniformBlockBindingPoint::DEPTH_BAKING_CUBEMAP
+						},
+						{
+							Name::UniformBuffer::HDR,
+							Value::UniformBlockBindingPoint::HDR
 						}
 					};
 

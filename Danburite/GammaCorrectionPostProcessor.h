@@ -18,8 +18,13 @@ namespace Danburite
 	public:
 		GammaCorrectionPostProcessor();
 
-		void setGamma(const float gamma) noexcept;
+		constexpr void setGamma(const float gamma) noexcept;
 
 		virtual ~GammaCorrectionPostProcessor() = default;
 	};
+
+	constexpr void GammaCorrectionPostProcessor::setGamma(const float gamma) noexcept
+	{
+		__gamma = gamma;
+	}
 }

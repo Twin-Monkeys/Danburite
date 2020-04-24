@@ -148,6 +148,16 @@ namespace Danburite
 					"glsl/src/PostProcess_GammaCorrection_Frag.glsl"
 				}
 			},
+			{
+				ProgramType::POST_PROCESS_HDR,
+				{
+					"glsl/binary/PostProcess_HDR.bin",
+					"glsl/src/FullscreenQuad_Vert.glsl",
+					"",
+					"glsl/src/PostProcess_HDR_Frag.glsl"
+				}
+			},
+
 
 			// Depth baking
 			{
@@ -303,7 +313,8 @@ namespace Danburite
 					ProgramType::POST_PROCESS_GRAYSCALE,
 					ProgramType::POST_PROCESS_CONVOLUTIONAL,
 					ProgramType::POST_PROCESS_MSAA,
-					ProgramType::POST_PROCESS_GAMMA_CORRECTION
+					ProgramType::POST_PROCESS_GAMMA_CORRECTION,
+					ProgramType::POST_PROCESS_HDR,
 				}
 			},
 			{
@@ -316,6 +327,12 @@ namespace Danburite
 				ShaderIdentifier::Name::UniformBuffer::DEPTH_BAKING_CUBEMAP,
 				{
 					ProgramType::DEPTH_BAKING_CUBEMAP
+				}
+			},
+			{
+				ShaderIdentifier::Name::UniformBuffer::HDR,
+				{
+					ProgramType::POST_PROCESS_HDR
 				}
 			}
 		};

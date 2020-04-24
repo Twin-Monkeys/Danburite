@@ -112,6 +112,12 @@ namespace Danburite
 					GAMMA;
 			}
 
+			namespace HDR
+			{
+				extern const std::string
+					EXPOSURE;
+			}
+
 			namespace Skybox
 			{
 				extern const std::string
@@ -144,7 +150,8 @@ namespace Danburite
 					SKYBOX,
 					ATTACHMENT,
 					DEPTH_BAKING_2D,
-					DEPTH_BAKING_CUBEMAP
+					DEPTH_BAKING_CUBEMAP,
+					HDR
 					;
 			}
 		}
@@ -174,7 +181,8 @@ namespace Danburite
 					SKYBOX					= 5U,
 					ATTACHMENT				= 6U,
 					DEPTH_BAKING_2D			= 7U,
-					DEPTH_BAKING_CUBEMAP	= 8U
+					DEPTH_BAKING_CUBEMAP	= 8U,
+					HDR						= 9U
 					;
 			}
 

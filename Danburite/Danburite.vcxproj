@@ -169,6 +169,7 @@
     <ClCompile Include="DepthBakerBase.cpp" />
     <ClCompile Include="DepthBakerCubemap.cpp" />
     <ClCompile Include="GammaCorrectionPostProcessor.cpp" />
+    <ClCompile Include="HDRPostProcessor.cpp" />
     <ClCompile Include="HDRTestScene.cpp" />
     <ClCompile Include="IndexType.cpp" />
     <ClCompile Include="ParallaxMapTestScene.cpp" />
@@ -290,6 +291,7 @@
     <ClInclude Include="GLDebugMessageSeverityType.h" />
     <ClInclude Include="GLDebugMessageSourceType.h" />
     <ClInclude Include="GLDebugMessageType.h" />
+    <ClInclude Include="HDRPostProcessor.h" />
     <ClInclude Include="HDRTestScene.h" />
     <ClInclude Include="ParallaxMapTestScene.h" />
     <ClInclude Include="TransformableLight.h" />
@@ -446,9 +448,11 @@
     <None Include="glsl\src\DepthBakingCubemap_Vert.glsl" />
     <None Include="glsl\src\header\DepthBaking2D_Header.glsl" />
     <None Include="glsl\src\header\DepthBakingCubemap_Header.glsl" />
+    <None Include="glsl\src\header\HDR_Header.glsl" />
     <None Include="glsl\src\header\VariableInOut_Frag_Header.glsl" />
     <None Include="glsl\src\header\VariableInOut_Geo_Header.glsl" />
     <None Include="glsl\src\header\VariableInOut_Vert_Header.glsl" />
+    <None Include="glsl\src\PostProcess_HDR_Frag.glsl" />
     <None Include="glsl\src\Skybox_Frag.glsl" />
     <None Include="glsl\src\Skybox_Vert.glsl" />
     <None Include="glsl\src\DepthBaking2D_Frag.glsl" />

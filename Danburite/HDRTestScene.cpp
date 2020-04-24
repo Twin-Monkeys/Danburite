@@ -98,9 +98,9 @@ HDRTestScene::HDRTestScene()
 
 	__pWhiteLight = make_shared<PointLight>();
 	__pWhiteLight->setAmbientStrength(.05f);
-	__pWhiteLight->setDiffuseStrength(20.f);
-	__pWhiteLight->setSpecularStrength(20.f);
-	__pWhiteLight->setAttenuation(1.f, 0.07f, 0.017f);
+	__pWhiteLight->setDiffuseStrength(150.f);
+	__pWhiteLight->setSpecularStrength(150.f);
+	__pWhiteLight->setAttenuation(1.f, 0.09f, 0.032f);
 	__pWhiteLight->setDepthMapSize(2048, 2048);
 	__pWhiteLight->setShadowEnabled(true);
 
@@ -110,9 +110,9 @@ HDRTestScene::HDRTestScene()
 	__pRedLight = make_shared<PointLight>();
 	__pRedLight->setAlbedo(1.f, .3f, .2f);
 	__pRedLight->setAmbientStrength(.05f);
-	__pRedLight->setDiffuseStrength(20.f);
-	__pRedLight->setSpecularStrength(20.f);
-	__pRedLight->setAttenuation(1.f, 0.07f, 0.017f);
+	__pRedLight->setDiffuseStrength(150.f);
+	__pRedLight->setSpecularStrength(150.f);
+	__pRedLight->setAttenuation(1.f, 0.09f, 0.032f);
 	__pRedLight->setDepthMapSize(2048, 2048);
 	__pRedLight->setShadowEnabled(true);
 
@@ -143,11 +143,13 @@ HDRTestScene::HDRTestScene()
 	__pDrawer->addDrawable(__pDoorRU);
 
 	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>();
+	__pHDRPP = make_shared<HDRPostProcessor>();
 	__pMsaaPP = make_shared<MSAAPostProcessor>();
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
 	// __pPPPipeline->appendProcessor(__pMsaaPP);
 	__pPPPipeline->appendProcessor(__pGammaCorrectionPP);
+	__pPPPipeline->appendProcessor(__pHDRPP);
 
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
 }
@@ -193,6 +195,16 @@ bool HDRTestScene::__keyFunc(const float deltaTime) noexcept
 
 	if (DOWN)
 		cameraTransform.moveVertical(-MOVE_SPEED);
+
+	const bool
+		KEY1 = (GetAsyncKeyState('1') & 0x8000),
+		KEY2 = (GetAsyncKeyState('2') & 0x8000);
+
+	if (KEY1)
+		__pHDRPP->setExposure(__pHDRPP->getExposure() - .05f);
+
+	if (KEY2)
+		__pHDRPP->setExposure(__pHDRPP->getExposure() + .05f);
 
 	return true;
 }

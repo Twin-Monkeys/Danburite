@@ -113,5 +113,10 @@ namespace Danburite
 			constexpr GLsizei DEFAULT_MAP_WIDTH		= 1024;
 			constexpr GLsizei DEFAULT_MAP_HEIGHT	= 1024;
 		}
+
+		namespace HDR
+		{
+			constexpr GLfloat DEFAULT_EXPOSURE		= 5.f;
+		}
 	}
 }

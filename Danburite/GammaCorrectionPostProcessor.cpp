@@ -20,10 +20,4 @@ namespace Danburite
 		__gammaCorrectionSetter.setUniformFloat(ShaderIdentifier::Name::GammaCorrection::GAMMA, __gamma);
 		ForwardPostProcessor::_onRender(attachmentSetter, fullscreenQuadVA);
 	}
-
-	void GammaCorrectionPostProcessor::setGamma(const float gamma) noexcept
-	{
-		__gamma = gamma;
-		assert(__gamma > 0.f);
-	}
 }
