@@ -13,7 +13,7 @@ namespace Danburite
 	private:
 		glm::vec3 __position		{ 0.f, 0.f, 0.f };
 		glm::vec3 __scale			{ 1.f, 1.f, 1.f };
-		Quaternion __rotation;
+		Quaternion __rotation		{ 0.f, 0.f, 0.f };
 
 		glm::mat4 __translationMat	{ 1.f };
 		glm::mat4 __scaleMat		{ 1.f };
@@ -46,6 +46,8 @@ namespace Danburite
 		constexpr const Quaternion &getRotation() const noexcept;
 		Transform &setRotation(const glm::vec3 &eularAngles) noexcept;
 		Transform &setRotation(const float pitch, const float yaw, const float roll) noexcept;
+		Transform &setRotation(const Quaternion &rotation) noexcept;
+
 		Transform &rotateGlobal(const glm::vec3 &eulerAngles) noexcept;
 		Transform &rotateGlobal(const float pitch, const float yaw, const float roll) noexcept;
 		Transform &rotateLocal(const glm::vec3 &eulerAngles) noexcept;

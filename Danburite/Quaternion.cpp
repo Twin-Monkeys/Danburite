@@ -7,28 +7,39 @@ using namespace glm;
 
 namespace Danburite
 {
-	vec3 Quaternion::getEularAngles() const noexcept
+	Quaternion::Quaternion(const vec3 &eulerAngles) noexcept
 	{
-		return eulerAngles(__quaternion);
+		set(eulerAngles);
 	}
 
-	void Quaternion::getEularAngles(vec3 &retVal) const noexcept
+	Quaternion::Quaternion(const float pitch, const float yaw, const float roll) noexcept
 	{
-		retVal = eulerAngles(__quaternion);
+		set(pitch, yaw, roll);
 	}
 
-	Quaternion &Quaternion::setEulerAngles(const vec3 &eulerAngles) noexcept
+	Quaternion::Quaternion(const float angle, const vec3 &axis) noexcept
+	{
+		set(angle, axis);
+	}
+
+	Quaternion &Quaternion::set(const vec3 &eulerAngles) noexcept
 	{
 		__quaternion = quat { eulerAngles };
 		return *this;
 	}
 
-	Quaternion &Quaternion::setEulerAngles(const float pitch, const float yaw, const float roll) noexcept
+	Quaternion &Quaternion::set(const float pitch, const float yaw, const float roll) noexcept
 	{
-		return setEulerAngles(vec3 { pitch, yaw, roll });
+		return set(vec3 { pitch, yaw, roll });
 	}
 
-	Quaternion &Quaternion::rotateGlobal(const glm::vec3 &eulerAngles) noexcept
+	Quaternion &Quaternion::set(const float angle, const vec3 &axis) noexcept
+	{
+		__quaternion = angleAxis(angle, normalize(axis));
+		return *this;
+	}
+
+	Quaternion &Quaternion::rotateGlobal(const vec3 &eulerAngles) noexcept
 	{
 		__quaternion = (quat { eulerAngles } * __quaternion);
 		return *this;
@@ -71,6 +82,16 @@ namespace Danburite
 		return
 			rotateGlobal(pitch, referenceHoriz).
 			rotateGlobal(yaw, referenceUp);
+	}
+
+	vec3 Quaternion::getEularAngles() const noexcept
+	{
+		return eulerAngles(__quaternion);
+	}
+
+	void Quaternion::getEularAngles(vec3 &retVal) const noexcept
+	{
+		retVal = eulerAngles(__quaternion);
 	}
 
 	mat4 Quaternion::getMatrix() const noexcept

@@ -25,14 +25,19 @@ namespace Danburite
 	
 	Transform &Transform::setRotation(const vec3 &eularAngles) noexcept
 	{
-		__rotation.setEulerAngles(eularAngles);
+		__rotation.set(eularAngles);
 		return *this;
 	}
 
 	Transform &Transform::setRotation(const float pitch, const float yaw, const float roll) noexcept
 	{
-		__rotation.setEulerAngles(pitch, yaw, roll);
+		__rotation.set(pitch, yaw, roll);
 		return *this;
+	}
+
+	Transform &Transform::setRotation(const Quaternion &rotation) noexcept
+	{
+		__rotation = rotation;
 	}
 
 	Transform &Transform::rotateGlobal(const vec3 &eulerAngles) noexcept
