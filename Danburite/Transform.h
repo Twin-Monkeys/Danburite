@@ -52,6 +52,10 @@ namespace Danburite
 		Transform &adjustLocalRotation(const glm::vec3 &eularAngles) noexcept;
 		Transform &adjustLocalRotation(const float pitch, const float yaw, const float roll) noexcept;
 
+		Transform &adjustFPSPitch(const float pitch, const glm::vec3 &referenceUp = { 0.f, 1.f, 0.f }) noexcept;
+		Transform &adjustFPSYaw(const float yaw, const glm::vec3 &referenceUp = { 0.f, 1.f, 0.f }) noexcept;
+		Transform &adjustFPSRoll(const float roll, const glm::vec3 &referenceUp = { 0.f, 1.f, 0.f }) noexcept;
+
 		// util
 		Transform &moveForward(const float delta) noexcept;
 		Transform &moveHorizontal(const float delta) noexcept;

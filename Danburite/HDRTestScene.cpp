@@ -238,7 +238,7 @@ bool HDRTestScene::delta(const float deltaTime) noexcept
 	constexpr vec3 axis { 0.f, 1.f, 0.f };
 	__pLampRU->getTransform().orbit(deltaTime * .0005f, pivot, axis);
 	__pBlueLight->getTransform().orbit(deltaTime * .0005f, pivot, axis, false);
-	__pCamera->getTransform().orbit(deltaTime * .0002f, pivot, axis);
+	// __pCamera->getTransform().orbit(deltaTime * .0002f, pivot, axis);
 
 	return __keyFunc(deltaTime);
 }
@@ -269,7 +269,8 @@ void HDRTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
 	constexpr float ROTATION_SPEED = .004f;
 
 	Transform& cameraTransform = __pCamera->getTransform();
-	cameraTransform.adjustLocalRotation(-(yDelta * ROTATION_SPEED), -(xDelta * ROTATION_SPEED), 0.f);
+	cameraTransform.adjustFPSPitch(-(yDelta * ROTATION_SPEED));
+	cameraTransform.adjustFPSYaw(-(xDelta * ROTATION_SPEED));
 }
 
 void HDRTestScene::onMouseMButtonDown(const int x, const int y) noexcept

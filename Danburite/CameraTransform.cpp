@@ -15,7 +15,7 @@ namespace Danburite
 	void CameraTransform::update() noexcept
 	{
 		const vec3 &position = getPosition();
-		const vec3& eularAngles = getRotation().getEularAngles();
+		const vec3 &eularAngles = getRotation().getEularAngles();
 
 		__viewTranslationMat = translate(-position);
 

@@ -25,25 +25,25 @@ namespace Danburite
 	
 	Transform &Transform::setRotation(const vec3 &eularAngles) noexcept
 	{
-		__rotation.setRotation(eularAngles);
+		__rotation.set(eularAngles);
 		return *this;
 	}
 
 	Transform &Transform::setRotation(const float pitch, const float yaw, const float roll) noexcept
 	{
-		__rotation.setRotation(pitch, yaw, roll);
+		__rotation.set(pitch, yaw, roll);
 		return *this;
 	}
 
 	Transform &Transform::adjustRotation(const vec3 &eularAngles) noexcept
 	{
-		__rotation.adjustRotation(eularAngles);
+		__rotation.rotate(eularAngles);
 		return *this;
 	}
 
 	Transform &Transform::adjustRotation(const float pitch, const float yaw, const float roll) noexcept
 	{
-		__rotation.adjustRotation(pitch, yaw, roll);
+		__rotation.rotate(pitch, yaw, roll);
 		return *this;
 	}
 
@@ -64,6 +64,24 @@ namespace Danburite
 			rotate(pitch, vec3 { horizontal }).
 			rotate(yaw, vec3 { vertical });
 
+		return *this;
+	}
+
+	Transform &Transform::adjustFPSPitch(const float pitch, const vec3 &referenceUp) noexcept
+	{
+		__rotation.adjustFPSPitch(pitch, referenceUp);
+		return *this;
+	}
+
+	Transform &Transform::adjustFPSYaw(const float yaw, const vec3 &referenceUp) noexcept
+	{
+		__rotation.adjustFPSYaw(yaw, referenceUp);
+		return *this;
+	}
+
+	Transform &Transform::adjustFPSRoll(const float roll, const vec3 &referenceUp) noexcept
+	{
+		__rotation.adjustFPSRoll(roll, referenceUp);
 		return *this;
 	}
 
@@ -97,7 +115,7 @@ namespace Danburite
 		__position = ((rotationQuat * (__position - pivot)) + pivot);
 
 		if (angleRotation)
-			__rotation.rotate(rotationQuat);
+			__rotation.rotate(angle, axis);
 
 		return *this;
 	}
