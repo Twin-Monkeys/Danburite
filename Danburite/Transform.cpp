@@ -25,63 +25,43 @@ namespace Danburite
 	
 	Transform &Transform::setRotation(const vec3 &eularAngles) noexcept
 	{
-		__rotation.set(eularAngles);
+		__rotation.setEulerAngles(eularAngles);
 		return *this;
 	}
 
 	Transform &Transform::setRotation(const float pitch, const float yaw, const float roll) noexcept
 	{
-		__rotation.set(pitch, yaw, roll);
+		__rotation.setEulerAngles(pitch, yaw, roll);
 		return *this;
 	}
 
-	Transform &Transform::adjustRotation(const vec3 &eularAngles) noexcept
+	Transform &Transform::rotateGlobal(const vec3 &eulerAngles) noexcept
 	{
-		__rotation.rotate(eularAngles);
+		__rotation.rotateGlobal(eulerAngles);
 		return *this;
 	}
 
-	Transform &Transform::adjustRotation(const float pitch, const float yaw, const float roll) noexcept
+	Transform &Transform::rotateGlobal(const float pitch, const float yaw, const float roll) noexcept
 	{
-		__rotation.rotate(pitch, yaw, roll);
+		__rotation.rotateGlobal(pitch, yaw, roll);
 		return *this;
 	}
 
-	Transform &Transform::adjustLocalRotation(const vec3 &eularAngles) noexcept
+	Transform &Transform::rotateLocal(const vec3 &eulerAngles) noexcept
 	{
-		return adjustLocalRotation(eularAngles.x, eularAngles.y, eularAngles.z);
-	}
-
-	Transform &Transform::adjustLocalRotation(const float pitch, const float yaw, const float roll) noexcept
-	{
-		_onUpdateRotationMatrix(__rotationMat);
-		const vec4 &horizontal	= getHorizontal();
-		const vec4 &vertical	= getVertical();
-		const vec4 &forward		= getForward();
-
-		__rotation.
-			rotate(roll, vec3 { forward }).
-			rotate(pitch, vec3 { horizontal }).
-			rotate(yaw, vec3 { vertical });
-
+		__rotation.rotateLocal(eulerAngles);
 		return *this;
 	}
 
-	Transform &Transform::adjustFPSPitch(const float pitch, const vec3 &referenceUp) noexcept
+	Transform &Transform::rotateLocal(const float pitch, const float yaw, const float roll) noexcept
 	{
-		__rotation.adjustFPSPitch(pitch, referenceUp);
+		__rotation.rotateLocal(pitch, yaw, roll);
 		return *this;
 	}
 
-	Transform &Transform::adjustFPSYaw(const float yaw, const vec3 &referenceUp) noexcept
+	Transform &Transform::rotateFPS(const float pitch, const float yaw, const vec3 &referenceUp) noexcept
 	{
-		__rotation.adjustFPSYaw(yaw, referenceUp);
-		return *this;
-	}
-
-	Transform &Transform::adjustFPSRoll(const float roll, const vec3 &referenceUp) noexcept
-	{
-		__rotation.adjustFPSRoll(roll, referenceUp);
+		__rotation.rotateFPS(pitch, yaw, referenceUp);
 		return *this;
 	}
 
@@ -115,7 +95,7 @@ namespace Danburite
 		__position = ((rotationQuat * (__position - pivot)) + pivot);
 
 		if (angleRotation)
-			__rotation.rotate(angle, axis);
+			__rotation.rotateGlobal(angle, axis);
 
 		return *this;
 	}

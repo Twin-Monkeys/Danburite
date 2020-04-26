@@ -148,7 +148,7 @@ HDRTestScene::HDRTestScene()
 	__pMsaaPP = make_shared<MSAAPostProcessor>();
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
-	__pPPPipeline->appendProcessor(__pMsaaPP);
+	// __pPPPipeline->appendProcessor(__pMsaaPP);
 	__pPPPipeline->appendProcessor(__pGammaCorrectionPP);
 	__pPPPipeline->appendProcessor(__pHDRPP);
 
@@ -268,9 +268,8 @@ void HDRTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
 {
 	constexpr float ROTATION_SPEED = .004f;
 
-	Transform& cameraTransform = __pCamera->getTransform();
-	cameraTransform.adjustFPSPitch(-(yDelta * ROTATION_SPEED));
-	cameraTransform.adjustFPSYaw(-(xDelta * ROTATION_SPEED));
+	Transform &cameraTransform = __pCamera->getTransform();
+	cameraTransform.rotateFPS(-(yDelta * ROTATION_SPEED), -(xDelta * ROTATION_SPEED));
 }
 
 void HDRTestScene::onMouseMButtonDown(const int x, const int y) noexcept

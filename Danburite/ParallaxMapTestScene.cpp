@@ -217,7 +217,7 @@ void ParallaxMapTestScene::onMouseDelta(const int xDelta, const int yDelta) noex
 	constexpr float ROTATION_SPEED = .004f;
 
 	Transform& cameraTransform = __pCamera->getTransform();
-	cameraTransform.adjustRotation(-(yDelta * ROTATION_SPEED), -(xDelta * ROTATION_SPEED), 0.f);
+	cameraTransform.rotateGlobal(-(yDelta * ROTATION_SPEED), -(xDelta * ROTATION_SPEED), 0.f);
 }
 
 void ParallaxMapTestScene::onMouseMButtonDown(const int x, const int y) noexcept

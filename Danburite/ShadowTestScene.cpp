@@ -91,7 +91,7 @@ ShadowTestScene::ShadowTestScene()
 
 	Transform &redLightTransform = __pBlueLight->getTransform();
 	redLightTransform.setPosition(20.f, 20.f, 0.f);
-	redLightTransform.adjustRotation(-quarter_pi<float>(), 1.1f, 0.f);
+	redLightTransform.rotateGlobal(-quarter_pi<float>(), 1.1f, 0.f);
 
 	__pBlueLight->setAlbedo(.1f, .4f, .7f);
 	__pBlueLight->setAttenuation(1.f, .007f, .0002f);
@@ -109,7 +109,7 @@ ShadowTestScene::ShadowTestScene()
 
 	Transform& whiteLightTransform = __pWhiteLight->getTransform();
 	whiteLightTransform.setPosition(-20.f, 20.f, 0.f);
-	whiteLightTransform.adjustRotation(-quarter_pi<float>() * .7f, -.6f, 0.f);
+	whiteLightTransform.rotateGlobal(-quarter_pi<float>() * .7f, -.6f, 0.f);
 
 	__pWhiteLight->setDepthMapSize(2048, 2048);
 	__pWhiteLight->setShadowEnabled(true);
@@ -248,7 +248,7 @@ void ShadowTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
 	constexpr float ROTATION_SPEED = .004f;
 
 	Transform& cameraTransform = __pCamera->getTransform();
-	cameraTransform.adjustRotation(-(yDelta * ROTATION_SPEED), -(xDelta * ROTATION_SPEED), 0.f);
+	cameraTransform.rotateGlobal(-(yDelta * ROTATION_SPEED), -(xDelta * ROTATION_SPEED), 0.f);
 }
 
 void ShadowTestScene::onMouseMButtonDown(const int x, const int y) noexcept

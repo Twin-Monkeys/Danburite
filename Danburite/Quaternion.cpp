@@ -17,47 +17,60 @@ namespace Danburite
 		retVal = eulerAngles(__quaternion);
 	}
 
-	Quaternion &Quaternion::set(const vec3 &eularAngles) noexcept
+	Quaternion &Quaternion::setEulerAngles(const vec3 &eulerAngles) noexcept
 	{
-		__quaternion = quat { eularAngles };
+		__quaternion = quat { eulerAngles };
 		return *this;
 	}
 
-	Quaternion &Quaternion::set(const float pitch, const float yaw, const float roll) noexcept
+	Quaternion &Quaternion::setEulerAngles(const float pitch, const float yaw, const float roll) noexcept
 	{
-		return set(vec3 { pitch, yaw, roll });
+		return setEulerAngles(vec3 { pitch, yaw, roll });
 	}
 
-	Quaternion &Quaternion::rotate(const glm::vec3 &eularAngles) noexcept
+	Quaternion &Quaternion::rotateGlobal(const glm::vec3 &eulerAngles) noexcept
 	{
-		__quaternion = (quat { eularAngles } * __quaternion);
+		__quaternion = (quat { eulerAngles } * __quaternion);
 		return *this;
 	}
 
-	Quaternion &Quaternion::rotate(const float pitch, const float yaw, const float roll) noexcept
+	Quaternion &Quaternion::rotateGlobal(const float pitch, const float yaw, const float roll) noexcept
 	{
-		return rotate(vec3{ pitch, yaw, roll });
+		return rotateGlobal(vec3{ pitch, yaw, roll });
 	}
 
-	Quaternion &Quaternion::rotate(const float angle, const vec3 &axis) noexcept
+	Quaternion &Quaternion::rotateGlobal(const float angle, const vec3 &axis) noexcept
 	{
 		__quaternion = (angleAxis(angle, normalize(axis)) * __quaternion);
 		return *this;
 	}
 
-	Quaternion &Quaternion::adjustFPSPitch(const float pitch, const vec3 &referenceUp) noexcept
+	Quaternion &Quaternion::rotateLocal(const vec3 &eulerAngles) noexcept
+	{
+		return rotateLocal(eulerAngles[0], eulerAngles[1], eulerAngles[2]);
+	}
+
+	Quaternion &Quaternion::rotateLocal(const float pitch, const float yaw, const float roll) noexcept
+	{
+		const mat4 &matrix = getMatrix();
+
+		return
+			rotateGlobal(pitch, matrix[0]).
+			rotateGlobal(yaw, matrix[1]).
+			rotateGlobal(roll, matrix[2]);
+	}
+
+	Quaternion &Quaternion::rotateFPS(const float pitch, const float yaw, const vec3 &referenceUp) noexcept
 	{
 		const mat4 &matrix = getMatrix();
 		const vec3 &normalizedRefUp = normalize(referenceUp);
 		const vec3 &horiz = vec3{ matrix[0] };
+
 		const vec3 &referenceHoriz = (horiz - (dot(normalizedRefUp, horiz) * normalizedRefUp));
 
-		return rotate(pitch, referenceHoriz);
-	}
-
-	Quaternion &Quaternion::adjustFPSYaw(const float yaw, const vec3 &referenceUp) noexcept
-	{
-		return rotate(yaw, referenceUp);
+		return
+			rotateGlobal(pitch, referenceHoriz).
+			rotateGlobal(yaw, referenceUp);
 	}
 
 	mat4 Quaternion::getMatrix() const noexcept
