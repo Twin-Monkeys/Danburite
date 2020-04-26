@@ -20,14 +20,13 @@ vec4 Phong_calcPhongColor(
 	vec3 materialDiffuse = Material_getDiffuse(finalTexCoord);
 	vec3 materialSpecular = Material_getSpecular(finalTexCoord);
 	vec3 materialEmissive = Material_getEmissive(finalTexCoord);
-	float materialAlpha = Material_getAlpha(finalTexCoord);
+	const float materialAlpha = Material_getAlpha(finalTexCoord);
 
 	if (Material_isVertexColorEnabled())
 	{
-		materialAmbient += vertexColor.rgb;
-		materialDiffuse += vertexColor.rgb;
-		materialSpecular += vertexColor.rgb;
-		materialAlpha += ((1.f - materialAlpha) * vertexColor.a);
+		materialAmbient *= vertexColor.rgb;
+		materialDiffuse *= vertexColor.rgb;
+		materialSpecular *= vertexColor.rgb;
 	}
 
 	if (!Material_isLightingEnabled())

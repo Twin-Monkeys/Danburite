@@ -122,8 +122,8 @@ float Light_getOcclusion_cubemap(const uint lightIndex, const vec3 targetPos, co
 	const vec3 lightPosToTarget = (targetPos - light[lightIndex].pos);
 	const float curDepth = length(lightPosToTarget);
 
-	// 광원으로부터 물체가 멀어질수록 그림자가 흐려지도록 한다.
-	const float biasAdj_lightDistance = (pow(curDepth / light[lightIndex].zFar, 1.5f) * 20.f);
+	// 광원으로부터 targetPos가 멀어질수록 그림자가 흐려지도록 한다.
+	const float biasAdj_lightDistance = pow(curDepth * .01f, 1.5f);
 
 	const float depthAdjustment =
 		max(15e-2f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex, targetPos))), 10e-2f);
@@ -138,6 +138,9 @@ float Light_getOcclusion_cubemap(const uint lightIndex, const vec3 targetPos, co
 
 		retVal += float(mappedDepth < (curDepth - depthAdjustment));
 	}
+
+	// 광원으로부터 targetPos가 멀어질수록 그림자가 옅어지도록 한다.
+	retVal *= exp(-curDepth * .005f);
 
 	return (retVal / float(NUM_SAMPLES));
 }

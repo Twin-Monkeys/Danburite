@@ -38,6 +38,7 @@ namespace Danburite
 	Transform &Transform::setRotation(const Quaternion &rotation) noexcept
 	{
 		__rotation = rotation;
+		return *this;
 	}
 
 	Transform &Transform::rotateGlobal(const vec3 &eulerAngles) noexcept

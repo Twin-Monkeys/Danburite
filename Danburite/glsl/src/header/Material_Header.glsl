@@ -168,106 +168,52 @@ vec2 Material_getTexCoord(const vec2 vertexTexCoord, const vec3 viewDirection, c
 	return mix(prevTexCoord, curTexCoord, weight);
 }
 
+vec3 Material_getDiffuse(const vec2 texCoord);
+
 vec3 Material_getAmbient(const vec2 texCoord)
 {
-	vec3 retVal = vec3(0.f);
-
-	if (material.type == MATERIAL_TYPE_MONO_COLOR)
-		retVal = material.diffuseColor.rgb;
-	else
+	if (Material_isAmbientTextureEnabled())
 	{
-		if (
-			(material.type == MATERIAL_TYPE_EXPLODING_PHONG) ||
-			(material.type == MATERIAL_TYPE_REFLECTION_PHONG) ||
-			(material.type == MATERIAL_TYPE_TRANSPARENT_PHONG) ||
-			(material.type == MATERIAL_TYPE_OUTLINING_PHONG) ||
-			(material.type == MATERIAL_TYPE_PHONG))
-		{
-			if (Material_isAmbientTextureEnabled())
-				retVal = texture(sampler2D(material.ambientTex), texCoord).rgb;
-			else if (Material_isDiffuseTextureEnabled())
-			{
-				retVal = texture(sampler2D(material.diffuseTex), texCoord).rgb;
-				retVal = Material_applyGamma(retVal);
-			}
-		}
+		const vec3 retVal = texture(sampler2D(material.ambientTex), texCoord).rgb;
+		return Material_applyGamma(retVal);
 	}
-
-	return retVal;
+	else
+		return Material_getDiffuse(texCoord);
 }
 
 vec3 Material_getDiffuse(const vec2 texCoord)
 {
-	vec3 retVal = vec3(0.f);
-
 	if (material.type == MATERIAL_TYPE_MONO_COLOR)
-		retVal = material.diffuseColor.rgb;
+		return material.diffuseColor.rgb;
+
+	else if (!Material_isDiffuseTextureEnabled())
+		return vec3(0.f);
+
 	else
 	{
-		if (
-			(material.type == MATERIAL_TYPE_EXPLODING_PHONG) ||
-			(material.type == MATERIAL_TYPE_REFLECTION_PHONG) ||
-			(material.type == MATERIAL_TYPE_TRANSPARENT_PHONG) ||
-			(material.type == MATERIAL_TYPE_OUTLINING_PHONG) ||
-			(material.type == MATERIAL_TYPE_PHONG) &&
-			Material_isDiffuseTextureEnabled())
-		{
-			retVal = texture(sampler2D(material.diffuseTex), texCoord).rgb;
-			retVal = Material_applyGamma(retVal);
-		}
+		const vec3 retVal = texture(sampler2D(material.diffuseTex), texCoord).rgb;
+		return Material_applyGamma(retVal);
 	}
-
-	return retVal;
 }
 
 vec3 Material_getSpecular(const vec2 texCoord)
 {
-	vec3 retVal = vec3(0.f);
-
-	if (material.type == MATERIAL_TYPE_MONO_COLOR)
-		retVal = material.diffuseColor.rgb;
-	else
+	if (Material_isSpecularTextureEnabled())
 	{
-		if (
-			(material.type == MATERIAL_TYPE_EXPLODING_PHONG) ||
-			(material.type == MATERIAL_TYPE_REFLECTION_PHONG) ||
-			(material.type == MATERIAL_TYPE_TRANSPARENT_PHONG) ||
-			(material.type == MATERIAL_TYPE_OUTLINING_PHONG) ||
-			(material.type == MATERIAL_TYPE_PHONG))
-		{
-			if (Material_isSpecularTextureEnabled())
-				retVal = texture(sampler2D(material.specularTex), texCoord).rgb;
-
-			else if (Material_isDiffuseTextureEnabled())
-			{
-				retVal = texture(sampler2D(material.diffuseTex), texCoord).rgb;
-				retVal = Material_applyGamma(retVal);
-			}
-		}
+		const vec3 retVal = texture(sampler2D(material.specularTex), texCoord).rgb;
+		return Material_applyGamma(retVal);
 	}
-
-	return retVal;
+	else
+		return Material_getDiffuse(texCoord);
 }
 
 vec3 Material_getEmissive(const vec2 texCoord)
 {
-	vec3 retVal = vec3(0.f);
+	if (!Material_isEmissiveTextureEnabled())
+		return vec3(0.f);
 
-	if (
-		(material.type == MATERIAL_TYPE_EXPLODING_PHONG) ||
-		(material.type == MATERIAL_TYPE_REFLECTION_PHONG) ||
-		(material.type == MATERIAL_TYPE_TRANSPARENT_PHONG) ||
-		(material.type == MATERIAL_TYPE_OUTLINING_PHONG) ||
-		(material.type == MATERIAL_TYPE_PHONG))
-	{
-		if (Material_isEmissiveTextureEnabled())
-		{
-			retVal = texture(sampler2D(material.emissiveTex), texCoord).rgb;
-			retVal = Material_applyGamma(retVal);
-		}
-	}
-
-	return retVal;
+	const vec3 retVal = texture(sampler2D(material.emissiveTex), texCoord).rgb;
+	return Material_applyGamma(retVal);
 }
 
 float Material_getShininess(const vec2 texCoord)
@@ -280,28 +226,19 @@ float Material_getShininess(const vec2 texCoord)
 
 float Material_getAlpha(const vec2 texCoord)
 {
-	float retVal = 1.f;
-
-	if (material.type == MATERIAL_TYPE_MONO_COLOR)
-		retVal = material.diffuseColor.a;
-	else
+	if (!Material_isAlphaTextureEnabled())
 	{
-		if (
-			(material.type == MATERIAL_TYPE_EXPLODING_PHONG) ||
-			(material.type == MATERIAL_TYPE_REFLECTION_PHONG) ||
-			(material.type == MATERIAL_TYPE_TRANSPARENT_PHONG) ||
-			(material.type == MATERIAL_TYPE_OUTLINING_PHONG) ||
-			(material.type == MATERIAL_TYPE_PHONG))
-			{
-				if (Material_isAlphaTextureEnabled())
-					retVal = texture(sampler2D(material.alphaTex), texCoord).r;
-
-				else if (Material_isDiffuseTextureEnabled())
-					retVal = texture(sampler2D(material.diffuseTex), texCoord).a;
-			}
+		if (material.type == MATERIAL_TYPE_MONO_COLOR)
+			return material.diffuseColor.a;
+		
+		else if (Material_isDiffuseTextureEnabled())
+			return texture(sampler2D(material.diffuseTex), texCoord).a;
+		
+		else
+			return 1.f;
 	}
-
-	return retVal;
+	else
+		return texture(sampler2D(material.alphaTex), texCoord).r;
 }
 
 vec3 Material_getNormal(const vec2 texCoord, const vec3 targetNormal, const mat3 TBN)
