@@ -21,9 +21,9 @@ namespace Danburite
 		glm::mat4 __modelMat		{ 1.f };
 
 	protected:
-		virtual void _onUpdateTranslationMatrix(glm::mat4 &translationMat) const noexcept;
-		virtual void _onUpdateScaleMatrix(glm::mat4 &scaleMat) const noexcept;
-		virtual void _onUpdateRotationMatrix(glm::mat4 &rotationMat) const noexcept;
+		virtual void _onUpdateTranslationMatrix(glm::mat4 &translationMat) noexcept;
+		virtual void _onUpdateScaleMatrix(glm::mat4 &scaleMat) noexcept;
+		virtual void _onUpdateRotationMatrix(glm::mat4 &rotationMat) noexcept;
 
 	public:
 		// position

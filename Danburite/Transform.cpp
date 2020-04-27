@@ -8,17 +8,17 @@ using namespace glm;
 
 namespace Danburite
 {
-	void Transform::_onUpdateTranslationMatrix(mat4 &translationMat) const noexcept
+	void Transform::_onUpdateTranslationMatrix(mat4 &translationMat) noexcept
 	{
 		translationMat = translate(__position);
 	}
 
-	void Transform::_onUpdateScaleMatrix(mat4 &scaleMat) const noexcept
+	void Transform::_onUpdateScaleMatrix(mat4 &scaleMat) noexcept
 	{
 		scaleMat = scale(__scale);
 	}
 
-	void Transform::_onUpdateRotationMatrix(mat4 &rotationMat) const noexcept
+	void Transform::_onUpdateRotationMatrix(mat4 &rotationMat) noexcept
 	{
 		__rotation.getMatrix(rotationMat);
 	}
