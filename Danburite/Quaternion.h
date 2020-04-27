@@ -13,7 +13,7 @@ namespace Danburite
 		Quaternion() = default;
 		Quaternion(const Quaternion &src) = default;
 
-		Quaternion(const glm::vec3 &eulerAngles) noexcept;
+		explicit Quaternion(const glm::vec3 &eulerAngles) noexcept;
 		Quaternion(const float pitch, const float yaw, const float roll) noexcept;
 		Quaternion(const float angle, const glm::vec3 &axis) noexcept;
 		Quaternion(const glm::mat3 &rotationMatrix) noexcept;
