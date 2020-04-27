@@ -50,6 +50,8 @@ namespace Danburite
 
 		Transform &rotateGlobal(const glm::vec3 &eulerAngles) noexcept;
 		Transform &rotateGlobal(const float pitch, const float yaw, const float roll) noexcept;
+		Transform &rotateGlobal(const float angle, const glm::vec3 &axis) noexcept;
+
 		Transform &rotateLocal(const glm::vec3 &eulerAngles) noexcept;
 		Transform &rotateLocal(const float pitch, const float yaw, const float roll) noexcept;
 		Transform &rotateFPS(const float pitch, const float yaw, const glm::vec3 &referenceUp = { 0.f, 1.f, 0.f }) noexcept;

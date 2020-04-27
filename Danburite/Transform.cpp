@@ -53,6 +53,12 @@ namespace Danburite
 		return *this;
 	}
 
+	Transform &Transform::rotateGlobal(const float angle, const vec3 &axis) noexcept
+	{
+		__rotation.rotateGlobal(angle, axis);
+		return *this;
+	}
+
 	Transform &Transform::rotateLocal(const vec3 &eulerAngles) noexcept
 	{
 		__rotation.rotateLocal(eulerAngles);

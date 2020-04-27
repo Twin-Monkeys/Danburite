@@ -238,7 +238,6 @@ bool HDRTestScene::delta(const float deltaTime) noexcept
 	constexpr vec3 axis { 0.f, 1.f, 0.f };
 	__pLampRU->getTransform().orbit(deltaTime * .0005f, pivot, axis);
 	__pBlueLight->getTransform().orbit(deltaTime * .0005f, pivot, axis, false);
-	__pCamera->getTransform().orbit(deltaTime * .0002f, pivot, axis, false).lookAt(__pCamera->getTransform().getPosition());
 
 	return __keyFunc(deltaTime);
 }
