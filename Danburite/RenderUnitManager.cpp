@@ -36,8 +36,28 @@ namespace Danburite
 	shared_ptr<RenderUnit> RenderUnitManager::createRenderUnit(unordered_set<unique_ptr<Mesh>> &&meshes, const string &unitName)
 	{
 		string validName = unitName;
+
 		if (validName == AUTO_MAPPED_NAME)
-			validName = __buildAutoRenderingUnitName();
+			validName = move(__buildAutoRenderingUnitName());
+
+		else if (__renderUnitMap.count(validName))
+		{
+			size_t postfix = 2ULL;
+
+			do
+			{
+				string alterName = move(validName + to_string(postfix));
+
+				if (!__renderUnitMap.count(alterName))
+				{
+					validName = move(alterName);
+					break;
+				}
+
+				postfix++;
+			}
+			while (true);
+		}
 
 		const shared_ptr<RenderUnit> pRetVal =
 			shared_ptr<RenderUnit>(new RenderUnit(*this, move(meshes), validName));
