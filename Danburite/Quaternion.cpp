@@ -52,11 +52,13 @@ namespace Danburite
 	Quaternion &Quaternion::set(const mat3 &rotationMatrix) noexcept
 	{
 		__quaternion = rotationMatrix;
+		return *this;
 	}
 
 	Quaternion &Quaternion::set(const mat4 &rotationMatrix) noexcept
 	{
 		__quaternion = rotationMatrix;
+		return *this;
 	}
 
 	Quaternion &Quaternion::lookAt(const vec3 &forward, const vec3 &referenceUp) noexcept
