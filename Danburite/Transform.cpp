@@ -95,6 +95,12 @@ namespace Danburite
 		return adjustPosition(vertical.x * delta, vertical.y * delta, vertical.z * delta);
 	}
 
+	Transform &Transform::lookAt(const vec3 &forward, const vec3 &referenceUp) noexcept
+	{
+		__rotation.lookAt(forward, referenceUp);
+		return *this;
+	}
+
 	Transform &Transform::orbit(const float angle, const vec3 &pivot, const vec3 &axis, const bool angleRotation) noexcept
 	{
 		const quat &rotationQuat = angleAxis(angle, axis);

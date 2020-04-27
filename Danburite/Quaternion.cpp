@@ -22,6 +22,16 @@ namespace Danburite
 		set(angle, axis);
 	}
 
+	Quaternion::Quaternion(const mat3 &rotationMatrix) noexcept
+	{
+		set(rotationMatrix);
+	}
+
+	Quaternion::Quaternion(const mat4 &rotationMatrix) noexcept
+	{
+		set(rotationMatrix);
+	}
+
 	Quaternion &Quaternion::set(const vec3 &eulerAngles) noexcept
 	{
 		__quaternion = quat { eulerAngles };
@@ -36,6 +46,28 @@ namespace Danburite
 	Quaternion &Quaternion::set(const float angle, const vec3 &axis) noexcept
 	{
 		__quaternion = angleAxis(angle, normalize(axis));
+		return *this;
+	}
+
+	Quaternion &Quaternion::set(const mat3 &rotationMatrix) noexcept
+	{
+		__quaternion = rotationMatrix;
+	}
+
+	Quaternion &Quaternion::set(const mat4 &rotationMatrix) noexcept
+	{
+		__quaternion = rotationMatrix;
+	}
+
+	Quaternion &Quaternion::lookAt(const vec3 &forward, const vec3 &referenceUp) noexcept
+	{
+		const vec3 &normalizedRefUp = normalize(referenceUp);
+		const vec3 &normalizedForward = normalize(forward);
+
+		const vec3 &horizontal = cross(normalizedRefUp, normalizedForward);
+		const vec3 &vertical = cross(normalizedForward, horizontal);
+
+		__quaternion = mat3 { horizontal, vertical, normalizedForward };
 		return *this;
 	}
 
