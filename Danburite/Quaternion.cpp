@@ -67,9 +67,11 @@ namespace Danburite
 		const vec3 &normalizedForward = normalize(forward);
 
 		const mat4 &matrix = getMatrix();
-		const vec3 &horiz = vec3{ matrix[0] };
+		const vec3 &prevHorizontal = vec3 { matrix[0] };
 
-		const vec3 &horizontal = normalize(horiz - (dot(normalizedRefUp, horiz) * normalizedRefUp));
+		const vec3 &horizontal =
+			normalize(prevHorizontal - (dot(normalizedRefUp, prevHorizontal) * normalizedRefUp));
+
 		const vec3 &vertical = cross(normalizedForward, horizontal);
 
 		__quaternion = mat3 { horizontal, vertical, normalizedForward };
