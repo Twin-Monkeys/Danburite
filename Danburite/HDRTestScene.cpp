@@ -101,7 +101,7 @@ HDRTestScene::HDRTestScene()
 	__pBlueLight->setAmbientStrength(.05f);
 	__pBlueLight->setDiffuseStrength(1.f);
 	__pBlueLight->setSpecularStrength(1.f);
-	// __pBlueLight->setAttenuation(1.f, 0.09f, 0.032f);
+	__pBlueLight->setAttenuation(1.f, 0.09f, 0.032f);
 	__pBlueLight->setDepthMapSize(2048, 2048);
 	__pBlueLight->setShadowEnabled(true);
 
@@ -113,7 +113,7 @@ HDRTestScene::HDRTestScene()
 	__pRedLight->setAmbientStrength(.05f);
 	__pRedLight->setDiffuseStrength(1.f);
 	__pRedLight->setSpecularStrength(1.f);
-	// __pRedLight->setAttenuation(1.f, 0.09f, 0.032f);
+	__pRedLight->setAttenuation(1.f, 0.09f, 0.032f);
 	__pRedLight->setDepthMapSize(2048, 2048);
 	__pRedLight->setShadowEnabled(true);
 
