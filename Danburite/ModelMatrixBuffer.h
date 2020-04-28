@@ -6,7 +6,7 @@
 
 namespace Danburite
 {
-	class ModelMatrixBuffer : private ObjectGL::VertexBuffer, public Updatable
+	class ModelMatrixBuffer : private ObjectGL::VertexBuffer
 	{
 	private:
 		size_t __numInstances;
@@ -22,7 +22,7 @@ namespace Danburite
 		constexpr size_t getNumInstances() const noexcept;
 		void setNumInstances(const size_t numInstances) noexcept;
 
-		virtual void update() noexcept override;
+		void update() noexcept;
 		void update(const std::vector<glm::mat4> &parentModelMatrices) noexcept;
 
 		void selfDeploy() noexcept;
