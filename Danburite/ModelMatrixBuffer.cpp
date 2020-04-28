@@ -31,23 +31,23 @@ namespace Danburite
 		memoryAlloc(__modelMatrices.data(), numInstances * sizeof(mat4), BufferUpdatePatternType::STREAM);
 	}
 
-	void ModelMatrixBuffer::update() noexcept
+	void ModelMatrixBuffer::updateMatrix() noexcept
 	{
 		for (size_t i = 0; i < __numInstances; i++)
 		{
 			Transform &transform = __transforms[i];
-			transform.update();
+			transform.updateMatrix();
 
 			__modelMatrices[i] = transform.getModelMatrix();
 		}
 	}
 
-	void ModelMatrixBuffer::update(const vector<mat4> &parentModelMatrices) noexcept
+	void ModelMatrixBuffer::updateMatrix(const vector<mat4> &parentModelMatrices) noexcept
 	{
 		for (size_t i = 0; i < __numInstances; i++)
 		{
 			Transform &transform = __transforms[i];
-			transform.update();
+			transform.updateMatrix();
 
 			__modelMatrices[i] = (parentModelMatrices[i] * transform.getModelMatrix());
 		}

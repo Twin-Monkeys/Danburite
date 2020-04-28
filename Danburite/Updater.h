@@ -12,6 +12,6 @@ namespace Danburite
 
 	public:
 		void addUpdatable(const std::weak_ptr<Updatable> &pUpdatable) noexcept;
-		void batchUpdate() noexcept;
+		void update(const float deltaTime) noexcept;
 	};
 }

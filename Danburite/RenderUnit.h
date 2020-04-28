@@ -47,7 +47,7 @@ namespace Danburite
 		void addChild(const std::weak_ptr<RenderUnit> &pChild) noexcept;
 		void clearChildren() noexcept;
 
-		virtual void update() noexcept override;
+		virtual void update(const float deltaTime) noexcept override;
 
 		virtual void draw() noexcept override;
 		virtual void rawDrawCall() noexcept override;

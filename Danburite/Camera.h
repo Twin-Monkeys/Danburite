@@ -22,7 +22,7 @@ namespace Danburite
 		constexpr const glm::mat4 &getViewMatrix() const noexcept;
 		constexpr const glm::mat4 &getProjectionMatrix() const noexcept;
 
-		virtual void update() noexcept override;
+		virtual void update(const float delta) noexcept override;
 
 		virtual ~Camera() = default;
 	};

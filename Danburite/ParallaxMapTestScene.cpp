@@ -187,8 +187,7 @@ void ParallaxMapTestScene::draw() noexcept
 bool ParallaxMapTestScene::update(const float deltaTime) noexcept
 {
 	__pWhiteLight->getTransform().orbit(deltaTime * .0003f, { 0.f, 0.f, 0.f }, { 0.f, 0.f, 1.f });
-
-	__pUpdater->batchUpdate();
+	__pUpdater->update(deltaTime);
 	__updated = true;
 
 	return __keyFunc(deltaTime);
@@ -196,8 +195,10 @@ bool ParallaxMapTestScene::update(const float deltaTime) noexcept
 
 void ParallaxMapTestScene::onDisplay() noexcept
 {
-	if (__updated)
-		draw();
+	if (!__updated)
+		return;
+
+	draw();
 }
 
 void ParallaxMapTestScene::onResize(const int width, const int height) noexcept

@@ -18,8 +18,6 @@ namespace Danburite
 		constexpr CameraTransform &getTransform() noexcept;
 		constexpr const CameraTransform &getTransform() const noexcept;
 
-		virtual void update() noexcept override;
-
 		virtual ~TransformableCamera() = default;
 	};
 

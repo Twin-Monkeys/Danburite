@@ -219,7 +219,7 @@ bool ShadowTestScene::update(const float deltaTime) noexcept
 	__pBlueLight->getTransform().orbit(-deltaTime * .0002f, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
 	__pWhiteLight->getTransform().orbit(deltaTime * .0001f, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
 
-	__pUpdater->batchUpdate();
+	__pUpdater->update(deltaTime);
 	__updated = true;
 
 	return __keyFunc(deltaTime);

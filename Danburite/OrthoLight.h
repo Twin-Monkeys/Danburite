@@ -36,7 +36,7 @@ namespace Danburite
 
 		virtual Transform &getTransform() noexcept override;
 		virtual const Transform &getTransform() const noexcept override;
-		virtual void update() noexcept override;
+		virtual void update(const float deltaTime) noexcept override;
 	};
 
 	constexpr void OrthoLight::setDepthBakingOrthoHeight(const float height) noexcept

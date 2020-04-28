@@ -2,6 +2,7 @@
 
 #include "Light.h"
 #include "Transform.h"
+#include "Updatable.h"
 
 namespace Danburite
 {

@@ -240,7 +240,7 @@ bool HDRTestScene::update(const float deltaTime) noexcept
 	__pLampRU->getTransform().orbit(deltaTime * .0005f, pivot, axis);
 	__pBlueLight->getTransform().orbit(deltaTime * .0005f, pivot, axis, false);
 
-	__pUpdater->batchUpdate();
+	__pUpdater->update(deltaTime);
 	__updated = true;
 
 	return __keyFunc(deltaTime);
@@ -248,8 +248,10 @@ bool HDRTestScene::update(const float deltaTime) noexcept
 
 void HDRTestScene::onDisplay() noexcept
 {
-	if (__updated)
-		draw();
+	if (!__updated)
+		return;
+	
+	draw();
 }
 
 void HDRTestScene::onResize(const int width, const int height) noexcept

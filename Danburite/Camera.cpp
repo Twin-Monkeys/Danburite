@@ -13,7 +13,7 @@ namespace Danburite
 		uniformSetter.setUniformMat4(ShaderIdentifier::Name::Camera::PROJECTION_MATRIX, __projMat);
 	}
 
-	void Camera::update() noexcept
+	void Camera::update(const float delta) noexcept
 	{
 		_onUpdateViewMatrix(__viewMat);
 		_onUpdateProjMatrix(__projMat);

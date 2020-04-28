@@ -118,7 +118,7 @@ namespace Danburite
 		return *this;
 	}
 
-	void Transform::update() noexcept
+	void Transform::updateMatrix() noexcept
 	{
 		_onUpdateScaleMatrix(__scaleMat);
 		_onUpdateRotationMatrix(__rotationMat);

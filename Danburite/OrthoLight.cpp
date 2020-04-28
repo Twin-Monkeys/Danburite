@@ -43,9 +43,9 @@ namespace Danburite
 		return __camera.getTransform();
 	}
 
-	void OrthoLight::update() noexcept
+	void OrthoLight::update(const float deltaTime) noexcept
 	{
-		__camera.update();
+		__camera.update(deltaTime);
 
 		const mat4 &viewMat = __camera.getViewMatrix();
 		const mat4 &projMat = __camera.getProjectionMatrix();

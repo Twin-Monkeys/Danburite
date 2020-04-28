@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Updatable.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
 #include "Constant.h"
@@ -8,7 +7,7 @@
 
 namespace Danburite
 {
-	class Transform : public Updatable
+	class Transform
 	{
 	private:
 		glm::vec3 __position		{ 0.f, 0.f, 0.f };
@@ -72,7 +71,7 @@ namespace Danburite
 		constexpr const glm::mat4 &getRotationMatrix() const noexcept;
 		constexpr const glm::mat4 &getModelMatrix() const noexcept;
 
-		virtual void update() noexcept override;
+		void updateMatrix() noexcept;
 
 		virtual ~Transform() = default;
 	};
