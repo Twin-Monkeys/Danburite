@@ -236,6 +236,7 @@ bool HDRTestScene::update(const float deltaTime) noexcept
 {
 	constexpr vec3 pivot { 0.f, 0.f, 0.f };
 	constexpr vec3 axis { 0.f, 1.f, 0.f };
+
 	__pLampRU->getTransform().orbit(deltaTime * .0005f, pivot, axis);
 	__pBlueLight->getTransform().orbit(deltaTime * .0005f, pivot, axis, false);
 

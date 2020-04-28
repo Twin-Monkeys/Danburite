@@ -26,6 +26,8 @@ namespace Danburite
 		RenderUnit(const RenderUnit &) = delete;
 		RenderUnit& operator=(const RenderUnit &) = delete;
 
+		void __updateHierarchical(const std::vector<glm::mat4> &parentModelMatrices) noexcept;
+
 	protected:
 		RenderUnit(
 			RenderUnitManager &manager, std::unique_ptr<Mesh> pMesh, const std::string_view &unitName) noexcept;
@@ -46,7 +48,6 @@ namespace Danburite
 		void clearChildren() noexcept;
 
 		virtual void update() noexcept override;
-		void update(const std::vector<glm::mat4> &parentModelMatrices) noexcept;
 
 		virtual void draw() noexcept override;
 		virtual void rawDrawCall() noexcept override;
