@@ -18,6 +18,9 @@ namespace Danburite
 		constexpr const glm::mat4 &getViewTranslationMatrix() const noexcept;
 		constexpr const glm::mat4 &getViewRotationMatrix() const noexcept;
 
+		glm::mat4 getViewMatrix() const noexcept;
+		void getViewMatrix(glm::mat4 &retVal) const noexcept;
+
 		virtual ~CameraTransform() = default;
 	};
 

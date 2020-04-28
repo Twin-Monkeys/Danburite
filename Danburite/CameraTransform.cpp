@@ -22,4 +22,14 @@ namespace Danburite
 		// == inverse
 		rotationMat = transpose(__viewRotationMat);
 	}
+
+	mat4 CameraTransform::getViewMatrix() const noexcept
+	{
+		return (__viewRotationMat * __viewTranslationMat);
+	}
+
+	void CameraTransform::getViewMatrix(mat4 &retVal) const noexcept
+	{
+		retVal = (__viewRotationMat * __viewTranslationMat);
+	}
 }

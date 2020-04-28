@@ -10,70 +10,70 @@ namespace Danburite
 {
 	void Transform::_onUpdateTranslationMatrix(mat4 &translationMat) noexcept
 	{
-		translationMat = translate(__position);
+		translationMat = translate(__component.position);
 	}
 
 	void Transform::_onUpdateScaleMatrix(mat4 &scaleMat) noexcept
 	{
-		scaleMat = scale(__scale);
+		scaleMat = scale(__component.scale);
 	}
 
 	void Transform::_onUpdateRotationMatrix(mat4 &rotationMat) noexcept
 	{
-		__rotation.getMatrix(rotationMat);
+		__component.rotation.getMatrix(rotationMat);
 	}
 	
 	Transform &Transform::setRotation(const vec3 &eularAngles) noexcept
 	{
-		__rotation.set(eularAngles);
+		__component.rotation.set(eularAngles);
 		return *this;
 	}
 
 	Transform &Transform::setRotation(const float pitch, const float yaw, const float roll) noexcept
 	{
-		__rotation.set(pitch, yaw, roll);
+		__component.rotation.set(pitch, yaw, roll);
 		return *this;
 	}
 
 	Transform &Transform::setRotation(const Quaternion &rotation) noexcept
 	{
-		__rotation = rotation;
+		__component.rotation = rotation;
 		return *this;
 	}
 
 	Transform &Transform::rotateGlobal(const vec3 &eulerAngles) noexcept
 	{
-		__rotation.rotateGlobal(eulerAngles);
+		__component.rotation.rotateGlobal(eulerAngles);
 		return *this;
 	}
 
 	Transform &Transform::rotateGlobal(const float pitch, const float yaw, const float roll) noexcept
 	{
-		__rotation.rotateGlobal(pitch, yaw, roll);
+		__component.rotation.rotateGlobal(pitch, yaw, roll);
 		return *this;
 	}
 
 	Transform &Transform::rotateGlobal(const float angle, const vec3 &axis) noexcept
 	{
-		__rotation.rotateGlobal(angle, axis);
+		__component.rotation.rotateGlobal(angle, axis);
 		return *this;
 	}
 
 	Transform &Transform::rotateLocal(const vec3 &eulerAngles) noexcept
 	{
-		__rotation.rotateLocal(eulerAngles);
+		__component.rotation.rotateLocal(eulerAngles);
 		return *this;
 	}
 
 	Transform &Transform::rotateLocal(const float pitch, const float yaw, const float roll) noexcept
 	{
-		__rotation.rotateLocal(pitch, yaw, roll);
+		__component.rotation.rotateLocal(pitch, yaw, roll);
 		return *this;
 	}
 
 	Transform &Transform::rotateFPS(const float pitch, const float yaw, const vec3 &referenceUp) noexcept
 	{
-		__rotation.rotateFPS(pitch, yaw, referenceUp);
+		__component.rotation.rotateFPS(pitch, yaw, referenceUp);
 		return *this;
 	}
 
@@ -103,17 +103,17 @@ namespace Danburite
 
 	Transform &Transform::lookAt(const vec3 &forward, const vec3 &referenceUp) noexcept
 	{
-		__rotation.lookAt(forward, referenceUp);
+		__component.rotation.lookAt(forward, referenceUp);
 		return *this;
 	}
 
 	Transform &Transform::orbit(const float angle, const vec3 &pivot, const vec3 &axis, const bool angleRotation) noexcept
 	{
 		const quat &rotationQuat = angleAxis(angle, axis);
-		__position = ((rotationQuat * (__position - pivot)) + pivot);
+		__component.position = ((rotationQuat * (__component.position - pivot)) + pivot);
 
 		if (angleRotation)
-			__rotation.rotateGlobal(angle, axis);
+			__component.rotation.rotateGlobal(angle, axis);
 
 		return *this;
 	}
