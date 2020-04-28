@@ -45,8 +45,7 @@ private:
 public:
 	ShadowTestScene();
 
-	virtual bool delta(const float deltaTime) noexcept override;
-	virtual void update() noexcept override;
+	virtual bool update(const float deltaTime) noexcept override;
 	virtual void draw() noexcept override;
 
 	virtual void onDisplay() noexcept override;

@@ -232,20 +232,17 @@ void HDRTestScene::draw() noexcept
 	RenderContext::getCurrent()->requestBufferSwapping();
 }
 
-bool HDRTestScene::delta(const float deltaTime) noexcept
+bool HDRTestScene::update(const float deltaTime) noexcept
 {
 	constexpr vec3 pivot { 0.f, 0.f, 0.f };
 	constexpr vec3 axis { 0.f, 1.f, 0.f };
 	__pLampRU->getTransform().orbit(deltaTime * .0005f, pivot, axis);
 	__pBlueLight->getTransform().orbit(deltaTime * .0005f, pivot, axis, false);
 
-	return __keyFunc(deltaTime);
-}
-
-void HDRTestScene::update() noexcept
-{
 	__pUpdater->batchUpdate();
 	__updated = true;
+
+	return __keyFunc(deltaTime);
 }
 
 void HDRTestScene::onDisplay() noexcept
@@ -285,9 +282,5 @@ void HDRTestScene::onMouseWheel(const short zDelta) noexcept
 
 bool HDRTestScene::onIdle(const float deltaTime) noexcept
 {
-	if (!delta(deltaTime))
-		return false;
-
-	update();
-	return true;
+	return update(deltaTime);
 }

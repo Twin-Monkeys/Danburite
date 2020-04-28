@@ -214,18 +214,15 @@ void ShadowTestScene::draw() noexcept
 	RenderContext::getCurrent()->requestBufferSwapping();
 }
 
-bool ShadowTestScene::delta(const float deltaTime) noexcept
+bool ShadowTestScene::update(const float deltaTime) noexcept
 {
 	__pBlueLight->getTransform().orbit(-deltaTime * .0002f, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
 	__pWhiteLight->getTransform().orbit(deltaTime * .0001f, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
 
-	return __keyFunc(deltaTime);
-}
-
-void ShadowTestScene::update() noexcept
-{
 	__pUpdater->batchUpdate();
 	__updated = true;
+
+	return __keyFunc(deltaTime);
 }
 
 void ShadowTestScene::onDisplay() noexcept
@@ -265,9 +262,5 @@ void ShadowTestScene::onMouseWheel(const short zDelta) noexcept
 
 bool ShadowTestScene::onIdle(const float deltaTime) noexcept
 {
-	if (!delta(deltaTime))
-		return false;
-
-	update();
-	return true;
+	return update(deltaTime);
 }

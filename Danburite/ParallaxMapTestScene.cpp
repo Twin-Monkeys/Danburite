@@ -184,17 +184,14 @@ void ParallaxMapTestScene::draw() noexcept
 	RenderContext::getCurrent()->requestBufferSwapping();
 }
 
-bool ParallaxMapTestScene::delta(const float deltaTime) noexcept
+bool ParallaxMapTestScene::update(const float deltaTime) noexcept
 {
 	__pWhiteLight->getTransform().orbit(deltaTime * .0003f, { 0.f, 0.f, 0.f }, { 0.f, 0.f, 1.f });
 
-	return __keyFunc(deltaTime);
-}
-
-void ParallaxMapTestScene::update() noexcept
-{
 	__pUpdater->batchUpdate();
 	__updated = true;
+
+	return __keyFunc(deltaTime);
 }
 
 void ParallaxMapTestScene::onDisplay() noexcept
@@ -234,9 +231,5 @@ void ParallaxMapTestScene::onMouseWheel(const short zDelta) noexcept
 
 bool ParallaxMapTestScene::onIdle(const float deltaTime) noexcept
 {
-	if (!delta(deltaTime))
-		return false;
-
-	update();
-	return true;
+	return update(deltaTime);
 }
