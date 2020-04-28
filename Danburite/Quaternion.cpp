@@ -143,4 +143,9 @@ namespace Danburite
 	{
 		retVal = mat4_cast(__quaternion);
 	}
+
+	Quaternion Quaternion::slerp(const Quaternion &lhs, const Quaternion &rhs, const float weight) noexcept
+	{
+		return { mix(lhs.__quaternion, rhs.__quaternion, weight) };
+	}
 }

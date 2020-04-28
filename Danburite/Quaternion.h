@@ -9,6 +9,9 @@ namespace Danburite
 	private:
 		glm::quat __quaternion;
 
+	protected:
+		constexpr Quaternion(const glm::quat &src) noexcept;
+
 	public:
 		Quaternion() = default;
 		Quaternion(const Quaternion &src) = default;
@@ -40,5 +43,11 @@ namespace Danburite
 
 		glm::mat4 getMatrix() const noexcept;
 		void getMatrix(glm::mat4 &retVal) const noexcept;
+
+		static Quaternion slerp(const Quaternion &lhs, const Quaternion &rhs, const float weight) noexcept;
 	};
+
+	constexpr Quaternion::Quaternion(const glm::quat &src) noexcept :
+		__quaternion(src)
+	{}
 }

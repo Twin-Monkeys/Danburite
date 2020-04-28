@@ -221,6 +221,7 @@
     <ClCompile Include="TextureUtilException.cpp" />
     <ClCompile Include="TransformableCamera.cpp" />
     <ClCompile Include="TransformableLight.cpp" />
+    <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="TransparentPhongMaterial.cpp" />
     <ClCompile Include="UniformBufferFactory.cpp" />
     <ClCompile Include="UniformSetter.cpp" />

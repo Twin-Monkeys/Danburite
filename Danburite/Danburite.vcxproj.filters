@@ -693,6 +693,9 @@
     <ClCompile Include="Quaternion.cpp">
       <Filter>Library\Engine\Core\Transform</Filter>
     </ClCompile>
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>Library\Engine\Core\Transform</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">

@@ -8,6 +8,9 @@ namespace Danburite
 	class AnimatableTransform
 	{
 	private:
+		std::map<float, TransformComponent> __keyframes;
+
+	public:
 		Transform __animationTransform;
 		Transform __modelTransform;
 	};
