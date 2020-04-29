@@ -12,13 +12,13 @@ namespace Danburite
 		__animation.update(deltaTime);
 
 		__animatedTransformComponent.position =
-			(getPosition() + __animation.getCurrentState().position);
+			(__animation.getCurrentState().position + getPosition());
 
 		__animatedTransformComponent.scale =
-			(getScale() * __animation.getCurrentState().scale);
+			(__animation.getCurrentState().scale * getScale());
 
 		__animatedTransformComponent.rotation =
-			(getRotation() * __animation.getCurrentState().rotation);
+			(__animation.getCurrentState().rotation * getRotation());
 
 		Transform::updateMatrix(deltaTime);
 	}
