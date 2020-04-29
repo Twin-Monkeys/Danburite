@@ -30,12 +30,12 @@ namespace Danburite
 		__depthBaker.setDepthMapSize(width, height);
 	}
 
-	Transform &PerspectiveLight::getTransform() noexcept
+	AnimatableTransform &PerspectiveLight::getTransform() noexcept
 	{
 		return __transform;
 	}
 
-	const Transform &PerspectiveLight::getTransform() const noexcept
+	const AnimatableTransform &PerspectiveLight::getTransform() const noexcept
 	{
 		return __transform;
 	}
@@ -44,7 +44,7 @@ namespace Danburite
 	{
 		__transform.updateMatrix(delta);
 
-		const vec3 &position = __transform.getPosition();
+		const vec3 &position = __transform.getAnimatedPosition();
 
 		const ivec2 &depthMapSize = __depthBaker.getDepthMapSize();
 		const float aspectRatio = (float(depthMapSize.x) / float(depthMapSize.y));

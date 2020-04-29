@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Light.h"
-#include "Transform.h"
+#include "AnimatableTransform.h"
 #include "Updatable.h"
 
 namespace Danburite
@@ -15,7 +15,7 @@ namespace Danburite
 	public:
 		TransformableLight(const LightType type, const DepthBakingType depthBakingType);
 
-		virtual Transform &getTransform() noexcept = 0;
-		virtual const Transform &getTransform() const noexcept = 0;
+		virtual AnimatableTransform &getTransform() noexcept = 0;
+		virtual const AnimatableTransform &getTransform() const noexcept = 0;
 	};
 }

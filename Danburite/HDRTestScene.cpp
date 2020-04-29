@@ -93,13 +93,6 @@ HDRTestScene::HDRTestScene()
 	CameraTransform &cameraTransform = __pCamera->getTransform();
 	cameraTransform.setPosition(0.f, 15.f, 50.f);
 	cameraTransform.setRotation(-0.4f, 0.f, 0.f);
-	cameraTransform.setAnimationEnabled(true);
-
-	Animation &cameraAnim = cameraTransform.getAnimation();
-	cameraAnim.addKeyframe(10000.f, { 100.f, 0.f, -50.f }, { 1.f, 1.f, 1.f }, { 0.f, half_pi<float>(), 0.f });
-	cameraAnim.addKeyframe(20000.f, { 0.f, 0.f, -100.f }, { 1.f, 1.f, 1.f }, { 0.f, half_pi<float>() * 2.f, 0.f });
-	cameraAnim.addKeyframe(30000.f, { -100.f, 0.f, -50.f }, { 1.f, 1.f, 1.f }, { 0.f, half_pi<float>() * 3.f, 0.f });
-	cameraAnim.addKeyframe(40000.f, { 0.f, 0.f, 0.f }, { 1.f, 1.f, 1.f }, { 0.f, half_pi<float>() * 4.f, 0.f });
 
 	// Light 초기화
 
@@ -124,8 +117,13 @@ HDRTestScene::HDRTestScene()
 	__pRedLight->setDepthMapSize(2048, 2048);
 	__pRedLight->setShadowEnabled(true);
 
-	Transform& redLightTransform = __pRedLight->getTransform();
+	AnimatableTransform &redLightTransform = __pRedLight->getTransform();
 	redLightTransform.setPosition(lamp2Transform.getPosition() + vec3{ -2.f, .3f, -2.f });
+	redLightTransform.setAnimationEnabled(true);
+
+	Animation &redLightAnim = redLightTransform.getAnimation();
+	redLightAnim.addKeyframe(3000.f, { 0.f, 1.f, 0.f }, { 1.f, 1.f, 1.f }, {});
+	redLightAnim.addKeyframe(6000.f, { 0.f, 0.f, 0.f }, { 1.f, 1.f, 1.f }, {});
 
 	//// Deployer / Updater 초기화 ////
 

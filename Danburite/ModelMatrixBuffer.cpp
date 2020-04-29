@@ -17,7 +17,7 @@ namespace Danburite
 		setNumInstances(numInstances);
 	}
 
-	Transform &ModelMatrixBuffer::getTransform(const size_t idx) noexcept
+	AnimatableTransform &ModelMatrixBuffer::getTransform(const size_t idx) noexcept
 	{
 		return __transforms[idx];
 	}
@@ -35,7 +35,7 @@ namespace Danburite
 	{
 		for (size_t i = 0; i < __numInstances; i++)
 		{
-			Transform &transform = __transforms[i];
+			AnimatableTransform &transform = __transforms[i];
 			transform.updateMatrix(deltaTime);
 
 			__modelMatrices[i] = transform.getModelMatrix();
