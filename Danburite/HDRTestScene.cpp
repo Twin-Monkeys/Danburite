@@ -61,10 +61,15 @@ HDRTestScene::HDRTestScene()
 	lamp1Transform.setScale(.01f);
 	lamp1Transform.setPosition(0.f, 10.f, -20.f);
 
-	Transform& lamp2Transform = __pLampRU->getTransform(1);
+	AnimatableTransform &lamp2Transform = __pLampRU->getTransform(1);
 	lamp2Transform.setScale(.01f);
 	lamp2Transform.setPosition(10.f, 3.f, 10.f);
 	lamp2Transform.setRotation(0.f, pi<float>(), 0.f);
+	lamp2Transform.setAnimationEnabled(true);
+
+	Animation &lamp2Anim = lamp2Transform.getAnimation();
+	lamp2Anim.addKeyframe(3000.f, { 0.f, 1.f, 0.f }, { 1.f, 1.f, 1.f }, { 0.f, pi<float>(), 0.f });
+	lamp2Anim.addKeyframe(6000.f, { 0.f, 0.f, 0.f }, { 1.f, 1.f, 1.f }, {0.f, two_pi<float>(), 0.f });
 
 	__pCargoBayRU = AssetImporter::import("res/asset/cargo_bay/scene.gltf");
 	Transform &cargoBayTransform = __pCargoBayRU->getTransform();
@@ -119,11 +124,6 @@ HDRTestScene::HDRTestScene()
 
 	AnimatableTransform &redLightTransform = __pRedLight->getTransform();
 	redLightTransform.setPosition(lamp2Transform.getPosition() + vec3{ -2.f, .3f, -2.f });
-	redLightTransform.setAnimationEnabled(true);
-
-	Animation &redLightAnim = redLightTransform.getAnimation();
-	redLightAnim.addKeyframe(3000.f, { 0.f, 1.f, 0.f }, { 1.f, 1.f, 1.f }, {});
-	redLightAnim.addKeyframe(6000.f, { 0.f, 0.f, 0.f }, { 1.f, 1.f, 1.f }, {});
 
 	//// Deployer / Updater √ ±‚»≠ ////
 

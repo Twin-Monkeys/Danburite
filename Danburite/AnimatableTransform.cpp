@@ -7,6 +7,21 @@ using namespace glm;
 
 namespace Danburite
 {
+	void AnimatableTransform::_onUpdateTranslationMatrix(mat4& translationMat) noexcept
+	{
+		translationMat = translate(__animatedTransformComponent.position);
+	}
+
+	void AnimatableTransform::_onUpdateScaleMatrix(mat4& scaleMat) noexcept
+	{
+		scaleMat = scale(__animatedTransformComponent.scale);
+	}
+
+	void AnimatableTransform::_onUpdateRotationMatrix(mat4& rotationMat) noexcept
+	{
+		rotationMat = __animatedTransformComponent.rotation.getMatrix();
+	}
+
 	void AnimatableTransform::updateMatrix(const float deltaTime) noexcept
 	{
 		if (__animEnabled)

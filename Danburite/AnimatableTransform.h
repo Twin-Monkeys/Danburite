@@ -13,6 +13,11 @@ namespace Danburite
 
 		bool __animEnabled = false;
 
+	protected:
+		virtual void _onUpdateTranslationMatrix(glm::mat4& translationMat) noexcept;
+		virtual void _onUpdateScaleMatrix(glm::mat4& scaleMat) noexcept;
+		virtual void _onUpdateRotationMatrix(glm::mat4& rotationMat) noexcept;
+
 	public:
 		constexpr Animation &getAnimation() noexcept;
 		constexpr const Animation &getAnimation() const noexcept;
