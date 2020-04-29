@@ -8,25 +8,25 @@ namespace Danburite
 {
 	void CameraTransform::_onUpdateTranslationMatrix(mat4 &translationMat) noexcept
 	{
+		__viewTranslationMat = translate(-getAnimatedPosition());
 		Transform::_onUpdateTranslationMatrix(translationMat);
-		const vec4 &position = translationMat[3];
-
-		__viewTranslationMat[3].x = -position.x;
-		__viewTranslationMat[3].y = -position.y;
-		__viewTranslationMat[3].z = -position.z;
 	}
 
 	void CameraTransform::_onUpdateRotationMatrix(mat4 &rotationMat) noexcept
 	{
+		const vec3 &animatedEularAngles = getAnimatedRotation().getEularAngles();
 		const vec3 &eularAngles = getRotation().getEularAngles();
-		__viewRotationMat = eulerAngleXYZ(-eularAngles.x, -eularAngles.y, -eularAngles.z);
 
-		// == inverse
-		rotationMat = transpose(__viewRotationMat);
+		__viewRotationMat =
+			eulerAngleXYZ(-animatedEularAngles.x, -animatedEularAngles.y, -animatedEularAngles.z);
+
+		rotationMat = transpose(
+			eulerAngleXYZ(-eularAngles.x, -eularAngles.y, -eularAngles.z));
 	}
 
-	mat4 CameraTransform::getViewMatrix() const noexcept
+	void CameraTransform::updateMatrix(const float deltaTime) noexcept
 	{
-		return (__viewRotationMat * __viewTranslationMat);
+		AnimatableTransform::updateMatrix(deltaTime);
+		__viewMat = (__viewRotationMat * __viewTranslationMat);
 	}
 }

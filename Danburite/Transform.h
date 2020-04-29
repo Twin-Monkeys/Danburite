@@ -69,6 +69,9 @@ namespace Danburite
 		constexpr const glm::vec4 &getHorizontal() const noexcept;
 		constexpr const glm::vec4 &getVertical() const noexcept;
 
+		constexpr const glm::mat4 &getTranslationMatrix() const noexcept;
+		constexpr const glm::mat4 &getScaleMatrix() const noexcept;
+		constexpr const glm::mat4 &getRotationMatrix() const noexcept;
 		constexpr const glm::mat4 &getModelMatrix() const noexcept;
 
 		constexpr Transform &operator=(const Transform &transform) = default;
@@ -186,6 +189,21 @@ namespace Danburite
 	constexpr const glm::vec4 &Transform::getVertical() const noexcept
 	{
 		return __rotationMat[1];
+	}
+
+	constexpr const glm::mat4 &Transform::getTranslationMatrix() const noexcept
+	{
+		return __translationMat;
+	}
+
+	constexpr const glm::mat4 &Transform::getScaleMatrix() const noexcept
+	{
+		return __scaleMat;
+	}
+
+	constexpr const glm::mat4 &Transform::getRotationMatrix() const noexcept
+	{
+		return __rotationMat;
 	}
 
 	constexpr const glm::mat4 &Transform::getModelMatrix() const noexcept

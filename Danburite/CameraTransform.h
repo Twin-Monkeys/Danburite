@@ -4,11 +4,12 @@
 
 namespace Danburite
 {
-	class CameraTransform : public Transform
+	class CameraTransform : public AnimatableTransform
 	{
 	private:
 		glm::mat4 __viewTranslationMat	{ 1.f };
 		glm::mat4 __viewRotationMat		{ 1.f };
+		glm::mat4 __viewMat				{ 1.f };
 
 	protected:
 		virtual void _onUpdateTranslationMatrix(glm::mat4 &translationMat) noexcept override;
@@ -17,8 +18,9 @@ namespace Danburite
 	public:
 		constexpr const glm::mat4 &getViewTranslationMatrix() const noexcept;
 		constexpr const glm::mat4 &getViewRotationMatrix() const noexcept;
+		constexpr const glm::mat4 &getViewMatrix() const noexcept;
 
-		glm::mat4 getViewMatrix() const noexcept;
+		virtual void updateMatrix(const float deltaTime) noexcept;
 
 		virtual ~CameraTransform() = default;
 	};
@@ -31,5 +33,10 @@ namespace Danburite
 	constexpr const glm::mat4 &CameraTransform::getViewRotationMatrix() const noexcept
 	{
 		return __viewRotationMat;
+	}
+
+	constexpr const glm::mat4 &CameraTransform::getViewMatrix() const noexcept
+	{
+		return __viewMat;
 	}
 }

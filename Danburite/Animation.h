@@ -9,7 +9,9 @@ namespace Danburite
 	class Animation : public Updatable
 	{
 	private:
-		std::map<float, TransformComponent, bool(*)(float, float)> __keyframes;
+		static constexpr inline TransformComponent __DEFAULT_STATE {};
+
+		std::map<float, TransformComponent> __keyframes;
 
 		float __timestamp = 0.f;
 		float __playTime = 0.f;
@@ -17,10 +19,11 @@ namespace Danburite
 		TransformComponent __currentComponent;
 
 	public:
-		Animation() noexcept;
-
 		constexpr const TransformComponent &getCurrentState() const noexcept;
 		void addKeyframe(const float timestamp, const TransformComponent &transformComponent) noexcept;
+		void addKeyframe(
+			const float timestamp,
+			const glm::vec3 &position, const glm::vec3 &scale, const Quaternion &rotation) noexcept;
 
 		virtual void update(const float deltaTime) noexcept override;
 	};

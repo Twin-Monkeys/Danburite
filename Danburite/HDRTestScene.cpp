@@ -90,9 +90,13 @@ HDRTestScene::HDRTestScene()
 
 	__pCamera = make_shared<PerspectiveCamera>();
 
-	Transform& cameraTransform = __pCamera->getTransform();
+	CameraTransform &cameraTransform = __pCamera->getTransform();
 	cameraTransform.setPosition(0.f, 15.f, 50.f);
 	cameraTransform.setRotation(-0.4f, 0.f, 0.f);
+
+	Animation &cameraAnim = cameraTransform.getAnimation();
+	cameraAnim.addKeyframe(1000.f, { 5.f, 0.f, 0.f }, { 1.f, 1.f, 1.f }, {});
+	cameraAnim.addKeyframe(2000.f, { 0.f, 0.f, 0.f }, { 1.f, 1.f, 1.f }, {});
 
 	// Light √ ±‚»≠
 

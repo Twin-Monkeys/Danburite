@@ -7,7 +7,7 @@ namespace Danburite
 	class Quaternion
 	{
 	private:
-		glm::quat __quaternion;
+		glm::quat __quaternion { 1.f, 0.f, 0.f, 0.f };
 
 	protected:
 		constexpr Quaternion(const glm::quat &src) noexcept;
@@ -46,7 +46,6 @@ namespace Danburite
 		friend Quaternion operator*(const Quaternion &lhs, const Quaternion &rhs) noexcept;
 		static Quaternion slerp(const Quaternion &lhs, const Quaternion &rhs, const float weight) noexcept;
 	};
-
 
 	constexpr Quaternion::Quaternion(const glm::quat &src) noexcept :
 		__quaternion(src)

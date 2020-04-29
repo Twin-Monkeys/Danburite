@@ -9,19 +9,15 @@ namespace Danburite
 	{
 	private:
 		Animation __animation;
-
-	protected:
-		virtual void _onUpdateTranslationMatrix(glm::mat4 &translationMat) noexcept;
-		virtual void _onUpdateScaleMatrix(glm::mat4 &scaleMat) noexcept;
-		virtual void _onUpdateRotationMatrix(glm::mat4 &rotationMat) noexcept;
+		TransformComponent __animatedTransformComponent;
 
 	public:
 		constexpr Animation &getAnimation() noexcept;
 		constexpr const Animation &getAnimation() const noexcept;
 
-		glm::vec3 getAnimatedPosition() const noexcept;
-		glm::vec3 getAnimatedScale() const noexcept;
-		Quaternion getAnimatedRotation() const noexcept;
+		constexpr const glm::vec3 &getAnimatedPosition() const noexcept;
+		constexpr const glm::vec3 &getAnimatedScale() const noexcept;
+		constexpr const Quaternion &getAnimatedRotation() const noexcept;
 
 		virtual void updateMatrix(const float deltaTime) noexcept;
 	};
@@ -34,5 +30,20 @@ namespace Danburite
 	constexpr const Animation &AnimatableTransform::getAnimation() const noexcept
 	{
 		return __animation;
+	}
+
+	constexpr const glm::vec3 &AnimatableTransform::getAnimatedPosition() const noexcept
+	{
+		return __animatedTransformComponent.position;
+	}
+
+	constexpr const glm::vec3 &AnimatableTransform::getAnimatedScale() const noexcept
+	{
+		return __animatedTransformComponent.scale;
+	}
+
+	constexpr const Quaternion &AnimatableTransform::getAnimatedRotation() const noexcept
+	{
+		return __animatedTransformComponent.rotation;
 	}
 }
