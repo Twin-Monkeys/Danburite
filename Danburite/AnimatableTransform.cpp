@@ -9,7 +9,8 @@ namespace Danburite
 {
 	void AnimatableTransform::updateMatrix(const float deltaTime) noexcept
 	{
-		__animation.update(deltaTime);
+		if (__animEnabled)
+			__animation.adjustTimestamp(deltaTime).updateState();
 
 		__animatedTransformComponent.position =
 			(__animation.getCurrentState().position + getPosition());

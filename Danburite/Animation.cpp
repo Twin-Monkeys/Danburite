@@ -1,18 +1,37 @@
 #include "Animation.h"
-#include "Constant.h"
 
 using namespace std;
 using namespace glm;
 
 namespace Danburite
 {
-	void Animation::update(const float deltaTime) noexcept
+	void Animation::__validateTimestamp() noexcept
+	{
+		__timestamp -= ((floor(__timestamp / __playTime)) * __playTime);
+	}
+
+	Animation &Animation::addKeyframe(const float timestamp, const TransformComponent &transformComponent) noexcept
+	{
+		assert(__timestamp >= -Constant::Common::EPSILON);
+
+		__playTime = max(__playTime, timestamp);
+		__keyframes.emplace(timestamp, transformComponent);
+
+		return *this;
+	}
+
+	Animation &Animation::addKeyframe(
+		const float timestamp, const vec3 &position, const vec3 &scale, const Quaternion &rotation) noexcept
+	{
+		return addKeyframe(timestamp, {position, scale, rotation });
+	}
+
+	void Animation::updateState() noexcept
 	{
 		if (__keyframes.empty())
 			return;
 
-		__timestamp += deltaTime;
-		__timestamp -= ((int(__timestamp / __playTime)) * __playTime);
+		__validateTimestamp();
 
 		if (__keyframes.size() == 1ULL)
 		{
@@ -27,7 +46,10 @@ namespace Danburite
 		if (lowerIt == __keyframes.end())
 		{
 			auto firstIt = __keyframes.begin();
-			__currentComponent = TransformComponent::mix(__DEFAULT_STATE, firstIt->second, __timestamp / firstIt->first);
+
+			__currentComponent =TransformComponent::mix(
+				__DEFAULT_STATE, firstIt->second, __timestamp / firstIt->first);
+			
 			return;
 		}
 
@@ -37,20 +59,7 @@ namespace Danburite
 		const float timeGap = (upperIt->first - lowerIt->first);
 		const float relativeTimestamp = (__timestamp - lowerIt->first);
 
-		__currentComponent = TransformComponent::mix(lowerIt->second, upperIt->second, relativeTimestamp / timeGap);
-	}
-
-	void Animation::addKeyframe(const float timestamp, const TransformComponent &transformComponent) noexcept
-	{
-		assert(__timestamp >= -Constant::Common::EPSILON);
-
-		__playTime = max(__playTime, timestamp);
-		__keyframes.emplace(timestamp, transformComponent);
-	}
-
-	void Animation::addKeyframe(
-		const float timestamp, const vec3 &position, const vec3 &scale, const Quaternion &rotation) noexcept
-	{
-		addKeyframe(timestamp, {position, scale, rotation });
+		__currentComponent = TransformComponent::mix(
+			lowerIt->second, upperIt->second, relativeTimestamp / timeGap);
 	}
 }

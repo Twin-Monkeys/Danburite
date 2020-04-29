@@ -93,8 +93,7 @@ HDRTestScene::HDRTestScene()
 	CameraTransform &cameraTransform = __pCamera->getTransform();
 	cameraTransform.setPosition(0.f, 15.f, 50.f);
 	cameraTransform.setRotation(-0.4f, 0.f, 0.f);
-
-	Quaternion quat;
+	cameraTransform.setAnimationEnabled(true);
 
 	Animation &cameraAnim = cameraTransform.getAnimation();
 	cameraAnim.addKeyframe(10000.f, { 100.f, 0.f, -50.f }, { 1.f, 1.f, 1.f }, { 0.f, half_pi<float>(), 0.f });

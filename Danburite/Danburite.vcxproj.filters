@@ -1214,6 +1214,9 @@
     <ClInclude Include="Animation.h">
       <Filter>Library\Engine\Core\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="KeyframeInterpolationType.h">
+      <Filter>Library\Engine\Core\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glsl\src\Header\Camera_Header.glsl">
