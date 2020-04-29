@@ -139,9 +139,9 @@ namespace Danburite
 		return mat4_cast(__quaternion);
 	}
 
-	void Quaternion::getMatrix(mat4 &retVal) const noexcept
+	Quaternion operator*(const Quaternion &lhs, const Quaternion &rhs) noexcept
 	{
-		retVal = mat4_cast(__quaternion);
+		return (lhs.__quaternion * rhs.__quaternion);
 	}
 
 	Quaternion Quaternion::slerp(const Quaternion &lhs, const Quaternion &rhs, const float weight) noexcept

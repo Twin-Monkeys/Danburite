@@ -26,7 +26,7 @@ namespace Danburite
 		RenderUnit(const RenderUnit &) = delete;
 		RenderUnit& operator=(const RenderUnit &) = delete;
 
-		void __updateHierarchical(const std::vector<glm::mat4> &parentModelMatrices) noexcept;
+		void __updateHierarchical(const float deltaTime, const std::vector<glm::mat4> &parentModelMatrices) noexcept;
 
 	protected:
 		RenderUnit(

@@ -5,7 +5,7 @@ using namespace glm;
 
 namespace Danburite
 {
-	void OrthoCamera::_onUpdateProjMatrix(mat4 &projMatrix) noexcept
+	void OrthoCamera::_onUpdateProjMatrix(const float deltaTime, mat4 &projMatrix) noexcept
 	{
 		const float yTop	= (__orthoHeight * .5f);
 		const float yBottom = -yTop;

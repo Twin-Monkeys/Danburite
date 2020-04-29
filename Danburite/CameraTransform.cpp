@@ -8,10 +8,12 @@ namespace Danburite
 {
 	void CameraTransform::_onUpdateTranslationMatrix(mat4 &translationMat) noexcept
 	{
-		const vec3 &position = getPosition();
-		__viewTranslationMat = translate(-position);
-
 		Transform::_onUpdateTranslationMatrix(translationMat);
+		const vec4 &position = translationMat[3];
+
+		__viewTranslationMat[3].x = -position.x;
+		__viewTranslationMat[3].y = -position.y;
+		__viewTranslationMat[3].z = -position.z;
 	}
 
 	void CameraTransform::_onUpdateRotationMatrix(mat4 &rotationMat) noexcept
@@ -26,10 +28,5 @@ namespace Danburite
 	mat4 CameraTransform::getViewMatrix() const noexcept
 	{
 		return (__viewRotationMat * __viewTranslationMat);
-	}
-
-	void CameraTransform::getViewMatrix(mat4 &retVal) const noexcept
-	{
-		retVal = (__viewRotationMat * __viewTranslationMat);
 	}
 }

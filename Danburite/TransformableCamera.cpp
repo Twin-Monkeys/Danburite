@@ -9,10 +9,10 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	void TransformableCamera::_onUpdateViewMatrix(mat4& viewMatrix) noexcept
+	void TransformableCamera::_onUpdateViewMatrix(const float deltaTime, mat4& viewMatrix) noexcept
 	{
-		__transform.updateMatrix();
-		__transform.getViewMatrix(viewMatrix);
+		__transform.updateMatrix(deltaTime);
+		viewMatrix = __transform.getViewMatrix();
 	}
 
 	void TransformableCamera::_onDeploy(UniformSetter &uniformSetter) const noexcept

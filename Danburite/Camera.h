@@ -14,15 +14,15 @@ namespace Danburite
 		glm::mat4 __projMat;
 
 	protected:
-		virtual void _onUpdateViewMatrix(glm::mat4 &viewMatrix) noexcept = 0;
-		virtual void _onUpdateProjMatrix(glm::mat4 &projMatrix) noexcept = 0;
+		virtual void _onUpdateViewMatrix(const float deltaTime, glm::mat4 &viewMatrix) noexcept = 0;
+		virtual void _onUpdateProjMatrix(const float deltaTime, glm::mat4 &projMatrix) noexcept = 0;
 		virtual void _onDeploy(ObjectGL::UniformSetter &uniformSetter) const noexcept override;
 
 	public:
 		constexpr const glm::mat4 &getViewMatrix() const noexcept;
 		constexpr const glm::mat4 &getProjectionMatrix() const noexcept;
 
-		virtual void update(const float delta) noexcept override;
+		virtual void update(const float deltaTime) noexcept override;
 
 		virtual ~Camera() = default;
 	};

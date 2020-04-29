@@ -696,6 +696,12 @@
     <ClCompile Include="TransformComponent.cpp">
       <Filter>Library\Engine\Core\Transform</Filter>
     </ClCompile>
+    <ClCompile Include="AnimatableTransform.cpp">
+      <Filter>Library\Engine\Core\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Library\Engine\Core\Animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">
@@ -1204,6 +1210,9 @@
     </ClInclude>
     <ClInclude Include="TransformComponent.h">
       <Filter>Library\Engine\Core\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Library\Engine\Core\Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

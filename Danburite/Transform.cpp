@@ -20,7 +20,7 @@ namespace Danburite
 
 	void Transform::_onUpdateRotationMatrix(mat4 &rotationMat) noexcept
 	{
-		__component.rotation.getMatrix(rotationMat);
+		rotationMat = __component.rotation.getMatrix();
 	}
 	
 	Transform &Transform::setRotation(const vec3 &eularAngles) noexcept
@@ -118,7 +118,7 @@ namespace Danburite
 		return *this;
 	}
 
-	void Transform::updateMatrix() noexcept
+	void Transform::updateMatrix(const float deltaTime) noexcept
 	{
 		_onUpdateScaleMatrix(__scaleMat);
 		_onUpdateRotationMatrix(__rotationMat);

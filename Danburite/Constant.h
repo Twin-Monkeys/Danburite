@@ -8,6 +8,11 @@ namespace Danburite
 {
 	namespace Constant
 	{
+		namespace Common
+		{
+			constexpr float EPSILON = 1e-6f;
+		}
+
 		namespace Transform
 		{
 			constexpr float MIN_SCALE = .001f;

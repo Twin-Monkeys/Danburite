@@ -42,7 +42,7 @@ namespace Danburite
 
 	void PerspectiveLight::update(const float delta) noexcept
 	{
-		__transform.updateMatrix();
+		__transform.updateMatrix(delta);
 
 		const vec3 &position = __transform.getPosition();
 

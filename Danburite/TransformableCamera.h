@@ -11,7 +11,7 @@ namespace Danburite
 		CameraTransform __transform;
 
 	protected:
-		virtual void _onUpdateViewMatrix(glm::mat4& viewMatrix) noexcept override;
+		virtual void _onUpdateViewMatrix(const float deltaTime, glm::mat4& viewMatrix) noexcept override;
 		virtual void _onDeploy(ObjectGL::UniformSetter &uniformSetter) const noexcept override;
 
 	public:

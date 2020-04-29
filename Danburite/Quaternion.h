@@ -42,10 +42,11 @@ namespace Danburite
 		void getEularAngles(glm::vec3 &retVal) const noexcept;
 
 		glm::mat4 getMatrix() const noexcept;
-		void getMatrix(glm::mat4 &retVal) const noexcept;
 
+		friend Quaternion operator*(const Quaternion &lhs, const Quaternion &rhs) noexcept;
 		static Quaternion slerp(const Quaternion &lhs, const Quaternion &rhs, const float weight) noexcept;
 	};
+
 
 	constexpr Quaternion::Quaternion(const glm::quat &src) noexcept :
 		__quaternion(src)
