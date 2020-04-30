@@ -20,7 +20,6 @@ namespace Danburite
 		__materialSetter.setUniformUint(ShaderIdentifier::Name::Material::TYPE, GLenum(__MATERIAL_TYPE));
 		__materialSetter.setUniformUint(ShaderIdentifier::Name::Material::VERTEX_FLAG, GLenum(__VERTEX_TYPE));
 		__materialSetter.setUniformUint(ShaderIdentifier::Name::Material::OPTION_FLAG, GLenum(__optionFlag));
-		__materialSetter.setUniformFloat(ShaderIdentifier::Name::Material::GAMMA, __gamma);
 
 		_onRender(__materialSetter, vertexArray, numInstances);
 	}

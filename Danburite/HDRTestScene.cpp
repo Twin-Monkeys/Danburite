@@ -153,11 +153,13 @@ HDRTestScene::HDRTestScene()
 	__pMsaaPP = make_shared<MSAAPostProcessor>();
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
-	// __pPPPipeline->appendProcessor(__pMsaaPP);
+	__pPPPipeline->appendProcessor(__pMsaaPP);
 	__pPPPipeline->appendProcessor(__pGammaCorrectionPP);
 	__pPPPipeline->appendProcessor(__pHDRPP);
 
-	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
+	UniformBufferFactory::getInstance().
+		getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::MATERIAL).
+		setUniformFloat(ShaderIdentifier::Name::Material::GAMMA, Constant::GammaCorrection::DEFAULT_GAMMA);
 }
 
 bool HDRTestScene::__keyFunc(const float deltaTime) noexcept

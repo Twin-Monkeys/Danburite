@@ -19,7 +19,6 @@ namespace Danburite
 		ObjectGL::UniformSetter &__materialSetter;
 
 		MaterialOptionFlag __optionFlag = MaterialOptionFlag::NONE;
-		static inline float __gamma = 1.f;
 
 		constexpr void __setOption(const MaterialOptionFlag flags, const bool enabled) noexcept;
 
@@ -42,8 +41,6 @@ namespace Danburite
 
 	public:
 		void render(ObjectGL::VertexArray &vertexArray, const GLsizei numInstances = 1) noexcept;
-
-		static constexpr void setGamma(const float gamma) noexcept;
 
 		virtual ~Material() = default;
 	};
@@ -99,10 +96,5 @@ namespace Danburite
 	constexpr void Material::useHeightTexture(const bool enabled) noexcept
 	{
 		__setOption(MaterialOptionFlag::HEIGHT_TEXTURE, enabled);
-	}
-
-	constexpr void Material::setGamma(const float gamma) noexcept
-	{
-		__gamma = gamma;
 	}
 }

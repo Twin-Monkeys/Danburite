@@ -115,7 +115,9 @@ ParallaxMapTestScene::ParallaxMapTestScene()
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
 	__pPPPipeline->appendProcessor(__pGammaCorrectionPP);
 
-	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
+	UniformBufferFactory::getInstance().
+		getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::MATERIAL).
+		setUniformFloat(ShaderIdentifier::Name::Material::GAMMA, Constant::GammaCorrection::DEFAULT_GAMMA);
 }
 
 bool ParallaxMapTestScene::__keyFunc(const float deltaTime) noexcept
