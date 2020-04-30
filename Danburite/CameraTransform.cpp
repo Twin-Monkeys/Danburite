@@ -8,10 +8,13 @@ namespace Danburite
 {
 	void CameraTransform::_onUpdateTranslationMatrix(mat4 &translationMat) noexcept
 	{
-		const vec3 &position = getAnimatedPosition();
-		__viewTranslationMat = translate(-position);
-
 		AnimatableTransform::_onUpdateTranslationMatrix(translationMat);
+
+		vec4 &position = translationMat[3];
+		vec4 &viewTranslation = __viewTranslationMat[3];
+
+		for (length_t i = 0; i <= 2; i++)
+			viewTranslation[i] = -position[i];
 	}
 
 	void CameraTransform::_onUpdateRotationMatrix(mat4 &rotationMat) noexcept
