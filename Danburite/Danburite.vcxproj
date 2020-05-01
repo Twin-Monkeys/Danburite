@@ -281,7 +281,6 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimatableTransform.h" />
-    <ClInclude Include="KeyframeInterpolationType.h" />
     <ClInclude Include="Attachable.h" />
     <ClInclude Include="AttachableTexture2D.h" />
     <ClInclude Include="AttachableTextureCubemap.h" />
