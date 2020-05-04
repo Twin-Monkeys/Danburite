@@ -63,18 +63,10 @@ namespace Danburite
 
 	Quaternion &Quaternion::lookAt(const vec3 &forward, const vec3 &referenceUp) noexcept
 	{
-		const vec3 &normalizedRefUp = normalize(referenceUp);
-		const vec3 &normalizedForward = normalize(forward);
+		const vec3 &horizontal = normalize(cross(referenceUp, forward));
+		const vec3 &vertical = normalize(cross(forward, horizontal));
 
-		const mat4 &matrix = getMatrix();
-		const vec3 &prevHorizontal = vec3 { matrix[0] };
-
-		const vec3 &horizontal =
-			normalize(prevHorizontal - (dot(normalizedRefUp, prevHorizontal) * normalizedRefUp));
-
-		const vec3 &vertical = cross(normalizedForward, horizontal);
-
-		__quaternion = mat3 { horizontal, vertical, normalizedForward };
+		__quaternion = mat3 { horizontal, vertical, normalize(forward) };
 		return *this;
 	}
 
