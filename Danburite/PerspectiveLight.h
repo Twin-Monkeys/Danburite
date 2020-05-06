@@ -8,7 +8,7 @@ namespace Danburite
 	class PerspectiveLight abstract : public TransformableLight
 	{
 	private:
-		AnimatableTransform __transform;
+		Transform __transform;
 		DepthBakerCubemap __depthBaker;
 
 		float __zNear	= Constant::Camera::DEFAULT_Z_NEAR;
@@ -26,8 +26,8 @@ namespace Danburite
 
 		virtual void setDepthMapSize(const GLsizei width, const GLsizei height) noexcept override;
 
-		virtual AnimatableTransform &getTransform() noexcept override;
-		virtual const AnimatableTransform &getTransform() const noexcept override;
+		virtual Transform &getTransform() noexcept override;
+		virtual const Transform &getTransform() const noexcept override;
 		virtual void update(const float delta) noexcept override;
 	};
 

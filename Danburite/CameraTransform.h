@@ -1,10 +1,10 @@
 #pragma once
 
-#include "AnimatableTransform.h"
+#include "Transform.h"
 
 namespace Danburite
 {
-	class CameraTransform : public AnimatableTransform
+	class CameraTransform : public Transform
 	{
 	private:
 		glm::mat4 __viewTranslationMat	{ 1.f };

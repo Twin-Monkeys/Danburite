@@ -1,7 +1,7 @@
 #pragma once
 
 #include "VertexBuffer.h"
-#include "AnimatableTransform.h"
+#include "Transform.h"
 #include "Updatable.h"
 
 namespace Danburite
@@ -10,14 +10,14 @@ namespace Danburite
 	{
 	private:
 		size_t __numInstances;
-		std::vector<AnimatableTransform> __transforms;
+		std::vector<Transform> __transforms;
 		std::vector<glm::mat4> __modelMatrices;
 
 	public:
 		ModelMatrixBuffer(const size_t numInstances = 1ULL);
 
 		constexpr const std::vector<glm::mat4> &getModelMatrices() const noexcept;
-		AnimatableTransform &getTransform(const size_t idx) noexcept;
+		Transform &getTransform(const size_t idx) noexcept;
 
 		constexpr size_t getNumInstances() const noexcept;
 		void setNumInstances(const size_t numInstances) noexcept;

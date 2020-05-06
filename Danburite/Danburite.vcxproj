@@ -160,7 +160,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="AnimatableTransform.cpp" />
     <ClCompile Include="AttachableTexture2D.cpp" />
     <ClCompile Include="AttachableTextureCubemap.cpp" />
     <ClCompile Include="CameraTransform.cpp" />
@@ -277,7 +276,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
-    <ClInclude Include="AnimatableTransform.h" />
     <ClInclude Include="Attachable.h" />
     <ClInclude Include="AttachableTexture2D.h" />
     <ClInclude Include="AttachableTextureCubemap.h" />

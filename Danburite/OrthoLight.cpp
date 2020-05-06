@@ -33,12 +33,12 @@ namespace Danburite
 		__depthBaker.setDepthMapSize(width, height);
 	}
 
-	AnimatableTransform &OrthoLight::getTransform() noexcept
+	Transform &OrthoLight::getTransform() noexcept
 	{
 		return __camera.getTransform();
 	}
 
-	const AnimatableTransform &OrthoLight::getTransform() const noexcept
+	const Transform &OrthoLight::getTransform() const noexcept
 	{
 		return __camera.getTransform();
 	}

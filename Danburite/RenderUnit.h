@@ -40,7 +40,7 @@ namespace Danburite
 		bool setName(const std::string &name) noexcept;
 
 		constexpr size_t getNumInstances() const noexcept;
-		AnimatableTransform &getTransform(const size_t idx = 0) const noexcept;
+		Transform &getTransform(const size_t idx = 0) const noexcept;
 
 		void setNumInstances(const GLsizei numInstances) noexcept;
 

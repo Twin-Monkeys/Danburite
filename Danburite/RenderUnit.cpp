@@ -49,7 +49,7 @@ namespace Danburite
 		return true;
 	}
 
-	AnimatableTransform &RenderUnit::getTransform(const size_t idx) const noexcept
+	Transform &RenderUnit::getTransform(const size_t idx) const noexcept
 	{
 		return __pModelMatrixBuffer->getTransform(idx);
 	}
