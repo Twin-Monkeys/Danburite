@@ -13,27 +13,30 @@ namespace ObjectGL
 		const GLuint location, const GLint numElements, const ElementType elementType,
 		const GLsizei stride, const GLsizei offset, const GLuint divisor, const bool normalized) noexcept
 	{
-		__attribList.add(location, numElements, elementType, stride, offset, divisor, normalized);
+		__attribList.emplace_back(
+			location,
+			VertexAttributeDataStructure { numElements, elementType, normalized },
+			stride, offset, divisor);
 	}
 
 	void VertexBuffer::addAttribute(
 		const GLuint location, const VertexAttributeDataStructure &desc,
 		const GLsizei stride, const GLsizei offset, const GLuint divisor) noexcept
 	{
-		__attribList.add(location, desc, stride, offset, divisor);
+		__attribList.emplace_back(location, desc, stride, offset, divisor);
 	}
 
 	void VertexBuffer::addAttribute(const VertexAttribute &attribute) noexcept
 	{
-		__attribList.add(attribute);
+		__attribList.emplace_back(attribute);
 	}
 
-	void VertexBuffer::addAttributes(const VertexAttributeList &attributeList) noexcept
+	void VertexBuffer::addAttributes(const vector<VertexAttribute> &attributeList) noexcept
 	{
-		__attribList.add(attributeList);
+		__attribList.insert(__attribList.end(), attributeList.begin(), attributeList.end());
 	}
 
-	void VertexBuffer::setAttributes(const VertexAttributeList &attributeList) noexcept
+	void VertexBuffer::setAttributes(const vector<VertexAttribute> &attributeList) noexcept
 	{
 		__attribList = attributeList;
 	}
@@ -46,7 +49,7 @@ namespace ObjectGL
 	void VertexBuffer::applyAttributes() noexcept
 	{
 		bind();
-		for (const VertexAttribute &attribute : __attribList.getEntries())
+		for (const VertexAttribute &attribute : __attribList)
 		{
 			glVertexAttribPointer(
 				attribute.location, attribute.desc.numElements,

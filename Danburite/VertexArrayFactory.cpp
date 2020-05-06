@@ -68,7 +68,7 @@ namespace Danburite
 				vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
 		}
 
-		const VertexAttributeList &attribList = VertexAttributeListFactory::getInstance(key);
+		const vector<VertexAttribute> &attribList = VertexAttributeListFactory::getInstance(key);
 
 		const shared_ptr<VertexBuffer> &pVertexBuffer = make_shared<VertexBuffer>();
 		pVertexBuffer->memoryAlloc(vertices, BufferUpdatePatternType::STATIC);
@@ -191,7 +191,7 @@ namespace Danburite
 			}
 		}
 
-		const VertexAttributeList &attribList = VertexAttributeListFactory::getInstance(key);
+		const vector<VertexAttribute> &attribList = VertexAttributeListFactory::getInstance(key);
 
 		const shared_ptr<VertexBuffer> &pVertexBuffer = make_shared<VertexBuffer>();
 		pVertexBuffer->memoryAlloc(vertices, BufferUpdatePatternType::STATIC);

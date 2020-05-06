@@ -190,7 +190,7 @@ namespace Danburite
 				}
 			}
 
-			const VertexAttributeList &attribList = VertexAttributeListFactory::getInstance(vertexType);
+			const vector<VertexAttribute> &attribList = VertexAttributeListFactory::getInstance(vertexType);
 
 			const shared_ptr<VertexBuffer> &pVertexBuffer = make_shared<VertexBuffer>();
 			pVertexBuffer->memoryAlloc(vertices, BufferUpdatePatternType::STATIC);

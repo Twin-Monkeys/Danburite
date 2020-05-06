@@ -429,9 +429,6 @@
     <ClCompile Include="Win32ScreenException.cpp">
       <Filter>Library\Engine\Screen\Window\Win32</Filter>
     </ClCompile>
-    <ClCompile Include="VertexAttributeList.cpp">
-      <Filter>Library\ObjectGL\Core\Buffer\VetexBuffer\Attribute</Filter>
-    </ClCompile>
     <ClCompile Include="ShaderCompilerException.cpp">
       <Filter>Library\ObjectGL\Core\Shader\Compiler</Filter>
     </ClCompile>
@@ -822,9 +819,6 @@
       <Filter>Library\ObjectGL\Core\Buffer\VetexBuffer\Attribute</Filter>
     </ClInclude>
     <ClInclude Include="ElementType.h">
-      <Filter>Library\ObjectGL\Core\Buffer\VetexBuffer\Attribute</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexAttributeList.h">
       <Filter>Library\ObjectGL\Core\Buffer\VetexBuffer\Attribute</Filter>
     </ClInclude>
     <ClInclude Include="ShaderCompiler.h">

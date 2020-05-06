@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Buffer.h"
-#include "VertexAttributeList.h"
+#include "VertexAttribute.h"
 #include <memory>
 
 namespace ObjectGL
@@ -9,7 +9,7 @@ namespace ObjectGL
 	class VertexBuffer : public Buffer
 	{
 	private:
-		VertexAttributeList __attribList;
+		std::vector<VertexAttribute> __attribList;
 
 	public:
 		VertexBuffer();
@@ -23,8 +23,8 @@ namespace ObjectGL
 			const GLsizei stride, const GLsizei offset, const GLuint divisor = 0) noexcept;
 
 		void addAttribute(const VertexAttribute &attribute) noexcept;
-		void addAttributes(const VertexAttributeList &attributeList) noexcept;
-		void setAttributes(const VertexAttributeList &attributeList) noexcept;
+		void addAttributes(const std::vector<VertexAttribute> &attributeList) noexcept;
+		void setAttributes(const std::vector<VertexAttribute> &attributeList) noexcept;
 
 		void clearAttributes() noexcept;
 		void applyAttributes() noexcept;
