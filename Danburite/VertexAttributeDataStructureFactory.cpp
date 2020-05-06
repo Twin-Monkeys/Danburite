@@ -27,6 +27,9 @@ namespace Danburite
 
 		case VertexAttributeDataStructureType::VEC4:
 			return { 4, ElementType::FLOAT };
+
+		case VertexAttributeDataStructureType::UVEC4:
+			return { 4, ElementType::UNSIGNED_INT };
 		}
 
 		assert(false);

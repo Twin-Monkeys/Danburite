@@ -128,28 +128,28 @@ namespace Danburite
 			VertexAttributeFlag vertexFlag = VertexAttributeFlag::NONE;
 
 			if (pAiMesh->HasPositions())
-				vertexFlag |= VertexAttributeFlag::POS3;
+				vertexFlag |= VertexAttributeFlag::POS;
 
 			if (pAiMesh->HasVertexColors(0))
-				vertexFlag |= VertexAttributeFlag::COLOR4;
+				vertexFlag |= VertexAttributeFlag::COLOR;
 
 			if (pAiMesh->HasNormals())
-				vertexFlag |= VertexAttributeFlag::NORMAL3;
+				vertexFlag |= VertexAttributeFlag::NORMAL;
 
 			if (pAiMesh->HasTangentsAndBitangents())
-				vertexFlag |= VertexAttributeFlag::TANGENT3;
+				vertexFlag |= VertexAttributeFlag::TANGENT;
 
 			/*
 				a vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't
 				use models where a vertex can have multiple texture coordinates so we always take the first set (0).
 			*/
 			if (pAiMesh->HasTextureCoords(0))
-				vertexFlag |= VertexAttributeFlag::TEXCOORD2;
+				vertexFlag |= VertexAttributeFlag::TEXCOORD;
 
 			vector<GLfloat> vertices;
 			for (unsigned j = 0; j < pAiMesh->mNumVertices; j++)
 			{
-				if (vertexFlag & VertexAttributeFlag::POS3)
+				if (vertexFlag & VertexAttributeFlag::POS)
 				{
 					const aiVector3D &aiPos = pAiMesh->mVertices[j];
 					const vec3 &pos = vec3 { vertexMatrix * (vec4 {aiPos.x, aiPos.y, aiPos.z, 1.f}) };
@@ -157,13 +157,13 @@ namespace Danburite
 					vertices.insert(vertices.end(), { pos.x, pos.y, pos.z });
 				}
 
-				if (vertexFlag & VertexAttributeFlag::COLOR4)
+				if (vertexFlag & VertexAttributeFlag::COLOR)
 				{
 					const aiColor4D &color = pAiMesh->mColors[0][j];
 					vertices.insert(vertices.end(), { color.r, color.g, color.b, color.a });
 				}
 
-				if (vertexFlag & VertexAttributeFlag::NORMAL3)
+				if (vertexFlag & VertexAttributeFlag::NORMAL)
 				{
 					const aiVector3D &aiNormal = pAiMesh->mNormals[j];
 					const vec3 &normal = (normalMatrix * (vec3 { aiNormal.x, aiNormal.y, aiNormal.z }));
@@ -171,13 +171,13 @@ namespace Danburite
 					vertices.insert(vertices.end(), { normal.x, normal.y, normal.z });
 				}
 
-				if (vertexFlag & VertexAttributeFlag::TEXCOORD2)
+				if (vertexFlag & VertexAttributeFlag::TEXCOORD)
 				{
 					const aiVector3D &texCoord = pAiMesh->mTextureCoords[0][j];
 					vertices.insert(vertices.end(), { texCoord.x, texCoord.y });
 				}
 
-				if (vertexFlag & VertexAttributeFlag::TANGENT3)
+				if (vertexFlag & VertexAttributeFlag::TANGENT)
 				{
 					const aiVector3D &aiTangent = pAiMesh->mTangents[j];
 					const vec3 &tangent = (normalMatrix * (vec3 { aiTangent.x, aiTangent.y, aiTangent.z }));

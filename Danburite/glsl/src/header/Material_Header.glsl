@@ -89,27 +89,27 @@ bool Material_isHeightTextureEnabled()
 
 bool Material_isVertexPositionEnabled()
 {
-	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_POS3) != 0);
+	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_POS) != 0);
 }
 
 bool Material_isVertexColorEnabled()
 {
-	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_COLOR4) != 0);
+	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_COLOR) != 0);
 }
 
 bool Material_isVertexNormalEnabled()
 {
-	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_NORMAL3) != 0);
+	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_NORMAL) != 0);
 }
 
 bool Material_isVertexTexCoordEnabled()
 {
-	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_TEXCOORD2) != 0);
+	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_TEXCOORD) != 0);
 }
 
 bool Material_isVertexTangentEnabled()
 {
-	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_TANGENT3) != 0);
+	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_TANGENT) != 0);
 }
 
 vec3 Material_applyGamma(const vec3 source)

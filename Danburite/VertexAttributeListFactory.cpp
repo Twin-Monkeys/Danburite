@@ -8,10 +8,10 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	const std::vector<VertexAttribute> &VertexAttributeListFactory::getInstance(const VertexAttributeFlag type) noexcept
+	const std::vector<VertexAttribute> &VertexAttributeListFactory::getInstance(const VertexAttributeFlag flag) noexcept
 	{
 		static VertexAttributeListCache vertexAttribListCache;
-		return vertexAttribListCache.getValue(type);
+		return vertexAttribListCache.getValue(flag);
 	}
 
 	std::vector<VertexAttribute> VertexAttributeListFactory::
@@ -28,48 +28,50 @@ namespace Danburite
 		const VertexAttributeDataStructure &VEC4 =
 			VertexAttributeDataStructureFactory::getInstance(VertexAttributeDataStructureType::VEC4);
 
-		GLsizei offset = 0;
-		if (key & VertexAttributeFlag::POS3)
-		{
-			retVal.emplace_back(
-				ShaderIdentifier::Value::VertexAttribute::POSITION_LOCATION, VEC3, 0, offset);
+		const VertexAttributeDataStructure &UVEC4 =
+			VertexAttributeDataStructureFactory::getInstance(VertexAttributeDataStructureType::UVEC4);
 
+		GLsizei offset = 0;
+		if (key & VertexAttributeFlag::POS)
+		{
+			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::POSITION_LOCATION, VEC3, 0, offset);
 			offset += VEC3.memSize();
 		}
 
-		if (key & VertexAttributeFlag::COLOR4)
+		if (key & VertexAttributeFlag::COLOR)
 		{
-			retVal.emplace_back(
-				ShaderIdentifier::Value::VertexAttribute::COLOR_LOCATION, VEC4, 0, offset);
-
+			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::COLOR_LOCATION, VEC4, 0, offset);
 			offset += VEC4.memSize();
 		}
 
-		if (key & VertexAttributeFlag::NORMAL3)
+		if (key & VertexAttributeFlag::NORMAL)
 		{
-			retVal.emplace_back(
-				ShaderIdentifier::Value::VertexAttribute::NORMAL_LOCATION, VEC3, 0, offset);
-
+			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::NORMAL_LOCATION, VEC3, 0, offset);
 			offset += VEC3.memSize();
 		}
 
-		if (key & VertexAttributeFlag::TEXCOORD2)
+		if (key & VertexAttributeFlag::TEXCOORD)
 		{
-			retVal.emplace_back(
-				ShaderIdentifier::Value::VertexAttribute::TEX_COORD_LOCATION, VEC2, 0, offset);
-
+			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::TEX_COORD_LOCATION, VEC2, 0, offset);
 			offset += VEC2.memSize();
 		}
 
-		if (key & VertexAttributeFlag::TANGENT3)
+		if (key & VertexAttributeFlag::TANGENT)
 		{
-			retVal.emplace_back(
-				ShaderIdentifier::Value::VertexAttribute::TANGENT_LOCATION, VEC3, 0, offset);
-
+			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::TANGENT_LOCATION, VEC3, 0, offset);
 			offset += VEC3.memSize();
 		}
 
-		if (key & VertexAttributeFlag::MODELMAT16)
+		if (key & VertexAttributeFlag::BONE)
+		{
+			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::BONE_INDICES_LOCATION, UVEC4, 0, offset);
+			offset += UVEC4.memSize();
+
+			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::BONE_WEIGHTS_LOCATION, VEC4, 0, offset);
+			offset += VEC4.memSize();
+		}
+
+		if (key & VertexAttributeFlag::MODELMAT)
 		{
 			for (GLuint i = 0U; i < 4U; i++)
 			{

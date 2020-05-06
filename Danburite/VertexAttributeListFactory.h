@@ -20,6 +20,6 @@ namespace Danburite
 		};
 
 	public:
-		static const std::vector<ObjectGL::VertexAttribute> &getInstance(const VertexAttributeFlag type) noexcept;
+		static const std::vector<ObjectGL::VertexAttribute> &getInstance(const VertexAttributeFlag flag) noexcept;
 	};
 }

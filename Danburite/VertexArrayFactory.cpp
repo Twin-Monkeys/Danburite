@@ -47,25 +47,25 @@ namespace Danburite
 		vector<GLfloat> vertices;
 		for (unsigned i = 0; i < 4; i++)
 		{
-			if (key & VertexAttributeFlag::POS3)
+			if (key & VertexAttributeFlag::POS)
 			{
 				const vec3 &pos = positions[i];
 				vertices.insert(vertices.end(), { pos.x, pos.y, pos.z });
 			}
 
-			if (key & VertexAttributeFlag::COLOR4)
+			if (key & VertexAttributeFlag::COLOR)
 				vertices.insert(vertices.end(), { color.r, color.g, color.b, color.a });
 
-			if (key & VertexAttributeFlag::NORMAL3)
+			if (key & VertexAttributeFlag::NORMAL)
 				vertices.insert(vertices.end(), { normal.x, normal.y, normal.z });
 
-			if (key & VertexAttributeFlag::TEXCOORD2)
+			if (key & VertexAttributeFlag::TEXCOORD)
 			{
 				const vec2 &texCoord = texCoords[i];
 				vertices.insert(vertices.end(), { texCoord.x, texCoord.y });
 			}
 
-			if (key & VertexAttributeFlag::TANGENT3)
+			if (key & VertexAttributeFlag::TANGENT)
 				vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
 		}
 
@@ -164,28 +164,28 @@ namespace Danburite
 		vector<GLfloat> vertices;
 		for (unsigned i = 0; i < 24; i++)
 		{
-			if (key & VertexAttributeFlag::POS3)
+			if (key & VertexAttributeFlag::POS)
 			{
 				const vec3 &pos = positions[i];
 				vertices.insert(vertices.end(), { pos.x, pos.y, pos.z });
 			}
 
-			if (key & VertexAttributeFlag::COLOR4)
+			if (key & VertexAttributeFlag::COLOR)
 				vertices.insert(vertices.end(), { color.r, color.g, color.b, color.a });
 
-			if (key & VertexAttributeFlag::NORMAL3)
+			if (key & VertexAttributeFlag::NORMAL)
 			{
 				const vec3 &normal = normals[i / 4];
 				vertices.insert(vertices.end(), { normal.x, normal.y, normal.z });
 			}
 
-			if (key & VertexAttributeFlag::TEXCOORD2)
+			if (key & VertexAttributeFlag::TEXCOORD)
 			{
 				const vec2 &texCoord = texCoords[i % 4];
 				vertices.insert(vertices.end(), { texCoord.x, texCoord.y });
 			}
 
-			if (key & VertexAttributeFlag::TANGENT3)
+			if (key & VertexAttributeFlag::TANGENT)
 			{
 				const vec3 &tangent = tangents[i / 4];
 				vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });

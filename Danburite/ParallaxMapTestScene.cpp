@@ -55,10 +55,10 @@ ParallaxMapTestScene::ParallaxMapTestScene()
 	pWoodToyTexture_height->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 
 	const shared_ptr<VertexArray>& pWoodToyVA = vaFactory.getVertexArrayPtr(
-		ShapeType::RECTANGLE, VertexAttributeFlag::POS3 | VertexAttributeFlag::NORMAL3 | VertexAttributeFlag::TEXCOORD2 | VertexAttributeFlag::TANGENT3);
+		ShapeType::RECTANGLE, VertexAttributeFlag::POS | VertexAttributeFlag::NORMAL | VertexAttributeFlag::TEXCOORD | VertexAttributeFlag::TANGENT);
 
 	const shared_ptr<PhongMaterial>& pWoodToyMaterial = make_shared<PhongMaterial>(
-		VertexAttributeFlag::POS3 | VertexAttributeFlag::NORMAL3 | VertexAttributeFlag::TEXCOORD2 | VertexAttributeFlag::TANGENT3);
+		VertexAttributeFlag::POS | VertexAttributeFlag::NORMAL | VertexAttributeFlag::TEXCOORD | VertexAttributeFlag::TANGENT);
 
 	pWoodToyMaterial->setDiffuseTexture(pWoodToyTexture_diffuse);
 	pWoodToyMaterial->useDiffuseTexture(true);

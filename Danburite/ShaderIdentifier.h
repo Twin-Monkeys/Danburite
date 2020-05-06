@@ -161,12 +161,14 @@ namespace Danburite
 			namespace VertexAttribute
 			{
 				constexpr GLuint
-					POSITION_LOCATION = 0,
-					COLOR_LOCATION = 1,
-					NORMAL_LOCATION = 2,
-					TEX_COORD_LOCATION = 3,
-					TANGENT_LOCATION = 4,
-					MODEL_MATRIX_LOCATION = 5
+					POSITION_LOCATION		= 0U,
+					COLOR_LOCATION			= 1U,
+					NORMAL_LOCATION			= 2U,
+					TEX_COORD_LOCATION		= 3U,
+					TANGENT_LOCATION		= 4U,
+					BONE_INDICES_LOCATION	= 5U,
+					BONE_WEIGHTS_LOCATION	= 6U,
+					MODEL_MATRIX_LOCATION	= 7U
 					;
 			}
 

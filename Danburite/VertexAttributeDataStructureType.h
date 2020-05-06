@@ -6,6 +6,8 @@ namespace Danburite
 	{
 		VEC2,
 		VEC3,
-		VEC4
+		VEC4,
+
+		UVEC4
 	};
 }
