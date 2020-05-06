@@ -9,8 +9,8 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	ReflectionPhongMaterial::ReflectionPhongMaterial(const VertexAttributeType vertexType) noexcept :
-		Material(MaterialType::REFLECTION_PHONG, vertexType),
+	ReflectionPhongMaterial::ReflectionPhongMaterial(const VertexAttributeFlag vertexFlag) noexcept :
+		Material(MaterialType::REFLECTION_PHONG, vertexFlag),
 		_reflectionPhongProgram(ProgramFactory::getInstance().getProgram(ProgramType::REFLECTION_PHONG))
 	{
 		useLighting(true);

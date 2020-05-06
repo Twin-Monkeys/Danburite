@@ -6,8 +6,8 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	ReflectionMaterial::ReflectionMaterial(const VertexAttributeType vertexType) noexcept :
-		Material(MaterialType::REFLECTION, vertexType),
+	ReflectionMaterial::ReflectionMaterial(const VertexAttributeFlag vertexFlag) noexcept :
+		Material(MaterialType::REFLECTION, vertexFlag),
 		_reflectionProgram(ProgramFactory::getInstance().getProgram(ProgramType::REFLECTION))
 	{}
 

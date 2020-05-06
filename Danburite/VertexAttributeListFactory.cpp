@@ -8,16 +8,16 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	const std::vector<VertexAttribute> &VertexAttributeListFactory::getInstance(const VertexAttributeType type) noexcept
+	const std::vector<VertexAttribute> &VertexAttributeListFactory::getInstance(const VertexAttributeFlag type) noexcept
 	{
 		static VertexAttributeListCache vertexAttribListCache;
 		return vertexAttribListCache.getValue(type);
 	}
 
 	std::vector<VertexAttribute> VertexAttributeListFactory::
-		VertexAttributeListCache::_onProvideValue(const VertexAttributeType &key)
+		VertexAttributeListCache::_onProvideValue(const VertexAttributeFlag &key)
 	{
-		std::vector<VertexAttribute> retVal;
+		vector<VertexAttribute> retVal;
 
 		const VertexAttributeDataStructure &VEC2 =
 			VertexAttributeDataStructureFactory::getInstance(VertexAttributeDataStructureType::VEC2);
@@ -28,145 +28,60 @@ namespace Danburite
 		const VertexAttributeDataStructure &VEC4 =
 			VertexAttributeDataStructureFactory::getInstance(VertexAttributeDataStructureType::VEC4);
 
-		switch (key)
+		GLsizei offset = 0;
+		if (key & VertexAttributeFlag::POS3)
 		{
-		case VertexAttributeType::POS3:
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::POSITION_LOCATION, VEC3, VEC3.memSize(), 0);
-			break;
+			retVal.emplace_back(
+				ShaderIdentifier::Value::VertexAttribute::POSITION_LOCATION, VEC3, 0, offset);
 
-		case VertexAttributeType::POS3_COLOR4:
-		{
-			const GLsizei STRIDE = (VEC3.memSize() + VEC4.memSize());
-			GLsizei offset = 0;
-
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::POSITION_LOCATION, VEC3, STRIDE, 0);
 			offset += VEC3.memSize();
-
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::COLOR_LOCATION, VEC4, STRIDE, offset);
 		}
-			break;
 
-		case VertexAttributeType::POS3_NORMAL3:
+		if (key & VertexAttributeFlag::COLOR4)
 		{
-			const GLsizei STRIDE = (VEC3.memSize() * 2);
-			GLsizei offset = 0;
+			retVal.emplace_back(
+				ShaderIdentifier::Value::VertexAttribute::COLOR_LOCATION, VEC4, 0, offset);
 
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::POSITION_LOCATION, VEC3, STRIDE, 0);
-			offset += VEC3.memSize();
-
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::NORMAL_LOCATION, VEC3, STRIDE, offset);
-		}
-			break;
-
-		case VertexAttributeType::POS3_COLOR4_NORMAL3:
-		{
-			const GLsizei STRIDE = (VEC3.memSize() + VEC4.memSize() + VEC3.memSize());
-			GLsizei offset = 0;
-
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::POSITION_LOCATION, VEC3, STRIDE, 0);
-			offset += VEC3.memSize();
-
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::COLOR_LOCATION, VEC4, STRIDE, offset);
 			offset += VEC4.memSize();
-
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::NORMAL_LOCATION, VEC3, STRIDE, offset);
 		}
-			break;
 
-		case VertexAttributeType::POS3_TEXCOORD2:
+		if (key & VertexAttributeFlag::NORMAL3)
 		{
-			const GLsizei STRIDE = (VEC3.memSize() + VEC2.memSize());
-			GLsizei offset = 0;
+			retVal.emplace_back(
+				ShaderIdentifier::Value::VertexAttribute::NORMAL_LOCATION, VEC3, 0, offset);
 
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::POSITION_LOCATION, VEC3, STRIDE, 0);
 			offset += VEC3.memSize();
-
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::TEX_COORD_LOCATION, VEC2, STRIDE, offset);
 		}
-			break;
 
-		case VertexAttributeType::POS3_COLOR4_TEXCOORD2:
+		if (key & VertexAttributeFlag::TEXCOORD2)
 		{
-			const GLsizei STRIDE = (VEC3.memSize() + VEC4.memSize() + VEC2.memSize());
-			GLsizei offset = 0;
+			retVal.emplace_back(
+				ShaderIdentifier::Value::VertexAttribute::TEX_COORD_LOCATION, VEC2, 0, offset);
 
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::POSITION_LOCATION, VEC3, STRIDE, 0);
-			offset += VEC3.memSize();
-
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::COLOR_LOCATION, VEC4, STRIDE, offset);
-			offset += VEC4.memSize();
-
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::TEX_COORD_LOCATION, VEC2, STRIDE, offset);
-		}
-			break;
-
-		case VertexAttributeType::POS3_NORMAL3_TEXCOORD2:
-		{
-			const GLsizei STRIDE = ((VEC3.memSize() * 2) + VEC2.memSize());
-			GLsizei offset = 0;
-
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::POSITION_LOCATION, VEC3, STRIDE, 0);
-			offset += VEC3.memSize();
-
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::NORMAL_LOCATION, VEC3, STRIDE, offset);
-			offset += VEC3.memSize();
-
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::TEX_COORD_LOCATION, VEC2, STRIDE, offset);
-		}
-			break;
-
-		case VertexAttributeType::POS3_COLOR4_NORMAL3_TEXCOORD2:
-		{
-			const GLsizei STRIDE = (VEC3.memSize() + VEC4.memSize() + VEC3.memSize() + VEC2.memSize());
-			GLsizei offset = 0;
-
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::POSITION_LOCATION, VEC3, STRIDE, 0);
-			offset += VEC3.memSize();
-
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::COLOR_LOCATION, VEC4, STRIDE, offset);
-			offset += VEC4.memSize();
-
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::NORMAL_LOCATION, VEC3, STRIDE, offset);
-			offset += VEC3.memSize();
-
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::TEX_COORD_LOCATION, VEC2, STRIDE, offset);
-		}
-			break;
-
-		case VertexAttributeType::POS3_NORMAL3_TEXCOORD2_TANGENT3:
-		{
-			const GLsizei STRIDE = (VEC3.memSize() + VEC3.memSize() + VEC2.memSize() + VEC3.memSize());
-			GLsizei offset = 0;
-
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::POSITION_LOCATION, VEC3, STRIDE, 0);
-			offset += VEC3.memSize();
-
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::NORMAL_LOCATION, VEC3, STRIDE, offset);
-			offset += VEC3.memSize();
-
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::TEX_COORD_LOCATION, VEC2, STRIDE, offset);
 			offset += VEC2.memSize();
-
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::TANGENT_LOCATION, VEC3, STRIDE, offset);
 		}
-		break;
 
-		case VertexAttributeType::MODELMAT16:
+		if (key & VertexAttributeFlag::TANGENT3)
 		{
-			const GLsizei STRIDE = (4 * VEC4.memSize());
-			GLsizei offset = 0;
+			retVal.emplace_back(
+				ShaderIdentifier::Value::VertexAttribute::TANGENT_LOCATION, VEC3, 0, offset);
 
+			offset += VEC3.memSize();
+		}
+
+		if (key & VertexAttributeFlag::MODELMAT16)
+		{
 			for (GLuint i = 0U; i < 4U; i++)
 			{
-				retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::MODEL_MATRIX_LOCATION + i, VEC4, STRIDE, offset, 1);
+				retVal.emplace_back(
+					ShaderIdentifier::Value::VertexAttribute::MODEL_MATRIX_LOCATION + i, VEC4, 0, offset, 1);
+
 				offset += VEC4.memSize();
 			}
 		}
-			break;
 
-		default:
-			assert(false);
-		}
+		for (VertexAttribute &attrib : retVal)
+			attrib.stride = offset;
 
 		return retVal;
 	}

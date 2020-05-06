@@ -6,15 +6,15 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	PhongMaterial::PhongMaterial(const MaterialType materialType, const VertexAttributeType vertexType) noexcept :
-		Material(materialType, vertexType),
+	PhongMaterial::PhongMaterial(const MaterialType materialType, const VertexAttributeFlag vertexFlag) noexcept :
+		Material(materialType, vertexFlag),
 		_phongProgram(ProgramFactory::getInstance().getProgram(ProgramType::PHONG))
 	{
 		useLighting(true);
 	}
 
-	PhongMaterial::PhongMaterial(const VertexAttributeType vertexType) noexcept :
-		PhongMaterial(MaterialType::PHONG, vertexType)
+	PhongMaterial::PhongMaterial(const VertexAttributeFlag vertexFlag) noexcept :
+		PhongMaterial(MaterialType::PHONG, vertexFlag)
 	{}
 
 	void PhongMaterial::_onRender(

@@ -12,7 +12,7 @@ namespace Danburite
 	ModelMatrixBuffer::ModelMatrixBuffer(const size_t numInstances)
 	{
 		setAttributes(
-			VertexAttributeListFactory::getInstance(Danburite::VertexAttributeType::MODELMAT16));
+			VertexAttributeListFactory::getInstance(VertexAttributeFlag::MODELMAT16));
 
 		setNumInstances(numInstances);
 	}

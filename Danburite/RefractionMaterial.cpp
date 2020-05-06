@@ -7,12 +7,13 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	RefractionMaterial::RefractionMaterial(const VertexAttributeType vertexType) noexcept :
-		Material(MaterialType::REFRACTION, vertexType),
+	RefractionMaterial::RefractionMaterial(const VertexAttributeFlag vertexFlag) noexcept :
+		Material(MaterialType::REFRACTION, vertexFlag),
 		_refractionProgram(ProgramFactory::getInstance().getProgram(ProgramType::REFRACTION))
 	{}
 
-	void RefractionMaterial::_onRender(UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
+	void RefractionMaterial::_onRender(
+		UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
 		_deployRefractionComponent(materialSetter);
 

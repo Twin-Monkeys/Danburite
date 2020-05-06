@@ -1,7 +1,7 @@
 #pragma once
 
 #include "VertexAttribute.h"
-#include "VertexAttributeType.h"
+#include "VertexAttributeFlag.h"
 #include "Cache.h"
 
 namespace Danburite
@@ -10,16 +10,16 @@ namespace Danburite
 	{
 	private:
 		class VertexAttributeListCache :
-			public ObjectGL::Cache<VertexAttributeType, std::vector<ObjectGL::VertexAttribute>>
+			public ObjectGL::Cache<VertexAttributeFlag, std::vector<ObjectGL::VertexAttribute>>
 		{
 		protected:
-			virtual std::vector<ObjectGL::VertexAttribute> _onProvideValue(const VertexAttributeType &key) override;
+			virtual std::vector<ObjectGL::VertexAttribute> _onProvideValue(const VertexAttributeFlag &key) override;
 
 		public:
 			virtual ~VertexAttributeListCache() = default;
 		};
 
 	public:
-		static const std::vector<ObjectGL::VertexAttribute> &getInstance(const VertexAttributeType type) noexcept;
+		static const std::vector<ObjectGL::VertexAttribute> &getInstance(const VertexAttributeFlag type) noexcept;
 	};
 }

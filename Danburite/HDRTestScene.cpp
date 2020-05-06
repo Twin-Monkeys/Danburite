@@ -37,11 +37,11 @@ HDRTestScene::HDRTestScene()
 	pFloor_diffuse->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
 	pFloor_diffuse->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 
-	const shared_ptr<VertexArray>& pFloorVA =
-		vaFactory.getVertexArrayPtr(ShapeType::RECTANGLE, VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
+	const shared_ptr<VertexArray>& pFloorVA = vaFactory.getVertexArrayPtr(
+			ShapeType::RECTANGLE, VertexAttributeFlag::POS3 | VertexAttributeFlag::NORMAL3 | VertexAttributeFlag::TEXCOORD2);
 
-	const shared_ptr<PhongMaterial>& pFloorMaterial =
-		make_shared<PhongMaterial>(VertexAttributeType::POS3_NORMAL3_TEXCOORD2);
+	const shared_ptr<PhongMaterial>& pFloorMaterial = make_shared<PhongMaterial>(
+		VertexAttributeFlag::POS3 | VertexAttributeFlag::NORMAL3 | VertexAttributeFlag::TEXCOORD2);
 
 	pFloorMaterial->setDiffuseTexture(pFloor_diffuse);
 	pFloorMaterial->useDiffuseTexture(true);

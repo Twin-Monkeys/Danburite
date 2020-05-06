@@ -4,7 +4,7 @@
 #include "MaterialType.h"
 #include "MaterialOptionFlag.h"
 #include "VertexArray.h"
-#include "VertexAttributeType.h"
+#include "VertexAttributeFlag.h"
 #include "Constant.h"
 #include "UniformSetter.h"
 
@@ -14,7 +14,7 @@ namespace Danburite
 	{
 	private:
 		const MaterialType __MATERIAL_TYPE;
-		const VertexAttributeType __VERTEX_TYPE;
+		const VertexAttributeFlag __VERTEX_FLAG;
 
 		ObjectGL::UniformSetter &__materialSetter;
 
@@ -23,7 +23,7 @@ namespace Danburite
 		constexpr void __setOption(const MaterialOptionFlag flags, const bool enabled) noexcept;
 
 	protected:
-		Material(const MaterialType materialType, const VertexAttributeType vertexType) noexcept;
+		Material(const MaterialType materialType, const VertexAttributeFlag vertexFlag) noexcept;
 
 		virtual void _onRender(
 			ObjectGL::UniformSetter &materialSetter,

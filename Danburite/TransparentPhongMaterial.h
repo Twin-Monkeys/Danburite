@@ -12,7 +12,7 @@ namespace Danburite
 			ObjectGL::VertexArray& vertexArray, const GLsizei numInstances) noexcept override;
 
 	public:
-		TransparentPhongMaterial(const VertexAttributeType vertexType) noexcept;
+		TransparentPhongMaterial(const VertexAttributeFlag vertexFlag) noexcept;
 
 		virtual ~TransparentPhongMaterial() = default;
 	};

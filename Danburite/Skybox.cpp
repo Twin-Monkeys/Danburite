@@ -21,7 +21,7 @@ namespace Danburite
 	void Skybox::_drawBoxVA() noexcept
 	{
 		VertexArray &cubeVA =
-			VertexArrayFactory::getInstance().getVertexArrayReference(ShapeType::CUBE, VertexAttributeType::POS3);
+			VertexArrayFactory::getInstance().getVertexArrayReference(ShapeType::CUBE, VertexAttributeFlag::POS3);
 
 		cubeVA.draw();
 	}

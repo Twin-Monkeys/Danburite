@@ -18,7 +18,7 @@ namespace Danburite
 			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
 
 	public:
-		ReflectionPhongMaterial(const VertexAttributeType vertexType) noexcept;
+		ReflectionPhongMaterial(const VertexAttributeFlag vertexFlag) noexcept;
 
 		void setEnvironmentTexture(const std::shared_ptr<ObjectGL::TextureCubemap> &pTexture) noexcept;
 

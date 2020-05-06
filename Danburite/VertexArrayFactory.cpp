@@ -9,18 +9,19 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	shared_ptr<VertexArray> VertexArrayFactory::getVertexArrayPtr(const ShapeType shapeType, const VertexAttributeType vertexType)
+	shared_ptr<VertexArray> VertexArrayFactory::getVertexArrayPtr(
+		const ShapeType shapeType, const VertexAttributeFlag vertexFlag)
 	{
-		return __cacheCache.getValue(shapeType)->getValue(vertexType);
+		return __cacheCache.getValue(shapeType)->getValue(vertexFlag);
 	}
 
 	VertexArray &VertexArrayFactory::
-		getVertexArrayReference(const ShapeType shapeType, const VertexAttributeType vertexType)
+		getVertexArrayReference(const ShapeType shapeType, const VertexAttributeFlag vertexFlag)
 	{
-		return *(__cacheCache.getValue(shapeType)->getValue(vertexType));
+		return *(__cacheCache.getValue(shapeType)->getValue(vertexFlag));
 	}
 
-	shared_ptr<VertexArray> VertexArrayFactory::RectangleCache::_onProvideValue(const VertexAttributeType &key)
+	shared_ptr<VertexArray> VertexArrayFactory::RectangleCache::_onProvideValue(const VertexAttributeFlag &key)
 	{
 		constexpr vec3 positions[] =
 		{
@@ -85,7 +86,7 @@ namespace Danburite
 		return make_shared<VertexArray>(pVertexBuffer, pIndexBuffer, GLsizei(size(indices)));
 	}
 
-	shared_ptr<VertexArray> VertexArrayFactory::CubeCache::_onProvideValue(const VertexAttributeType &key)
+	shared_ptr<VertexArray> VertexArrayFactory::CubeCache::_onProvideValue(const VertexAttributeFlag &key)
 	{
 		constexpr vec3 positions[] =
 		{
@@ -213,7 +214,7 @@ namespace Danburite
 		return make_shared<VertexArray>(pVertexBuffer, pIndexBuffer, GLsizei(size(indices)));
 	}
 
-	shared_ptr<Cache<VertexAttributeType, shared_ptr<VertexArray>>>
+	shared_ptr<Cache<VertexAttributeFlag, shared_ptr<VertexArray>>>
 		VertexArrayFactory::CacheCache::_onProvideValue(const ShapeType &key)
 	{
 		switch (key)

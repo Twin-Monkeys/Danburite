@@ -192,8 +192,6 @@
     <ClCompile Include="MonoColorMaterialComponent.cpp" />
     <ClCompile Include="MSAAPostProcessor.cpp" />
     <ClCompile Include="NegativePostProcessor.cpp" />
-    <ClCompile Include="OutliningMaterialComponent.cpp" />
-    <ClCompile Include="OutliningPhongMaterial.cpp" />
     <ClCompile Include="PhongMaterialComponent.cpp" />
     <ClCompile Include="PhongMaterial.cpp" />
     <ClCompile Include="AssetImporter.cpp" />
@@ -329,8 +327,6 @@
     <ClInclude Include="MonoColorMaterialComponent.h" />
     <ClInclude Include="MSAAPostProcessor.h" />
     <ClInclude Include="NegativePostProcessor.h" />
-    <ClInclude Include="OutliningMaterialComponent.h" />
-    <ClInclude Include="OutliningPhongMaterial.h" />
     <ClInclude Include="PhongMaterial.h" />
     <ClInclude Include="AssetImporter.h" />
     <ClInclude Include="AssetImporterException.h" />
@@ -428,7 +424,6 @@
     <ClInclude Include="VertexAttributeDataStructureFactory.h" />
     <ClInclude Include="VertexAttributeFlag.h" />
     <ClInclude Include="VertexShaderCompiler.h" />
-    <ClInclude Include="VertexAttributeType.h" />
     <ClInclude Include="WeakPointerContainer.h" />
     <ClInclude Include="Win32Screen.h" />
     <ClInclude Include="stb_image.h" />

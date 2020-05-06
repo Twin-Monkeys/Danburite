@@ -9,7 +9,6 @@
 #include "MonoColorMaterial.h"
 #include "PhongMaterial.h"
 #include "SilhouetteMaterial.h"
-#include "OutliningPhongMaterial.h"
 #include "TransparentPhongMaterial.h"
 #include "ReflectionMaterial.h"
 #include "ReflectionPhongMaterial.h"
@@ -126,35 +125,31 @@ namespace Danburite
 			const unsigned MESH_IDX = pNode->mMeshes[i];
 			const aiMesh* const pAiMesh = pAiMeshes[MESH_IDX];
 
-			VertexAttributeType vertexType = VertexAttributeType::NONE;
+			VertexAttributeFlag vertexFlag = VertexAttributeFlag::NONE;
 
 			if (pAiMesh->HasPositions())
-				vertexType |= VertexAttributeFlag::POS3;
-			else
-				continue;
+				vertexFlag |= VertexAttributeFlag::POS3;
 
 			if (pAiMesh->HasVertexColors(0))
-				vertexType |= VertexAttributeFlag::COLOR4;
+				vertexFlag |= VertexAttributeFlag::COLOR4;
 
 			if (pAiMesh->HasNormals())
-				vertexType |= VertexAttributeFlag::NORMAL3;
+				vertexFlag |= VertexAttributeFlag::NORMAL3;
 
 			if (pAiMesh->HasTangentsAndBitangents())
-				vertexType |= VertexAttributeFlag::TANGENT3;
-
+				vertexFlag |= VertexAttributeFlag::TANGENT3;
 
 			/*
 				a vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't
 				use models where a vertex can have multiple texture coordinates so we always take the first set (0).
 			*/
 			if (pAiMesh->HasTextureCoords(0))
-				vertexType |= VertexAttributeFlag::TEXCOORD2;
-
+				vertexFlag |= VertexAttributeFlag::TEXCOORD2;
 
 			vector<GLfloat> vertices;
 			for (unsigned j = 0; j < pAiMesh->mNumVertices; j++)
 			{
-				if (vertexType & VertexAttributeFlag::POS3)
+				if (vertexFlag & VertexAttributeFlag::POS3)
 				{
 					const aiVector3D &aiPos = pAiMesh->mVertices[j];
 					const vec3 &pos = vec3 { vertexMatrix * (vec4 {aiPos.x, aiPos.y, aiPos.z, 1.f}) };
@@ -162,13 +157,13 @@ namespace Danburite
 					vertices.insert(vertices.end(), { pos.x, pos.y, pos.z });
 				}
 
-				if (vertexType & VertexAttributeFlag::COLOR4)
+				if (vertexFlag & VertexAttributeFlag::COLOR4)
 				{
 					const aiColor4D &color = pAiMesh->mColors[0][j];
 					vertices.insert(vertices.end(), { color.r, color.g, color.b, color.a });
 				}
 
-				if (vertexType & VertexAttributeFlag::NORMAL3)
+				if (vertexFlag & VertexAttributeFlag::NORMAL3)
 				{
 					const aiVector3D &aiNormal = pAiMesh->mNormals[j];
 					const vec3 &normal = (normalMatrix * (vec3 { aiNormal.x, aiNormal.y, aiNormal.z }));
@@ -176,13 +171,13 @@ namespace Danburite
 					vertices.insert(vertices.end(), { normal.x, normal.y, normal.z });
 				}
 
-				if (vertexType & VertexAttributeFlag::TEXCOORD2)
+				if (vertexFlag & VertexAttributeFlag::TEXCOORD2)
 				{
 					const aiVector3D &texCoord = pAiMesh->mTextureCoords[0][j];
 					vertices.insert(vertices.end(), { texCoord.x, texCoord.y });
 				}
 
-				if (vertexType & VertexAttributeFlag::TANGENT3)
+				if (vertexFlag & VertexAttributeFlag::TANGENT3)
 				{
 					const aiVector3D &aiTangent = pAiMesh->mTangents[j];
 					const vec3 &tangent = (normalMatrix * (vec3 { aiTangent.x, aiTangent.y, aiTangent.z }));
@@ -190,7 +185,7 @@ namespace Danburite
 				}
 			}
 
-			const vector<VertexAttribute> &attribList = VertexAttributeListFactory::getInstance(vertexType);
+			const vector<VertexAttribute> &attribList = VertexAttributeListFactory::getInstance(vertexFlag);
 
 			const shared_ptr<VertexBuffer> &pVertexBuffer = make_shared<VertexBuffer>();
 			pVertexBuffer->memoryAlloc(vertices, BufferUpdatePatternType::STATIC);
@@ -224,7 +219,7 @@ namespace Danburite
 			switch (materialType)
 			{
 			case MaterialType::MONO_COLOR:
-				pMaterial = make_shared<MonoColorMaterial>(vertexType);
+				pMaterial = make_shared<MonoColorMaterial>(vertexFlag);
 				break;
 
 			case MaterialType::EXPLODING_PHONG:
@@ -234,9 +229,6 @@ namespace Danburite
 				[[fallthrough]];
 
 			case MaterialType::TRANSPARENT_PHONG:
-				[[fallthrough]];
-
-			case MaterialType::OUTLINING_PHONG:
 				[[fallthrough]];
 
 			case MaterialType::PHONG:
@@ -267,7 +259,7 @@ namespace Danburite
 				
 				if (materialType == MaterialType::REFLECTION_PHONG)
 				{
-					pMaterial = make_shared<ReflectionPhongMaterial>(vertexType);
+					pMaterial = make_shared<ReflectionPhongMaterial>(vertexFlag);
 
 					__setupPhongStyleMaterial(
 						static_pointer_cast<ReflectionPhongMaterial>(pMaterial),
@@ -276,25 +268,16 @@ namespace Danburite
 				}
 				else if (materialType == MaterialType::TRANSPARENT_PHONG)
 				{
-					pMaterial = make_shared<TransparentPhongMaterial>(vertexType);
+					pMaterial = make_shared<TransparentPhongMaterial>(vertexFlag);
 
 					__setupPhongStyleMaterial(
 						static_pointer_cast<TransparentPhongMaterial>(pMaterial),
 						pAmbientTex, pDiffuseTex, pSpecularTex, pEmissiveTex,
 						pShininessTex, pAlphaTex, pNormalTex, pHeightTex);
 				}
-				else if (materialType == MaterialType::OUTLINING_PHONG)
-				{
-					pMaterial = make_shared<OutliningPhongMaterial>(vertexType);
-
-					__setupPhongStyleMaterial(
-						static_pointer_cast<OutliningPhongMaterial>(pMaterial),
-						pAmbientTex, pDiffuseTex, pSpecularTex, pEmissiveTex,
-						pShininessTex, pAlphaTex, pNormalTex, pHeightTex);
-				}
 				else
 				{
-					pMaterial = make_shared<PhongMaterial>(vertexType);
+					pMaterial = make_shared<PhongMaterial>(vertexFlag);
 
 					__setupPhongStyleMaterial(
 						static_pointer_cast<PhongMaterial>(pMaterial),
@@ -305,12 +288,12 @@ namespace Danburite
 				break;
 
 			case MaterialType::SILHOUETTE:
-				pMaterial = make_shared<SilhouetteMaterial>(vertexType);
+				pMaterial = make_shared<SilhouetteMaterial>(vertexFlag);
 				break;
 
 			case MaterialType::REFLECTION:
 			{
-				const shared_ptr<ReflectionMaterial> &pReflectionMaterial = make_shared<ReflectionMaterial>(vertexType);
+				const shared_ptr<ReflectionMaterial> &pReflectionMaterial = make_shared<ReflectionMaterial>(vertexFlag);
 
 				const shared_ptr<Texture2D> &pNormalTex =
 					__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_NORMALS);
@@ -327,7 +310,7 @@ namespace Danburite
 
 			case MaterialType::REFRACTION:
 			{
-				const shared_ptr<RefractionMaterial> &pRefractionMaterial = make_shared<RefractionMaterial>(vertexType);
+				const shared_ptr<RefractionMaterial> &pRefractionMaterial = make_shared<RefractionMaterial>(vertexFlag);
 
 				const shared_ptr<Texture2D> &pNormalTex =
 					__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_NORMALS);

@@ -6,8 +6,8 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	MonoColorMaterial::MonoColorMaterial(const VertexAttributeType vertexType) noexcept :
-		Material(MaterialType::MONO_COLOR, vertexType),
+	MonoColorMaterial::MonoColorMaterial(const VertexAttributeFlag vertexFlag) noexcept :
+		Material(MaterialType::MONO_COLOR, vertexFlag),
 		_monoColorProgram(ProgramFactory::getInstance().getProgram(ProgramType::MONO_COLOR))
 	{
 		useLighting(false);

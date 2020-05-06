@@ -2,7 +2,7 @@
 
 #include "VertexArray.h"
 #include "ShapeType.h"
-#include "VertexAttributeType.h"
+#include "VertexAttributeFlag.h"
 #include "Cache.h"
 #include "RenderContext.h"
 
@@ -13,22 +13,22 @@ namespace Danburite
 		friend ObjectGL::ContextDependentSingleton<VertexArrayFactory>;
 
 	private:
-		class RectangleCache : public ObjectGL::Cache<VertexAttributeType, std::shared_ptr<ObjectGL::VertexArray>>
+		class RectangleCache : public ObjectGL::Cache<VertexAttributeFlag, std::shared_ptr<ObjectGL::VertexArray>>
 		{
 		protected:
-			virtual std::shared_ptr<ObjectGL::VertexArray> _onProvideValue(const VertexAttributeType &key) override;
+			virtual std::shared_ptr<ObjectGL::VertexArray> _onProvideValue(const VertexAttributeFlag&key) override;
 		};
 
-		class CubeCache : public ObjectGL::Cache<VertexAttributeType, std::shared_ptr<ObjectGL::VertexArray>>
+		class CubeCache : public ObjectGL::Cache<VertexAttributeFlag, std::shared_ptr<ObjectGL::VertexArray>>
 		{
 		protected:
-			virtual std::shared_ptr<ObjectGL::VertexArray> _onProvideValue(const VertexAttributeType &key) override;
+			virtual std::shared_ptr<ObjectGL::VertexArray> _onProvideValue(const VertexAttributeFlag&key) override;
 		};
 
-		class CacheCache : public ObjectGL::Cache<ShapeType, std::shared_ptr<ObjectGL::Cache<VertexAttributeType, std::shared_ptr<ObjectGL::VertexArray>>>>
+		class CacheCache : public ObjectGL::Cache<ShapeType, std::shared_ptr<ObjectGL::Cache<VertexAttributeFlag, std::shared_ptr<ObjectGL::VertexArray>>>>
 		{
 		protected:
-			virtual std::shared_ptr<ObjectGL::Cache<VertexAttributeType, std::shared_ptr<ObjectGL::VertexArray>>>
+			virtual std::shared_ptr<ObjectGL::Cache<VertexAttributeFlag, std::shared_ptr<ObjectGL::VertexArray>>>
 				_onProvideValue(const ShapeType &key) override;
 		};
 
@@ -40,9 +40,9 @@ namespace Danburite
 
 	public:
 		std::shared_ptr<ObjectGL::VertexArray>
-			getVertexArrayPtr(const ShapeType shapeType, const VertexAttributeType vertexType);
+			getVertexArrayPtr(const ShapeType shapeType, const VertexAttributeFlag vertexFlag);
 
 		ObjectGL::VertexArray &
-			getVertexArrayReference(const ShapeType shapeType, const VertexAttributeType vertexType);
+			getVertexArrayReference(const ShapeType shapeType, const VertexAttributeFlag vertexFlag);
 	};
 }

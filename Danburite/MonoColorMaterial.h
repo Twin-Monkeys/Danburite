@@ -16,7 +16,7 @@ namespace Danburite
 			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
 
 	public:
-		MonoColorMaterial(const VertexAttributeType vertexType) noexcept;
+		MonoColorMaterial(const VertexAttributeFlag vertexFlag) noexcept;
 
 		virtual ~MonoColorMaterial() = default;
 	};

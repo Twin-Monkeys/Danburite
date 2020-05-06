@@ -7,8 +7,8 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	SilhouetteMaterial::SilhouetteMaterial(const VertexAttributeType vertexType) noexcept :
-		Material(MaterialType::SILHOUETTE, vertexType),
+	SilhouetteMaterial::SilhouetteMaterial(const VertexAttributeFlag vertexFlag) noexcept :
+		Material(MaterialType::SILHOUETTE, vertexFlag),
 		__silhouetteProgram(ProgramFactory::getInstance().getProgram(ProgramType::SILHOUETTE))
 	{}
 

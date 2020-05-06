@@ -9,8 +9,8 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	Material::Material(const MaterialType materialType, const VertexAttributeType vertexType) noexcept :
-		__MATERIAL_TYPE(materialType), __VERTEX_TYPE(vertexType),
+	Material::Material(const MaterialType materialType, const VertexAttributeFlag vertexFlag) noexcept :
+		__MATERIAL_TYPE(materialType), __VERTEX_FLAG(vertexFlag),
 		__materialSetter(UniformBufferFactory::getInstance().
 			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::MATERIAL))
 	{}
@@ -18,7 +18,7 @@ namespace Danburite
 	void Material::render(VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
 		__materialSetter.setUniformUint(ShaderIdentifier::Name::Material::TYPE, GLenum(__MATERIAL_TYPE));
-		__materialSetter.setUniformUint(ShaderIdentifier::Name::Material::VERTEX_FLAG, GLenum(__VERTEX_TYPE));
+		__materialSetter.setUniformUint(ShaderIdentifier::Name::Material::VERTEX_FLAG, GLenum(__VERTEX_FLAG));
 		__materialSetter.setUniformUint(ShaderIdentifier::Name::Material::OPTION_FLAG, GLenum(__optionFlag));
 
 		_onRender(__materialSetter, vertexArray, numInstances);
