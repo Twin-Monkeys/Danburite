@@ -32,7 +32,7 @@ namespace Danburite
 
 	void RenderUnit::__updateHierarchical(const float deltaTime, const vector<mat4> &parentModelMatrices) noexcept
 	{
-		__pModelMatrixBuffer->updateMatrix(deltaTime, parentModelMatrices);
+		__pModelMatrixBuffer->updateMatrix(parentModelMatrices);
 
 		__children.safeTraverse(
 			&RenderUnit::__updateHierarchical, deltaTime, __pModelMatrixBuffer->getModelMatrices());
@@ -72,7 +72,7 @@ namespace Danburite
 
 	void RenderUnit::update(const float deltaTime) noexcept
 	{
-		__pModelMatrixBuffer->updateMatrix(deltaTime);
+		__pModelMatrixBuffer->updateMatrix();
 
 		__children.safeTraverse(
 			&RenderUnit::__updateHierarchical, deltaTime, __pModelMatrixBuffer->getModelMatrices());

@@ -15,7 +15,7 @@ namespace Danburite
 
 	void Camera::update(const float deltaTime) noexcept
 	{
-		_onUpdateViewMatrix(deltaTime ,__viewMat);
-		_onUpdateProjMatrix(deltaTime ,__projMat);
+		_onUpdateViewMatrix(__viewMat);
+		_onUpdateProjMatrix(__projMat);
 	}
 }

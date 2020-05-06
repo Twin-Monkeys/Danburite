@@ -22,8 +22,8 @@ namespace Danburite
 		constexpr size_t getNumInstances() const noexcept;
 		void setNumInstances(const size_t numInstances) noexcept;
 
-		void updateMatrix(const float deltaTime) noexcept;
-		void updateMatrix(const float deltaTime, const std::vector<glm::mat4> &parentModelMatrices) noexcept;
+		void updateMatrix() noexcept;
+		void updateMatrix(const std::vector<glm::mat4> &parentModelMatrices) noexcept;
 
 		void selfDeploy() noexcept;
 

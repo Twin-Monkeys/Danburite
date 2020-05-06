@@ -77,9 +77,11 @@ namespace Danburite
 		constexpr Transform &operator=(const Transform &transform) = default;
 		constexpr Transform &operator=(const TransformComponent &component) noexcept;
 
-		virtual void updateMatrix(const float deltaTime) noexcept;
+		virtual void updateMatrix() noexcept;
 
 		virtual ~Transform() = default;
+
+		static glm::mat4 calcModelMatrix(const TransformComponent &component) noexcept;
 	};
 
 	constexpr Transform::Transform(const TransformComponent &component) noexcept :

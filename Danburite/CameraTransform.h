@@ -20,7 +20,7 @@ namespace Danburite
 		constexpr const glm::mat4 &getViewRotationMatrix() const noexcept;
 		constexpr const glm::mat4 &getViewMatrix() const noexcept;
 
-		virtual void updateMatrix(const float deltaTime) noexcept;
+		virtual void updateMatrix() noexcept;
 
 		virtual ~CameraTransform() = default;
 	};

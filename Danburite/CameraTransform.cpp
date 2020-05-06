@@ -25,9 +25,9 @@ namespace Danburite
 		rotationMat = transpose(__viewRotationMat);
 	}
 
-	void CameraTransform::updateMatrix(const float deltaTime) noexcept
+	void CameraTransform::updateMatrix() noexcept
 	{
-		Transform::updateMatrix(deltaTime);
+		Transform::updateMatrix();
 		__viewMat = (__viewRotationMat * __viewTranslationMat);
 	}
 }

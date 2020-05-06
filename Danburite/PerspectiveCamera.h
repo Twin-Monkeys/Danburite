@@ -18,7 +18,7 @@ namespace Danburite
 		float __zFar = Constant::Camera::DEFAULT_Z_FAR;
 
 	protected:
-		virtual void _onUpdateProjMatrix(const float deltaTime, glm::mat4 &projMatrix) noexcept override;
+		virtual void _onUpdateProjMatrix(glm::mat4 &projMatrix) noexcept override;
 
 	public:
 		constexpr void setFov(const float fov) noexcept;

@@ -26,7 +26,7 @@ namespace Danburite
 		return addKeyframe(timestamp, {position, scale, rotation });
 	}
 
-	void Animation::updateState() noexcept
+	void Animation::updateMatrix() noexcept
 	{
 		if (__keyframes.empty())
 			return;
@@ -35,7 +35,7 @@ namespace Danburite
 
 		if (__keyframes.size() == 1ULL)
 		{
-			__currentComponent = __keyframes.begin()->second;
+			__currentTransform = __keyframes.begin()->second;
 			return;
 		}
 
@@ -47,9 +47,11 @@ namespace Danburite
 		{
 			auto firstIt = __keyframes.begin();
 
-			__currentComponent =TransformComponent::mix(
+			__currentTransform = TransformComponent::mix(
 				__DEFAULT_STATE, firstIt->second, __timestamp / firstIt->first);
 			
+			__currentTransform.updateMatrix();
+
 			return;
 		}
 
@@ -59,7 +61,7 @@ namespace Danburite
 		const float timeGap = (upperIt->first - lowerIt->first);
 		const float relativeTimestamp = (__timestamp - lowerIt->first);
 
-		__currentComponent = TransformComponent::mix(
+		__currentTransform = TransformComponent::mix(
 			lowerIt->second, upperIt->second, relativeTimestamp / timeGap);
 	}
 }

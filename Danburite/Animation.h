@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TransformComponent.h"
+#include "Transform.h"
 #include <map>
 #include "Constant.h"
 
@@ -16,13 +16,11 @@ namespace Danburite
 		float __timestamp = 0.f;
 		float __playTime = 0.f;
 
-		TransformComponent __currentComponent;
+		Transform __currentTransform;
 
 		void __validateTimestamp() noexcept;
 
 	public:
-		constexpr const TransformComponent &getCurrentState() const noexcept;
-
 		Animation &addKeyframe(const float timestamp, const TransformComponent &transformComponent) noexcept;
 		Animation &addKeyframe(
 			const float timestamp,
@@ -34,13 +32,8 @@ namespace Danburite
 		constexpr Animation &rewind() noexcept;
 		constexpr Animation &moveToEnd() noexcept;
 
-		void updateState() noexcept;
+		void updateMatrix() noexcept;
 	};
-
-	constexpr const TransformComponent &Animation::getCurrentState() const noexcept
-	{
-		return __currentComponent;
-	}
 
 	constexpr Animation &Animation::setTimestamp(const float timestamp) noexcept
 	{

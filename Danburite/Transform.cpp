@@ -118,12 +118,22 @@ namespace Danburite
 		return *this;
 	}
 
-	void Transform::updateMatrix(const float deltaTime) noexcept
+	void Transform::updateMatrix() noexcept
 	{
 		_onUpdateScaleMatrix(__scaleMat);
 		_onUpdateRotationMatrix(__rotationMat);
 		_onUpdateTranslationMatrix(__translationMat);
 
 		__modelMat = (__translationMat * __rotationMat * __scaleMat);
+	}
+
+	mat4 Transform::calcModelMatrix(const TransformComponent &component) noexcept
+	{
+		return
+		(
+			translate(component.position) *
+			scale(component.scale) *
+			component.rotation.getMatrix()
+		);
 	}
 }
