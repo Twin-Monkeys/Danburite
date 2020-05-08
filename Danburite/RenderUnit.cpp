@@ -33,14 +33,6 @@ namespace Danburite
 		__meshes.swap(meshes);
 	}
 
-	void RenderUnit::__updateHierarchical(const vector<mat4> &parentModelMatrices) noexcept
-	{
-		__pModelMatrixBuffer->updateMatrix(parentModelMatrices);
-
-		__children.safeTraverse(
-			&RenderUnit::__updateHierarchical, __pModelMatrixBuffer->getModelMatrices());
-	}
-
 	bool RenderUnit::setName(const string &name) noexcept
 	{
 		if (name.empty() || (__name == name))
@@ -67,8 +59,16 @@ namespace Danburite
 	{
 		__pModelMatrixBuffer->updateMatrix();
 
-		__children.safeTraverse(
-			&RenderUnit::__updateHierarchical, __pModelMatrixBuffer->getModelMatrices());
+		__children.safeTraverse<void(RenderUnit::*)(const float, const vector<mat4> &)>(
+			&RenderUnit::update, deltaTime, __pModelMatrixBuffer->getModelMatrices());
+	}
+
+	void RenderUnit::update(const float deltaTime, const vector<mat4> &parentModelMatrices) noexcept
+	{
+		__pModelMatrixBuffer->updateMatrix(parentModelMatrices);
+
+		__children.safeTraverse<void(RenderUnit::*)(const float, const vector<mat4> &)>(
+			&RenderUnit::update, deltaTime, __pModelMatrixBuffer->getModelMatrices());
 	}
 
 	void RenderUnit::draw() noexcept

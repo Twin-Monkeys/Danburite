@@ -159,6 +159,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="AnimationException.cpp" />
     <ClCompile Include="Bone.cpp" />
     <ClCompile Include="AttachableTexture2D.cpp" />
     <ClCompile Include="AttachableTextureCubemap.cpp" />
@@ -275,6 +277,8 @@
     <ClCompile Include="SpotLightComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="AnimationException.h" />
     <ClInclude Include="Bone.h" />
     <ClInclude Include="Attachable.h" />
     <ClInclude Include="AttachableTexture2D.h" />

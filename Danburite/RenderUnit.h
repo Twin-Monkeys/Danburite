@@ -26,8 +26,6 @@ namespace Danburite
 		RenderUnit(const RenderUnit &) = delete;
 		RenderUnit& operator=(const RenderUnit &) = delete;
 
-		void __updateHierarchical(const std::vector<glm::mat4> &parentModelMatrices) noexcept;
-
 	protected:
 		RenderUnit(
 			RenderUnitManager &manager,
@@ -52,6 +50,7 @@ namespace Danburite
 		constexpr const ObjectGL::WeakPointerContainer<RenderUnit> &getChildren() const noexcept;
 
 		virtual void update(const float deltaTime) noexcept override;
+		void update(const float deltaTime, const std::vector<glm::mat4> &parentModelMatrices) noexcept;
 
 		virtual void draw() noexcept override;
 		virtual void rawDrawCall() noexcept override;

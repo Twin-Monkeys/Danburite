@@ -123,5 +123,10 @@ namespace Danburite
 		{
 			constexpr GLfloat DEFAULT_EXPOSURE		= 5.f;
 		}
+
+		namespace Animation
+		{
+			constexpr GLuint MAX_NUM_BONES = 1000U;
+		}
 	}
 }

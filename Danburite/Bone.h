@@ -15,46 +15,51 @@ namespace Danburite
 		std::map<float, TransformComponent> __keyframes;
 
 		float __timestamp = 0.f;
-		float __playTime = 0.f;
 
 		Transform __currentTransform;
 		ObjectGL::WeakPointerContainer<Bone> __children;
 
+		float &__playTime;
+		glm::mat4 &__boneMat;
+
 		void __validateTimestamp() noexcept;
+		void __updateTransform() noexcept;
 
 	public:
+		explicit Bone(float &playTimeReference, glm::mat4& boneMatrixReference) noexcept;
+
 		Bone &addKeyframe(const float timestamp, const TransformComponent &transformComponent) noexcept;
 		Bone &addKeyframe(
 			const float timestamp,
 			const glm::vec3 &position, const glm::vec3 &scale, const Quaternion &rotation) noexcept;
 
-		constexpr Bone &setTimestamp(const float timestamp) noexcept;
-		constexpr Bone &adjustTimestamp(const float deltaTime) noexcept;
+		Bone &setTimestamp(const float timestamp) noexcept;
+		Bone &adjustTimestamp(const float deltaTime) noexcept;
 
-		constexpr Bone &rewind() noexcept;
-		constexpr Bone &moveToEnd() noexcept;
+		Bone &rewind() noexcept;
+		Bone &moveToEnd() noexcept;
 
 		void updateMatrix() noexcept;
+		void updateMatrix(const glm::mat4 &parentMatrix) noexcept;
+
+		constexpr const glm::mat4 &getBoneMatrix() const noexcept;
+
+		constexpr ObjectGL::WeakPointerContainer<Bone> &getChildren() noexcept;
+		constexpr const ObjectGL::WeakPointerContainer<Bone> &getChildren() const noexcept;
 	};
 
-	constexpr Bone &Bone::setTimestamp(const float timestamp) noexcept
+	constexpr const glm::mat4 &Bone::getBoneMatrix() const noexcept
 	{
-		__timestamp = timestamp;
-		return *this;
+		return __boneMat;
 	}
 
-	constexpr Bone &Bone::adjustTimestamp(const float deltaTime) noexcept
+	constexpr ObjectGL::WeakPointerContainer<Bone> &Bone::getChildren() noexcept
 	{
-		return setTimestamp(__timestamp + deltaTime);
+		return __children;
 	}
 
-	constexpr Bone &Bone::rewind() noexcept
+	constexpr const ObjectGL::WeakPointerContainer<Bone> &Bone::getChildren() const noexcept
 	{
-		return setTimestamp(0.f);
-	}
-
-	constexpr Bone &Bone::moveToEnd() noexcept
-	{
-		return setTimestamp(__playTime - Constant::Common::EPSILON);
+		return __children;
 	}
 }
