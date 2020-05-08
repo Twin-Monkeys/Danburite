@@ -49,19 +49,19 @@ namespace Danburite
 
 			__currentTransform = TransformComponent::mix(
 				__DEFAULT_STATE, firstIt->second, __timestamp / firstIt->first);
-			
-			__currentTransform.updateMatrix();
+		}
+		else
+		{
+			auto upperIt = lowerIt;
+			upperIt++;
 
-			return;
+			const float timeGap = (upperIt->first - lowerIt->first);
+			const float relativeTimestamp = (__timestamp - lowerIt->first);
+
+			__currentTransform = TransformComponent::mix(
+				lowerIt->second, upperIt->second, relativeTimestamp / timeGap);
 		}
 
-		auto upperIt = lowerIt;
-		upperIt++;
-
-		const float timeGap = (upperIt->first - lowerIt->first);
-		const float relativeTimestamp = (__timestamp - lowerIt->first);
-
-		__currentTransform = TransformComponent::mix(
-			lowerIt->second, upperIt->second, relativeTimestamp / timeGap);
+		__currentTransform.updateMatrix();
 	}
 }
