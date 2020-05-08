@@ -12,7 +12,9 @@ namespace Danburite
 		RenderUnitManager &manager, unique_ptr<Mesh> pMesh, const string_view &unitName) noexcept :
 		__manager(manager), __name(unitName)
 	{
-		const shared_ptr<VertexBuffer> &pModelMatrixBuffer = reinterpret_pointer_cast<ObjectGL::VertexBuffer>(__pModelMatrixBuffer);
+		const shared_ptr<VertexBuffer> &pModelMatrixBuffer =
+			reinterpret_pointer_cast<ObjectGL::VertexBuffer>(__pModelMatrixBuffer);
+
 		pMesh->addVertexBuffer(pModelMatrixBuffer);
 
 		__meshes.emplace(move(pMesh));
@@ -22,7 +24,8 @@ namespace Danburite
 		RenderUnitManager &manager, unordered_set<unique_ptr<Mesh>> &&meshes, const string_view &unitName) noexcept :
 		__manager(manager), __name(unitName)
 	{
-		const shared_ptr<VertexBuffer> &pModelMatrixBuffer = reinterpret_pointer_cast<ObjectGL::VertexBuffer>(__pModelMatrixBuffer);
+		const shared_ptr<VertexBuffer> &pModelMatrixBuffer =
+			reinterpret_pointer_cast<ObjectGL::VertexBuffer>(__pModelMatrixBuffer);
 		
 		for (const unique_ptr<Mesh> &pMesh : meshes)
 			pMesh->addVertexBuffer(pModelMatrixBuffer);
@@ -30,12 +33,12 @@ namespace Danburite
 		__meshes.swap(meshes);
 	}
 
-	void RenderUnit::__updateHierarchical(const float deltaTime, const vector<mat4> &parentModelMatrices) noexcept
+	void RenderUnit::__updateHierarchical(const vector<mat4> &parentModelMatrices) noexcept
 	{
 		__pModelMatrixBuffer->updateMatrix(parentModelMatrices);
 
 		__children.safeTraverse(
-			&RenderUnit::__updateHierarchical, deltaTime, __pModelMatrixBuffer->getModelMatrices());
+			&RenderUnit::__updateHierarchical, __pModelMatrixBuffer->getModelMatrices());
 	}
 
 	bool RenderUnit::setName(const string &name) noexcept
@@ -60,22 +63,12 @@ namespace Danburite
 		__children.safeTraverse(&RenderUnit::setNumInstances, numInstances);
 	}
 
-	void RenderUnit::addChild(const weak_ptr<RenderUnit> &pChild) noexcept
-	{
-		__children.add(pChild);
-	}
-
-	void RenderUnit::clearChildren() noexcept
-	{
-		__children.clear();
-	}
-
 	void RenderUnit::update(const float deltaTime) noexcept
 	{
 		__pModelMatrixBuffer->updateMatrix();
 
 		__children.safeTraverse(
-			&RenderUnit::__updateHierarchical, deltaTime, __pModelMatrixBuffer->getModelMatrices());
+			&RenderUnit::__updateHierarchical, __pModelMatrixBuffer->getModelMatrices());
 	}
 
 	void RenderUnit::draw() noexcept

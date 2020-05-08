@@ -368,7 +368,7 @@ namespace Danburite
 			if (!pParent)
 				retVal = pParsedChild;
 			else
-				pParent->addChild(pParsedChild);
+				pParent->getChildren().add(pParsedChild);
 
 			for (unsigned i = 0; i < pChild->mNumChildren; i++)
 				nodeStack.emplace(pParsedChild, pChild->mChildren[i]);

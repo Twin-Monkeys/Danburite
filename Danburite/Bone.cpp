@@ -1,16 +1,16 @@
-#include "Animation.h"
+#include "Bone.h"
 
 using namespace std;
 using namespace glm;
 
 namespace Danburite
 {
-	void Animation::__validateTimestamp() noexcept
+	void Bone::__validateTimestamp() noexcept
 	{
 		__timestamp -= ((floor(__timestamp / __playTime)) * __playTime);
 	}
 
-	Animation &Animation::addKeyframe(const float timestamp, const TransformComponent &transformComponent) noexcept
+	Bone &Bone::addKeyframe(const float timestamp, const TransformComponent &transformComponent) noexcept
 	{
 		assert(__timestamp >= -Constant::Common::EPSILON);
 
@@ -20,13 +20,13 @@ namespace Danburite
 		return *this;
 	}
 
-	Animation &Animation::addKeyframe(
+	Bone &Bone::addKeyframe(
 		const float timestamp, const vec3 &position, const vec3 &scale, const Quaternion &rotation) noexcept
 	{
 		return addKeyframe(timestamp, {position, scale, rotation });
 	}
 
-	void Animation::updateMatrix() noexcept
+	void Bone::updateMatrix() noexcept
 	{
 		if (__keyframes.empty())
 			return;

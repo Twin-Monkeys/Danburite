@@ -684,10 +684,7 @@
     <ClCompile Include="TransformComponent.cpp">
       <Filter>Library\Engine\Core\Transform</Filter>
     </ClCompile>
-    <ClCompile Include="AnimatableTransform.cpp">
-      <Filter>Library\Engine\Core\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="Animation.cpp">
+    <ClCompile Include="Bone.cpp">
       <Filter>Library\Engine\Core\Animation</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1181,13 +1178,10 @@
     <ClInclude Include="Quaternion.h">
       <Filter>Library\Engine\Core\Transform</Filter>
     </ClInclude>
-    <ClInclude Include="AnimatableTransform.h">
-      <Filter>Library\Engine\Core\Animation</Filter>
-    </ClInclude>
     <ClInclude Include="TransformComponent.h">
       <Filter>Library\Engine\Core\Transform</Filter>
     </ClInclude>
-    <ClInclude Include="Animation.h">
+    <ClInclude Include="Bone.h">
       <Filter>Library\Engine\Core\Animation</Filter>
     </ClInclude>
   </ItemGroup>

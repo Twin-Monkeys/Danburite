@@ -26,14 +26,18 @@ namespace Danburite
 		RenderUnit(const RenderUnit &) = delete;
 		RenderUnit& operator=(const RenderUnit &) = delete;
 
-		void __updateHierarchical(const float deltaTime, const std::vector<glm::mat4> &parentModelMatrices) noexcept;
+		void __updateHierarchical(const std::vector<glm::mat4> &parentModelMatrices) noexcept;
 
 	protected:
 		RenderUnit(
-			RenderUnitManager &manager, std::unique_ptr<Mesh> pMesh, const std::string_view &unitName) noexcept;
+			RenderUnitManager &manager,
+			std::unique_ptr<Mesh> pMesh,
+			const std::string_view &unitName) noexcept;
 
 		RenderUnit(
-			RenderUnitManager &manager, std::unordered_set<std::unique_ptr<Mesh>> &&meshes, const std::string_view &unitName) noexcept;
+			RenderUnitManager &manager,
+			std::unordered_set<std::unique_ptr<Mesh>> &&meshes,
+			const std::string_view &unitName) noexcept;
 
 	public:
 		constexpr const std::string &getName() const noexcept;
@@ -44,8 +48,8 @@ namespace Danburite
 
 		void setNumInstances(const GLsizei numInstances) noexcept;
 
-		void addChild(const std::weak_ptr<RenderUnit> &pChild) noexcept;
-		void clearChildren() noexcept;
+		constexpr ObjectGL::WeakPointerContainer<RenderUnit> &getChildren() noexcept;
+		constexpr const ObjectGL::WeakPointerContainer<RenderUnit> &getChildren() const noexcept;
 
 		virtual void update(const float deltaTime) noexcept override;
 
@@ -66,6 +70,16 @@ namespace Danburite
 	constexpr size_t RenderUnit::getNumInstances() const noexcept
 	{
 		return __pModelMatrixBuffer->getNumInstances();
+	}
+
+	constexpr ObjectGL::WeakPointerContainer<RenderUnit> &RenderUnit::getChildren() noexcept
+	{
+		return __children;
+	}
+
+	constexpr const ObjectGL::WeakPointerContainer<RenderUnit> &RenderUnit::getChildren() const noexcept
+	{
+		return __children;
 	}
 
 	template <typename MaterialType, typename FunctionType, typename ...Args>

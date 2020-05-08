@@ -3,10 +3,11 @@
 #include "Transform.h"
 #include <map>
 #include "Constant.h"
+#include "WeakPointerContainer.h"
 
 namespace Danburite
 {
-	class Animation
+	class Bone
 	{
 	private:
 		static constexpr inline TransformComponent __DEFAULT_STATE {};
@@ -17,41 +18,42 @@ namespace Danburite
 		float __playTime = 0.f;
 
 		Transform __currentTransform;
+		ObjectGL::WeakPointerContainer<Bone> __children;
 
 		void __validateTimestamp() noexcept;
 
 	public:
-		Animation &addKeyframe(const float timestamp, const TransformComponent &transformComponent) noexcept;
-		Animation &addKeyframe(
+		Bone &addKeyframe(const float timestamp, const TransformComponent &transformComponent) noexcept;
+		Bone &addKeyframe(
 			const float timestamp,
 			const glm::vec3 &position, const glm::vec3 &scale, const Quaternion &rotation) noexcept;
 
-		constexpr Animation &setTimestamp(const float timestamp) noexcept;
-		constexpr Animation &adjustTimestamp(const float deltaTime) noexcept;
+		constexpr Bone &setTimestamp(const float timestamp) noexcept;
+		constexpr Bone &adjustTimestamp(const float deltaTime) noexcept;
 
-		constexpr Animation &rewind() noexcept;
-		constexpr Animation &moveToEnd() noexcept;
+		constexpr Bone &rewind() noexcept;
+		constexpr Bone &moveToEnd() noexcept;
 
 		void updateMatrix() noexcept;
 	};
 
-	constexpr Animation &Animation::setTimestamp(const float timestamp) noexcept
+	constexpr Bone &Bone::setTimestamp(const float timestamp) noexcept
 	{
 		__timestamp = timestamp;
 		return *this;
 	}
 
-	constexpr Animation &Animation::adjustTimestamp(const float deltaTime) noexcept
+	constexpr Bone &Bone::adjustTimestamp(const float deltaTime) noexcept
 	{
 		return setTimestamp(__timestamp + deltaTime);
 	}
 
-	constexpr Animation &Animation::rewind() noexcept
+	constexpr Bone &Bone::rewind() noexcept
 	{
 		return setTimestamp(0.f);
 	}
 
-	constexpr Animation &Animation::moveToEnd() noexcept
+	constexpr Bone &Bone::moveToEnd() noexcept
 	{
 		return setTimestamp(__playTime - Constant::Common::EPSILON);
 	}
