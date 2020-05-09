@@ -15,7 +15,6 @@ namespace Danburite
 
 	Light::Light(const LightType type, const DepthBakingType depthBakingType) :
 		Object(__getAllocator().allocate()),
-
 		__lightSetter(UniformBufferFactory::getInstance().
 			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::LIGHT), ID)
 	{

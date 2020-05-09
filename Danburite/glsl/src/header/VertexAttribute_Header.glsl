@@ -10,6 +10,8 @@ layout(location = COLOR_LOCATION) in vec4 VertexAttribute_color;
 layout(location = NORMAL_LOCATION) in vec3 VertexAttribute_normal;
 layout(location = TEX_COORD_LOCATION) in vec2 VertexAttribute_texCoord;
 layout(location = TANGENT_LOCATION) in vec3 VertexAttribute_tangent;
+layout(location = BONE_INDICES_LOCATION) in uvec4 VertexAttribute_boneIndices;
+layout(location = BONE_WEIGHTS_LOCATION) in vec4 VertexAttribute_boneWeights;
 layout(location = MODEL_MATRIX_LOCATION) in mat4 VertexAttribute_modelMat;
 
 #endif

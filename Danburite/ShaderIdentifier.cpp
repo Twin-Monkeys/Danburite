@@ -143,6 +143,12 @@ namespace Danburite
 					;
 			}
 
+			namespace Animation
+			{
+				const string
+					BONE_MATRICES = "animation.boneMatrices";
+			}
+
 			namespace UniformBuffer
 			{
 				const string
@@ -155,7 +161,8 @@ namespace Danburite
 					ATTACHMENT				= "UBAttachment",
 					DEPTH_BAKING_2D			= "UBDepthBaking2D",
 					DEPTH_BAKING_CUBEMAP	= "UBDepthBakingCubemap",
-					HDR						= "UBHDR"
+					HDR						= "UBHDR",
+					ANIMATION				= "UBAnimation"
 					;
 			}
 		}

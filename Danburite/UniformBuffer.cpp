@@ -21,16 +21,6 @@ namespace ObjectGL
 		return target.getUniformBlockElementOffset(name);
 	}
 
-	bool UniformBuffer::_setUniformValue(const string &name, const void *const pValue, const GLsizeiptr size) noexcept
-	{
-		const GLint OFFSET = _getBlockElementOffset(name);
-		if (OFFSET < 0)
-			return false;
-
-		memoryCopy(pValue, size, OFFSET);
-		return true;
-	}
-
 	bool UniformBuffer::registerProgram(Program &program) noexcept
 	{
 		if (!__registeredPrograms.emplace(&program).second)
@@ -61,20 +51,30 @@ namespace ObjectGL
 		return (_getBlockElementOffset(name) >= 0);
 	}
 
+	bool UniformBuffer::setUniformValue(const string &name, const void *const pValue, const GLsizeiptr size) noexcept
+	{
+		const GLint OFFSET = _getBlockElementOffset(name);
+		if (OFFSET < 0)
+			return false;
+
+		memoryCopy(pValue, size, OFFSET);
+		return true;
+	}
+
 	bool UniformBuffer::setUniformInt(const string &name, const GLint value) noexcept
 	{
-		return _setUniformValue(name, &value, sizeof(value));
+		return setUniformValue(name, &value, sizeof(value));
 	}
 
 	bool UniformBuffer::setUniformUint(const string &name, const GLuint value) noexcept
 	{
-		return _setUniformValue(name, &value, sizeof(value));
+		return setUniformValue(name, &value, sizeof(value));
 	}
 
 	bool UniformBuffer::setUniformFloatArray(
 		const string &name, const GLfloat *const pValues, const GLsizei numElements) noexcept
 	{
-		return _setUniformValue(name, pValues, sizeof(GLfloat) * numElements);
+		return setUniformValue(name, pValues, sizeof(GLfloat) * numElements);
 	}
 
 	bool UniformBuffer::setUniformMat4Array(
@@ -96,25 +96,25 @@ namespace ObjectGL
 					arrTransposed[(4 * ((4 * i) + j)) + 3] = pValues[(16 * i) + (12 + j)];
 				}
 
-			return _setUniformValue(name, arrTransposed.data(), MEM_SIZE);
+			return setUniformValue(name, arrTransposed.data(), MEM_SIZE);
 		}
 
-		return _setUniformValue(name, pValues, MEM_SIZE);
+		return setUniformValue(name, pValues, MEM_SIZE);
 	}
 
 	bool UniformBuffer::setUniformUvec2(const string &name, const GLuint *const pValues) noexcept
 	{
-		return _setUniformValue(name, pValues, sizeof(GLuint) * 2);
+		return setUniformValue(name, pValues, sizeof(GLuint) * 2);
 	}
 
 	bool UniformBuffer::setUniformVec3(const string &name, const GLfloat *const pValues) noexcept
 	{
-		return _setUniformValue(name, pValues, sizeof(GLfloat) * 3);
+		return setUniformValue(name, pValues, sizeof(GLfloat) * 3);
 	}
 
 	bool UniformBuffer::setUniformVec4(const string &name, const GLfloat *const pValues) noexcept
 	{
-		return _setUniformValue(name, pValues, sizeof(GLfloat) * 4);
+		return setUniformValue(name, pValues, sizeof(GLfloat) * 4);
 	}
 
 	bool UniformBuffer::setUniformMat3(const string &name, const GLfloat *const pValues, const bool transposition) noexcept
@@ -130,9 +130,9 @@ namespace ObjectGL
 				pValues[2], pValues[5], pValues[8]
 			};
 
-			return _setUniformValue(name, arrTransposed, MEM_SIZE);
+			return setUniformValue(name, arrTransposed, MEM_SIZE);
 		}
 
-		return _setUniformValue(name, pValues, MEM_SIZE);
+		return setUniformValue(name, pValues, MEM_SIZE);
 	}
 }

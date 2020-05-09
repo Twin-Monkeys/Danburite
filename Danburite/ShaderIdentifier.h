@@ -139,6 +139,12 @@ namespace Danburite
 					;
 			}
 
+			namespace Animation
+			{
+				extern const std::string
+					BONE_MATRICES;
+			}
+
 			namespace UniformBuffer
 			{
 				extern const std::string
@@ -151,7 +157,8 @@ namespace Danburite
 					ATTACHMENT,
 					DEPTH_BAKING_2D,
 					DEPTH_BAKING_CUBEMAP,
-					HDR
+					HDR,
+					ANIMATION
 					;
 			}
 		}

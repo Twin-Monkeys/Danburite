@@ -13,6 +13,7 @@
 #include "ReflectionMaterial.h"
 #include "ReflectionPhongMaterial.h"
 #include "RefractionMaterial.h"
+#include <variant>
 
 using namespace std;
 using namespace filesystem;
@@ -112,7 +113,7 @@ namespace Danburite
 
 	shared_ptr<RenderUnit> AssetImporter::__parse(
 		const string &parentPath, const aiNode *const pNode, const aiScene* const pScene,
-		const mat4 &vertexMatrix, const mat3 &normalMatrix, const MaterialType materialType,
+		const mat4 &modelMatrix, const mat3 &normalMatrix, const MaterialType materialType,
 		unordered_map<string, shared_ptr<Texture2D>> &textureCache)
 	{
 		RenderUnitManager &renderingUnitMgr = RenderUnitManager::getInstance();
@@ -120,24 +121,23 @@ namespace Danburite
 		const aiMaterial *const *const pAiMaterials = pScene->mMaterials;
 
 		unordered_set<unique_ptr<Mesh>> meshes;
-		for (unsigned i = 0; i < pNode->mNumMeshes; i++)
+		for (unsigned meshIter = 0U; meshIter < pNode->mNumMeshes; meshIter++)
 		{
-			const unsigned MESH_IDX = pNode->mMeshes[i];
+			const unsigned MESH_IDX = pNode->mMeshes[meshIter];
 			const aiMesh* const pAiMesh = pAiMeshes[MESH_IDX];
 
-			VertexAttributeFlag vertexFlag = VertexAttributeFlag::NONE;
+			// vertex id, bone infomation per vertex (bone idx, bone weight)
+			unordered_map<unsigned, vector<pair<unsigned, float>>> boneMap;
 
-			if (pAiMesh->HasPositions())
-				vertexFlag |= VertexAttributeFlag::POS;
+			VertexAttributeFlag vertexFlag = VertexAttributeFlag::POS;
+
+			assert(pAiMesh->HasPositions());
 
 			if (pAiMesh->HasVertexColors(0))
 				vertexFlag |= VertexAttributeFlag::COLOR;
 
 			if (pAiMesh->HasNormals())
 				vertexFlag |= VertexAttributeFlag::NORMAL;
-
-			if (pAiMesh->HasTangentsAndBitangents())
-				vertexFlag |= VertexAttributeFlag::TANGENT;
 
 			/*
 				a vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't
@@ -146,26 +146,44 @@ namespace Danburite
 			if (pAiMesh->HasTextureCoords(0))
 				vertexFlag |= VertexAttributeFlag::TEXCOORD;
 
-			vector<GLfloat> vertices;
-			for (unsigned j = 0; j < pAiMesh->mNumVertices; j++)
-			{
-				if (vertexFlag & VertexAttributeFlag::POS)
-				{
-					const aiVector3D &aiPos = pAiMesh->mVertices[j];
-					const vec3 &pos = vec3 { vertexMatrix * (vec4 {aiPos.x, aiPos.y, aiPos.z, 1.f}) };
+			if (pAiMesh->HasTangentsAndBitangents())
+				vertexFlag |= VertexAttributeFlag::TANGENT;
 
-					vertices.insert(vertices.end(), { pos.x, pos.y, pos.z });
+			if (pAiMesh->HasBones())
+			{
+				vertexFlag |= VertexAttributeFlag::BONE;
+
+				for (unsigned boneIter = 0U; boneIter < pAiMesh->mNumBones; boneIter++)
+				{
+					const aiBone *const pBone = pAiMesh->mBones[boneIter];
+
+					for (unsigned weightIter = 0U; weightIter < pBone->mNumWeights; weightIter++)
+					{
+						aiVertexWeight &vertexWeight = pBone->mWeights[weightIter];
+						vector<pair<unsigned, float>> &bonesPerVertex = boneMap[vertexWeight.mVertexId];
+
+						bonesPerVertex.emplace_back(boneIter, vertexWeight.mWeight);
+					}
 				}
+			}
+
+			vector<GLfloat> vertices;
+			for (unsigned vertexIter = 0; vertexIter < pAiMesh->mNumVertices; vertexIter++)
+			{
+				const aiVector3D &aiPos = pAiMesh->mVertices[vertexIter];
+				const vec3 &pos = vec3 { modelMatrix * (vec4 {aiPos.x, aiPos.y, aiPos.z, 1.f}) };
+
+				vertices.insert(vertices.end(), { pos.x, pos.y, pos.z });
 
 				if (vertexFlag & VertexAttributeFlag::COLOR)
 				{
-					const aiColor4D &color = pAiMesh->mColors[0][j];
+					const aiColor4D &color = pAiMesh->mColors[0][vertexIter];
 					vertices.insert(vertices.end(), { color.r, color.g, color.b, color.a });
 				}
 
 				if (vertexFlag & VertexAttributeFlag::NORMAL)
 				{
-					const aiVector3D &aiNormal = pAiMesh->mNormals[j];
+					const aiVector3D &aiNormal = pAiMesh->mNormals[vertexIter];
 					const vec3 &normal = (normalMatrix * (vec3 { aiNormal.x, aiNormal.y, aiNormal.z }));
 
 					vertices.insert(vertices.end(), { normal.x, normal.y, normal.z });
@@ -173,15 +191,29 @@ namespace Danburite
 
 				if (vertexFlag & VertexAttributeFlag::TEXCOORD)
 				{
-					const aiVector3D &texCoord = pAiMesh->mTextureCoords[0][j];
+					const aiVector3D &texCoord = pAiMesh->mTextureCoords[0][vertexIter];
 					vertices.insert(vertices.end(), { texCoord.x, texCoord.y });
 				}
 
 				if (vertexFlag & VertexAttributeFlag::TANGENT)
 				{
-					const aiVector3D &aiTangent = pAiMesh->mTangents[j];
+					const aiVector3D &aiTangent = pAiMesh->mTangents[vertexIter];
 					const vec3 &tangent = (normalMatrix * (vec3 { aiTangent.x, aiTangent.y, aiTangent.z }));
 					vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
+				}
+
+				if (vertexFlag & VertexAttributeFlag::BONE)
+				{
+					vector<pair<unsigned, float>> &bonesPerVertex = boneMap[vertexIter];
+
+					for (const auto &[boneIdx, _] : bonesPerVertex)
+					{
+						const float &boneIdxEncoded = reinterpret_cast<const float &>(boneIdx);
+						vertices.emplace_back(boneIdxEncoded);
+					}
+
+					for (const auto &[_, boneWeight] : bonesPerVertex)
+						vertices.emplace_back(boneWeight);
 				}
 			}
 
@@ -350,20 +382,28 @@ namespace Danburite
 		const string &parentPath = path(assetPath).parent_path().string();
 		unordered_map<string, shared_ptr<Texture2D>> textureCache;
 
-		const mat3 normalMatrix = transpose(inverse(mat3 { transformation }));
+		mat4 modelMat = transformation;
 
 		// <parent(unit), child(node)> pair stack
-		stack<pair<const shared_ptr<RenderUnit>, const aiNode *>> nodeStack;
+		stack<pair<const shared_ptr<RenderUnit>, aiNode *>> nodeStack;
 		nodeStack.emplace(nullptr, pScene->mRootNode);
 
 		shared_ptr<RenderUnit> retVal = nullptr;
 		while (!nodeStack.empty())
 		{
-			const auto [pParent, pChild] = nodeStack.top();
+			auto [pParent, pChild] = nodeStack.top();
 			nodeStack.pop();
 
+			const aiMatrix4x4 &aiLocalMat = pChild->mTransformation.Transpose();
+
+			mat4 localMat;
+			memcpy(&localMat, &aiLocalMat, sizeof(mat4));
+
+			modelMat = (localMat * modelMat);
+			const mat3 &normalMat = transpose(inverse(mat3{ modelMat }));
+
 			const shared_ptr<RenderUnit> &pParsedChild = __parse(
-				parentPath, pChild, pScene, transformation, normalMatrix, materialType, textureCache);
+				parentPath, pChild, pScene, modelMat, normalMat, materialType, textureCache);
 
 			if (!pParent)
 				retVal = pParsedChild;

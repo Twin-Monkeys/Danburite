@@ -19,7 +19,6 @@ namespace ObjectGL
 
 	protected:
 		GLint _getBlockElementOffset(const std::string &name) noexcept;
-		bool _setUniformValue(const std::string &name, const void *const pValue, const GLsizeiptr size) noexcept;
 
 	public:
 		UniformBuffer(const std::string &blockName, const GLuint bindingPoint);
@@ -34,6 +33,9 @@ namespace ObjectGL
 		using UniformSetter::setUniformMat4;
 
 		virtual bool isExistent(const std::string &name) noexcept override;
+
+		bool setUniformValue(const std::string &name, const void *const pValue, const GLsizeiptr size) noexcept;
+
 		virtual bool setUniformInt(const std::string &name, const GLint value) noexcept override;
 		virtual bool setUniformUint(const std::string &name, const GLuint value) noexcept override;
 		virtual bool setUniformFloatArray(

@@ -30,12 +30,12 @@ namespace Danburite
 			__boneMatrices.data(), __NUM_BONES * sizeof(mat4));
 	}
 
-	const shared_ptr<Bone> &Animation::getBone(const GLuint index) noexcept
+	shared_ptr<Bone> Animation::getBone(const GLuint index) noexcept
 	{
 		return __bones[index];
 	}
 
-	const shared_ptr<const Bone> &Animation::getBone(const GLuint index) const noexcept
+	shared_ptr<const Bone> Animation::getBone(const GLuint index) const noexcept
 	{
 		return __bones[index];
 	}

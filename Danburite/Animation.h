@@ -28,8 +28,8 @@ namespace Danburite
 
 		void selfDeploy() const noexcept;
 
-		const std::shared_ptr<Bone> &getBone(const GLuint index) noexcept;
-		const std::shared_ptr<const Bone> &getBone(const GLuint index) const noexcept;
+		std::shared_ptr<Bone> getBone(const GLuint index) noexcept;
+		std::shared_ptr<const Bone> getBone(const GLuint index) const noexcept;
 
 		constexpr GLuint getRootBone() const noexcept;
 		constexpr Animation &setRootBone(const GLuint rootIndex) noexcept;
