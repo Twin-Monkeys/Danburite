@@ -1,7 +1,7 @@
 #include "AssetImporter.h"
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
+#include <assimp/Importer.hpp>		// C++ importer interface
+#include <assimp/scene.h>			// Output data structure
+#include <assimp/postprocess.h>		// Post processing flags
 #include <filesystem>
 #include <stack>
 #include "VertexAttributeListFactory.h"
@@ -371,50 +371,91 @@ namespace Danburite
 		const MaterialType materialType,
 		const string &unitName)
 	{
+		/*
+			The importer manages all the resources for itsself.
+			If the importer is destroyed,
+			All the data that was created/read by it will be destroyed, too.
+		*/
 		Assimp::Importer importer;
 
-		const aiScene* const pScene = importer.ReadFile(
-			assetPath.data(), aiProcess_Triangulate | aiProcess_CalcTangentSpace);
+		/*
+			Do not modify any scene data.
+			It¡¯s suicide in DLL builds if you try to use new Or delete on any of the arrays in the scene.
 
-		if (!pScene || (pScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) || !(pScene->mRootNode))
+			A aiScene forms the root of the data, from here you gain access to all the nodes,
+			Meshes, materials, animations or textures that were read from the imported file.
+
+			If you need the imported data to be in a left-handed coordinate system,
+			Supply the aiProcess_MakeLeftHanded flag.
+
+			The output face winding is counter clockwise.
+			Use aiProcess_FlipWindingOrder to get CW data.
+		*/
+		const aiScene* const pScene = importer.ReadFile(
+			assetPath.data(),
+			aiProcess_Triangulate | aiProcess_CalcTangentSpace | aiProcess_JoinIdenticalVertices);
+
+		if (!pScene || (pScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE))
 			throw AssetImporterException(importer.GetErrorString());
+
+		if (!pScene->mRootNode)
+			return nullptr;
 
 		const string &parentPath = path(assetPath).parent_path().string();
 		unordered_map<string, shared_ptr<Texture2D>> textureCache;
 
-		mat4 modelMat = transformation;
+		/*
+			Nodes are little named entities in the scene that have a place
+			And orientation relative to their parents.
+			Starting from the scene¡¯s root node all nodes can have 0 to x child nodes,
+			Thus forming a hierarchy.
+			They form the base on which the scene is built on:
+			A node can refer to 0..x meshes, can be referred to by a bone of a mesh
+			Or can be animated by a key sequence of an animation.
+			DirectX calls them "frames", others call them "objects", we call them aiNode.
 
-		// <parent(unit), child(node)> pair stack
-		stack<pair<const shared_ptr<RenderUnit>, aiNode *>> nodeStack;
-		nodeStack.emplace(nullptr, pScene->mRootNode);
+			A node can potentially refer to single or multiple meshes.
+			The meshes are not stored inside the node, but instead in an array of aiMesh inside the aiScene.
+			A node only refers to them by their array index.
+			This also means that multiple nodes can refer to the same mesh,
+			Which provides a simple form of instancing.
+			A mesh referred to by this way lives in the node¡¯s local coordinate system.
+			If you want the mesh¡¯s orientation in global space,
+			You¡¯d have to concatenate the transformations from the referring node and all of its parents.
+		*/
+		// <parent(RenderUnit), parent matrix(mat4), child(aiNode)> tuple stack
+		stack<tuple<const shared_ptr<RenderUnit>, mat4, const aiNode *>> nodeStack;
+		nodeStack.emplace(nullptr, transformation, pScene->mRootNode);
 
 		shared_ptr<RenderUnit> retVal = nullptr;
 		while (!nodeStack.empty())
 		{
-			auto [pParent, pChild] = nodeStack.top();
+			auto [pParent, transMat, pCurrentNode] = nodeStack.top();
 			nodeStack.pop();
 
-			const aiMatrix4x4 &aiLocalMat = pChild->mTransformation.Transpose();
+			mat4 localTransMat;
+			aiMatrix4x4 aiLocalTransMat = pCurrentNode->mTransformation;
+			memcpy(&localTransMat, &aiLocalTransMat.Transpose(), sizeof(mat4));
 
-			mat4 localMat;
-			memcpy(&localMat, &aiLocalMat, sizeof(mat4));
+			transMat *= localTransMat;
 
-			modelMat = (localMat * modelMat);
-			const mat3 &normalMat = transpose(inverse(mat3{ modelMat }));
+			const mat3 &normalMat = transpose(inverse(mat3 { transMat }));
 
-			const shared_ptr<RenderUnit> &pParsedChild = __parse(
-				parentPath, pChild, pScene, modelMat, normalMat, materialType, textureCache);
+			const shared_ptr<RenderUnit> &pParsedCurrent = __parse(
+				parentPath, pCurrentNode, pScene, transMat, normalMat, materialType, textureCache);
 
 			if (!pParent)
-				retVal = pParsedChild;
+				retVal = pParsedCurrent;
 			else
-				pParent->getChildren().add(pParsedChild);
+				pParent->getChildren().add(pParsedCurrent);
 
-			for (unsigned i = 0; i < pChild->mNumChildren; i++)
-				nodeStack.emplace(pParsedChild, pChild->mChildren[i]);
+			for (unsigned i = 0; i < pCurrentNode->mNumChildren; i++)
+				nodeStack.emplace(pParsedCurrent, transMat, pCurrentNode->mChildren[i]);
 		}
 
 		retVal->setName(unitName);
 		return retVal;
+
+		// Everything will be cleaned up by the importer destructor.
 	}
 }

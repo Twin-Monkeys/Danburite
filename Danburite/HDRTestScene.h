@@ -24,6 +24,7 @@ private:
 	std::shared_ptr<Danburite::RenderUnit> __pCargoBayRU;
 	std::shared_ptr<Danburite::RenderUnit> __pPulseCoreRU;
 	std::shared_ptr<Danburite::RenderUnit> __pDoorRU;
+	std::shared_ptr<Danburite::RenderUnit> __pGirlRU;
 
 	std::shared_ptr<Danburite::PerspectiveCamera> __pCamera;
 

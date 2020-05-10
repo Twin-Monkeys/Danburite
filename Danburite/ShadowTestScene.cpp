@@ -247,7 +247,7 @@ void ShadowTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
 	constexpr float ROTATION_SPEED = .004f;
 
 	Transform& cameraTransform = __pCamera->getTransform();
-	cameraTransform.rotateGlobal(-(yDelta * ROTATION_SPEED), -(xDelta * ROTATION_SPEED), 0.f);
+	cameraTransform.rotateFPS(-(yDelta * ROTATION_SPEED), -(xDelta * ROTATION_SPEED));
 }
 
 void ShadowTestScene::onMouseMButtonDown(const int x, const int y) noexcept

@@ -81,10 +81,14 @@ HDRTestScene::HDRTestScene()
 
 	__pDoorRU = AssetImporter::import("res/asset/scifi_door/scene.gltf");
 	Transform &doorTransform = __pDoorRU->getTransform();
-	doorTransform.setScale(.1f);
+	doorTransform.setScale(.01f);
 	doorTransform.setPosition(0.f, 0.f, -30.f);
-	doorTransform.setRotation(0.f, 0, 0.f);
 	__pDoorRU->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
+
+	__pGirlRU = AssetImporter::import("res/asset/nuclear_hammer_girl/scene.gltf");
+	Transform &girlTransform = __pGirlRU->getTransform();
+	girlTransform.setScale(10.f);
+	girlTransform.setPosition(0.f, 0.f, 0.f);
 
 	//// 朝五虞 持失 ////
 
@@ -132,6 +136,7 @@ HDRTestScene::HDRTestScene()
 	__pUpdater->addUpdatable(__pCargoBayRU);
 	__pUpdater->addUpdatable(__pPulseCoreRU);
 	__pUpdater->addUpdatable(__pDoorRU);
+	__pUpdater->addUpdatable(__pGirlRU);
 	__pUpdater->addUpdatable(__pCamera);
 	__pUpdater->addUpdatable(__pBlueLight);
 	__pUpdater->addUpdatable(__pRedLight);
@@ -142,6 +147,7 @@ HDRTestScene::HDRTestScene()
 	__pDrawer->addDrawable(__pCargoBayRU);
 	__pDrawer->addDrawable(__pPulseCoreRU);
 	__pDrawer->addDrawable(__pDoorRU);
+	__pDrawer->addDrawable(__pGirlRU);
 
 	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>();
 	__pHDRPP = make_shared<HDRPostProcessor>();
