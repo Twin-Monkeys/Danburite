@@ -206,14 +206,38 @@ namespace Danburite
 				{
 					vector<pair<unsigned, float>> &bonesPerVertex = boneMap[vertexIter];
 
+					unsigned numBones = 0U;
 					for (const auto &[boneIdx, _] : bonesPerVertex)
 					{
 						const float &boneIdxEncoded = reinterpret_cast<const float &>(boneIdx);
 						vertices.emplace_back(boneIdxEncoded);
+
+						numBones++;
+						if (numBones >= 4U)
+							break;
 					}
 
+					while (numBones < 4U)
+					{
+						vertices.emplace_back(0.f);
+						numBones++;
+					}
+
+					numBones = 0U;
 					for (const auto &[_, boneWeight] : bonesPerVertex)
+					{
 						vertices.emplace_back(boneWeight);
+
+						numBones++;
+						if (numBones >= 4U)
+							break;
+					}
+
+					while (numBones < 4U)
+					{
+						vertices.emplace_back(0.f);
+						numBones++;
+					}
 				}
 			}
 
@@ -227,12 +251,12 @@ namespace Danburite
 			//// Index ////
 
 			vector<GLuint> indices;
-			for (unsigned j = 0; j < pAiMesh->mNumFaces; j++)
+			for (unsigned faceIter = 0; faceIter < pAiMesh->mNumFaces; faceIter++)
 			{
-				const aiFace &face = pAiMesh->mFaces[j];
+				const aiFace &face = pAiMesh->mFaces[faceIter];
 
-				for (unsigned k = 0; k < face.mNumIndices; k++)
-					indices.emplace_back(face.mIndices[k]);
+				for (unsigned indexIter = 0; indexIter < face.mNumIndices; indexIter++)
+					indices.emplace_back(face.mIndices[indexIter]);
 			}
 
 			const shared_ptr<IndexBuffer> &pIndexBuffer = make_shared<IndexBuffer>();

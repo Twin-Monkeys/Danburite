@@ -95,7 +95,7 @@ namespace Danburite
 		__updateTransform();
 		__currentTransform.updateMatrix();
 
-		__boneMat = __currentTransform.getModelMatrix();
+		__boneMat = (__offsetMat * __currentTransform.getModelMatrix() * __offsetInvMat);
 
 		__children.safeTraverse<void (Bone::*)(const mat4 &)>(&Bone::updateMatrix, __boneMat);
 	}
@@ -105,8 +105,14 @@ namespace Danburite
 		__updateTransform();
 		__currentTransform.updateMatrix();
 
-		__boneMat = (parentMatrix * __currentTransform.getModelMatrix());
+		__boneMat = (parentMatrix * __offsetMat * __currentTransform.getModelMatrix() * __offsetInvMat);
 
 		__children.safeTraverse<void (Bone::*)(const mat4 &)>(&Bone::updateMatrix, __boneMat);
+	}
+
+	void Bone::setOffsetMatrix(const mat4 &offsetMatrix) noexcept
+	{
+		__offsetMat		= offsetMatrix;
+		__offsetInvMat	= inverse(offsetMatrix);
 	}
 }

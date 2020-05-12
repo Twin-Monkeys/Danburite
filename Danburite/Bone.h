@@ -22,6 +22,9 @@ namespace Danburite
 		float &__playTime;
 		glm::mat4 &__boneMat;
 
+		glm::mat4 __offsetMat		{ 1.f };
+		glm::mat4 __offsetInvMat	{ 1.f };
+
 		void __validateTimestamp() noexcept;
 		void __updateTransform() noexcept;
 
@@ -41,6 +44,8 @@ namespace Danburite
 
 		void updateMatrix() noexcept;
 		void updateMatrix(const glm::mat4 &parentMatrix) noexcept;
+
+		void setOffsetMatrix(const glm::mat4 &offsetMatrix) noexcept;
 
 		constexpr const glm::mat4 &getBoneMatrix() const noexcept;
 
