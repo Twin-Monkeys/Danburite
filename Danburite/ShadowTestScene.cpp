@@ -34,7 +34,7 @@ ShadowTestScene::ShadowTestScene()
 	__pSkullRU = AssetImporter::import("res/asset/skull/scene.gltf");
 	Transform &skullTransform = __pSkullRU->getTransform();
 	skullTransform.setPosition(10.f, 3.f, 15.f);
-	skullTransform.setRotation(-half_pi<float>() * 1.5f, 0.f, 0.f);
+	skullTransform.setRotation(-quarter_pi<float>(), 0.f, 0.f);
 	skullTransform.setScale(5.f);
 
 	__pGoldenSkullRU = AssetImporter::import("res/asset/golden_skull/scene.gltf");
@@ -46,7 +46,6 @@ ShadowTestScene::ShadowTestScene()
 	__pRockSurroundRU = AssetImporter::import("res/asset/rock_surround/scene.gltf");
 	Transform &rockSurroundTransform = __pRockSurroundRU->getTransform();
 	rockSurroundTransform.setPosition(0.f, -82.f, 0.f);
-	rockSurroundTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
 	rockSurroundTransform.setScale(8.f);
 
 	__pChestRU = AssetImporter::import("res/asset/medieval_chest/scene.gltf");
@@ -140,8 +139,8 @@ ShadowTestScene::ShadowTestScene()
 	__pMsaaPP = make_shared<MSAAPostProcessor>();
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
-	__pPPPipeline->appendProcessor(__pMsaaPP);
-	// __pPPPipeline->appendProcessor(__pGammaCorrectionPP);
+	// __pPPPipeline->appendProcessor(__pMsaaPP);
+	__pPPPipeline->appendProcessor(__pGammaCorrectionPP);
 
 	UniformBufferFactory::getInstance().
 		getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::MATERIAL).

@@ -424,7 +424,7 @@ namespace Danburite
 			You¡¯d have to concatenate the transformations from the referring node and all of its parents.
 		*/
 		// <parent(RenderUnit), parent matrix(mat4), child(aiNode)> tuple stack
-		stack<tuple<const shared_ptr<RenderUnit>, mat4, const aiNode *>> nodeStack;
+		stack<tuple<shared_ptr<RenderUnit>, mat4, aiNode *>> nodeStack;
 		nodeStack.emplace(nullptr, transformation, pScene->mRootNode);
 
 		shared_ptr<RenderUnit> retVal = nullptr;
@@ -434,7 +434,7 @@ namespace Danburite
 			nodeStack.pop();
 
 			mat4 localTransMat;
-			aiMatrix4x4 aiLocalTransMat = pCurrentNode->mTransformation;
+			aiMatrix4x4 &aiLocalTransMat = pCurrentNode->mTransformation;
 			memcpy(&localTransMat, &aiLocalTransMat.Transpose(), sizeof(mat4));
 
 			transMat *= localTransMat;

@@ -9,6 +9,7 @@
 #include "PhongMaterial.h"
 #include "TextureUtil.h"
 #include "UniformBufferFactory.h"
+#include <glm/gtx/rotate_vector.hpp>
 
 using namespace std;
 using namespace glm;
@@ -59,7 +60,7 @@ HDRTestScene::HDRTestScene()
 
 	Transform &lamp1Transform = __pLampRU->getTransform(0);
 	lamp1Transform.setScale(.01f);
-	lamp1Transform.setPosition(0.f, 10.f, -20.f);
+	lamp1Transform.setPosition(0.f, 10.f, -28.f);
 
 	Transform &lamp2Transform = __pLampRU->getTransform(1);
 	lamp2Transform.setScale(.01f);
@@ -74,21 +75,20 @@ HDRTestScene::HDRTestScene()
 
 	__pPulseCoreRU = AssetImporter::import("res/asset/arc_pulse_core/scene.gltf");
 	Transform& pulseCoreTransform = __pPulseCoreRU->getTransform();
-	pulseCoreTransform.setScale(3.f);
-	pulseCoreTransform.setPosition(17.f, 0.f, 0.f);
-	pulseCoreTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
+	pulseCoreTransform.setScale(6.f);
+	pulseCoreTransform.setPosition(18.f, 0.f, 0.f);
 	__pPulseCoreRU->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 
-	__pDoorRU = AssetImporter::import("res/asset/scifi_door/scene.gltf");
+	__pDoorRU = AssetImporter::import("res/asset/scifi_door/scene.gltf", glm::rotate(half_pi<float>(), vec3 { 1.f, 0.f, 0.f }));
 	Transform &doorTransform = __pDoorRU->getTransform();
-	doorTransform.setScale(.01f);
-	doorTransform.setPosition(0.f, 0.f, -30.f);
+	doorTransform.setScale(.0013f);
+	doorTransform.setPosition(0.f, 0.f, -35.f);
 	__pDoorRU->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 
-	__pGirlRU = AssetImporter::import("res/asset/nuclear_hammer_girl/scene.gltf");
-	Transform &girlTransform = __pGirlRU->getTransform();
-	girlTransform.setScale(10.f);
-	girlTransform.setPosition(0.f, 0.f, 0.f);
+	__pLizardRU = AssetImporter::import("res/asset/lizard_man/scene.gltf");
+	Transform &lizardTransform = __pLizardRU->getTransform();
+	lizardTransform.setScale(7.f);
+	lizardTransform.setPosition(-10.f, 8.f, 10.f);
 
 	//// 朝五虞 持失 ////
 
@@ -113,11 +113,11 @@ HDRTestScene::HDRTestScene()
 	blueLightTransform.setPosition(lamp1Transform.getPosition() + vec3 { 0.f, .3f, 3.5f });
 
 	__pRedLight = make_shared<PointLight>();
-	__pRedLight->setAlbedo(1.f, .3f, .2f);
+	__pRedLight->setAlbedo(1.f, .1f, .1f);
 	__pRedLight->setAmbientStrength(.05f);
-	__pRedLight->setDiffuseStrength(1.f);
-	__pRedLight->setSpecularStrength(1.f);
-	__pRedLight->setAttenuation(1.f, 0.09f, 0.032f);
+	__pRedLight->setDiffuseStrength(2.f);
+	__pRedLight->setSpecularStrength(2.f);
+	__pRedLight->setAttenuation(1.f, 0.22f, 0.20f);
 	__pRedLight->setDepthMapSize(2048, 2048);
 	__pRedLight->setShadowEnabled(true);
 
@@ -136,7 +136,7 @@ HDRTestScene::HDRTestScene()
 	__pUpdater->addUpdatable(__pCargoBayRU);
 	__pUpdater->addUpdatable(__pPulseCoreRU);
 	__pUpdater->addUpdatable(__pDoorRU);
-	__pUpdater->addUpdatable(__pGirlRU);
+	__pUpdater->addUpdatable(__pLizardRU);
 	__pUpdater->addUpdatable(__pCamera);
 	__pUpdater->addUpdatable(__pBlueLight);
 	__pUpdater->addUpdatable(__pRedLight);
@@ -147,14 +147,14 @@ HDRTestScene::HDRTestScene()
 	__pDrawer->addDrawable(__pCargoBayRU);
 	__pDrawer->addDrawable(__pPulseCoreRU);
 	__pDrawer->addDrawable(__pDoorRU);
-	__pDrawer->addDrawable(__pGirlRU);
+	__pDrawer->addDrawable(__pLizardRU);
 
 	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>();
 	__pHDRPP = make_shared<HDRPostProcessor>();
 	__pMsaaPP = make_shared<MSAAPostProcessor>();
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
-	__pPPPipeline->appendProcessor(__pMsaaPP);
+	// __pPPPipeline->appendProcessor(__pMsaaPP);
 	__pPPPipeline->appendProcessor(__pGammaCorrectionPP);
 	__pPPPipeline->appendProcessor(__pHDRPP);
 
