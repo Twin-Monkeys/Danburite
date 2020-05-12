@@ -153,8 +153,8 @@ HDRTestScene::HDRTestScene()
 	__pDrawer->addDrawable(__pCargoBayRU);
 	__pDrawer->addDrawable(__pPulseCoreRU);
 	__pDrawer->addDrawable(__pDoorRU);
-	/*__pDrawer->addDrawable(__pLizardRU);
-	__pDrawer->addDrawable(__pGirlRU);*/
+	__pDrawer->addDrawable(__pLizardRU);
+	__pDrawer->addDrawable(__pGirlRU);
 
 	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>();
 	__pHDRPP = make_shared<HDRPostProcessor>();
