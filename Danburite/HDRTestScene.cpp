@@ -90,6 +90,11 @@ HDRTestScene::HDRTestScene()
 	lizardTransform.setScale(7.f);
 	lizardTransform.setPosition(-10.f, 8.f, 10.f);
 
+	__pGirlRU = AssetImporter::import("res/asset/nuclear_hammer_girl/scene.gltf");
+	Transform &girlTransform = __pGirlRU->getTransform();
+	girlTransform.setScale(7.f);
+	girlTransform.setPosition(10.f, 0.f, 15.f);
+
 	//// 朝五虞 持失 ////
 
 	__pCamera = make_shared<PerspectiveCamera>();
@@ -137,6 +142,7 @@ HDRTestScene::HDRTestScene()
 	__pUpdater->addUpdatable(__pPulseCoreRU);
 	__pUpdater->addUpdatable(__pDoorRU);
 	__pUpdater->addUpdatable(__pLizardRU);
+	__pUpdater->addUpdatable(__pGirlRU);
 	__pUpdater->addUpdatable(__pCamera);
 	__pUpdater->addUpdatable(__pBlueLight);
 	__pUpdater->addUpdatable(__pRedLight);
@@ -148,6 +154,7 @@ HDRTestScene::HDRTestScene()
 	__pDrawer->addDrawable(__pPulseCoreRU);
 	__pDrawer->addDrawable(__pDoorRU);
 	__pDrawer->addDrawable(__pLizardRU);
+	__pDrawer->addDrawable(__pGirlRU);
 
 	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>();
 	__pHDRPP = make_shared<HDRPostProcessor>();

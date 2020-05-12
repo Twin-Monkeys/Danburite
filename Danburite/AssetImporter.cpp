@@ -393,7 +393,7 @@ namespace Danburite
 		*/
 		const aiScene* const pScene = importer.ReadFile(
 			assetPath.data(),
-			aiProcess_Triangulate | aiProcess_CalcTangentSpace | aiProcess_JoinIdenticalVertices);
+			aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace);
 
 		if (!pScene || (pScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE))
 			throw AssetImporterException(importer.GetErrorString());
