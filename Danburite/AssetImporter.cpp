@@ -130,6 +130,25 @@ namespace Danburite
 			const unsigned MESH_IDX = pNode->mMeshes[meshIter];
 			const aiMesh* const pAiMesh = pAiMeshes[MESH_IDX];
 
+			PrimitiveType primitiveType;
+			switch (pAiMesh->mPrimitiveTypes)
+			{
+			case aiPrimitiveType::aiPrimitiveType_POINT:
+				primitiveType = PrimitiveType::POINTS;
+				break;
+
+			case aiPrimitiveType::aiPrimitiveType_LINE:
+				primitiveType = PrimitiveType::LINES;
+				break;
+
+			case aiPrimitiveType::aiPrimitiveType_TRIANGLE:
+				primitiveType = PrimitiveType::TRIANGLES;
+				break;
+
+			default:
+				assert(false);
+			}
+
 			// vertex id, bone infomation per vertex (bone idx, bone weight)
 			unordered_map<unsigned, vector<pair<unsigned, float>>> vertexBoneInfoMap;
 
@@ -161,7 +180,6 @@ namespace Danburite
 				{
 					const aiBone *const pBone = pAiMesh->mBones[boneIdx];
 
-					// bone name == node name
 					boneIdxMap.emplace(pBone->mName.C_Str(), boneIdx);
 
 					for (unsigned weightIter = 0U; weightIter < pBone->mNumWeights; weightIter++)
@@ -171,22 +189,6 @@ namespace Danburite
 
 						if (!glm::epsilonEqual(vertexWeight.mWeight, 0.f, glm::epsilon<float>()))
 							bonesPerVertex.emplace_back(boneIdx, vertexWeight.mWeight);
-					}
-				}
-
-				if (pScene->HasAnimations())
-				{
-					for (unsigned animIter = 0U; animIter < pScene->mNumAnimations; animIter++)
-					{
-						const aiAnimation *const pAnim = pScene->mAnimations[animIter];
-
-						for (unsigned keyframeIter = 0U; keyframeIter < pAnim->mNumChannels; keyframeIter++)
-						{
-							const aiNodeAnim *const pKeyframe = pAnim->mChannels[keyframeIter];
-							const unsigned boneIdx = boneIdxMap[pKeyframe->mNodeName.C_Str()];
-
-							const aiBone *const pBone = pAiMesh->mBones[boneIdx];
-						}
 					}
 				}
 			}
@@ -245,19 +247,6 @@ namespace Danburite
 
 					vertices.insert(vertices.end(), boneIndices.begin(), boneIndices.end());
 					vertices.insert(vertices.end(), boneWeights.begin(), boneWeights.end());
-
-					const aiAnimation *const pAnim = pScene->mAnimations[0];
-
-					// #keyframes
-					pAnim->mNumChannels;
-
-					// ÃÊ´ç tick ¼ö
-					pAnim->mTicksPerSecond;
-
-					// ÃÑ tick ¼ö
-					pAnim->mDuration;
-
-					aiNodeAnim *const pNodeAnim = pAnim->mChannels[0];
 				}
 			}
 
@@ -285,6 +274,7 @@ namespace Danburite
 			const shared_ptr<VertexArray> &pVertexArray =
 				make_shared<VertexArray>(pVertexBuffer, pIndexBuffer, GLsizei(size(indices)));
 
+			pVertexArray->setPrimitiveType(primitiveType);
 
 			//// Material ////
 
@@ -437,7 +427,7 @@ namespace Danburite
 		*/
 		const aiScene* const pScene = importer.ReadFile(
 			assetPath.data(),
-			aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace);
+			aiProcess_Triangulate | aiProcess_SortByPType | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace);
 
 		if (!pScene || (pScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE))
 			throw AssetImporterException(importer.GetErrorString());
