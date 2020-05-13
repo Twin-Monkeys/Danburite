@@ -13,7 +13,7 @@
 #include "ReflectionMaterial.h"
 #include "ReflectionPhongMaterial.h"
 #include "RefractionMaterial.h"
-#include <variant>
+#include <array>
 
 using namespace std;
 using namespace filesystem;
@@ -162,7 +162,8 @@ namespace Danburite
 						aiVertexWeight &vertexWeight = pBone->mWeights[weightIter];
 						vector<pair<unsigned, float>> &bonesPerVertex = boneMap[vertexWeight.mVertexId];
 
-						bonesPerVertex.emplace_back(boneIter, vertexWeight.mWeight);
+						if (!glm::epsilonEqual(vertexWeight.mWeight, 0.f, glm::epsilon<float>()))
+							bonesPerVertex.emplace_back(boneIter, vertexWeight.mWeight);
 					}
 				}
 			}
@@ -205,39 +206,22 @@ namespace Danburite
 				if (vertexFlag & VertexAttributeFlag::BONE)
 				{
 					vector<pair<unsigned, float>> &bonesPerVertex = boneMap[vertexIter];
+					array<GLfloat, 4ULL> boneIndices { 0.f };
+					array<GLfloat, 4ULL> boneWeights { 0.f };
 
 					unsigned numBones = 0U;
-					for (const auto &[boneIdx, _] : bonesPerVertex)
+					for (const auto &[boneIdx, boneWeight] : bonesPerVertex)
 					{
-						const float &boneIdxEncoded = reinterpret_cast<const float &>(boneIdx);
-						vertices.emplace_back(boneIdxEncoded);
+						memcpy(&boneIndices[numBones], &boneIdx, sizeof(GLfloat));
+						boneWeights[numBones] = boneWeight;
 
 						numBones++;
 						if (numBones >= 4U)
 							break;
 					}
 
-					while (numBones < 4U)
-					{
-						vertices.emplace_back(0.f);
-						numBones++;
-					}
-
-					numBones = 0U;
-					for (const auto &[_, boneWeight] : bonesPerVertex)
-					{
-						vertices.emplace_back(boneWeight);
-
-						numBones++;
-						if (numBones >= 4U)
-							break;
-					}
-
-					while (numBones < 4U)
-					{
-						vertices.emplace_back(0.f);
-						numBones++;
-					}
+					vertices.insert(vertices.end(), boneIndices.begin(), boneIndices.end());
+					vertices.insert(vertices.end(), boneWeights.begin(), boneWeights.end());
 				}
 			}
 
