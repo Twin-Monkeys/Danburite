@@ -120,6 +120,9 @@ namespace Danburite
 		const aiMesh *const *const pAiMeshes = pScene->mMeshes;
 		const aiMaterial *const *const pAiMaterials = pScene->mMaterials;
 
+		// <bone name, bone idx> map
+		unordered_map<string_view, unsigned> boneIdxMap;
+
 		unordered_set<unique_ptr<Mesh>> meshes;
 		for (unsigned meshIter = 0U; meshIter < pNode->mNumMeshes; meshIter++)
 		{
@@ -127,7 +130,7 @@ namespace Danburite
 			const aiMesh* const pAiMesh = pAiMeshes[MESH_IDX];
 
 			// vertex id, bone infomation per vertex (bone idx, bone weight)
-			unordered_map<unsigned, vector<pair<unsigned, float>>> boneMap;
+			unordered_map<unsigned, vector<pair<unsigned, float>>> vertexBoneInfoMap;
 
 			VertexAttributeFlag vertexFlag = VertexAttributeFlag::POS;
 
@@ -153,17 +156,36 @@ namespace Danburite
 			{
 				vertexFlag |= VertexAttributeFlag::BONE;
 
-				for (unsigned boneIter = 0U; boneIter < pAiMesh->mNumBones; boneIter++)
+				for (unsigned boneIdx = 0U; boneIdx < pAiMesh->mNumBones; boneIdx++)
 				{
-					const aiBone *const pBone = pAiMesh->mBones[boneIter];
+					const aiBone *const pBone = pAiMesh->mBones[boneIdx];
+
+					// bone name == node name
+					boneIdxMap.emplace(pBone->mName.C_Str(), boneIdx);
 
 					for (unsigned weightIter = 0U; weightIter < pBone->mNumWeights; weightIter++)
 					{
 						aiVertexWeight &vertexWeight = pBone->mWeights[weightIter];
-						vector<pair<unsigned, float>> &bonesPerVertex = boneMap[vertexWeight.mVertexId];
+						vector<pair<unsigned, float>> &bonesPerVertex = vertexBoneInfoMap[vertexWeight.mVertexId];
 
 						if (!glm::epsilonEqual(vertexWeight.mWeight, 0.f, glm::epsilon<float>()))
-							bonesPerVertex.emplace_back(boneIter, vertexWeight.mWeight);
+							bonesPerVertex.emplace_back(boneIdx, vertexWeight.mWeight);
+					}
+				}
+
+				if (pScene->HasAnimations())
+				{
+					for (unsigned animIter = 0U; animIter < pScene->mNumAnimations; animIter++)
+					{
+						const aiAnimation *const pAnim = pScene->mAnimations[animIter];
+
+						for (unsigned keyframeIter = 0U; keyframeIter < pAnim->mNumChannels; keyframeIter++)
+						{
+							const aiNodeAnim *const pKeyframe = pAnim->mChannels[keyframeIter];
+							const unsigned boneIdx = boneIdxMap[pKeyframe->mNodeName.C_Str()];
+
+							const aiBone *const pBone = pAiMesh->mBones[boneIdx];
+						}
 					}
 				}
 			}
@@ -205,7 +227,7 @@ namespace Danburite
 
 				if (vertexFlag & VertexAttributeFlag::BONE)
 				{
-					vector<pair<unsigned, float>> &bonesPerVertex = boneMap[vertexIter];
+					vector<pair<unsigned, float>> &bonesPerVertex = vertexBoneInfoMap[vertexIter];
 					array<GLfloat, 4ULL> boneIndices { 0.f };
 					array<GLfloat, 4ULL> boneWeights { 0.f };
 
@@ -222,6 +244,19 @@ namespace Danburite
 
 					vertices.insert(vertices.end(), boneIndices.begin(), boneIndices.end());
 					vertices.insert(vertices.end(), boneWeights.begin(), boneWeights.end());
+
+					const aiAnimation *const pAnim = pScene->mAnimations[0];
+
+					// #keyframes
+					pAnim->mNumChannels;
+
+					// ÃÊ´ç tick ¼ö
+					pAnim->mTicksPerSecond;
+
+					// ÃÑ tick ¼ö
+					pAnim->mDuration;
+
+					aiNodeAnim *const pNodeAnim = pAnim->mChannels[0];
 				}
 			}
 
