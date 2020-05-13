@@ -7,6 +7,12 @@
 
 namespace Danburite
 {
+	/*
+		TODO:
+		1. keyframe interpolator 구현 (keyframe manager 정도의 이름으로)
+		2. 1.을 이용하여 scale, rotation, translation 각각의 keyframe 생성
+		3. bone 계층구조는 bone node 단위로 변경
+	*/
 	class Bone
 	{
 	private:

@@ -1196,6 +1196,9 @@
     <ClInclude Include="AnimationException.h">
       <Filter>Library\Engine\Core\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="Timeline.h">
+      <Filter>Library\Engine\Core\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glsl\src\Header\Camera_Header.glsl">

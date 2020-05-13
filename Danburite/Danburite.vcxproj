@@ -300,6 +300,7 @@
     <ClInclude Include="HDRTestScene.h" />
     <ClInclude Include="ParallaxMapTestScene.h" />
     <ClInclude Include="Quaternion.h" />
+    <ClInclude Include="Timeline.h" />
     <ClInclude Include="TransformableLight.h" />
     <ClInclude Include="CameraTransform.h" />
     <ClInclude Include="ColorBufferType.h" />
