@@ -15,21 +15,6 @@ namespace Danburite
 {
 	class AssetImporter abstract
 	{
-	private:
-		static std::shared_ptr<ObjectGL::Texture2D> __loadTexture(
-			const std::string &parentPath,
-			std::unordered_map<std::string, std::shared_ptr<ObjectGL::Texture2D>> &textureCache,
-			const aiMaterial *const pMaterial, const aiTextureType textureType);
-
-		static std::shared_ptr<RenderUnit> __parse(
-			const std::string &parentPath,
-			const aiNode *const pNode,
-			const aiScene *const pScene,
-			const glm::mat4 &modelMatrix,
-			const glm::mat3 &normalMatrix,
-			const MaterialType materialType,
-			std::unordered_map<std::string, std::shared_ptr<ObjectGL::Texture2D>> &textureCache);
-
 	public:
 		static std::shared_ptr<RenderUnit> import(
 			const std::string_view &assetPath,

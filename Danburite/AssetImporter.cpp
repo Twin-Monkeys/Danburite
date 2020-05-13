@@ -14,6 +14,7 @@
 #include "ReflectionPhongMaterial.h"
 #include "RefractionMaterial.h"
 #include <array>
+#include "Animation.h"
 
 using namespace std;
 using namespace filesystem;
@@ -23,7 +24,7 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	shared_ptr<Texture2D> AssetImporter::__loadTexture(
+	static shared_ptr<Texture2D> __loadTexture(
 		const string &parentPath,
 		unordered_map<string, shared_ptr<Texture2D>> &textureCache,
 		const aiMaterial* const pMaterial, const aiTextureType textureType)
@@ -111,7 +112,7 @@ namespace Danburite
 		}
 	}
 
-	shared_ptr<RenderUnit> AssetImporter::__parse(
+	static shared_ptr<RenderUnit> __parseNode(
 		const string &parentPath, const aiNode *const pNode, const aiScene* const pScene,
 		const mat4 &modelMatrix, const mat3 &normalMatrix, const MaterialType materialType,
 		unordered_map<string, shared_ptr<Texture2D>> &textureCache)
@@ -444,6 +445,7 @@ namespace Danburite
 		if (!pScene->mRootNode)
 			return nullptr;
 
+
 		const string &parentPath = path(assetPath).parent_path().string();
 		unordered_map<string, shared_ptr<Texture2D>> textureCache;
 
@@ -484,7 +486,7 @@ namespace Danburite
 
 			const mat3 &normalMat = transpose(inverse(mat3 { transMat }));
 
-			const shared_ptr<RenderUnit> &pParsedCurrent = __parse(
+			const shared_ptr<RenderUnit> &pParsedCurrent = __parseNode(
 				parentPath, pCurrentNode, pScene, transMat, normalMat, materialType, textureCache);
 
 			if (!pParent)

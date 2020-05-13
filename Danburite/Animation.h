@@ -21,7 +21,7 @@ namespace Danburite
 		ObjectGL::UniformBuffer &__animSetter;
 
 	public:
-		Animation(const GLuint numBones = Constant::Animation::MAX_NUM_BONES);
+		Animation(const GLuint numBones);
 		virtual ~Animation() = default;
 
 		constexpr GLuint getNumBones() const noexcept;

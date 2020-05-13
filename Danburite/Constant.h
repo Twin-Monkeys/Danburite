@@ -126,7 +126,7 @@ namespace Danburite
 
 		namespace Animation
 		{
-			constexpr GLuint MAX_NUM_BONES = 1000U;
+			constexpr GLuint MAX_NUM_BONES = 512U;
 		}
 	}
 }
