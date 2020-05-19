@@ -398,7 +398,7 @@ namespace Danburite
 				break;
 			}
 			
-			unique_ptr<Mesh> pMesh = make_unique<Mesh>(pVertexArray, pMaterial);
+			unique_ptr<Mesh> pMesh = make_unique<Mesh>(pVertexArray, pMaterial, move(pBoneManager));
 			meshes.emplace(move(pMesh));
 		}
 
