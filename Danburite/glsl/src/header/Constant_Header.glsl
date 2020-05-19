@@ -3,6 +3,12 @@
 #ifndef __CONSTANT_HEADER__
 #define __CONSTANT_HEADER__
 
+
+// Common
+
+const float EPSILON = 1e-6f;
+
+
 // Vertex Attributes //
 
 const uint
@@ -29,7 +35,8 @@ const uint
 	BINDING_POINT_ATTACHMENT			= 6U,
 	BINDING_POINT_DEPTH_BAKING_2D		= 7U,
 	BINDING_POINT_DEPTH_BAKING_CUBEMAP	= 8U,
-	BINDING_POINT_HDR					= 9U
+	BINDING_POINT_HDR					= 9U,
+	BINDING_POINT_ANIMATION				= 10U
 	;
 
 
@@ -61,7 +68,8 @@ const uint
 	MATERIAL_VERTEX_FLAG_COLOR				= (1 << 1),
 	MATERIAL_VERTEX_FLAG_NORMAL				= (1 << 2),
 	MATERIAL_VERTEX_FLAG_TEXCOORD			= (1 << 3),
-	MATERIAL_VERTEX_FLAG_TANGENT			= (1 << 4)
+	MATERIAL_VERTEX_FLAG_TANGENT			= (1 << 4),
+	MATERIAL_VERTEX_FLAG_BONE				= (1 << 5)
 	;
 
 
@@ -93,5 +101,10 @@ const uint MAX_KERNEL_SIZE = 7U;
 // MSAA //
 
 const uint NUM_SAMPLE_POINTS = 4U;
+
+
+// Animation
+
+const uint MAX_NUM_BONES = 512U;
 
 #endif

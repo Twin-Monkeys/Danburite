@@ -8,6 +8,7 @@
 #include "header/VariableInOut_Vert_Header.glsl"
 
 #include "header/ModelCamera_Header.glsl"
+#include "header/Animation_Header.glsl"
 
 void main()
 {
