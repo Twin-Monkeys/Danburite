@@ -334,6 +334,12 @@ namespace Danburite
 				{
 					ProgramType::POST_PROCESS_HDR
 				}
+			},
+			{
+				ShaderIdentifier::Name::UniformBuffer::ANIMATION,
+				{
+					ProgramType::PHONG
+				}
 			}
 		};
 

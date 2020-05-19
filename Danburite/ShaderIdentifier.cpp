@@ -214,6 +214,10 @@ namespace Danburite
 						{
 							Name::UniformBuffer::HDR,
 							Value::UniformBlockBindingPoint::HDR
+						},
+						{
+							Name::UniformBuffer::ANIMATION,
+							Value::UniformBlockBindingPoint::ANIMATION
 						}
 					};
 

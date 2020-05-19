@@ -15,6 +15,8 @@
 #include "RefractionMaterial.h"
 #include <array>
 #include "Animation.h"
+#include "AnimationManager.h"
+#include "BoneManager.h"
 
 using namespace std;
 using namespace filesystem;
@@ -115,7 +117,8 @@ namespace Danburite
 	static shared_ptr<RenderUnit> __parseNode(
 		const string &parentPath, const aiNode *const pNode, const aiScene* const pScene,
 		const mat4 &modelMatrix, const mat3 &normalMatrix, const MaterialType materialType,
-		unordered_map<string, shared_ptr<Texture2D>> &textureCache)
+		unordered_map<string, shared_ptr<Texture2D>> &textureCache,
+		const shared_ptr<AnimationManager> &pAnimationManager)
 	{
 		RenderUnitManager &renderingUnitMgr = RenderUnitManager::getInstance();
 		const aiMesh *const *const pAiMeshes = pScene->mMeshes;
@@ -149,6 +152,8 @@ namespace Danburite
 				assert(false);
 			}
 
+			std::unique_ptr<BoneManager> pBoneManager = make_unique<BoneManager>();
+
 			// vertex id, bone infomation per vertex (bone idx, bone weight)
 			unordered_map<unsigned, vector<pair<unsigned, float>>> vertexBoneInfoMap;
 
@@ -180,7 +185,11 @@ namespace Danburite
 				{
 					const aiBone *const pBone = pAiMesh->mBones[boneIdx];
 
-					boneIdxMap.emplace(pBone->mName.C_Str(), boneIdx);
+					mat4 offsetMat;
+					aiMatrix4x4 aiOffsetMat = pBone->mOffsetMatrix;
+					memcpy(&offsetMat, &aiOffsetMat.Transpose(), sizeof(mat4));
+
+					Bone &bone = pBoneManager->createBone(offsetMat);
 
 					for (unsigned weightIter = 0U; weightIter < pBone->mNumWeights; weightIter++)
 					{
@@ -188,7 +197,7 @@ namespace Danburite
 						vector<pair<unsigned, float>> &bonesPerVertex = vertexBoneInfoMap[vertexWeight.mVertexId];
 
 						if (!glm::epsilonEqual(vertexWeight.mWeight, 0.f, glm::epsilon<float>()))
-							bonesPerVertex.emplace_back(boneIdx, vertexWeight.mWeight);
+							bonesPerVertex.emplace_back(bone.ID, vertexWeight.mWeight);
 					}
 				}
 			}
@@ -287,9 +296,6 @@ namespace Danburite
 			case MaterialType::MONO_COLOR:
 				pMaterial = make_shared<MonoColorMaterial>(vertexFlag);
 				break;
-
-			case MaterialType::EXPLODING_PHONG:
-				[[fallthrough]];
 
 			case MaterialType::REFLECTION_PHONG:
 				[[fallthrough]];
@@ -435,6 +441,119 @@ namespace Danburite
 		if (!pScene->mRootNode)
 			return nullptr;
 
+		const shared_ptr<AnimationManager> &pAnimationManager = make_shared<AnimationManager>();
+
+		if (pScene->HasAnimations())
+		{
+			for (unsigned animIter = 0U; animIter < pScene->mNumAnimations; animIter++)
+			{
+				const aiAnimation* const pAiAnim = pScene->mAnimations[animIter];
+
+				float ticksPerSec = float(pAiAnim->mTicksPerSecond);
+				if (ticksPerSec < Constant::Common::EPSILON)
+					ticksPerSec = 25.f;
+
+				const float playTime = (float(pAiAnim->mDuration) / ticksPerSec);
+				const aiString &animName = pAiAnim->mName;
+
+				Animation &animation = pAnimationManager->createAnimation(playTime, animName.C_Str());
+
+				for (unsigned nodeAnimIter = 0U; nodeAnimIter < pAiAnim->mNumChannels; nodeAnimIter++)
+				{
+					const aiNodeAnim *const pAiAnimNode = pAiAnim->mChannels[nodeAnimIter];
+					const aiString &nodeName = pAiAnimNode->mNodeName;
+
+					AnimationNode &animNode = animation.getNode(nodeName.C_Str());
+					TransformTimeline &timeline = animNode.getTimeline();
+
+					switch (pAiAnimNode->mPreState)
+					{
+					case aiAnimBehaviour::aiAnimBehaviour_DEFAULT:
+						timeline.setPreStateWrappingType(TimelineWrappingType::DEFAULT);
+						break;
+
+					case aiAnimBehaviour::aiAnimBehaviour_CONSTANT:
+						timeline.setPreStateWrappingType(TimelineWrappingType::NEAREST);
+						break;
+
+					case aiAnimBehaviour::aiAnimBehaviour_LINEAR:
+						timeline.setPreStateWrappingType(TimelineWrappingType::EXTRAPOLATED);
+						break;
+
+					case aiAnimBehaviour::aiAnimBehaviour_REPEAT:
+						timeline.setPreStateWrappingType(TimelineWrappingType::REPEAT);
+						break;
+
+					default:
+						assert(false);
+						break;
+					}
+
+					switch (pAiAnimNode->mPostState)
+					{
+					case aiAnimBehaviour::aiAnimBehaviour_DEFAULT:
+						timeline.setPostStateWrappingType(TimelineWrappingType::DEFAULT);
+						break;
+
+					case aiAnimBehaviour::aiAnimBehaviour_CONSTANT:
+						timeline.setPostStateWrappingType(TimelineWrappingType::NEAREST);
+						break;
+
+					case aiAnimBehaviour::aiAnimBehaviour_LINEAR:
+						timeline.setPostStateWrappingType(TimelineWrappingType::EXTRAPOLATED);
+						break;
+
+					case aiAnimBehaviour::aiAnimBehaviour_REPEAT:
+						timeline.setPostStateWrappingType(TimelineWrappingType::REPEAT);
+						break;
+
+					default:
+						assert(false);
+						break;
+					}
+
+					Timeline<vec3> &posTimeline = timeline.posTimeline;
+					for (
+						unsigned posKeyframeIter = 0U;
+						posKeyframeIter < pAiAnimNode->mNumPositionKeys;
+						posKeyframeIter++)
+					{
+						const aiVectorKey &posKeyframe = pAiAnimNode->mPositionKeys[posKeyframeIter];
+						const aiVector3D &pos = posKeyframe.mValue;
+
+						const float timestamp = (float(posKeyframe.mTime) / ticksPerSec);
+						posTimeline.addKeyframe(timestamp, { pos.x, pos.y, pos.z });
+					}
+
+					Timeline<Quaternion> &rotationTimeline = timeline.rotationTimeline;
+					for (
+						unsigned rotationKeyframeIter = 0U;
+						rotationKeyframeIter < pAiAnimNode->mNumRotationKeys;
+						rotationKeyframeIter++)
+					{
+						const aiQuatKey &rotationKeyframe = pAiAnimNode->mRotationKeys[rotationKeyframeIter];
+						const aiQuaternion &rotation = rotationKeyframe.mValue;
+
+						const float timestamp = (float(rotationKeyframe.mTime) / ticksPerSec);
+						rotationTimeline.addKeyframe(
+							timestamp, { rotation.w, rotation.x, rotation.y, rotation.z });
+					}
+
+					Timeline<vec3> &scaleTimeline = timeline.scaleTimeline;
+					for (
+						unsigned scaleKeyframeIter = 0U;
+						scaleKeyframeIter < pAiAnimNode->mNumScalingKeys;
+						scaleKeyframeIter++)
+					{
+						const aiVectorKey &scaleKeyframe = pAiAnimNode->mScalingKeys[scaleKeyframeIter];
+						const aiVector3D &scale = scaleKeyframe.mValue;
+
+						const float timestamp = (float(scaleKeyframe.mTime) / ticksPerSec);
+						scaleTimeline.addKeyframe(timestamp, { scale.x, scale.y, scale.z });
+					}
+				}
+			}
+		}
 
 		const string &parentPath = path(assetPath).parent_path().string();
 		unordered_map<string, shared_ptr<Texture2D>> textureCache;
@@ -477,7 +596,8 @@ namespace Danburite
 			const mat3 &normalMat = transpose(inverse(mat3 { transMat }));
 
 			const shared_ptr<RenderUnit> &pParsedCurrent = __parseNode(
-				parentPath, pCurrentNode, pScene, transMat, normalMat, materialType, textureCache);
+				parentPath, pCurrentNode, pScene, transMat, normalMat, materialType,
+				textureCache, pAnimationManager);
 
 			if (!pParent)
 				retVal = pParsedCurrent;

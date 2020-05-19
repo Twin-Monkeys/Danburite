@@ -191,7 +191,8 @@ namespace Danburite
 					ATTACHMENT				= 6U,
 					DEPTH_BAKING_2D			= 7U,
 					DEPTH_BAKING_CUBEMAP	= 8U,
-					HDR						= 9U
+					HDR						= 9U,
+					ANIMATION				= 10U
 					;
 			}
 
