@@ -1,76 +1,24 @@
 #pragma once
 
-#include "Transform.h"
-#include <map>
-#include "Constant.h"
-#include "WeakPointerContainer.h"
+#include <GL/glew.h>
+#include <glm/glm.hpp>
+#include "Object.h"
+#include <vector>
 
 namespace Danburite
 {
-	/*
-		TODO:
-		1. keyframe interpolator 구현 (keyframe manager 정도의 이름으로)
-		2. 1.을 이용하여 scale, rotation, translation 각각의 keyframe 생성
-		3. bone 계층구조는 bone node 단위로 변경
-	*/
-	class Bone
+	class Bone : public ObjectGL::Object<GLuint>
 	{
 	private:
-		static constexpr inline TransformComponent __DEFAULT_STATE {};
+		const glm::mat4 __offsetMat;
+		const glm::mat4 __offsetInvMat;
 
-		std::map<float, TransformComponent> __keyframes;
+		std::vector<glm::mat4> &__boneMatrices;
 
-		float __timestamp = 0.f;
-
-		Transform __currentTransform;
-		ObjectGL::WeakPointerContainer<Bone> __children;
-
-		float &__playTime;
-		glm::mat4 &__boneMat;
-
-		glm::mat4 __offsetMat		{ 1.f };
-		glm::mat4 __offsetInvMat	{ 1.f };
-
-		void __validateTimestamp() noexcept;
-		void __updateTransform() noexcept;
+		glm::mat4 &__getboneMatrix() const noexcept;
 
 	public:
-		explicit Bone(float &playTimeReference, glm::mat4& boneMatrixReference) noexcept;
-
-		Bone &addKeyframe(const float timestamp, const TransformComponent &transformComponent) noexcept;
-		Bone &addKeyframe(
-			const float timestamp,
-			const glm::vec3 &position, const glm::vec3 &scale, const Quaternion &rotation) noexcept;
-
-		Bone &setTimestamp(const float timestamp) noexcept;
-		Bone &adjustTimestamp(const float deltaTime) noexcept;
-
-		Bone &rewind() noexcept;
-		Bone &moveToEnd() noexcept;
-
-		void updateMatrix() noexcept;
-		void updateMatrix(const glm::mat4 &parentMatrix) noexcept;
-
-		void setOffsetMatrix(const glm::mat4 &offsetMatrix) noexcept;
-
-		constexpr const glm::mat4 &getBoneMatrix() const noexcept;
-
-		constexpr ObjectGL::WeakPointerContainer<Bone> &getChildren() noexcept;
-		constexpr const ObjectGL::WeakPointerContainer<Bone> &getChildren() const noexcept;
+		Bone(const GLuint id, const glm::mat4 &offsetMatrix, std::vector<glm::mat4> &boneMatricesRef) noexcept;
+		void updateMatrix(const glm::mat4 &nodeMatrix) noexcept;
 	};
-
-	constexpr const glm::mat4 &Bone::getBoneMatrix() const noexcept
-	{
-		return __boneMat;
-	}
-
-	constexpr ObjectGL::WeakPointerContainer<Bone> &Bone::getChildren() noexcept
-	{
-		return __children;
-	}
-
-	constexpr const ObjectGL::WeakPointerContainer<Bone> &Bone::getChildren() const noexcept
-	{
-		return __children;
-	}
 }

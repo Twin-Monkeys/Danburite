@@ -1,13 +1,14 @@
 #pragma once
 
 #include <glm/gtc/quaternion.hpp>
+#include <utility>
 
 namespace Danburite
 {
 	class Quaternion
 	{
 	private:
-		glm::quat __quaternion { 1.f, 0.f, 0.f, 0.f };
+		glm::quat __quaternion{ 1.f, 0.f, 0.f, 0.f };
 
 	protected:
 		constexpr Quaternion(const glm::quat &src) noexcept;
@@ -16,12 +17,14 @@ namespace Danburite
 		Quaternion() = default;
 		Quaternion(const Quaternion &src) = default;
 
+		Quaternion(const float w, const float x, const float y, const float z) noexcept;
 		explicit Quaternion(const glm::vec3 &eulerAngles) noexcept;
 		Quaternion(const float pitch, const float yaw, const float roll) noexcept;
 		Quaternion(const float angle, const glm::vec3 &axis) noexcept;
 		Quaternion(const glm::mat3 &rotationMatrix) noexcept;
 		Quaternion(const glm::mat4 &rotationMatrix) noexcept;
 
+		Quaternion &set(const float w, const float x, const float y, const float z) noexcept;
 		Quaternion &set(const glm::vec3 &eulerAngles) noexcept;
 		Quaternion &set(const float pitch, const float yaw, const float roll) noexcept;
 		Quaternion &set(const float angle, const glm::vec3 &axis) noexcept;
@@ -42,6 +45,9 @@ namespace Danburite
 		void getEularAngles(glm::vec3 &retVal) const noexcept;
 
 		glm::mat4 getMatrix() const noexcept;
+
+		Quaternion inverse() const noexcept;
+		std::pair<float, glm::vec3> getAngleAxis() const noexcept;
 
 		friend Quaternion operator*(const Quaternion &lhs, const Quaternion &rhs) noexcept;
 		static Quaternion slerp(const Quaternion &lhs, const Quaternion &rhs, const float weight) noexcept;

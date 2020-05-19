@@ -1,55 +1,43 @@
 #pragma once
 
-#include "Updatable.h"
-#include "Constant.h"
-#include "Bone.h"
-#include "UniformBuffer.h"
+#include <unordered_map>
+#include "AnimationNode.h"
+#include "Object.h"
 
 namespace Danburite
 {
-	class Animation : public Updatable
+	class Animation : public ObjectGL::Object<size_t>
 	{
 	private:
-		const GLuint __NUM_BONES;
-		GLuint __rootIdx = 0U;
+		const float __playTime;
+		float __timestamp = 0.f;
 
-		float __playTime = 0.f;
+		const std::string __name;
 
-		std::vector<glm::mat4> __boneMatrices;
-		std::vector<std::shared_ptr<Bone>> __bones;
-
-		ObjectGL::UniformBuffer &__animSetter;
+		std::unordered_map<std::string, AnimationNode> __nodeMap;
 
 	public:
-		Animation(const GLuint numBones);
-		virtual ~Animation() = default;
+		Animation(const size_t id, const float playTime, const std::string &name = "") noexcept;
 
-		constexpr GLuint getNumBones() const noexcept;
+		constexpr float getPlayTime() const noexcept;
+		constexpr const std::string &getName() const noexcept;
 
-		void selfDeploy() const noexcept;
+		AnimationNode &getNode(const std::string &nodeName) noexcept;
+		const AnimationNode &getNode(const std::string &nodeName) const noexcept;
 
-		std::shared_ptr<Bone> getBone(const GLuint index) noexcept;
-		std::shared_ptr<const Bone> getBone(const GLuint index) const noexcept;
+		bool isExistentNode(const std::string &nodeName) const noexcept;
 
-		constexpr GLuint getRootBone() const noexcept;
-		constexpr Animation &setRootBone(const GLuint rootIndex) noexcept;
-
-		virtual void update(const float deltaTime) noexcept override;
+		Animation &setTimestamp(const float timestamp) noexcept;
+		Animation &adjustTimestamp(const float deltaTime) noexcept;
 	};
 
-	constexpr GLuint Animation::getNumBones() const noexcept
+	constexpr float Animation::getPlayTime() const noexcept
 	{
-		return __NUM_BONES;
+		return __playTime;
 	}
 
-	constexpr GLuint Animation::getRootBone() const noexcept
+	constexpr const std::string &Animation::getName() const noexcept
 	{
-		return __rootIdx;
-	}
-
-	constexpr Animation &Animation::setRootBone(const GLuint rootIndex) noexcept
-	{
-		__rootIdx = rootIndex;
-		return *this;
+		return __name;
 	}
 }

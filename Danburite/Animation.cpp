@@ -1,47 +1,37 @@
 #include "Animation.h"
-#include "AnimationException.h"
-#include "UniformBufferFactory.h"
-#include "ShaderIdentifier.h"
 
+using namespace ObjectGL;
 using namespace std;
-using namespace glm;
 
 namespace Danburite
 {
-	Animation::Animation(const GLuint numBones) :
-		__NUM_BONES(numBones),
-		__animSetter(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::ANIMATION))
+	Animation::Animation(const size_t id, const float playTime, const string &name) noexcept :
+		Object(id), __playTime(playTime), __name(name)
+	{}
+
+	AnimationNode &Animation::getNode(const string &nodeName) noexcept
 	{
-		if (numBones > Constant::Animation::MAX_NUM_BONES)
-			throw AnimationException("the numBones cannot be greater than MAX_NUM_BONES.");
-
-		__boneMatrices.resize(numBones);
-		__bones.reserve(numBones);
-
-		for (GLuint i = 0U; i < numBones; i++)
-			__bones.emplace_back(make_shared<Bone>(__playTime, __boneMatrices[i]));
+		return __nodeMap.emplace(nodeName, __playTime).first->second;
 	}
 
-	void Animation::selfDeploy() const noexcept
+	const AnimationNode &Animation::getNode(const string &nodeName) const noexcept
 	{
-		__animSetter.setUniformValue(
-			ShaderIdentifier::Name::Animation::BONE_MATRICES,
-			__boneMatrices.data(), __NUM_BONES * sizeof(mat4));
+		return __nodeMap.at(nodeName);
 	}
 
-	shared_ptr<Bone> Animation::getBone(const GLuint index) noexcept
+	bool Animation::isExistentNode(const string &nodeName) const noexcept
 	{
-		return __bones[index];
+		return __nodeMap.count(nodeName);
 	}
 
-	shared_ptr<const Bone> Animation::getBone(const GLuint index) const noexcept
+	Animation &Animation::setTimestamp(const float timestamp) noexcept
 	{
-		return __bones[index];
+		__timestamp = fmod(timestamp, __playTime);
+		return *this;
 	}
 
-	void Animation::update(const float deltaTime) noexcept
+	Animation &Animation::adjustTimestamp(const float deltaTime) noexcept
 	{
-		__bones[__rootIdx]->adjustTimestamp(deltaTime).updateMatrix();
+		return setTimestamp(__timestamp + deltaTime);
 	}
 }

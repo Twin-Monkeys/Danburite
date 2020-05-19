@@ -160,10 +160,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="AnimationException.cpp" />
-    <ClCompile Include="Bone.cpp" />
+    <ClCompile Include="AnimationManager.cpp" />
+    <ClCompile Include="AnimationNode.cpp" />
     <ClCompile Include="AttachableTexture2D.cpp" />
     <ClCompile Include="AttachableTextureCubemap.cpp" />
+    <ClCompile Include="Bone.cpp" />
+    <ClCompile Include="BoneException.cpp" />
+    <ClCompile Include="BoneManager.cpp" />
     <ClCompile Include="CameraTransform.cpp" />
     <ClCompile Include="ConvolutionalPostProcessor.cpp" />
     <ClCompile Include="CubeSkybox.cpp" />
@@ -223,6 +226,7 @@
     <ClCompile Include="TransformableCamera.cpp" />
     <ClCompile Include="TransformableLight.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
+    <ClCompile Include="TransformTimeline.cpp" />
     <ClCompile Include="TransparentPhongMaterial.cpp" />
     <ClCompile Include="UniformBufferFactory.cpp" />
     <ClCompile Include="UniformSetter.cpp" />
@@ -278,14 +282,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
-    <ClInclude Include="AnimationException.h" />
-    <ClInclude Include="Bone.h" />
+    <ClInclude Include="AnimationManager.h" />
+    <ClInclude Include="AnimationNode.h" />
     <ClInclude Include="Attachable.h" />
     <ClInclude Include="AttachableTexture2D.h" />
     <ClInclude Include="AttachableTextureCubemap.h" />
     <ClInclude Include="AttachmentType.h" />
     <ClInclude Include="BlendingEquationType.h" />
     <ClInclude Include="BlendingFunctionType.h" />
+    <ClInclude Include="Bone.h" />
+    <ClInclude Include="BoneException.h" />
+    <ClInclude Include="BoneManager.h" />
     <ClInclude Include="BufferAccessType.h" />
     <ClInclude Include="DepthBaker2D.h" />
     <ClInclude Include="DepthBakerBase.h" />
@@ -298,9 +305,11 @@
     <ClInclude Include="GLDebugMessageType.h" />
     <ClInclude Include="HDRPostProcessor.h" />
     <ClInclude Include="HDRTestScene.h" />
+    <ClInclude Include="Lerp.h" />
     <ClInclude Include="ParallaxMapTestScene.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="Timeline.h" />
+    <ClInclude Include="TimelineWrappingType.h" />
     <ClInclude Include="TransformableLight.h" />
     <ClInclude Include="CameraTransform.h" />
     <ClInclude Include="ColorBufferType.h" />
@@ -376,6 +385,7 @@
     <ClInclude Include="TextureUtilException.h" />
     <ClInclude Include="TransformableCamera.h" />
     <ClInclude Include="TransformComponent.h" />
+    <ClInclude Include="TransformTimeline.h" />
     <ClInclude Include="TransparentPhongMaterial.h" />
     <ClInclude Include="UniformBufferFactory.h" />
     <ClInclude Include="UniformDeployable.h" />

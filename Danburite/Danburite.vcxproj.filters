@@ -343,6 +343,12 @@
     <Filter Include="Library\Engine\Core\Animation">
       <UniqueIdentifier>{c94b5472-1c11-47f5-bbc1-844a1dfa70c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library\Engine\Core\Animation\Bone">
+      <UniqueIdentifier>{d578eb26-c5ca-47ca-a0d7-a5a88171059a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Animation\Timeline">
+      <UniqueIdentifier>{f9bd5f81-ea7e-4d55-b9be-fc6232a0ddc2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Buffer.cpp">
@@ -685,12 +691,24 @@
       <Filter>Library\Engine\Core\Transform</Filter>
     </ClCompile>
     <ClCompile Include="Bone.cpp">
-      <Filter>Library\Engine\Core\Animation</Filter>
+      <Filter>Library\Engine\Core\Animation\Bone</Filter>
+    </ClCompile>
+    <ClCompile Include="BoneException.cpp">
+      <Filter>Library\Engine\Core\Animation\Bone</Filter>
+    </ClCompile>
+    <ClCompile Include="BoneManager.cpp">
+      <Filter>Library\Engine\Core\Animation\Bone</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformTimeline.cpp">
+      <Filter>Library\Engine\Core\Animation\Timeline</Filter>
     </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>Library\Engine\Core\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationException.cpp">
+    <ClCompile Include="AnimationManager.cpp">
+      <Filter>Library\Engine\Core\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationNode.cpp">
       <Filter>Library\Engine\Core\Animation</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1188,16 +1206,34 @@
       <Filter>Library\Engine\Core\Transform</Filter>
     </ClInclude>
     <ClInclude Include="Bone.h">
-      <Filter>Library\Engine\Core\Animation</Filter>
+      <Filter>Library\Engine\Core\Animation\Bone</Filter>
+    </ClInclude>
+    <ClInclude Include="BoneException.h">
+      <Filter>Library\Engine\Core\Animation\Bone</Filter>
+    </ClInclude>
+    <ClInclude Include="BoneManager.h">
+      <Filter>Library\Engine\Core\Animation\Bone</Filter>
+    </ClInclude>
+    <ClInclude Include="Timeline.h">
+      <Filter>Library\Engine\Core\Animation\Timeline</Filter>
+    </ClInclude>
+    <ClInclude Include="TimelineWrappingType.h">
+      <Filter>Library\Engine\Core\Animation\Timeline</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformTimeline.h">
+      <Filter>Library\Engine\Core\Animation\Timeline</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Library\Engine\Core\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationException.h">
+    <ClInclude Include="AnimationManager.h">
       <Filter>Library\Engine\Core\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Timeline.h">
+    <ClInclude Include="AnimationNode.h">
       <Filter>Library\Engine\Core\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Lerp.h">
+      <Filter>Library\Engine\Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
