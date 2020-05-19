@@ -15,7 +15,6 @@ namespace Danburite
 		friend RenderUnitManager;
 
 	private:
-		RenderUnitManager &__manager;
 		std::unordered_set<std::unique_ptr<Mesh>> __meshes;
 
 		std::string __name;
@@ -28,18 +27,15 @@ namespace Danburite
 
 	protected:
 		RenderUnit(
-			RenderUnitManager &manager,
 			std::unique_ptr<Mesh> pMesh,
 			const std::string_view &unitName) noexcept;
 
 		RenderUnit(
-			RenderUnitManager &manager,
 			std::unordered_set<std::unique_ptr<Mesh>> &&meshes,
 			const std::string_view &unitName) noexcept;
 
 	public:
 		constexpr const std::string &getName() const noexcept;
-		bool setName(const std::string &name) noexcept;
 
 		constexpr size_t getNumInstances() const noexcept;
 		Transform &getTransform(const size_t idx = 0) const noexcept;

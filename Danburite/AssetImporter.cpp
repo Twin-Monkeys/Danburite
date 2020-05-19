@@ -488,9 +488,7 @@ namespace Danburite
 				nodeStack.emplace(pParsedCurrent, transMat, pCurrentNode->mChildren[i]);
 		}
 
-		retVal->setName(unitName);
 		return retVal;
-
 		// Everything will be cleaned up by the importer destructor.
 	}
 }

@@ -8,9 +8,8 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	RenderUnit::RenderUnit(
-		RenderUnitManager &manager, unique_ptr<Mesh> pMesh, const string_view &unitName) noexcept :
-		__manager(manager), __name(unitName)
+	RenderUnit::RenderUnit(unique_ptr<Mesh> pMesh, const string_view &unitName) noexcept :
+		__name(unitName)
 	{
 		const shared_ptr<VertexBuffer> &pModelMatrixBuffer =
 			reinterpret_pointer_cast<ObjectGL::VertexBuffer>(__pModelMatrixBuffer);
@@ -20,9 +19,8 @@ namespace Danburite
 		__meshes.emplace(move(pMesh));
 	}
 
-	RenderUnit::RenderUnit(
-		RenderUnitManager &manager, unordered_set<unique_ptr<Mesh>> &&meshes, const string_view &unitName) noexcept :
-		__manager(manager), __name(unitName)
+	RenderUnit::RenderUnit(unordered_set<unique_ptr<Mesh>> &&meshes, const string_view &unitName) noexcept :
+		__name(unitName)
 	{
 		const shared_ptr<VertexBuffer> &pModelMatrixBuffer =
 			reinterpret_pointer_cast<ObjectGL::VertexBuffer>(__pModelMatrixBuffer);
@@ -31,17 +29,6 @@ namespace Danburite
 			pMesh->addVertexBuffer(pModelMatrixBuffer);
 
 		__meshes.swap(meshes);
-	}
-
-	bool RenderUnit::setName(const string &name) noexcept
-	{
-		if (name.empty() || (__name == name))
-			return false;
-
-		__manager._updateRenderingUnitName(__name, name);
-		__name = name;
-
-		return true;
 	}
 
 	Transform &RenderUnit::getTransform(const size_t idx) const noexcept

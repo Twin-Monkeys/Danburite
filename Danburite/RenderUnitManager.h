@@ -20,9 +20,6 @@ namespace Danburite
 
 		std::string __buildAutoRenderingUnitName() const noexcept;
 
-	protected:
-		void _updateRenderingUnitName(const std::string &oldName, const std::string &newName) noexcept;
-
 	public:
 		static inline const std::string AUTO_MAPPED_NAME = "";
 

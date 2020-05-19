@@ -13,11 +13,6 @@ namespace Danburite
 		return retVal;
 	}
 
-	void RenderUnitManager::_updateRenderingUnitName(const string &oldName, const string &newName) noexcept
-	{
-		__renderUnitMap.extract(oldName).key() = newName;
-	}
-
 	shared_ptr<RenderUnit> RenderUnitManager::createRenderUnit(unique_ptr<Mesh> pMesh, const string &unitName)
 	{
 		string validName = unitName;
@@ -25,7 +20,7 @@ namespace Danburite
 			validName = __buildAutoRenderingUnitName();
 
 		const shared_ptr<RenderUnit> pRetVal =
-			shared_ptr<RenderUnit>(new RenderUnit(*this, move(pMesh), validName));
+			shared_ptr<RenderUnit>(new RenderUnit(move(pMesh), validName));
 
 		__renderUnitMap.emplace(validName, pRetVal);
 		__unitCount++;
@@ -60,7 +55,7 @@ namespace Danburite
 		}
 
 		const shared_ptr<RenderUnit> pRetVal =
-			shared_ptr<RenderUnit>(new RenderUnit(*this, move(meshes), validName));
+			shared_ptr<RenderUnit>(new RenderUnit(move(meshes), validName));
 
 		__renderUnitMap.emplace(validName, pRetVal);
 		__unitCount++;
