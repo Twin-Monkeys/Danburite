@@ -24,10 +24,14 @@ namespace Danburite
 		static inline const std::string AUTO_MAPPED_NAME = "";
 
 		std::shared_ptr<RenderUnit> createRenderUnit(
-			std::unique_ptr<Mesh> pMesh, const std::string &unitName = AUTO_MAPPED_NAME);
+			std::unique_ptr<Mesh> &&pMesh,
+			const std::shared_ptr<AnimationManager> &pAnimationManager = nullptr,
+			const std::string &unitName = AUTO_MAPPED_NAME);
 
 		std::shared_ptr<RenderUnit> createRenderUnit(
-			std::unordered_set<std::unique_ptr<Mesh>> &&meshes, const std::string &unitName = AUTO_MAPPED_NAME);
+			std::unordered_set<std::unique_ptr<Mesh>> &&meshes,
+			const std::shared_ptr<AnimationManager> &pAnimationManager = nullptr,
+			const std::string &unitName = AUTO_MAPPED_NAME);
 
 		std::shared_ptr<RenderUnit> getRenderUnit(const std::string &name) const noexcept;
 		virtual ~RenderUnitManager() = default;

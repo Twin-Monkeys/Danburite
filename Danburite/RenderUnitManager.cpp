@@ -13,14 +13,17 @@ namespace Danburite
 		return retVal;
 	}
 
-	shared_ptr<RenderUnit> RenderUnitManager::createRenderUnit(unique_ptr<Mesh> pMesh, const string &unitName)
+	shared_ptr<RenderUnit> RenderUnitManager::createRenderUnit(
+		unique_ptr<Mesh> &&pMesh,
+		const shared_ptr<AnimationManager> &pAnimationManager,
+		const string &unitName)
 	{
 		string validName = unitName;
 		if (validName == AUTO_MAPPED_NAME)
 			validName = __buildAutoRenderingUnitName();
 
 		const shared_ptr<RenderUnit> pRetVal =
-			shared_ptr<RenderUnit>(new RenderUnit(move(pMesh), validName));
+			shared_ptr<RenderUnit>(new RenderUnit(move(pMesh), pAnimationManager, validName));
 
 		__renderUnitMap.emplace(validName, pRetVal);
 		__unitCount++;
@@ -28,7 +31,10 @@ namespace Danburite
 		return pRetVal;
 	}
 
-	shared_ptr<RenderUnit> RenderUnitManager::createRenderUnit(unordered_set<unique_ptr<Mesh>> &&meshes, const string &unitName)
+	shared_ptr<RenderUnit> RenderUnitManager::createRenderUnit(
+		unordered_set<unique_ptr<Mesh>> &&meshes,
+		const shared_ptr<AnimationManager> &pAnimationManager,
+		const string &unitName)
 	{
 		string validName = unitName;
 
@@ -55,7 +61,7 @@ namespace Danburite
 		}
 
 		const shared_ptr<RenderUnit> pRetVal =
-			shared_ptr<RenderUnit>(new RenderUnit(move(meshes), validName));
+			shared_ptr<RenderUnit>(new RenderUnit(move(meshes), pAnimationManager, validName));
 
 		__renderUnitMap.emplace(validName, pRetVal);
 		__unitCount++;

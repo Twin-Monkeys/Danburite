@@ -402,7 +402,7 @@ namespace Danburite
 			meshes.emplace(move(pMesh));
 		}
 
-		return renderingUnitMgr.createRenderUnit(move(meshes), pNode->mName.C_Str());
+		return renderingUnitMgr.createRenderUnit(move(meshes), nullptr, pNode->mName.C_Str());
 	}
 
 	shared_ptr<RenderUnit> AssetImporter::import(

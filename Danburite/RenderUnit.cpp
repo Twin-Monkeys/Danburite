@@ -8,8 +8,11 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	RenderUnit::RenderUnit(unique_ptr<Mesh> pMesh, const string_view &unitName) noexcept :
-		__name(unitName)
+	RenderUnit::RenderUnit(
+		unique_ptr<Mesh> &&pMesh,
+		const shared_ptr<AnimationManager> &pAnimationManager,
+		const string_view &unitName) noexcept :
+		__pAnimManager(pAnimationManager), __name(unitName)
 	{
 		const shared_ptr<VertexBuffer> &pModelMatrixBuffer =
 			reinterpret_pointer_cast<ObjectGL::VertexBuffer>(__pModelMatrixBuffer);
@@ -19,8 +22,11 @@ namespace Danburite
 		__meshes.emplace(move(pMesh));
 	}
 
-	RenderUnit::RenderUnit(unordered_set<unique_ptr<Mesh>> &&meshes, const string_view &unitName) noexcept :
-		__name(unitName)
+	RenderUnit::RenderUnit(
+		unordered_set<unique_ptr<Mesh>> &&meshes,
+		const shared_ptr<AnimationManager> &pAnimationManager,
+		const string_view &unitName) noexcept :
+		__pAnimManager(pAnimationManager), __name(unitName)
 	{
 		const shared_ptr<VertexBuffer> &pModelMatrixBuffer =
 			reinterpret_pointer_cast<ObjectGL::VertexBuffer>(__pModelMatrixBuffer);

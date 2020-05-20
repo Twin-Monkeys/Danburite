@@ -5,6 +5,7 @@
 #include <unordered_set>
 #include "ModelMatrixBuffer.h"
 #include "WeakPointerContainer.h"
+#include "AnimationManager.h"
 
 namespace Danburite
 {
@@ -22,16 +23,20 @@ namespace Danburite
 		ObjectGL::WeakPointerContainer<RenderUnit> __children;
 		std::shared_ptr<ModelMatrixBuffer> __pModelMatrixBuffer = std::make_shared<ModelMatrixBuffer>();
 
+		const std::shared_ptr<AnimationManager> __pAnimManager;
+
 		RenderUnit(const RenderUnit &) = delete;
 		RenderUnit& operator=(const RenderUnit &) = delete;
 
 	protected:
 		RenderUnit(
-			std::unique_ptr<Mesh> pMesh,
+			std::unique_ptr<Mesh> &&pMesh,
+			const std::shared_ptr<AnimationManager> &pAnimationManager,
 			const std::string_view &unitName) noexcept;
 
 		RenderUnit(
 			std::unordered_set<std::unique_ptr<Mesh>> &&meshes,
+			const std::shared_ptr<AnimationManager> &pAnimationManager,
 			const std::string_view &unitName) noexcept;
 
 	public:
