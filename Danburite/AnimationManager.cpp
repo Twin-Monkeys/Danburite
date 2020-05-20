@@ -6,7 +6,7 @@ namespace Danburite
 {
 	Animation &AnimationManager::createAnimation(const float playTime, const string &name) noexcept
 	{
-		return *__animations.emplace_back(make_unique<Animation>(__animations.size() + 1ULL, playTime, name));
+		return *__animations.emplace_back(make_unique<Animation>(__animations.size(), playTime, name));
 	}
 
 	Animation &AnimationManager::getAnimation(const size_t id) noexcept
@@ -24,13 +24,28 @@ namespace Danburite
 		return __animations.size();
 	}
 
-	Animation &AnimationManager::getActiveAnimation() noexcept
+	bool AnimationManager::activateAnimation(const size_t animationID) noexcept
 	{
-		return getAnimation(__activeAnimID);
+		if (__animations.size() <= animationID)
+			return false;
+
+		__activeAnimID = animationID;
+		return true;
 	}
 
-	const Animation &AnimationManager::getActiveAnimation() const noexcept
+	Animation *AnimationManager::getActiveAnimation() noexcept
 	{
-		return getAnimation(__activeAnimID);
+		if (__animations.empty())
+			return nullptr;
+
+		return &getAnimation(__activeAnimID);
+	}
+
+	const Animation *AnimationManager::getActiveAnimation() const noexcept
+	{
+		if (__animations.empty())
+			return nullptr;
+
+		return &getAnimation(__activeAnimID);
 	}
 }

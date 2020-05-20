@@ -18,14 +18,9 @@ namespace Danburite
 
 		size_t getNumAnimations() const noexcept;
 
-		constexpr void activateAnimation(const size_t animationID) noexcept;
+		bool activateAnimation(const size_t animationID) noexcept;
 
-		Animation &getActiveAnimation() noexcept;
-		const Animation &getActiveAnimation() const noexcept;
+		Animation *getActiveAnimation() noexcept;
+		const Animation *getActiveAnimation() const noexcept;
 	};
-
-	constexpr void AnimationManager::activateAnimation(const size_t animationID) noexcept
-	{
-		__activeAnimID = animationID;
-	}
 }
