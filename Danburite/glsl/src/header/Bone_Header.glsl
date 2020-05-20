@@ -17,20 +17,25 @@ layout(binding = BINDING_POINT_BONE) uniform UBBone
 
 mat4 Bone_getBoneMatrix(const vec4 boneIndices, const vec4 boneWeights)
 {
-//	mat4 retVal = mat4(0.f);
-//
-//	for (uint i = 0U; i < 4U; i++)
-//	{
-//		const float boneWeight = boneWeights[i];
-//		if (boneWeight < EPSILON)
-//			continue;
-//
-//		const uint boneIndex = uint(boneIndices[i]);
-//		retVal += (bone.boneMatrices[boneIndex] * boneWeight);
-//	}
-//
-//	return retVal;
-	return bone.boneMatrices[uint(boneIndices[0])];
+	mat4 retVal = mat4(0.f);
+
+	bool noBone = true;
+	for (uint i = 0U; i < 4U; i++)
+	{
+		const float boneWeight = boneWeights[i];
+		if (boneWeight < EPSILON)
+			continue;
+
+		noBone = false;
+		const uint boneIndex = uint(boneIndices[i]);
+
+		retVal += (bone.boneMatrices[boneIndex] * boneWeight);
+	}
+
+	/*if (noBone)
+		return mat4(1.f);*/
+
+	return retVal;
 }
 
 #endif
