@@ -519,7 +519,7 @@ namespace Danburite
 						const aiVectorKey &posKeyframe = pAiAnimNode->mPositionKeys[posKeyframeIter];
 						const aiVector3D &pos = posKeyframe.mValue;
 
-						const float timestamp = (float(posKeyframe.mTime) / ticksPerSec);
+						const float timestamp = (1000.f * float(posKeyframe.mTime) / ticksPerSec);
 						posTimeline.addKeyframe(timestamp, { pos.x, pos.y, pos.z });
 					}
 
@@ -532,7 +532,7 @@ namespace Danburite
 						const aiQuatKey &rotationKeyframe = pAiAnimNode->mRotationKeys[rotationKeyframeIter];
 						const aiQuaternion &rotation = rotationKeyframe.mValue;
 
-						const float timestamp = (float(rotationKeyframe.mTime) / ticksPerSec);
+						const float timestamp = (1000.f * float(rotationKeyframe.mTime) / ticksPerSec);
 						rotationTimeline.addKeyframe(
 							timestamp, { rotation.w, rotation.x, rotation.y, rotation.z });
 					}
@@ -546,7 +546,7 @@ namespace Danburite
 						const aiVectorKey &scaleKeyframe = pAiAnimNode->mScalingKeys[scaleKeyframeIter];
 						const aiVector3D &scale = scaleKeyframe.mValue;
 
-						const float timestamp = (float(scaleKeyframe.mTime) / ticksPerSec);
+						const float timestamp = (1000.f * float(scaleKeyframe.mTime) / ticksPerSec);
 						scaleTimeline.addKeyframe(timestamp, { scale.x, scale.y, scale.z });
 					}
 				}

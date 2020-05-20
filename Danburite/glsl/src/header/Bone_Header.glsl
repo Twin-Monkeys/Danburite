@@ -32,8 +32,8 @@ mat4 Bone_getBoneMatrix(const vec4 boneIndices, const vec4 boneWeights)
 		retVal += (bone.boneMatrices[boneIndex] * boneWeight);
 	}
 
-	/*if (noBone)
-		return mat4(1.f);*/
+	if (noBone)
+		return mat4(1.f);
 
 	return retVal;
 }
