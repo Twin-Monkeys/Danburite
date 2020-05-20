@@ -179,20 +179,11 @@ namespace Danburite
 
 			if (pAiMesh->HasBones())
 			{
-				bool valid = false;
+				vertexFlag |= VertexAttributeFlag::BONE;
+
 				for (unsigned boneIter = 0U; boneIter < pAiMesh->mNumBones; boneIter++)
 				{
 					const aiBone *const pBone = pAiMesh->mBones[boneIter];
-
-					float weightSum = 0.f;
-					for (unsigned weightIter = 0U; weightIter < pBone->mNumWeights; weightIter++)
-						weightSum += pBone->mWeights[weightIter].mWeight;
-
-					// validate
-					if (!epsilonEqual(weightSum, 1.f, epsilon<float>()))
-						continue;
-
-					valid = true;
 
 					mat4 offsetMat;
 					aiMatrix4x4 aiOffsetMat = pBone->mOffsetMatrix;
@@ -209,9 +200,6 @@ namespace Danburite
 							bonesPerVertex.emplace_back(bone.ID, vertexWeight.mWeight);
 					}
 				}
-
-				if (valid)
-					vertexFlag |= VertexAttributeFlag::BONE;
 			}
 
 			vector<GLfloat> vertices;

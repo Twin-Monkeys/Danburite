@@ -33,7 +33,7 @@ namespace Danburite
 
 	protected:
 		RenderUnit(
-			std::unique_ptr<Mesh> &&pMesh,
+			std::unique_ptr<Mesh> pMesh,
 			const std::shared_ptr<AnimationManager> &pAnimationManager,
 			const std::string_view &unitName) noexcept;
 

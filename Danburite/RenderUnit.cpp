@@ -9,7 +9,7 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	RenderUnit::RenderUnit(
-		unique_ptr<Mesh> &&pMesh,
+		unique_ptr<Mesh> pMesh,
 		const shared_ptr<AnimationManager> &pAnimationManager,
 		const string_view &unitName) noexcept :
 		__pAnimManager(pAnimationManager), __name(unitName)
