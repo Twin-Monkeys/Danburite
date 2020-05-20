@@ -1,6 +1,7 @@
 #include "Mesh.h"
 
 using namespace std;
+using namespace glm;
 using namespace ObjectGL;
 
 namespace Danburite
@@ -22,7 +23,7 @@ namespace Danburite
 		__pVertexArray->addVertexBuffer(pVertexBuffer);
 	}
 
-	void Mesh::updateBones(const glm::mat4 &nodeMatrix) noexcept
+	void Mesh::updateBones(const mat4 &nodeMatrix) noexcept
 	{
 		__pBoneMgr->updateMatrics(nodeMatrix);
 	}
