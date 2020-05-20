@@ -9,19 +9,27 @@ namespace Danburite
 		Object(id), __playTime(playTime), __name(name)
 	{}
 
-	AnimationNode &Animation::getNode(const string &nodeName) noexcept
+	AnimationNode &Animation::createNode(const string &nodeName) noexcept
 	{
 		return __nodeMap.emplace(nodeName, __playTime).first->second;
 	}
 
-	const AnimationNode &Animation::getNode(const string &nodeName) const noexcept
+	AnimationNode *Animation::getNode(const string &nodeName) noexcept
 	{
-		return __nodeMap.at(nodeName);
+		auto resultIt = __nodeMap.find(nodeName);
+		if (resultIt == __nodeMap.end())
+			return nullptr;
+
+		return &resultIt->second;
 	}
 
-	bool Animation::isExistentNode(const string &nodeName) const noexcept
+	const AnimationNode *Animation::getNode(const string &nodeName) const noexcept
 	{
-		return __nodeMap.count(nodeName);
+		auto resultIt = __nodeMap.find(nodeName);
+		if (resultIt == __nodeMap.end())
+			return nullptr;
+
+		return &resultIt->second;
 	}
 
 	Animation &Animation::setTimestamp(const float timestamp) noexcept

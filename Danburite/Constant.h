@@ -11,17 +11,13 @@ namespace Danburite
 		namespace Common
 		{
 			constexpr float EPSILON = 1e-6f;
+			constexpr glm::mat4 IDENTITY_MATRIX { 1.f };
 		}
 
 		namespace Transform
 		{
 			constexpr float MIN_SCALE = .001f;
 			constexpr float MAX_SCALE = 1000.f;
-		}
-
-		namespace Matrix
-		{
-			constexpr glm::mat4 IDENTITY_MATRIX { 1.f };
 		}
 
 		namespace Light

@@ -405,11 +405,7 @@ namespace Danburite
 		return renderingUnitMgr.createRenderUnit(move(meshes), nullptr, pNode->mName.C_Str());
 	}
 
-	shared_ptr<RenderUnit> AssetImporter::import(
-		const string_view &assetPath,
-		const mat4 &transformation,
-		const MaterialType materialType,
-		const string &unitName)
+	shared_ptr<RenderUnit> AssetImporter::import(const string_view &assetPath, const mat4 &transformation, const MaterialType materialType)
 	{
 		/*
 			The importer manages all the resources for itsself.
@@ -463,7 +459,7 @@ namespace Danburite
 					const aiNodeAnim *const pAiAnimNode = pAiAnim->mChannels[nodeAnimIter];
 					const aiString &nodeName = pAiAnimNode->mNodeName;
 
-					AnimationNode &animNode = animation.getNode(nodeName.C_Str());
+					AnimationNode &animNode = animation.createNode(nodeName.C_Str());
 					TransformTimeline &timeline = animNode.getTimeline();
 
 					switch (pAiAnimNode->mPreState)

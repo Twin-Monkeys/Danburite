@@ -14,19 +14,21 @@ namespace Danburite
 		__currentTransform.setScale(scale);
 	}
 
-	void AnimationNode::updateMatrix() noexcept
+	AnimationNode &AnimationNode::updateMatrix() noexcept
 	{
 		__updateTransform(__timestamp);
 		__currentTransform.updateMatrix();
 
 		__nodeMat = __currentTransform.getModelMatrix();
+		return *this;
 	}
 
-	void AnimationNode::updateMatrix(const mat4 &parentMatrix) noexcept
+	AnimationNode &AnimationNode::updateMatrix(const mat4 &parentMatrix) noexcept
 	{
 		__updateTransform(__timestamp);
 		__currentTransform.updateMatrix();
 
 		__nodeMat = (parentMatrix * __currentTransform.getModelMatrix());
+		return *this;
 	}
 }

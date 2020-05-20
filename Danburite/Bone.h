@@ -15,7 +15,7 @@ namespace Danburite
 
 		std::vector<glm::mat4> &__boneMatrices;
 
-		glm::mat4 &__getboneMatrix() const noexcept;
+		void __setboneMatrix(const glm::mat4 &boneMatrix) const noexcept;
 
 	public:
 		Bone(const GLuint id, const glm::mat4 &offsetMatrix, std::vector<glm::mat4> &boneMatricesRef) noexcept;

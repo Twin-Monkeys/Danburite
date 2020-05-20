@@ -37,6 +37,35 @@ namespace Danburite
 		__meshes.swap(meshes);
 	}
 
+	void RenderUnit::__updateHierarchical_withAnim(const mat4 &parentNodeMatrix, const vector<mat4> &parentModelMatrices)
+	{
+		__pModelMatrixBuffer->updateMatrix(parentModelMatrices);
+		const vector<mat4> &modelMatrices = __pModelMatrixBuffer->getModelMatrices();
+
+		Animation &anim = *(__pAnimManager->getActiveAnimation());
+
+		const mat4 *pNodeMatrix;
+		AnimationNode *const pAnimNode = anim.getNode(__name);
+
+		if (!pAnimNode)
+			pNodeMatrix = &parentNodeMatrix;
+		else
+			pNodeMatrix = &(pAnimNode->updateMatrix(parentNodeMatrix).getNodeMatrix());
+
+		for (const unique_ptr<Mesh> &pMesh : __meshes)
+			pMesh->updateBones(*pNodeMatrix);
+
+		__children.safeTraverse(&RenderUnit::__updateHierarchical_withAnim, *pNodeMatrix, modelMatrices);
+	}
+
+	void RenderUnit::__updateHierarchical_withoutAnim(const vector<mat4> &parentModelMatrices)
+	{
+		__pModelMatrixBuffer->updateMatrix(parentModelMatrices);
+		const vector<mat4> &modelMatrices = __pModelMatrixBuffer->getModelMatrices();
+
+		__children.safeTraverse(&RenderUnit::__updateHierarchical_withoutAnim, modelMatrices);
+	}
+
 	Transform &RenderUnit::getTransform(const size_t idx) const noexcept
 	{
 		return __pModelMatrixBuffer->getTransform(idx);
@@ -51,17 +80,35 @@ namespace Danburite
 	void RenderUnit::update(const float deltaTime) noexcept
 	{
 		__pModelMatrixBuffer->updateMatrix();
+		const vector<mat4> &modelMatrices = __pModelMatrixBuffer->getModelMatrices();
 
-		__children.safeTraverse<void(RenderUnit::*)(const float, const vector<mat4> &)>(
-			&RenderUnit::update, deltaTime, __pModelMatrixBuffer->getModelMatrices());
-	}
+		if (!__pAnimManager)
+		{
+			__children.safeTraverse(&RenderUnit::__updateHierarchical_withoutAnim, modelMatrices);
+			return;
+		}
 
-	void RenderUnit::update(const float deltaTime, const vector<mat4> &parentModelMatrices) noexcept
-	{
-		__pModelMatrixBuffer->updateMatrix(parentModelMatrices);
+		Animation *const pAnim = __pAnimManager->getActiveAnimation();
+		if (!pAnim)
+		{
+			__children.safeTraverse(&RenderUnit::__updateHierarchical_withoutAnim, modelMatrices);
+			return;
+		}
 
-		__children.safeTraverse<void(RenderUnit::*)(const float, const vector<mat4> &)>(
-			&RenderUnit::update, deltaTime, __pModelMatrixBuffer->getModelMatrices());
+		pAnim->adjustTimestamp(deltaTime);
+
+		const mat4 *pNodeMatrix;
+		AnimationNode *const pAnimNode = pAnim->getNode(__name);
+
+		if (!pAnimNode)
+			pNodeMatrix = &Constant::Common::IDENTITY_MATRIX;
+		else
+			pNodeMatrix = &(pAnimNode->updateMatrix().getNodeMatrix());
+
+		for (const unique_ptr<Mesh> &pMesh : __meshes)
+			pMesh->updateBones(*pNodeMatrix);
+
+		__children.safeTraverse(&RenderUnit::__updateHierarchical_withAnim, *pNodeMatrix, modelMatrices);
 	}
 
 	void RenderUnit::draw() noexcept

@@ -10,13 +10,13 @@ namespace Danburite
 		__boneMatrices(boneMatricesRef)
 	{}
 
-	mat4 &Bone::__getboneMatrix() const noexcept
+	void Bone::__setboneMatrix(const mat4 &boneMatrix) const noexcept
 	{
-		return __boneMatrices[ID];
+		__boneMatrices[ID] = boneMatrix;
 	}
 
 	void Bone::updateMatrix(const mat4 &nodeMatrix) noexcept
 	{
-		__getboneMatrix() = (__offsetMat * nodeMatrix * __offsetInvMat);
+		__setboneMatrix(__offsetMat * nodeMatrix * __offsetInvMat);
 	}
 }

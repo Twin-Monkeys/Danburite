@@ -25,8 +25,8 @@ namespace Danburite
 		constexpr TransformTimeline &getTimeline() noexcept;
 		constexpr const TransformTimeline &getTimeline() const noexcept;
 
-		void updateMatrix() noexcept;
-		void updateMatrix(const glm::mat4 &parentMatrix) noexcept;
+		AnimationNode &updateMatrix() noexcept;
+		AnimationNode &updateMatrix(const glm::mat4 &parentMatrix) noexcept;
 
 		constexpr const glm::mat4 &getNodeMatrix() const noexcept;
 	};

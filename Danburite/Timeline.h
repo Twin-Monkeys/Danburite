@@ -74,7 +74,7 @@ namespace Danburite
 	template <typename ComponentType>
 	ComponentType Timeline<ComponentType>::__preStateFunc_default(const float) const noexcept
 	{
-		return ComponentType {};
+		return __defaultVal;
 	}
 
 	template <typename ComponentType>
@@ -212,7 +212,7 @@ namespace Danburite
 	ComponentType Timeline<ComponentType>::sample(const float timestamp) const noexcept
 	{
 		if (__keyframes.empty())
-			return {};
+			return __defaultVal;
 
 		if (__keyframes.size() == 1ULL)
 			return __keyframes.begin()->second;
