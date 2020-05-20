@@ -180,30 +180,33 @@ namespace Danburite
 			if (pAiMesh->HasBones())
 			{
 				bool valid = false;
-				for (unsigned boneIdx = 0U; boneIdx < pAiMesh->mNumBones; boneIdx++)
+				for (unsigned boneIter = 0U; boneIter < pAiMesh->mNumBones; boneIter++)
 				{
-					const aiBone *const pBone = pAiMesh->mBones[boneIdx];
+					const aiBone *const pBone = pAiMesh->mBones[boneIter];
+
+					float weightSum = 0.f;
+					for (unsigned weightIter = 0U; weightIter < pBone->mNumWeights; weightIter++)
+						weightSum += pBone->mWeights[weightIter].mWeight;
+
+					// validate
+					if (!epsilonEqual(weightSum, 1.f, epsilon<float>()))
+						continue;
+
+					valid = true;
 
 					mat4 offsetMat;
 					aiMatrix4x4 aiOffsetMat = pBone->mOffsetMatrix;
 					memcpy(&offsetMat, &aiOffsetMat.Transpose(), sizeof(mat4));
 
-					float weightSum = 0.f;
+					Bone &bone = pBoneManager->createBone(offsetMat);
+
 					for (unsigned weightIter = 0U; weightIter < pBone->mNumWeights; weightIter++)
 					{
 						aiVertexWeight &vertexWeight = pBone->mWeights[weightIter];
 						vector<pair<unsigned, float>> &bonesPerVertex = vertexBoneInfoMap[vertexWeight.mVertexId];
 
-						weightSum += vertexWeight.mWeight;
-
-						if (!glm::epsilonEqual(vertexWeight.mWeight, 0.f, glm::epsilon<float>()))
-							bonesPerVertex.emplace_back(boneIdx, vertexWeight.mWeight);
-					}
-
-					if (glm::epsilonEqual(weightSum, 1.f, glm::epsilon<float>()))
-					{
-						valid = true;
-						pBoneManager->createBone(offsetMat);
+						if (vertexWeight.mWeight > epsilon<float>())
+							bonesPerVertex.emplace_back(bone.ID, vertexWeight.mWeight);
 					}
 				}
 
@@ -455,7 +458,7 @@ namespace Danburite
 				const aiAnimation* const pAiAnim = pScene->mAnimations[animIter];
 
 				float ticksPerSec = float(pAiAnim->mTicksPerSecond);
-				if (ticksPerSec < Constant::Common::EPSILON)
+				if (ticksPerSec < epsilon<float>())
 					ticksPerSec = 25.f;
 
 				// convert sec to ms

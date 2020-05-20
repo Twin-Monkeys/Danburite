@@ -10,7 +10,6 @@ namespace Danburite
 	{
 		namespace Common
 		{
-			constexpr float EPSILON = 1e-6f;
 			constexpr glm::mat4 IDENTITY_MATRIX { 1.f };
 		}
 

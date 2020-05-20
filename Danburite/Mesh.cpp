@@ -24,7 +24,7 @@ namespace Danburite
 
 	void Mesh::updateBones(const glm::mat4 &nodeMatrix) noexcept
 	{
-		// __pBoneMgr->updateMatrics(nodeMatrix);
+		__pBoneMgr->updateMatrics(nodeMatrix);
 	}
 
 	void Mesh::draw(const GLsizei numInstances) noexcept
