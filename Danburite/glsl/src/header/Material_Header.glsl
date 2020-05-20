@@ -112,6 +112,11 @@ bool Material_isVertexTangentEnabled()
 	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_TANGENT) != 0);
 }
 
+bool Material_isVertexBoneEnabled()
+{
+	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_BONE) != 0);
+}
+
 vec3 Material_applyGamma(const vec3 source)
 {
 	return pow(source, vec3(material.gamma));

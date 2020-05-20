@@ -21,7 +21,7 @@ namespace Danburite
 	void PerspectiveLight::_onBakeDepthMap(Drawer &drawer) noexcept
 	{
 		__depthBaker.bind();
-		drawer.batchRawDrawCall();
+		drawer.batchRawDrawcall();
 		__depthBaker.unbind();
 	}
 

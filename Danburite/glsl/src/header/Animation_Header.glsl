@@ -15,7 +15,7 @@ layout(binding = BINDING_POINT_ANIMATION) uniform UBAnimation
 	Animation animation;
 };
 
-vec3 Animation_getAnimatedPosition(const vec3 localPos, const uvec4 boneIndices, const vec4 boneWeights)
+vec3 Animation_getAnimatedPosition(const vec3 localPos, const vec4 boneIndices, const vec4 boneWeights)
 {
 	mat4 boneMat = mat4(0.f);
 
@@ -25,8 +25,7 @@ vec3 Animation_getAnimatedPosition(const vec3 localPos, const uvec4 boneIndices,
 		if (boneWeight < EPSILON)
 			break;
 
-		const uint boneIndex = boneIndices[i];
-
+		const uint boneIndex = uint(boneIndices[i]);
 		boneMat += (animation.boneMatrices[boneIndex] * boneWeight);
 	}
 

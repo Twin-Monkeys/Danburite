@@ -41,6 +41,7 @@ namespace Danburite
 
 	public:
 		void render(ObjectGL::VertexArray &vertexArray, const GLsizei numInstances = 1) noexcept;
+		void rawDrawcall(ObjectGL::VertexArray &vertexArray, const GLsizei numInstances = 1) noexcept;
 
 		virtual ~Material() = default;
 	};

@@ -28,7 +28,7 @@ namespace Danburite
 		void updateBones(const glm::mat4 &nodeMatrix) noexcept;
 
 		void draw(const GLsizei numInstances = 1) noexcept;
-		void rawDrawCall(const GLsizei numInstances = 1) noexcept;
+		void rawDrawcall(const GLsizei numInstances = 1) noexcept;
 
 		virtual ~Mesh() = default;
 	};

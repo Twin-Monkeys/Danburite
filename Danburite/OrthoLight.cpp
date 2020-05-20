@@ -24,7 +24,7 @@ namespace Danburite
 	void OrthoLight::_onBakeDepthMap(Drawer &drawer) noexcept
 	{
 		__depthBaker.bind();
-		drawer.batchRawDrawCall();
+		drawer.batchRawDrawcall();
 		__depthBaker.unbind();
 	}
 

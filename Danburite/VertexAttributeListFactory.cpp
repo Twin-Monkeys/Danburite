@@ -28,9 +28,6 @@ namespace Danburite
 		const VertexAttributeDataStructure &VEC4 =
 			VertexAttributeDataStructureFactory::getInstance(VertexAttributeDataStructureType::VEC4);
 
-		const VertexAttributeDataStructure &UVEC4 =
-			VertexAttributeDataStructureFactory::getInstance(VertexAttributeDataStructureType::UVEC4);
-
 		GLsizei offset = 0;
 		if (key & VertexAttributeFlag::POS)
 		{
@@ -64,8 +61,8 @@ namespace Danburite
 
 		if (key & VertexAttributeFlag::BONE)
 		{
-			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::BONE_INDICES_LOCATION, UVEC4, 0, offset);
-			offset += UVEC4.memSize();
+			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::BONE_INDICES_LOCATION, VEC4, 0, offset);
+			offset += VEC4.memSize();
 
 			retVal.emplace_back(ShaderIdentifier::Value::VertexAttribute::BONE_WEIGHTS_LOCATION, VEC4, 0, offset);
 			offset += VEC4.memSize();

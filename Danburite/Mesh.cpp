@@ -29,20 +29,25 @@ namespace Danburite
 
 	void Mesh::draw(const GLsizei numInstances) noexcept
 	{
-		__pBoneMgr->selfDeploy();
-
 		if (!__pMaterial)
 		{
 			assert(false);
 			return;
 		}
 
+		__pBoneMgr->selfDeploy();
 		__pMaterial->render(*__pVertexArray, numInstances);
 	}
 
-	void Mesh::rawDrawCall(const GLsizei numInstances) noexcept
+	void Mesh::rawDrawcall(const GLsizei numInstances) noexcept
 	{
+		if (!__pMaterial)
+		{
+			assert(false);
+			return;
+		}
+
 		__pBoneMgr->selfDeploy();
-		__pVertexArray->draw(numInstances);
+		__pMaterial->rawDrawcall(*__pVertexArray, numInstances);
 	}
 }

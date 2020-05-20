@@ -123,15 +123,15 @@ namespace Danburite
 		__children.safeTraverse(&RenderUnit::draw);
 	}
 
-	void RenderUnit::rawDrawCall() noexcept
+	void RenderUnit::rawDrawcall() noexcept
 	{
 		__pModelMatrixBuffer->selfDeploy();
 
 		const size_t NUM_INSTANCES = __pModelMatrixBuffer->getNumInstances();
 
 		for (const unique_ptr<Mesh> &pMesh : __meshes)
-			pMesh->rawDrawCall(GLsizei(NUM_INSTANCES));
+			pMesh->rawDrawcall(GLsizei(NUM_INSTANCES));
 
-		__children.safeTraverse(&RenderUnit::rawDrawCall);
+		__children.safeTraverse(&RenderUnit::rawDrawcall);
 	}
 }

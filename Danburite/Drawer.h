@@ -14,6 +14,6 @@ namespace Danburite
 		void addDrawable(const std::weak_ptr<Drawable> &pDrawable) noexcept;
 
 		void batchDraw() noexcept;
-		void batchRawDrawCall() noexcept;
+		void batchRawDrawcall() noexcept;
 	};
 }

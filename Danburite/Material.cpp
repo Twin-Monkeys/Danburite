@@ -23,4 +23,13 @@ namespace Danburite
 
 		_onRender(__materialSetter, vertexArray, numInstances);
 	}
+
+	void Material::rawDrawcall(VertexArray &vertexArray, const GLsizei numInstances) noexcept
+	{
+		__materialSetter.setUniformUint(ShaderIdentifier::Name::Material::TYPE, GLenum(__MATERIAL_TYPE));
+		__materialSetter.setUniformUint(ShaderIdentifier::Name::Material::VERTEX_FLAG, GLenum(__VERTEX_FLAG));
+		__materialSetter.setUniformUint(ShaderIdentifier::Name::Material::OPTION_FLAG, GLenum(__optionFlag));
+
+		vertexArray.draw(numInstances);
+	}
 }

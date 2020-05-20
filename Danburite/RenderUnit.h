@@ -56,7 +56,7 @@ namespace Danburite
 		virtual void update(const float deltaTime) noexcept override;
 
 		virtual void draw() noexcept override;
-		virtual void rawDrawCall() noexcept override;
+		virtual void rawDrawcall() noexcept override;
 
 		template <typename MaterialType, typename FunctionType, typename ...Args>
 		void traverseMaterial(const FunctionType function, Args &&...args);

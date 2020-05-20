@@ -246,7 +246,7 @@ namespace Danburite
 					unsigned numBones = 0U;
 					for (const auto &[boneIdx, boneWeight] : bonesPerVertex)
 					{
-						memcpy(&boneIndices[numBones], &boneIdx, sizeof(GLfloat));
+						boneIndices[numBones] = float(boneIdx);
 						boneWeights[numBones] = boneWeight;
 
 						numBones++;
