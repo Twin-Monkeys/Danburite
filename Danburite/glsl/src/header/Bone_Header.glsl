@@ -22,10 +22,8 @@ vec3 Bone_getBonedPosition(const vec3 localPos, const vec4 boneIndices, const ve
 	for (uint i = 0U; i < 4U; i++)
 	{
 		const float boneWeight = boneWeights[i];
-		if (boneWeight < EPSILON)
-			break;
-
 		const uint boneIndex = uint(boneIndices[i]);
+
 		boneMat += (bone.boneMatrices[boneIndex] * boneWeight);
 	}
 

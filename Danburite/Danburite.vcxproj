@@ -487,9 +487,7 @@
     <None Include="glsl\src\Header\Model_Header.glsl" />
     <None Include="glsl\src\header\PostProcess_Header.glsl" />
     <None Include="glsl\src\header\VertexAttribute_Header.glsl" />
-    <None Include="glsl\src\Outline_Frag.glsl" />
     <None Include="glsl\src\MonoColor_Frag.glsl" />
-    <None Include="glsl\src\Outline_Vert.glsl" />
     <None Include="glsl\src\PostProcess_GammaCorrection_Frag.glsl" />
     <None Include="glsl\src\PostProcess_MSAA_Frag.glsl" />
     <None Include="glsl\src\ReflectionPhong_Frag.glsl" />

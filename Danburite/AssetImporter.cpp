@@ -402,7 +402,7 @@ namespace Danburite
 			meshes.emplace(move(pMesh));
 		}
 
-		return renderingUnitMgr.createRenderUnit(move(meshes), nullptr, pNode->mName.C_Str());
+		return renderingUnitMgr.createRenderUnit(move(meshes), pAnimationManager, pNode->mName.C_Str());
 	}
 
 	shared_ptr<RenderUnit> AssetImporter::import(const string_view &assetPath, const mat4 &transformation, const MaterialType materialType)
@@ -449,7 +449,9 @@ namespace Danburite
 				if (ticksPerSec < Constant::Common::EPSILON)
 					ticksPerSec = 25.f;
 
-				const float playTime = (float(pAiAnim->mDuration) / ticksPerSec);
+				// convert sec to ms
+				const float playTime = (1000.f * (float(pAiAnim->mDuration) / ticksPerSec));
+
 				const aiString &animName = pAiAnim->mName;
 
 				Animation &animation = pAnimationManager->createAnimation(playTime, animName.C_Str());
