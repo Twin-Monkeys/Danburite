@@ -18,6 +18,9 @@
 	defined(VariableInOut_Vert_exportToFrag_TBN)				\
 	)
 #include "Model_Header.glsl"
+#include "Material_Header.glsl"
+#include "Bone_Header.glsl"
+
 #endif
 
 out VariableInOut_VertToFrag
@@ -49,7 +52,15 @@ variableInOut_VertToFrag;
 void VariableInOut_Vert_exportVariablesToFrag()
 {
 	#ifdef VariableInOut_Vert_exportToFrag_worldPos
-	variableInOut_VertToFrag.worldPos = Model_getWorldPosition(VertexAttribute_modelMat, VertexAttribute_pos);
+	vec3 localPos = VertexAttribute_pos;
+
+	mat4 boneMat;
+	if (Material_isVertexBoneEnabled())
+	{
+		boneMat = Bone_getBoneMatrix(VertexAttribute_boneIndices, VertexAttribute_boneWeights);
+		localPos = (boneMat * vec4(localPos, 1.f)).xyz;
+	}
+	variableInOut_VertToFrag.worldPos = Model_getWorldPosition(VertexAttribute_modelMat, localPos);
 	#endif
 
 	#ifdef VariableInOut_Vert_exportToFrag_color
@@ -57,7 +68,12 @@ void VariableInOut_Vert_exportVariablesToFrag()
 	#endif
 
 	#ifdef VariableInOut_Vert_exportToFrag_worldNormal
-	variableInOut_VertToFrag.worldNormal = Model_getWorldNormal(VertexAttribute_modelMat, VertexAttribute_normal);
+	vec3 localNormal = VertexAttribute_normal;
+
+	if (Material_isVertexBoneEnabled())
+		localNormal = (transpose(inverse(mat3(boneMat))) * localNormal);
+
+	variableInOut_VertToFrag.worldNormal = Model_getWorldNormal(VertexAttribute_modelMat, localNormal);
 	#endif
 
 	#ifdef VariableInOut_Vert_exportToFrag_texCoord

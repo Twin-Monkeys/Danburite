@@ -15,19 +15,26 @@ layout(binding = BINDING_POINT_BONE) uniform UBBone
 	Bone bone;
 };
 
-vec3 Bone_getBonedPosition(const vec3 localPos, const vec4 boneIndices, const vec4 boneWeights)
+mat4 Bone_getBoneMatrix(const vec4 boneIndices, const vec4 boneWeights)
 {
-	mat4 boneMat = mat4(0.f);
+	mat4 retVal = mat4(0.f);
 
+	bool noBones = true;
 	for (uint i = 0U; i < 4U; i++)
 	{
 		const float boneWeight = boneWeights[i];
+		if (boneWeight > EPSILON)
+			noBones = false;
+
 		const uint boneIndex = uint(boneIndices[i]);
 
-		boneMat += (bone.boneMatrices[boneIndex] * boneWeight);
+		retVal += (bone.boneMatrices[boneIndex] * boneWeight);
 	}
 
-	return (boneMat * vec4(localPos, 1.f)).xyz;
+	if (noBones)
+		return mat4(1.f);
+
+	return retVal;
 }
 
 #endif
