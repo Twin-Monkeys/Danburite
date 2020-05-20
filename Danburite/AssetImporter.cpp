@@ -179,8 +179,7 @@ namespace Danburite
 
 			if (pAiMesh->HasBones())
 			{
-				vertexFlag |= VertexAttributeFlag::BONE;
-
+				bool valid = false;
 				for (unsigned boneIdx = 0U; boneIdx < pAiMesh->mNumBones; boneIdx++)
 				{
 					const aiBone *const pBone = pAiMesh->mBones[boneIdx];
@@ -189,17 +188,27 @@ namespace Danburite
 					aiMatrix4x4 aiOffsetMat = pBone->mOffsetMatrix;
 					memcpy(&offsetMat, &aiOffsetMat.Transpose(), sizeof(mat4));
 
-					Bone &bone = pBoneManager->createBone(offsetMat);
-
+					float weightSum = 0.f;
 					for (unsigned weightIter = 0U; weightIter < pBone->mNumWeights; weightIter++)
 					{
 						aiVertexWeight &vertexWeight = pBone->mWeights[weightIter];
 						vector<pair<unsigned, float>> &bonesPerVertex = vertexBoneInfoMap[vertexWeight.mVertexId];
 
+						weightSum += vertexWeight.mWeight;
+
 						if (!glm::epsilonEqual(vertexWeight.mWeight, 0.f, glm::epsilon<float>()))
-							bonesPerVertex.emplace_back(bone.ID, vertexWeight.mWeight);
+							bonesPerVertex.emplace_back(boneIdx, vertexWeight.mWeight);
+					}
+
+					if (glm::epsilonEqual(weightSum, 1.f, glm::epsilon<float>()))
+					{
+						valid = true;
+						pBoneManager->createBone(offsetMat);
 					}
 				}
+
+				if (valid)
+					vertexFlag |= VertexAttributeFlag::BONE;
 			}
 
 			vector<GLfloat> vertices;
