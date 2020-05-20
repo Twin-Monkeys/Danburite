@@ -16,7 +16,7 @@ namespace Danburite
 	Bone &BoneManager::createBone(const mat4 &offsetMatrix)
 	{
 		const GLuint boneID = GLuint(__boneMatrices.size());
-		__boneMatrices.emplace_back(mat4 { 1.f });
+		__boneMatrices.emplace_back();
 
 		if (boneID >= Constant::Animation::MAX_NUM_BONES)
 			throw BoneException("the number of bones cannot be greater than MAX_NUM_BONES.");

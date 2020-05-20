@@ -11,7 +11,7 @@ namespace Danburite
 	public:
 		Timeline<glm::vec3> posTimeline;
 		Timeline<Quaternion> rotationTimeline;
-		Timeline<glm::vec3> scaleTimeline { {1.f, 1.f, 1.f} };
+		Timeline<glm::vec3> scaleTimeline { { 1.f, 1.f, 1.f } };
 
 		constexpr TransformTimeline &setPreStateWrappingType(const TimelineWrappingType type) noexcept;
 		constexpr TransformTimeline &setPostStateWrappingType(const TimelineWrappingType type) noexcept;

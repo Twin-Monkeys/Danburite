@@ -15,9 +15,9 @@ namespace Danburite
 		const float &__timestamp;
 
 		Transform __currentTransform;
-		glm::mat4 __nodeMat;
+		glm::mat4 __nodeMat { 1.f };
 
-		void __updateTransform(const float timestamp) noexcept;
+		void __updateTransform() noexcept;
 
 	public:
 		explicit constexpr AnimationNode(const float &timestampReference) noexcept;

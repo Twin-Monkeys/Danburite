@@ -11,7 +11,7 @@ namespace Danburite
 
 	AnimationNode &Animation::createNode(const string &nodeName) noexcept
 	{
-		return __nodeMap.emplace(nodeName, __playTime).first->second;
+		return __nodeMap.emplace(nodeName, __timestamp).first->second;
 	}
 
 	AnimationNode *Animation::getNode(const string &nodeName) noexcept

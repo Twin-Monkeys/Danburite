@@ -5,9 +5,9 @@ using namespace glm;
 
 namespace Danburite
 {
-	void AnimationNode::__updateTransform(const float timestamp) noexcept
+	void AnimationNode::__updateTransform() noexcept
 	{
-		const auto &[position, rotation, scale] = __timeline.sample(timestamp);
+		const auto &[position, rotation, scale] = __timeline.sample(__timestamp);
 
 		__currentTransform.setPosition(position);
 		__currentTransform.setRotation(rotation);
@@ -16,7 +16,7 @@ namespace Danburite
 
 	AnimationNode &AnimationNode::updateMatrix() noexcept
 	{
-		__updateTransform(__timestamp);
+		__updateTransform();
 		__currentTransform.updateMatrix();
 
 		__nodeMat = __currentTransform.getModelMatrix();
@@ -25,7 +25,7 @@ namespace Danburite
 
 	AnimationNode &AnimationNode::updateMatrix(const mat4 &parentMatrix) noexcept
 	{
-		__updateTransform(__timestamp);
+		__updateTransform();
 		__currentTransform.updateMatrix();
 
 		__nodeMat = (parentMatrix * __currentTransform.getModelMatrix());
