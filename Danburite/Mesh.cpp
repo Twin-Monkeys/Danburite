@@ -8,7 +8,7 @@ namespace Danburite
 	Mesh::Mesh(
 		const shared_ptr<VertexArray> &pVertexArray,
 		const shared_ptr<Material> &pMaterial,
-		std::unique_ptr<BoneManager> pBoneManager) noexcept :
+		std::unique_ptr<BoneManager> &&pBoneManager) noexcept :
 		__pVertexArray(pVertexArray), __pMaterial(pMaterial), __pBoneMgr(move(pBoneManager))
 	{}
 

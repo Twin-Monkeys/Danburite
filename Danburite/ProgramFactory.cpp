@@ -46,15 +46,6 @@ namespace Danburite
 				}
 			},
 			{
-				ProgramType::OUTLINE,
-				{
-					"glsl/binary/Outline.bin",
-					"glsl/src/Outline_Vert.glsl",
-					"",
-					"glsl/src/Outline_Frag.glsl"
-				}
-			},
-			{
 				ProgramType::REFLECTION,
 				{
 					"glsl/binary/Reflection.bin",
@@ -260,7 +251,6 @@ namespace Danburite
 					ProgramType::MONO_COLOR,
 					ProgramType::PHONG,
 					ProgramType::SILHOUETTE,
-					ProgramType::OUTLINE,
 					ProgramType::REFLECTION,
 					ProgramType::REFLECTION_PHONG,
 					ProgramType::REFRACTION,
@@ -280,7 +270,6 @@ namespace Danburite
 					ProgramType::MONO_COLOR,
 					ProgramType::PHONG,
 					ProgramType::SILHOUETTE,
-					ProgramType::OUTLINE,
 					ProgramType::REFLECTION,
 					ProgramType::REFLECTION_PHONG,
 					ProgramType::REFRACTION,
@@ -336,9 +325,11 @@ namespace Danburite
 				}
 			},
 			{
-				ShaderIdentifier::Name::UniformBuffer::ANIMATION,
+				ShaderIdentifier::Name::UniformBuffer::BONE,
 				{
-					ProgramType::PHONG
+					ProgramType::PHONG,
+					ProgramType::DEPTH_BAKING_2D,
+					ProgramType::DEPTH_BAKING_CUBEMAP
 				}
 			}
 		};

@@ -10,7 +10,7 @@ namespace Danburite
 {
 	BoneManager::BoneManager() :
 		__boneSetter(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::ANIMATION))
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::BONE))
 	{}
 
 	Bone &BoneManager::createBone(const mat4 &offsetMatrix)

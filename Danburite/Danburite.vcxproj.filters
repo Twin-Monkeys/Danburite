@@ -1381,7 +1381,7 @@
     <None Include="glsl\src\header\VertexAttribute_Header.glsl">
       <Filter>Library\Engine\glsl\src\header</Filter>
     </None>
-    <None Include="glsl\src\header\Animation_Header.glsl">
+    <None Include="glsl\src\header\Bone_Header.glsl">
       <Filter>Library\Engine\glsl\src\header</Filter>
     </None>
   </ItemGroup>

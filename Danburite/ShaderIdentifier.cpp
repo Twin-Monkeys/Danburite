@@ -162,7 +162,7 @@ namespace Danburite
 					DEPTH_BAKING_2D			= "UBDepthBaking2D",
 					DEPTH_BAKING_CUBEMAP	= "UBDepthBakingCubemap",
 					HDR						= "UBHDR",
-					ANIMATION				= "UBAnimation"
+					BONE					= "UBBone"
 					;
 			}
 		}
@@ -216,8 +216,8 @@ namespace Danburite
 							Value::UniformBlockBindingPoint::HDR
 						},
 						{
-							Name::UniformBuffer::ANIMATION,
-							Value::UniformBlockBindingPoint::ANIMATION
+							Name::UniformBuffer::BONE,
+							Value::UniformBlockBindingPoint::BONE
 						}
 					};
 

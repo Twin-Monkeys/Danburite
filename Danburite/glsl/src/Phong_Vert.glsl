@@ -9,7 +9,7 @@
 
 #include "header/ModelCamera_Header.glsl"
 #include "header/Material_Header.glsl"
-#include "header/Animation_Header.glsl"
+#include "header/Bone_Header.glsl"
 
 void main()
 {
@@ -18,7 +18,7 @@ void main()
 	vec3 localPos = VertexAttribute_pos;
 
 	if (Material_isVertexBoneEnabled())
-		localPos = Animation_getAnimatedPosition(localPos, VertexAttribute_boneIndices, VertexAttribute_boneWeights);
+		localPos = Bone_getBonedPosition(localPos, VertexAttribute_boneIndices, VertexAttribute_boneWeights);
 
 	gl_Position = ModelCamera_getNDCPosition(VertexAttribute_modelMat, localPos);
 } 
