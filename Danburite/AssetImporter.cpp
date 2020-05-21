@@ -446,10 +446,7 @@ namespace Danburite
 
 				// convert sec to ms
 				const float playTime = (1000.f * (float(pAiAnim->mDuration) / ticksPerSec));
-
-				const aiString &animName = pAiAnim->mName;
-
-				Animation &animation = pAnimationManager->createAnimation(playTime, animName.C_Str());
+				Animation &animation = pAnimationManager->createAnimation(playTime, pAiAnim->mName.C_Str());
 
 				for (unsigned nodeAnimIter = 0U; nodeAnimIter < pAiAnim->mNumChannels; nodeAnimIter++)
 				{
