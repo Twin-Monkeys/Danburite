@@ -14,6 +14,6 @@ namespace Danburite
 
 	void Bone::calcBoneMatrix(const mat4 &nodeAnimMatrix, mat4 &retVal) const noexcept
 	{
-		retVal = (__offsetMat * nodeAnimMatrix * __hierarchyInvMat);
+		retVal = (__hierarchyInvMat * nodeAnimMatrix * __offsetMat);
 	}
 }
