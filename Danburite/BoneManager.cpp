@@ -13,15 +13,15 @@ namespace Danburite
 			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::BONE))
 	{}
 
-	Bone &BoneManager::createBone(const mat4 &offsetMatrix)
+	Bone &BoneManager::createBone(const string &name, const mat4 &offsetMatrix)
 	{
 		const GLuint boneID = GLuint(__boneMatrices.size());
-		__boneMatrices.emplace_back();
+		__boneMatrices.emplace_back(mat4 { 1.f });
 
 		if (boneID >= Constant::Animation::MAX_NUM_BONES)
 			throw BoneException("the number of bones cannot be greater than MAX_NUM_BONES.");
 
-		return *__bones.emplace_back(make_unique<Bone>(boneID, offsetMatrix, __boneMatrices));
+		return *__bones.emplace_back(make_unique<Bone>(boneID, name, offsetMatrix));
 	}
 
 	Bone &BoneManager::getBone(const GLuint id) noexcept
@@ -39,10 +39,21 @@ namespace Danburite
 		return GLuint(__bones.size());
 	}
 
-	void BoneManager::updateMatrics(const mat4 &nodeMatrix) noexcept
+	void BoneManager::updateBones(const Animation &animation) noexcept
 	{
 		for (const unique_ptr<Bone> &pBone : __bones)
-			pBone->updateMatrix(nodeMatrix);
+		{
+			const string &nodeName = pBone->getName();
+			const AnimationNode *const pAnimNode = animation.getNode(nodeName);
+
+			const mat4 *pNodeMat;
+			if (pAnimNode)
+				pNodeMat = &(pAnimNode->getNodeMatrix());
+			else
+				pNodeMat = &(Constant::Common::IDENTITY_MATRIX);
+
+			pBone->calcBoneMatrix(*pNodeMat, __boneMatrices[pBone->ID]);
+		}
 	}
 
 	void BoneManager::selfDeploy() const noexcept

@@ -27,8 +27,10 @@ namespace Danburite
 		AnimationNode *getNode(const std::string &nodeName) noexcept;
 		const AnimationNode *getNode(const std::string &nodeName) const noexcept;
 
-		Animation &setTimestamp(const float timestamp) noexcept;
-		Animation &adjustTimestamp(const float deltaTime) noexcept;
+		constexpr Animation &setTimestamp(const float timestamp) noexcept;
+		constexpr Animation &adjustTimestamp(const float deltaTime) noexcept;
+
+		void updateNodes() noexcept;
 	};
 
 	constexpr float Animation::getPlayTime() const noexcept
@@ -39,5 +41,16 @@ namespace Danburite
 	constexpr const std::string &Animation::getName() const noexcept
 	{
 		return __name;
+	}
+
+	constexpr Animation &Animation::setTimestamp(const float timestamp) noexcept
+	{
+		__timestamp = timestamp;
+		return *this;
+	}
+
+	constexpr Animation &Animation::adjustTimestamp(const float deltaTime) noexcept
+	{
+		return setTimestamp(__timestamp + deltaTime);
 	}
 }

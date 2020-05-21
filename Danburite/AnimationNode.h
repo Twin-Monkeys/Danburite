@@ -14,8 +14,7 @@ namespace Danburite
 		TransformTimeline __timeline;
 		const float &__timestamp;
 
-		Transform __currentTransform;
-		glm::mat4 __nodeMat { 1.f };
+		Transform __nodeTransform;
 
 		void __updateTransform() noexcept;
 
@@ -26,8 +25,6 @@ namespace Danburite
 		constexpr const TransformTimeline &getTimeline() const noexcept;
 
 		AnimationNode &updateMatrix() noexcept;
-		AnimationNode &updateMatrix(const glm::mat4 &parentMatrix) noexcept;
-
 		constexpr const glm::mat4 &getNodeMatrix() const noexcept;
 	};
 
@@ -47,6 +44,6 @@ namespace Danburite
 
 	constexpr const glm::mat4 &AnimationNode::getNodeMatrix() const noexcept
 	{
-		return __nodeMat;
+		return __nodeTransform.getModelMatrix();
 	}
 }

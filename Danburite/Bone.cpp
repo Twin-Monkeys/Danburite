@@ -2,21 +2,16 @@
 
 using namespace std;
 using namespace glm;
+using namespace ObjectGL;
 
 namespace Danburite
 {
-	Bone::Bone(const GLuint id, const mat4 &offsetMatrix, vector<mat4> &boneMatricesRef) noexcept :
-		Object(id), __offsetMat(offsetMatrix), __offsetInvMat(inverse(offsetMatrix)),
-		__boneMatrices(boneMatricesRef)
+	Bone::Bone(const GLuint id, const string &name, const mat4 &offsetMatrix) noexcept :
+		Object(id), __name(name), __offsetMat(offsetMatrix), __offsetInvMat(inverse(offsetMatrix))
 	{}
 
-	void Bone::__setboneMatrix(const mat4 &boneMatrix) const noexcept
+	void Bone::calcBoneMatrix(const mat4 &nodeMatrix, mat4 &retVal) const noexcept
 	{
-		__boneMatrices[ID] = boneMatrix;
-	}
-
-	void Bone::updateMatrix(const mat4 &nodeMatrix) noexcept
-	{
-		__setboneMatrix(__offsetMat * nodeMatrix * __offsetInvMat);
+		retVal = (__offsetMat * nodeMatrix * __offsetInvMat);
 	}
 }

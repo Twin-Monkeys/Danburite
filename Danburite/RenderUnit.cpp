@@ -37,25 +37,17 @@ namespace Danburite
 		__meshes.swap(meshes);
 	}
 
-	void RenderUnit::__updateHierarchical_withAnim(const mat4 &parentNodeMatrix, const vector<mat4> &parentModelMatrices)
+	void RenderUnit::__updateHierarchical_withAnim(const vector<mat4> &parentModelMatrices)
 	{
 		__pModelMatrixBuffer->updateMatrix(parentModelMatrices);
 		const vector<mat4> &modelMatrices = __pModelMatrixBuffer->getModelMatrices();
 
-		Animation &anim = *(__pAnimManager->getActiveAnimation());
-
-		const mat4 *pNodeMatrix;
-		AnimationNode *const pAnimNode = anim.getNode(__name);
-
-		if (!pAnimNode)
-			pNodeMatrix = &parentNodeMatrix;
-		else
-			pNodeMatrix = &(pAnimNode->updateMatrix(parentNodeMatrix).getNodeMatrix());
+		Animation &animation = *(__pAnimManager->getActiveAnimation());
 
 		for (const unique_ptr<Mesh> &pMesh : __meshes)
-			pMesh->updateBones(*pNodeMatrix);
+			pMesh->updateBones(animation);
 
-		__children.safeTraverse(&RenderUnit::__updateHierarchical_withAnim, *pNodeMatrix, modelMatrices);
+		__children.safeTraverse(&RenderUnit::__updateHierarchical_withAnim, modelMatrices);
 	}
 
 	void RenderUnit::__updateHierarchical_withoutAnim(const vector<mat4> &parentModelMatrices)
@@ -95,20 +87,12 @@ namespace Danburite
 			return;
 		}
 
-		pAnim->adjustTimestamp(deltaTime);
-
-		const mat4 *pNodeMatrix;
-		AnimationNode *const pAnimNode = pAnim->getNode(__name);
-
-		if (!pAnimNode)
-			pNodeMatrix = &Constant::Common::IDENTITY_MATRIX;
-		else
-			pNodeMatrix = &(pAnimNode->updateMatrix().getNodeMatrix());
+		pAnim->adjustTimestamp(deltaTime).updateNodes();
 
 		for (const unique_ptr<Mesh> &pMesh : __meshes)
-			pMesh->updateBones(*pNodeMatrix);
+			pMesh->updateBones(*pAnim);
 
-		__children.safeTraverse(&RenderUnit::__updateHierarchical_withAnim, *pNodeMatrix, modelMatrices);
+		__children.safeTraverse(&RenderUnit::__updateHierarchical_withAnim, modelMatrices);
 	}
 
 	void RenderUnit::draw() noexcept

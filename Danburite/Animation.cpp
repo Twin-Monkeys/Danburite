@@ -32,14 +32,11 @@ namespace Danburite
 		return &resultIt->second;
 	}
 
-	Animation &Animation::setTimestamp(const float timestamp) noexcept
+	void Animation::updateNodes() noexcept
 	{
-		__timestamp = fmod(timestamp, __playTime);
-		return *this;
-	}
+		__timestamp = fmod(__timestamp, __playTime);
 
-	Animation &Animation::adjustTimestamp(const float deltaTime) noexcept
-	{
-		return setTimestamp(__timestamp + deltaTime);
+		for (auto &[_, node] : __nodeMap)
+			node.updateMatrix();
 	}
 }

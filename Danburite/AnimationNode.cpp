@@ -9,26 +9,16 @@ namespace Danburite
 	{
 		const auto &[position, rotation, scale] = __timeline.sample(__timestamp);
 
-		__currentTransform.setPosition(position);
-		__currentTransform.setRotation(rotation);
-		__currentTransform.setScale(scale);
+		__nodeTransform.setPosition(position);
+		__nodeTransform.setRotation(rotation);
+		__nodeTransform.setScale(scale);
 	}
 
 	AnimationNode &AnimationNode::updateMatrix() noexcept
 	{
 		__updateTransform();
-		__currentTransform.updateMatrix();
+		__nodeTransform.updateMatrix();
 
-		__nodeMat = __currentTransform.getModelMatrix();
-		return *this;
-	}
-
-	AnimationNode &AnimationNode::updateMatrix(const mat4 &parentMatrix) noexcept
-	{
-		__updateTransform();
-		__currentTransform.updateMatrix();
-
-		__nodeMat = (parentMatrix * __currentTransform.getModelMatrix());
 		return *this;
 	}
 }
