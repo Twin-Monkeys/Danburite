@@ -12,7 +12,7 @@ namespace Danburite
 		const std::string __name;
 
 		const glm::mat4 __offsetMat;
-		const glm::mat4 __hierarchyInvMat;
+		const glm::mat4 __hierarchyMat;
 
 	public:
 		Bone(const GLuint id, const std::string &name, const glm::mat4 &offsetMatrix, const glm::mat4 &hierarchyMatrix) noexcept;

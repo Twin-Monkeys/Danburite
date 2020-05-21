@@ -206,9 +206,7 @@ namespace Danburite
 			for (unsigned vertexIter = 0; vertexIter < pAiMesh->mNumVertices; vertexIter++)
 			{
 				const aiVector3D &aiPos = pAiMesh->mVertices[vertexIter];
-				const vec3 &pos = vec3 { modelMatrix * (vec4 {aiPos.x, aiPos.y, aiPos.z, 1.f}) };
-
-				vertices.insert(vertices.end(), { pos.x, pos.y, pos.z });
+				vertices.insert(vertices.end(), { aiPos.x, aiPos.y, aiPos.z });
 
 				if (vertexFlag & VertexAttributeFlag::COLOR)
 				{
@@ -219,9 +217,7 @@ namespace Danburite
 				if (vertexFlag & VertexAttributeFlag::NORMAL)
 				{
 					const aiVector3D &aiNormal = pAiMesh->mNormals[vertexIter];
-					const vec3 &normal = (normalMatrix * (vec3 { aiNormal.x, aiNormal.y, aiNormal.z }));
-
-					vertices.insert(vertices.end(), { normal.x, normal.y, normal.z });
+					vertices.insert(vertices.end(), { aiNormal.x, aiNormal.y, aiNormal.z });
 				}
 
 				if (vertexFlag & VertexAttributeFlag::TEXCOORD)
@@ -233,8 +229,7 @@ namespace Danburite
 				if (vertexFlag & VertexAttributeFlag::TANGENT)
 				{
 					const aiVector3D &aiTangent = pAiMesh->mTangents[vertexIter];
-					const vec3 &tangent = (normalMatrix * (vec3 { aiTangent.x, aiTangent.y, aiTangent.z }));
-					vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
+					vertices.insert(vertices.end(), { aiTangent.x, aiTangent.y, aiTangent.z });
 				}
 
 				if (vertexFlag & VertexAttributeFlag::BONE)

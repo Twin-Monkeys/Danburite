@@ -81,7 +81,7 @@ HDRTestScene::HDRTestScene()
 
 	__pDoorRU = AssetImporter::import("res/asset/scifi_door/scene.gltf", glm::rotate(half_pi<float>(), vec3 { 1.f, 0.f, 0.f }));
 	Transform &doorTransform = __pDoorRU->getTransform();
-	doorTransform.setScale(10.f);
+	doorTransform.setScale(.1f);
 	doorTransform.setPosition(0.f, 0.f, -35.f);
 	__pDoorRU->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 
