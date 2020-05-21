@@ -397,7 +397,7 @@ namespace Danburite
 			}
 				break;
 			}
-			
+
 			unique_ptr<Mesh> pMesh = make_unique<Mesh>(pVertexArray, pMaterial, move(pBoneManager));
 			meshes.emplace(move(pMesh));
 		}
@@ -459,9 +459,11 @@ namespace Danburite
 				for (unsigned nodeAnimIter = 0U; nodeAnimIter < pAiAnim->mNumChannels; nodeAnimIter++)
 				{
 					const aiNodeAnim *const pAiAnimNode = pAiAnim->mChannels[nodeAnimIter];
-					const aiString &nodeName = pAiAnimNode->mNodeName;
 
-					AnimationNode &animNode = animation.createNode(nodeName.C_Str());
+					// mNodeNameÀº bone nameÀÓ
+					const aiString &boneName = pAiAnimNode->mNodeName;
+
+					AnimationNode &animNode = animation.createNode(boneName.C_Str());
 					TransformTimeline &timeline = animNode.getTimeline();
 
 					switch (pAiAnimNode->mPreState)
@@ -576,7 +578,7 @@ namespace Danburite
 			You¡¯d have to concatenate the transformations from the referring node and all of its parents.
 		*/
 		// <parent(RenderUnit), parent matrix(mat4), child(aiNode)> tuple stack
-		stack<tuple<shared_ptr<RenderUnit>, mat4, aiNode *>> nodeStack;
+		stack<tuple<const shared_ptr<RenderUnit>, mat4, const aiNode *>> nodeStack;
 		nodeStack.emplace(nullptr, transformation, pScene->mRootNode);
 
 		shared_ptr<RenderUnit> retVal = nullptr;
@@ -586,7 +588,7 @@ namespace Danburite
 			nodeStack.pop();
 
 			mat4 localTransMat;
-			aiMatrix4x4 &aiLocalTransMat = pCurrentNode->mTransformation;
+			aiMatrix4x4 aiLocalTransMat = pCurrentNode->mTransformation;
 			memcpy(&localTransMat, &aiLocalTransMat.Transpose(), sizeof(mat4));
 
 			transMat *= localTransMat;
@@ -598,7 +600,10 @@ namespace Danburite
 				textureCache, pAnimationManager);
 
 			if (!pParent)
+			{
+				assert(!retVal);
 				retVal = pParsedCurrent;
+			}
 			else
 				pParent->getChildren().add(pParsedCurrent);
 
