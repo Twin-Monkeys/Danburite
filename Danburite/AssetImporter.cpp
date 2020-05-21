@@ -189,7 +189,7 @@ namespace Danburite
 					aiMatrix4x4 aiOffsetMat = pBone->mOffsetMatrix;
 					memcpy(&offsetMat, &aiOffsetMat.Transpose(), sizeof(mat4));
 
-					Bone &bone = pBoneManager->createBone(pBone->mName.C_Str(), offsetMat);
+					Bone &bone = pBoneManager->createBone(pBone->mName.C_Str(), offsetMat, modelMatrix);
 
 					for (unsigned weightIter = 0U; weightIter < pBone->mNumWeights; weightIter++)
 					{
