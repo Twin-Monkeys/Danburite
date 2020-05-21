@@ -9,34 +9,43 @@ namespace Danburite
 		Object(id), __playTime(playTime), __name(name)
 	{}
 
-	AnimationNode &Animation::createNode(const string &nodeName) noexcept
+	Bone &Animation::createBone(const string &name) noexcept
 	{
-		return __nodeMap.emplace(nodeName, __timestamp).first->second;
+		return __boneMap.emplace(name, Bone { name, __timestamp }).first->second;
 	}
 
-	AnimationNode *Animation::getNode(const string &nodeName) noexcept
+	Bone *Animation::getBone(const string &name) noexcept
 	{
-		auto resultIt = __nodeMap.find(nodeName);
-		if (resultIt == __nodeMap.end())
+		auto resultIt = __boneMap.find(name);
+		if (resultIt == __boneMap.end())
 			return nullptr;
 
 		return &resultIt->second;
 	}
 
-	const AnimationNode *Animation::getNode(const string &nodeName) const noexcept
+	const Bone *Animation::getBone(const string &name) const noexcept
 	{
-		auto resultIt = __nodeMap.find(nodeName);
-		if (resultIt == __nodeMap.end())
+		auto resultIt = __boneMap.find(name);
+		if (resultIt == __boneMap.end())
 			return nullptr;
 
 		return &resultIt->second;
 	}
 
-	void Animation::updateNodes() noexcept
+	Animation& Animation::setTimestamp(const float timestamp) noexcept
 	{
-		__timestamp = fmod(__timestamp, __playTime);
+		__timestamp = fmod(timestamp, __playTime);
+		return *this;
+	}
 
-		for (auto &[_, node] : __nodeMap)
-			node.updateMatrix();
+	Animation& Animation::adjustTimestamp(const float deltaTime) noexcept
+	{
+		return setTimestamp(__timestamp + deltaTime);
+	}
+
+	void Animation::updateBones() noexcept
+	{
+		if (__pRootBone)
+			__pRootBone->updateMatrix();
 	}
 }

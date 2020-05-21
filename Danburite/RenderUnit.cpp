@@ -87,7 +87,7 @@ namespace Danburite
 			return;
 		}
 
-		pAnim->adjustTimestamp(deltaTime).updateNodes();
+		pAnim->adjustTimestamp(deltaTime).updateBones();
 
 		for (const unique_ptr<Mesh> &pMesh : __meshes)
 			pMesh->updateBones(*pAnim);

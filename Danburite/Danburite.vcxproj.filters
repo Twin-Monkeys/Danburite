@@ -687,13 +687,7 @@
     <ClCompile Include="TransformComponent.cpp">
       <Filter>Library\Engine\Core\Transform</Filter>
     </ClCompile>
-    <ClCompile Include="Bone.cpp">
-      <Filter>Library\Engine\Core\Animation\Bone</Filter>
-    </ClCompile>
     <ClCompile Include="BoneException.cpp">
-      <Filter>Library\Engine\Core\Animation\Bone</Filter>
-    </ClCompile>
-    <ClCompile Include="BoneManager.cpp">
       <Filter>Library\Engine\Core\Animation\Bone</Filter>
     </ClCompile>
     <ClCompile Include="TransformTimeline.cpp">
@@ -705,7 +699,13 @@
     <ClCompile Include="AnimationManager.cpp">
       <Filter>Library\Engine\Core\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationNode.cpp">
+    <ClCompile Include="BoneOffset.cpp">
+      <Filter>Library\Engine\Core\Animation\Bone</Filter>
+    </ClCompile>
+    <ClCompile Include="BoneOffsetManager.cpp">
+      <Filter>Library\Engine\Core\Animation\Bone</Filter>
+    </ClCompile>
+    <ClCompile Include="Bone.cpp">
       <Filter>Library\Engine\Core\Animation</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1202,13 +1202,7 @@
     <ClInclude Include="TransformComponent.h">
       <Filter>Library\Engine\Core\Transform</Filter>
     </ClInclude>
-    <ClInclude Include="Bone.h">
-      <Filter>Library\Engine\Core\Animation\Bone</Filter>
-    </ClInclude>
     <ClInclude Include="BoneException.h">
-      <Filter>Library\Engine\Core\Animation\Bone</Filter>
-    </ClInclude>
-    <ClInclude Include="BoneManager.h">
       <Filter>Library\Engine\Core\Animation\Bone</Filter>
     </ClInclude>
     <ClInclude Include="Timeline.h">
@@ -1226,11 +1220,17 @@
     <ClInclude Include="AnimationManager.h">
       <Filter>Library\Engine\Core\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationNode.h">
-      <Filter>Library\Engine\Core\Animation</Filter>
-    </ClInclude>
     <ClInclude Include="Lerp.h">
       <Filter>Library\Engine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="BoneOffset.h">
+      <Filter>Library\Engine\Core\Animation\Bone</Filter>
+    </ClInclude>
+    <ClInclude Include="BoneOffsetManager.h">
+      <Filter>Library\Engine\Core\Animation\Bone</Filter>
+    </ClInclude>
+    <ClInclude Include="Bone.h">
+      <Filter>Library\Engine\Core\Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

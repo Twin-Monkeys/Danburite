@@ -79,7 +79,7 @@ HDRTestScene::HDRTestScene()
 	pulseCoreTransform.setPosition(18.f, 0.f, 0.f);
 	__pPulseCoreRU->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 
-	__pDoorRU = AssetImporter::import("res/asset/scifi_door/scene.gltf", glm::rotate(half_pi<float>(), vec3 { 1.f, 0.f, 0.f }));
+	__pDoorRU = AssetImporter::import("res/asset/scifi_door/scene.gltf");
 	Transform &doorTransform = __pDoorRU->getTransform();
 	doorTransform.setScale(.1f);
 	doorTransform.setPosition(0.f, 0.f, -35.f);
@@ -92,7 +92,7 @@ HDRTestScene::HDRTestScene()
 
 	__pGirlRU = AssetImporter::import("res/asset/nuclear_hammer_girl/scene.gltf");
 	Transform &girlTransform = __pGirlRU->getTransform();
-	girlTransform.setScale(2.f);
+	girlTransform.setScale(7.f);
 	girlTransform.setPosition(10.f, 0.f, 15.f);
 
 	//// 朝五虞 持失 ////

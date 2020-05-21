@@ -1,29 +1,60 @@
 #pragma once
 
-#include <string>
-#include <glm/glm.hpp>
-#include "Object.h"
+#include "TransformTimeline.h"
+#include "Transform.h"
+#include <unordered_set>
+#include "Constant.h"
 
 namespace Danburite
 {
-	class Bone : public ObjectGL::Object<GLuint>
+	class Bone
 	{
 	private:
 		const std::string __name;
 
-		const glm::mat4 __offsetMat;
-		const glm::mat4 __hierarchyMat;
+		TransformTimeline __timeline;
+		const float &__timestamp;
+
+		Transform __boneTransform;
+		glm::mat4 __boneMat { 1.f };
+
+		std::unordered_set<Bone *> __children;
+
+		void __updateTransform() noexcept;
 
 	public:
-		Bone(const GLuint id, const std::string &name, const glm::mat4 &offsetMatrix, const glm::mat4 &hierarchyMatrix) noexcept;
+		Bone(const std::string &name, const float &timestampReference) noexcept;
 
 		constexpr const std::string &getName() const noexcept;
 
-		void calcBoneMatrix(const glm::mat4 &nodeAnimMatrix, glm::mat4 &retVal) const noexcept;
+		constexpr TransformTimeline &getTimeline() noexcept;
+		constexpr const TransformTimeline &getTimeline() const noexcept;
+
+		Bone &updateMatrix() noexcept;
+		Bone &updateMatrix(const glm::mat4 &parentNodeMatrix) noexcept;
+
+		constexpr const glm::mat4 &getBoneMatrix() const noexcept;
+
+		Bone &addChild(Bone *const pChild) noexcept;
 	};
 
 	constexpr const std::string &Bone::getName() const noexcept
 	{
 		return __name;
+	}
+
+	constexpr TransformTimeline &Bone::getTimeline() noexcept
+	{
+		return __timeline;
+	}
+
+	constexpr const TransformTimeline &Bone::getTimeline() const noexcept
+	{
+		return __timeline;
+	}
+
+	constexpr const glm::mat4 &Bone::getBoneMatrix() const noexcept
+	{
+		return __boneMat;
 	}
 }

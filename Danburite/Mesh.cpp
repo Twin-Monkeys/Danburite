@@ -9,8 +9,8 @@ namespace Danburite
 	Mesh::Mesh(
 		const shared_ptr<VertexArray> &pVertexArray,
 		const shared_ptr<Material> &pMaterial,
-		std::unique_ptr<BoneManager> pBoneManager) noexcept :
-		__pVertexArray(pVertexArray), __pMaterial(pMaterial), __pBoneMgr(move(pBoneManager))
+		std::unique_ptr<BoneOffsetManager> pBoneOffsetManager) noexcept :
+		__pVertexArray(pVertexArray), __pMaterial(pMaterial), __pBoneOffsetMgr(move(pBoneOffsetManager))
 	{}
 
 	void Mesh::setMaterial(const shared_ptr<Material> &pMaterial) noexcept
@@ -25,7 +25,7 @@ namespace Danburite
 
 	void Mesh::updateBones(const Animation &animation) noexcept
 	{
-		__pBoneMgr->updateBones(animation);
+		__pBoneOffsetMgr->updateBones(animation);
 	}
 
 	void Mesh::draw(const GLsizei numInstances) noexcept
@@ -36,7 +36,7 @@ namespace Danburite
 			return;
 		}
 
-		__pBoneMgr->selfDeploy();
+		__pBoneOffsetMgr->selfDeploy();
 		__pMaterial->render(*__pVertexArray, numInstances);
 	}
 
@@ -48,7 +48,7 @@ namespace Danburite
 			return;
 		}
 
-		__pBoneMgr->selfDeploy();
+		__pBoneOffsetMgr->selfDeploy();
 		__pMaterial->rawDrawcall(*__pVertexArray, numInstances);
 	}
 }

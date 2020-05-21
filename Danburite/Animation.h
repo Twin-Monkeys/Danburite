@@ -1,7 +1,7 @@
 #pragma once
 
 #include <unordered_map>
-#include "AnimationNode.h"
+#include "Bone.h"
 #include "Object.h"
 
 namespace Danburite
@@ -14,7 +14,8 @@ namespace Danburite
 
 		const std::string __name;
 
-		std::unordered_map<std::string, AnimationNode> __nodeMap;
+		std::unordered_map<std::string, Bone> __boneMap;
+		Bone *__pRootBone = nullptr;
 
 	public:
 		Animation(const size_t id, const float playTime, const std::string &name = "") noexcept;
@@ -22,15 +23,20 @@ namespace Danburite
 		constexpr float getPlayTime() const noexcept;
 		constexpr const std::string &getName() const noexcept;
 
-		AnimationNode &createNode(const std::string &nodeName) noexcept;
+		Bone &createBone(const std::string &name) noexcept;
 
-		AnimationNode *getNode(const std::string &nodeName) noexcept;
-		const AnimationNode *getNode(const std::string &nodeName) const noexcept;
+		Bone *getBone(const std::string &name) noexcept;
+		const Bone *getBone(const std::string &name) const noexcept;
 
-		constexpr Animation &setTimestamp(const float timestamp) noexcept;
-		constexpr Animation &adjustTimestamp(const float deltaTime) noexcept;
+		constexpr Bone *getRootBone() noexcept;
+		constexpr const Bone *getRootBone() const noexcept;
 
-		void updateNodes() noexcept;
+		constexpr void setRootBone(Bone *const pBone) noexcept;
+
+		void updateBones() noexcept;
+
+		Animation &setTimestamp(const float timestamp) noexcept;
+		Animation &adjustTimestamp(const float deltaTime) noexcept;
 	};
 
 	constexpr float Animation::getPlayTime() const noexcept
@@ -43,14 +49,18 @@ namespace Danburite
 		return __name;
 	}
 
-	constexpr Animation &Animation::setTimestamp(const float timestamp) noexcept
+	constexpr Bone *Animation::getRootBone() noexcept
 	{
-		__timestamp = timestamp;
-		return *this;
+		return __pRootBone;
 	}
 
-	constexpr Animation &Animation::adjustTimestamp(const float deltaTime) noexcept
+	constexpr const Bone *Animation::getRootBone() const noexcept
 	{
-		return setTimestamp(__timestamp + deltaTime);
+		return __pRootBone;
+	}
+
+	constexpr void Animation::setRootBone(Bone *const pBone) noexcept
+	{
+		__pRootBone = pBone;
 	}
 }

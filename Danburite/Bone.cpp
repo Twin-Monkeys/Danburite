@@ -2,18 +2,49 @@
 
 using namespace std;
 using namespace glm;
-using namespace ObjectGL;
 
 namespace Danburite
 {
-	Bone::Bone(
-		const GLuint id, const string &name,
-		const mat4 &offsetMatrix, const glm::mat4 &hierarchyMatrix) noexcept :
-		Object(id), __name(name), __offsetMat(offsetMatrix), __hierarchyMat((hierarchyMatrix))
+	Bone::Bone(const string &name, const float &timestampReference) noexcept :
+		__name(name), __timestamp(timestampReference)
 	{}
 
-	void Bone::calcBoneMatrix(const mat4 &nodeAnimMatrix, mat4 &retVal) const noexcept
+	void Bone::__updateTransform() noexcept
 	{
-		retVal = (__hierarchyMat * nodeAnimMatrix * __offsetMat);
+		const auto &[position, rotation, scale] = __timeline.sample(__timestamp);
+
+		__boneTransform.setPosition(position);
+		__boneTransform.setRotation(rotation);
+		__boneTransform.setScale(scale);
+	}
+
+	Bone &Bone::updateMatrix() noexcept
+	{
+		__updateTransform();
+		__boneTransform.updateMatrix();
+		__boneMat = __boneTransform.getModelMatrix();
+
+		for (Bone *const pChild : __children)
+			pChild->updateMatrix(__boneMat);
+
+		return *this;
+	}
+
+	Bone &Bone::updateMatrix(const mat4 &parentBoneMatrix) noexcept
+	{
+		__updateTransform();
+		__boneTransform.updateMatrix();
+		__boneMat = (parentBoneMatrix * __boneTransform.getModelMatrix());
+
+		for (Bone *const pChild : __children)
+			pChild->updateMatrix(__boneMat);
+
+		return *this;
+	}
+
+	Bone &Bone::addChild(Bone *const pChild) noexcept
+	{
+		__children.emplace(pChild);
+		return *this;
 	}
 }

@@ -16,7 +16,7 @@
 #include <array>
 #include "Animation.h"
 #include "AnimationManager.h"
-#include "BoneManager.h"
+#include "BoneOffsetManager.h"
 
 using namespace std;
 using namespace filesystem;
@@ -121,11 +121,34 @@ namespace Danburite
 		const shared_ptr<AnimationManager> &pAnimationManager)
 	{
 		RenderUnitManager &renderingUnitMgr = RenderUnitManager::getInstance();
+
+		// 모든 애니메이션의 bone hierarchy는 동일할 것이므로 아무거나 사용하여도 무방
+		Animation *const pAnimation = pAnimationManager->getActiveAnimation();
+		if (pAnimation)
+		{
+			Bone *const pBone = pAnimation->getBone(pNode->mName.C_Str());
+			if (pBone)
+			{
+				const aiNode* pParentNode = pNode->mParent;
+				while (pParentNode)
+				{
+					Bone* const pParentBone = pAnimation->getBone(pParentNode->mName.C_Str());
+					if (pParentBone)
+					{
+						pParentBone->addChild(pBone);
+						break;
+					}
+
+					pParentNode = pParentNode->mParent;
+				}
+
+				if (!pParentNode)
+					pAnimation->setRootBone(pBone);
+			}
+		}
+
 		const aiMesh *const *const pAiMeshes = pScene->mMeshes;
 		const aiMaterial *const *const pAiMaterials = pScene->mMaterials;
-
-		// <bone name, bone idx> map
-		unordered_map<string_view, unsigned> boneIdxMap;
 
 		unordered_set<unique_ptr<Mesh>> meshes;
 		for (unsigned meshIter = 0U; meshIter < pNode->mNumMeshes; meshIter++)
@@ -152,7 +175,7 @@ namespace Danburite
 				assert(false);
 			}
 
-			std::unique_ptr<BoneManager> pBoneManager = make_unique<BoneManager>();
+			std::unique_ptr<BoneOffsetManager> pBoneOffsetManager = make_unique<BoneOffsetManager>();
 
 			// vertex id, bone infomation per vertex (bone idx, bone weight)
 			unordered_map<unsigned, vector<pair<unsigned, float>>> vertexBoneInfoMap;
@@ -189,7 +212,8 @@ namespace Danburite
 					aiMatrix4x4 aiOffsetMat = pBone->mOffsetMatrix;
 					memcpy(&offsetMat, &aiOffsetMat.Transpose(), sizeof(mat4));
 
-					Bone &bone = pBoneManager->createBone(pBone->mName.C_Str(), offsetMat, modelMatrix);
+					// bone 이름과 동일한 이름을 가진 node가 있다. 그 node들의 hierarchy에 따라 bone도 update.
+					BoneOffset &boneOffset = pBoneOffsetManager->createBoneOffset(pBone->mName.C_Str(), offsetMat, modelMatrix);
 
 					for (unsigned weightIter = 0U; weightIter < pBone->mNumWeights; weightIter++)
 					{
@@ -197,7 +221,7 @@ namespace Danburite
 						vector<pair<unsigned, float>> &bonesPerVertex = vertexBoneInfoMap[vertexWeight.mVertexId];
 
 						if (vertexWeight.mWeight > epsilon<float>())
-							bonesPerVertex.emplace_back(bone.ID, vertexWeight.mWeight);
+							bonesPerVertex.emplace_back(boneOffset.ID, vertexWeight.mWeight);
 					}
 				}
 			}
@@ -393,14 +417,15 @@ namespace Danburite
 				break;
 			}
 
-			unique_ptr<Mesh> pMesh = make_unique<Mesh>(pVertexArray, pMaterial, move(pBoneManager));
+			unique_ptr<Mesh> pMesh = make_unique<Mesh>(pVertexArray, pMaterial, move(pBoneOffsetManager));
 			meshes.emplace(move(pMesh));
 		}
 
 		return renderingUnitMgr.createRenderUnit(move(meshes), pAnimationManager, pNode->mName.C_Str());
 	}
 
-	shared_ptr<RenderUnit> AssetImporter::import(const string_view &assetPath, const mat4 &transformation, const MaterialType materialType)
+	shared_ptr<RenderUnit> AssetImporter::import(
+		const string_view &assetPath, const mat4 &transformation, const MaterialType materialType)
 	{
 		/*
 			The importer manages all the resources for itsself.
@@ -432,6 +457,7 @@ namespace Danburite
 		if (!pScene->mRootNode)
 			return nullptr;
 
+
 		const shared_ptr<AnimationManager> &pAnimationManager = make_shared<AnimationManager>();
 
 		if (pScene->HasAnimations())
@@ -455,7 +481,7 @@ namespace Danburite
 					// mNodeName은 bone name임
 					const aiString &boneName = pAiAnimNode->mNodeName;
 
-					AnimationNode &animNode = animation.createNode(boneName.C_Str());
+					Bone &animNode = animation.createBone(boneName.C_Str());
 					TransformTimeline &timeline = animNode.getTimeline();
 
 					switch (pAiAnimNode->mPreState)
@@ -601,6 +627,15 @@ namespace Danburite
 
 			for (unsigned i = 0; i < pCurrentNode->mNumChildren; i++)
 				nodeStack.emplace(pParsedCurrent, transMat, pCurrentNode->mChildren[i]);
+		}
+
+		const size_t numAnims = pAnimationManager->getNumAnimations();
+		for (size_t animIter = 0ULL; animIter < numAnims; animIter++)
+		{
+			Animation &activeAnim = *(pAnimationManager->getActiveAnimation());
+			Animation &curAnim = pAnimationManager->getAnimation(animIter);
+
+			curAnim.setRootBone(activeAnim.getRootBone());
 		}
 
 		return retVal;
