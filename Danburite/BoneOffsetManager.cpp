@@ -39,7 +39,7 @@ namespace Danburite
 		return GLuint(__boneOffsets.size());
 	}
 
-	void BoneOffsetManager::updateBones(const Animation &animation) noexcept
+	void BoneOffsetManager::updateMatrices(const Animation &animation) noexcept
 	{
 		for (const unique_ptr<BoneOffset> &pBoneOffset : __boneOffsets)
 		{
@@ -52,7 +52,7 @@ namespace Danburite
 			else
 				pBoneMat = &(Constant::Common::IDENTITY_MATRIX);
 
-			pBoneOffset->calcAnimMatrix(*pBoneMat, __boneMatrices[pBoneOffset->ID]);
+			pBoneOffset->calcMatrix(*pBoneMat, __boneMatrices[pBoneOffset->ID]);
 		}
 	}
 

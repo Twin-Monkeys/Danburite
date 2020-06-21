@@ -18,8 +18,6 @@ namespace Danburite
 		Transform __boneTransform;
 		glm::mat4 __boneMat { 1.f };
 
-		std::unordered_set<Bone *> __children;
-
 		void __updateTransform() noexcept;
 
 	public:
@@ -34,8 +32,6 @@ namespace Danburite
 		Bone &updateMatrix(const glm::mat4 &parentNodeMatrix) noexcept;
 
 		constexpr const glm::mat4 &getBoneMatrix() const noexcept;
-
-		Bone &addChild(Bone *const pChild) noexcept;
 	};
 
 	constexpr const std::string &Bone::getName() const noexcept

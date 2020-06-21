@@ -12,7 +12,7 @@ namespace Danburite
 		Object(id), __boneName(boneName), __offsetMat(offsetMatrix), __hierarchyMat((hierarchyMatrix))
 	{}
 
-	void BoneOffset::calcAnimMatrix(const mat4 &boneMatrix, mat4 &retVal) const noexcept
+	void BoneOffset::calcMatrix(const mat4 &boneMatrix, mat4 &retVal) const noexcept
 	{
 		retVal = (__hierarchyMat * boneMatrix * __offsetMat);
 	}

@@ -24,7 +24,7 @@ namespace Danburite
 
 		GLuint getNumBoneOffsets() const noexcept;
 
-		void updateBones(const Animation &animation) noexcept;
+		void updateMatrices(const Animation &animation) noexcept;
 
 		void selfDeploy() const noexcept;
 	};

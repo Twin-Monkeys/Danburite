@@ -24,9 +24,6 @@ namespace Danburite
 		__boneTransform.updateMatrix();
 		__boneMat = __boneTransform.getModelMatrix();
 
-		for (Bone *const pChild : __children)
-			pChild->updateMatrix(__boneMat);
-
 		return *this;
 	}
 
@@ -36,15 +33,6 @@ namespace Danburite
 		__boneTransform.updateMatrix();
 		__boneMat = (parentBoneMatrix * __boneTransform.getModelMatrix());
 
-		for (Bone *const pChild : __children)
-			pChild->updateMatrix(__boneMat);
-
-		return *this;
-	}
-
-	Bone &Bone::addChild(Bone *const pChild) noexcept
-	{
-		__children.emplace(pChild);
 		return *this;
 	}
 }

@@ -23,9 +23,9 @@ namespace Danburite
 		__pVertexArray->addVertexBuffer(pVertexBuffer);
 	}
 
-	void Mesh::updateBones(const Animation &animation) noexcept
+	void Mesh::updateBoneMatrices(const Animation &animation) noexcept
 	{
-		__pBoneOffsetMgr->updateBones(animation);
+		__pBoneOffsetMgr->updateMatrices(animation);
 	}
 
 	void Mesh::draw(const GLsizei numInstances) noexcept

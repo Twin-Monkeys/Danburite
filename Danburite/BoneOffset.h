@@ -21,7 +21,7 @@ namespace Danburite
 
 		constexpr const std::string &getName() const noexcept;
 
-		void calcAnimMatrix(const glm::mat4 &boneMatrix, glm::mat4 &retVal) const noexcept;
+		void calcMatrix(const glm::mat4 &boneMatrix, glm::mat4 &retVal) const noexcept;
 	};
 
 	constexpr const std::string &BoneOffset::getName() const noexcept

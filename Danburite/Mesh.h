@@ -25,7 +25,7 @@ namespace Danburite
 
 		void addVertexBuffer(const std::shared_ptr<ObjectGL::VertexBuffer> &pVertexBuffer) noexcept;
 
-		void updateBones(const Animation &animation) noexcept;
+		void updateBoneMatrices(const Animation &animation) noexcept;
 
 		void draw(const GLsizei numInstances = 1) noexcept;
 		void rawDrawcall(const GLsizei numInstances = 1) noexcept;

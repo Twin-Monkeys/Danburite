@@ -122,31 +122,6 @@ namespace Danburite
 	{
 		RenderUnitManager &renderingUnitMgr = RenderUnitManager::getInstance();
 
-		// 모든 애니메이션의 bone hierarchy는 동일할 것이므로 아무거나 사용하여도 무방
-		Animation *const pAnimation = pAnimationManager->getActiveAnimation();
-		if (pAnimation)
-		{
-			Bone *const pBone = pAnimation->getBone(pNode->mName.C_Str());
-			if (pBone)
-			{
-				const aiNode* pParentNode = pNode->mParent;
-				while (pParentNode)
-				{
-					Bone* const pParentBone = pAnimation->getBone(pParentNode->mName.C_Str());
-					if (pParentBone)
-					{
-						pParentBone->addChild(pBone);
-						break;
-					}
-
-					pParentNode = pParentNode->mParent;
-				}
-
-				if (!pParentNode)
-					pAnimation->setRootBone(pBone);
-			}
-		}
-
 		const aiMesh *const *const pAiMeshes = pScene->mMeshes;
 		const aiMaterial *const *const pAiMaterials = pScene->mMaterials;
 
@@ -634,8 +609,6 @@ namespace Danburite
 		{
 			Animation &activeAnim = *(pAnimationManager->getActiveAnimation());
 			Animation &curAnim = pAnimationManager->getAnimation(animIter);
-
-			curAnim.setRootBone(activeAnim.getRootBone());
 		}
 
 		return retVal;

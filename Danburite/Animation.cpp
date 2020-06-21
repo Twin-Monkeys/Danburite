@@ -42,10 +42,4 @@ namespace Danburite
 	{
 		return setTimestamp(__timestamp + deltaTime);
 	}
-
-	void Animation::updateBones() noexcept
-	{
-		if (__pRootBone)
-			__pRootBone->updateMatrix();
-	}
 }

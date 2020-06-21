@@ -37,15 +37,32 @@ namespace Danburite
 		__meshes.swap(meshes);
 	}
 
+	void RenderUnit::__updateBoneHierarchical(const mat4 &parentNodeMatrix) noexcept
+	{
+		Animation &anim = *(__pAnimManager->getActiveAnimation());
+
+		Bone* const pBone = anim.getBone(__name);
+		if (pBone)
+			pBone->updateMatrix(parentNodeMatrix);
+
+		const mat4 *pNodeMatrix;
+		if (pBone)
+			pNodeMatrix = &(pBone->getBoneMatrix());
+		else
+			pNodeMatrix = &parentNodeMatrix;
+
+		__children.safeTraverse(&RenderUnit::__updateBoneHierarchical, *pNodeMatrix);
+	}
+
 	void RenderUnit::__updateHierarchical_withAnim(const vector<mat4> &parentModelMatrices)
 	{
-		__pModelMatrixBuffer->updateMatrix(parentModelMatrices);
-		const vector<mat4> &modelMatrices = __pModelMatrixBuffer->getModelMatrices();
-
-		Animation &animation = *(__pAnimManager->getActiveAnimation());
+		Animation &anim = *(__pAnimManager->getActiveAnimation());
 
 		for (const unique_ptr<Mesh> &pMesh : __meshes)
-			pMesh->updateBones(animation);
+			pMesh->updateBoneMatrices(anim);
+
+		__pModelMatrixBuffer->updateMatrix(parentModelMatrices);
+		const vector<mat4> &modelMatrices = __pModelMatrixBuffer->getModelMatrices();
 
 		__children.safeTraverse(&RenderUnit::__updateHierarchical_withAnim, modelMatrices);
 	}
@@ -87,10 +104,22 @@ namespace Danburite
 			return;
 		}
 
-		pAnim->adjustTimestamp(deltaTime).updateBones();
+		pAnim->adjustTimestamp(deltaTime);
+
+		Bone* const pBone = pAnim->getBone(__name);
+		if (pBone)
+			pBone->updateMatrix();
+
+		const mat4* pNodeMatrix;
+		if (pBone)
+			pNodeMatrix = &(pBone->getBoneMatrix());
+		else
+			pNodeMatrix = &Constant::Common::IDENTITY_MATRIX;
+
+		__children.safeTraverse(&RenderUnit::__updateBoneHierarchical, *pNodeMatrix);
 
 		for (const unique_ptr<Mesh> &pMesh : __meshes)
-			pMesh->updateBones(*pAnim);
+			pMesh->updateBoneMatrices(*pAnim);
 
 		__children.safeTraverse(&RenderUnit::__updateHierarchical_withAnim, modelMatrices);
 	}
