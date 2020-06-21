@@ -462,8 +462,9 @@ namespace Danburite
 					switch (pAiAnimNode->mPreState)
 					{
 					case aiAnimBehaviour::aiAnimBehaviour_DEFAULT:
-						timeline.setPreStateWrappingType(TimelineWrappingType::DEFAULT);
-						break;
+						/*timeline.setPreStateWrappingType(TimelineWrappingType::DEFAULT);
+						break;*/
+						[[fallthrough]];
 
 					case aiAnimBehaviour::aiAnimBehaviour_CONSTANT:
 						timeline.setPreStateWrappingType(TimelineWrappingType::NEAREST);
