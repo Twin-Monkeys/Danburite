@@ -19,10 +19,8 @@ namespace Danburite
 
 	void CameraTransform::_onUpdateRotationMatrix(mat4 &rotationMat) noexcept
 	{
-		const vec3 &eularAngles = getRotation().getEularAngles();
-		__viewRotationMat = eulerAngleXYZ(-eularAngles.x, -eularAngles.y, -eularAngles.z);
-
-		rotationMat = transpose(__viewRotationMat);
+		Transform::_onUpdateRotationMatrix(rotationMat);
+		__viewRotationMat = transpose(rotationMat);
 	}
 
 	void CameraTransform::updateMatrix() noexcept
