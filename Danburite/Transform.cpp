@@ -103,7 +103,7 @@ namespace Danburite
 
 	Transform &Transform::lookAt(const vec3 &forward, const vec3 &referenceUp) noexcept
 	{
-		__component.rotation.lookAt(forward, referenceUp);
+		__component.rotation.orient(forward, referenceUp);
 		return *this;
 	}
 
