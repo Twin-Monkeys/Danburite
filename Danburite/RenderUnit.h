@@ -52,6 +52,9 @@ namespace Danburite
 
 		void setNumInstances(const GLsizei numInstances) noexcept;
 
+		AnimationManager &getAnimationManager() noexcept;
+		const AnimationManager &getAnimationManager() const noexcept;
+
 		constexpr ObjectGL::WeakPointerContainer<RenderUnit> &getChildren() noexcept;
 		constexpr const ObjectGL::WeakPointerContainer<RenderUnit> &getChildren() const noexcept;
 

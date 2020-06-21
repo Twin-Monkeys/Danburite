@@ -12,6 +12,8 @@ namespace Danburite
 		const float __playTime;
 		float __timestamp = 0.f;
 
+		float __playSpeed = 1.f;
+
 		const std::string __name;
 
 		std::unordered_map<std::string, Bone> __boneMap;
@@ -29,6 +31,9 @@ namespace Danburite
 
 		Animation &setTimestamp(const float timestamp) noexcept;
 		Animation &adjustTimestamp(const float deltaTime) noexcept;
+
+		constexpr float getPlaySpeed() const noexcept;
+		constexpr Animation &setPlaySpeed(const float speed) noexcept;
 	};
 
 	constexpr float Animation::getPlayTime() const noexcept
@@ -39,5 +44,16 @@ namespace Danburite
 	constexpr const std::string &Animation::getName() const noexcept
 	{
 		return __name;
+	}
+
+	constexpr float Animation::getPlaySpeed() const noexcept
+	{
+		return __playSpeed;
+	}
+
+	constexpr Animation &Animation::setPlaySpeed(const float speed) noexcept
+	{
+		__playSpeed = speed;
+		return *this;
 	}
 }

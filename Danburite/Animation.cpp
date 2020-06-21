@@ -40,6 +40,6 @@ namespace Danburite
 
 	Animation& Animation::adjustTimestamp(const float deltaTime) noexcept
 	{
-		return setTimestamp(__timestamp + deltaTime);
+		return setTimestamp(__timestamp + (deltaTime * __playSpeed));
 	}
 }

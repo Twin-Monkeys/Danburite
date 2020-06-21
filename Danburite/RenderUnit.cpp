@@ -86,6 +86,16 @@ namespace Danburite
 		__children.safeTraverse(&RenderUnit::setNumInstances, numInstances);
 	}
 
+	AnimationManager &RenderUnit::getAnimationManager() noexcept
+	{
+		return *__pAnimManager;
+	}
+
+	const AnimationManager &RenderUnit::getAnimationManager() const noexcept
+	{
+		return *__pAnimManager;
+	}
+
 	void RenderUnit::update(const float deltaTime) noexcept
 	{
 		__pModelMatrixBuffer->updateMatrix();
