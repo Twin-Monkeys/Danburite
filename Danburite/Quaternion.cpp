@@ -159,6 +159,6 @@ namespace Danburite
 
 	Quaternion Quaternion::slerp(const Quaternion &lhs, const Quaternion &rhs, const float weight) noexcept
 	{
-		return { mix(lhs.__quaternion, rhs.__quaternion, weight) };
+		return { glm::slerp(lhs.__quaternion, rhs.__quaternion, weight) };
 	}
 }
