@@ -489,8 +489,9 @@ namespace Danburite
 					switch (pAiAnimNode->mPostState)
 					{
 					case aiAnimBehaviour::aiAnimBehaviour_DEFAULT:
-						timeline.setPostStateWrappingType(TimelineWrappingType::DEFAULT);
-						break;
+						/*timeline.setPostStateWrappingType(TimelineWrappingType::DEFAULT);
+						break;*/
+						[[fallthrough]];
 
 					case aiAnimBehaviour::aiAnimBehaviour_CONSTANT:
 						timeline.setPostStateWrappingType(TimelineWrappingType::NEAREST);

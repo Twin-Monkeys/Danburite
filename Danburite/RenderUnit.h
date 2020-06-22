@@ -18,7 +18,7 @@ namespace Danburite
 	private:
 		std::unordered_set<std::unique_ptr<Mesh>> __meshes;
 
-		std::string __name;
+		const std::string __name;
 
 		ObjectGL::WeakPointerContainer<RenderUnit> __children;
 		const std::shared_ptr<ModelMatrixBuffer> __pModelMatrixBuffer;

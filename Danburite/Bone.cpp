@@ -12,6 +12,10 @@ namespace Danburite
 
 	mat4 Bone::calcBoneMatrix(const mat4 &nodeMatrix) const noexcept
 	{
+		/*
+			offset mat: local to bone
+			node mat: bone to local, animating factors
+		*/
 		return (nodeMatrix * __offsetMat);
 	}
 }
