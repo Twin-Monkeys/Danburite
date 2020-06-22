@@ -1,7 +1,7 @@
 #pragma once
 
 #include <unordered_map>
-#include "Bone.h"
+#include "BoneNode.h"
 #include "Object.h"
 
 namespace Danburite
@@ -16,7 +16,7 @@ namespace Danburite
 
 		const std::string __name;
 
-		std::unordered_map<std::string, Bone> __boneMap;
+		std::unordered_map<std::string, BoneNode> __boneNodeMap;
 
 	public:
 		Animation(const size_t id, const float playTime, const std::string &name = "") noexcept;
@@ -24,10 +24,10 @@ namespace Danburite
 		constexpr float getPlayTime() const noexcept;
 		constexpr const std::string &getName() const noexcept;
 
-		Bone &createBone(const std::string &name) noexcept;
+		BoneNode &createBoneNode(const std::string &name) noexcept;
 
-		Bone *getBone(const std::string &name) noexcept;
-		const Bone *getBone(const std::string &name) const noexcept;
+		BoneNode *getBoneNode(const std::string &name) noexcept;
+		const BoneNode *getBoneNode(const std::string &name) const noexcept;
 
 		Animation &setTimestamp(const float timestamp) noexcept;
 		Animation &adjustTimestamp(const float deltaTime) noexcept;

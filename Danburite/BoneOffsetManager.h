@@ -11,16 +11,16 @@ namespace Danburite
 	{
 	private:
 		std::vector<glm::mat4> __boneMatrices;
-		std::vector<std::unique_ptr<BoneOffset>> __boneOffsets;
+		std::vector<std::unique_ptr<Bone>> __boneOffsets;
 
 		ObjectGL::UniformBuffer &__boneSetter;
 
 	public:
 		BoneOffsetManager();
-		BoneOffset &createBoneOffset(const std::string &name, const glm::mat4 &offsetMatrix, const glm::mat4 &hierarchyMatrix);
+		Bone &createBoneOffset(const std::string &name, const glm::mat4 &offsetMatrix, const glm::mat4 &hierarchyMatrix);
 
-		BoneOffset &getBoneOffset(const GLuint id) noexcept;
-		const BoneOffset &getBoneOffset(const GLuint id) const noexcept;
+		Bone &getBoneOffset(const GLuint id) noexcept;
+		const Bone &getBoneOffset(const GLuint id) const noexcept;
 
 		GLuint getNumBoneOffsets() const noexcept;
 

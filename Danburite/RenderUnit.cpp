@@ -41,21 +41,22 @@ namespace Danburite
 	{
 		Animation &anim = *(__pAnimManager->getActiveAnimation());
 
-		Bone* const pBone = anim.getBone(__name);
-		if (pBone)
-			pBone->updateMatrix(parentNodeMatrix);
+		BoneNode* const pBoneNode = anim.getBoneNode(__name);
+		if (pBoneNode)
+			pBoneNode->updateMatrix(parentNodeMatrix);
 
-		const mat4 *pNodeMatrix;
-		if (pBone)
-			pNodeMatrix = &(pBone->getBoneMatrix());
+		const mat4 *pBoneNodeMatrix;
+		if (pBoneNode)
+			pBoneNodeMatrix = &(pBoneNode->getMatrix());
 		else
-			pNodeMatrix = &parentNodeMatrix;
+			pBoneNodeMatrix = &parentNodeMatrix;
 
-		__children.safeTraverse(&RenderUnit::__updateBoneHierarchical, *pNodeMatrix);
+		__children.safeTraverse(&RenderUnit::__updateBoneHierarchical, *pBoneNodeMatrix);
 	}
 
 	void RenderUnit::__updateHierarchical_withAnim(const vector<mat4> &parentModelMatrices)
 	{
+		// animation이 없는 노드도 상위 노드가 animation이 있다면 따라가야 하지 않을까?
 		Animation &anim = *(__pAnimManager->getActiveAnimation());
 
 		for (const unique_ptr<Mesh> &pMesh : __meshes)
@@ -116,13 +117,13 @@ namespace Danburite
 
 		pAnim->adjustTimestamp(deltaTime);
 
-		Bone* const pBone = pAnim->getBone(__name);
-		if (pBone)
-			pBone->updateMatrix();
+		BoneNode *const pBoneNode = pAnim->getBoneNode(__name);
+		if (pBoneNode)
+			pBoneNode->updateMatrix();
 
-		const mat4* pNodeMatrix;
-		if (pBone)
-			pNodeMatrix = &(pBone->getBoneMatrix());
+		const mat4 *pNodeMatrix;
+		if (pBoneNode)
+			pNodeMatrix = &(pBoneNode->getMatrix());
 		else
 			pNodeMatrix = &Constant::Common::IDENTITY_MATRIX;
 

@@ -9,24 +9,24 @@ namespace Danburite
 		Object(id), __playTime(playTime), __name(name)
 	{}
 
-	Bone &Animation::createBone(const string &name) noexcept
+	BoneNode &Animation::createBoneNode(const string &name) noexcept
 	{
-		return __boneMap.emplace(name, Bone { name, __timestamp }).first->second;
+		return __boneNodeMap.emplace(name, BoneNode { name, __timestamp }).first->second;
 	}
 
-	Bone *Animation::getBone(const string &name) noexcept
+	BoneNode *Animation::getBoneNode(const string &name) noexcept
 	{
-		auto resultIt = __boneMap.find(name);
-		if (resultIt == __boneMap.end())
+		auto resultIt = __boneNodeMap.find(name);
+		if (resultIt == __boneNodeMap.end())
 			return nullptr;
 
 		return &resultIt->second;
 	}
 
-	const Bone *Animation::getBone(const string &name) const noexcept
+	const BoneNode *Animation::getBoneNode(const string &name) const noexcept
 	{
-		auto resultIt = __boneMap.find(name);
-		if (resultIt == __boneMap.end())
+		auto resultIt = __boneNodeMap.find(name);
+		if (resultIt == __boneNodeMap.end())
 			return nullptr;
 
 		return &resultIt->second;

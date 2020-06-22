@@ -13,7 +13,7 @@ namespace Danburite
 			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::BONE))
 	{}
 
-	BoneOffset &BoneOffsetManager::createBoneOffset(const string &name, const mat4 &offsetMatrix, const mat4 &hierarchyMatrix)
+	Bone &BoneOffsetManager::createBoneOffset(const string &name, const mat4 &offsetMatrix, const mat4 &hierarchyMatrix)
 	{
 		const GLuint boneID = GLuint(__boneMatrices.size());
 		__boneMatrices.emplace_back(mat4 { 1.f });
@@ -21,15 +21,15 @@ namespace Danburite
 		if (boneID >= Constant::Animation::MAX_NUM_BONES)
 			throw BoneException("the number of bones cannot be greater than MAX_NUM_BONES.");
 
-		return *__boneOffsets.emplace_back(make_unique<BoneOffset>(boneID, name, offsetMatrix, hierarchyMatrix));
+		return *__boneOffsets.emplace_back(make_unique<Bone>(boneID, name, offsetMatrix, hierarchyMatrix));
 	}
 
-	BoneOffset &BoneOffsetManager::getBoneOffset(const GLuint id) noexcept
+	Bone &BoneOffsetManager::getBoneOffset(const GLuint id) noexcept
 	{
 		return *__boneOffsets[id];
 	}
 
-	const BoneOffset &BoneOffsetManager::getBoneOffset(const GLuint id) const noexcept
+	const Bone &BoneOffsetManager::getBoneOffset(const GLuint id) const noexcept
 	{
 		return *__boneOffsets[id];
 	}
@@ -41,18 +41,18 @@ namespace Danburite
 
 	void BoneOffsetManager::updateMatrices(const Animation &animation) noexcept
 	{
-		for (const unique_ptr<BoneOffset> &pBoneOffset : __boneOffsets)
+		for (const unique_ptr<Bone> &pBoneOffset : __boneOffsets)
 		{
-			const string &boneName = pBoneOffset->getName();
-			const Bone *const pBone = animation.getBone(boneName);
+			const string &boneName = pBoneOffset->getNodeName();
+			const BoneNode *const pBoneNode = animation.getBoneNode(boneName);
 
-			const mat4 *pBoneMat;
-			if (pBone)
-				pBoneMat = &(pBone->getBoneMatrix());
+			const mat4 *pBoneNodeMat;
+			if (pBoneNode)
+				pBoneNodeMat = &(pBoneNode->getMatrix());
 			else
-				pBoneMat = &(Constant::Common::IDENTITY_MATRIX);
+				pBoneNodeMat = &(Constant::Common::IDENTITY_MATRIX);
 
-			pBoneOffset->calcMatrix(*pBoneMat, __boneMatrices[pBoneOffset->ID]);
+			pBoneOffset->calcBoneMatrix(*pBoneNodeMat, __boneMatrices[pBoneOffset->ID]);
 		}
 	}
 

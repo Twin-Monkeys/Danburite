@@ -188,7 +188,7 @@ namespace Danburite
 					memcpy(&offsetMat, &aiOffsetMat.Transpose(), sizeof(mat4));
 
 					// bone 이름과 동일한 이름을 가진 node가 있다. 그 node들의 hierarchy에 따라 bone도 update.
-					BoneOffset &boneOffset = pBoneOffsetManager->createBoneOffset(pBone->mName.C_Str(), offsetMat, modelMatrix);
+					Bone &boneOffset = pBoneOffsetManager->createBoneOffset(pBone->mName.C_Str(), offsetMat, modelMatrix);
 
 					for (unsigned weightIter = 0U; weightIter < pBone->mNumWeights; weightIter++)
 					{
@@ -205,7 +205,15 @@ namespace Danburite
 			for (unsigned vertexIter = 0; vertexIter < pAiMesh->mNumVertices; vertexIter++)
 			{
 				const aiVector3D &aiPos = pAiMesh->mVertices[vertexIter];
-				vertices.insert(vertices.end(), { aiPos.x, aiPos.y, aiPos.z });
+				if (pAiMesh->HasBones())
+				{
+					vertices.insert(vertices.end(), { aiPos.x, aiPos.y, aiPos.z });
+				}
+				else
+				{
+					const vec3 &pos = (modelMatrix * vec4{ aiPos.x, aiPos.y, aiPos.z, 1.f });
+					vertices.insert(vertices.end(), { pos.x, pos.y, pos.z });
+				}
 
 				if (vertexFlag & VertexAttributeFlag::COLOR)
 				{
@@ -411,7 +419,7 @@ namespace Danburite
 
 		/*
 			Do not modify any scene data.
-			It’s suicide in DLL builds if you try to use new Or delete on any of the arrays in the scene.
+			It’s suicide in DLL builds if you try to use new or delete on any of the arrays in the scene.
 
 			A aiScene forms the root of the data, from here you gain access to all the nodes,
 			Meshes, materials, animations or textures that were read from the imported file.
@@ -431,7 +439,6 @@ namespace Danburite
 
 		if (!pScene->mRootNode)
 			return nullptr;
-
 
 		const shared_ptr<AnimationManager> &pAnimationManager = make_shared<AnimationManager>();
 
@@ -453,10 +460,10 @@ namespace Danburite
 				{
 					const aiNodeAnim *const pAiAnimNode = pAiAnim->mChannels[nodeAnimIter];
 
-					// mNodeName은 bone name임
+					// mNodeName은 bone name임. aiNode 중에 이 이름을 가진 node가 반드시 있음 (있어야 함)
 					const aiString &boneName = pAiAnimNode->mNodeName;
 
-					Bone &animNode = animation.createBone(boneName.C_Str());
+					BoneNode &animNode = animation.createBoneNode(boneName.C_Str());
 					TransformTimeline &timeline = animNode.getTimeline();
 
 					switch (pAiAnimNode->mPreState)

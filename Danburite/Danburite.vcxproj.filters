@@ -705,7 +705,7 @@
     <ClCompile Include="BoneOffsetManager.cpp">
       <Filter>Library\Engine\Core\Animation\Bone</Filter>
     </ClCompile>
-    <ClCompile Include="Bone.cpp">
+    <ClCompile Include="BoneNode.cpp">
       <Filter>Library\Engine\Core\Animation</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1229,7 +1229,7 @@
     <ClInclude Include="BoneOffsetManager.h">
       <Filter>Library\Engine\Core\Animation\Bone</Filter>
     </ClInclude>
-    <ClInclude Include="Bone.h">
+    <ClInclude Include="BoneNode.h">
       <Filter>Library\Engine\Core\Animation</Filter>
     </ClInclude>
   </ItemGroup>

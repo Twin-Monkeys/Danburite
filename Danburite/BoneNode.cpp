@@ -1,15 +1,15 @@
-#include "Bone.h"
+#include "BoneNode.h"
 
 using namespace std;
 using namespace glm;
 
 namespace Danburite
 {
-	Bone::Bone(const string &name, const float &timestampReference) noexcept :
+	BoneNode::BoneNode(const string &name, const float &timestampReference) noexcept :
 		__name(name), __timestamp(timestampReference)
 	{}
 
-	void Bone::__updateTransform() noexcept
+	void BoneNode::__updateTransform() noexcept
 	{
 		const auto &[position, rotation, scale] = __timeline.sample(__timestamp);
 
@@ -18,7 +18,7 @@ namespace Danburite
 		__boneTransform.setScale(scale);
 	}
 
-	Bone &Bone::updateMatrix() noexcept
+	BoneNode &BoneNode::updateMatrix() noexcept
 	{
 		__updateTransform();
 		__boneTransform.updateMatrix();
@@ -27,11 +27,11 @@ namespace Danburite
 		return *this;
 	}
 
-	Bone &Bone::updateMatrix(const mat4 &parentBoneMatrix) noexcept
+	BoneNode &BoneNode::updateMatrix(const mat4 &parentNodeMatrix) noexcept
 	{
 		__updateTransform();
 		__boneTransform.updateMatrix();
-		__boneMat = (parentBoneMatrix * __boneTransform.getModelMatrix());
+		__boneMat = (parentNodeMatrix * __boneTransform.getModelMatrix());
 
 		return *this;
 	}
