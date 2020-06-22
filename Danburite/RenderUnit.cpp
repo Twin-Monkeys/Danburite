@@ -10,12 +10,14 @@ namespace Danburite
 {
 	RenderUnit::RenderUnit(
 		unique_ptr<Mesh> pMesh,
+		const mat4 &nodeTransformationMat,
 		const shared_ptr<AnimationManager> &pAnimationManager,
 		const string_view &unitName) noexcept :
+		__pModelMatrixBuffer(make_shared<ModelMatrixBuffer>(nodeTransformationMat)),
 		__pAnimManager(pAnimationManager), __name(unitName)
 	{
 		const shared_ptr<VertexBuffer> &pModelMatrixBuffer =
-			reinterpret_pointer_cast<ObjectGL::VertexBuffer>(__pModelMatrixBuffer);
+			reinterpret_pointer_cast<VertexBuffer>(__pModelMatrixBuffer);
 
 		pMesh->addVertexBuffer(pModelMatrixBuffer);
 
@@ -24,12 +26,14 @@ namespace Danburite
 
 	RenderUnit::RenderUnit(
 		unordered_set<unique_ptr<Mesh>> &&meshes,
+		const mat4 &nodeTransformationMat,
 		const shared_ptr<AnimationManager> &pAnimationManager,
 		const string_view &unitName) noexcept :
+		__pModelMatrixBuffer(make_shared<ModelMatrixBuffer>(nodeTransformationMat)),
 		__pAnimManager(pAnimationManager), __name(unitName)
 	{
 		const shared_ptr<VertexBuffer> &pModelMatrixBuffer =
-			reinterpret_pointer_cast<ObjectGL::VertexBuffer>(__pModelMatrixBuffer);
+			reinterpret_pointer_cast<VertexBuffer>(__pModelMatrixBuffer);
 		
 		for (const unique_ptr<Mesh> &pMesh : meshes)
 			pMesh->addVertexBuffer(pModelMatrixBuffer);

@@ -9,7 +9,8 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	ModelMatrixBuffer::ModelMatrixBuffer(const size_t numInstances)
+	ModelMatrixBuffer::ModelMatrixBuffer(const mat4 &nodeTransformationMat, const size_t numInstances) :
+		__nodeTransformationMat(nodeTransformationMat)
 	{
 		setAttributes(
 			VertexAttributeListFactory::getInstance(VertexAttributeFlag::MODELMAT));
@@ -38,7 +39,7 @@ namespace Danburite
 			Transform &transform = __transforms[i];
 			transform.updateMatrix();
 
-			__modelMatrices[i] = transform.getModelMatrix();
+			__modelMatrices[i] = (transform.getModelMatrix() * __nodeTransformationMat);
 		}
 	}
 
@@ -49,7 +50,7 @@ namespace Danburite
 			Transform &transform = __transforms[i];
 			transform.updateMatrix();
 
-			__modelMatrices[i] = (parentModelMatrices[i] * transform.getModelMatrix());
+			__modelMatrices[i] = (parentModelMatrices[i] * (transform.getModelMatrix() * __nodeTransformationMat));
 		}
 	}
 

@@ -164,7 +164,7 @@
     <ClCompile Include="BoneNode.cpp" />
     <ClCompile Include="AttachableTexture2D.cpp" />
     <ClCompile Include="AttachableTextureCubemap.cpp" />
-    <ClCompile Include="BoneOffset.cpp" />
+    <ClCompile Include="Bone.cpp" />
     <ClCompile Include="BoneException.cpp" />
     <ClCompile Include="BoneManager.cpp" />
     <ClCompile Include="CameraTransform.cpp" />
@@ -290,7 +290,7 @@
     <ClInclude Include="AttachmentType.h" />
     <ClInclude Include="BlendingEquationType.h" />
     <ClInclude Include="BlendingFunctionType.h" />
-    <ClInclude Include="BoneOffset.h" />
+    <ClInclude Include="Bone.h" />
     <ClInclude Include="BoneException.h" />
     <ClInclude Include="BoneManager.h" />
     <ClInclude Include="BufferAccessType.h" />

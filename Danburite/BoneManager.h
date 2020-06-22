@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BoneOffset.h"
+#include "Bone.h"
 #include "UniformBuffer.h"
 #include "Animation.h"
 #include "BoneException.h"
@@ -17,7 +17,7 @@ namespace Danburite
 
 	public:
 		BoneManager();
-		Bone &createBone(const std::string &boneNodeName, const glm::mat4 &offsetMatrix, const glm::mat4 &hierarchyMatrix);
+		Bone &createBone(const std::string &boneNodeName, const glm::mat4 &offsetMatrix);
 
 		Bone &getBone(const GLuint id) noexcept;
 		const Bone &getBone(const GLuint id) const noexcept;

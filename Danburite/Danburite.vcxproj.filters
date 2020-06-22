@@ -699,13 +699,13 @@
     <ClCompile Include="AnimationManager.cpp">
       <Filter>Library\Engine\Core\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="BoneOffset.cpp">
-      <Filter>Library\Engine\Core\Animation\Bone</Filter>
-    </ClCompile>
     <ClCompile Include="BoneNode.cpp">
       <Filter>Library\Engine\Core\Animation</Filter>
     </ClCompile>
     <ClCompile Include="BoneManager.cpp">
+      <Filter>Library\Engine\Core\Animation\Bone</Filter>
+    </ClCompile>
+    <ClCompile Include="Bone.cpp">
       <Filter>Library\Engine\Core\Animation\Bone</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1223,13 +1223,13 @@
     <ClInclude Include="Lerp.h">
       <Filter>Library\Engine\Util</Filter>
     </ClInclude>
-    <ClInclude Include="BoneOffset.h">
-      <Filter>Library\Engine\Core\Animation\Bone</Filter>
-    </ClInclude>
     <ClInclude Include="BoneNode.h">
       <Filter>Library\Engine\Core\Animation</Filter>
     </ClInclude>
     <ClInclude Include="BoneManager.h">
+      <Filter>Library\Engine\Core\Animation\Bone</Filter>
+    </ClInclude>
+    <ClInclude Include="Bone.h">
       <Filter>Library\Engine\Core\Animation\Bone</Filter>
     </ClInclude>
   </ItemGroup>

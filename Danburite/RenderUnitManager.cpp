@@ -1,6 +1,7 @@
 #include "RenderUnitManager.h"
 
 using namespace std;
+using namespace glm;
 using namespace ObjectGL;
 
 namespace Danburite
@@ -15,6 +16,7 @@ namespace Danburite
 
 	shared_ptr<RenderUnit> RenderUnitManager::createRenderUnit(
 		unique_ptr<Mesh> &&pMesh,
+		const mat4 &nodeTransformationMat,
 		const shared_ptr<AnimationManager> &pAnimationManager,
 		const string &unitName)
 	{
@@ -23,7 +25,7 @@ namespace Danburite
 			validName = __buildAutoRenderingUnitName();
 
 		const shared_ptr<RenderUnit> pRetVal =
-			shared_ptr<RenderUnit>(new RenderUnit(move(pMesh), pAnimationManager, validName));
+			shared_ptr<RenderUnit>(new RenderUnit(move(pMesh), nodeTransformationMat, pAnimationManager, validName));
 
 		__renderUnitMap.emplace(validName, pRetVal);
 		__unitCount++;
@@ -33,6 +35,7 @@ namespace Danburite
 
 	shared_ptr<RenderUnit> RenderUnitManager::createRenderUnit(
 		unordered_set<unique_ptr<Mesh>> &&meshes,
+		const mat4 &nodeTransformationMat,
 		const shared_ptr<AnimationManager> &pAnimationManager,
 		const string &unitName)
 	{
@@ -61,7 +64,7 @@ namespace Danburite
 		}
 
 		const shared_ptr<RenderUnit> pRetVal =
-			shared_ptr<RenderUnit>(new RenderUnit(move(meshes), pAnimationManager, validName));
+			shared_ptr<RenderUnit>(new RenderUnit(move(meshes), nodeTransformationMat, pAnimationManager, validName));
 
 		__renderUnitMap.emplace(validName, pRetVal);
 		__unitCount++;

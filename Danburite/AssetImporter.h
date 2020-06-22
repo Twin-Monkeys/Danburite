@@ -18,7 +18,7 @@ namespace Danburite
 	public:
 		static std::shared_ptr<RenderUnit> import(
 			const std::string_view &assetPath,
-			const glm::mat4 &transformation = Constant::Common::IDENTITY_MATRIX,
+			const glm::mat4 &customTransformationMat = Constant::Common::IDENTITY_MATRIX,
 			const MaterialType materialType = MaterialType::PHONG);
 	};
 }

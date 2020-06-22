@@ -10,17 +10,13 @@ namespace Danburite
 	{
 	private:
 		const std::string __boneNodeName;
-
 		const glm::mat4 __offsetMat;
-		const glm::mat4 __hierarchyMat;
 
 	public:
-		Bone(
-			const GLuint id, const std::string &boneNodeName,
-			const glm::mat4 &offsetMatrix, const glm::mat4 &hierarchyMatrix) noexcept;
+		Bone(const GLuint id, const std::string &boneNodeName, const glm::mat4 &offsetMatrix) noexcept;
 
 		constexpr const std::string &getNodeName() const noexcept;
-		void calcBoneMatrix(const glm::mat4 &nodeMatrix, glm::mat4 &retVal) const noexcept;
+		glm::mat4 calcBoneMatrix(const glm::mat4 &nodeMatrix) const noexcept;
 	};
 
 	constexpr const std::string &Bone::getNodeName() const noexcept

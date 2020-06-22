@@ -116,9 +116,8 @@ namespace Danburite
 
 	static shared_ptr<RenderUnit> __parseNode(
 		const string &parentPath, const aiNode *const pNode, const aiScene* const pScene,
-		const mat4 &modelMatrix, const mat3 &normalMatrix, const MaterialType materialType,
-		unordered_map<string, shared_ptr<Texture2D>> &textureCache,
-		const shared_ptr<AnimationManager> &pAnimationManager)
+		const mat4 &customTransformationMat, const MaterialType materialType,
+		unordered_map<string, shared_ptr<Texture2D>> &textureCache, const shared_ptr<AnimationManager> &pAnimationManager)
 	{
 		RenderUnitManager &renderingUnitMgr = RenderUnitManager::getInstance();
 
@@ -150,7 +149,7 @@ namespace Danburite
 				assert(false);
 			}
 
-			std::unique_ptr<BoneManager> pBoneOffsetManager = make_unique<BoneManager>();
+			std::unique_ptr<BoneManager> pBoneManager = make_unique<BoneManager>();
 
 			// vertex id, bone infomation per vertex (bone idx, bone weight)
 			unordered_map<unsigned, vector<pair<unsigned, float>>> vertexBoneInfoMap;
@@ -181,22 +180,22 @@ namespace Danburite
 
 				for (unsigned boneIter = 0U; boneIter < pAiMesh->mNumBones; boneIter++)
 				{
-					const aiBone *const pBone = pAiMesh->mBones[boneIter];
+					const aiBone *const pAiBone = pAiMesh->mBones[boneIter];
 
 					mat4 offsetMat;
-					aiMatrix4x4 aiOffsetMat = pBone->mOffsetMatrix;
+					aiMatrix4x4 aiOffsetMat = pAiBone->mOffsetMatrix;
 					memcpy(&offsetMat, &aiOffsetMat.Transpose(), sizeof(mat4));
 
 					// bone 이름과 동일한 이름을 가진 node가 있다. 그 node들의 hierarchy에 따라 bone도 update.
-					Bone &boneOffset = pBoneOffsetManager->createBone(pBone->mName.C_Str(), offsetMat, modelMatrix);
+					Bone &bone = pBoneManager->createBone(pAiBone->mName.C_Str(), offsetMat);
 
-					for (unsigned weightIter = 0U; weightIter < pBone->mNumWeights; weightIter++)
+					for (unsigned weightIter = 0U; weightIter < pAiBone->mNumWeights; weightIter++)
 					{
-						aiVertexWeight &vertexWeight = pBone->mWeights[weightIter];
+						aiVertexWeight &vertexWeight = pAiBone->mWeights[weightIter];
 						vector<pair<unsigned, float>> &bonesPerVertex = vertexBoneInfoMap[vertexWeight.mVertexId];
 
 						if (vertexWeight.mWeight > epsilon<float>())
-							bonesPerVertex.emplace_back(boneOffset.ID, vertexWeight.mWeight);
+							bonesPerVertex.emplace_back(bone.ID, vertexWeight.mWeight);
 					}
 				}
 			}
@@ -205,15 +204,7 @@ namespace Danburite
 			for (unsigned vertexIter = 0; vertexIter < pAiMesh->mNumVertices; vertexIter++)
 			{
 				const aiVector3D &aiPos = pAiMesh->mVertices[vertexIter];
-				if (pAiMesh->HasBones())
-				{
-					vertices.insert(vertices.end(), { aiPos.x, aiPos.y, aiPos.z });
-				}
-				else
-				{
-					const vec3 &pos = (modelMatrix * vec4{ aiPos.x, aiPos.y, aiPos.z, 1.f });
-					vertices.insert(vertices.end(), { pos.x, pos.y, pos.z });
-				}
+				vertices.insert(vertices.end(), { aiPos.x, aiPos.y, aiPos.z });
 
 				if (vertexFlag & VertexAttributeFlag::COLOR)
 				{
@@ -400,15 +391,20 @@ namespace Danburite
 				break;
 			}
 
-			unique_ptr<Mesh> pMesh = make_unique<Mesh>(pVertexArray, pMaterial, move(pBoneOffsetManager));
+			unique_ptr<Mesh> pMesh = make_unique<Mesh>(pVertexArray, pMaterial, move(pBoneManager));
 			meshes.emplace(move(pMesh));
 		}
 
-		return renderingUnitMgr.createRenderUnit(move(meshes), pAnimationManager, pNode->mName.C_Str());
+		mat4 nodeTransformationMat;
+		aiMatrix4x4 aiNodeTransformationMat = pNode->mTransformation;
+		memcpy(&nodeTransformationMat, &aiNodeTransformationMat.Transpose(), sizeof(mat4));
+
+		return renderingUnitMgr.createRenderUnit(
+			move(meshes), customTransformationMat * nodeTransformationMat, pAnimationManager, pNode->mName.C_Str());
 	}
 
 	shared_ptr<RenderUnit> AssetImporter::import(
-		const string_view &assetPath, const mat4 &transformation, const MaterialType materialType)
+		const string_view &assetPath, const mat4 &customTransformationMat, const MaterialType materialType)
 	{
 		/*
 			The importer manages all the resources for itsself.
@@ -578,27 +574,18 @@ namespace Danburite
 			If you want the mesh’s orientation in global space,
 			You’d have to concatenate the transformations from the referring node and all of its parents.
 		*/
-		// <parent(RenderUnit), parent matrix(mat4), child(aiNode)> tuple stack
-		stack<tuple<const shared_ptr<RenderUnit>, mat4, const aiNode *>> nodeStack;
-		nodeStack.emplace(nullptr, transformation, pScene->mRootNode);
+		// <parent(RenderUnit), child(aiNode)> tuple stack
+		stack<pair<const shared_ptr<RenderUnit>, const aiNode *>> nodeStack;
+		nodeStack.emplace(nullptr, pScene->mRootNode);
 
 		shared_ptr<RenderUnit> retVal = nullptr;
 		while (!nodeStack.empty())
 		{
-			auto [pParent, transMat, pCurrentNode] = nodeStack.top();
+			const auto [pParent, pCurrentNode] = nodeStack.top();
 			nodeStack.pop();
 
-			mat4 localTransMat;
-			aiMatrix4x4 aiLocalTransMat = pCurrentNode->mTransformation;
-			memcpy(&localTransMat, &aiLocalTransMat.Transpose(), sizeof(mat4));
-
-			transMat *= localTransMat;
-
-			const mat3 &normalMat = transpose(inverse(mat3 { transMat }));
-
 			const shared_ptr<RenderUnit> &pParsedCurrent = __parseNode(
-				parentPath, pCurrentNode, pScene, transMat, normalMat, materialType,
-				textureCache, pAnimationManager);
+				parentPath, pCurrentNode, pScene, customTransformationMat, materialType, textureCache, pAnimationManager);
 
 			if (!pParent)
 			{
@@ -609,14 +596,7 @@ namespace Danburite
 				pParent->getChildren().add(pParsedCurrent);
 
 			for (unsigned i = 0; i < pCurrentNode->mNumChildren; i++)
-				nodeStack.emplace(pParsedCurrent, transMat, pCurrentNode->mChildren[i]);
-		}
-
-		const size_t numAnims = pAnimationManager->getNumAnimations();
-		for (size_t animIter = 0ULL; animIter < numAnims; animIter++)
-		{
-			Animation &activeAnim = *(pAnimationManager->getActiveAnimation());
-			Animation &curAnim = pAnimationManager->getAnimation(animIter);
+				nodeStack.emplace(pParsedCurrent, pCurrentNode->mChildren[i]);
 		}
 
 		return retVal;

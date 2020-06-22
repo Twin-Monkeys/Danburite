@@ -21,7 +21,7 @@ namespace Danburite
 		std::string __name;
 
 		ObjectGL::WeakPointerContainer<RenderUnit> __children;
-		std::shared_ptr<ModelMatrixBuffer> __pModelMatrixBuffer = std::make_shared<ModelMatrixBuffer>();
+		const std::shared_ptr<ModelMatrixBuffer> __pModelMatrixBuffer;
 
 		const std::shared_ptr<AnimationManager> __pAnimManager;
 
@@ -36,11 +36,13 @@ namespace Danburite
 	protected:
 		RenderUnit(
 			std::unique_ptr<Mesh> pMesh,
+			const glm::mat4 &nodeTransformationMat,
 			const std::shared_ptr<AnimationManager> &pAnimationManager,
 			const std::string_view &unitName) noexcept;
 
 		RenderUnit(
 			std::unordered_set<std::unique_ptr<Mesh>> &&meshes,
+			const glm::mat4 &nodeTransformationMat,
 			const std::shared_ptr<AnimationManager> &pAnimationManager,
 			const std::string_view &unitName) noexcept;
 
