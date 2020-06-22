@@ -20,7 +20,7 @@ namespace Danburite
 
 		const std::string __name;
 
-		ObjectGL::WeakPointerContainer<RenderUnit> __children;
+		std::unordered_set<std::shared_ptr<RenderUnit>> __children;
 		const std::shared_ptr<ModelMatrixBuffer> __pModelMatrixBuffer;
 
 		const std::shared_ptr<AnimationManager> __pAnimManager;
@@ -57,8 +57,8 @@ namespace Danburite
 		AnimationManager &getAnimationManager() noexcept;
 		const AnimationManager &getAnimationManager() const noexcept;
 
-		constexpr ObjectGL::WeakPointerContainer<RenderUnit> &getChildren() noexcept;
-		constexpr const ObjectGL::WeakPointerContainer<RenderUnit> &getChildren() const noexcept;
+		constexpr std::unordered_set<std::shared_ptr<RenderUnit>> &getChildren() noexcept;
+		constexpr const std::unordered_set<std::shared_ptr<RenderUnit>> &getChildren() const noexcept;
 
 		virtual void update(const float deltaTime) noexcept override;
 
@@ -81,12 +81,12 @@ namespace Danburite
 		return __pModelMatrixBuffer->getNumInstances();
 	}
 
-	constexpr ObjectGL::WeakPointerContainer<RenderUnit> &RenderUnit::getChildren() noexcept
+	constexpr std::unordered_set<std::shared_ptr<RenderUnit>> &RenderUnit::getChildren() noexcept
 	{
 		return __children;
 	}
 
-	constexpr const ObjectGL::WeakPointerContainer<RenderUnit> &RenderUnit::getChildren() const noexcept
+	constexpr const std::unordered_set<std::shared_ptr<RenderUnit>> &RenderUnit::getChildren() const noexcept
 	{
 		return __children;
 	}
@@ -107,8 +107,7 @@ namespace Danburite
 				(pMaterial->*function)(std::forward<Args>(args)...);
 		}
 
-		__children.safeTraverse(
-			&RenderUnit::traverseMaterial<MaterialType, FunctionType, Args...>,
-			function, std::forward<Args>(args)...);
+		for (const shared_ptr<RenderUnit> &child : __children)
+			child->traverseMaterial<MaterialType>(function, std::forward<Args>(args)...);
 	}
 }

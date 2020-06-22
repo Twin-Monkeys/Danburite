@@ -55,7 +55,8 @@ namespace Danburite
 		else
 			pBoneNodeMatrix = &parentNodeMatrix;
 
-		__children.safeTraverse(&RenderUnit::__updateBoneHierarchical, *pBoneNodeMatrix);
+		for (const shared_ptr<RenderUnit> &child : __children)
+			child->__updateBoneHierarchical(*pBoneNodeMatrix);
 	}
 
 	void RenderUnit::__updateHierarchical_withAnim(const vector<mat4> &parentModelMatrices)
@@ -69,7 +70,8 @@ namespace Danburite
 		__pModelMatrixBuffer->updateMatrix(parentModelMatrices);
 		const vector<mat4> &modelMatrices = __pModelMatrixBuffer->getModelMatrices();
 
-		__children.safeTraverse(&RenderUnit::__updateHierarchical_withAnim, modelMatrices);
+		for (const shared_ptr<RenderUnit> &child : __children)
+			child->__updateHierarchical_withAnim(modelMatrices);
 	}
 
 	void RenderUnit::__updateHierarchical_withoutAnim(const vector<mat4> &parentModelMatrices)
@@ -77,7 +79,8 @@ namespace Danburite
 		__pModelMatrixBuffer->updateMatrix(parentModelMatrices);
 		const vector<mat4> &modelMatrices = __pModelMatrixBuffer->getModelMatrices();
 
-		__children.safeTraverse(&RenderUnit::__updateHierarchical_withoutAnim, modelMatrices);
+		for (const shared_ptr<RenderUnit> &child : __children)
+			child->__updateHierarchical_withoutAnim(modelMatrices);
 	}
 
 	Transform &RenderUnit::getTransform(const size_t idx) const noexcept
@@ -88,7 +91,9 @@ namespace Danburite
 	void RenderUnit::setNumInstances(const GLsizei numInstances) noexcept
 	{
 		__pModelMatrixBuffer->setNumInstances(numInstances);
-		__children.safeTraverse(&RenderUnit::setNumInstances, numInstances);
+
+		for (const shared_ptr<RenderUnit> &child : __children)
+			child->setNumInstances(numInstances);
 	}
 
 	AnimationManager &RenderUnit::getAnimationManager() noexcept
@@ -108,14 +113,18 @@ namespace Danburite
 
 		if (!__pAnimManager)
 		{
-			__children.safeTraverse(&RenderUnit::__updateHierarchical_withoutAnim, modelMatrices);
+			for (const shared_ptr<RenderUnit> &child : __children)
+				child->__updateHierarchical_withoutAnim(modelMatrices);
+
 			return;
 		}
 
 		Animation *const pAnim = __pAnimManager->getActiveAnimation();
 		if (!pAnim)
 		{
-			__children.safeTraverse(&RenderUnit::__updateHierarchical_withoutAnim, modelMatrices);
+			for (const shared_ptr<RenderUnit> &child : __children)
+				child->__updateHierarchical_withoutAnim(modelMatrices);
+
 			return;
 		}
 
@@ -131,12 +140,14 @@ namespace Danburite
 		else
 			pNodeMatrix = &Constant::Common::IDENTITY_MATRIX;
 
-		__children.safeTraverse(&RenderUnit::__updateBoneHierarchical, *pNodeMatrix);
+		for (const shared_ptr<RenderUnit> &child : __children)
+			child->__updateBoneHierarchical(*pNodeMatrix);
 
 		for (const unique_ptr<Mesh> &pMesh : __meshes)
 			pMesh->updateBoneMatrices(*pAnim);
 
-		__children.safeTraverse(&RenderUnit::__updateHierarchical_withAnim, modelMatrices);
+		for (const shared_ptr<RenderUnit> &child : __children)
+			child->__updateHierarchical_withAnim(modelMatrices);
 	}
 
 	void RenderUnit::draw() noexcept
@@ -148,7 +159,8 @@ namespace Danburite
 		for (const unique_ptr<Mesh> &pMesh : __meshes)
 			pMesh->draw(GLsizei(NUM_INSTANCES));
 
-		__children.safeTraverse(&RenderUnit::draw);
+		for (const shared_ptr<RenderUnit> &child : __children)
+			child->draw();
 	}
 
 	void RenderUnit::rawDrawcall() noexcept
@@ -160,6 +172,7 @@ namespace Danburite
 		for (const unique_ptr<Mesh> &pMesh : __meshes)
 			pMesh->rawDrawcall(GLsizei(NUM_INSTANCES));
 
-		__children.safeTraverse(&RenderUnit::rawDrawcall);
+		for (const shared_ptr<RenderUnit> &child : __children)
+			child->rawDrawcall();
 	}
 }

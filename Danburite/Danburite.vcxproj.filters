@@ -265,9 +265,6 @@
     <Filter Include="Library\Engine\Core\RenderUnit">
       <UniqueIdentifier>{b5d8fa38-5854-4a3b-a3cb-23e3f2ab752c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Library\Engine\Core\RenderUnit\Positionable">
-      <UniqueIdentifier>{69f29681-85f5-4af7-8f6a-e9b578c69924}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library\Engine\glsl\src\ReflectionPhong">
       <UniqueIdentifier>{6863217a-bf12-47c5-9daf-5417e329cbbd}</UniqueIdentifier>
     </Filter>
@@ -588,9 +585,6 @@
     <ClCompile Include="Drawer.cpp">
       <Filter>Library\Engine\Base\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="ModelMatrixBuffer.cpp">
-      <Filter>Library\Engine\Core\RenderUnit\Positionable</Filter>
-    </ClCompile>
     <ClCompile Include="TextureMultisample.cpp">
       <Filter>Library\ObjectGL\Core\Texture\Multisample</Filter>
     </ClCompile>
@@ -707,6 +701,9 @@
     </ClCompile>
     <ClCompile Include="Bone.cpp">
       <Filter>Library\Engine\Core\Animation\Bone</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelMatrixBuffer.cpp">
+      <Filter>Library\Engine\Core\RenderUnit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1067,9 +1064,6 @@
     <ClInclude Include="Drawable.h">
       <Filter>Library\Engine\Base\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="ModelMatrixBuffer.h">
-      <Filter>Library\Engine\Core\RenderUnit\Positionable</Filter>
-    </ClInclude>
     <ClInclude Include="WeakPointerContainer.h">
       <Filter>Library\ObjectGL\Base\interface</Filter>
     </ClInclude>
@@ -1231,6 +1225,9 @@
     </ClInclude>
     <ClInclude Include="Bone.h">
       <Filter>Library\Engine\Core\Animation\Bone</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelMatrixBuffer.h">
+      <Filter>Library\Engine\Core\RenderUnit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

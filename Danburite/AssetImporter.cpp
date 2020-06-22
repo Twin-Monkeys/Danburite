@@ -14,9 +14,9 @@
 #include "ReflectionPhongMaterial.h"
 #include "RefractionMaterial.h"
 #include <array>
-#include "Animation.h"
 #include "AnimationManager.h"
 #include "BoneManager.h"
+#include "Texture2D.h"
 
 using namespace std;
 using namespace filesystem;
@@ -594,7 +594,7 @@ namespace Danburite
 				retVal = pParsedCurrent;
 			}
 			else
-				pParent->getChildren().add(pParsedCurrent);
+				pParent->getChildren().emplace(pParsedCurrent);
 
 			for (unsigned i = 0; i < pCurrentNode->mNumChildren; i++)
 				nodeStack.emplace(pParsedCurrent, pCurrentNode->mChildren[i]);

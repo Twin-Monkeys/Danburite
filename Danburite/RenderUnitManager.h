@@ -12,7 +12,6 @@ namespace Danburite
 
 	private:
 		size_t __unitCount = 0;
-		std::unordered_map<std::string, std::shared_ptr<RenderUnit>> __renderUnitMap;
 
 		RenderUnitManager() = default;
 		RenderUnitManager(const RenderUnitManager &) = delete;

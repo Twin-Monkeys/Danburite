@@ -27,7 +27,6 @@ namespace Danburite
 		const shared_ptr<RenderUnit> pRetVal =
 			shared_ptr<RenderUnit>(new RenderUnit(move(pMesh), nodeTransformationMat, pAnimationManager, validName));
 
-		__renderUnitMap.emplace(validName, pRetVal);
 		__unitCount++;
 
 		return pRetVal;
@@ -44,29 +43,9 @@ namespace Danburite
 		if (validName == AUTO_MAPPED_NAME)
 			validName = move(__buildAutoRenderingUnitName());
 
-		else if (__renderUnitMap.count(validName))
-		{
-			size_t postfix = 2ULL;
-
-			do
-			{
-				string alterName = move(validName + to_string(postfix));
-
-				if (!__renderUnitMap.count(alterName))
-				{
-					validName = move(alterName);
-					break;
-				}
-
-				postfix++;
-			}
-			while (true);
-		}
-
 		const shared_ptr<RenderUnit> pRetVal =
 			shared_ptr<RenderUnit>(new RenderUnit(move(meshes), nodeTransformationMat, pAnimationManager, validName));
 
-		__renderUnitMap.emplace(validName, pRetVal);
 		__unitCount++;
 
 		return pRetVal;
@@ -74,10 +53,6 @@ namespace Danburite
 
 	shared_ptr<RenderUnit> RenderUnitManager::getRenderUnit(const string &name) const noexcept
 	{
-		auto result = __renderUnitMap.find(name);
-		if (result == __renderUnitMap.end())
 			return nullptr;
-
-		return result->second;
 	}
 }
