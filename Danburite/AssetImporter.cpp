@@ -16,7 +16,7 @@
 #include <array>
 #include "Animation.h"
 #include "AnimationManager.h"
-#include "BoneOffsetManager.h"
+#include "BoneManager.h"
 
 using namespace std;
 using namespace filesystem;
@@ -150,7 +150,7 @@ namespace Danburite
 				assert(false);
 			}
 
-			std::unique_ptr<BoneOffsetManager> pBoneOffsetManager = make_unique<BoneOffsetManager>();
+			std::unique_ptr<BoneManager> pBoneOffsetManager = make_unique<BoneManager>();
 
 			// vertex id, bone infomation per vertex (bone idx, bone weight)
 			unordered_map<unsigned, vector<pair<unsigned, float>>> vertexBoneInfoMap;
@@ -188,7 +188,7 @@ namespace Danburite
 					memcpy(&offsetMat, &aiOffsetMat.Transpose(), sizeof(mat4));
 
 					// bone 이름과 동일한 이름을 가진 node가 있다. 그 node들의 hierarchy에 따라 bone도 update.
-					Bone &boneOffset = pBoneOffsetManager->createBoneOffset(pBone->mName.C_Str(), offsetMat, modelMatrix);
+					Bone &boneOffset = pBoneOffsetManager->createBone(pBone->mName.C_Str(), offsetMat, modelMatrix);
 
 					for (unsigned weightIter = 0U; weightIter < pBone->mNumWeights; weightIter++)
 					{

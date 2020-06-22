@@ -166,7 +166,7 @@
     <ClCompile Include="AttachableTextureCubemap.cpp" />
     <ClCompile Include="BoneOffset.cpp" />
     <ClCompile Include="BoneException.cpp" />
-    <ClCompile Include="BoneOffsetManager.cpp" />
+    <ClCompile Include="BoneManager.cpp" />
     <ClCompile Include="CameraTransform.cpp" />
     <ClCompile Include="ConvolutionalPostProcessor.cpp" />
     <ClCompile Include="CubeSkybox.cpp" />
@@ -292,7 +292,7 @@
     <ClInclude Include="BlendingFunctionType.h" />
     <ClInclude Include="BoneOffset.h" />
     <ClInclude Include="BoneException.h" />
-    <ClInclude Include="BoneOffsetManager.h" />
+    <ClInclude Include="BoneManager.h" />
     <ClInclude Include="BufferAccessType.h" />
     <ClInclude Include="DepthBaker2D.h" />
     <ClInclude Include="DepthBakerBase.h" />
