@@ -79,6 +79,7 @@ HDRTestScene::HDRTestScene()
 	pulseCoreTransform.setPosition(18.f, 0.f, 0.f);
 	__pPulseCoreRU->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 
+	// TODO: node 레퍼런스를 이름이 아니라 정수 id로 변경하자.
 	__pDoorRU = AssetImporter::import("res/asset/scifi_door/scene.gltf");
 	Transform &doorTransform = __pDoorRU->getTransform();
 	doorTransform.setScale(.1f);
