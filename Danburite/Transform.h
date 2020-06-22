@@ -62,7 +62,8 @@ namespace Danburite
 		Transform &moveForward(const float delta) noexcept;
 		Transform &moveHorizontal(const float delta) noexcept;
 		Transform &moveVertical(const float delta) noexcept;
-		Transform &lookAt(const glm::vec3 &forward, const glm::vec3 &referenceUp = { 0.f, 1.f, 0.f }) noexcept;
+		Transform &orient(const glm::vec3 &forward, const glm::vec3 &referenceUp = { 0.f, 1.f, 0.f }) noexcept;
+		Transform &lookAt(const glm::vec3 &position, const glm::vec3 &target, const glm::vec3 &referenceUp = { 0.f, 1.f, 0.f }) noexcept;
 		Transform &orbit(const float angle, const glm::vec3 &pivot, const glm::vec3 &axis, const bool angleRotation = true) noexcept;
 
 		constexpr const glm::vec4 &getForward() const noexcept;
@@ -80,8 +81,6 @@ namespace Danburite
 		virtual void updateMatrix() noexcept;
 
 		virtual ~Transform() = default;
-
-		static glm::mat4 calcModelMatrix(const TransformComponent &component) noexcept;
 	};
 
 	constexpr Transform::Transform(const TransformComponent &component) noexcept :

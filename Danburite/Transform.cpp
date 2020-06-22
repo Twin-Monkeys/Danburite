@@ -101,15 +101,20 @@ namespace Danburite
 		return adjustPosition(vertical.x * delta, vertical.y * delta, vertical.z * delta);
 	}
 
-	Transform &Transform::lookAt(const vec3 &forward, const vec3 &referenceUp) noexcept
+	Transform &Transform::orient(const vec3 &forward, const vec3 &referenceUp) noexcept
 	{
 		__component.rotation.orient(forward, referenceUp);
 		return *this;
 	}
 
+	Transform &Transform::lookAt(const vec3 &position, const vec3 &target, const vec3 &referenceUp) noexcept
+	{
+		return setPosition(position).orient(target - position, referenceUp);
+	}
+
 	Transform &Transform::orbit(const float angle, const vec3 &pivot, const vec3 &axis, const bool angleRotation) noexcept
 	{
-		const quat &rotationQuat = angleAxis(angle, axis);
+		const quat &rotationQuat = angleAxis(angle, normalize(axis));
 		__component.position = ((rotationQuat * (__component.position - pivot)) + pivot);
 
 		if (angleRotation)
@@ -125,15 +130,5 @@ namespace Danburite
 		_onUpdateTranslationMatrix(__translationMat);
 
 		__modelMat = (__translationMat * __rotationMat * __scaleMat);
-	}
-
-	mat4 Transform::calcModelMatrix(const TransformComponent &component) noexcept
-	{
-		return
-		(
-			translate(component.position) *
-			scale(component.scale) *
-			component.rotation.getMatrix()
-		);
 	}
 }
