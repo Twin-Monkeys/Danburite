@@ -46,6 +46,9 @@ namespace Danburite
 			const string &texPath = (parentPath + '/' + fileName);
 
 			pRetVal = TextureUtil::createTexture2DFromImage(texPath);
+			if (!pRetVal)
+				return nullptr;
+
 			pRetVal->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR_MIPMAP_LINEAR);
 			pRetVal->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
 		}
@@ -181,7 +184,7 @@ namespace Danburite
 
 					mat4 offsetMat;
 					aiMatrix4x4 aiOffsetMat = pAiBone->mOffsetMatrix;
-					memcpy(&offsetMat, &aiOffsetMat.Transpose(), sizeof(mat4));
+					std::memcpy(&offsetMat, &aiOffsetMat.Transpose(), sizeof(mat4));
 
 					// bone 이름과 동일한 이름을 가진 node가 있다. 그 node들의 hierarchy에 따라 bone도 update.
 					Bone &bone = pBoneManager->createBone(pAiBone->mName.C_Str(), offsetMat);
@@ -201,10 +204,10 @@ namespace Danburite
 			for (unsigned vertexIter = 0; vertexIter < pAiMesh->mNumVertices; vertexIter++)
 			{
 				const aiVector3D &aiPos = pAiMesh->mVertices[vertexIter];
-				if (string{ pAiMesh->mName.C_Str() } == "Object067_A-2_0")
+				/*if (string{ pAiMesh->mName.C_Str() } == "Object067_A-2_0")
 					vertices.insert(vertices.end(), { 1.1f * aiPos.x, 1.1f * aiPos.y, 1.1f * aiPos.z });
-				else
-					vertices.insert(vertices.end(), { aiPos.x, aiPos.y, aiPos.z });
+				else*/
+				vertices.insert(vertices.end(), { aiPos.x, aiPos.y, aiPos.z });
 
 				if (vertexFlag & VertexAttributeFlag::COLOR)
 				{
@@ -397,7 +400,7 @@ namespace Danburite
 
 		mat4 nodeTransformationMat;
 		aiMatrix4x4 aiNodeTransformationMat = pNode->mTransformation;
-		memcpy(&nodeTransformationMat, &aiNodeTransformationMat.Transpose(), sizeof(mat4));
+		std::memcpy(&nodeTransformationMat, &aiNodeTransformationMat.Transpose(), sizeof(mat4));
 
 		return make_shared<SceneObject>(
 			move(meshes), customTransformationMat * nodeTransformationMat, pAnimationManager, pNode->mName.C_Str());
@@ -428,7 +431,8 @@ namespace Danburite
 		*/
 		const aiScene* const pScene = importer.ReadFile(
 			assetPath.data(),
-			aiProcess_Triangulate | aiProcess_SortByPType | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace);
+			aiProcess_Triangulate | aiProcess_JoinIdenticalVertices |
+			aiProcess_SortByPType | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace);
 
 		if (!pScene || (pScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE))
 			throw AssetImporterException(importer.GetErrorString());
