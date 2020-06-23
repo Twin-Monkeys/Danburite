@@ -457,6 +457,9 @@ namespace Danburite
 					// mNodeName은 bone name임. aiNode 중에 이 이름을 가진 node가 반드시 있음 (있어야 함)
 					const aiString &boneName = pAiAnimNode->mNodeName;
 
+					// 중복된 node 명이 나와서는 안됨.
+					assert(!animation.getBoneNode(boneName.C_Str()));
+
 					BoneNode &animNode = animation.createBoneNode(boneName.C_Str());
 					TransformTimeline &timeline = animNode.getTimeline();
 

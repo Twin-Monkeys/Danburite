@@ -46,13 +46,8 @@ namespace Danburite
 			const string &nodeName = pBone->getNodeName();
 			const BoneNode *const pBoneNode = animation.getBoneNode(nodeName);
 
-			const mat4 *pBoneNodeMat;
-			if (pBoneNode)
-				pBoneNodeMat = &(pBoneNode->getMatrix());
-			else
-				pBoneNodeMat = &(Constant::Common::IDENTITY_MATRIX);
-
-			__boneMatrices[pBone->ID] = pBone->calcBoneMatrix(*pBoneNodeMat);
+			const mat4 &boneNodeMat = pBoneNode->getMatrix();
+			__boneMatrices[pBone->ID] = pBone->calcBoneMatrix(boneNodeMat);
 		}
 	}
 

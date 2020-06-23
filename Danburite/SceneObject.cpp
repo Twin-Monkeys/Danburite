@@ -44,23 +44,20 @@ namespace Danburite
 	{
 		Animation &anim = *(__pAnimManager->getActiveAnimation());
 
-		BoneNode* const pBoneNode = anim.getBoneNode(__name);
-		if (pBoneNode)
-			pBoneNode->updateMatrix(parentNodeMatrix);
+		BoneNode* pBoneNode = anim.getBoneNode(__name);
+		if (!pBoneNode)
+			pBoneNode = &anim.createBoneNode(__name);
 
-		const mat4 *pBoneNodeMatrix;
-		if (pBoneNode)
-			pBoneNodeMatrix = &(pBoneNode->getMatrix());
-		else
-			pBoneNodeMatrix = &parentNodeMatrix;
+		pBoneNode->updateMatrix(parentNodeMatrix);
+
+		const mat4 &boneNodeMatrix = pBoneNode->getMatrix();
 
 		for (const shared_ptr<SceneObject> &child : __children)
-			child->__updateBoneHierarchical(*pBoneNodeMatrix);
+			child->__updateBoneHierarchical(boneNodeMatrix);
 	}
 
 	void SceneObject::__updateHierarchical_withAnim(const vector<mat4> &parentModelMatrices)
 	{
-		// animation이 없는 노드도 상위 노드가 animation이 있다면 따라가야 하지 않을까?
 		Animation &anim = *(__pAnimManager->getActiveAnimation());
 
 		for (const unique_ptr<Mesh> &pMesh : __meshes)
