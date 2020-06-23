@@ -10,70 +10,100 @@ namespace Danburite
 {
 	void Transform::_onUpdateTranslationMatrix(mat4 &translationMat) noexcept
 	{
-		translationMat = translate(__component.position);
+		translationMat = translate(__position);
 	}
 
 	void Transform::_onUpdateScaleMatrix(mat4 &scaleMat) noexcept
 	{
-		scaleMat = scale(__component.scale);
+		scaleMat = scale(__scale);
 	}
 
 	void Transform::_onUpdateRotationMatrix(mat4 &rotationMat) noexcept
 	{
-		rotationMat = __component.rotation.getMatrix();
+		rotationMat = __rotation.getMatrix();
 	}
 	
-	Transform &Transform::setRotation(const vec3 &eularAngles) noexcept
+	Transform &Transform::setRotation(const quat &src, const bool normalization) noexcept
 	{
-		__component.rotation.set(eularAngles);
+		__rotation.set(src, normalization);
+		return *this;
+	}
+
+	Transform &Transform::setRotation(const float w, const float x, const float y, const float z, const bool normalization) noexcept
+	{
+		__rotation.set(w, x, y, z, normalization);
+		return *this;
+	}
+
+	Transform &Transform::setRotation(const Quaternion &quaternion, const bool normalization) noexcept
+	{
+		__rotation.set(quaternion, normalization);
+		return *this;
+	}
+
+	Transform &Transform::setRotation(const vec3 &eulerAngles) noexcept
+	{
+		__rotation.set(eulerAngles);
 		return *this;
 	}
 
 	Transform &Transform::setRotation(const float pitch, const float yaw, const float roll) noexcept
 	{
-		__component.rotation.set(pitch, yaw, roll);
+		__rotation.set(pitch, yaw ,roll);
 		return *this;
 	}
 
-	Transform &Transform::setRotation(const Quaternion &rotation) noexcept
+	Transform &Transform::setRotation(const float angle, const vec3 &axis) noexcept
 	{
-		__component.rotation = rotation;
+		__rotation.set(angle, axis);
+		return *this;
+	}
+
+	Transform &Transform::setRotation(const mat3 &rotationMatrix, const bool normalization) noexcept
+	{
+		__rotation.set(rotationMatrix, normalization);
+		return *this;
+	}
+
+	Transform &Transform::setRotation(const mat4 &rotationMatrix, const bool normalization) noexcept
+	{
+		__rotation.set(rotationMatrix, normalization);
 		return *this;
 	}
 
 	Transform &Transform::rotateGlobal(const vec3 &eulerAngles) noexcept
 	{
-		__component.rotation.rotateGlobal(eulerAngles);
+		__rotation.rotateGlobal(eulerAngles);
 		return *this;
 	}
 
 	Transform &Transform::rotateGlobal(const float pitch, const float yaw, const float roll) noexcept
 	{
-		__component.rotation.rotateGlobal(pitch, yaw, roll);
+		__rotation.rotateGlobal(pitch, yaw, roll);
 		return *this;
 	}
 
 	Transform &Transform::rotateGlobal(const float angle, const vec3 &axis) noexcept
 	{
-		__component.rotation.rotateGlobal(angle, axis);
+		__rotation.rotateGlobal(angle, axis);
 		return *this;
 	}
 
 	Transform &Transform::rotateLocal(const vec3 &eulerAngles) noexcept
 	{
-		__component.rotation.rotateLocal(eulerAngles);
+		__rotation.rotateLocal(eulerAngles);
 		return *this;
 	}
 
 	Transform &Transform::rotateLocal(const float pitch, const float yaw, const float roll) noexcept
 	{
-		__component.rotation.rotateLocal(pitch, yaw, roll);
+		__rotation.rotateLocal(pitch, yaw, roll);
 		return *this;
 	}
 
 	Transform &Transform::rotateFPS(const float pitch, const float yaw, const vec3 &referenceUp) noexcept
 	{
-		__component.rotation.rotateFPS(pitch, yaw, referenceUp);
+		__rotation.rotateFPS(pitch, yaw, referenceUp);
 		return *this;
 	}
 
@@ -103,7 +133,7 @@ namespace Danburite
 
 	Transform &Transform::orient(const vec3 &forward, const vec3 &referenceUp) noexcept
 	{
-		__component.rotation.orient(forward, referenceUp);
+		__rotation.orient(forward, referenceUp);
 		return *this;
 	}
 
@@ -115,10 +145,10 @@ namespace Danburite
 	Transform &Transform::orbit(const float angle, const vec3 &pivot, const vec3 &axis, const bool angleRotation) noexcept
 	{
 		const quat &rotationQuat = angleAxis(angle, normalize(axis));
-		__component.position = ((rotationQuat * (__component.position - pivot)) + pivot);
+		__position = ((rotationQuat * (__position - pivot)) + pivot);
 
 		if (angleRotation)
-			__component.rotation.rotateGlobal(angle, axis);
+			__rotation.rotateGlobal(angle, axis);
 
 		return *this;
 	}

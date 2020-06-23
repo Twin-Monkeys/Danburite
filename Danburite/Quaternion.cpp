@@ -7,6 +7,11 @@ using namespace glm;
 
 namespace Danburite
 {
+	Quaternion::Quaternion(const Quaternion &src, const bool normalization) noexcept
+	{
+		set(src, normalization);
+	}
+
 	Quaternion::Quaternion(const quat &src, const bool normalization) noexcept
 	{
 		set(src, normalization);
@@ -55,6 +60,11 @@ namespace Danburite
 	Quaternion &Quaternion::set(const float w, const float x, const float y, const float z, const bool normalization) noexcept
 	{
 		return set(quat { w, x, y, z }, normalization);
+	}
+
+	Quaternion &Quaternion::set(const Quaternion &src, const bool normalization) noexcept
+	{
+		return set(src.__quaternion, normalization);
 	}
 
 	Quaternion &Quaternion::set(const vec3 &eulerAngles) noexcept

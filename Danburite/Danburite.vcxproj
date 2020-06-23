@@ -225,7 +225,6 @@
     <ClCompile Include="TextureUtilException.cpp" />
     <ClCompile Include="TransformableCamera.cpp" />
     <ClCompile Include="TransformableLight.cpp" />
-    <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="TransformTimeline.cpp" />
     <ClCompile Include="TransparentPhongMaterial.cpp" />
     <ClCompile Include="UniformBufferFactory.cpp" />
@@ -382,7 +381,6 @@
     <ClInclude Include="TextureUtil.h" />
     <ClInclude Include="TextureUtilException.h" />
     <ClInclude Include="TransformableCamera.h" />
-    <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="TransformTimeline.h" />
     <ClInclude Include="TransparentPhongMaterial.h" />
     <ClInclude Include="UniformBufferFactory.h" />

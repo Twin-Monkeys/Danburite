@@ -672,9 +672,6 @@
     <ClCompile Include="Quaternion.cpp">
       <Filter>Library\Engine\Core\Transform</Filter>
     </ClCompile>
-    <ClCompile Include="TransformComponent.cpp">
-      <Filter>Library\Engine\Core\Transform</Filter>
-    </ClCompile>
     <ClCompile Include="BoneException.cpp">
       <Filter>Library\Engine\Core\Animation\Bone</Filter>
     </ClCompile>
@@ -1182,9 +1179,6 @@
       <Filter>Library\Engine\Core\Transform</Filter>
     </ClInclude>
     <ClInclude Include="Quaternion.h">
-      <Filter>Library\Engine\Core\Transform</Filter>
-    </ClInclude>
-    <ClInclude Include="TransformComponent.h">
       <Filter>Library\Engine\Core\Transform</Filter>
     </ClInclude>
     <ClInclude Include="BoneException.h">

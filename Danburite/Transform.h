@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TransformComponent.h"
+#include "Quaternion.h"
 #include <glm/gtc/constants.hpp>
 #include "Constant.h"
 
@@ -9,7 +9,9 @@ namespace Danburite
 	class Transform
 	{
 	private:
-		TransformComponent __component;
+		glm::vec3 __position		{ 0.f, 0.f, 0.f };
+		Quaternion __rotation;
+		glm::vec3 __scale			{ 1.f, 1.f, 1.f };
 
 		glm::mat4 __translationMat	{ 1.f };
 		glm::mat4 __scaleMat		{ 1.f };
@@ -23,10 +25,6 @@ namespace Danburite
 
 	public:
 		Transform() = default;
-		constexpr Transform(const TransformComponent &component) noexcept;
-
-		constexpr const TransformComponent &getComponent() const noexcept;
-		constexpr Transform &setComponent(const TransformComponent &component) noexcept;
 
 		// position
 		constexpr const glm::vec3 &getPosition() const noexcept;
@@ -46,9 +44,14 @@ namespace Danburite
 
 		// rotation
 		constexpr const Quaternion &getRotation() const noexcept;
-		Transform &setRotation(const glm::vec3 &eularAngles) noexcept;
+		Transform &setRotation(const glm::quat &src, const bool normalization = true) noexcept;
+		Transform &setRotation(const float w, const float x, const float y, const float z, const bool normalization = true) noexcept;
+		Transform &setRotation(const Quaternion &src, const bool normalization = true) noexcept;
+		Transform &setRotation(const glm::vec3 &eulerAngles) noexcept;
 		Transform &setRotation(const float pitch, const float yaw, const float roll) noexcept;
-		Transform &setRotation(const Quaternion &rotation) noexcept;
+		Transform &setRotation(const float angle, const glm::vec3 &axis) noexcept;
+		Transform &setRotation(const glm::mat3 &rotationMatrix, const bool normalization = true) noexcept;
+		Transform &setRotation(const glm::mat4 &rotationMatrix, const bool normalization = true) noexcept;
 
 		Transform &rotateGlobal(const glm::vec3 &eulerAngles) noexcept;
 		Transform &rotateGlobal(const float pitch, const float yaw, const float roll) noexcept;
@@ -76,31 +79,15 @@ namespace Danburite
 		constexpr const glm::mat4 &getModelMatrix() const noexcept;
 
 		constexpr Transform &operator=(const Transform &transform) = default;
-		constexpr Transform &operator=(const TransformComponent &component) noexcept;
 
 		virtual void updateMatrix() noexcept;
 
 		virtual ~Transform() = default;
 	};
 
-	constexpr Transform::Transform(const TransformComponent &component) noexcept :
-		__component(component)
-	{}
-
-	constexpr const TransformComponent &Transform::getComponent() const noexcept
-	{
-		return __component;
-	}
-
-	constexpr Transform &Transform::setComponent(const TransformComponent &component) noexcept
-	{
-		__component = component;
-		return *this;
-	}
-
 	constexpr const glm::vec3& Transform::getPosition() const noexcept
 	{
-		return __component.position;
+		return __position;
 	}
 
 	constexpr Transform &Transform::setPosition(const glm::vec3 &position) noexcept
@@ -110,9 +97,9 @@ namespace Danburite
 
 	constexpr Transform &Transform::setPosition(const float x, const float y, const float z) noexcept
 	{
-		__component.position.x = x;
-		__component.position.y = y;
-		__component.position.z = z;
+		__position.x = x;
+		__position.y = y;
+		__position.z = z;
 		return *this;
 	}
 
@@ -123,15 +110,12 @@ namespace Danburite
 	
 	constexpr Transform &Transform::adjustPosition(const float xDelta, const float yDelta, const float zDelta) noexcept
 	{
-		__component.position.x += xDelta;
-		__component.position.y += yDelta;
-		__component.position.z += zDelta;
-		return *this;
+		return setPosition(__position.x + xDelta, __position.y + yDelta, __position.z + zDelta);
 	}
 
 	constexpr const glm::vec3 &Transform::getScale() const noexcept
 	{
-		return __component.scale;
+		return __scale;
 	}
 
 	constexpr Transform &Transform::setScale(const float uniformScale) noexcept
@@ -146,10 +130,10 @@ namespace Danburite
 
 	constexpr Transform &Transform::setScale(const float x, const float y, const float z) noexcept
 	{
-		__component.scale.x = x;
-		__component.scale.y = y;
-		__component.scale.z = z;
-		clamp(__component.scale, Constant::Transform::MIN_SCALE, Constant::Transform::MAX_SCALE);
+		__scale.x = x;
+		__scale.y = y;
+		__scale.z = z;
+		clamp(__scale, Constant::Transform::MIN_SCALE, Constant::Transform::MAX_SCALE);
 
 		return *this;
 	}
@@ -166,15 +150,12 @@ namespace Danburite
 
 	constexpr Transform &Transform::adjustScale(const float xDelta, const float yDelta, const float zDelta) noexcept
 	{
-		return setScale(
-			__component.scale.x + xDelta,
-			__component.scale.y + yDelta,
-			__component.scale.z + zDelta);
+		return setScale(__scale.x + xDelta, __scale.y + yDelta, __scale.z + zDelta);
 	}
 
 	constexpr const Quaternion &Transform::getRotation() const noexcept
 	{
-		return __component.rotation;
+		return __rotation;
 	}
 
 	constexpr const glm::vec4 &Transform::getForward() const noexcept
@@ -210,10 +191,5 @@ namespace Danburite
 	constexpr const glm::mat4 &Transform::getModelMatrix() const noexcept
 	{
 		return __modelMat;
-	}
-
-	constexpr Transform &Transform::operator=(const TransformComponent &component) noexcept
-	{
-		return setComponent(component);
 	}
 }

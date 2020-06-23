@@ -14,7 +14,7 @@ namespace Danburite
 		/* Ctors */
 
 		Quaternion() = default;
-		Quaternion(const Quaternion &src) = default;
+		Quaternion(const Quaternion &src, const bool normalization = true) noexcept;
 
 		// default
 		Quaternion(const glm::quat &src, const bool normalization = true) noexcept;
@@ -37,6 +37,7 @@ namespace Danburite
 		// default
 		Quaternion &set(const glm::quat &src, const bool normalization = true) noexcept;
 		Quaternion &set(const float w, const float x, const float y, const float z, const bool normalization = true) noexcept;
+		Quaternion &set(const Quaternion &src, const bool normalization = true) noexcept;
 
 		// euler angles
 		Quaternion &set(const glm::vec3 &eulerAngles) noexcept;
