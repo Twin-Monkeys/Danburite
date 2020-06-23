@@ -576,9 +576,6 @@
     <ClCompile Include="RenderUnit.cpp">
       <Filter>Library\Engine\Core\RenderUnit</Filter>
     </ClCompile>
-    <ClCompile Include="RenderUnitManager.cpp">
-      <Filter>Library\Engine\Core\RenderUnit</Filter>
-    </ClCompile>
     <ClCompile Include="GeometryShaderCompiler.cpp">
       <Filter>Library\ObjectGL\Core\Shader\Compiler\GeometryShaderCompiler</Filter>
     </ClCompile>
@@ -1050,9 +1047,6 @@
       <Filter>Library\ObjectGL\Core\Buffer</Filter>
     </ClInclude>
     <ClInclude Include="RenderUnit.h">
-      <Filter>Library\Engine\Core\RenderUnit</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderUnitManager.h">
       <Filter>Library\Engine\Core\RenderUnit</Filter>
     </ClInclude>
     <ClInclude Include="GeometryShaderCompiler.h">

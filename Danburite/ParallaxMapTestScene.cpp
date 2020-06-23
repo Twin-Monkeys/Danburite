@@ -1,7 +1,6 @@
 #include "ParallaxMapTestScene.h"
 #include "ProgramFactory.h"
 #include "VertexAttributeListFactory.h"
-#include "RenderUnitManager.h"
 #include "RenderContext.h"
 #include "AssetImporter.h"
 #include "GLFunctionWrapper.h"
@@ -27,7 +26,6 @@ ParallaxMapTestScene::ParallaxMapTestScene()
 
 	//// Rendering unit »ý¼º ////
 
-	RenderUnitManager& ruManager = RenderUnitManager::getInstance();
 	VertexArrayFactory& vaFactory = VertexArrayFactory::getInstance();
 
 	const shared_ptr<Texture2D>& pWoodToyTexture_diffuse =
@@ -72,7 +70,7 @@ ParallaxMapTestScene::ParallaxMapTestScene()
 	pWoodToyMaterial->setShininess(150.f);
 
 	unique_ptr<Mesh> pWoodToyMesh = make_unique<Mesh>(pWoodToyVA, pWoodToyMaterial);
-	__pWoodToyRU = ruManager.createRenderUnit(move(pWoodToyMesh));
+	__pWoodToyRU = make_shared<RenderUnit>(move(pWoodToyMesh));
 
 	Transform& woodToyTransform = __pWoodToyRU->getTransform();
 	woodToyTransform.setScale(10.f, 10.f, 1.f);

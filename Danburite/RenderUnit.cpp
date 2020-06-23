@@ -1,5 +1,4 @@
 #include "RenderUnit.h"
-#include "RenderUnitManager.h"
 #include "Constant.h"
 
 using namespace std;

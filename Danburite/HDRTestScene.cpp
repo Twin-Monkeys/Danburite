@@ -1,6 +1,5 @@
 #include "HDRTestScene.h"
 #include "VertexAttributeListFactory.h"
-#include "RenderUnitManager.h"
 #include "RenderContext.h"
 #include "AssetImporter.h"
 #include "GLFunctionWrapper.h"
@@ -27,7 +26,6 @@ HDRTestScene::HDRTestScene()
 
 	//// Rendering unit »ý¼º ////
 
-	RenderUnitManager& ruManager = RenderUnitManager::getInstance();
 	VertexArrayFactory& vaFactory = VertexArrayFactory::getInstance();
 
 	const shared_ptr<Texture2D>& pFloor_diffuse =
@@ -49,7 +47,7 @@ HDRTestScene::HDRTestScene()
 	pFloorMaterial->setShininess(150.f);
 
 	unique_ptr<Mesh> pWoodToyMesh = make_unique<Mesh>(pFloorVA, pFloorMaterial);
-	__pFloorRU = ruManager.createRenderUnit(move(pWoodToyMesh));
+	__pFloorRU = make_shared<RenderUnit>(move(pWoodToyMesh));
 
 	Transform& floorTransform = __pFloorRU->getTransform();
 	floorTransform.setScale(60.f, 60.f, 1.f);

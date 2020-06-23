@@ -247,7 +247,6 @@
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="ProgramFactory.cpp" />
     <ClCompile Include="RenderUnit.cpp" />
-    <ClCompile Include="RenderUnitManager.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ShaderCompiler.cpp" />
@@ -369,7 +368,6 @@
     <ClInclude Include="RenderBufferException.h" />
     <ClInclude Include="RenderBufferInternalFormatType.h" />
     <ClInclude Include="RenderBufferMultisample.h" />
-    <ClInclude Include="RenderUnitManager.h" />
     <ClInclude Include="ShaderCompiler.h" />
     <ClInclude Include="ShaderIdentifier.h" />
     <ClInclude Include="ShapeType.h" />

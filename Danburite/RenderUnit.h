@@ -4,17 +4,12 @@
 #include "Mesh.h"
 #include <unordered_set>
 #include "ModelMatrixBuffer.h"
-#include "WeakPointerContainer.h"
 #include "AnimationManager.h"
 
 namespace Danburite
 {
-	class RenderUnitManager;
-
 	class RenderUnit : public Updatable, public Drawable
 	{
-		friend RenderUnitManager;
-
 	private:
 		std::unordered_set<std::unique_ptr<Mesh>> __meshes;
 
@@ -33,20 +28,19 @@ namespace Danburite
 
 		void __updateHierarchical_withoutAnim(const std::vector<glm::mat4> &parentModelMatrices);
 
-	protected:
+	public:
 		RenderUnit(
 			std::unique_ptr<Mesh> pMesh,
-			const glm::mat4 &nodeTransformationMat,
-			const std::shared_ptr<AnimationManager> &pAnimationManager,
-			const std::string_view &unitName) noexcept;
+			const glm::mat4 &nodeTransformationMat = glm::mat4 { 1.f },
+			const std::shared_ptr<AnimationManager> &pAnimationManager = nullptr,
+			const std::string_view &unitName = "") noexcept;
 
 		RenderUnit(
 			std::unordered_set<std::unique_ptr<Mesh>> &&meshes,
-			const glm::mat4 &nodeTransformationMat,
-			const std::shared_ptr<AnimationManager> &pAnimationManager,
-			const std::string_view &unitName) noexcept;
+			const glm::mat4 &nodeTransformationMat = glm::mat4 { 1.f },
+			const std::shared_ptr<AnimationManager> &pAnimationManager = nullptr,
+			const std::string_view &unitName = "") noexcept;
 
-	public:
 		constexpr const std::string &getName() const noexcept;
 
 		constexpr size_t getNumInstances() const noexcept;

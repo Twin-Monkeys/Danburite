@@ -1,7 +1,6 @@
 #include "ShadowTestScene.h"
 #include "ProgramFactory.h"
 #include "VertexAttributeListFactory.h"
-#include "RenderUnitManager.h"
 #include "RenderContext.h"
 #include "AssetImporter.h"
 #include "GLFunctionWrapper.h"

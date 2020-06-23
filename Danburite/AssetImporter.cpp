@@ -119,8 +119,6 @@ namespace Danburite
 		const mat4 &customTransformationMat, const MaterialType materialType,
 		unordered_map<string, shared_ptr<Texture2D>> &textureCache, const shared_ptr<AnimationManager> &pAnimationManager)
 	{
-		RenderUnitManager &renderingUnitMgr = RenderUnitManager::getInstance();
-
 		const aiMesh *const *const pAiMeshes = pScene->mMeshes;
 		const aiMaterial *const *const pAiMaterials = pScene->mMaterials;
 
@@ -399,7 +397,7 @@ namespace Danburite
 		aiMatrix4x4 aiNodeTransformationMat = pNode->mTransformation;
 		memcpy(&nodeTransformationMat, &aiNodeTransformationMat.Transpose(), sizeof(mat4));
 
-		return renderingUnitMgr.createRenderUnit(
+		return make_shared<RenderUnit>(
 			move(meshes), customTransformationMat * nodeTransformationMat, pAnimationManager, pNode->mName.C_Str());
 	}
 
