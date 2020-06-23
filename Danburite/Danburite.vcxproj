@@ -246,7 +246,7 @@
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="ProgramFactory.cpp" />
-    <ClCompile Include="RenderUnit.cpp" />
+    <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ShaderCompiler.cpp" />
@@ -409,7 +409,7 @@
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="RasterizationType.h" />
-    <ClInclude Include="RenderUnit.h" />
+    <ClInclude Include="SceneObject.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="VertexArrayException.h" />
     <ClInclude Include="ElementType.h" />

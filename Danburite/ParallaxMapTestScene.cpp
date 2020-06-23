@@ -70,7 +70,7 @@ ParallaxMapTestScene::ParallaxMapTestScene()
 	pWoodToyMaterial->setShininess(150.f);
 
 	unique_ptr<Mesh> pWoodToyMesh = make_unique<Mesh>(pWoodToyVA, pWoodToyMaterial);
-	__pWoodToyRU = make_shared<RenderUnit>(move(pWoodToyMesh));
+	__pWoodToyRU = make_shared<SceneObject>(move(pWoodToyMesh));
 
 	Transform& woodToyTransform = __pWoodToyRU->getTransform();
 	woodToyTransform.setScale(10.f, 10.f, 1.f);

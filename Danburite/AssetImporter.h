@@ -1,6 +1,6 @@
 #pragma once
 
-#include "RenderUnit.h"
+#include "SceneObject.h"
 #include "AssetImporterException.h"
 #include <string_view>
 #include "Constant.h"
@@ -16,7 +16,7 @@ namespace Danburite
 	class AssetImporter abstract
 	{
 	public:
-		static std::shared_ptr<RenderUnit> import(
+		static std::shared_ptr<SceneObject> import(
 			const std::string_view &assetPath,
 			const glm::mat4 &customTransformationMat = Constant::Common::IDENTITY_MATRIX,
 			const MaterialType materialType = MaterialType::PHONG);

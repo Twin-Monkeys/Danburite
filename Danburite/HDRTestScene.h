@@ -2,7 +2,7 @@
 
 #include "Scene.h"
 #include "ScreenEventHandler.h"
-#include "RenderUnit.h"
+#include "SceneObject.h"
 #include "PerspectiveCamera.h"
 #include "PointLight.h"
 #include "SpotLight.h"
@@ -19,13 +19,13 @@ class HDRTestScene : public Danburite::Scene, public ObjectGL::ScreenEventHandle
 private:
 	bool __updated = false;
 
-	std::shared_ptr<Danburite::RenderUnit> __pFloorRU;
-	std::shared_ptr<Danburite::RenderUnit> __pLampRU;
-	std::shared_ptr<Danburite::RenderUnit> __pCargoBayRU;
-	std::shared_ptr<Danburite::RenderUnit> __pPulseCoreRU;
-	std::shared_ptr<Danburite::RenderUnit> __pDoorRU;
-	std::shared_ptr<Danburite::RenderUnit> __pLizardRU;
-	std::shared_ptr<Danburite::RenderUnit> __pGirlRU;
+	std::shared_ptr<Danburite::SceneObject> __pFloorRU;
+	std::shared_ptr<Danburite::SceneObject> __pLampRU;
+	std::shared_ptr<Danburite::SceneObject> __pCargoBayRU;
+	std::shared_ptr<Danburite::SceneObject> __pPulseCoreRU;
+	std::shared_ptr<Danburite::SceneObject> __pDoorRU;
+	std::shared_ptr<Danburite::SceneObject> __pLizardRU;
+	std::shared_ptr<Danburite::SceneObject> __pGirlRU;
 
 	std::shared_ptr<Danburite::PerspectiveCamera> __pCamera;
 

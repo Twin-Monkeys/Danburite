@@ -114,7 +114,7 @@ namespace Danburite
 		}
 	}
 
-	static shared_ptr<RenderUnit> __parseNode(
+	static shared_ptr<SceneObject> __parseNode(
 		const string &parentPath, const aiNode *const pNode, const aiScene* const pScene,
 		const mat4 &customTransformationMat, const MaterialType materialType,
 		unordered_map<string, shared_ptr<Texture2D>> &textureCache, const shared_ptr<AnimationManager> &pAnimationManager)
@@ -397,11 +397,11 @@ namespace Danburite
 		aiMatrix4x4 aiNodeTransformationMat = pNode->mTransformation;
 		memcpy(&nodeTransformationMat, &aiNodeTransformationMat.Transpose(), sizeof(mat4));
 
-		return make_shared<RenderUnit>(
+		return make_shared<SceneObject>(
 			move(meshes), customTransformationMat * nodeTransformationMat, pAnimationManager, pNode->mName.C_Str());
 	}
 
-	shared_ptr<RenderUnit> AssetImporter::import(
+	shared_ptr<SceneObject> AssetImporter::import(
 		const string_view &assetPath, const mat4 &customTransformationMat, const MaterialType materialType)
 	{
 		/*
@@ -573,17 +573,17 @@ namespace Danburite
 			If you want the mesh¡¯s orientation in global space,
 			You¡¯d have to concatenate the transformations from the referring node and all of its parents.
 		*/
-		// <parent(RenderUnit), child(aiNode)> tuple stack
-		stack<pair<const shared_ptr<RenderUnit>, const aiNode *>> nodeStack;
+		// <parent(SceneObject), child(aiNode)> tuple stack
+		stack<pair<const shared_ptr<SceneObject>, const aiNode *>> nodeStack;
 		nodeStack.emplace(nullptr, pScene->mRootNode);
 
-		shared_ptr<RenderUnit> retVal = nullptr;
+		shared_ptr<SceneObject> retVal = nullptr;
 		while (!nodeStack.empty())
 		{
 			const auto [pParent, pCurrentNode] = nodeStack.top();
 			nodeStack.pop();
 
-			const shared_ptr<RenderUnit> &pParsedCurrent = __parseNode(
+			const shared_ptr<SceneObject> &pParsedCurrent = __parseNode(
 				parentPath, pCurrentNode, pScene, customTransformationMat, materialType, textureCache, pAnimationManager);
 
 			if (!pParent)

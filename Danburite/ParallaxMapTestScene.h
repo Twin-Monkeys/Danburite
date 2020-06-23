@@ -2,7 +2,7 @@
 
 #include "Scene.h"
 #include "ScreenEventHandler.h"
-#include "RenderUnit.h"
+#include "SceneObject.h"
 #include "PerspectiveCamera.h"
 #include "PointLight.h"
 #include "LightHandler.h"
@@ -17,7 +17,7 @@ class ParallaxMapTestScene : public Danburite::Scene, public ObjectGL::ScreenEve
 private:
 	bool __updated = false;
 
-	std::shared_ptr<Danburite::RenderUnit> __pWoodToyRU;
+	std::shared_ptr<Danburite::SceneObject> __pWoodToyRU;
 	std::shared_ptr<Danburite::PerspectiveCamera> __pCamera;
 
 	std::shared_ptr<Danburite::PointLight> __pWhiteLight;

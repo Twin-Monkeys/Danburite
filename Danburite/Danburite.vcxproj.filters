@@ -573,9 +573,6 @@
     <ClCompile Include="RefractionMaterial.cpp">
       <Filter>Library\Engine\Core\Material\RefractionMaterial</Filter>
     </ClCompile>
-    <ClCompile Include="RenderUnit.cpp">
-      <Filter>Library\Engine\Core\RenderUnit</Filter>
-    </ClCompile>
     <ClCompile Include="GeometryShaderCompiler.cpp">
       <Filter>Library\ObjectGL\Core\Shader\Compiler\GeometryShaderCompiler</Filter>
     </ClCompile>
@@ -700,6 +697,9 @@
       <Filter>Library\Engine\Core\Animation\Bone</Filter>
     </ClCompile>
     <ClCompile Include="ModelMatrixBuffer.cpp">
+      <Filter>Library\Engine\Core\RenderUnit</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneObject.cpp">
       <Filter>Library\Engine\Core\RenderUnit</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1046,9 +1046,6 @@
     <ClInclude Include="BufferAccessType.h">
       <Filter>Library\ObjectGL\Core\Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="RenderUnit.h">
-      <Filter>Library\Engine\Core\RenderUnit</Filter>
-    </ClInclude>
     <ClInclude Include="GeometryShaderCompiler.h">
       <Filter>Library\ObjectGL\Core\Shader\Compiler\GeometryShaderCompiler</Filter>
     </ClInclude>
@@ -1221,6 +1218,9 @@
       <Filter>Library\Engine\Core\Animation\Bone</Filter>
     </ClInclude>
     <ClInclude Include="ModelMatrixBuffer.h">
+      <Filter>Library\Engine\Core\RenderUnit</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneObject.h">
       <Filter>Library\Engine\Core\RenderUnit</Filter>
     </ClInclude>
   </ItemGroup>

@@ -47,7 +47,7 @@ HDRTestScene::HDRTestScene()
 	pFloorMaterial->setShininess(150.f);
 
 	unique_ptr<Mesh> pWoodToyMesh = make_unique<Mesh>(pFloorVA, pFloorMaterial);
-	__pFloorRU = make_shared<RenderUnit>(move(pWoodToyMesh));
+	__pFloorRU = make_shared<SceneObject>(move(pWoodToyMesh));
 
 	Transform& floorTransform = __pFloorRU->getTransform();
 	floorTransform.setScale(60.f, 60.f, 1.f);

@@ -2,7 +2,7 @@
 
 #include "Scene.h"
 #include "ScreenEventHandler.h"
-#include "RenderUnit.h"
+#include "SceneObject.h"
 #include "PerspectiveCamera.h"
 #include "OrthoCamera.h"
 #include "PointLight.h"
@@ -20,11 +20,11 @@ class ShadowTestScene : public Danburite::Scene, public ObjectGL::ScreenEventHan
 private:
 	bool __updated = false;
 
-	std::shared_ptr<Danburite::RenderUnit> __pNanosuitRU;
-	std::shared_ptr<Danburite::RenderUnit> __pSkullRU;
-	std::shared_ptr<Danburite::RenderUnit> __pGoldenSkullRU;
-	std::shared_ptr<Danburite::RenderUnit> __pRockSurroundRU;
-	std::shared_ptr<Danburite::RenderUnit> __pChestRU;
+	std::shared_ptr<Danburite::SceneObject> __pNanosuitRU;
+	std::shared_ptr<Danburite::SceneObject> __pSkullRU;
+	std::shared_ptr<Danburite::SceneObject> __pGoldenSkullRU;
+	std::shared_ptr<Danburite::SceneObject> __pRockSurroundRU;
+	std::shared_ptr<Danburite::SceneObject> __pChestRU;
 
 	std::shared_ptr<Danburite::PerspectiveCamera> __pCamera;
 	std::shared_ptr<Danburite::CubeSkybox> __pSkybox;

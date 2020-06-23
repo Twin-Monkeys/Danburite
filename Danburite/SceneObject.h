@@ -8,34 +8,33 @@
 
 namespace Danburite
 {
-	class RenderUnit : public Updatable, public Drawable
+	class SceneObject : public Updatable, public Drawable
 	{
 	private:
 		std::unordered_set<std::unique_ptr<Mesh>> __meshes;
 
 		const std::string __name;
 
-		std::unordered_set<std::shared_ptr<RenderUnit>> __children;
+		std::unordered_set<std::shared_ptr<SceneObject>> __children;
 		const std::shared_ptr<ModelMatrixBuffer> __pModelMatrixBuffer;
 
 		const std::shared_ptr<AnimationManager> __pAnimManager;
 
-		RenderUnit(const RenderUnit &) = delete;
-		RenderUnit& operator=(const RenderUnit &) = delete;
+		SceneObject(const SceneObject &) = delete;
+		SceneObject& operator=(const SceneObject &) = delete;
 
 		void __updateBoneHierarchical(const glm::mat4& parentNodeMatrix) noexcept;
 		void __updateHierarchical_withAnim(const std::vector<glm::mat4> &parentModelMatrices);
-
 		void __updateHierarchical_withoutAnim(const std::vector<glm::mat4> &parentModelMatrices);
 
 	public:
-		RenderUnit(
+		SceneObject(
 			std::unique_ptr<Mesh> pMesh,
 			const glm::mat4 &nodeTransformationMat = glm::mat4 { 1.f },
 			const std::shared_ptr<AnimationManager> &pAnimationManager = nullptr,
 			const std::string_view &unitName = "") noexcept;
 
-		RenderUnit(
+		SceneObject(
 			std::unordered_set<std::unique_ptr<Mesh>> &&meshes,
 			const glm::mat4 &nodeTransformationMat = glm::mat4 { 1.f },
 			const std::shared_ptr<AnimationManager> &pAnimationManager = nullptr,
@@ -51,8 +50,8 @@ namespace Danburite
 		AnimationManager &getAnimationManager() noexcept;
 		const AnimationManager &getAnimationManager() const noexcept;
 
-		constexpr std::unordered_set<std::shared_ptr<RenderUnit>> &getChildren() noexcept;
-		constexpr const std::unordered_set<std::shared_ptr<RenderUnit>> &getChildren() const noexcept;
+		constexpr std::unordered_set<std::shared_ptr<SceneObject>> &getChildren() noexcept;
+		constexpr const std::unordered_set<std::shared_ptr<SceneObject>> &getChildren() const noexcept;
 
 		virtual void update(const float deltaTime) noexcept override;
 
@@ -62,31 +61,31 @@ namespace Danburite
 		template <typename MaterialType, typename FunctionType, typename ...Args>
 		void traverseMaterial(const FunctionType function, Args &&...args);
 
-		virtual ~RenderUnit() = default;
+		virtual ~SceneObject() = default;
 	};
 
-	constexpr const std::string &RenderUnit::getName() const noexcept
+	constexpr const std::string &SceneObject::getName() const noexcept
 	{
 		return __name;
 	}
 
-	constexpr size_t RenderUnit::getNumInstances() const noexcept
+	constexpr size_t SceneObject::getNumInstances() const noexcept
 	{
 		return __pModelMatrixBuffer->getNumInstances();
 	}
 
-	constexpr std::unordered_set<std::shared_ptr<RenderUnit>> &RenderUnit::getChildren() noexcept
+	constexpr std::unordered_set<std::shared_ptr<SceneObject>> &SceneObject::getChildren() noexcept
 	{
 		return __children;
 	}
 
-	constexpr const std::unordered_set<std::shared_ptr<RenderUnit>> &RenderUnit::getChildren() const noexcept
+	constexpr const std::unordered_set<std::shared_ptr<SceneObject>> &SceneObject::getChildren() const noexcept
 	{
 		return __children;
 	}
 
 	template <typename MaterialType, typename FunctionType, typename ...Args>
-	void RenderUnit::traverseMaterial(const FunctionType function, Args &&...args)
+	void SceneObject::traverseMaterial(const FunctionType function, Args &&...args)
 	{
 		using namespace std;
 
@@ -101,7 +100,7 @@ namespace Danburite
 				(pMaterial->*function)(std::forward<Args>(args)...);
 		}
 
-		for (const shared_ptr<RenderUnit> &child : __children)
+		for (const shared_ptr<SceneObject> &child : __children)
 			child->traverseMaterial<MaterialType>(function, std::forward<Args>(args)...);
 	}
 }
