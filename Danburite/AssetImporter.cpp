@@ -152,9 +152,8 @@ namespace Danburite
 			// vertex id, bone infomation per vertex (bone idx, bone weight)
 			unordered_map<unsigned, vector<pair<unsigned, float>>> vertexBoneInfoMap;
 
-			VertexAttributeFlag vertexFlag = VertexAttributeFlag::POS;
-
 			assert(pAiMesh->HasPositions());
+			VertexAttributeFlag vertexFlag = VertexAttributeFlag::POS;
 
 			if (pAiMesh->HasVertexColors(0))
 				vertexFlag |= VertexAttributeFlag::COLOR;
@@ -202,7 +201,10 @@ namespace Danburite
 			for (unsigned vertexIter = 0; vertexIter < pAiMesh->mNumVertices; vertexIter++)
 			{
 				const aiVector3D &aiPos = pAiMesh->mVertices[vertexIter];
-				vertices.insert(vertices.end(), { aiPos.x, aiPos.y, aiPos.z });
+				if (string{ pAiMesh->mName.C_Str() } == "Object067_A-2_0")
+					vertices.insert(vertices.end(), { 1.1f * aiPos.x, 1.1f * aiPos.y, 1.1f * aiPos.z });
+				else
+					vertices.insert(vertices.end(), { aiPos.x, aiPos.y, aiPos.z });
 
 				if (vertexFlag & VertexAttributeFlag::COLOR)
 				{
