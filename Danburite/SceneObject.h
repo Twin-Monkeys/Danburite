@@ -32,13 +32,13 @@ namespace Danburite
 			std::unique_ptr<Mesh> pMesh,
 			const glm::mat4 &nodeTransformationMat = glm::mat4 { 1.f },
 			const std::shared_ptr<AnimationManager> &pAnimationManager = nullptr,
-			const std::string_view &unitName = "") noexcept;
+			const std::string_view &unitName = "NO_NAMED_OBJ") noexcept;
 
 		SceneObject(
 			std::unordered_set<std::unique_ptr<Mesh>> &&meshes,
 			const glm::mat4 &nodeTransformationMat = glm::mat4 { 1.f },
 			const std::shared_ptr<AnimationManager> &pAnimationManager = nullptr,
-			const std::string_view &unitName = "") noexcept;
+			const std::string_view &unitName = "NO_NAMED_OBJ") noexcept;
 
 		constexpr const std::string &getName() const noexcept;
 
