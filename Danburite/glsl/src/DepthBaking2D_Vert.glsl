@@ -10,7 +10,7 @@ void main()
 	vec3 localPos = VertexAttribute_pos;
 
 	if (Material_isVertexBoneEnabled())
-		localPos = (Bone_getBoneMatrix(VertexAttribute_boneIndices, VertexAttribute_boneWeights) * vec4(localPos, 1.f)).xyz;
+		localPos = Bone_getAnimatedPosition(VertexAttribute_boneIndices, VertexAttribute_boneWeights, localPos);
 
 	gl_Position = DepthBaking2D_getNDCPosition(VertexAttribute_modelMat, VertexAttribute_pos);
 } 

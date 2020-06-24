@@ -54,12 +54,9 @@ void VariableInOut_Vert_exportVariablesToFrag()
 	#ifdef VariableInOut_Vert_exportToFrag_worldPos
 	vec3 localPos = VertexAttribute_pos;
 
-	mat4 boneMat;
 	if (Material_isVertexBoneEnabled())
-	{
-		boneMat = Bone_getBoneMatrix(VertexAttribute_boneIndices, VertexAttribute_boneWeights);
-		localPos = (boneMat * vec4(localPos, 1.f)).xyz;
-	}
+		localPos = Bone_getAnimatedPosition(VertexAttribute_boneIndices, VertexAttribute_boneWeights, localPos);
+
 	variableInOut_VertToFrag.worldPos = Model_getWorldPosition(VertexAttribute_modelMat, localPos);
 	#endif
 
@@ -71,7 +68,7 @@ void VariableInOut_Vert_exportVariablesToFrag()
 	vec3 localNormal = VertexAttribute_normal;
 
 	if (Material_isVertexBoneEnabled())
-		localNormal = (transpose(inverse(mat3(boneMat))) * localNormal);
+		localNormal = Bone_getAnimatedNormal(VertexAttribute_boneIndices, VertexAttribute_boneWeights, localNormal);
 
 	variableInOut_VertToFrag.worldNormal = Model_getWorldNormal(VertexAttribute_modelMat, localNormal);
 	#endif

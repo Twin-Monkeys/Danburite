@@ -428,7 +428,7 @@ namespace Danburite
 		*/
 		const aiScene* const pScene = importer.ReadFile(
 			assetPath.data(),
-			aiProcess_Triangulate | aiProcess_JoinIdenticalVertices |
+			aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_LimitBoneWeights |
 			aiProcess_SortByPType | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace);
 
 		if (!pScene || (pScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE))
@@ -478,11 +478,11 @@ namespace Danburite
 					const aiNodeAnim *const pAiAnimNode = pAiAnim->mChannels[nodeAnimIter];
 
 					// mNodeName은 bone name임. aiNode 중에 이 이름을 가진 node가 반드시 있음 (있어야 함)
-					const aiString &boneName = pAiAnimNode->mNodeName;
+					const aiString &boneNodeName = pAiAnimNode->mNodeName;
 
-					BoneNode *pBoneNode = animation.getBoneNode(boneName.C_Str());
+					BoneNode *pBoneNode = animation.getBoneNode(boneNodeName.C_Str());
 					if (!pBoneNode)
-						pBoneNode = &animation.createBoneNode(boneName.C_Str());
+						pBoneNode = &animation.createBoneNode(boneNodeName.C_Str());
 
 					TransformTimeline &timeline = pBoneNode->getTimeline();
 
