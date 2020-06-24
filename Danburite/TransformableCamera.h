@@ -1,32 +1,32 @@
 #pragma once
 
 #include "Camera.h"
-#include "CameraTransform.h"
+#include "Transform.h"
 
 namespace Danburite
 {
 	class TransformableCamera abstract : public Camera
 	{
 	private:
-		CameraTransform __transform;
+		Transform __transform;
 
 	protected:
 		virtual void _onUpdateViewMatrix(glm::mat4 &viewMatrix) noexcept override;
 		virtual void _onDeploy(ObjectGL::UniformSetter &uniformSetter) const noexcept override;
 
 	public:
-		constexpr CameraTransform &getTransform() noexcept;
-		constexpr const CameraTransform &getTransform() const noexcept;
+		constexpr Transform &getTransform() noexcept;
+		constexpr const Transform &getTransform() const noexcept;
 
 		virtual ~TransformableCamera() = default;
 	};
 
-	constexpr CameraTransform &TransformableCamera::getTransform() noexcept
+	constexpr Transform &TransformableCamera::getTransform() noexcept
 	{
 		return __transform;
 	}
 
-	constexpr const CameraTransform &TransformableCamera::getTransform() const noexcept
+	constexpr const Transform &TransformableCamera::getTransform() const noexcept
 	{
 		return __transform;
 	}

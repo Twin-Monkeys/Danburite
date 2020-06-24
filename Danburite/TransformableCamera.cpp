@@ -12,7 +12,7 @@ namespace Danburite
 	void TransformableCamera::_onUpdateViewMatrix(mat4 &viewMatrix) noexcept
 	{
 		__transform.updateMatrix();
-		viewMatrix = __transform.getViewMatrix();
+		viewMatrix = inverse(__transform.getModelMatrix());
 	}
 
 	void TransformableCamera::_onDeploy(UniformSetter &uniformSetter) const noexcept

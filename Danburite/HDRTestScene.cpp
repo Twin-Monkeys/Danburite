@@ -101,7 +101,7 @@ HDRTestScene::HDRTestScene()
 
 	__pCamera = make_shared<PerspectiveCamera>();
 
-	CameraTransform &cameraTransform = __pCamera->getTransform();
+	Transform &cameraTransform = __pCamera->getTransform();
 	cameraTransform.setPosition(0.f, 15.f, 50.f);
 	cameraTransform.setRotation(-0.4f, 0.f, 0.f);
 
@@ -194,7 +194,7 @@ bool HDRTestScene::__keyFunc(const float deltaTime) noexcept
 		UP = (GetAsyncKeyState('E') & 0x8000),
 		DOWN = (GetAsyncKeyState('Q') & 0x8000);
 
-	CameraTransform& cameraTransform = __pCamera->getTransform();
+	Transform& cameraTransform = __pCamera->getTransform();
 
 	if (LEFT)
 		cameraTransform.moveHorizontal(-MOVE_SPEED);

@@ -168,7 +168,7 @@ bool ShadowTestScene::__keyFunc(const float deltaTime) noexcept
 		UP		= (GetAsyncKeyState('E') & 0x8000),
 		DOWN	= (GetAsyncKeyState('Q') & 0x8000);
 
-	CameraTransform &cameraTransform = __pCamera->getTransform();
+	Transform &cameraTransform = __pCamera->getTransform();
 
 	if (LEFT)
 		cameraTransform.moveHorizontal(-MOVE_SPEED);

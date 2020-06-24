@@ -167,7 +167,6 @@
     <ClCompile Include="Bone.cpp" />
     <ClCompile Include="BoneException.cpp" />
     <ClCompile Include="BoneManager.cpp" />
-    <ClCompile Include="CameraTransform.cpp" />
     <ClCompile Include="ConvolutionalPostProcessor.cpp" />
     <ClCompile Include="CubeSkybox.cpp" />
     <ClCompile Include="CubeSkyboxComponent.cpp" />
@@ -309,7 +308,6 @@
     <ClInclude Include="Timeline.h" />
     <ClInclude Include="TimelineWrappingType.h" />
     <ClInclude Include="TransformableLight.h" />
-    <ClInclude Include="CameraTransform.h" />
     <ClInclude Include="ColorBufferType.h" />
     <ClInclude Include="Constant.h" />
     <ClInclude Include="ConvolutionalPostProcessor.h" />
