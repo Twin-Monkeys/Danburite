@@ -8,21 +8,6 @@ using namespace glm;
 
 namespace Danburite
 {
-	void Transform::_onUpdateTranslationMatrix(mat4 &translationMat) noexcept
-	{
-		translationMat = translate(__position);
-	}
-
-	void Transform::_onUpdateScaleMatrix(mat4 &scaleMat) noexcept
-	{
-		scaleMat = scale(__scale);
-	}
-
-	void Transform::_onUpdateRotationMatrix(mat4 &rotationMat) noexcept
-	{
-		rotationMat = __rotation.getMatrix();
-	}
-	
 	Transform &Transform::setRotation(const quat &src, const bool normalization) noexcept
 	{
 		__rotation.set(src, normalization);
@@ -109,7 +94,7 @@ namespace Danburite
 
 	Transform &Transform::moveForward(const float delta) noexcept
 	{
-		_onUpdateRotationMatrix(__rotationMat);
+		__rotationMat = __rotation.getMatrix();
 		const vec4 &forward = getForward();
 
 		return adjustPosition(forward.x * delta, forward.y * delta, forward.z * delta);
@@ -117,7 +102,7 @@ namespace Danburite
 
 	Transform &Transform::moveHorizontal(const float delta) noexcept
 	{
-		_onUpdateRotationMatrix(__rotationMat);
+		__rotationMat = __rotation.getMatrix();
 		const vec4 &horizontal = getHorizontal();
 
 		return adjustPosition(horizontal.x * delta, horizontal.y * delta, horizontal.z * delta);
@@ -125,7 +110,7 @@ namespace Danburite
 
 	Transform &Transform::moveVertical(const float delta) noexcept
 	{
-		_onUpdateRotationMatrix(__rotationMat);
+		__rotationMat = __rotation.getMatrix();
 		const vec4 &vertical = getVertical();
 
 		return adjustPosition(vertical.x * delta, vertical.y * delta, vertical.z * delta);
@@ -155,9 +140,9 @@ namespace Danburite
 
 	void Transform::updateMatrix() noexcept
 	{
-		_onUpdateScaleMatrix(__scaleMat);
-		_onUpdateRotationMatrix(__rotationMat);
-		_onUpdateTranslationMatrix(__translationMat);
+		__scaleMat = scale(__scale);
+		__rotationMat = __rotation.getMatrix();
+		__translationMat = translate(__position);
 
 		__modelMat = (__translationMat * __rotationMat * __scaleMat);
 	}

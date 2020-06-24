@@ -174,28 +174,41 @@ namespace Danburite
 			if (pAiMesh->HasTangentsAndBitangents())
 				vertexFlag |= VertexAttributeFlag::TANGENT;
 
-			if (pAiMesh->HasBones())
+			if (pAnimationManager->getActiveAnimation())
 			{
 				vertexFlag |= VertexAttributeFlag::BONE;
 
-				for (unsigned boneIter = 0U; boneIter < pAiMesh->mNumBones; boneIter++)
+				if (pAiMesh->HasBones())
 				{
-					const aiBone *const pAiBone = pAiMesh->mBones[boneIter];
-
-					mat4 offsetMat;
-					aiMatrix4x4 aiOffsetMat = pAiBone->mOffsetMatrix;
-					std::memcpy(&offsetMat, &aiOffsetMat.Transpose(), sizeof(mat4));
-
-					// bone 이름과 동일한 이름을 가진 node가 있다. 그 node들의 hierarchy에 따라 bone도 update.
-					Bone &bone = pBoneManager->createBone(pAiBone->mName.C_Str(), offsetMat);
-
-					for (unsigned weightIter = 0U; weightIter < pAiBone->mNumWeights; weightIter++)
+					for (unsigned boneIter = 0U; boneIter < pAiMesh->mNumBones; boneIter++)
 					{
-						aiVertexWeight &vertexWeight = pAiBone->mWeights[weightIter];
-						vector<pair<unsigned, float>> &bonesPerVertex = vertexBoneInfoMap[vertexWeight.mVertexId];
+						const aiBone *const pAiBone = pAiMesh->mBones[boneIter];
 
-						if (vertexWeight.mWeight > epsilon<float>())
-							bonesPerVertex.emplace_back(bone.ID, vertexWeight.mWeight);
+						mat4 offsetMat;
+						aiMatrix4x4 aiOffsetMat = pAiBone->mOffsetMatrix;
+						std::memcpy(&offsetMat, &aiOffsetMat.Transpose(), sizeof(mat4));
+
+						// bone 이름과 동일한 이름을 가진 node가 있다. 그 node들의 hierarchy에 따라 bone도 update.
+						Bone &bone = pBoneManager->createBone(pAiBone->mName.C_Str(), offsetMat);
+
+						for (unsigned weightIter = 0U; weightIter < pAiBone->mNumWeights; weightIter++)
+						{
+							aiVertexWeight &vertexWeight = pAiBone->mWeights[weightIter];
+							vector<pair<unsigned, float>> &bonesPerVertex = vertexBoneInfoMap[vertexWeight.mVertexId];
+
+							if (vertexWeight.mWeight > epsilon<float>())
+								bonesPerVertex.emplace_back(bone.ID, vertexWeight.mWeight);
+						}
+					}
+				}
+				else
+				{
+					Bone &bone = pBoneManager->createBone(pNode->mName.C_Str(), mat4 { 1.f });
+
+					for (unsigned vertexIter = 0; vertexIter < pAiMesh->mNumVertices; vertexIter++)
+					{
+						vector<pair<unsigned, float>> &bonesPerVertex = vertexBoneInfoMap[vertexIter];
+						bonesPerVertex.emplace_back(bone.ID, 1.f);
 					}
 				}
 			}
