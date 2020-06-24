@@ -10,8 +10,8 @@ namespace Danburite
 	class Camera abstract : public Updatable, public ObjectGL::UniformDeployable
 	{
 	private:
-		glm::mat4 __viewMat;
-		glm::mat4 __projMat;
+		glm::mat4 __viewMat { 1.f };
+		glm::mat4 __projMat { 1.f };
 
 	protected:
 		virtual void _onUpdateViewMatrix(glm::mat4 &viewMatrix) noexcept = 0;
