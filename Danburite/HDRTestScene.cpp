@@ -94,8 +94,6 @@ HDRTestScene::HDRTestScene()
 	girlTransform.setScale(7.f);
 	girlTransform.setPosition(10.f, 0.f, 15.f);
 
-	__pGirlRU->getAnimationManager().getAnimation().setPlaySpeed(15.f);
-
 
 	//// 朝五虞 持失 ////
 
