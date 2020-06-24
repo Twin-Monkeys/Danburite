@@ -45,15 +45,17 @@ namespace Danburite
 		Animation &anim = *(__pAnimManager->getActiveAnimation());
 
 		BoneNode* pBoneNode = anim.getBoneNode(__name);
-		if (!pBoneNode)
-			pBoneNode = &anim.createBoneNode(__name);
+		if (pBoneNode)
+			pBoneNode->updateMatrix(parentNodeMatrix);
 
-		pBoneNode->updateMatrix(parentNodeMatrix);
-
-		const mat4 &boneNodeMatrix = pBoneNode->getMatrix();
+		const mat4* pNodeMatrix;
+		if (pBoneNode)
+			pNodeMatrix = &(pBoneNode->getMatrix());
+		else
+			pNodeMatrix = &parentNodeMatrix;
 
 		for (const shared_ptr<SceneObject> &child : __children)
-			child->__updateBoneHierarchical(boneNodeMatrix);
+			child->__updateBoneHierarchical(*pNodeMatrix);
 	}
 
 	void SceneObject::__updateHierarchical_withAnim(const vector<mat4> &parentModelMatrices)

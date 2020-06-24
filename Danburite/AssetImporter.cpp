@@ -174,41 +174,28 @@ namespace Danburite
 			if (pAiMesh->HasTangentsAndBitangents())
 				vertexFlag |= VertexAttributeFlag::TANGENT;
 
-			if (pAnimationManager->getActiveAnimation())
+			if (pAiMesh->HasBones())
 			{
 				vertexFlag |= VertexAttributeFlag::BONE;
 
-				if (pAiMesh->HasBones())
+				for (unsigned boneIter = 0U; boneIter < pAiMesh->mNumBones; boneIter++)
 				{
-					for (unsigned boneIter = 0U; boneIter < pAiMesh->mNumBones; boneIter++)
+					const aiBone *const pAiBone = pAiMesh->mBones[boneIter];
+
+					mat4 offsetMat;
+					aiMatrix4x4 aiOffsetMat = pAiBone->mOffsetMatrix;
+					std::memcpy(&offsetMat, &aiOffsetMat.Transpose(), sizeof(mat4));
+
+					// bone 이름과 동일한 이름을 가진 node가 있다. 그 node들의 hierarchy에 따라 bone도 update.
+					Bone &bone = pBoneManager->createBone(pAiBone->mName.C_Str(), offsetMat);
+
+					for (unsigned weightIter = 0U; weightIter < pAiBone->mNumWeights; weightIter++)
 					{
-						const aiBone *const pAiBone = pAiMesh->mBones[boneIter];
+						aiVertexWeight &vertexWeight = pAiBone->mWeights[weightIter];
+						vector<pair<unsigned, float>> &bonesPerVertex = vertexBoneInfoMap[vertexWeight.mVertexId];
 
-						mat4 offsetMat;
-						aiMatrix4x4 aiOffsetMat = pAiBone->mOffsetMatrix;
-						std::memcpy(&offsetMat, &aiOffsetMat.Transpose(), sizeof(mat4));
-
-						// bone 이름과 동일한 이름을 가진 node가 있다. 그 node들의 hierarchy에 따라 bone도 update.
-						Bone &bone = pBoneManager->createBone(pAiBone->mName.C_Str(), offsetMat);
-
-						for (unsigned weightIter = 0U; weightIter < pAiBone->mNumWeights; weightIter++)
-						{
-							aiVertexWeight &vertexWeight = pAiBone->mWeights[weightIter];
-							vector<pair<unsigned, float>> &bonesPerVertex = vertexBoneInfoMap[vertexWeight.mVertexId];
-
-							if (vertexWeight.mWeight > epsilon<float>())
-								bonesPerVertex.emplace_back(bone.ID, vertexWeight.mWeight);
-						}
-					}
-				}
-				else
-				{
-					Bone &bone = pBoneManager->createBone(pNode->mName.C_Str(), mat4 { 1.f });
-
-					for (unsigned vertexIter = 0; vertexIter < pAiMesh->mNumVertices; vertexIter++)
-					{
-						vector<pair<unsigned, float>> &bonesPerVertex = vertexBoneInfoMap[vertexIter];
-						bonesPerVertex.emplace_back(bone.ID, 1.f);
+						if (vertexWeight.mWeight > epsilon<float>())
+							bonesPerVertex.emplace_back(bone.ID, vertexWeight.mWeight);
 					}
 				}
 			}
@@ -217,9 +204,6 @@ namespace Danburite
 			for (unsigned vertexIter = 0; vertexIter < pAiMesh->mNumVertices; vertexIter++)
 			{
 				const aiVector3D &aiPos = pAiMesh->mVertices[vertexIter];
-				/*if (string{ pAiMesh->mName.C_Str() } == "Object067_A-2_0")
-					vertices.insert(vertices.end(), { 1.1f * aiPos.x, 1.1f * aiPos.y, 1.1f * aiPos.z });
-				else*/
 				vertices.insert(vertices.end(), { aiPos.x, aiPos.y, aiPos.z });
 
 				if (vertexFlag & VertexAttributeFlag::COLOR)
@@ -457,9 +441,26 @@ namespace Danburite
 
 		if (pScene->HasAnimations())
 		{
+			/*
+				현재 scene에 존재하는 모든 mesh의 bone에서
+				단 한번이라도 참조되는 node의 reference를 유지하는 set.
+			*/
+			unordered_set<string_view> boneNodeNameRefSet;
+
+			for (unsigned meshIter = 0U; meshIter < pScene->mNumMeshes; meshIter++)
+			{
+				const aiMesh *const pAiMesh = pScene->mMeshes[meshIter];
+
+				for (unsigned boneIter = 0U; boneIter < pAiMesh->mNumBones; boneIter++)
+				{
+					const string_view &nodeName = pAiMesh->mBones[boneIter]->mName.C_Str();
+					boneNodeNameRefSet.emplace(nodeName);
+				}
+			}
+
 			for (unsigned animIter = 0U; animIter < pScene->mNumAnimations; animIter++)
 			{
-				const aiAnimation* const pAiAnim = pScene->mAnimations[animIter];
+				const aiAnimation *const pAiAnim = pScene->mAnimations[animIter];
 
 				float ticksPerSec = float(pAiAnim->mTicksPerSecond);
 				if (ticksPerSec < epsilon<float>())
@@ -469,6 +470,9 @@ namespace Danburite
 				const float playTime = (1000.f * (float(pAiAnim->mDuration) / ticksPerSec));
 				Animation &animation = pAnimationManager->createAnimation(playTime, pAiAnim->mName.C_Str());
 
+				for (const string_view &nodeName : boneNodeNameRefSet)
+					animation.createBoneNode(nodeName.data());
+
 				for (unsigned nodeAnimIter = 0U; nodeAnimIter < pAiAnim->mNumChannels; nodeAnimIter++)
 				{
 					const aiNodeAnim *const pAiAnimNode = pAiAnim->mChannels[nodeAnimIter];
@@ -476,11 +480,11 @@ namespace Danburite
 					// mNodeName은 bone name임. aiNode 중에 이 이름을 가진 node가 반드시 있음 (있어야 함)
 					const aiString &boneName = pAiAnimNode->mNodeName;
 
-					// 중복된 node 명이 나와서는 안됨.
-					assert(!animation.getBoneNode(boneName.C_Str()));
+					BoneNode *pBoneNode = animation.getBoneNode(boneName.C_Str());
+					if (!pBoneNode)
+						pBoneNode = &animation.createBoneNode(boneName.C_Str());
 
-					BoneNode &animNode = animation.createBoneNode(boneName.C_Str());
-					TransformTimeline &timeline = animNode.getTimeline();
+					TransformTimeline &timeline = pBoneNode->getTimeline();
 
 					switch (pAiAnimNode->mPreState)
 					{
