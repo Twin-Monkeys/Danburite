@@ -146,4 +146,13 @@ namespace Danburite
 
 		__modelMat = (__translationMat * __rotationMat * __scaleMat);
 	}
+
+	mat4 Transform::calcModelMatrix(const vec3 &position, const Quaternion &rotation, const vec3 &scale) noexcept
+	{
+		const mat4 &scaleMat		= glm::scale(scale);
+		const mat4 &rotationMat		= rotation.getMatrix();
+		const mat4 &translationMat	= translate(position);
+
+		return (translationMat * rotationMat * scaleMat);
+	}
 }

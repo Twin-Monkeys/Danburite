@@ -15,6 +15,8 @@
 #include "RefractionMaterial.h"
 #include <array>
 #include "AnimationManager.h"
+#include "AnimatingJoint.h"
+#include "StaticJoint.h"
 #include "BoneManager.h"
 #include "Texture2D.h"
 
@@ -118,10 +120,24 @@ namespace Danburite
 	}
 
 	static shared_ptr<SceneObject> __parseNode(
-		const string &parentPath, const aiNode *const pNode, const aiScene* const pScene,
-		const mat4 &customTransformationMat, const MaterialType materialType,
+		const string &parentPath, const aiNode *const pNode, const aiScene* const pScene, const MaterialType materialType,
 		unordered_map<string, shared_ptr<Texture2D>> &textureCache, const shared_ptr<AnimationManager> &pAnimationManager)
 	{
+		const string &nodeName = pNode->mName.C_Str();
+
+		mat4 localJointMat;
+		aiMatrix4x4 aiLocalJointMat = pNode->mTransformation;
+		std::memcpy(&localJointMat, &aiLocalJointMat.Transpose(), sizeof(mat4));
+
+		const size_t numAnims = pAnimationManager->getNumAnimations();
+		for (size_t animIter = 0ULL; animIter < numAnims; animIter++)
+		{
+			Animation &anim = pAnimationManager->getAnimation(animIter);
+
+			if (!anim.getJoint(nodeName))
+				anim.createStaticJoint(nodeName, localJointMat);
+		}
+
 		const aiMesh *const *const pAiMeshes = pScene->mMeshes;
 		const aiMaterial *const *const pAiMaterials = pScene->mMaterials;
 
@@ -176,7 +192,7 @@ namespace Danburite
 
 			if (pAiMesh->HasBones())
 			{
-				vertexFlag |= VertexAttributeFlag::BONE;
+				// vertexFlag |= VertexAttributeFlag::BONE;
 
 				for (unsigned boneIter = 0U; boneIter < pAiMesh->mNumBones; boneIter++)
 				{
@@ -395,16 +411,10 @@ namespace Danburite
 			meshes.emplace(move(pMesh));
 		}
 
-		mat4 nodeTransformationMat;
-		aiMatrix4x4 aiNodeTransformationMat = pNode->mTransformation;
-		std::memcpy(&nodeTransformationMat, &aiNodeTransformationMat.Transpose(), sizeof(mat4));
-
-		return make_shared<SceneObject>(
-			move(meshes), customTransformationMat * nodeTransformationMat, pAnimationManager, pNode->mName.C_Str());
+		return make_shared<SceneObject>(move(meshes), pAnimationManager, nodeName);
 	}
 
-	shared_ptr<SceneObject> AssetImporter::import(
-		const string_view &assetPath, const mat4 &customTransformationMat, const MaterialType materialType)
+	shared_ptr<SceneObject> AssetImporter::import(const string_view &assetPath, const MaterialType materialType)
 	{
 		/*
 			The importer manages all the resources for itsself.
@@ -438,26 +448,10 @@ namespace Danburite
 			return nullptr;
 
 		const shared_ptr<AnimationManager> &pAnimationManager = make_shared<AnimationManager>();
+		pAnimationManager->createAnimation(1.f, "Default animation (bind pose)");
 
 		if (pScene->HasAnimations())
 		{
-			/*
-				현재 scene에 존재하는 모든 mesh의 bone에서
-				단 한번이라도 참조되는 node의 reference를 유지하는 set.
-			*/
-			unordered_set<string_view> boneNodeNameRefSet;
-
-			for (unsigned meshIter = 0U; meshIter < pScene->mNumMeshes; meshIter++)
-			{
-				const aiMesh *const pAiMesh = pScene->mMeshes[meshIter];
-
-				for (unsigned boneIter = 0U; boneIter < pAiMesh->mNumBones; boneIter++)
-				{
-					const string_view &nodeName = pAiMesh->mBones[boneIter]->mName.C_Str();
-					boneNodeNameRefSet.emplace(nodeName);
-				}
-			}
-
 			for (unsigned animIter = 0U; animIter < pScene->mNumAnimations; animIter++)
 			{
 				const aiAnimation *const pAiAnim = pScene->mAnimations[animIter];
@@ -470,21 +464,17 @@ namespace Danburite
 				const float playTime = (1000.f * (float(pAiAnim->mDuration) / ticksPerSec));
 				Animation &animation = pAnimationManager->createAnimation(playTime, pAiAnim->mName.C_Str());
 
-				for (const string_view &nodeName : boneNodeNameRefSet)
-					animation.createBoneNode(nodeName.data());
-
 				for (unsigned nodeAnimIter = 0U; nodeAnimIter < pAiAnim->mNumChannels; nodeAnimIter++)
 				{
 					const aiNodeAnim *const pAiAnimNode = pAiAnim->mChannels[nodeAnimIter];
 
-					// mNodeName은 bone name임. aiNode 중에 이 이름을 가진 node가 반드시 있음 (있어야 함)
-					const aiString &boneNodeName = pAiAnimNode->mNodeName;
+					// mNodeName은 joint name임. aiNode 중에 이 이름을 가진 node가 있어야 함
+					const aiString &jointName = pAiAnimNode->mNodeName;
 
-					BoneNode *pBoneNode = animation.getBoneNode(boneNodeName.C_Str());
-					if (!pBoneNode)
-						pBoneNode = &animation.createBoneNode(boneNodeName.C_Str());
+					assert(!animation.getJoint(jointName.C_Str()));
+					AnimatingJoint &joint = animation.createAnimatingJoint(jointName.C_Str());
 
-					TransformTimeline &timeline = pBoneNode->getTimeline();
+					TransformTimeline &timeline = joint.getTimeline();
 
 					switch (pAiAnimNode->mPreState)
 					{
@@ -574,6 +564,8 @@ namespace Danburite
 						scaleTimeline.addKeyframe(timestamp, { scale.x, scale.y, scale.z });
 					}
 				}
+
+
 			}
 		}
 
@@ -610,7 +602,7 @@ namespace Danburite
 			nodeStack.pop();
 
 			const shared_ptr<SceneObject> &pParsedCurrent = __parseNode(
-				parentPath, pCurrentNode, pScene, customTransformationMat, materialType, textureCache, pAnimationManager);
+				parentPath, pCurrentNode, pScene, materialType, textureCache, pAnimationManager);
 
 			if (!pParent)
 			{

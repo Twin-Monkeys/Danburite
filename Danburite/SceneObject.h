@@ -16,27 +16,24 @@ namespace Danburite
 		const std::string __name;
 
 		std::unordered_set<std::shared_ptr<SceneObject>> __children;
-		const std::shared_ptr<ModelMatrixBuffer> __pModelMatrixBuffer;
+		const std::shared_ptr<ModelMatrixBuffer> __pModelMatrixBuffer = std::make_shared<ModelMatrixBuffer>();
 
 		const std::shared_ptr<AnimationManager> __pAnimManager;
 
 		SceneObject(const SceneObject &) = delete;
 		SceneObject& operator=(const SceneObject &) = delete;
 
-		void __updateBoneHierarchical(const glm::mat4& parentNodeMatrix) noexcept;
 		void __updateHierarchical_withAnim(const std::vector<glm::mat4> &parentModelMatrices);
 		void __updateHierarchical_withoutAnim(const std::vector<glm::mat4> &parentModelMatrices);
 
 	public:
 		SceneObject(
 			std::unique_ptr<Mesh> pMesh,
-			const glm::mat4 &nodeTransformationMat = glm::mat4 { 1.f },
 			const std::shared_ptr<AnimationManager> &pAnimationManager = nullptr,
 			const std::string_view &unitName = "NO_NAMED_OBJ") noexcept;
 
 		SceneObject(
 			std::unordered_set<std::unique_ptr<Mesh>> &&meshes,
-			const glm::mat4 &nodeTransformationMat = glm::mat4 { 1.f },
 			const std::shared_ptr<AnimationManager> &pAnimationManager = nullptr,
 			const std::string_view &unitName = "NO_NAMED_OBJ") noexcept;
 

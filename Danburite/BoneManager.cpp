@@ -43,11 +43,11 @@ namespace Danburite
 	{
 		for (const unique_ptr<Bone> &pBone : __bones)
 		{
-			const string &nodeName = pBone->getNodeName();
+			/*const string &nodeName = pBone->getNodeName();
 			const BoneNode *const pBoneNode = animation.getBoneNode(nodeName);
 
 			const mat4 &boneNodeMat = pBoneNode->getMatrix();
-			__boneMatrices[pBone->ID] = pBone->calcBoneMatrix(boneNodeMat);
+			__boneMatrices[pBone->ID] = pBone->calcBoneMatrix(boneNodeMat);*/
 		}
 	}
 

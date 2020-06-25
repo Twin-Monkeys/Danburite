@@ -2,6 +2,7 @@
 
 using namespace ObjectGL;
 using namespace std;
+using namespace glm;
 
 namespace Danburite
 {
@@ -9,27 +10,38 @@ namespace Danburite
 		Object(id), __playTime(playTime), __name(name)
 	{}
 
-	BoneNode &Animation::createBoneNode(const string &name) noexcept
+	AnimatingJoint &Animation::createAnimatingJoint(const string &name) noexcept
 	{
-		return __boneNodeMap.emplace(name, BoneNode { name, __timestamp }).first->second;
+		unique_ptr<JointBase> &pRetVal = __jointMap[name];
+		pRetVal = make_unique<AnimatingJoint>(name, __timestamp);
+
+		return static_cast<AnimatingJoint &>(*pRetVal);
 	}
 
-	BoneNode *Animation::getBoneNode(const string &name) noexcept
+	StaticJoint &Animation::createStaticJoint(const string &name, const mat4 &localJointMatrix) noexcept
 	{
-		auto resultIt = __boneNodeMap.find(name);
-		if (resultIt == __boneNodeMap.end())
-			return nullptr;
+		unique_ptr<JointBase> &pRetVal = __jointMap[name];
+		pRetVal = make_unique<StaticJoint>(name, localJointMatrix);
 
-		return &resultIt->second;
+		return static_cast<StaticJoint &>(*pRetVal);
 	}
 
-	const BoneNode *Animation::getBoneNode(const string &name) const noexcept
+	JointBase* Animation::getJoint(const string &name) noexcept
 	{
-		auto resultIt = __boneNodeMap.find(name);
-		if (resultIt == __boneNodeMap.end())
+		auto resultIt = __jointMap.find(name);
+		if (resultIt == __jointMap.end())
 			return nullptr;
 
-		return &resultIt->second;
+		return resultIt->second.get();
+	}
+
+	const JointBase *Animation::getJoint(const string &name) const noexcept
+	{
+		auto resultIt = __jointMap.find(name);
+		if (resultIt == __jointMap.end())
+			return nullptr;
+
+		return resultIt->second.get();
 	}
 
 	Animation& Animation::setTimestamp(const float timestamp) noexcept

@@ -75,6 +75,8 @@ namespace Danburite
 		void updateMatrix() noexcept;
 
 		virtual ~Transform() = default;
+
+		static glm::mat4 calcModelMatrix(const glm::vec3 &position, const Quaternion &rotation, const glm::vec3 &scale) noexcept;
 	};
 
 	constexpr const glm::vec3& Transform::getPosition() const noexcept

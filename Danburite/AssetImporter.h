@@ -17,8 +17,6 @@ namespace Danburite
 	{
 	public:
 		static std::shared_ptr<SceneObject> import(
-			const std::string_view &assetPath,
-			const glm::mat4 &customTransformationMat = Constant::Common::IDENTITY_MATRIX,
-			const MaterialType materialType = MaterialType::PHONG);
+			const std::string_view &assetPath, const MaterialType materialType = MaterialType::PHONG);
 	};
 }

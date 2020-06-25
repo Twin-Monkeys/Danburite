@@ -9,14 +9,12 @@ namespace Danburite
 	class ModelMatrixBuffer : private ObjectGL::VertexBuffer
 	{
 	private:
-		const glm::mat4 __nodeTransformationMat;
-
 		size_t __numInstances;
 		std::vector<Transform> __transforms;
 		std::vector<glm::mat4> __modelMatrices;
 
 	public:
-		ModelMatrixBuffer(const glm::mat4 &nodeTransformationMat, const size_t numInstances = 1ULL);
+		ModelMatrixBuffer(const size_t numInstances = 1ULL);
 
 		constexpr const std::vector<glm::mat4> &getModelMatrices() const noexcept;
 		Transform &getTransform(const size_t idx) noexcept;
@@ -24,8 +22,10 @@ namespace Danburite
 		constexpr size_t getNumInstances() const noexcept;
 		void setNumInstances(const size_t numInstances) noexcept;
 
-		void updateMatrix() noexcept;
-		void updateMatrix(const std::vector<glm::mat4> &parentModelMatrices) noexcept;
+		void updateMatrix(const glm::mat4 &jointMatrix = glm::mat4 { 1.f }) noexcept;
+		void updateMatrix(
+			const std::vector<glm::mat4> &parentModelMatrices,
+			const glm::mat4 &jointMatrix = glm::mat4 { 1.f }) noexcept;
 
 		void selfDeploy() noexcept;
 

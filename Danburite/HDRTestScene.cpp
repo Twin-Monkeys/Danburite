@@ -84,6 +84,8 @@ HDRTestScene::HDRTestScene()
 	doorTransform.setPosition(0.f, 0.f, -35.f);
 	__pDoorRU->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 
+	__pDoorRU->getAnimationManager().activateAnimation(1);
+
 	__pLizardRU = AssetImporter::import("res/asset/lizard_man/scene.gltf");
 	Transform &lizardTransform = __pLizardRU->getTransform();
 	lizardTransform.setScale(7.f);
@@ -91,8 +93,10 @@ HDRTestScene::HDRTestScene()
 
 	__pGirlRU = AssetImporter::import("res/asset/nuclear_hammer_girl/scene.gltf");
 	Transform &girlTransform = __pGirlRU->getTransform();
-	girlTransform.setScale(7.f);
+	girlTransform.setScale(.1f);
 	girlTransform.setPosition(10.f, 0.f, 15.f);
+
+	__pGirlRU->getAnimationManager().activateAnimation(1);
 
 
 	//// 朝五虞 持失 ////

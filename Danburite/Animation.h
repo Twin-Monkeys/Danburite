@@ -1,7 +1,9 @@
 #pragma once
 
 #include <unordered_map>
-#include "BoneNode.h"
+#include <memory>
+#include "AnimatingJoint.h"
+#include "StaticJoint.h"
 #include "Object.h"
 
 namespace Danburite
@@ -16,7 +18,7 @@ namespace Danburite
 
 		const std::string __name;
 
-		std::unordered_map<std::string, BoneNode> __boneNodeMap;
+		std::unordered_map<std::string, std::unique_ptr<JointBase>> __jointMap;
 
 	public:
 		Animation(const size_t id, const float playTime, const std::string &name = "") noexcept;
@@ -24,10 +26,11 @@ namespace Danburite
 		constexpr float getPlayTime() const noexcept;
 		constexpr const std::string &getName() const noexcept;
 
-		BoneNode &createBoneNode(const std::string &name) noexcept;
+		AnimatingJoint &createAnimatingJoint(const std::string &name) noexcept;
+		StaticJoint &createStaticJoint(const std::string &name, const glm::mat4 &localJointMatrix) noexcept;
 
-		BoneNode *getBoneNode(const std::string &name) noexcept;
-		const BoneNode *getBoneNode(const std::string &name) const noexcept;
+		JointBase *getJoint(const std::string &name) noexcept;
+		const JointBase *getJoint(const std::string &name) const noexcept;
 
 		Animation &setTimestamp(const float timestamp) noexcept;
 		Animation &adjustTimestamp(const float deltaTime) noexcept;

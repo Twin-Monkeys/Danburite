@@ -262,9 +262,6 @@
     <Filter Include="Library\Engine\Core\Material\RefractionMaterial">
       <UniqueIdentifier>{b889325a-f343-423b-ac0a-60088a9e4d77}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Library\Engine\Core\RenderUnit">
-      <UniqueIdentifier>{b5d8fa38-5854-4a3b-a3cb-23e3f2ab752c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library\Engine\glsl\src\ReflectionPhong">
       <UniqueIdentifier>{6863217a-bf12-47c5-9daf-5417e329cbbd}</UniqueIdentifier>
     </Filter>
@@ -342,6 +339,12 @@
     </Filter>
     <Filter Include="Library\Engine\Core\Animation\Timeline">
       <UniqueIdentifier>{f9bd5f81-ea7e-4d55-b9be-fc6232a0ddc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Animation\Joint">
+      <UniqueIdentifier>{637fefa0-41b4-453f-812c-aec19052aa5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\SceneObject">
+      <UniqueIdentifier>{b5d8fa38-5854-4a3b-a3cb-23e3f2ab752c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -681,9 +684,6 @@
     <ClCompile Include="AnimationManager.cpp">
       <Filter>Library\Engine\Core\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="BoneNode.cpp">
-      <Filter>Library\Engine\Core\Animation</Filter>
-    </ClCompile>
     <ClCompile Include="BoneManager.cpp">
       <Filter>Library\Engine\Core\Animation\Bone</Filter>
     </ClCompile>
@@ -691,10 +691,19 @@
       <Filter>Library\Engine\Core\Animation\Bone</Filter>
     </ClCompile>
     <ClCompile Include="ModelMatrixBuffer.cpp">
-      <Filter>Library\Engine\Core\RenderUnit</Filter>
+      <Filter>Library\Engine\Core\SceneObject</Filter>
     </ClCompile>
     <ClCompile Include="SceneObject.cpp">
-      <Filter>Library\Engine\Core\RenderUnit</Filter>
+      <Filter>Library\Engine\Core\SceneObject</Filter>
+    </ClCompile>
+    <ClCompile Include="JointBase.cpp">
+      <Filter>Library\Engine\Core\Animation\Joint</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatingJoint.cpp">
+      <Filter>Library\Engine\Core\Animation\Joint</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticJoint.cpp">
+      <Filter>Library\Engine\Core\Animation\Joint</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1196,9 +1205,6 @@
     <ClInclude Include="Lerp.h">
       <Filter>Library\Engine\Util</Filter>
     </ClInclude>
-    <ClInclude Include="BoneNode.h">
-      <Filter>Library\Engine\Core\Animation</Filter>
-    </ClInclude>
     <ClInclude Include="BoneManager.h">
       <Filter>Library\Engine\Core\Animation\Bone</Filter>
     </ClInclude>
@@ -1206,10 +1212,19 @@
       <Filter>Library\Engine\Core\Animation\Bone</Filter>
     </ClInclude>
     <ClInclude Include="ModelMatrixBuffer.h">
-      <Filter>Library\Engine\Core\RenderUnit</Filter>
+      <Filter>Library\Engine\Core\SceneObject</Filter>
     </ClInclude>
     <ClInclude Include="SceneObject.h">
-      <Filter>Library\Engine\Core\RenderUnit</Filter>
+      <Filter>Library\Engine\Core\SceneObject</Filter>
+    </ClInclude>
+    <ClInclude Include="JointBase.h">
+      <Filter>Library\Engine\Core\Animation\Joint</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatingJoint.h">
+      <Filter>Library\Engine\Core\Animation\Joint</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticJoint.h">
+      <Filter>Library\Engine\Core\Animation\Joint</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
