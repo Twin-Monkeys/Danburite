@@ -35,23 +35,12 @@ namespace Danburite
 		__meshes.swap(meshes);
 	}
 
-	/*void SceneObject::__updateJointHierarchical(const mat4 &parentJointMatrix) noexcept
+	void SceneObject::__updateHierarchical_withAnim(const vector<mat4> &parentModelMatrices)
 	{
 		Animation *const pAnim = __pAnimManager->getActiveAnimation();
 
 		JointBase *const pJoint = pAnim->getJoint(__name);
 		pJoint->updateMatrix();
-
-		const mat4 &jointMatrix = pJoint->getMatrix();
-
-		for (const shared_ptr<SceneObject> &child : __children)
-			child->__updateJointHierarchical(jointMatrix);
-	}*/
-
-	void SceneObject::__updateHierarchical_withAnim(const vector<mat4> &parentModelMatrices)
-	{
-		Animation *const pAnim = __pAnimManager->getActiveAnimation();
-		JointBase *const pJoint = pAnim->getJoint(__name);
 
 		/*for (const unique_ptr<Mesh> &pMesh : __meshes)
 			pMesh->updateBoneMatrices(*pAnim);*/
@@ -125,9 +114,7 @@ namespace Danburite
 		JointBase *const pJoint = pAnim->getJoint(__name);
 		pJoint->updateMatrix();
 
-		const mat4& jointMatrix = pJoint->getMatrix();
-
-		__pModelMatrixBuffer->updateMatrix(jointMatrix);
+		__pModelMatrixBuffer->updateMatrix(pJoint->getMatrix());
 		const vector<mat4>& modelMatrices = __pModelMatrixBuffer->getModelMatrices();
 
 		for (const shared_ptr<SceneObject> &child : __children)

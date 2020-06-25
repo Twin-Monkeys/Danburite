@@ -80,7 +80,7 @@ HDRTestScene::HDRTestScene()
 	// TODO: node 레퍼런스를 이름이 아니라 정수 id로 변경하자.
 	__pDoorRU = AssetImporter::import("res/asset/scifi_door/scene.gltf");
 	Transform &doorTransform = __pDoorRU->getTransform();
-	doorTransform.setScale(.1f);
+	doorTransform.setScale(.001f);
 	doorTransform.setPosition(0.f, 0.f, -35.f);
 	__pDoorRU->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 
@@ -93,7 +93,7 @@ HDRTestScene::HDRTestScene()
 
 	__pGirlRU = AssetImporter::import("res/asset/nuclear_hammer_girl/scene.gltf");
 	Transform &girlTransform = __pGirlRU->getTransform();
-	girlTransform.setScale(.1f);
+	girlTransform.setScale(7.f);
 	girlTransform.setPosition(10.f, 0.f, 15.f);
 
 	__pGirlRU->getAnimationManager().activateAnimation(1);
