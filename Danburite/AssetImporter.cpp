@@ -166,7 +166,7 @@ namespace Danburite
 				assert(false);
 			}
 
-			std::unique_ptr<BoneManager> pBoneManager = make_unique<BoneManager>();
+			BoneManager &boneManager = pAnimationManager->createBoneManager();
 
 			// vertex id, bone infomation per vertex (bone idx, bone weight)
 			unordered_map<unsigned, vector<pair<unsigned, float>>> vertexBoneInfoMap;
@@ -192,7 +192,7 @@ namespace Danburite
 
 			if (pAiMesh->HasBones())
 			{
-				// vertexFlag |= VertexAttributeFlag::BONE;
+				vertexFlag |= VertexAttributeFlag::BONE;
 
 				for (unsigned boneIter = 0U; boneIter < pAiMesh->mNumBones; boneIter++)
 				{
@@ -203,7 +203,7 @@ namespace Danburite
 					std::memcpy(&offsetMat, &aiOffsetMat.Transpose(), sizeof(mat4));
 
 					// bone 이름과 동일한 이름을 가진 node가 있다. 그 node들의 hierarchy에 따라 bone도 update.
-					Bone &bone = pBoneManager->createBone(pAiBone->mName.C_Str(), offsetMat);
+					Bone &bone = boneManager.createBone(pAiBone->mName.C_Str(), offsetMat);
 
 					for (unsigned weightIter = 0U; weightIter < pAiBone->mNumWeights; weightIter++)
 					{
@@ -403,7 +403,7 @@ namespace Danburite
 				break;
 			}
 
-			unique_ptr<Mesh> pMesh = make_unique<Mesh>(pVertexArray, pMaterial, move(pBoneManager));
+			unique_ptr<Mesh> pMesh = make_unique<Mesh>(pVertexArray, pMaterial, &boneManager);
 			meshes.emplace(move(pMesh));
 		}
 
@@ -455,124 +455,124 @@ namespace Danburite
 		const shared_ptr<AnimationManager> &pAnimationManager = make_shared<AnimationManager>();
 		pAnimationManager->createAnimation(1.f, "Default animation (bind pose)");
 
-		//if (pScene->HasAnimations())
-		//{
-		//	for (unsigned animIter = 0U; animIter < pScene->mNumAnimations; animIter++)
-		//	{
-		//		const aiAnimation *const pAiAnim = pScene->mAnimations[animIter];
+		if (pScene->HasAnimations())
+		{
+			for (unsigned animIter = 0U; animIter < pScene->mNumAnimations; animIter++)
+			{
+				const aiAnimation *const pAiAnim = pScene->mAnimations[animIter];
 
-		//		float ticksPerSec = float(pAiAnim->mTicksPerSecond);
-		//		if (ticksPerSec < epsilon<float>())
-		//			ticksPerSec = 25.f;
+				float ticksPerSec = float(pAiAnim->mTicksPerSecond);
+				if (ticksPerSec < epsilon<float>())
+					ticksPerSec = 25.f;
 
-		//		// convert sec to ms
-		//		const float playTime = (1000.f * (float(pAiAnim->mDuration) / ticksPerSec));
-		//		Animation &animation = pAnimationManager->createAnimation(playTime, pAiAnim->mName.C_Str());
+				// convert sec to ms
+				const float playTime = (1000.f * (float(pAiAnim->mDuration) / ticksPerSec));
+				Animation &animation = pAnimationManager->createAnimation(playTime, pAiAnim->mName.C_Str());
 
-		//		for (unsigned nodeAnimIter = 0U; nodeAnimIter < pAiAnim->mNumChannels; nodeAnimIter++)
-		//		{
-		//			const aiNodeAnim *const pAiAnimNode = pAiAnim->mChannels[nodeAnimIter];
+				for (unsigned nodeAnimIter = 0U; nodeAnimIter < pAiAnim->mNumChannels; nodeAnimIter++)
+				{
+					const aiNodeAnim *const pAiAnimNode = pAiAnim->mChannels[nodeAnimIter];
 
-		//			// mNodeName은 joint name임. aiNode 중에 이 이름을 가진 node가 있어야 함
-		//			const aiString &jointName = pAiAnimNode->mNodeName;
+					// mNodeName은 joint name임. aiNode 중에 이 이름을 가진 node가 있어야 함
+					const aiString &jointName = pAiAnimNode->mNodeName;
 
-		//			assert(!animation.getJoint(jointName.C_Str()));
-		//			AnimatingJoint &joint = animation.createAnimatingJoint(jointName.C_Str());
+					assert(!animation.getJoint(jointName.C_Str()));
+					AnimatingJoint &joint = animation.createAnimatingJoint(jointName.C_Str());
 
-		//			TransformTimeline &timeline = joint.getTimeline();
+					TransformTimeline &timeline = joint.getTimeline();
 
-		//			switch (pAiAnimNode->mPreState)
-		//			{
-		//			case aiAnimBehaviour::aiAnimBehaviour_DEFAULT:
-		//				/*timeline.setPreStateWrappingType(TimelineWrappingType::DEFAULT);
-		//				break;*/
-		//				[[fallthrough]];
+					switch (pAiAnimNode->mPreState)
+					{
+					case aiAnimBehaviour::aiAnimBehaviour_DEFAULT:
+						/*timeline.setPreStateWrappingType(TimelineWrappingType::DEFAULT);
+						break;*/
+						[[fallthrough]];
 
-		//			case aiAnimBehaviour::aiAnimBehaviour_CONSTANT:
-		//				timeline.setPreStateWrappingType(TimelineWrappingType::NEAREST);
-		//				break;
+					case aiAnimBehaviour::aiAnimBehaviour_CONSTANT:
+						timeline.setPreStateWrappingType(TimelineWrappingType::NEAREST);
+						break;
 
-		//			case aiAnimBehaviour::aiAnimBehaviour_LINEAR:
-		//				timeline.setPreStateWrappingType(TimelineWrappingType::EXTRAPOLATED);
-		//				break;
+					case aiAnimBehaviour::aiAnimBehaviour_LINEAR:
+						timeline.setPreStateWrappingType(TimelineWrappingType::EXTRAPOLATED);
+						break;
 
-		//			case aiAnimBehaviour::aiAnimBehaviour_REPEAT:
-		//				timeline.setPreStateWrappingType(TimelineWrappingType::REPEAT);
-		//				break;
+					case aiAnimBehaviour::aiAnimBehaviour_REPEAT:
+						timeline.setPreStateWrappingType(TimelineWrappingType::REPEAT);
+						break;
 
-		//			default:
-		//				assert(false);
-		//				break;
-		//			}
+					default:
+						assert(false);
+						break;
+					}
 
-		//			switch (pAiAnimNode->mPostState)
-		//			{
-		//			case aiAnimBehaviour::aiAnimBehaviour_DEFAULT:
-		//				/*timeline.setPostStateWrappingType(TimelineWrappingType::DEFAULT);
-		//				break;*/
-		//				[[fallthrough]];
+					switch (pAiAnimNode->mPostState)
+					{
+					case aiAnimBehaviour::aiAnimBehaviour_DEFAULT:
+						/*timeline.setPostStateWrappingType(TimelineWrappingType::DEFAULT);
+						break;*/
+						[[fallthrough]];
 
-		//			case aiAnimBehaviour::aiAnimBehaviour_CONSTANT:
-		//				timeline.setPostStateWrappingType(TimelineWrappingType::NEAREST);
-		//				break;
+					case aiAnimBehaviour::aiAnimBehaviour_CONSTANT:
+						timeline.setPostStateWrappingType(TimelineWrappingType::NEAREST);
+						break;
 
-		//			case aiAnimBehaviour::aiAnimBehaviour_LINEAR:
-		//				timeline.setPostStateWrappingType(TimelineWrappingType::EXTRAPOLATED);
-		//				break;
+					case aiAnimBehaviour::aiAnimBehaviour_LINEAR:
+						timeline.setPostStateWrappingType(TimelineWrappingType::EXTRAPOLATED);
+						break;
 
-		//			case aiAnimBehaviour::aiAnimBehaviour_REPEAT:
-		//				timeline.setPostStateWrappingType(TimelineWrappingType::REPEAT);
-		//				break;
+					case aiAnimBehaviour::aiAnimBehaviour_REPEAT:
+						timeline.setPostStateWrappingType(TimelineWrappingType::REPEAT);
+						break;
 
-		//			default:
-		//				assert(false);
-		//				break;
-		//			}
+					default:
+						assert(false);
+						break;
+					}
 
-		//			Timeline<vec3> &posTimeline = timeline.posTimeline;
-		//			for (
-		//				unsigned posKeyframeIter = 0U;
-		//				posKeyframeIter < pAiAnimNode->mNumPositionKeys;
-		//				posKeyframeIter++)
-		//			{
-		//				const aiVectorKey &posKeyframe = pAiAnimNode->mPositionKeys[posKeyframeIter];
-		//				const aiVector3D &pos = posKeyframe.mValue;
+					Timeline<vec3> &posTimeline = timeline.posTimeline;
+					for (
+						unsigned posKeyframeIter = 0U;
+						posKeyframeIter < pAiAnimNode->mNumPositionKeys;
+						posKeyframeIter++)
+					{
+						const aiVectorKey &posKeyframe = pAiAnimNode->mPositionKeys[posKeyframeIter];
+						const aiVector3D &pos = posKeyframe.mValue;
 
-		//				const float timestamp = (1000.f * float(posKeyframe.mTime) / ticksPerSec);
-		//				posTimeline.addKeyframe(timestamp, { pos.x, pos.y, pos.z });
-		//			}
+						const float timestamp = (1000.f * float(posKeyframe.mTime) / ticksPerSec);
+						posTimeline.addKeyframe(timestamp, { pos.x, pos.y, pos.z });
+					}
 
-		//			Timeline<Quaternion> &rotationTimeline = timeline.rotationTimeline;
-		//			for (
-		//				unsigned rotationKeyframeIter = 0U;
-		//				rotationKeyframeIter < pAiAnimNode->mNumRotationKeys;
-		//				rotationKeyframeIter++)
-		//			{
-		//				const aiQuatKey &rotationKeyframe = pAiAnimNode->mRotationKeys[rotationKeyframeIter];
-		//				const aiQuaternion &rotation = rotationKeyframe.mValue;
+					Timeline<Quaternion> &rotationTimeline = timeline.rotationTimeline;
+					for (
+						unsigned rotationKeyframeIter = 0U;
+						rotationKeyframeIter < pAiAnimNode->mNumRotationKeys;
+						rotationKeyframeIter++)
+					{
+						const aiQuatKey &rotationKeyframe = pAiAnimNode->mRotationKeys[rotationKeyframeIter];
+						const aiQuaternion &rotation = rotationKeyframe.mValue;
 
-		//				const float timestamp = (1000.f * float(rotationKeyframe.mTime) / ticksPerSec);
-		//				rotationTimeline.addKeyframe(
-		//					timestamp, { rotation.w, rotation.x, rotation.y, rotation.z });
-		//			}
+						const float timestamp = (1000.f * float(rotationKeyframe.mTime) / ticksPerSec);
+						rotationTimeline.addKeyframe(
+							timestamp, { rotation.w, rotation.x, rotation.y, rotation.z });
+					}
 
-		//			Timeline<vec3> &scaleTimeline = timeline.scaleTimeline;
-		//			for (
-		//				unsigned scaleKeyframeIter = 0U;
-		//				scaleKeyframeIter < pAiAnimNode->mNumScalingKeys;
-		//				scaleKeyframeIter++)
-		//			{
-		//				const aiVectorKey &scaleKeyframe = pAiAnimNode->mScalingKeys[scaleKeyframeIter];
-		//				const aiVector3D &scale = scaleKeyframe.mValue;
+					Timeline<vec3> &scaleTimeline = timeline.scaleTimeline;
+					for (
+						unsigned scaleKeyframeIter = 0U;
+						scaleKeyframeIter < pAiAnimNode->mNumScalingKeys;
+						scaleKeyframeIter++)
+					{
+						const aiVectorKey &scaleKeyframe = pAiAnimNode->mScalingKeys[scaleKeyframeIter];
+						const aiVector3D &scale = scaleKeyframe.mValue;
 
-		//				const float timestamp = (1000.f * float(scaleKeyframe.mTime) / ticksPerSec);
-		//				scaleTimeline.addKeyframe(timestamp, { scale.x, scale.y, scale.z });
-		//			}
-		//		}
+						const float timestamp = (1000.f * float(scaleKeyframe.mTime) / ticksPerSec);
+						scaleTimeline.addKeyframe(timestamp, { scale.x, scale.y, scale.z });
+					}
+				}
 
 
-		//	}
-		//}
+			}
+		}
 
 		const string &parentPath = path(assetPath).parent_path().string();
 		unordered_map<string, shared_ptr<Texture2D>> textureCache;
@@ -610,7 +610,7 @@ namespace Danburite
 			const shared_ptr<SceneObject> &pParsedCurrent = __parseNode(
 				parentPath, pCurrentNode, pScene, materialType, textureCache, pAnimationManager);
 
-			pParent->getChildren().emplace(pParsedCurrent);
+			pParent->getChildrenSet().emplace(pParsedCurrent);
 
 			for (unsigned i = 0; i < pCurrentNode->mNumChildren; i++)
 				nodeStack.emplace(pParsedCurrent, pCurrentNode->mChildren[i]);

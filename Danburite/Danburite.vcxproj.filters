@@ -1226,6 +1226,9 @@
     <ClInclude Include="StaticJoint.h">
       <Filter>Library\Engine\Core\Animation\Joint</Filter>
     </ClInclude>
+    <ClInclude Include="JointUpdateObserver.h">
+      <Filter>Library\Engine\Core\Animation\Joint</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glsl\src\Header\Camera_Header.glsl">

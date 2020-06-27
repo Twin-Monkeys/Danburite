@@ -1,12 +1,14 @@
 #include "AnimationManager.h"
 
 using namespace std;
+using namespace glm;
 
 namespace Danburite
 {
 	Animation &AnimationManager::createAnimation(const float playTime, const string &name) noexcept
 	{
-		return *__animations.emplace_back(make_unique<Animation>(__animations.size(), playTime, name));
+		return *__animations.emplace_back(
+			make_unique<Animation>(__animations.size(), playTime, shared_from_this(), name));
 	}
 
 	Animation &AnimationManager::getAnimation(const size_t id) noexcept
@@ -47,5 +49,16 @@ namespace Danburite
 			return nullptr;
 
 		return &getAnimation(__activeAnimID);
+	}
+
+	BoneManager &AnimationManager::createBoneManager() noexcept
+	{
+		return *__boneMgrs.emplace_back(make_unique<BoneManager>());
+	}
+
+	void AnimationManager::onUpdateJointMatrix(const string &jointName, const mat4 &jointMatrix) noexcept
+	{
+		for (const unique_ptr<BoneManager> &pBoneManager : __boneMgrs)
+			pBoneManager->updateTargetJointMatrices(jointName, jointMatrix);
 	}
 }

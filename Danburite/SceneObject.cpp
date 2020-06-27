@@ -38,7 +38,7 @@ namespace Danburite
 		__meshes.swap(meshes);
 	}
 
-	void SceneObject::__updateHierarchical_withAnim(const vector<mat4> &parentModelMatrices)
+	void SceneObject::__updateHierarchical_withAnim(const vector<mat4> &parentModelMatrices) noexcept
 	{
 		Animation *const pAnim = __pAnimManager->getActiveAnimation();
 
@@ -46,13 +46,10 @@ namespace Danburite
 		if (pJoint)
 		{
 			pJoint->updateMatrix();
-			__pModelMatrixBuffer->updateMatrix(parentModelMatrices, pJoint->getMatrix());
+			__pModelMatrixBuffer->updateMatrices(pJoint->getMatrix());
 		}
 		else
-			__pModelMatrixBuffer->updateMatrix(parentModelMatrices);
-
-		/*for (const unique_ptr<Mesh> &pMesh : __meshes)
-			pMesh->updateBoneMatrices(*pAnim);*/
+			__pModelMatrixBuffer->updateMatrices();
 
 		const vector<mat4> &modelMatrices = __pModelMatrixBuffer->getModelMatrices();
 
@@ -60,13 +57,25 @@ namespace Danburite
 			child->__updateHierarchical_withAnim(modelMatrices);
 	}
 
-	void SceneObject::__updateHierarchical_withoutAnim(const vector<mat4> &parentModelMatrices)
+	void SceneObject::__updateHierarchical_withoutAnim(const vector<mat4> &parentModelMatrices) noexcept
 	{
-		__pModelMatrixBuffer->updateMatrix(parentModelMatrices);
+		__pModelMatrixBuffer->updateMatrices(parentModelMatrices);
 		const vector<mat4> &modelMatrices = __pModelMatrixBuffer->getModelMatrices();
 
 		for (const shared_ptr<SceneObject> &child : __children)
 			child->__updateHierarchical_withoutAnim(modelMatrices);
+	}
+
+	void SceneObject::__updateBoneMatricesHierarchical() noexcept
+	{
+		Animation *const pAnim = __pAnimManager->getActiveAnimation();
+		JointBase *const pJoint = pAnim->getJoint(__name);
+
+		for (const unique_ptr<Mesh> &pMesh : __meshes)
+			pMesh->updateBoneMatrices(pJoint->getMatrix());
+
+		for (const shared_ptr<SceneObject> &child : __children)
+			child->__updateBoneMatricesHierarchical();
 	}
 
 	Transform &SceneObject::getTransform(const size_t idx) const noexcept
@@ -96,7 +105,7 @@ namespace Danburite
 	{
 		if (!__pAnimManager)
 		{
-			__pModelMatrixBuffer->updateMatrix();
+			__pModelMatrixBuffer->updateMatrices();
 			const vector<mat4> &modelMatrices = __pModelMatrixBuffer->getModelMatrices();
 
 			for (const shared_ptr<SceneObject> &child : __children)
@@ -108,7 +117,7 @@ namespace Danburite
 		Animation *const pAnim = __pAnimManager->getActiveAnimation();
 		if (!pAnim)
 		{
-			__pModelMatrixBuffer->updateMatrix();
+			__pModelMatrixBuffer->updateMatrices();
 			const vector<mat4> &modelMatrices = __pModelMatrixBuffer->getModelMatrices();
 
 			for (const shared_ptr<SceneObject> &child : __children)
@@ -123,18 +132,17 @@ namespace Danburite
 		if (pJoint)
 		{
 			pJoint->updateMatrix();
-			__pModelMatrixBuffer->updateMatrix(pJoint->getMatrix());
+			__pModelMatrixBuffer->updateMatrices(pJoint->getMatrix());
 		}
 		else
-			__pModelMatrixBuffer->updateMatrix();
+			__pModelMatrixBuffer->updateMatrices();
 
 		const vector<mat4>& modelMatrices = __pModelMatrixBuffer->getModelMatrices();
 
 		for (const shared_ptr<SceneObject> &child : __children)
 			child->__updateHierarchical_withAnim(modelMatrices);
 
-		/*for (const unique_ptr<Mesh> &pMesh : __meshes)
-			pMesh->updateBoneMatrices(*pAnim);*/
+		__updateBoneMatricesHierarchical();
 	}
 
 	void SceneObject::draw() noexcept

@@ -305,6 +305,7 @@
     <ClInclude Include="HDRPostProcessor.h" />
     <ClInclude Include="HDRTestScene.h" />
     <ClInclude Include="JointBase.h" />
+    <ClInclude Include="JointUpdateObserver.h" />
     <ClInclude Include="Lerp.h" />
     <ClInclude Include="ParallaxMapTestScene.h" />
     <ClInclude Include="Quaternion.h" />

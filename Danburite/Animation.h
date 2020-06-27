@@ -18,10 +18,14 @@ namespace Danburite
 
 		const std::string __name;
 
+		const std::weak_ptr<JointUpdateObserver> __pDefaultJointUpdateObserver;
 		std::unordered_map<std::string, std::unique_ptr<JointBase>> __jointMap;
 
 	public:
-		Animation(const size_t id, const float playTime, const std::string &name = "") noexcept;
+		Animation(
+			const size_t id, const float playTime,
+			const std::weak_ptr<JointUpdateObserver> &pDefaultJointUpdateObserver = {},
+			const std::string &name = "") noexcept;
 
 		constexpr float getPlayTime() const noexcept;
 		constexpr const std::string &getName() const noexcept;

@@ -6,14 +6,18 @@ using namespace glm;
 
 namespace Danburite
 {
-	Animation::Animation(const size_t id, const float playTime, const string &name) noexcept :
-		Object(id), __playTime(playTime), __name(name)
+	Animation::Animation(
+		const size_t id, const float playTime,
+		const weak_ptr<JointUpdateObserver> &pDefaultJointUpdateObserver, const string &name) noexcept :
+		Object(id), __playTime(playTime),
+		__pDefaultJointUpdateObserver(pDefaultJointUpdateObserver), __name(name)
 	{}
 
 	AnimatingJoint &Animation::createAnimatingJoint(const string &name) noexcept
 	{
 		unique_ptr<JointBase> &pRetVal = __jointMap[name];
 		pRetVal = make_unique<AnimatingJoint>(name, __timestamp);
+		pRetVal->getObserverSet().add(__pDefaultJointUpdateObserver);
 
 		return static_cast<AnimatingJoint &>(*pRetVal);
 	}
@@ -22,6 +26,7 @@ namespace Danburite
 	{
 		unique_ptr<JointBase> &pRetVal = __jointMap[name];
 		pRetVal = make_unique<StaticJoint>(name, localJointMatrix);
+		pRetVal->getObserverSet().add(__pDefaultJointUpdateObserver);
 
 		return static_cast<StaticJoint &>(*pRetVal);
 	}

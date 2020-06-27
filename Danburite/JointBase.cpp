@@ -11,7 +11,8 @@ namespace Danburite
 
 	JointBase &JointBase::updateMatrix() noexcept
 	{
-		_onUpdateMatrix(__jointMat);
+		_onUpdateMatrix(__targetJointMat);
+		__observers.safeTraverse(&JointUpdateObserver::onUpdateJointMatrix, __name, __targetJointMat);
 		return *this;
 	}
 }

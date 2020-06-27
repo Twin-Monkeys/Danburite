@@ -23,8 +23,10 @@ namespace Danburite
 		SceneObject(const SceneObject &) = delete;
 		SceneObject& operator=(const SceneObject &) = delete;
 
-		void __updateHierarchical_withAnim(const std::vector<glm::mat4> &parentModelMatrices);
-		void __updateHierarchical_withoutAnim(const std::vector<glm::mat4> &parentModelMatrices);
+		void __updateHierarchical_withAnim(const std::vector<glm::mat4>& parentModelMatrices) noexcept;
+		void __updateHierarchical_withoutAnim(const std::vector<glm::mat4> &parentModelMatrices) noexcept;
+
+		void __updateBoneMatricesHierarchical() noexcept;
 
 	public:
 		SceneObject(
@@ -47,8 +49,8 @@ namespace Danburite
 		AnimationManager &getAnimationManager() noexcept;
 		const AnimationManager &getAnimationManager() const noexcept;
 
-		constexpr std::unordered_set<std::shared_ptr<SceneObject>> &getChildren() noexcept;
-		constexpr const std::unordered_set<std::shared_ptr<SceneObject>> &getChildren() const noexcept;
+		constexpr std::unordered_set<std::shared_ptr<SceneObject>> &getChildrenSet() noexcept;
+		constexpr const std::unordered_set<std::shared_ptr<SceneObject>> &getChildrenSet() const noexcept;
 
 		virtual void update(const float deltaTime) noexcept override;
 
@@ -71,12 +73,12 @@ namespace Danburite
 		return __pModelMatrixBuffer->getNumInstances();
 	}
 
-	constexpr std::unordered_set<std::shared_ptr<SceneObject>> &SceneObject::getChildren() noexcept
+	constexpr std::unordered_set<std::shared_ptr<SceneObject>> &SceneObject::getChildrenSet() noexcept
 	{
 		return __children;
 	}
 
-	constexpr const std::unordered_set<std::shared_ptr<SceneObject>> &SceneObject::getChildren() const noexcept
+	constexpr const std::unordered_set<std::shared_ptr<SceneObject>> &SceneObject::getChildrenSet() const noexcept
 	{
 		return __children;
 	}

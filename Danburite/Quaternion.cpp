@@ -170,7 +170,7 @@ namespace Danburite
 
 	Quaternion operator*(const Quaternion &lhs, const Quaternion &rhs) noexcept
 	{
-		return (lhs.__quaternion * rhs.__quaternion);
+		return normalize(lhs.__quaternion * rhs.__quaternion);
 	}
 
 	Quaternion Quaternion::slerp(const Quaternion &lhs, const Quaternion &rhs, const float weight) noexcept
