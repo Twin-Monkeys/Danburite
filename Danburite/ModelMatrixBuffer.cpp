@@ -38,7 +38,7 @@ namespace Danburite
 			Transform &transform = __transforms[i];
 			transform.updateMatrix();
 
-			__modelMatrices[i] = (transform.getModelMatrix() * jointMatrix);
+			__modelMatrices[i] = (jointMatrix * transform.getModelMatrix());
 		}
 	}
 
@@ -49,7 +49,7 @@ namespace Danburite
 			Transform &transform = __transforms[i];
 			transform.updateMatrix();
 
-			__modelMatrices[i] = (parentModelMatrices[i] * (transform.getModelMatrix() * jointMatrix));
+			__modelMatrices[i] = (parentModelMatrices[i] * (jointMatrix * transform.getModelMatrix()));
 		}
 	}
 

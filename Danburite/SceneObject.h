@@ -28,9 +28,9 @@ namespace Danburite
 
 	public:
 		SceneObject(
-			std::unique_ptr<Mesh> pMesh,
-			const std::shared_ptr<AnimationManager> &pAnimationManager = nullptr,
-			const std::string_view &unitName = "NO_NAMED_OBJ") noexcept;
+			std::unique_ptr<Mesh> &&pMesh,
+			const std::shared_ptr<AnimationManager>& pAnimationManager = nullptr,
+			const std::string_view& unitName = "NO_NAMED_OBJ") noexcept;
 
 		SceneObject(
 			std::unordered_set<std::unique_ptr<Mesh>> &&meshes,

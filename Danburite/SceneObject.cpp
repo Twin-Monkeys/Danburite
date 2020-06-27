@@ -8,13 +8,16 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	SceneObject::SceneObject(
-		unique_ptr<Mesh> pMesh,
-		const shared_ptr<AnimationManager> &pAnimationManager,
-		const string_view &unitName) noexcept :
+		unique_ptr<Mesh> &&pMesh,
+		const shared_ptr<AnimationManager>& pAnimationManager,
+		const string_view& unitName) noexcept :
 		__pAnimManager(pAnimationManager), __name(unitName)
 	{
-		const shared_ptr<VertexBuffer> &pModelMatrixBuffer =
+		const shared_ptr<VertexBuffer>& pModelMatrixBuffer =
 			reinterpret_pointer_cast<VertexBuffer>(__pModelMatrixBuffer);
+
+		if (!pMesh)
+			return;
 
 		pMesh->addVertexBuffer(pModelMatrixBuffer);
 		__meshes.emplace(move(pMesh));
@@ -40,12 +43,17 @@ namespace Danburite
 		Animation *const pAnim = __pAnimManager->getActiveAnimation();
 
 		JointBase *const pJoint = pAnim->getJoint(__name);
-		pJoint->updateMatrix();
+		if (pJoint)
+		{
+			pJoint->updateMatrix();
+			__pModelMatrixBuffer->updateMatrix(parentModelMatrices, pJoint->getMatrix());
+		}
+		else
+			__pModelMatrixBuffer->updateMatrix(parentModelMatrices);
 
 		/*for (const unique_ptr<Mesh> &pMesh : __meshes)
 			pMesh->updateBoneMatrices(*pAnim);*/
 
-		__pModelMatrixBuffer->updateMatrix(parentModelMatrices, pJoint->getMatrix());
 		const vector<mat4> &modelMatrices = __pModelMatrixBuffer->getModelMatrices();
 
 		for (const shared_ptr<SceneObject> &child : __children)
@@ -112,9 +120,14 @@ namespace Danburite
 		pAnim->adjustTimestamp(deltaTime);
 
 		JointBase *const pJoint = pAnim->getJoint(__name);
-		pJoint->updateMatrix();
+		if (pJoint)
+		{
+			pJoint->updateMatrix();
+			__pModelMatrixBuffer->updateMatrix(pJoint->getMatrix());
+		}
+		else
+			__pModelMatrixBuffer->updateMatrix();
 
-		__pModelMatrixBuffer->updateMatrix(pJoint->getMatrix());
 		const vector<mat4>& modelMatrices = __pModelMatrixBuffer->getModelMatrices();
 
 		for (const shared_ptr<SceneObject> &child : __children)
