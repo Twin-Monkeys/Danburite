@@ -257,6 +257,7 @@ namespace Danburite
 					{
 						boneIndices[numBones] = float(boneIdx);
 						boneWeights[numBones] = boneWeight;
+						numBones++;
 					}
 
 					vertices.insert(vertices.end(), boneIndices.begin(), boneIndices.end());

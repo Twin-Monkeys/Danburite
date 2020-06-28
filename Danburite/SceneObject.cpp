@@ -46,10 +46,10 @@ namespace Danburite
 		if (pJoint)
 		{
 			pJoint->updateMatrix();
-			__pModelMatrixBuffer->updateMatrices(pJoint->getMatrix());
+			__pModelMatrixBuffer->updateMatrices(parentModelMatrices, pJoint->getMatrix());
 		}
 		else
-			__pModelMatrixBuffer->updateMatrices();
+			__pModelMatrixBuffer->updateMatrices(parentModelMatrices);
 
 		const vector<mat4> &modelMatrices = __pModelMatrixBuffer->getModelMatrices();
 

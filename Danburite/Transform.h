@@ -72,7 +72,7 @@ namespace Danburite
 
 		constexpr Transform &operator=(const Transform &transform) = default;
 
-		void updateMatrix() noexcept;
+		void updateBoneMatrices() noexcept;
 
 		virtual ~Transform() = default;
 

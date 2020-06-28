@@ -56,7 +56,7 @@ namespace Danburite
 
 	void BoneManager::updateSourceJointMatrices(const mat4 &jointMatrix) noexcept
 	{
-		for (const unique_ptr<Bone>& pBone : __bones)
+		for (const unique_ptr<Bone> &pBone : __bones)
 			pBone->setSourceJointMatrix(jointMatrix);
 	}
 

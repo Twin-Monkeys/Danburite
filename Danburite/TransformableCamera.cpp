@@ -11,7 +11,7 @@ namespace Danburite
 {
 	void TransformableCamera::_onUpdateViewMatrix(mat4 &viewMatrix) noexcept
 	{
-		__transform.updateMatrix();
+		__transform.updateBoneMatrices();
 		viewMatrix = inverse(__transform.getModelMatrix());
 	}
 

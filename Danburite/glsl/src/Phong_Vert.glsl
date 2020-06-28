@@ -17,8 +17,8 @@ void main()
 
 	vec3 localPos = VertexAttribute_pos;
 
-	/*if (Material_isVertexBoneEnabled())
-		localPos = Bone_getAnimatedPosition(VertexAttribute_boneIndices, VertexAttribute_boneWeights, localPos);*/
+	if (Material_isVertexBoneEnabled())
+		localPos = Bone_getAnimatedPosition(VertexAttribute_boneIndices, VertexAttribute_boneWeights, localPos);
 
 	gl_Position = ModelCamera_getNDCPosition(VertexAttribute_modelMat, localPos);
 } 
