@@ -93,7 +93,7 @@ HDRTestScene::HDRTestScene()
 
 	__pGirlRU = AssetImporter::import("res/asset/nuclear_hammer_girl/scene.gltf");
 	Transform &girlTransform = __pGirlRU->getTransform();
-	girlTransform.setScale(7.f);
+	// girlTransform.setScale(7.f);
 	girlTransform.setPosition(10.f, 0.f, 15.f);
 
 	__pGirlRU->getAnimationManager().activateAnimation(1);
@@ -154,7 +154,7 @@ HDRTestScene::HDRTestScene()
 	__pDrawer = make_shared<Drawer>();
 	__pDrawer->addDrawable(__pFloorRU);
 	__pDrawer->addDrawable(__pLampRU);
-	__pDrawer->addDrawable(__pCargoBayRU);
+	// __pDrawer->addDrawable(__pCargoBayRU);
 	__pDrawer->addDrawable(__pPulseCoreRU);
 	__pDrawer->addDrawable(__pDoorRU);
 	__pDrawer->addDrawable(__pLizardRU);
