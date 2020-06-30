@@ -6,11 +6,8 @@ using namespace glm;
 
 namespace Danburite
 {
-	Animation::Animation(
-		const size_t id, const float playTime,
-		const weak_ptr<JointUpdateObserver> &pDefaultJointUpdateObserver, const string &name) noexcept :
-		Object(id), __playTime(playTime),
-		__pDefaultJointUpdateObserver(pDefaultJointUpdateObserver), __name(name)
+	Animation::Animation(const size_t id, const float playTime, const string &name) noexcept :
+		Object(id), __playTime(playTime), __name(name)
 	{}
 
 	AnimatingSceneNodeConnecter &Animation::createAnimatingSceneNodeConnecter(const string &nodeName) noexcept

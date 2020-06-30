@@ -15,8 +15,6 @@
 #include "RefractionMaterial.h"
 #include <array>
 #include "AnimationManager.h"
-#include "AnimatingJoint.h"
-#include "StaticJoint.h"
 #include "BoneManager.h"
 #include "Texture2D.h"
 
@@ -454,7 +452,6 @@ namespace Danburite
 			return nullptr;
 
 		const shared_ptr<AnimationManager> &pAnimationManager = make_shared<AnimationManager>();
-		pAnimationManager->createAnimation(1.f, "Default animation (bind pose)");
 
 		if (pScene->HasAnimations())
 		{

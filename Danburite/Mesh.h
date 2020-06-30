@@ -10,7 +10,7 @@ namespace Danburite
 	class Mesh
 	{
 	private:
-		BoneManager *const __pBoneMgr;
+		BoneManager &__boneMgr;
 
 		const std::shared_ptr<ObjectGL::VertexArray> __pVertexArray;
 		const std::shared_ptr<Material> __pMaterial;
@@ -20,7 +20,7 @@ namespace Danburite
 			const std::shared_ptr<ObjectGL::VertexArray> &pVertexArray,
 			const std::shared_ptr<ModelMatrixBuffer> &pModelMatrixBuffer,
 			const std::shared_ptr<Material> &pMaterial,
-			BoneManager* const pBoneManager = nullptr) noexcept;
+			BoneManager &boneManager) noexcept;
 
 		constexpr const std::shared_ptr<Material> &getMaterial() const noexcept;
 

@@ -24,14 +24,11 @@ namespace Danburite
 		__transform.updateMatrix();
 		__jointMat = (parentJointMatrix * __transform.getMatrix());
 
-		const Animation *const pAnim = __animMgr.getActiveAnimation();
-		if (pAnim)
-		{
-			const SceneNodeConnecterBase *const pConnecter = pAnim->getSceneNodeConnecter(__nodeName);
+		const Animation &anim = __animMgr.getActiveAnimation();
+		const SceneNodeConnecterBase *const pConnecter = anim.getSceneNodeConnecter(__nodeName);
 			
-			if (pConnecter)
-				__jointMat *= pConnecter->getMatrix();
-		}
+		if (pConnecter)
+			__jointMat *= pConnecter->getMatrix();
 
 		for (JointUpdateObserver *const pObserver : __observerSet)
 			pObserver->onUpdateJointMatrix(__nodeName, __jointMat);

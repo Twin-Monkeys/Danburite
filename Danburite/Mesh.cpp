@@ -10,38 +10,27 @@ namespace Danburite
 		const shared_ptr<VertexArray> &pVertexArray,
 		const shared_ptr<ModelMatrixBuffer> &pModelMatrixBuffer,
 		const shared_ptr<Material> &pMaterial,
-		BoneManager *const pBoneManager) noexcept :
-		__pVertexArray(pVertexArray), __pMaterial(pMaterial), __pBoneMgr(pBoneManager)
+		BoneManager &boneManager) noexcept :
+		__pVertexArray(pVertexArray), __pMaterial(pMaterial), __boneMgr(boneManager)
 	{
-		if (pModelMatrixBuffer)
-			__pVertexArray->addVertexBuffer(reinterpret_pointer_cast<VertexBuffer>(pModelMatrixBuffer));
+		__pVertexArray->addVertexBuffer(reinterpret_pointer_cast<VertexBuffer>(pModelMatrixBuffer));
 	}
 
 	void Mesh::updateBoneMatrices(const mat4 &jointMatrix) noexcept
 	{
-		__pBoneMgr->updateSourceJointMatrices(jointMatrix);
-		__pBoneMgr->updateBoneMatrices();
+		__boneMgr.updateSourceJointMatrices(jointMatrix);
+		__boneMgr.updateBoneMatrices();
 	}
 
 	void Mesh::draw(const GLsizei numInstances) noexcept
 	{
-		if (!__pMaterial)
-			return;
-
-		if (__pBoneMgr)
-			__pBoneMgr->selfDeploy();
-
+		__boneMgr.selfDeploy();
 		__pMaterial->render(*__pVertexArray, numInstances);
 	}
 
 	void Mesh::rawDrawcall(const GLsizei numInstances) noexcept
 	{
-		if (!__pMaterial)
-			return;
-
-		if (__pBoneMgr)
-			__pBoneMgr->selfDeploy();
-
+		__boneMgr.selfDeploy();
 		__pMaterial->rawDrawcall(*__pVertexArray, numInstances);
 	}
 }

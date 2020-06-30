@@ -24,8 +24,8 @@ namespace Danburite
 		constexpr const glm::mat4 &getSourceJointMatrix() const noexcept;
 		constexpr void setSourceJointMatrix(const glm::mat4 &jointMatrix) noexcept;
 
-		void updateBoneMatrices() noexcept;
-		constexpr const glm::mat4 &getBoneMatrix() const noexcept;
+		void updateMatrix() noexcept;
+		constexpr const glm::mat4 &getMatrix() const noexcept;
 	};
 
 	constexpr const glm::mat4 &Bone::getTargetJointMatrix() const noexcept
@@ -48,7 +48,7 @@ namespace Danburite
 		__srcJointMat = jointMatrix;
 	}
 
-	constexpr const glm::mat4 &Bone::getBoneMatrix() const noexcept
+	constexpr const glm::mat4 &Bone::getMatrix() const noexcept
 	{
 		return __boneMat;
 	}

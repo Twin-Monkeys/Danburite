@@ -5,10 +5,14 @@ using namespace glm;
 
 namespace Danburite
 {
+	AnimationManager::AnimationManager() noexcept
+	{
+		createAnimation(1.f, "Default animation (bind pose)");
+	}
+
 	Animation &AnimationManager::createAnimation(const float playTime, const string &name) noexcept
 	{
-		return *__animations.emplace_back(
-			make_unique<Animation>(__animations.size(), playTime, shared_from_this(), name));
+		return *__animations.emplace_back(make_unique<Animation>(__animations.size(), playTime, name));
 	}
 
 	Animation &AnimationManager::getAnimation(const size_t id) noexcept
@@ -35,24 +39,13 @@ namespace Danburite
 		return true;
 	}
 
-	Animation *AnimationManager::getActiveAnimation() noexcept
+	Animation &AnimationManager::getActiveAnimation() noexcept
 	{
-		if (__animations.empty())
-			return nullptr;
-
-		return &getAnimation(__activeAnimID);
+		return getAnimation(__activeAnimID);
 	}
 
-	const Animation *AnimationManager::getActiveAnimation() const noexcept
+	const Animation &AnimationManager::getActiveAnimation() const noexcept
 	{
-		if (__animations.empty())
-			return nullptr;
-
-		return &getAnimation(__activeAnimID);
-	}
-
-	BoneManager &AnimationManager::createBoneManager() noexcept
-	{
-		return *__boneMgrs.emplace_back(make_unique<BoneManager>());
+		return getAnimation(__activeAnimID);
 	}
 }
