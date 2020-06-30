@@ -105,13 +105,13 @@ namespace Danburite
 	void SceneObject::draw() noexcept
 	{
 		__pModelMatrixBuffer->selfDeploy();
-
+		__pRootNode->draw(getNumInstances());
 	}
 
 	void SceneObject::rawDrawcall() noexcept
 	{
 		__pModelMatrixBuffer->selfDeploy();
-
+		__pRootNode->rawDrawcall(getNumInstances());
 	}
 
 	void SceneObject::onUpdateJointMatrix(const string& nodeName, const mat4& jointMatrix) noexcept

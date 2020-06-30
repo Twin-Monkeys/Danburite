@@ -19,7 +19,7 @@ namespace Danburite
 
 	public:
 		BoneManager();
-		Bone &createBone(const std::string & nodeName, const glm::mat4 &offsetMatrix);
+		Bone &createBone(const std::string &targetNodeName, const glm::mat4 &offsetMatrix);
 
 		Bone *getBone(const GLuint id) noexcept;
 		const Bone *getBone(const GLuint id) const noexcept;

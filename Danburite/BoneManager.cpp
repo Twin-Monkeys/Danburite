@@ -13,7 +13,7 @@ namespace Danburite
 			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::BONE))
 	{}
 
-	Bone &BoneManager::createBone(const string &nodeName, const mat4 &offsetMatrix)
+	Bone &BoneManager::createBone(const string &targetNodeName, const mat4 &offsetMatrix)
 	{
 		const GLuint boneID = GLuint(__boneMatrices.size());
 		__boneMatrices.emplace_back();
@@ -22,7 +22,7 @@ namespace Danburite
 			throw BoneException("the number of bones cannot be greater than MAX_NUM_BONES.");
 
 		const unique_ptr<Bone> &pBone = __bones.emplace_back(make_unique<Bone>(boneID, offsetMatrix));
-		__targetJointToBonesMap[nodeName].emplace_back(pBone.get());
+		__targetJointToBonesMap[targetNodeName].emplace_back(pBone.get());
 
 		return *pBone;
 	}

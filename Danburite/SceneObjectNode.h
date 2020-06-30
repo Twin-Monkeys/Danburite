@@ -26,7 +26,7 @@ namespace Danburite
 
 		constexpr const std::string &getName() const noexcept;
 
-		void addChild(SceneObjectNode *const pChild) noexcept;
+		void addChild(SceneObjectNode &child) noexcept;
 
 		void update(const glm::mat4 &parentJointMatrix) noexcept;
 		void draw(const size_t numInstances) noexcept;

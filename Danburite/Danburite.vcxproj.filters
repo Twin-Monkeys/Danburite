@@ -714,6 +714,9 @@
     <ClCompile Include="Joint.cpp">
       <Filter>Library\Engine\Core\Animation\Joint</Filter>
     </ClCompile>
+    <ClCompile Include="AssimpDataStructureConverter.cpp">
+      <Filter>Library\Engine\Util\AssetImporter</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">
@@ -1243,6 +1246,9 @@
     </ClInclude>
     <ClInclude Include="Joint.h">
       <Filter>Library\Engine\Core\Animation\Joint</Filter>
+    </ClInclude>
+    <ClInclude Include="AssimpDataStructureConverter.h">
+      <Filter>Library\Engine\Util\AssetImporter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

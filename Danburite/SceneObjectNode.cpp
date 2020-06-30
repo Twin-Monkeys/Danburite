@@ -14,9 +14,9 @@ namespace Danburite
 		__meshes.swap(meshes);
 	}
 
-	void SceneObjectNode::addChild(SceneObjectNode *const pChild) noexcept
+	void SceneObjectNode::addChild(SceneObjectNode &child) noexcept
 	{
-		__children.emplace(pChild);
+		__children.emplace(&child);
 	}
 
 	void SceneObjectNode::update(const mat4 &parentJointMatrix) noexcept

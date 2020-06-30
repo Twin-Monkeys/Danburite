@@ -42,6 +42,8 @@ namespace Danburite
 		constexpr SceneObjectNode *getRootNode() noexcept;
 		constexpr const SceneObjectNode *getRootNode() const noexcept;
 
+		constexpr SceneObject &setRootNode(SceneObjectNode &node) noexcept;
+
 		SceneObjectNode *getNode(const std::string_view &name) noexcept;
 		const SceneObjectNode *getNode(const std::string_view &name) const noexcept;
 
@@ -68,6 +70,12 @@ namespace Danburite
 	constexpr const SceneObjectNode *SceneObject::getRootNode() const noexcept
 	{
 		return __pRootNode;
+	}
+
+	constexpr SceneObject &SceneObject::setRootNode(SceneObjectNode &node) noexcept
+	{
+		__pRootNode = &node;
+		return *this;
 	}
 
 	template <typename MaterialType, typename FunctionType, typename ...Args>
