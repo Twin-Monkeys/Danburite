@@ -2,8 +2,8 @@
 
 #include <unordered_map>
 #include <memory>
-#include "AnimatingJoint.h"
-#include "StaticJoint.h"
+#include "AnimatingSceneNodeConnecter.h"
+#include "StaticSceneNodeConnecter.h"
 #include "Object.h"
 
 namespace Danburite
@@ -19,7 +19,7 @@ namespace Danburite
 		const std::string __name;
 
 		const std::weak_ptr<JointUpdateObserver> __pDefaultJointUpdateObserver;
-		std::unordered_map<std::string, std::unique_ptr<JointBase>> __jointMap;
+		std::unordered_map<std::string, std::unique_ptr<SceneNodeConnecterBase>> __connecterMap;
 
 	public:
 		Animation(
@@ -30,11 +30,11 @@ namespace Danburite
 		constexpr float getPlayTime() const noexcept;
 		constexpr const std::string &getName() const noexcept;
 
-		AnimatingJoint &createAnimatingJoint(const std::string &name) noexcept;
-		StaticJoint &createStaticJoint(const std::string &name, const glm::mat4 &localJointMatrix) noexcept;
+		AnimatingSceneNodeConnecter &createAnimatingSceneNodeConnecter(const std::string &nodeName) noexcept;
+		StaticSceneNodeConnecter &createStaticSceneNodeConnecter(const std::string &nodeName, const glm::mat4 &localConnectingMat) noexcept;
 
-		JointBase *getJoint(const std::string &name) noexcept;
-		const JointBase *getJoint(const std::string &name) const noexcept;
+		SceneNodeConnecterBase *getSceneNodeConnecter(const std::string &nodeName) noexcept;
+		const SceneNodeConnecterBase *getSceneNodeConnecter(const std::string &nodeName) const noexcept;
 
 		Animation &setTimestamp(const float timestamp) noexcept;
 		Animation &adjustTimestamp(const float deltaTime) noexcept;

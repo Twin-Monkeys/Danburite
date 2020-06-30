@@ -16,7 +16,7 @@ namespace Danburite
 	class AssetImporter abstract
 	{
 	public:
-		static std::shared_ptr<SceneObject> import(
+		static std::shared_ptr<SceneObjectNode> import(
 			const std::string_view &assetPath, const MaterialType materialType = MaterialType::PHONG);
 	};
 }

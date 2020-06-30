@@ -55,10 +55,4 @@ namespace Danburite
 	{
 		return *__boneMgrs.emplace_back(make_unique<BoneManager>());
 	}
-
-	void AnimationManager::onUpdateJointMatrix(const string &jointName, const mat4 &jointMatrix) noexcept
-	{
-		for (const unique_ptr<BoneManager> &pBoneManager : __boneMgrs)
-			pBoneManager->updateTargetJointMatrices(jointName, jointMatrix);
-	}
 }

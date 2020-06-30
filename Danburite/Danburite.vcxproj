@@ -159,7 +159,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AnimatingJoint.cpp" />
+    <ClCompile Include="AnimatingSceneNodeConnecter.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationManager.cpp" />
     <ClCompile Include="AttachableTexture2D.cpp" />
@@ -177,13 +177,15 @@
     <ClCompile Include="HDRPostProcessor.cpp" />
     <ClCompile Include="HDRTestScene.cpp" />
     <ClCompile Include="IndexType.cpp" />
-    <ClCompile Include="JointBase.cpp" />
+    <ClCompile Include="SceneNodeConnecterBase.cpp" />
+    <ClCompile Include="Joint.cpp" />
     <ClCompile Include="ParallaxMapTestScene.cpp" />
     <ClCompile Include="OrthoCamera.cpp" />
     <ClCompile Include="OrthoLight.cpp" />
     <ClCompile Include="PerspectiveLight.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="RCDSRegisterer.cpp" />
+    <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="ShadowTestScene.cpp" />
     <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="ForwardPostProcessor.cpp" />
@@ -219,7 +221,7 @@
     <ClCompile Include="SilhouetteMaterial.cpp" />
     <ClCompile Include="SilhouetteMaterialComponent.cpp" />
     <ClCompile Include="Skybox.cpp" />
-    <ClCompile Include="StaticJoint.cpp" />
+    <ClCompile Include="StaticSceneNodeConnecter.cpp" />
     <ClCompile Include="TextureCubemap.cpp" />
     <ClCompile Include="TextureMultisample.cpp" />
     <ClCompile Include="TextureUtil.cpp" />
@@ -246,7 +248,7 @@
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="ProgramFactory.cpp" />
-    <ClCompile Include="SceneObject.cpp" />
+    <ClCompile Include="SceneObjectNode.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ShaderCompiler.cpp" />
@@ -280,7 +282,7 @@
     <ClCompile Include="SpotLightComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AnimatingJoint.h" />
+    <ClInclude Include="AnimatingSceneNodeConnecter.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationManager.h" />
     <ClInclude Include="Attachable.h" />
@@ -304,12 +306,14 @@
     <ClInclude Include="GLDebugMessageType.h" />
     <ClInclude Include="HDRPostProcessor.h" />
     <ClInclude Include="HDRTestScene.h" />
-    <ClInclude Include="JointBase.h" />
+    <ClInclude Include="SceneNodeConnecterBase.h" />
+    <ClInclude Include="Joint.h" />
     <ClInclude Include="JointUpdateObserver.h" />
     <ClInclude Include="Lerp.h" />
     <ClInclude Include="ParallaxMapTestScene.h" />
     <ClInclude Include="Quaternion.h" />
-    <ClInclude Include="StaticJoint.h" />
+    <ClInclude Include="SceneObject.h" />
+    <ClInclude Include="StaticSceneNodeConnecter.h" />
     <ClInclude Include="Timeline.h" />
     <ClInclude Include="TimelineWrappingType.h" />
     <ClInclude Include="TransformableLight.h" />
@@ -410,7 +414,7 @@
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="RasterizationType.h" />
-    <ClInclude Include="SceneObject.h" />
+    <ClInclude Include="SceneObjectNode.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="VertexArrayException.h" />
     <ClInclude Include="ElementType.h" />

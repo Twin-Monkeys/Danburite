@@ -1,8 +1,9 @@
 #pragma once
 
-#include "BoneManager.h"
-#include "Material.h"
 #include "VertexArray.h"
+#include "Material.h"
+#include "ModelMatrixBuffer.h"
+#include "BoneManager.h"
 
 namespace Danburite
 {
@@ -12,18 +13,16 @@ namespace Danburite
 		BoneManager *const __pBoneMgr;
 
 		const std::shared_ptr<ObjectGL::VertexArray> __pVertexArray;
-		std::shared_ptr<Material> __pMaterial;
+		const std::shared_ptr<Material> __pMaterial;
 
 	public:
 		Mesh(
 			const std::shared_ptr<ObjectGL::VertexArray> &pVertexArray,
-			const std::shared_ptr<Material> &pMaterial = nullptr,
+			const std::shared_ptr<ModelMatrixBuffer> &pModelMatrixBuffer,
+			const std::shared_ptr<Material> &pMaterial,
 			BoneManager* const pBoneManager = nullptr) noexcept;
 
 		constexpr const std::shared_ptr<Material> &getMaterial() const noexcept;
-		void setMaterial(const std::shared_ptr<Material> &pMaterial) noexcept;
-
-		void addVertexBuffer(const std::shared_ptr<ObjectGL::VertexBuffer> &pVertexBuffer) noexcept;
 
 		void updateBoneMatrices(const glm::mat4 &jointMatrix) noexcept;
 

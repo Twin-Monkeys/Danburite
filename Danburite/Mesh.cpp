@@ -8,19 +8,13 @@ namespace Danburite
 {
 	Mesh::Mesh(
 		const shared_ptr<VertexArray> &pVertexArray,
+		const shared_ptr<ModelMatrixBuffer> &pModelMatrixBuffer,
 		const shared_ptr<Material> &pMaterial,
 		BoneManager *const pBoneManager) noexcept :
 		__pVertexArray(pVertexArray), __pMaterial(pMaterial), __pBoneMgr(pBoneManager)
-	{}
-
-	void Mesh::setMaterial(const shared_ptr<Material> &pMaterial) noexcept
 	{
-		__pMaterial = pMaterial;
-	}
-
-	void Mesh::addVertexBuffer(const shared_ptr<VertexBuffer> &pVertexBuffer) noexcept
-	{
-		__pVertexArray->addVertexBuffer(pVertexBuffer);
+		if (pModelMatrixBuffer)
+			__pVertexArray->addVertexBuffer(reinterpret_pointer_cast<VertexBuffer>(pModelMatrixBuffer));
 	}
 
 	void Mesh::updateBoneMatrices(const mat4 &jointMatrix) noexcept

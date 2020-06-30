@@ -6,13 +6,11 @@
 
 namespace Danburite
 {
-	class AnimationManager : public std::enable_shared_from_this<AnimationManager>, public JointUpdateObserver
+	class AnimationManager : public std::enable_shared_from_this<AnimationManager>
 	{
 	private:
 		std::vector<std::unique_ptr<Animation>> __animations;
 		size_t __activeAnimID = 0ULL;
-
-		std::vector<std::unique_ptr<BoneManager>> __boneMgrs;
 
 	public:
 		Animation &createAnimation(const float playTime, const std::string &name = "") noexcept;
@@ -25,10 +23,5 @@ namespace Danburite
 
 		Animation *getActiveAnimation() noexcept;
 		const Animation *getActiveAnimation() const noexcept;
-
-		BoneManager &createBoneManager() noexcept;
-
-		virtual void onUpdateJointMatrix(
-			const std::string &jointName, const glm::mat4 &jointMatrix) noexcept override;
 	};
 }

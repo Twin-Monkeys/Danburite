@@ -1,5 +1,4 @@
 #include "SceneObject.h"
-#include "Constant.h"
 
 using namespace std;
 using namespace glm;
@@ -7,89 +6,67 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	SceneObject::SceneObject(
-		unique_ptr<Mesh> &&pMesh,
-		const shared_ptr<AnimationManager>& pAnimationManager,
-		const string_view& unitName) noexcept :
-		__pAnimManager(pAnimationManager), __name(unitName)
+	SceneObjectNode &SceneObject::createNode(
+		const shared_ptr<VertexArray> &pVertexArray,
+		const shared_ptr<Material> &pMaterial, const bool setAsRoot, const string_view &name) noexcept
 	{
-		const shared_ptr<VertexBuffer>& pModelMatrixBuffer =
-			reinterpret_pointer_cast<VertexBuffer>(__pModelMatrixBuffer);
-
-		if (!pMesh)
-			return;
-
-		pMesh->addVertexBuffer(pModelMatrixBuffer);
-		__meshes.emplace(move(pMesh));
+		return createNode({ { pVertexArray, pMaterial } }, setAsRoot, name);
 	}
 
-	SceneObject::SceneObject(
-		unordered_set<unique_ptr<Mesh>> &&meshes,
-		const shared_ptr<AnimationManager> &pAnimationManager,
-		const string_view &unitName) noexcept :
-		__pAnimManager(pAnimationManager), __name(unitName)
+	SceneObjectNode &SceneObject::createNode(
+		const vector<pair<shared_ptr<VertexArray>, shared_ptr<Material>>> &meshDataList,
+		const bool setAsRoot, const string_view &name) noexcept
 	{
-		const shared_ptr<VertexBuffer> &pModelMatrixBuffer =
-			reinterpret_pointer_cast<VertexBuffer>(__pModelMatrixBuffer);
-		
-		for (const unique_ptr<Mesh> &pMesh : meshes)
-			pMesh->addVertexBuffer(pModelMatrixBuffer);
+		unordered_set<unique_ptr<Mesh>> meshes;
 
-		__meshes.swap(meshes);
+		for (const auto &[pVertexArray, pMaterial] : meshDataList)
+			meshes.emplace(make_unique<Mesh>(pVertexArray, __pModelMatrixBuffer, pMaterial, &createBoneManager()));
+
+		SceneObjectNode *const pNode =
+			__nodes.emplace_back(make_unique<SceneObjectNode>(move(meshes), name)).get();
+
+		if (setAsRoot)
+			__pRootNode = pNode;
+
+		return *pNode;
 	}
 
-	void SceneObject::__updateHierarchical_withAnim(const vector<mat4> &parentModelMatrices) noexcept
+	size_t SceneObject::getNumInstances() const noexcept
 	{
-		Animation *const pAnim = __pAnimManager->getActiveAnimation();
-
-		JointBase *const pJoint = pAnim->getJoint(__name);
-		if (pJoint)
-		{
-			pJoint->updateMatrix();
-			__pModelMatrixBuffer->updateMatrices(parentModelMatrices, pJoint->getMatrix());
-		}
-		else
-			__pModelMatrixBuffer->updateMatrices(parentModelMatrices);
-
-		const vector<mat4> &modelMatrices = __pModelMatrixBuffer->getModelMatrices();
-		__pAnimManager->onUpdateJointMatrix(__name, modelMatrices[0]);
-
-		for (const shared_ptr<SceneObject> &child : __children)
-			child->__updateHierarchical_withAnim(modelMatrices);
-	}
-
-	void SceneObject::__updateHierarchical_withoutAnim(const vector<mat4> &parentModelMatrices) noexcept
-	{
-		__pModelMatrixBuffer->updateMatrices(parentModelMatrices);
-		const vector<mat4> &modelMatrices = __pModelMatrixBuffer->getModelMatrices();
-
-		for (const shared_ptr<SceneObject> &child : __children)
-			child->__updateHierarchical_withoutAnim(modelMatrices);
-	}
-
-	void SceneObject::__updateBoneMatricesHierarchical() noexcept
-	{
-		Animation *const pAnim = __pAnimManager->getActiveAnimation();
-		JointBase *const pJoint = pAnim->getJoint(__name);
-
-		for (const unique_ptr<Mesh> &pMesh : __meshes)
-			pMesh->updateBoneMatrices(__pModelMatrixBuffer->getModelMatrices()[0]);
-
-		for (const shared_ptr<SceneObject> &child : __children)
-			child->__updateBoneMatricesHierarchical();
-	}
-
-	Transform &SceneObject::getTransform(const size_t idx) const noexcept
-	{
-		return __pModelMatrixBuffer->getTransform(idx);
+		return __pModelMatrixBuffer->getNumInstances();
 	}
 
 	void SceneObject::setNumInstances(const GLsizei numInstances) noexcept
 	{
 		__pModelMatrixBuffer->setNumInstances(numInstances);
+	}
 
-		for (const shared_ptr<SceneObject> &child : __children)
-			child->setNumInstances(numInstances);
+	Transform &SceneObject::getTransform(const size_t idx) noexcept
+	{
+		return __pModelMatrixBuffer->getTransform(idx);
+	}
+
+	const Transform &SceneObject::getTransform(const size_t idx) const noexcept
+	{
+		return __pModelMatrixBuffer->getTransform(idx);
+	}
+
+	SceneObjectNode *SceneObject::getNode(const string_view &name) noexcept
+	{
+		for (const unique_ptr<SceneObjectNode> &pNode : __nodes)
+			if (pNode->getName() == name)
+				return pNode.get();
+
+		return nullptr;
+	}
+
+	const SceneObjectNode *SceneObject::getNode(const string_view &name) const noexcept
+	{
+		for (const unique_ptr<SceneObjectNode> &pNode : __nodes)
+			if (pNode->getName() == name)
+				return pNode.get();
+
+		return nullptr;
 	}
 
 	AnimationManager &SceneObject::getAnimationManager() noexcept
@@ -104,72 +81,16 @@ namespace Danburite
 
 	void SceneObject::update(const float deltaTime) noexcept
 	{
-		if (!__pAnimManager)
-		{
-			__pModelMatrixBuffer->updateMatrices();
-			const vector<mat4> &modelMatrices = __pModelMatrixBuffer->getModelMatrices();
 
-			for (const shared_ptr<SceneObject> &child : __children)
-				child->__updateHierarchical_withoutAnim(modelMatrices);
-
-			return;
-		}
-
-		Animation *const pAnim = __pAnimManager->getActiveAnimation();
-		if (!pAnim)
-		{
-			__pModelMatrixBuffer->updateMatrices();
-			const vector<mat4> &modelMatrices = __pModelMatrixBuffer->getModelMatrices();
-
-			for (const shared_ptr<SceneObject> &child : __children)
-				child->__updateHierarchical_withoutAnim(modelMatrices);
-
-			return;
-		}
-
-		pAnim->adjustTimestamp(deltaTime);
-
-		JointBase *const pJoint = pAnim->getJoint(__name);
-		if (pJoint)
-		{
-			pJoint->updateMatrix();
-			__pModelMatrixBuffer->updateMatrices(pJoint->getMatrix());
-		}
-		else
-			__pModelMatrixBuffer->updateMatrices();
-
-		const vector<mat4>& modelMatrices = __pModelMatrixBuffer->getModelMatrices();
-		__pAnimManager->onUpdateJointMatrix(__name, modelMatrices[0]);
-
-		for (const shared_ptr<SceneObject> &child : __children)
-			child->__updateHierarchical_withAnim(modelMatrices);
-
-		__updateBoneMatricesHierarchical();
 	}
 
 	void SceneObject::draw() noexcept
 	{
-		__pModelMatrixBuffer->selfDeploy();
 
-		const size_t NUM_INSTANCES = __pModelMatrixBuffer->getNumInstances();
-
-		for (const unique_ptr<Mesh> &pMesh : __meshes)
-			pMesh->draw(GLsizei(NUM_INSTANCES));
-
-		for (const shared_ptr<SceneObject> &child : __children)
-			child->draw();
 	}
 
 	void SceneObject::rawDrawcall() noexcept
 	{
-		__pModelMatrixBuffer->selfDeploy();
-
-		const size_t NUM_INSTANCES = __pModelMatrixBuffer->getNumInstances();
-
-		for (const unique_ptr<Mesh> &pMesh : __meshes)
-			pMesh->rawDrawcall(GLsizei(NUM_INSTANCES));
-
-		for (const shared_ptr<SceneObject> &child : __children)
-			child->rawDrawcall();
+		
 	}
 }

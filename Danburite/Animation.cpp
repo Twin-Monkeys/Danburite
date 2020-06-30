@@ -13,37 +13,35 @@ namespace Danburite
 		__pDefaultJointUpdateObserver(pDefaultJointUpdateObserver), __name(name)
 	{}
 
-	AnimatingJoint &Animation::createAnimatingJoint(const string &name) noexcept
+	AnimatingSceneNodeConnecter &Animation::createAnimatingSceneNodeConnecter(const string &nodeName) noexcept
 	{
-		unique_ptr<JointBase> &pRetVal = __jointMap[name];
-		pRetVal = make_unique<AnimatingJoint>(name, __timestamp);
-		pRetVal->getObserverSet().add(__pDefaultJointUpdateObserver);
+		unique_ptr<SceneNodeConnecterBase> &pRetVal = __connecterMap[nodeName];
+		pRetVal = make_unique<AnimatingSceneNodeConnecter>(nodeName, __timestamp);
 
-		return static_cast<AnimatingJoint &>(*pRetVal);
+		return static_cast<AnimatingSceneNodeConnecter &>(*pRetVal);
 	}
 
-	StaticJoint &Animation::createStaticJoint(const string &name, const mat4 &localJointMatrix) noexcept
+	StaticSceneNodeConnecter &Animation::createStaticSceneNodeConnecter(const string &nodeName, const mat4 &localConnectingMat) noexcept
 	{
-		unique_ptr<JointBase> &pRetVal = __jointMap[name];
-		pRetVal = make_unique<StaticJoint>(name, localJointMatrix);
-		pRetVal->getObserverSet().add(__pDefaultJointUpdateObserver);
+		unique_ptr<SceneNodeConnecterBase> &pRetVal = __connecterMap[nodeName];
+		pRetVal = make_unique<StaticSceneNodeConnecter>(nodeName, localConnectingMat);
 
-		return static_cast<StaticJoint &>(*pRetVal);
+		return static_cast<StaticSceneNodeConnecter &>(*pRetVal);
 	}
 
-	JointBase* Animation::getJoint(const string &name) noexcept
+	SceneNodeConnecterBase* Animation::getSceneNodeConnecter(const string &nodeName) noexcept
 	{
-		auto resultIt = __jointMap.find(name);
-		if (resultIt == __jointMap.end())
+		auto resultIt = __connecterMap.find(nodeName);
+		if (resultIt == __connecterMap.end())
 			return nullptr;
 
 		return resultIt->second.get();
 	}
 
-	const JointBase *Animation::getJoint(const string &name) const noexcept
+	const SceneNodeConnecterBase *Animation::getSceneNodeConnecter(const string &nodeName) const noexcept
 	{
-		auto resultIt = __jointMap.find(name);
-		if (resultIt == __jointMap.end())
+		auto resultIt = __connecterMap.find(nodeName);
+		if (resultIt == __connecterMap.end())
 			return nullptr;
 
 		return resultIt->second.get();

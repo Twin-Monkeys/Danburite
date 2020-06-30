@@ -1,56 +1,52 @@
 #pragma once
 
-#include "Drawable.h"
-#include "Mesh.h"
-#include <unordered_set>
 #include "ModelMatrixBuffer.h"
 #include "AnimationManager.h"
+#include "SceneObjectNode.h"
+#include "Drawable.h"
 
 namespace Danburite
 {
 	class SceneObject : public Updatable, public Drawable
 	{
 	private:
-		std::unordered_set<std::unique_ptr<Mesh>> __meshes;
-
-		const std::string __name;
-
-		std::unordered_set<std::shared_ptr<SceneObject>> __children;
 		const std::shared_ptr<ModelMatrixBuffer> __pModelMatrixBuffer = std::make_shared<ModelMatrixBuffer>();
+		const std::unique_ptr<AnimationManager> __pAnimManager = std::make_unique<AnimationManager>();
 
-		const std::shared_ptr<AnimationManager> __pAnimManager;
+		std::vector<std::unique_ptr<BoneManager>> __boneMgrs;
+		std::vector<std::unique_ptr<SceneObjectNode>> __nodes;
+		std::vector<std::unique_ptr<Joint>> __nodes;
 
-		SceneObject(const SceneObject &) = delete;
-		SceneObject& operator=(const SceneObject &) = delete;
-
-		void __updateHierarchical_withAnim(const std::vector<glm::mat4>& parentModelMatrices) noexcept;
-		void __updateHierarchical_withoutAnim(const std::vector<glm::mat4> &parentModelMatrices) noexcept;
-
-		void __updateBoneMatricesHierarchical() noexcept;
+		SceneObjectNode *__pRootNode = nullptr;
 
 	public:
-		SceneObject(
-			std::unique_ptr<Mesh> &&pMesh,
-			const std::shared_ptr<AnimationManager>& pAnimationManager = nullptr,
-			const std::string_view& unitName = "NO_NAMED_OBJ") noexcept;
+		SceneObjectNode &createNode(
+			const std::shared_ptr<ObjectGL::VertexArray> &pVertexArray,
+			const std::shared_ptr<Material> &pMaterial,
+			const bool setAsRoot = false,
+			const std::string_view &name = "NO_NAMED") noexcept;
 
-		SceneObject(
-			std::unordered_set<std::unique_ptr<Mesh>> &&meshes,
-			const std::shared_ptr<AnimationManager> &pAnimationManager = nullptr,
-			const std::string_view &unitName = "NO_NAMED_OBJ") noexcept;
+		SceneObjectNode &createNode(
+			const std::vector<std::pair<std::shared_ptr<ObjectGL::VertexArray>, std::shared_ptr<Material>>> &meshDataList,
+			const bool setAsRoot = false,
+			const std::string_view &name = "NO_NAMED") noexcept;
+		
+		BoneManager &createBoneManager() noexcept;
 
-		constexpr const std::string &getName() const noexcept;
-
-		constexpr size_t getNumInstances() const noexcept;
-		Transform &getTransform(const size_t idx = 0) const noexcept;
-
+		size_t getNumInstances() const noexcept;
 		void setNumInstances(const GLsizei numInstances) noexcept;
+
+		Transform &getTransform(const size_t idx = 0) noexcept;
+		const Transform &getTransform(const size_t idx = 0) const noexcept;
+
+		constexpr SceneObjectNode *getRootNode() noexcept;
+		constexpr const SceneObjectNode *getRootNode() const noexcept;
+
+		SceneObjectNode *getNode(const std::string_view &name) noexcept;
+		const SceneObjectNode *getNode(const std::string_view &name) const noexcept;
 
 		AnimationManager &getAnimationManager() noexcept;
 		const AnimationManager &getAnimationManager() const noexcept;
-
-		constexpr std::unordered_set<std::shared_ptr<SceneObject>> &getChildrenSet() noexcept;
-		constexpr const std::unordered_set<std::shared_ptr<SceneObject>> &getChildrenSet() const noexcept;
 
 		virtual void update(const float deltaTime) noexcept override;
 
@@ -59,47 +55,21 @@ namespace Danburite
 
 		template <typename MaterialType, typename FunctionType, typename ...Args>
 		void traverseMaterial(const FunctionType function, Args &&...args);
-
-		virtual ~SceneObject() = default;
 	};
 
-	constexpr const std::string &SceneObject::getName() const noexcept
+	constexpr SceneObjectNode *SceneObject::getRootNode() noexcept
 	{
-		return __name;
+		return __pRootNode;
 	}
 
-	constexpr size_t SceneObject::getNumInstances() const noexcept
+	constexpr const SceneObjectNode *SceneObject::getRootNode() const noexcept
 	{
-		return __pModelMatrixBuffer->getNumInstances();
-	}
-
-	constexpr std::unordered_set<std::shared_ptr<SceneObject>> &SceneObject::getChildrenSet() noexcept
-	{
-		return __children;
-	}
-
-	constexpr const std::unordered_set<std::shared_ptr<SceneObject>> &SceneObject::getChildrenSet() const noexcept
-	{
-		return __children;
+		return __pRootNode;
 	}
 
 	template <typename MaterialType, typename FunctionType, typename ...Args>
 	void SceneObject::traverseMaterial(const FunctionType function, Args &&...args)
 	{
-		using namespace std;
 
-		static_assert(is_base_of_v<Material, MaterialType>, "MaterialType must be derived from Material.");
-
-		for (const unique_ptr<Mesh> &pMesh : __meshes)
-		{
-			MaterialType *const pMaterial =
-				dynamic_pointer_cast<MaterialType>(pMesh->getMaterial()).get();
-
-			if (pMaterial)
-				(pMaterial->*function)(std::forward<Args>(args)...);
-		}
-
-		for (const shared_ptr<SceneObject> &child : __children)
-			child->traverseMaterial<MaterialType>(function, std::forward<Args>(args)...);
 	}
 }

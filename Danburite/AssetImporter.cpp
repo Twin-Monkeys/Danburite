@@ -119,7 +119,7 @@ namespace Danburite
 		}
 	}
 
-	static shared_ptr<SceneObject> __parseNode(
+	static shared_ptr<SceneObjectNode> __parseNode(
 		const string &parentPath, const aiNode *const pNode, const aiScene* const pScene, const MaterialType materialType,
 		unordered_map<string, shared_ptr<Texture2D>> &textureCache, const shared_ptr<AnimationManager> &pAnimationManager)
 	{
@@ -134,8 +134,8 @@ namespace Danburite
 		{
 			Animation &anim = pAnimationManager->getAnimation(animIter);
 
-			if (!anim.getJoint(nodeName))
-				anim.createStaticJoint(nodeName, localJointMat);
+			if (!anim.getSceneNodeConnecter(nodeName))
+				anim.createStaticSceneNodeConnecter(nodeName, localJointMat);
 		}
 
 		const aiMesh *const *const pAiMeshes = pScene->mMeshes;
@@ -408,10 +408,10 @@ namespace Danburite
 			meshes.emplace(move(pMesh));
 		}
 
-		return make_shared<SceneObject>(move(meshes), pAnimationManager, nodeName);
+		return make_shared<SceneObjectNode>(move(meshes), pAnimationManager, nodeName);
 	}
 
-	shared_ptr<SceneObject> AssetImporter::import(const string_view &assetPath, const MaterialType materialType)
+	shared_ptr<SceneObjectNode> AssetImporter::import(const string_view &assetPath, const MaterialType materialType)
 	{
 		/*
 			The importer manages all the resources for itsself.
@@ -477,8 +477,8 @@ namespace Danburite
 					// mNodeName은 joint name임. aiNode 중에 이 이름을 가진 node가 있어야 함
 					const aiString &jointName = pAiAnimNode->mNodeName;
 
-					assert(!animation.getJoint(jointName.C_Str()));
-					AnimatingJoint &joint = animation.createAnimatingJoint(jointName.C_Str());
+					assert(!animation.getSceneNodeConnecter(jointName.C_Str()));
+					AnimatingSceneNodeConnecter &joint = animation.createAnimatingSceneNodeConnecter(jointName.C_Str());
 
 					TransformTimeline &timeline = joint.getTimeline();
 
@@ -597,10 +597,10 @@ namespace Danburite
 			If you want the mesh’s orientation in global space,
 			You’d have to concatenate the transformations from the referring node and all of its parents.
 		*/
-		const shared_ptr<SceneObject> &pRoot = make_shared<SceneObject>(nullptr, pAnimationManager, assetPath);
+		const shared_ptr<SceneObjectNode> &pRoot = make_shared<SceneObjectNode>(nullptr, pAnimationManager, assetPath);
 
 		// <parent(SceneObject), child(aiNode)> pair stack
-		stack<pair<const shared_ptr<SceneObject>, const aiNode *>> nodeStack;
+		stack<pair<const shared_ptr<SceneObjectNode>, const aiNode *>> nodeStack;
 		nodeStack.emplace(pRoot, pScene->mRootNode);
 
 		while (!nodeStack.empty())
@@ -608,7 +608,7 @@ namespace Danburite
 			const auto [pParent, pCurrentNode] = nodeStack.top();
 			nodeStack.pop();
 
-			const shared_ptr<SceneObject> &pParsedCurrent = __parseNode(
+			const shared_ptr<SceneObjectNode> &pParsedCurrent = __parseNode(
 				parentPath, pCurrentNode, pScene, materialType, textureCache, pAnimationManager);
 
 			pParent->getChildrenSet().emplace(pParsedCurrent);

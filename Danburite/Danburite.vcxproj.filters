@@ -340,11 +340,14 @@
     <Filter Include="Library\Engine\Core\Animation\Timeline">
       <UniqueIdentifier>{f9bd5f81-ea7e-4d55-b9be-fc6232a0ddc2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Library\Engine\Core\Animation\Joint">
-      <UniqueIdentifier>{637fefa0-41b4-453f-812c-aec19052aa5f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library\Engine\Core\SceneObject">
       <UniqueIdentifier>{b5d8fa38-5854-4a3b-a3cb-23e3f2ab752c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Animation\SceneNodeConnecter">
+      <UniqueIdentifier>{637fefa0-41b4-453f-812c-aec19052aa5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Animation\Joint">
+      <UniqueIdentifier>{ad93b38b-9f13-419a-870e-4dcd706043e3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -693,16 +696,22 @@
     <ClCompile Include="ModelMatrixBuffer.cpp">
       <Filter>Library\Engine\Core\SceneObject</Filter>
     </ClCompile>
+    <ClCompile Include="SceneObjectNode.cpp">
+      <Filter>Library\Engine\Core\SceneObject</Filter>
+    </ClCompile>
     <ClCompile Include="SceneObject.cpp">
       <Filter>Library\Engine\Core\SceneObject</Filter>
     </ClCompile>
-    <ClCompile Include="JointBase.cpp">
-      <Filter>Library\Engine\Core\Animation\Joint</Filter>
+    <ClCompile Include="SceneNodeConnecterBase.cpp">
+      <Filter>Library\Engine\Core\Animation\SceneNodeConnecter</Filter>
     </ClCompile>
-    <ClCompile Include="AnimatingJoint.cpp">
-      <Filter>Library\Engine\Core\Animation\Joint</Filter>
+    <ClCompile Include="StaticSceneNodeConnecter.cpp">
+      <Filter>Library\Engine\Core\Animation\SceneNodeConnecter</Filter>
     </ClCompile>
-    <ClCompile Include="StaticJoint.cpp">
+    <ClCompile Include="AnimatingSceneNodeConnecter.cpp">
+      <Filter>Library\Engine\Core\Animation\SceneNodeConnecter</Filter>
+    </ClCompile>
+    <ClCompile Include="Joint.cpp">
       <Filter>Library\Engine\Core\Animation\Joint</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1214,19 +1223,25 @@
     <ClInclude Include="ModelMatrixBuffer.h">
       <Filter>Library\Engine\Core\SceneObject</Filter>
     </ClInclude>
+    <ClInclude Include="SceneObjectNode.h">
+      <Filter>Library\Engine\Core\SceneObject</Filter>
+    </ClInclude>
     <ClInclude Include="SceneObject.h">
       <Filter>Library\Engine\Core\SceneObject</Filter>
     </ClInclude>
-    <ClInclude Include="JointBase.h">
-      <Filter>Library\Engine\Core\Animation\Joint</Filter>
+    <ClInclude Include="SceneNodeConnecterBase.h">
+      <Filter>Library\Engine\Core\Animation\SceneNodeConnecter</Filter>
     </ClInclude>
-    <ClInclude Include="AnimatingJoint.h">
-      <Filter>Library\Engine\Core\Animation\Joint</Filter>
+    <ClInclude Include="StaticSceneNodeConnecter.h">
+      <Filter>Library\Engine\Core\Animation\SceneNodeConnecter</Filter>
     </ClInclude>
-    <ClInclude Include="StaticJoint.h">
-      <Filter>Library\Engine\Core\Animation\Joint</Filter>
+    <ClInclude Include="AnimatingSceneNodeConnecter.h">
+      <Filter>Library\Engine\Core\Animation\SceneNodeConnecter</Filter>
     </ClInclude>
     <ClInclude Include="JointUpdateObserver.h">
+      <Filter>Library\Engine\Core\Animation\Joint</Filter>
+    </ClInclude>
+    <ClInclude Include="Joint.h">
       <Filter>Library\Engine\Core\Animation\Joint</Filter>
     </ClInclude>
   </ItemGroup>

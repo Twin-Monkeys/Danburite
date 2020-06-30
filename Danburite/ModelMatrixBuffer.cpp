@@ -22,9 +22,13 @@ namespace Danburite
 		return __transforms[idx];
 	}
 
+	size_t ModelMatrixBuffer::getNumInstances() const noexcept
+	{
+		return __modelMatrices.size();
+	}
+
 	void ModelMatrixBuffer::setNumInstances(const size_t numInstances) noexcept
 	{
-		__numInstances = numInstances;
 		__transforms.resize(numInstances);
 		__modelMatrices.resize(numInstances, mat4 { 1.f });
 
@@ -33,28 +37,28 @@ namespace Danburite
 
 	void ModelMatrixBuffer::updateMatrices(const mat4 &jointMatrix) noexcept
 	{
-		for (size_t i = 0; i < __numInstances; i++)
+		for (size_t i = 0; i < __modelMatrices.size(); i++)
 		{
 			Transform &transform = __transforms[i];
-			transform.updateBoneMatrices();
+			transform.updateMatrix();
 
-			__modelMatrices[i] = (jointMatrix * transform.getModelMatrix());
+			__modelMatrices[i] = (jointMatrix * transform.getMatrix());
 		}
 	}
 
 	void ModelMatrixBuffer::updateMatrices(const vector<mat4> &parentModelMatrices, const mat4 &jointMatrix) noexcept
 	{
-		for (size_t i = 0; i < __numInstances; i++)
+		for (size_t i = 0; i < __modelMatrices.size(); i++)
 		{
 			Transform &transform = __transforms[i];
-			transform.updateBoneMatrices();
+			transform.updateMatrix();
 
-			__modelMatrices[i] = (parentModelMatrices[i] * (jointMatrix * transform.getModelMatrix()));
+			__modelMatrices[i] = (parentModelMatrices[i] * (jointMatrix * transform.getMatrix()));
 		}
 	}
 
 	void ModelMatrixBuffer::selfDeploy() noexcept
 	{
-		memoryCopy(__modelMatrices.data(), __numInstances * sizeof(mat4));
+		memoryCopy(__modelMatrices.data(), __modelMatrices.size() * sizeof(mat4));
 	}
 }

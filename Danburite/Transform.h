@@ -68,15 +68,15 @@ namespace Danburite
 		constexpr const glm::vec4 &getHorizontal() const noexcept;
 		constexpr const glm::vec4 &getVertical() const noexcept;
 
-		constexpr const glm::mat4 &getModelMatrix() const noexcept;
+		constexpr const glm::mat4 &getMatrix() const noexcept;
 
 		constexpr Transform &operator=(const Transform &transform) = default;
 
-		void updateBoneMatrices() noexcept;
+		void updateMatrix() noexcept;
 
 		virtual ~Transform() = default;
 
-		static glm::mat4 calcModelMatrix(const glm::vec3 &position, const Quaternion &rotation, const glm::vec3 &scale) noexcept;
+		static glm::mat4 calcMatrix(const glm::vec3 &position, const Quaternion &rotation, const glm::vec3 &scale) noexcept;
 	};
 
 	constexpr const glm::vec3& Transform::getPosition() const noexcept
@@ -167,7 +167,7 @@ namespace Danburite
 		return __rotationMat[1];
 	}
 
-	constexpr const glm::mat4 &Transform::getModelMatrix() const noexcept
+	constexpr const glm::mat4 &Transform::getMatrix() const noexcept
 	{
 		return __modelMat;
 	}
