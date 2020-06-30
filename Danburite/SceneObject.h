@@ -7,15 +7,15 @@
 
 namespace Danburite
 {
-	class SceneObject : public Updatable, public Drawable
+	class SceneObject : public Updatable, public Drawable, public JointUpdateObserver
 	{
 	private:
 		const std::shared_ptr<ModelMatrixBuffer> __pModelMatrixBuffer = std::make_shared<ModelMatrixBuffer>();
-		const std::unique_ptr<AnimationManager> __pAnimManager = std::make_unique<AnimationManager>();
+		AnimationManager __animMgr;
 
 		std::vector<std::unique_ptr<BoneManager>> __boneMgrs;
 		std::vector<std::unique_ptr<SceneObjectNode>> __nodes;
-		std::vector<std::unique_ptr<Joint>> __nodes;
+		std::vector<std::unique_ptr<Joint>> __joints;
 
 		SceneObjectNode *__pRootNode = nullptr;
 
@@ -55,6 +55,9 @@ namespace Danburite
 
 		template <typename MaterialType, typename FunctionType, typename ...Args>
 		void traverseMaterial(const FunctionType function, Args &&...args);
+
+		virtual void onUpdateJointMatrix(
+			const std::string &nodeName, const glm::mat4 &jointMatrix) noexcept override;
 	};
 
 	constexpr SceneObjectNode *SceneObject::getRootNode() noexcept

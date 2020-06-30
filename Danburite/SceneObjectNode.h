@@ -11,7 +11,7 @@ namespace Danburite
 	{
 	private:
 		std::unordered_set<std::unique_ptr<Mesh>> __meshes;
-		Joint *const __pJoint;
+		Joint &__joint;
 		const std::string __name;
 
 		std::unordered_set<SceneObjectNode *> __children;
@@ -19,24 +19,18 @@ namespace Danburite
 		SceneObjectNode(const SceneObjectNode &) = delete;
 		SceneObjectNode& operator=(const SceneObjectNode &) = delete;
 
-		void __updateHierarchical_withAnim(const std::vector<glm::mat4>& parentModelMatrices) noexcept;
-		void __updateHierarchical_withoutAnim(const std::vector<glm::mat4> &parentModelMatrices) noexcept;
-
-		void __updateBoneMatricesHierarchical() noexcept;
-
 	public:
 		SceneObjectNode(
 			std::unordered_set<std::unique_ptr<Mesh>> &&meshes,
-			Joint *const pJoint, const std::string_view &name) noexcept;
+			Joint &joint, const std::string_view &name) noexcept;
 
 		constexpr const std::string &getName() const noexcept;
 
 		void addChild(SceneObjectNode *const pChild) noexcept;
 
-		virtual void update(const float deltaTime) noexcept override;
-
-		void draw() noexcept;
-		void rawDrawcall() noexcept;
+		void update(const glm::mat4 &parentJointMatrix) noexcept;
+		void draw(const size_t numInstances) noexcept;
+		void rawDrawcall(const size_t numInstances) noexcept;
 
 		template <typename MaterialType, typename FunctionType, typename ...Args>
 		void traverseMaterial(const FunctionType function, Args &&...args);

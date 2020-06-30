@@ -2,6 +2,7 @@
 
 #include "AnimationManager.h"
 #include "JointUpdateObserver.h"
+#include <unordered_set>
 
 namespace Danburite
 {
@@ -24,8 +25,7 @@ namespace Danburite
 
 		Joint &addObserver(JointUpdateObserver *const pObserver) noexcept;
 
-		Joint &updateMatrix(const glm::mat4 &parentJointMatrix = { 1.f }) noexcept;
-
+		Joint &updateMatrix(const glm::mat4 &parentJointMatrix) noexcept;
 		constexpr const glm::mat4 &getMatrix() const noexcept;
 	};
 

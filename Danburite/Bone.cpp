@@ -10,7 +10,7 @@ namespace Danburite
 		Object(id), __offsetMat(offsetMatrix)
 	{}
 
-	void Bone::updateBoneMatrices() noexcept
+	void Bone::updateMatrix() noexcept
 	{
 		__boneMat = (inverse(__srcJointMat) * __targetJointMat * __offsetMat);
 	}

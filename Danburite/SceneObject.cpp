@@ -20,15 +20,25 @@ namespace Danburite
 		unordered_set<unique_ptr<Mesh>> meshes;
 
 		for (const auto &[pVertexArray, pMaterial] : meshDataList)
-			meshes.emplace(make_unique<Mesh>(pVertexArray, __pModelMatrixBuffer, pMaterial, &createBoneManager()));
+			meshes.emplace(make_unique<Mesh>(pVertexArray, __pModelMatrixBuffer, pMaterial, createBoneManager()));
+
+		Joint *const pJoint =
+			__joints.emplace_back(make_unique<Joint>(__animMgr, name)).get();
+
+		pJoint->addObserver(this);
 
 		SceneObjectNode *const pNode =
-			__nodes.emplace_back(make_unique<SceneObjectNode>(move(meshes), name)).get();
+			__nodes.emplace_back(make_unique<SceneObjectNode>(move(meshes), *pJoint, name)).get();
 
 		if (setAsRoot)
 			__pRootNode = pNode;
 
 		return *pNode;
+	}
+
+	BoneManager &SceneObject::createBoneManager() noexcept
+	{
+		return *__boneMgrs.emplace_back();
 	}
 
 	size_t SceneObject::getNumInstances() const noexcept
@@ -71,26 +81,42 @@ namespace Danburite
 
 	AnimationManager &SceneObject::getAnimationManager() noexcept
 	{
-		return *__pAnimManager;
+		return __animMgr;
 	}
 
 	const AnimationManager &SceneObject::getAnimationManager() const noexcept
 	{
-		return *__pAnimManager;
+		return __animMgr;
 	}
 
 	void SceneObject::update(const float deltaTime) noexcept
 	{
+		if (!__pRootNode)
+			return;
 
+		__pModelMatrixBuffer->updateMatrices();
+
+		Animation &anim = __animMgr.getActiveAnimation();
+		anim.adjustTimestamp(deltaTime);
+
+		__pRootNode->update(Constant::Common::IDENTITY_MATRIX);
 	}
 
 	void SceneObject::draw() noexcept
 	{
+		__pModelMatrixBuffer->selfDeploy();
 
 	}
 
 	void SceneObject::rawDrawcall() noexcept
 	{
-		
+		__pModelMatrixBuffer->selfDeploy();
+
+	}
+
+	void SceneObject::onUpdateJointMatrix(const string& nodeName, const mat4& jointMatrix) noexcept
+	{
+		for (const unique_ptr<BoneManager> &pBoneMgr : __boneMgrs)
+			pBoneMgr->updateTargetJointMatrices(nodeName, jointMatrix);
 	}
 }
