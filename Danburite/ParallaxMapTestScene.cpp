@@ -69,10 +69,10 @@ ParallaxMapTestScene::ParallaxMapTestScene()
 
 	pWoodToyMaterial->setShininess(150.f);
 
-	unique_ptr<Mesh> pWoodToyMesh = make_unique<Mesh>(pWoodToyVA, pWoodToyMaterial);
-	__pWoodToyRU = make_shared<SceneObjectNode>(move(pWoodToyMesh));
+	__pWoodToyObj = make_shared<SceneObject>();
+	__pWoodToyObj->createNode(pWoodToyVA, pWoodToyMaterial, true);
 
-	Transform& woodToyTransform = __pWoodToyRU->getTransform();
+	Transform& woodToyTransform = __pWoodToyObj->getTransform();
 	woodToyTransform.setScale(10.f, 10.f, 1.f);
 
 
@@ -100,12 +100,12 @@ ParallaxMapTestScene::ParallaxMapTestScene()
 	__pLightHandler->addLight(__pWhiteLight);
 
 	__pUpdater = make_shared<Updater>();
-	__pUpdater->addUpdatable(__pWoodToyRU);
+	__pUpdater->addUpdatable(__pWoodToyObj);
 	__pUpdater->addUpdatable(__pCamera);
 	__pUpdater->addUpdatable(__pWhiteLight);
 
 	__pDrawer = make_shared<Drawer>();
-	__pDrawer->addDrawable(__pWoodToyRU);
+	__pDrawer->addDrawable(__pWoodToyObj);
 
 	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>();
 	__pMsaaPP = make_shared<MSAAPostProcessor>();

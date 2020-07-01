@@ -32,5 +32,7 @@ namespace Danburite
 
 		for (JointUpdateObserver *const pObserver : __observerSet)
 			pObserver->onUpdateJointMatrix(__nodeName, __jointMat);
+
+		return *this;
 	}
 }

@@ -46,57 +46,56 @@ HDRTestScene::HDRTestScene()
 	pFloorMaterial->useDiffuseTexture(true);
 	pFloorMaterial->setShininess(150.f);
 
-	unique_ptr<Mesh> pWoodToyMesh = make_unique<Mesh>(pFloorVA, pFloorMaterial);
-	__pFloorRU = make_shared<SceneObjectNode>(move(pWoodToyMesh));
+	__pFloorObj = make_shared<SceneObject>();
+	__pFloorObj->createNode(pFloorVA, pFloorMaterial, true);
 
-	Transform& floorTransform = __pFloorRU->getTransform();
+	Transform& floorTransform = __pFloorObj->getTransform();
 	floorTransform.setScale(60.f, 60.f, 1.f);
 	floorTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
 
-	__pLampRU = AssetImporter::import("res/asset/bulb_fish/scene.gltf");
-	__pLampRU->setNumInstances(2);
+	__pLampObj = AssetImporter::import("res/asset/bulb_fish/scene.gltf");
+	__pLampObj->setNumInstances(2);
 
-	Transform &lamp1Transform = __pLampRU->getTransform(0);
+	Transform &lamp1Transform = __pLampObj->getTransform(0);
 	lamp1Transform.setScale(.01f);
 	lamp1Transform.setPosition(0.f, 10.f, -28.f);
 
-	Transform &lamp2Transform = __pLampRU->getTransform(1);
+	Transform &lamp2Transform = __pLampObj->getTransform(1);
 	lamp2Transform.setScale(.01f);
 	lamp2Transform.setPosition(10.f, 3.f, 10.f);
 	lamp2Transform.setRotation(0.f, pi<float>(), 0.f);
 
-	__pCargoBayRU = AssetImporter::import("res/asset/cargo_bay/scene.gltf");
-	Transform &cargoBayTransform = __pCargoBayRU->getTransform();
+	__pCargoBayObj = AssetImporter::import("res/asset/cargo_bay/scene.gltf");
+	Transform &cargoBayTransform = __pCargoBayObj->getTransform();
 	cargoBayTransform.setScale(10.f);
 	cargoBayTransform.setPosition(0.f, 3.5f, 0.f);
-	__pCargoBayRU->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
+	__pCargoBayObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 
-	__pPulseCoreRU = AssetImporter::import("res/asset/arc_pulse_core/scene.gltf");
-	Transform& pulseCoreTransform = __pPulseCoreRU->getTransform();
+	__pPulseCoreObj = AssetImporter::import("res/asset/arc_pulse_core/scene.gltf");
+	Transform& pulseCoreTransform = __pPulseCoreObj->getTransform();
 	pulseCoreTransform.setScale(6.f);
 	pulseCoreTransform.setPosition(18.f, 0.f, 0.f);
-	__pPulseCoreRU->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
+	__pPulseCoreObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 
-	// TODO: node 레퍼런스를 이름이 아니라 정수 id로 변경하자.
-	__pDoorRU = AssetImporter::import("res/asset/scifi_door/scene.gltf");
-	Transform &doorTransform = __pDoorRU->getTransform();
+	__pDoorObj = AssetImporter::import("res/asset/scifi_door/scene.gltf");
+	Transform &doorTransform = __pDoorObj->getTransform();
 	doorTransform.setScale(.001f);
 	doorTransform.setPosition(0.f, 0.f, -35.f);
-	__pDoorRU->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
+	__pDoorObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 
-	__pDoorRU->getAnimationManager().activateAnimation(1);
+	__pDoorObj->getAnimationManager().activateAnimation(1);
 
-	__pLizardRU = AssetImporter::import("res/asset/lizard_man/scene.gltf");
-	Transform &lizardTransform = __pLizardRU->getTransform();
+	__pLizardObj = AssetImporter::import("res/asset/lizard_man/scene.gltf");
+	Transform &lizardTransform = __pLizardObj->getTransform();
 	lizardTransform.setScale(7.f);
 	lizardTransform.setPosition(-10.f, 8.f, 10.f);
 
-	__pGirlRU = AssetImporter::import("res/asset/nuclear_hammer_girl/scene.gltf");
-	Transform &girlTransform = __pGirlRU->getTransform();
+	__pGirlObj = AssetImporter::import("res/asset/nuclear_hammer_girl/scene.gltf");
+	Transform &girlTransform = __pGirlObj->getTransform();
 	// girlTransform.setScale(7.f);
 	girlTransform.setPosition(10.f, 0.f, 15.f);
 
-	__pGirlRU->getAnimationManager().activateAnimation(1);
+	__pGirlObj->getAnimationManager().activateAnimation(1);
 
 
 	//// 카메라 생성 ////
@@ -140,25 +139,25 @@ HDRTestScene::HDRTestScene()
 	__pLightHandler->addLight(__pRedLight);
 
 	__pUpdater = make_shared<Updater>();
-	__pUpdater->addUpdatable(__pFloorRU);
-	__pUpdater->addUpdatable(__pLampRU);
-	__pUpdater->addUpdatable(__pCargoBayRU);
-	__pUpdater->addUpdatable(__pPulseCoreRU);
-	__pUpdater->addUpdatable(__pDoorRU);
-	__pUpdater->addUpdatable(__pLizardRU);
-	__pUpdater->addUpdatable(__pGirlRU);
+	__pUpdater->addUpdatable(__pFloorObj);
+	__pUpdater->addUpdatable(__pLampObj);
+	__pUpdater->addUpdatable(__pCargoBayObj);
+	__pUpdater->addUpdatable(__pPulseCoreObj);
+	__pUpdater->addUpdatable(__pDoorObj);
+	__pUpdater->addUpdatable(__pLizardObj);
+	__pUpdater->addUpdatable(__pGirlObj);
 	__pUpdater->addUpdatable(__pCamera);
 	__pUpdater->addUpdatable(__pBlueLight);
 	__pUpdater->addUpdatable(__pRedLight);
 
 	__pDrawer = make_shared<Drawer>();
-	__pDrawer->addDrawable(__pFloorRU);
-	__pDrawer->addDrawable(__pLampRU);
+	__pDrawer->addDrawable(__pFloorObj);
+	__pDrawer->addDrawable(__pLampObj);
 	// __pDrawer->addDrawable(__pCargoBayRU);
-	__pDrawer->addDrawable(__pPulseCoreRU);
-	__pDrawer->addDrawable(__pDoorRU);
-	__pDrawer->addDrawable(__pLizardRU);
-	__pDrawer->addDrawable(__pGirlRU);
+	__pDrawer->addDrawable(__pPulseCoreObj);
+	__pDrawer->addDrawable(__pDoorObj);
+	__pDrawer->addDrawable(__pLizardObj);
+	__pDrawer->addDrawable(__pGirlObj);
 
 	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>();
 	__pHDRPP = make_shared<HDRPostProcessor>();
@@ -256,7 +255,7 @@ bool HDRTestScene::update(const float deltaTime) noexcept
 	constexpr vec3 pivot { 0.f, 0.f, 0.f };
 	constexpr vec3 axis { 0.f, 1.f, 0.f };
 
-	__pLampRU->getTransform().orbit(deltaTime * .0005f, pivot, axis);
+	__pLampObj->getTransform().orbit(deltaTime * .0005f, pivot, axis);
 	__pBlueLight->getTransform().orbit(deltaTime * .0005f, pivot, axis, false);
 
 	__pUpdater->update(deltaTime);

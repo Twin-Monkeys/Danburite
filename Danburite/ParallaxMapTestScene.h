@@ -17,7 +17,7 @@ class ParallaxMapTestScene : public Danburite::Scene, public ObjectGL::ScreenEve
 private:
 	bool __updated = false;
 
-	std::shared_ptr<Danburite::SceneObjectNode> __pWoodToyRU;
+	std::shared_ptr<Danburite::SceneObject> __pWoodToyObj;
 	std::shared_ptr<Danburite::PerspectiveCamera> __pCamera;
 
 	std::shared_ptr<Danburite::PointLight> __pWhiteLight;

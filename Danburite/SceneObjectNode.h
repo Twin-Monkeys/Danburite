@@ -7,7 +7,7 @@
 
 namespace Danburite
 {
-	class SceneObjectNode : public Updatable
+	class SceneObjectNode
 	{
 	private:
 		std::unordered_set<std::unique_ptr<Mesh>> __meshes;
@@ -59,7 +59,7 @@ namespace Danburite
 				(pMaterial->*function)(std::forward<Args>(args)...);
 		}
 
-		for (const shared_ptr<SceneObjectNode> &child : __children)
-			child->traverseMaterial<MaterialType>(function, std::forward<Args>(args)...);
+		for (SceneObjectNode *const pChild : __children)
+			pChild->traverseMaterial<MaterialType>(function, std::forward<Args>(args)...);
 	}
 }

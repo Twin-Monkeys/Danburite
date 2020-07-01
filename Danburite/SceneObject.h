@@ -81,6 +81,7 @@ namespace Danburite
 	template <typename MaterialType, typename FunctionType, typename ...Args>
 	void SceneObject::traverseMaterial(const FunctionType function, Args &&...args)
 	{
-
+		if (__pRootNode)
+			__pRootNode->traverseMaterial<MaterialType>(function, std::forward<Args>(args)...);
 	}
 }

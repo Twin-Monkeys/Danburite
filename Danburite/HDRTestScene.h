@@ -19,13 +19,13 @@ class HDRTestScene : public Danburite::Scene, public ObjectGL::ScreenEventHandle
 private:
 	bool __updated = false;
 
-	std::shared_ptr<Danburite::SceneObjectNode> __pFloorRU;
-	std::shared_ptr<Danburite::SceneObjectNode> __pLampRU;
-	std::shared_ptr<Danburite::SceneObjectNode> __pCargoBayRU;
-	std::shared_ptr<Danburite::SceneObjectNode> __pPulseCoreRU;
-	std::shared_ptr<Danburite::SceneObjectNode> __pDoorRU;
-	std::shared_ptr<Danburite::SceneObjectNode> __pLizardRU;
-	std::shared_ptr<Danburite::SceneObjectNode> __pGirlRU;
+	std::shared_ptr<Danburite::SceneObject> __pFloorObj;
+	std::shared_ptr<Danburite::SceneObject> __pLampObj;
+	std::shared_ptr<Danburite::SceneObject> __pCargoBayObj;
+	std::shared_ptr<Danburite::SceneObject> __pPulseCoreObj;
+	std::shared_ptr<Danburite::SceneObject> __pDoorObj;
+	std::shared_ptr<Danburite::SceneObject> __pLizardObj;
+	std::shared_ptr<Danburite::SceneObject> __pGirlObj;
 
 	std::shared_ptr<Danburite::PerspectiveCamera> __pCamera;
 

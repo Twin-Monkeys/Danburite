@@ -26,29 +26,29 @@ ShadowTestScene::ShadowTestScene()
 
 	//// Rendering unit »ý¼º ////
 
-	__pNanosuitRU = AssetImporter::import("res/asset/nanosuit/scene.gltf");
-	Transform &nanosuitTransform = __pNanosuitRU->getTransform();
+	__pNanosuitObj = AssetImporter::import("res/asset/nanosuit/scene.gltf");
+	Transform &nanosuitTransform = __pNanosuitObj->getTransform();
 	nanosuitTransform.setPosition(-10.f, 0.f, 15.f);
 
-	__pSkullRU = AssetImporter::import("res/asset/skull/scene.gltf");
-	Transform &skullTransform = __pSkullRU->getTransform();
+	__pSkullObj = AssetImporter::import("res/asset/skull/scene.gltf");
+	Transform &skullTransform = __pSkullObj->getTransform();
 	skullTransform.setPosition(10.f, 3.f, 15.f);
 	skullTransform.setRotation(-quarter_pi<float>(), 0.f, 0.f);
 	skullTransform.setScale(5.f);
 
-	__pGoldenSkullRU = AssetImporter::import("res/asset/golden_skull/scene.gltf");
-	Transform& goldenSkullTransform = __pGoldenSkullRU->getTransform();
+	__pGoldenSkullObj = AssetImporter::import("res/asset/golden_skull/scene.gltf");
+	Transform& goldenSkullTransform = __pGoldenSkullObj->getTransform();
 	goldenSkullTransform.setPosition(20.f, 4.f, 10.f);
 	goldenSkullTransform.setRotation(0.f, 0.6f, 0.f);
 	goldenSkullTransform.setScale(5.f);
 
-	__pRockSurroundRU = AssetImporter::import("res/asset/rock_surround/scene.gltf");
-	Transform &rockSurroundTransform = __pRockSurroundRU->getTransform();
+	__pRockSurroundObj = AssetImporter::import("res/asset/rock_surround/scene.gltf");
+	Transform &rockSurroundTransform = __pRockSurroundObj->getTransform();
 	rockSurroundTransform.setPosition(0.f, -82.f, 0.f);
 	rockSurroundTransform.setScale(8.f);
 
-	__pChestRU = AssetImporter::import("res/asset/medieval_chest/scene.gltf");
-	Transform &chestTransform = __pChestRU->getTransform();
+	__pChestObj = AssetImporter::import("res/asset/medieval_chest/scene.gltf");
+	Transform &chestTransform = __pChestObj->getTransform();
 	chestTransform.setPosition(2.f, 4.f, 0.f);
 	chestTransform.setRotation(0.f, pi<float>(), 0.f);
 	chestTransform.setScale(6.f);
@@ -121,18 +121,18 @@ ShadowTestScene::ShadowTestScene()
 	__pUpdater->addUpdatable(__pCamera);
 	__pUpdater->addUpdatable(__pBlueLight);
 	__pUpdater->addUpdatable(__pWhiteLight);
-	__pUpdater->addUpdatable(__pNanosuitRU);
-	__pUpdater->addUpdatable(__pSkullRU);
-	__pUpdater->addUpdatable(__pGoldenSkullRU);
-	__pUpdater->addUpdatable(__pRockSurroundRU);
-	__pUpdater->addUpdatable(__pChestRU);
+	__pUpdater->addUpdatable(__pNanosuitObj);
+	__pUpdater->addUpdatable(__pSkullObj);
+	__pUpdater->addUpdatable(__pGoldenSkullObj);
+	__pUpdater->addUpdatable(__pRockSurroundObj);
+	__pUpdater->addUpdatable(__pChestObj);
 
 	__pDrawer = make_shared<Drawer>();
-	__pDrawer->addDrawable(__pNanosuitRU);
-	__pDrawer->addDrawable(__pSkullRU);
-	__pDrawer->addDrawable(__pGoldenSkullRU);
-	__pDrawer->addDrawable(__pRockSurroundRU);
-	__pDrawer->addDrawable(__pChestRU);
+	__pDrawer->addDrawable(__pNanosuitObj);
+	__pDrawer->addDrawable(__pSkullObj);
+	__pDrawer->addDrawable(__pGoldenSkullObj);
+	__pDrawer->addDrawable(__pRockSurroundObj);
+	__pDrawer->addDrawable(__pChestObj);
 
 	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>();
 	__pMsaaPP = make_shared<MSAAPostProcessor>();
