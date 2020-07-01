@@ -7,7 +7,7 @@ using namespace glm;
 
 namespace Danburite
 {
-	Joint::Joint(const AnimationManager &animationManager, const string_view &nodeName) noexcept :
+	Joint::Joint(AnimationManager &animationManager, const string_view &nodeName) noexcept :
 		__animMgr(animationManager), __nodeName(nodeName),
 		__jointSetter(UniformBufferFactory::getInstance().
 			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::JOINT))
@@ -28,11 +28,14 @@ namespace Danburite
 		__transform.updateMatrix();
 		__jointMat = (parentJointMatrix * __transform.getMatrix());
 
-		const Animation &anim = __animMgr.getActiveAnimation();
-		const SceneNodeConnecterBase *const pConnecter = anim.getSceneNodeConnecter(__nodeName);
+		Animation &anim = __animMgr.getActiveAnimation();
+		SceneNodeConnecterBase *const pConnecter = anim.getSceneNodeConnecter(__nodeName);
 			
 		if (pConnecter)
+		{
+			pConnecter->updateMatrix();
 			__jointMat *= pConnecter->getMatrix();
+		}
 
 		for (JointUpdateObserver *const pObserver : __observerSet)
 			pObserver->onUpdateJointMatrix(__nodeName, __jointMat);

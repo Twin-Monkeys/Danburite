@@ -47,7 +47,7 @@ HDRTestScene::HDRTestScene()
 	pFloorMaterial->setShininess(150.f);
 
 	__pFloorObj = make_shared<SceneObject>();
-	__pFloorObj->createNode(pFloorVA, pFloorMaterial, true);
+	__pFloorObj->createNode(pFloorVA, pFloorMaterial, __pFloorObj->createBoneManager(), true);
 
 	Transform& floorTransform = __pFloorObj->getTransform();
 	floorTransform.setScale(60.f, 60.f, 1.f);
@@ -79,7 +79,7 @@ HDRTestScene::HDRTestScene()
 
 	__pDoorObj = AssetImporter::import("res/asset/scifi_door/scene.gltf");
 	Transform &doorTransform = __pDoorObj->getTransform();
-	doorTransform.setScale(.001f);
+	doorTransform.setScale(.1f);
 	doorTransform.setPosition(0.f, 0.f, -35.f);
 	__pDoorObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 
@@ -92,7 +92,7 @@ HDRTestScene::HDRTestScene()
 
 	__pGirlObj = AssetImporter::import("res/asset/nuclear_hammer_girl/scene.gltf");
 	Transform &girlTransform = __pGirlObj->getTransform();
-	// girlTransform.setScale(7.f);
+	girlTransform.setScale(7.f);
 	girlTransform.setPosition(10.f, 0.f, 15.f);
 
 	__pGirlObj->getAnimationManager().activateAnimation(1);

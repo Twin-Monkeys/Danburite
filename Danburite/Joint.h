@@ -10,7 +10,7 @@ namespace Danburite
 	class Joint
 	{
 	private:
-		const AnimationManager &__animMgr;
+		AnimationManager &__animMgr;
 		Transform __transform;
 
 		const std::string __nodeName;
@@ -21,7 +21,7 @@ namespace Danburite
 		ObjectGL::UniformBuffer &__jointSetter;
 
 	public:
-		Joint(const AnimationManager &animationManager, const std::string_view &nodeName) noexcept;
+		Joint(AnimationManager &animationManager, const std::string_view &nodeName) noexcept;
 
 		constexpr Transform &getTransform() noexcept;
 		constexpr const Transform &getTransform() const noexcept;

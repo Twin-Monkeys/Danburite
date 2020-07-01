@@ -138,7 +138,7 @@ namespace Danburite
 
 		const aiMesh *const *const pAiMeshes = pScene->mMeshes;
 
-		vector<pair<shared_ptr<VertexArray>, shared_ptr<Material>>> meshDataList;
+		vector<tuple<shared_ptr<VertexArray>, shared_ptr<Material>, BoneManager *>> meshDataList;
 		for (unsigned meshIter = 0U; meshIter < pNode->mNumMeshes; meshIter++)
 		{
 			const unsigned MESH_IDX = pNode->mMeshes[meshIter];
@@ -401,7 +401,7 @@ namespace Danburite
 				break;
 			}
 
-			meshDataList.emplace_back(pVertexArray, pMaterial);
+			meshDataList.emplace_back(pVertexArray, pMaterial, &boneManager);
 		}
 
 		return sceneObject.createNode(meshDataList, false, nodeName);

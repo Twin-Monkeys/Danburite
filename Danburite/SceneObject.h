@@ -23,11 +23,13 @@ namespace Danburite
 		SceneObjectNode &createNode(
 			const std::shared_ptr<ObjectGL::VertexArray> &pVertexArray,
 			const std::shared_ptr<Material> &pMaterial,
+			BoneManager &boneManager,
 			const bool setAsRoot = false,
 			const std::string_view &name = "NO_NAMED") noexcept;
 
 		SceneObjectNode &createNode(
-			const std::vector<std::pair<std::shared_ptr<ObjectGL::VertexArray>, std::shared_ptr<Material>>> &meshDataList,
+			const std::vector<std::tuple<
+				std::shared_ptr<ObjectGL::VertexArray>, std::shared_ptr<Material>, BoneManager *>> &meshDataList,
 			const bool setAsRoot = false,
 			const std::string_view &name = "NO_NAMED") noexcept;
 		

@@ -7,20 +7,20 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	SceneObjectNode &SceneObject::createNode(
-		const shared_ptr<VertexArray> &pVertexArray,
-		const shared_ptr<Material> &pMaterial, const bool setAsRoot, const string_view &name) noexcept
+		const shared_ptr<VertexArray> &pVertexArray, const shared_ptr<Material> &pMaterial,
+		BoneManager &boneManager, const bool setAsRoot, const string_view &name) noexcept
 	{
-		return createNode({ { pVertexArray, pMaterial } }, setAsRoot, name);
+		return createNode({ { pVertexArray, pMaterial, &boneManager } }, setAsRoot, name);
 	}
 
 	SceneObjectNode &SceneObject::createNode(
-		const vector<pair<shared_ptr<VertexArray>, shared_ptr<Material>>> &meshDataList,
+		const vector<tuple<shared_ptr<VertexArray>, shared_ptr<Material>, BoneManager *>> &meshDataList,
 		const bool setAsRoot, const string_view &name) noexcept
 	{
 		unordered_set<unique_ptr<Mesh>> meshes;
 
-		for (const auto &[pVertexArray, pMaterial] : meshDataList)
-			meshes.emplace(make_unique<Mesh>(pVertexArray, __pModelMatrixBuffer, pMaterial, createBoneManager()));
+		for (const auto &[pVertexArray, pMaterial, pBoneManager] : meshDataList)
+			meshes.emplace(make_unique<Mesh>(pVertexArray, __pModelMatrixBuffer, pMaterial, *pBoneManager));
 
 		Joint *const pJoint =
 			__joints.emplace_back(make_unique<Joint>(__animMgr, name)).get();
@@ -91,9 +91,6 @@ namespace Danburite
 
 	void SceneObject::update(const float deltaTime) noexcept
 	{
-		if (!__pRootNode)
-			return;
-
 		__pModelMatrixBuffer->updateMatrices();
 
 		Animation &anim = __animMgr.getActiveAnimation();
