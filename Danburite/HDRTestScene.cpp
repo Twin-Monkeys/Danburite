@@ -59,43 +59,57 @@ HDRTestScene::HDRTestScene()
 	Transform &lamp1Transform = __pLampObj->getTransform(0);
 	lamp1Transform.setScale(.01f);
 	lamp1Transform.setPosition(0.f, 10.f, -28.f);
+	lamp1Transform.setRotation(half_pi<float>(), 0.f, 0.f);
 
 	Transform &lamp2Transform = __pLampObj->getTransform(1);
 	lamp2Transform.setScale(.01f);
 	lamp2Transform.setPosition(10.f, 3.f, 10.f);
-	lamp2Transform.setRotation(0.f, pi<float>(), 0.f);
+	lamp2Transform.setRotation(half_pi<float>(), pi<float>(), 0.f);
 
 	__pCargoBayObj = AssetImporter::import("res/asset/cargo_bay/scene.gltf");
 	Transform &cargoBayTransform = __pCargoBayObj->getTransform();
 	cargoBayTransform.setScale(10.f);
 	cargoBayTransform.setPosition(0.f, 3.5f, 0.f);
+	cargoBayTransform.setRotation(half_pi<float>(), 0.f, 0.f);
 	__pCargoBayObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 
 	__pPulseCoreObj = AssetImporter::import("res/asset/arc_pulse_core/scene.gltf");
 	Transform& pulseCoreTransform = __pPulseCoreObj->getTransform();
 	pulseCoreTransform.setScale(6.f);
 	pulseCoreTransform.setPosition(18.f, 0.f, 0.f);
+	pulseCoreTransform.setRotation(half_pi<float>(), 0.f, 0.f);
 	__pPulseCoreObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 
 	__pDoorObj = AssetImporter::import("res/asset/scifi_door/scene.gltf");
 	Transform &doorTransform = __pDoorObj->getTransform();
 	doorTransform.setScale(.1f);
 	doorTransform.setPosition(0.f, 0.f, -35.f);
+	doorTransform.setRotation(half_pi<float>(), 0.f, 0.f);
 	__pDoorObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 
 	__pDoorObj->getAnimationManager().activateAnimation(1);
+	__pDoorObj->getAnimationManager().getActiveAnimation().setPlaySpeed(.2f);
 
 	__pLizardObj = AssetImporter::import("res/asset/lizard_man/scene.gltf");
 	Transform &lizardTransform = __pLizardObj->getTransform();
 	lizardTransform.setScale(7.f);
 	lizardTransform.setPosition(-10.f, 8.f, 10.f);
+	lizardTransform.setRotation(half_pi<float>(), 0.f, 0.f);
 
 	__pGirlObj = AssetImporter::import("res/asset/nuclear_hammer_girl/scene.gltf");
-	Transform &girlTransform = __pGirlObj->getTransform();
+	__pGirlObj->setNumInstances(2);
+
+	Transform &girlTransform = __pGirlObj->getTransform(0);
 	girlTransform.setScale(7.f);
 	girlTransform.setPosition(10.f, 0.f, 15.f);
+	girlTransform.setRotation(half_pi<float>(), 0.f, 0.f);
+
+	Transform &girl2Transform = __pGirlObj->getTransform(1);
+	girl2Transform = girlTransform;
+	girl2Transform.adjustPosition(10.f, 0.f, 0.f);
 
 	__pGirlObj->getAnimationManager().activateAnimation(1);
+	__pGirlObj->getAnimationManager().getActiveAnimation().setPlaySpeed(.7f);
 
 
 	//// 朝五虞 持失 ////
@@ -153,7 +167,7 @@ HDRTestScene::HDRTestScene()
 	__pDrawer = make_shared<Drawer>();
 	__pDrawer->addDrawable(__pFloorObj);
 	__pDrawer->addDrawable(__pLampObj);
-	// __pDrawer->addDrawable(__pCargoBayRU);
+	__pDrawer->addDrawable(__pCargoBayObj);
 	__pDrawer->addDrawable(__pPulseCoreObj);
 	__pDrawer->addDrawable(__pDoorObj);
 	__pDrawer->addDrawable(__pLizardObj);
