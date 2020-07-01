@@ -471,7 +471,7 @@ namespace Danburite
 					const aiNodeAnim *const pAiAnimNode = pAiAnim->mChannels[nodeAnimIter];
 					const string &nodeName = pAiAnimNode->mNodeName.C_Str();
 
-					assert(!animation.getSceneNodeConnecter(nodeName.C_Str()));
+					assert(!animation.getSceneNodeConnecter(nodeName));
 
 					AnimatingSceneNodeConnecter &nodeConnecter =
 						animation.createAnimatingSceneNodeConnecter(nodeName);

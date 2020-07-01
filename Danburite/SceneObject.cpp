@@ -38,7 +38,7 @@ namespace Danburite
 
 	BoneManager &SceneObject::createBoneManager() noexcept
 	{
-		return *__boneMgrs.emplace_back();
+		return *__boneMgrs.emplace_back(make_unique<BoneManager>());
 	}
 
 	size_t SceneObject::getNumInstances() const noexcept
