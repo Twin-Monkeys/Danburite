@@ -139,10 +139,10 @@ namespace Danburite
 					;
 			}
 
-			namespace Animation
+			namespace Joint
 			{
 				extern const std::string
-					BONE_MATRICES;
+					JOINT_MATRIX;
 			}
 
 			namespace UniformBuffer
@@ -158,6 +158,7 @@ namespace Danburite
 					DEPTH_BAKING_2D,
 					DEPTH_BAKING_CUBEMAP,
 					HDR,
+					JOINT,
 					BONE
 					;
 			}
@@ -192,7 +193,8 @@ namespace Danburite
 					DEPTH_BAKING_2D			= 7U,
 					DEPTH_BAKING_CUBEMAP	= 8U,
 					HDR						= 9U,
-					BONE					= 10U
+					JOINT					= 10U,
+					BONE					= 11U
 					;
 			}
 

@@ -17,9 +17,9 @@
 	defined(VariableInOut_Vert_exportToFrag_worldNormal) ||		\
 	defined(VariableInOut_Vert_exportToFrag_TBN)				\
 	)
+
 #include "Model_Header.glsl"
-#include "Material_Header.glsl"
-#include "Bone_Header.glsl"
+#include "Animation_Header.glsl"
 
 #endif
 
@@ -52,12 +52,11 @@ variableInOut_VertToFrag;
 void VariableInOut_Vert_exportVariablesToFrag()
 {
 	#ifdef VariableInOut_Vert_exportToFrag_worldPos
-	vec3 localPos = VertexAttribute_pos;
 
-	if (Material_isVertexBoneEnabled())
-		localPos = Bone_getAnimatedPosition(VertexAttribute_boneIndices, VertexAttribute_boneWeights, localPos);
+	const mat4 modelMat =
+		Animation_getAnimatedModelMatrix(VertexAttribute_modelMat, VertexAttribute_boneIndices, VertexAttribute_boneWeights);
 
-	variableInOut_VertToFrag.worldPos = Model_getWorldPosition(VertexAttribute_modelMat, localPos);
+	variableInOut_VertToFrag.worldPos = Model_getWorldPosition(modelMat, VertexAttribute_pos);
 	#endif
 
 	#ifdef VariableInOut_Vert_exportToFrag_color
@@ -65,12 +64,7 @@ void VariableInOut_Vert_exportVariablesToFrag()
 	#endif
 
 	#ifdef VariableInOut_Vert_exportToFrag_worldNormal
-	vec3 localNormal = VertexAttribute_normal;
-
-	if (Material_isVertexBoneEnabled())
-		localNormal = Bone_getAnimatedNormal(VertexAttribute_boneIndices, VertexAttribute_boneWeights, localNormal);
-
-	variableInOut_VertToFrag.worldNormal = Model_getWorldNormal(VertexAttribute_modelMat, localNormal);
+	variableInOut_VertToFrag.worldNormal = Model_getWorldNormal(modelMat, VertexAttribute_normal);
 	#endif
 
 	#ifdef VariableInOut_Vert_exportToFrag_texCoord
@@ -89,7 +83,7 @@ void VariableInOut_Vert_exportVariablesToFrag()
 		Could end up non-perpendicular, which means the resulting TBN matrix
 		Would no longer be orthogonal.
 	*/
-	const vec3 T = Model_getWorldNormal(VertexAttribute_modelMat, VertexAttribute_tangent);
+	const vec3 T = Model_getWorldNormal(modelMat, VertexAttribute_tangent);
 	const vec3 normalizedT = normalize(T - (dot(N, T) * N));
 
 	const vec3 B = cross(N, normalizedT);

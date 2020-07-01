@@ -1,4 +1,6 @@
 #include "Joint.h"
+#include "UniformBufferFactory.h"
+#include "ShaderIdentifier.h"
 
 using namespace std;
 using namespace glm;
@@ -6,7 +8,9 @@ using namespace glm;
 namespace Danburite
 {
 	Joint::Joint(const AnimationManager &animationManager, const string_view &nodeName) noexcept :
-		__animMgr(animationManager), __nodeName(nodeName)
+		__animMgr(animationManager), __nodeName(nodeName),
+		__jointSetter(UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::JOINT))
 	{}
 
 	Joint &Joint::addObserver(JointUpdateObserver *const pObserver) noexcept
@@ -34,5 +38,10 @@ namespace Danburite
 			pObserver->onUpdateJointMatrix(__nodeName, __jointMat);
 
 		return *this;
+	}
+
+	void Joint::selfDeploy() const noexcept
+	{
+		__jointSetter.setUniformMat4(ShaderIdentifier::Name::Joint::JOINT_MATRIX, __jointMat);
 	}
 }

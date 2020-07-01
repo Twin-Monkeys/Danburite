@@ -325,9 +325,27 @@ namespace Danburite
 				}
 			},
 			{
+				ShaderIdentifier::Name::UniformBuffer::JOINT,
+				{
+					ProgramType::MONO_COLOR,
+					ProgramType::PHONG,
+					ProgramType::SILHOUETTE,
+					ProgramType::REFLECTION,
+					ProgramType::REFLECTION_PHONG,
+					ProgramType::REFRACTION,
+					ProgramType::DEPTH_BAKING_2D,
+					ProgramType::DEPTH_BAKING_CUBEMAP
+				}
+			},
+			{
 				ShaderIdentifier::Name::UniformBuffer::BONE,
 				{
+					ProgramType::MONO_COLOR,
 					ProgramType::PHONG,
+					ProgramType::SILHOUETTE,
+					ProgramType::REFLECTION,
+					ProgramType::REFLECTION_PHONG,
+					ProgramType::REFRACTION,
 					ProgramType::DEPTH_BAKING_2D,
 					ProgramType::DEPTH_BAKING_CUBEMAP
 				}

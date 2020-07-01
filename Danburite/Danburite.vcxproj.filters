@@ -349,6 +349,9 @@
     <Filter Include="Library\Engine\Core\Animation\Joint">
       <UniqueIdentifier>{ad93b38b-9f13-419a-870e-4dcd706043e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library\Engine\glsl\src\header\animation">
+      <UniqueIdentifier>{dc9aa90b-d0d5-4607-8d83-26025833535f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Buffer.cpp">
@@ -1258,9 +1261,6 @@
     <None Include="glsl\src\Header\Material_Header.glsl">
       <Filter>Library\Engine\glsl\src\header</Filter>
     </None>
-    <None Include="glsl\src\Phong_Vert.glsl">
-      <Filter>Library\Engine\glsl\src\Phong</Filter>
-    </None>
     <None Include="glsl\src\Header\Model_Header.glsl">
       <Filter>Library\Engine\glsl\src\header</Filter>
     </None>
@@ -1391,7 +1391,16 @@
       <Filter>Library\Engine\glsl\src\header</Filter>
     </None>
     <None Include="glsl\src\header\Bone_Header.glsl">
-      <Filter>Library\Engine\glsl\src\header</Filter>
+      <Filter>Library\Engine\glsl\src\header\animation</Filter>
+    </None>
+    <None Include="glsl\src\header\Joint_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header\animation</Filter>
+    </None>
+    <None Include="glsl\src\Phong_Vert.glsl">
+      <Filter>Library\Engine\glsl\src\Phong</Filter>
+    </None>
+    <None Include="glsl\src\header\Animation_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header\animation</Filter>
     </None>
   </ItemGroup>
 </Project>

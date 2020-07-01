@@ -33,6 +33,8 @@ namespace Danburite
 
 	void SceneObjectNode::draw(const size_t numInstances) noexcept
 	{
+		__joint.selfDeploy();
+
 		for (const unique_ptr<Mesh> &pMesh : __meshes)
 			pMesh->draw(GLsizei(numInstances));
 
@@ -42,6 +44,8 @@ namespace Danburite
 
 	void SceneObjectNode::rawDrawcall(const size_t numInstances) noexcept
 	{
+		__joint.selfDeploy();
+
 		for (const unique_ptr<Mesh> &pMesh : __meshes)
 			pMesh->rawDrawcall(GLsizei(numInstances));
 

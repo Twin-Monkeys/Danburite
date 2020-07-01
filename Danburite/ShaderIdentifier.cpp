@@ -143,6 +143,12 @@ namespace Danburite
 					;
 			}
 
+			namespace Joint
+			{
+				const string
+					JOINT_MATRIX = "joint.jointMat";
+			}
+
 			namespace Animation
 			{
 				const string
@@ -162,6 +168,7 @@ namespace Danburite
 					DEPTH_BAKING_2D			= "UBDepthBaking2D",
 					DEPTH_BAKING_CUBEMAP	= "UBDepthBakingCubemap",
 					HDR						= "UBHDR",
+					JOINT					= "UBJoint",
 					BONE					= "UBBone"
 					;
 			}
@@ -214,6 +221,10 @@ namespace Danburite
 						{
 							Name::UniformBuffer::HDR,
 							Value::UniformBlockBindingPoint::HDR
+						},
+						{
+							Name::UniformBuffer::JOINT,
+							Value::UniformBlockBindingPoint::JOINT
 						},
 						{
 							Name::UniformBuffer::BONE,

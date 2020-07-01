@@ -8,17 +8,14 @@
 #include "header/VariableInOut_Vert_Header.glsl"
 
 #include "header/ModelCamera_Header.glsl"
-#include "header/Material_Header.glsl"
-#include "header/Bone_Header.glsl"
+#include "header/Animation_Header.glsl"
 
 void main()
 {
 	VariableInOut_Vert_exportVariablesToFrag();
+	
+	const mat4 modelMat =
+		Animation_getAnimatedModelMatrix(VertexAttribute_modelMat, VertexAttribute_boneIndices, VertexAttribute_boneWeights);
 
-	vec3 localPos = VertexAttribute_pos;
-
-	if (Material_isVertexBoneEnabled())
-		localPos = Bone_getAnimatedPosition(VertexAttribute_boneIndices, VertexAttribute_boneWeights, localPos);
-
-	gl_Position = ModelCamera_getNDCPosition(VertexAttribute_modelMat, localPos);
+	gl_Position = ModelCamera_getNDCPosition(modelMat, VertexAttribute_pos);
 } 

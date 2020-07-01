@@ -465,10 +465,12 @@
     <None Include="glsl\src\DepthBakingCubemap_Frag.glsl" />
     <None Include="glsl\src\DepthBakingCubemap_Geo.glsl" />
     <None Include="glsl\src\DepthBakingCubemap_Vert.glsl" />
+    <None Include="glsl\src\header\Animation_Header.glsl" />
     <None Include="glsl\src\header\Bone_Header.glsl" />
     <None Include="glsl\src\header\DepthBaking2D_Header.glsl" />
     <None Include="glsl\src\header\DepthBakingCubemap_Header.glsl" />
     <None Include="glsl\src\header\HDR_Header.glsl" />
+    <None Include="glsl\src\header\Joint_Header.glsl" />
     <None Include="glsl\src\header\VariableInOut_Frag_Header.glsl" />
     <None Include="glsl\src\header\VariableInOut_Geo_Header.glsl" />
     <None Include="glsl\src\header\VariableInOut_Vert_Header.glsl" />

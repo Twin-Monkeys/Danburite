@@ -2,15 +2,12 @@
 
 #include "header/VertexAttribute_Header.glsl"
 #include "header/DepthBaking2D_Header.glsl"
-#include "header/Material_Header.glsl"
-#include "header/Bone_Header.glsl"
+#include "header/Animation_Header.glsl"
 
 void main()
 {
-	vec3 localPos = VertexAttribute_pos;
+	const mat4 modelMat =
+		Animation_getAnimatedModelMatrix(VertexAttribute_modelMat, VertexAttribute_boneIndices, VertexAttribute_boneWeights);
 
-	if (Material_isVertexBoneEnabled())
-		localPos = Bone_getAnimatedPosition(VertexAttribute_boneIndices, VertexAttribute_boneWeights, localPos);
-
-	gl_Position = DepthBaking2D_getNDCPosition(VertexAttribute_modelMat, VertexAttribute_pos);
+	gl_Position = DepthBaking2D_getNDCPosition(modelMat, VertexAttribute_pos);
 } 
