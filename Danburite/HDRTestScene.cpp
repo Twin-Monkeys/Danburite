@@ -97,16 +97,20 @@ HDRTestScene::HDRTestScene()
 	lizardTransform.setRotation(half_pi<float>(), 0.f, 0.f);
 
 	__pGirlObj = AssetImporter::import("res/asset/nuclear_hammer_girl/scene.gltf");
-	__pGirlObj->setNumInstances(2);
+	__pGirlObj->setNumInstances(3);
 
 	Transform &girlTransform = __pGirlObj->getTransform(0);
-	girlTransform.setScale(7.f);
-	girlTransform.setPosition(10.f, 0.f, 15.f);
+	girlTransform.setScale(5.f);
+	girlTransform.setPosition(-12.f, 0.f, 20.f);
 	girlTransform.setRotation(half_pi<float>(), 0.f, 0.f);
 
 	Transform &girl2Transform = __pGirlObj->getTransform(1);
 	girl2Transform = girlTransform;
-	girl2Transform.adjustPosition(10.f, 0.f, 0.f);
+	girl2Transform.adjustPosition(12.f, 0.f, 0.f);
+
+	Transform &girl3Transform = __pGirlObj->getTransform(2);
+	girl3Transform = girl2Transform;
+	girl3Transform.adjustPosition(12.f, 0.f, 0.f);
 
 	__pGirlObj->getAnimationManager().activateAnimation(1);
 	__pGirlObj->getAnimationManager().getActiveAnimation().setPlaySpeed(.7f);

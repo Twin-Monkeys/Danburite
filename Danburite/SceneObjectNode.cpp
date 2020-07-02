@@ -19,16 +19,22 @@ namespace Danburite
 		__children.emplace(&child);
 	}
 
-	void SceneObjectNode::update(const mat4 &parentJointMatrix) noexcept
+	void SceneObjectNode::updateJoint(const mat4 &parentJointMatrix) noexcept
 	{
 		__joint.updateMatrix(parentJointMatrix);
 		const mat4 &jointMatrix = __joint.getMatrix();
 
 		for (SceneObjectNode *const pChild : __children)
-			pChild->update(jointMatrix);
+			pChild->updateJoint(jointMatrix);
+	}
 
+	void SceneObjectNode::updateBones() noexcept
+	{
 		for (const unique_ptr<Mesh> &pMesh : __meshes)
-			pMesh->updateBoneMatrices(jointMatrix);
+			pMesh->updateBoneMatrices(__joint.getMatrix());
+
+		for (SceneObjectNode *const pChild : __children)
+			pChild->updateBones();
 	}
 
 	void SceneObjectNode::draw(const size_t numInstances) noexcept

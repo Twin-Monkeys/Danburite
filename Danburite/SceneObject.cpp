@@ -96,7 +96,8 @@ namespace Danburite
 		Animation &anim = __animMgr.getActiveAnimation();
 		anim.adjustTimestamp(deltaTime);
 
-		__pRootNode->update(Constant::Common::IDENTITY_MATRIX);
+		__pRootNode->updateJoint();
+		__pRootNode->updateBones();
 	}
 
 	void SceneObject::draw() noexcept

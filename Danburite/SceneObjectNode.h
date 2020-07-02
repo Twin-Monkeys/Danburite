@@ -28,7 +28,9 @@ namespace Danburite
 
 		void addChild(SceneObjectNode &child) noexcept;
 
-		void update(const glm::mat4 &parentJointMatrix) noexcept;
+		void updateJoint(const glm::mat4 &parentJointMatrix = Constant::Common::IDENTITY_MATRIX) noexcept;
+		void updateBones() noexcept;
+
 		void draw(const size_t numInstances) noexcept;
 		void rawDrawcall(const size_t numInstances) noexcept;
 
