@@ -88,7 +88,7 @@ HDRTestScene::HDRTestScene()
 	__pDoorObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 
 	__pDoorObj->getAnimationManager().activateAnimation(1);
-	__pDoorObj->getAnimationManager().getActiveAnimation().setPlaySpeed(.2f);
+	__pDoorObj->getAnimationManager().getActiveAnimation().setPlaySpeed(.6f);
 
 	__pLizardObj = AssetImporter::import("res/asset/lizard_man/scene.gltf");
 	Transform &lizardTransform = __pLizardObj->getTransform();
@@ -116,9 +116,8 @@ HDRTestScene::HDRTestScene()
 	girlAnimMgr.activateAnimation(1);
 	
 	Animation &girlAnim = girlAnimMgr.getActiveAnimation();
-	girlAnim.setPlayingOrder(AnimationPlayingOrderType::REVERSE);
-	girlAnim.setPlaySpeed(.1f);
-	girlAnim.setRepeatCount(2);
+	girlAnim.setPlaySpeed(.7f);
+	girlAnim.setRepeatCount(-1);
 
 
 	//// 朝五虞 持失 ////
@@ -280,6 +279,26 @@ bool HDRTestScene::update(const float deltaTime) noexcept
 
 	__pLampObj->getTransform().orbit(deltaTime * .0005f, pivot, axis);
 	__pBlueLight->getTransform().orbit(deltaTime * .0005f, pivot, axis, false);
+
+	const float doorDist =
+		length(__pCamera->getTransform().getPosition() - __pDoorObj->getTransform().getPosition());
+
+	if ((doorDist < 40.f) && !__doorOpened)
+	{
+		__doorOpened = true;
+
+		Animation &doorAnim = __pDoorObj->getAnimationManager().getActiveAnimation();
+		doorAnim.setPlayingOrder(AnimationPlayingOrderType::FORWARD);
+		doorAnim.setRepeatCount(1);
+	}
+	else if ((doorDist > 40.f) && __doorOpened)
+	{
+		__doorOpened = false;
+
+		Animation& doorAnim = __pDoorObj->getAnimationManager().getActiveAnimation();
+		doorAnim.setPlayingOrder(AnimationPlayingOrderType::REVERSE);
+		doorAnim.setRepeatCount(1);
+	}
 
 	__pUpdater->update(deltaTime);
 	__updated = true;

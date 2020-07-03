@@ -41,6 +41,8 @@ private:
 	std::shared_ptr<Danburite::MSAAPostProcessor> __pMsaaPP;
 	std::shared_ptr<Danburite::PostProcessingPipeline> __pPPPipeline;
 
+	bool __doorOpened = false;
+
 	bool __keyFunc(const float deltaTime) noexcept;
 
 public:

@@ -18,7 +18,8 @@ namespace Danburite
 		return static_cast<AnimatingSceneNodeConnecter &>(*pRetVal);
 	}
 
-	StaticSceneNodeConnecter &Animation::createStaticSceneNodeConnecter(const string &nodeName, const mat4 &localConnectingMat) noexcept
+	StaticSceneNodeConnecter &Animation::
+		createStaticSceneNodeConnecter(const string &nodeName, const mat4 &localConnectingMat) noexcept
 	{
 		unique_ptr<SceneNodeConnecterBase> &pRetVal = __connecterMap[nodeName];
 		pRetVal = make_unique<StaticSceneNodeConnecter>(nodeName, localConnectingMat);
@@ -56,7 +57,8 @@ namespace Danburite
 			if (__repCnt > 0)
 				__repCnt--;
 
-			__timestamp -= (__playTime * floorf(__timestamp / __playTime));
+			if (__repCnt)
+				__timestamp -= (__playTime * floorf(__timestamp / __playTime));
 		}
 
 		return *this;
