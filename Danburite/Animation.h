@@ -42,7 +42,7 @@ namespace Danburite
 		constexpr Animation &setPlaySpeed(const float speed) noexcept;
 
 		constexpr AnimationPlayingOrderType getPlayingOrder() const noexcept;
-		constexpr void setPlayingOrder(const AnimationPlayingOrderType type) noexcept;
+		constexpr void setPlayingOrder(const AnimationPlayingOrderType type, const bool rewind = true) noexcept;
 
 		constexpr int getRepeatCount() const noexcept;
 		constexpr Animation &setRepeatCount(const int count) noexcept;
@@ -74,9 +74,13 @@ namespace Danburite
 		return __playingOrderType;
 	}
 
-	constexpr void Animation::setPlayingOrder(const AnimationPlayingOrderType type) noexcept
+	constexpr void Animation::setPlayingOrder(const AnimationPlayingOrderType type, const bool rewind) noexcept
 	{
 		__playingOrderType = type;
+
+		if (!rewind)
+			return;
+
 		switch (type)
 		{
 		case AnimationPlayingOrderType::FORWARD:

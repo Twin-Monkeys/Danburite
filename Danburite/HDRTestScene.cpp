@@ -288,7 +288,7 @@ bool HDRTestScene::update(const float deltaTime) noexcept
 		__doorOpened = true;
 
 		Animation &doorAnim = __pDoorObj->getAnimationManager().getActiveAnimation();
-		doorAnim.setPlayingOrder(AnimationPlayingOrderType::FORWARD);
+		doorAnim.setPlayingOrder(AnimationPlayingOrderType::FORWARD, false);
 		doorAnim.setRepeatCount(1);
 	}
 	else if ((doorDist > 40.f) && __doorOpened)
@@ -296,7 +296,7 @@ bool HDRTestScene::update(const float deltaTime) noexcept
 		__doorOpened = false;
 
 		Animation& doorAnim = __pDoorObj->getAnimationManager().getActiveAnimation();
-		doorAnim.setPlayingOrder(AnimationPlayingOrderType::REVERSE);
+		doorAnim.setPlayingOrder(AnimationPlayingOrderType::REVERSE, false);
 		doorAnim.setRepeatCount(1);
 	}
 
