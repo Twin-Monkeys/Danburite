@@ -46,7 +46,25 @@ namespace Danburite
 
 	Animation& Animation::setTimestamp(const float timestamp) noexcept
 	{
-		__timestamp = fmod(timestamp, __playTime);
+		if (!__repCnt)
+			return *this;
+
+		__timestamp = timestamp;
+
+		const bool overFlow = (__timestamp >= __playTime);
+		const bool underFlow = (__timestamp < 0.f);
+
+		if (overFlow || underFlow)
+		{
+			if (__repCnt > 0)
+				__repCnt--;
+
+			__timestamp = fmod(__timestamp, __playTime);
+
+			if (underFlow)
+				__timestamp += __playTime;
+		}
+
 		return *this;
 	}
 

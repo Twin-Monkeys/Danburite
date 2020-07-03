@@ -112,8 +112,12 @@ HDRTestScene::HDRTestScene()
 	girl3Transform = girl2Transform;
 	girl3Transform.adjustPosition(12.f, 0.f, 0.f);
 
-	__pGirlObj->getAnimationManager().activateAnimation(1);
-	__pGirlObj->getAnimationManager().getActiveAnimation().setPlaySpeed(.7f);
+	AnimationManager &girlAnimMgr = __pGirlObj->getAnimationManager();
+	girlAnimMgr.activateAnimation(1);
+	
+	Animation &girlAnim = girlAnimMgr.getActiveAnimation();
+	girlAnim.setPlaySpeed(.7f);
+	girlAnim.setRepeatCount(-1);
 
 
 	//// 朝五虞 持失 ////

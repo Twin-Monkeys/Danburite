@@ -15,6 +15,7 @@ namespace Danburite
 		float __timestamp = 0.f;
 
 		float __playSpeed = 1.f;
+		int __repCnt = 0;
 
 		const std::string __name;
 
@@ -37,6 +38,9 @@ namespace Danburite
 
 		constexpr float getPlaySpeed() const noexcept;
 		constexpr Animation &setPlaySpeed(const float speed) noexcept;
+
+		constexpr int getRepeatCount() const noexcept;
+		constexpr Animation &setRepeatCount(const int count) noexcept;
 	};
 
 	constexpr float Animation::getPlayTime() const noexcept
@@ -57,6 +61,17 @@ namespace Danburite
 	constexpr Animation &Animation::setPlaySpeed(const float speed) noexcept
 	{
 		__playSpeed = speed;
+		return *this;
+	}
+
+	constexpr int Animation::getRepeatCount() const noexcept
+	{
+		return __repCnt;
+	}
+
+	constexpr Animation &Animation::setRepeatCount(const int count) noexcept
+	{
+		__repCnt = count;
 		return *this;
 	}
 }
