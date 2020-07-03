@@ -116,8 +116,9 @@ HDRTestScene::HDRTestScene()
 	girlAnimMgr.activateAnimation(1);
 	
 	Animation &girlAnim = girlAnimMgr.getActiveAnimation();
-	girlAnim.setPlaySpeed(.7f);
-	girlAnim.setRepeatCount(-1);
+	girlAnim.setPlayingOrder(AnimationPlayingOrderType::REVERSE);
+	girlAnim.setPlaySpeed(.1f);
+	girlAnim.setRepeatCount(2);
 
 
 	//// 朝五虞 持失 ////
@@ -186,7 +187,7 @@ HDRTestScene::HDRTestScene()
 	__pMsaaPP = make_shared<MSAAPostProcessor>();
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
-	// __pPPPipeline->appendProcessor(__pMsaaPP);
+	__pPPPipeline->appendProcessor(__pMsaaPP);
 	__pPPPipeline->appendProcessor(__pGammaCorrectionPP);
 	__pPPPipeline->appendProcessor(__pHDRPP);
 

@@ -50,19 +50,13 @@ namespace Danburite
 			return *this;
 
 		__timestamp = timestamp;
-
-		const bool overFlow = (__timestamp >= __playTime);
-		const bool underFlow = (__timestamp < 0.f);
-
-		if (overFlow || underFlow)
+		
+		if ((__timestamp > __playTime) || (__timestamp < 0.f))
 		{
 			if (__repCnt > 0)
 				__repCnt--;
 
-			__timestamp = fmod(__timestamp, __playTime);
-
-			if (underFlow)
-				__timestamp += __playTime;
+			__timestamp -= (__playTime * floorf(__timestamp / __playTime));
 		}
 
 		return *this;
@@ -70,6 +64,6 @@ namespace Danburite
 
 	Animation& Animation::adjustTimestamp(const float deltaTime) noexcept
 	{
-		return setTimestamp(__timestamp + (deltaTime * __playSpeed));
+		return setTimestamp(__timestamp + (deltaTime * __playSpeed * float(__playingOrderType)));
 	}
 }

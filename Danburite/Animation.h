@@ -5,6 +5,7 @@
 #include "AnimatingSceneNodeConnecter.h"
 #include "StaticSceneNodeConnecter.h"
 #include "Object.h"
+#include "AnimationPlayingOrderType.h"
 
 namespace Danburite
 {
@@ -14,6 +15,7 @@ namespace Danburite
 		const float __playTime;
 		float __timestamp = 0.f;
 
+		AnimationPlayingOrderType __playingOrderType = AnimationPlayingOrderType::FORWARD;
 		float __playSpeed = 1.f;
 		int __repCnt = 0;
 
@@ -39,6 +41,9 @@ namespace Danburite
 		constexpr float getPlaySpeed() const noexcept;
 		constexpr Animation &setPlaySpeed(const float speed) noexcept;
 
+		constexpr AnimationPlayingOrderType getPlayingOrder() const noexcept;
+		constexpr void setPlayingOrder(const AnimationPlayingOrderType type) noexcept;
+
 		constexpr int getRepeatCount() const noexcept;
 		constexpr Animation &setRepeatCount(const int count) noexcept;
 	};
@@ -62,6 +67,26 @@ namespace Danburite
 	{
 		__playSpeed = speed;
 		return *this;
+	}
+
+	constexpr AnimationPlayingOrderType Animation::getPlayingOrder() const noexcept
+	{
+		return __playingOrderType;
+	}
+
+	constexpr void Animation::setPlayingOrder(const AnimationPlayingOrderType type) noexcept
+	{
+		__playingOrderType = type;
+		switch (type)
+		{
+		case AnimationPlayingOrderType::FORWARD:
+			__timestamp = 0.f;
+			break;
+
+		case AnimationPlayingOrderType::REVERSE:
+			__timestamp = __playTime;
+			break;
+		}
 	}
 
 	constexpr int Animation::getRepeatCount() const noexcept

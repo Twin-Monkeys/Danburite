@@ -1253,6 +1253,9 @@
     <ClInclude Include="AssimpDataStructureConverter.h">
       <Filter>Library\Engine\Util\AssetImporter</Filter>
     </ClInclude>
+    <ClInclude Include="AnimationPlayingOrderType.h">
+      <Filter>Library\Engine\Core\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glsl\src\Header\Camera_Header.glsl">
