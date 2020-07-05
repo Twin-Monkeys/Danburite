@@ -175,9 +175,9 @@ HDRTestScene::HDRTestScene()
 	__pDrawer->addDrawable(__pLizardObj);
 	__pDrawer->addDrawable(__pGirlObj);
 
+	__pMsaaPP = make_shared<MSAAPostProcessor>();
 	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>();
 	__pHDRPP = make_shared<HDRPostProcessor>();
-	__pMsaaPP = make_shared<MSAAPostProcessor>();
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
 	__pPPPipeline->appendProcessor(__pMsaaPP);
