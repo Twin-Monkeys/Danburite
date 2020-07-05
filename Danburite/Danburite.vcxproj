@@ -187,7 +187,6 @@
     <ClCompile Include="PerspectiveLight.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="RCDSRegisterer.cpp" />
-    <ClCompile Include="SceneNodeConnecterException.cpp" />
     <ClCompile Include="SceneNodeConnecterManager.cpp" />
     <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="ShadowTestScene.cpp" />
@@ -318,7 +317,6 @@
     <ClInclude Include="Lerp.h" />
     <ClInclude Include="ParallaxMapTestScene.h" />
     <ClInclude Include="Quaternion.h" />
-    <ClInclude Include="SceneNodeConnecterException.h" />
     <ClInclude Include="SceneNodeConnecterManager.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="StaticSceneNodeConnecter.h" />

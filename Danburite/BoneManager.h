@@ -20,7 +20,9 @@ namespace Danburite
 	public:
 		BoneManager(const JointManager &jointManager);
 
-		Bone &addBone(const std::string& targetNodeName, const std::string& srcNodeName, const glm::mat4 &offsetMatrix);
+		Bone &createBone(
+			const std::string& targetNodeName, const std::string& srcNodeName, const glm::mat4 &offsetMatrix);
+		
 		Bone *getBone(const GLuint id) noexcept;
 		const Bone *getBone(const GLuint id) const noexcept;
 

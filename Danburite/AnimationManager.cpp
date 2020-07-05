@@ -7,10 +7,10 @@ namespace Danburite
 {
 	AnimationManager::AnimationManager() noexcept
 	{
-		addAnimation(1.f, "Default Animation (Static-Posed)");
+		createAnimation(1.f, "Default Animation (Static-Posed)");
 	}
 
-	Animation &AnimationManager::addAnimation(const float playTime, const string &name) noexcept
+	Animation &AnimationManager::createAnimation(const float playTime, const string &name) noexcept
 	{
 		return *__animations.emplace_back(make_unique<Animation>(__animations.size(), playTime, name));
 	}

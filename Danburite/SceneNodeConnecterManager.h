@@ -2,7 +2,6 @@
 
 #include "AnimatingSceneNodeConnecter.h"
 #include "StaticSceneNodeConnecter.h"
-#include "SceneNodeConnecterException.h"
 
 namespace Danburite
 {
@@ -15,10 +14,10 @@ namespace Danburite
 	public:
 		SceneNodeConnecterManager(const float &timestampReference) noexcept;
 
-		AnimatingSceneNodeConnecter& addAnimatingSceneNodeConnecter(const std::string& nodeName);
-		StaticSceneNodeConnecter& addStaticSceneNodeConnecter(const std::string& nodeName, const glm::mat4& localConnectingMat);
+		AnimatingSceneNodeConnecter &createAnimatingConnecter(const std::string &nodeName) noexcept;
+		StaticSceneNodeConnecter &createStaticConnecter(const std::string &nodeName, const glm::mat4 &localConnectingMat) noexcept;
 
-		SceneNodeConnecterBase* getSceneNodeConnecter(const std::string& nodeName) noexcept;
-		const SceneNodeConnecterBase* getSceneNodeConnecter(const std::string& nodeName) const noexcept;
+		SceneNodeConnecterBase *getSceneNodeConnecter(const std::string &nodeName) noexcept;
+		const SceneNodeConnecterBase *getSceneNodeConnecter(const std::string &nodeName) const noexcept;
 	};
 }

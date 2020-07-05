@@ -14,7 +14,7 @@ namespace Danburite
 	public:
 		JointManager(AnimationManager &animationManager) noexcept;
 
-		Joint &addJoint(const std::string &nodeName);
+		Joint &createJoint(const std::string &nodeName) noexcept;
 		Joint *getJoint(const std::string &nodeName) noexcept;
 		const Joint *getJoint(const std::string &nodeName) const noexcept;
 	};

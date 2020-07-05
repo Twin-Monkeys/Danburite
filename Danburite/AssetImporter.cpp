@@ -134,10 +134,10 @@ namespace Danburite
 				animMgr.getAnimation(animIter).getConnecterManager();
 
 			if (!connecterMgr.getSceneNodeConnecter(nodeName))
-				connecterMgr.addStaticSceneNodeConnecter(nodeName, localConnectingMat);
+				connecterMgr.createStaticConnecter(nodeName, localConnectingMat);
 		}
 
-		SceneObjectNode &retVal = sceneObject.addNode(false, nodeName);
+		SceneObjectNode &retVal = sceneObject.createNode(false, nodeName);
 
 		const aiMesh *const *const pAiMeshes = pScene->mMeshes;
 		for (unsigned meshIter = 0U; meshIter < pNode->mNumMeshes; meshIter++)
@@ -186,7 +186,7 @@ namespace Danburite
 			if (pAiMesh->HasTangentsAndBitangents())
 				vertexFlag |= VertexAttributeFlag::TANGENT;
 
-			BoneManager &boneManager = retVal.addBoneManger();
+			BoneManager &boneManager = retVal.createBoneManger();
 
 			if (pAiMesh->HasBones())
 			{
@@ -198,7 +198,7 @@ namespace Danburite
 					const string &targetNodeName = pAiBone->mName.C_Str();
 					const mat4 &offsetMat = AssimpDataStructureConverter::toMat4(pAiBone->mOffsetMatrix);
 
-					Bone &bone = boneManager.addBone(targetNodeName, nodeName, offsetMat);
+					Bone &bone = boneManager.createBone(targetNodeName, nodeName, offsetMat);
 
 					for (unsigned weightIter = 0U; weightIter < pAiBone->mNumWeights; weightIter++)
 					{
@@ -402,7 +402,7 @@ namespace Danburite
 				break;
 			}
 
-			retVal.addMesh(pVertexArray, pMaterial, boneManager);
+			retVal.createMesh(pVertexArray, pMaterial, boneManager);
 		}
 
 		return retVal;
@@ -466,7 +466,7 @@ namespace Danburite
 				// convert sec to ms
 				const float playTime = (1000.f * (float(pAiAnim->mDuration) / ticksPerSec));
 
-				Animation &animation = animManager.addAnimation(playTime, pAiAnim->mName.C_Str());
+				Animation &animation = animManager.createAnimation(playTime, pAiAnim->mName.C_Str());
 				SceneNodeConnecterManager &connecterMgr = animation.getConnecterManager();
 
 				for (unsigned nodeAnimIter = 0U; nodeAnimIter < pAiAnim->mNumChannels; nodeAnimIter++)
@@ -477,7 +477,7 @@ namespace Danburite
 					assert(!connecterMgr.getSceneNodeConnecter(nodeName));
 
 					AnimatingSceneNodeConnecter &nodeConnecter =
-						connecterMgr.addAnimatingSceneNodeConnecter(nodeName);
+						connecterMgr.createAnimatingConnecter(nodeName);
 
 					TransformTimeline &timeline = nodeConnecter.getTimeline();
 

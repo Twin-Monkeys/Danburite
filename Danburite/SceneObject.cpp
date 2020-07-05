@@ -10,7 +10,7 @@ namespace Danburite
 		__jointMgr(__animMgr)
 	{}
 
-	SceneObjectNode &SceneObject::addNode(const bool setAsRoot, const string &name)
+	SceneObjectNode &SceneObject::createNode(const bool setAsRoot, const string &name) noexcept
 	{
 		SceneObjectNode* const pNode =
 			__nodes.emplace_back(make_unique<SceneObjectNode>(__pModelMatrixBuffer, __jointMgr, name)).get();
@@ -23,12 +23,12 @@ namespace Danburite
 		return *pNode;
 	}
 
-	SceneObjectNode& SceneObject::addNode(
+	SceneObjectNode& SceneObject::createNode(
 		const shared_ptr<VertexArray>& pVertexArray, const shared_ptr<Material>& pMaterial,
-		const bool setAsRoot, const string &name)
+		const bool setAsRoot, const string &name) noexcept
 	{
-		SceneObjectNode &retVal = addNode(setAsRoot, name);
-		retVal.addMesh(pVertexArray, pMaterial);
+		SceneObjectNode &retVal = createNode(setAsRoot, name);
+		retVal.createMesh(pVertexArray, pMaterial);
 
 		return retVal;
 	}

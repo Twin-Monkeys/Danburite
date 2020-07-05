@@ -14,7 +14,7 @@ namespace Danburite
 			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::BONE))
 	{}
 
-	Bone &BoneManager::addBone(const string &targetNodeName, const string &srcNodeName, const mat4 &offsetMatrix)
+	Bone &BoneManager::createBone(const string &targetNodeName, const string &srcNodeName, const mat4 &offsetMatrix)
 	{
 		const GLuint boneID = GLuint(__boneMatrices.size());
 		__boneMatrices.emplace_back();

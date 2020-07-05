@@ -23,11 +23,11 @@ namespace Danburite
 	public:
 		SceneObject() noexcept;
 
-		SceneObjectNode &addNode(const bool setAsRoot = true, const std::string &name = "NO_NAME_NODE");
-		SceneObjectNode &addNode(
+		SceneObjectNode &createNode(const bool setAsRoot = true, const std::string &name = "NO_NAME_NODE") noexcept;
+		SceneObjectNode &createNode(
 			const std::shared_ptr<ObjectGL::VertexArray> &pVertexArray,
 			const std::shared_ptr<Material> &pMaterial,
-			const bool setAsRoot = true, const std::string& name = "NO_NAME_NODE");
+			const bool setAsRoot = true, const std::string& name = "NO_NAME_NODE") noexcept;
 
 		size_t getNumInstances() const noexcept;
 		void setNumInstances(const GLsizei numInstances) noexcept;

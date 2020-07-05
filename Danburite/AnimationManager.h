@@ -14,7 +14,7 @@ namespace Danburite
 	public:
 		AnimationManager() noexcept;
 
-		Animation &addAnimation(const float playTime, const std::string &name = "") noexcept;
+		Animation &createAnimation(const float playTime, const std::string &name = "") noexcept;
 		Animation &getAnimation(const size_t id = 0U) noexcept;
 		const Animation &getAnimation(const size_t id = 0U) const noexcept;
 

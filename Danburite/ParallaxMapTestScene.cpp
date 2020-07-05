@@ -70,7 +70,7 @@ ParallaxMapTestScene::ParallaxMapTestScene()
 	pWoodToyMaterial->setShininess(150.f);
 
 	__pWoodToyObj = make_shared<SceneObject>();
-	__pWoodToyObj->addNode(pWoodToyVA, pWoodToyMaterial);
+	__pWoodToyObj->createNode(pWoodToyVA, pWoodToyMaterial);
 
 	Transform& woodToyTransform = __pWoodToyObj->getTransform();
 	woodToyTransform.setScale(10.f, 10.f, 1.f);

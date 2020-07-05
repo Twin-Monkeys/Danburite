@@ -8,7 +8,7 @@ namespace Danburite
 		__animMgr(animationManager)
 	{}
 
-	Joint &JointManager::addJoint(const string &nodeName)
+	Joint &JointManager::createJoint(const string &nodeName) noexcept
 	{
 		Joint* const pJoint =
 			__joints.emplace_back(make_unique<Joint>(__animMgr, nodeName)).get();

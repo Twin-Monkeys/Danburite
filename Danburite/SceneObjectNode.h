@@ -28,13 +28,13 @@ namespace Danburite
 			const std::shared_ptr<ModelMatrixBuffer> &pModelMatrixBuffer,
 			JointManager &jointManager, const std::string &name) noexcept;
 
-		BoneManager &addBoneManger() noexcept;
+		BoneManager &createBoneManger() noexcept;
 
-		Mesh& addMesh(
+		Mesh &createMesh(
 			const std::shared_ptr<ObjectGL::VertexArray>& pVertexArray,
 			const std::shared_ptr<Material>& pMaterial) noexcept;
 
-		Mesh &addMesh(
+		Mesh &createMesh(
 			const std::shared_ptr<ObjectGL::VertexArray> &pVertexArray,
 			const std::shared_ptr<Material> &pMaterial,
 			const BoneManager &boneManager) noexcept;

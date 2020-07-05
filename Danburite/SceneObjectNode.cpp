@@ -11,21 +11,21 @@ namespace Danburite
 		const shared_ptr<ModelMatrixBuffer> &pModelMatrixBuffer,
 		JointManager &jointManager, const string &name) noexcept :
 		__pModelMatrixBuffer(pModelMatrixBuffer), __jointManager(jointManager),
-		__joint(jointManager.addJoint(name)), __name(name)
+		__joint(jointManager.createJoint(name)), __name(name)
 	{}
 
-	BoneManager &SceneObjectNode::addBoneManger() noexcept
+	BoneManager &SceneObjectNode::createBoneManger() noexcept
 	{
 		return *__boneMgrs.emplace_back(make_unique<BoneManager>(__jointManager));
 	}
 
-	Mesh &SceneObjectNode::addMesh(
+	Mesh &SceneObjectNode::createMesh(
 		const shared_ptr<VertexArray>& pVertexArray, const shared_ptr<Material>& pMaterial) noexcept
 	{
-		return addMesh(pVertexArray, pMaterial, addBoneManger());
+		return createMesh(pVertexArray, pMaterial, createBoneManger());
 	}
 
-	Mesh &SceneObjectNode::addMesh(
+	Mesh &SceneObjectNode::createMesh(
 		const shared_ptr<VertexArray> &pVertexArray, const shared_ptr<Material> &pMaterial,
 		const BoneManager &boneManager) noexcept
 	{

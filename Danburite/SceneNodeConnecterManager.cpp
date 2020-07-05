@@ -9,27 +9,21 @@ namespace Danburite
 		__timestampRef(timestampReference)
 	{}
 
-	AnimatingSceneNodeConnecter& SceneNodeConnecterManager::addAnimatingSceneNodeConnecter(const string& nodeName)
+	AnimatingSceneNodeConnecter& SceneNodeConnecterManager::createAnimatingConnecter(const string& nodeName) noexcept
 	{
-		if (getSceneNodeConnecter(nodeName))
-			throw SceneNodeConnecterException("There is a connecter which has same name already.");
-
 		unique_ptr<SceneNodeConnecterBase>& pRetVal = __connecterMap[nodeName];
 		pRetVal = make_unique<AnimatingSceneNodeConnecter>(nodeName, __timestampRef);
 
-		return static_cast<AnimatingSceneNodeConnecter&>(*pRetVal);
+		return static_cast<AnimatingSceneNodeConnecter &>(*pRetVal);
 	}
 
-	StaticSceneNodeConnecter& SceneNodeConnecterManager::addStaticSceneNodeConnecter(
-		const string& nodeName, const mat4& localConnectingMat)
+	StaticSceneNodeConnecter& SceneNodeConnecterManager::createStaticConnecter(
+		const string& nodeName, const mat4& localConnectingMat) noexcept
 	{
-		if (getSceneNodeConnecter(nodeName))
-			throw SceneNodeConnecterException("There is a connecter which has same name already.");
-
 		unique_ptr<SceneNodeConnecterBase>& pRetVal = __connecterMap[nodeName];
 		pRetVal = make_unique<StaticSceneNodeConnecter>(nodeName, localConnectingMat);
 
-		return static_cast<StaticSceneNodeConnecter&>(*pRetVal);
+		return static_cast<StaticSceneNodeConnecter &>(*pRetVal);
 	}
 
 	SceneNodeConnecterBase *SceneNodeConnecterManager::getSceneNodeConnecter(const string& nodeName) noexcept
