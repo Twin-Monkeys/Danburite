@@ -14,11 +14,11 @@ namespace Danburite
 		/* Ctors */
 
 		Quaternion() = default;
-		Quaternion(const Quaternion &src, const bool normalization = true) noexcept;
+		Quaternion(const Quaternion &src) noexcept;
 
 		// default
-		Quaternion(const glm::quat &src, const bool normalization = true) noexcept;
-		Quaternion(const float w, const float x, const float y, const float z, const bool normalization = true) noexcept;
+		Quaternion(const glm::quat &src) noexcept;
+		Quaternion(const float w, const float x, const float y, const float z) noexcept;
 
 		// euler angles
 		explicit Quaternion(const glm::vec3 &eulerAngles) noexcept;
@@ -28,16 +28,16 @@ namespace Danburite
 		Quaternion(const float angle, const glm::vec3 &axis) noexcept;
 
 		// matrix
-		Quaternion(const glm::mat3 &rotationMatrix, const bool normalization = true) noexcept;
-		Quaternion(const glm::mat4 &rotationMatrix, const bool normalization = true) noexcept;
+		Quaternion(const glm::mat3 &rotationMatrix) noexcept;
+		Quaternion(const glm::mat4 &rotationMatrix) noexcept;
 
 
 		/* Setters */
 
 		// default
-		Quaternion &set(const glm::quat &src, const bool normalization = true) noexcept;
-		Quaternion &set(const float w, const float x, const float y, const float z, const bool normalization = true) noexcept;
-		Quaternion &set(const Quaternion &src, const bool normalization = true) noexcept;
+		Quaternion &set(const glm::quat &src) noexcept;
+		Quaternion &set(const float w, const float x, const float y, const float z) noexcept;
+		Quaternion &set(const Quaternion &src) noexcept;
 
 		// euler angles
 		Quaternion &set(const glm::vec3 &eulerAngles) noexcept;
@@ -47,8 +47,8 @@ namespace Danburite
 		Quaternion &set(const float angle, const glm::vec3 &axis) noexcept;
 
 		// matrix
-		Quaternion &set(const glm::mat3 &rotationMatrix, const bool normalization = true) noexcept;
-		Quaternion &set(const glm::mat4 &rotationMatrix, const bool normalization = true) noexcept;
+		Quaternion &set(const glm::mat3 &rotationMatrix) noexcept;
+		Quaternion &set(const glm::mat4 &rotationMatrix) noexcept;
 
 
 		/* Operations */

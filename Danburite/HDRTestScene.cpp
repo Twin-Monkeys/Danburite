@@ -47,7 +47,7 @@ HDRTestScene::HDRTestScene()
 	pFloorMaterial->setShininess(150.f);
 
 	__pFloorObj = make_shared<SceneObject>();
-	__pFloorObj->createNode(pFloorVA, pFloorMaterial, true);
+	__pFloorObj->addNode(pFloorVA, pFloorMaterial);
 
 	Transform& floorTransform = __pFloorObj->getTransform();
 	floorTransform.setScale(60.f, 60.f, 1.f);

@@ -23,11 +23,11 @@ namespace Danburite
 	public:
 		SceneObject() noexcept;
 
-		SceneObjectNode &createNode(const bool setAsRoot = false, const std::string &name = "NO_NAMED");
-		SceneObjectNode &createNode(
+		SceneObjectNode &addNode(const bool setAsRoot = true, const std::string &name = "NO_NAME_NODE");
+		SceneObjectNode &addNode(
 			const std::shared_ptr<ObjectGL::VertexArray> &pVertexArray,
 			const std::shared_ptr<Material> &pMaterial,
-			const bool setAsRoot = false, const std::string& name = "NO_NAMED");
+			const bool setAsRoot = true, const std::string& name = "NO_NAME_NODE");
 
 		size_t getNumInstances() const noexcept;
 		void setNumInstances(const GLsizei numInstances) noexcept;
@@ -47,7 +47,6 @@ namespace Danburite
 		const AnimationManager &getAnimationManager() const noexcept;
 
 		virtual void update(const float deltaTime) noexcept override;
-
 		virtual void draw() noexcept override;
 		virtual void rawDrawcall() noexcept override;
 

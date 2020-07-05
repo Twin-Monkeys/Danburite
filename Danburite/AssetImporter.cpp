@@ -137,7 +137,7 @@ namespace Danburite
 				connecterMgr.addStaticSceneNodeConnecter(nodeName, localConnectingMat);
 		}
 
-		SceneObjectNode &retVal = sceneObject.createNode(false, nodeName);
+		SceneObjectNode &retVal = sceneObject.addNode(false, nodeName);
 
 		const aiMesh *const *const pAiMeshes = pScene->mMeshes;
 		for (unsigned meshIter = 0U; meshIter < pNode->mNumMeshes; meshIter++)
@@ -466,7 +466,7 @@ namespace Danburite
 				// convert sec to ms
 				const float playTime = (1000.f * (float(pAiAnim->mDuration) / ticksPerSec));
 
-				Animation &animation = animManager.createAnimation(playTime, pAiAnim->mName.C_Str());
+				Animation &animation = animManager.addAnimation(playTime, pAiAnim->mName.C_Str());
 				SceneNodeConnecterManager &connecterMgr = animation.getConnecterManager();
 
 				for (unsigned nodeAnimIter = 0U; nodeAnimIter < pAiAnim->mNumChannels; nodeAnimIter++)

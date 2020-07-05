@@ -7,19 +7,19 @@ using namespace glm;
 
 namespace Danburite
 {
-	Quaternion::Quaternion(const Quaternion &src, const bool normalization) noexcept
+	Quaternion::Quaternion(const Quaternion &src) noexcept
 	{
-		set(src, normalization);
+		set(src);
 	}
 
-	Quaternion::Quaternion(const quat &src, const bool normalization) noexcept
+	Quaternion::Quaternion(const quat &src) noexcept
 	{
-		set(src, normalization);
+		set(src);
 	}
 
-	Quaternion::Quaternion(const float w, const float x, const float y, const float z, const bool normalization) noexcept
+	Quaternion::Quaternion(const float w, const float x, const float y, const float z) noexcept
 	{
-		set(w, x, y, z, normalization);
+		set(w, x, y, z);
 	}
 
 	Quaternion::Quaternion(const vec3 &eulerAngles) noexcept
@@ -37,39 +37,35 @@ namespace Danburite
 		set(angle, axis);
 	}
 
-	Quaternion::Quaternion(const mat3 &rotationMatrix, const bool normalization) noexcept
+	Quaternion::Quaternion(const mat3 &rotationMatrix) noexcept
 	{
-		set(rotationMatrix, normalization);
+		set(rotationMatrix);
 	}
 
-	Quaternion::Quaternion(const mat4 &rotationMatrix, const bool normalization) noexcept
+	Quaternion::Quaternion(const mat4 &rotationMatrix) noexcept
 	{
-		set(rotationMatrix, normalization);
+		set(rotationMatrix);
 	}
 
-	Quaternion &Quaternion::set(const quat &src, const bool normalization) noexcept
+	Quaternion &Quaternion::set(const quat &src) noexcept
 	{
-		__quaternion = src;
-
-		if (normalization)
-			__quaternion = normalize(__quaternion);
-
+		__quaternion = normalize(src);
 		return *this;
 	}
 
-	Quaternion &Quaternion::set(const float w, const float x, const float y, const float z, const bool normalization) noexcept
+	Quaternion &Quaternion::set(const float w, const float x, const float y, const float z) noexcept
 	{
-		return set(quat { w, x, y, z }, normalization);
+		return set(quat { w, x, y, z });
 	}
 
-	Quaternion &Quaternion::set(const Quaternion &src, const bool normalization) noexcept
+	Quaternion &Quaternion::set(const Quaternion &src) noexcept
 	{
-		return set(src.__quaternion, normalization);
+		return set(src.__quaternion);
 	}
 
 	Quaternion &Quaternion::set(const vec3 &eulerAngles) noexcept
 	{
-		return set(quat { eulerAngles }, false);
+		return set(quat { eulerAngles });
 	}
 
 	Quaternion &Quaternion::set(const float pitch, const float yaw, const float roll) noexcept
@@ -79,17 +75,17 @@ namespace Danburite
 
 	Quaternion &Quaternion::set(const float angle, const vec3 &axis) noexcept
 	{
-		return set(angleAxis(angle, normalize(axis)), false);
+		return set(angleAxis(angle, normalize(axis)));
 	}
 
-	Quaternion &Quaternion::set(const mat3 &rotationMatrix, const bool normalization) noexcept
+	Quaternion &Quaternion::set(const mat3 &rotationMatrix) noexcept
 	{
-		return set(quat { rotationMatrix }, normalization);
+		return set(quat { rotationMatrix });
 	}
 
-	Quaternion &Quaternion::set(const mat4 &rotationMatrix, const bool normalization) noexcept
+	Quaternion &Quaternion::set(const mat4 &rotationMatrix) noexcept
 	{
-		return set(quat { rotationMatrix }, normalization);
+		return set(quat { rotationMatrix });
 	}
 
 	Quaternion &Quaternion::orient(const vec3 &forward, const vec3 &referenceUp) noexcept
@@ -106,7 +102,7 @@ namespace Danburite
 
 	Quaternion &Quaternion::rotateGlobal(const vec3 &eulerAngles) noexcept
 	{
-		return set(quat { eulerAngles } * __quaternion, false);
+		return set(quat { eulerAngles } * __quaternion);
 	}
 
 	Quaternion &Quaternion::rotateGlobal(const float pitch, const float yaw, const float roll) noexcept
@@ -116,17 +112,18 @@ namespace Danburite
 
 	Quaternion &Quaternion::rotateGlobal(const float angle, const vec3 &axis) noexcept
 	{
-		return set(angleAxis(angle, normalize(axis)) * __quaternion, false);
+		return set(angleAxis(angle, normalize(axis)) * __quaternion);
 	}
 
 	Quaternion &Quaternion::rotateLocal(const vec3 &eulerAngles) noexcept
 	{
-		const mat4 &matrix = getMatrix();
+		const mat4 &basis = getMatrix();
 
-		for (length_t i = 0; i < 3; i++)
-			rotateGlobal(eulerAngles[i], matrix[i]);
-
-		return *this;
+		return set(
+			angleAxis(eulerAngles[2], vec3{ basis[2] }) *
+			angleAxis(eulerAngles[1], vec3{ basis[1] }) *
+			angleAxis(eulerAngles[0], vec3{ basis[0] }) *
+			__quaternion);
 	}
 
 	Quaternion &Quaternion::rotateLocal(const float pitch, const float yaw, const float roll) noexcept

@@ -39,14 +39,14 @@ namespace Danburite
 
 		// rotation
 		constexpr const Quaternion &getRotation() const noexcept;
-		Transform &setRotation(const glm::quat &src, const bool normalization = true) noexcept;
-		Transform &setRotation(const float w, const float x, const float y, const float z, const bool normalization = true) noexcept;
-		Transform &setRotation(const Quaternion &src, const bool normalization = true) noexcept;
+		Transform &setRotation(const glm::quat &src) noexcept;
+		Transform &setRotation(const float w, const float x, const float y, const float z) noexcept;
+		Transform &setRotation(const Quaternion &src) noexcept;
 		Transform &setRotation(const glm::vec3 &eulerAngles) noexcept;
 		Transform &setRotation(const float pitch, const float yaw, const float roll) noexcept;
 		Transform &setRotation(const float angle, const glm::vec3 &axis) noexcept;
-		Transform &setRotation(const glm::mat3 &rotationMatrix, const bool normalization = true) noexcept;
-		Transform &setRotation(const glm::mat4 &rotationMatrix, const bool normalization = true) noexcept;
+		Transform &setRotation(const glm::mat3 &rotationMatrix) noexcept;
+		Transform &setRotation(const glm::mat4 &rotationMatrix) noexcept;
 
 		Transform &rotateGlobal(const glm::vec3 &eulerAngles) noexcept;
 		Transform &rotateGlobal(const float pitch, const float yaw, const float roll) noexcept;

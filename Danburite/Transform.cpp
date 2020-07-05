@@ -8,21 +8,21 @@ using namespace glm;
 
 namespace Danburite
 {
-	Transform &Transform::setRotation(const quat &src, const bool normalization) noexcept
+	Transform &Transform::setRotation(const quat &src) noexcept
 	{
-		__rotation.set(src, normalization);
+		__rotation.set(src);
 		return *this;
 	}
 
-	Transform &Transform::setRotation(const float w, const float x, const float y, const float z, const bool normalization) noexcept
+	Transform &Transform::setRotation(const float w, const float x, const float y, const float z) noexcept
 	{
-		__rotation.set(w, x, y, z, normalization);
+		__rotation.set(w, x, y, z);
 		return *this;
 	}
 
-	Transform &Transform::setRotation(const Quaternion &quaternion, const bool normalization) noexcept
+	Transform &Transform::setRotation(const Quaternion &quaternion) noexcept
 	{
-		__rotation.set(quaternion, normalization);
+		__rotation.set(quaternion);
 		return *this;
 	}
 
@@ -44,15 +44,15 @@ namespace Danburite
 		return *this;
 	}
 
-	Transform &Transform::setRotation(const mat3 &rotationMatrix, const bool normalization) noexcept
+	Transform &Transform::setRotation(const mat3 &rotationMatrix) noexcept
 	{
-		__rotation.set(rotationMatrix, normalization);
+		__rotation.set(rotationMatrix);
 		return *this;
 	}
 
-	Transform &Transform::setRotation(const mat4 &rotationMatrix, const bool normalization) noexcept
+	Transform &Transform::setRotation(const mat4 &rotationMatrix) noexcept
 	{
-		__rotation.set(rotationMatrix, normalization);
+		__rotation.set(rotationMatrix);
 		return *this;
 	}
 
