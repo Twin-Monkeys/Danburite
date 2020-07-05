@@ -26,22 +26,6 @@ namespace Danburite
 			make_unique<Bone>(boneID, __jointMgr, targetNodeName, srcNodeName, offsetMatrix));
 	}
 
-	Bone *BoneManager::getBone(const GLuint id) noexcept
-	{
-		if (__bones.size() <= size_t(id))
-			return nullptr;
-
-		return __bones[id].get();
-	}
-
-	const Bone *BoneManager::getBone(const GLuint id) const noexcept
-	{
-		if (__bones.size() <= size_t(id))
-			return nullptr;
-
-		return __bones[id].get();
-	}
-
 	void BoneManager::updateBones() noexcept
 	{
 		for (size_t i = 0ULL; i < __bones.size(); i++)

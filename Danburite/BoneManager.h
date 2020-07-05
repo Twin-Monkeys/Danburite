@@ -23,11 +23,7 @@ namespace Danburite
 		Bone &createBone(
 			const std::string& targetNodeName, const std::string& srcNodeName, const glm::mat4 &offsetMatrix);
 		
-		Bone *getBone(const GLuint id) noexcept;
-		const Bone *getBone(const GLuint id) const noexcept;
-
 		void updateBones() noexcept;
-
 		void selfDeploy() const noexcept;
 	};
 }

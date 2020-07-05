@@ -71,16 +71,6 @@ namespace Danburite
 		return resultIt->second;
 	}
 
-	AnimationManager &SceneObject::getAnimationManager() noexcept
-	{
-		return __animMgr;
-	}
-
-	const AnimationManager &SceneObject::getAnimationManager() const noexcept
-	{
-		return __animMgr;
-	}
-
 	void SceneObject::update(const float deltaTime) noexcept
 	{
 		__pModelMatrixBuffer->updateMatrices();

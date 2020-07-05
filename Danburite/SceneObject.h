@@ -43,8 +43,11 @@ namespace Danburite
 		SceneObjectNode *getNode(const std::string &name) noexcept;
 		const SceneObjectNode *getNode(const std::string &name) const noexcept;
 
-		AnimationManager &getAnimationManager() noexcept;
-		const AnimationManager &getAnimationManager() const noexcept;
+		constexpr AnimationManager &getAnimationManager() noexcept;
+		constexpr const AnimationManager &getAnimationManager() const noexcept;
+
+		constexpr JointManager& getJointManager() noexcept;
+		constexpr const JointManager& getJointManager() const noexcept;
 
 		virtual void update(const float deltaTime) noexcept override;
 		virtual void draw() noexcept override;
@@ -68,6 +71,26 @@ namespace Danburite
 	{
 		__pRootNode = &node;
 		return *this;
+	}
+
+	constexpr AnimationManager& SceneObject::getAnimationManager() noexcept
+	{
+		return __animMgr;
+	}
+
+	constexpr const AnimationManager& SceneObject::getAnimationManager() const noexcept
+	{
+		return __animMgr;
+	}
+
+	constexpr JointManager &SceneObject::getJointManager() noexcept
+	{
+		return __jointMgr;
+	}
+
+	constexpr const JointManager &SceneObject::getJointManager() const noexcept
+	{
+		return __jointMgr;
 	}
 
 	template <typename MaterialType, typename FunctionType, typename ...Args>
