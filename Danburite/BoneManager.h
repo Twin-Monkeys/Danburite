@@ -10,25 +10,21 @@ namespace Danburite
 	class BoneManager
 	{
 	private:
+		const JointManager &__jointMgr;
+
 		std::vector<glm::mat4> __boneMatrices;
 		std::vector<std::unique_ptr<Bone>> __bones;
-
-		std::unordered_map<std::string, std::vector<Bone *>> __targetJointToBonesMap;
 
 		ObjectGL::UniformBuffer &__boneSetter;
 
 	public:
-		BoneManager();
-		Bone &createBone(const std::string &targetNodeName, const glm::mat4 &offsetMatrix);
+		BoneManager(const JointManager &jointManager);
 
+		Bone &addBone(const std::string& targetNodeName, const std::string& srcNodeName, const glm::mat4 &offsetMatrix);
 		Bone *getBone(const GLuint id) noexcept;
 		const Bone *getBone(const GLuint id) const noexcept;
 
-		GLuint getNumBones() const noexcept;
-
-		void updateTargetJointMatrices(const std::string &nodeName, const glm::mat4 &jointMatrix) noexcept;
-		void updateSourceJointMatrices(const glm::mat4 &jointMatrix) noexcept;
-		void updateBoneMatrices() noexcept;
+		void updateBones() noexcept;
 
 		void selfDeploy() const noexcept;
 	};

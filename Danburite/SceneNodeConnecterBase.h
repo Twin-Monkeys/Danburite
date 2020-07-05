@@ -1,6 +1,5 @@
 #pragma once
 
-#include "JointUpdateObserver.h"
 #include "Transform.h"
 #include "WeakPointerContainer.h"
 
@@ -10,7 +9,6 @@ namespace Danburite
 	{
 	private:
 		const std::string __nodeName;
-
 		glm::mat4 __connectingMat { 1.f };
 
 	protected:

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "AnimationManager.h"
-#include "JointUpdateObserver.h"
 #include <unordered_set>
 #include "UniformBuffer.h"
 
@@ -16,8 +15,6 @@ namespace Danburite
 		const std::string __nodeName;
 		glm::mat4 __jointMat { 1.f };
 
-		std::unordered_set<JointUpdateObserver *> __observerSet;
-
 		ObjectGL::UniformBuffer &__jointSetter;
 
 	public:
@@ -25,8 +22,6 @@ namespace Danburite
 
 		constexpr Transform &getTransform() noexcept;
 		constexpr const Transform &getTransform() const noexcept;
-
-		Joint &addObserver(JointUpdateObserver *const pObserver) noexcept;
 
 		Joint &updateMatrix(const glm::mat4 &parentJointMatrix) noexcept;
 		constexpr const glm::mat4 &getMatrix() const noexcept;

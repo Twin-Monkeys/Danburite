@@ -6,29 +6,16 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	SceneObjectNode &SceneObject::createNode(
-		const shared_ptr<VertexArray> &pVertexArray, const shared_ptr<Material> &pMaterial,
-		BoneManager &boneManager, const bool setAsRoot, const string_view &name) noexcept
+	SceneObject::SceneObject() noexcept :
+		__jointMgr(__animMgr)
+	{}
+
+	SceneObjectNode &SceneObject::createNode(const bool setAsRoot, const string &name)
 	{
-		return createNode({ { pVertexArray, pMaterial, &boneManager } }, setAsRoot, name);
-	}
+		SceneObjectNode* const pNode =
+			__nodes.emplace_back(make_unique<SceneObjectNode>(__pModelMatrixBuffer, __jointMgr, name)).get();
 
-	SceneObjectNode &SceneObject::createNode(
-		const vector<tuple<shared_ptr<VertexArray>, shared_ptr<Material>, BoneManager *>> &meshDataList,
-		const bool setAsRoot, const string_view &name) noexcept
-	{
-		unordered_set<unique_ptr<Mesh>> meshes;
-
-		for (const auto &[pVertexArray, pMaterial, pBoneManager] : meshDataList)
-			meshes.emplace(make_unique<Mesh>(pVertexArray, __pModelMatrixBuffer, pMaterial, *pBoneManager));
-
-		Joint *const pJoint =
-			__joints.emplace_back(make_unique<Joint>(__animMgr, name)).get();
-
-		pJoint->addObserver(this);
-
-		SceneObjectNode *const pNode =
-			__nodes.emplace_back(make_unique<SceneObjectNode>(move(meshes), *pJoint, name)).get();
+		__nameToNodeMap.emplace(name, pNode);
 
 		if (setAsRoot)
 			__pRootNode = pNode;
@@ -36,9 +23,14 @@ namespace Danburite
 		return *pNode;
 	}
 
-	BoneManager &SceneObject::createBoneManager() noexcept
+	SceneObjectNode& SceneObject::createNode(
+		const shared_ptr<VertexArray>& pVertexArray, const shared_ptr<Material>& pMaterial,
+		const bool setAsRoot, const string &name)
 	{
-		return *__boneMgrs.emplace_back(make_unique<BoneManager>());
+		SceneObjectNode &retVal = createNode(setAsRoot, name);
+		retVal.addMesh(pVertexArray, pMaterial);
+
+		return retVal;
 	}
 
 	size_t SceneObject::getNumInstances() const noexcept
@@ -61,22 +53,22 @@ namespace Danburite
 		return __pModelMatrixBuffer->getTransform(idx);
 	}
 
-	SceneObjectNode *SceneObject::getNode(const string_view &name) noexcept
+	SceneObjectNode *SceneObject::getNode(const string &name) noexcept
 	{
-		for (const unique_ptr<SceneObjectNode> &pNode : __nodes)
-			if (pNode->getName() == name)
-				return pNode.get();
+		auto resultIt = __nameToNodeMap.find(name);
+		if (resultIt == __nameToNodeMap.end())
+			return nullptr;
 
-		return nullptr;
+		return resultIt->second;
 	}
 
-	const SceneObjectNode *SceneObject::getNode(const string_view &name) const noexcept
+	const SceneObjectNode *SceneObject::getNode(const string &name) const noexcept
 	{
-		for (const unique_ptr<SceneObjectNode> &pNode : __nodes)
-			if (pNode->getName() == name)
-				return pNode.get();
+		auto resultIt = __nameToNodeMap.find(name);
+		if (resultIt == __nameToNodeMap.end())
+			return nullptr;
 
-		return nullptr;
+		return resultIt->second;
 	}
 
 	AnimationManager &SceneObject::getAnimationManager() noexcept
@@ -110,11 +102,5 @@ namespace Danburite
 	{
 		__pModelMatrixBuffer->selfDeploy();
 		__pRootNode->rawDrawcall(getNumInstances());
-	}
-
-	void SceneObject::onUpdateJointMatrix(const string& nodeName, const mat4& jointMatrix) noexcept
-	{
-		for (const unique_ptr<BoneManager> &pBoneMgr : __boneMgrs)
-			pBoneMgr->updateTargetJointMatrices(nodeName, jointMatrix);
 	}
 }

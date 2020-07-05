@@ -178,6 +178,7 @@
     <ClCompile Include="HDRPostProcessor.cpp" />
     <ClCompile Include="HDRTestScene.cpp" />
     <ClCompile Include="IndexType.cpp" />
+    <ClCompile Include="JointManager.cpp" />
     <ClCompile Include="SceneNodeConnecterBase.cpp" />
     <ClCompile Include="Joint.cpp" />
     <ClCompile Include="ParallaxMapTestScene.cpp" />
@@ -186,6 +187,8 @@
     <ClCompile Include="PerspectiveLight.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="RCDSRegisterer.cpp" />
+    <ClCompile Include="SceneNodeConnecterException.cpp" />
+    <ClCompile Include="SceneNodeConnecterManager.cpp" />
     <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="ShadowTestScene.cpp" />
     <ClCompile Include="Drawer.cpp" />
@@ -309,12 +312,14 @@
     <ClInclude Include="GLDebugMessageType.h" />
     <ClInclude Include="HDRPostProcessor.h" />
     <ClInclude Include="HDRTestScene.h" />
+    <ClInclude Include="JointManager.h" />
     <ClInclude Include="SceneNodeConnecterBase.h" />
     <ClInclude Include="Joint.h" />
-    <ClInclude Include="JointUpdateObserver.h" />
     <ClInclude Include="Lerp.h" />
     <ClInclude Include="ParallaxMapTestScene.h" />
     <ClInclude Include="Quaternion.h" />
+    <ClInclude Include="SceneNodeConnecterException.h" />
+    <ClInclude Include="SceneNodeConnecterManager.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="StaticSceneNodeConnecter.h" />
     <ClInclude Include="Timeline.h" />

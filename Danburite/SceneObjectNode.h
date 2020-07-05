@@ -10,10 +10,14 @@ namespace Danburite
 	class SceneObjectNode
 	{
 	private:
-		std::unordered_set<std::unique_ptr<Mesh>> __meshes;
+		const std::shared_ptr<ModelMatrixBuffer> __pModelMatrixBuffer;
+		JointManager &__jointManager;
 		Joint &__joint;
+
 		const std::string __name;
 
+		std::vector<std::unique_ptr<BoneManager>> __boneMgrs;
+		std::vector<std::unique_ptr<Mesh>> __meshes;
 		std::unordered_set<SceneObjectNode *> __children;
 
 		SceneObjectNode(const SceneObjectNode &) = delete;
@@ -21,8 +25,19 @@ namespace Danburite
 
 	public:
 		SceneObjectNode(
-			std::unordered_set<std::unique_ptr<Mesh>> &&meshes,
-			Joint &joint, const std::string_view &name) noexcept;
+			const std::shared_ptr<ModelMatrixBuffer> &pModelMatrixBuffer,
+			JointManager &jointManager, const std::string &name) noexcept;
+
+		BoneManager &addBoneManger() noexcept;
+
+		Mesh& addMesh(
+			const std::shared_ptr<ObjectGL::VertexArray>& pVertexArray,
+			const std::shared_ptr<Material>& pMaterial) noexcept;
+
+		Mesh &addMesh(
+			const std::shared_ptr<ObjectGL::VertexArray> &pVertexArray,
+			const std::shared_ptr<Material> &pMaterial,
+			const BoneManager &boneManager) noexcept;
 
 		constexpr const std::string &getName() const noexcept;
 

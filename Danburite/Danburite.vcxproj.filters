@@ -720,6 +720,15 @@
     <ClCompile Include="AssimpDataStructureConverter.cpp">
       <Filter>Library\Engine\Util\AssetImporter</Filter>
     </ClCompile>
+    <ClCompile Include="JointManager.cpp">
+      <Filter>Library\Engine\Core\Animation\Joint</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneNodeConnecterManager.cpp">
+      <Filter>Library\Engine\Core\Animation\SceneNodeConnecter</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneNodeConnecterException.cpp">
+      <Filter>Library\Engine\Core\Animation\SceneNodeConnecter</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">
@@ -1244,9 +1253,6 @@
     <ClInclude Include="AnimatingSceneNodeConnecter.h">
       <Filter>Library\Engine\Core\Animation\SceneNodeConnecter</Filter>
     </ClInclude>
-    <ClInclude Include="JointUpdateObserver.h">
-      <Filter>Library\Engine\Core\Animation\Joint</Filter>
-    </ClInclude>
     <ClInclude Include="Joint.h">
       <Filter>Library\Engine\Core\Animation\Joint</Filter>
     </ClInclude>
@@ -1255,6 +1261,15 @@
     </ClInclude>
     <ClInclude Include="AnimationPlayingOrderType.h">
       <Filter>Library\Engine\Core\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="JointManager.h">
+      <Filter>Library\Engine\Core\Animation\Joint</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneNodeConnecterManager.h">
+      <Filter>Library\Engine\Core\Animation\SceneNodeConnecter</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneNodeConnecterException.h">
+      <Filter>Library\Engine\Core\Animation\SceneNodeConnecter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -8,12 +8,13 @@ using namespace glm;
 
 namespace Danburite
 {
-	BoneManager::BoneManager() :
+	BoneManager::BoneManager(const JointManager &jointManager) :
+		__jointMgr(jointManager),
 		__boneSetter(UniformBufferFactory::getInstance().
 			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::BONE))
 	{}
 
-	Bone &BoneManager::createBone(const string &targetNodeName, const mat4 &offsetMatrix)
+	Bone &BoneManager::addBone(const string &targetNodeName, const string &srcNodeName, const mat4 &offsetMatrix)
 	{
 		const GLuint boneID = GLuint(__boneMatrices.size());
 		__boneMatrices.emplace_back();
@@ -21,10 +22,8 @@ namespace Danburite
 		if (boneID >= Constant::Animation::MAX_NUM_BONES)
 			throw BoneException("the number of bones cannot be greater than MAX_NUM_BONES.");
 
-		const unique_ptr<Bone> &pBone = __bones.emplace_back(make_unique<Bone>(boneID, offsetMatrix));
-		__targetJointToBonesMap[targetNodeName].emplace_back(pBone.get());
-
-		return *pBone;
+		return *__bones.emplace_back(
+			make_unique<Bone>(boneID, __jointMgr, targetNodeName, srcNodeName, offsetMatrix));
 	}
 
 	Bone *BoneManager::getBone(const GLuint id) noexcept
@@ -43,32 +42,10 @@ namespace Danburite
 		return __bones[id].get();
 	}
 
-	GLuint BoneManager::getNumBones() const noexcept
-	{
-		return GLuint(__bones.size());
-	}
-
-	void BoneManager::updateTargetJointMatrices(const string &nodeName, const mat4 &jointMatrix) noexcept
-	{
-		for (Bone *const pBone : __targetJointToBonesMap[nodeName])
-			pBone->setTargetJointMatrix(jointMatrix);
-	}
-
-	void BoneManager::updateSourceJointMatrices(const mat4 &jointMatrix) noexcept
-	{
-		for (const unique_ptr<Bone> &pBone : __bones)
-			pBone->setSourceJointMatrix(jointMatrix);
-	}
-
-	void BoneManager::updateBoneMatrices() noexcept
+	void BoneManager::updateBones() noexcept
 	{
 		for (size_t i = 0ULL; i < __bones.size(); i++)
-		{
-			Bone &bone = *__bones[i];
-			bone.updateMatrix();
-
-			__boneMatrices[i] = bone.getMatrix();
-		}
+			__bones[i]->calcMatrix(__boneMatrices[i]);
 	}
 
 	void BoneManager::selfDeploy() const noexcept

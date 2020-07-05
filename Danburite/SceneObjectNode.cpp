@@ -8,10 +8,29 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	SceneObjectNode::SceneObjectNode(
-		unordered_set<unique_ptr<Mesh>> &&meshes, Joint &joint, const string_view &name) noexcept :
-		__joint(joint), __name(name)
+		const shared_ptr<ModelMatrixBuffer> &pModelMatrixBuffer,
+		JointManager &jointManager, const string &name) noexcept :
+		__pModelMatrixBuffer(pModelMatrixBuffer), __jointManager(jointManager),
+		__joint(jointManager.addJoint(name)), __name(name)
+	{}
+
+	BoneManager &SceneObjectNode::addBoneManger() noexcept
 	{
-		__meshes.swap(meshes);
+		return *__boneMgrs.emplace_back(make_unique<BoneManager>(__jointManager));
+	}
+
+	Mesh &SceneObjectNode::addMesh(
+		const shared_ptr<VertexArray>& pVertexArray, const shared_ptr<Material>& pMaterial) noexcept
+	{
+		return addMesh(pVertexArray, pMaterial, addBoneManger());
+	}
+
+	Mesh &SceneObjectNode::addMesh(
+		const shared_ptr<VertexArray> &pVertexArray, const shared_ptr<Material> &pMaterial,
+		const BoneManager &boneManager) noexcept
+	{
+		return *__meshes.emplace_back(
+			make_unique<Mesh>(pVertexArray, pMaterial, __pModelMatrixBuffer, boneManager));
 	}
 
 	void SceneObjectNode::addChild(SceneObjectNode &child) noexcept
@@ -30,8 +49,8 @@ namespace Danburite
 
 	void SceneObjectNode::updateBones() noexcept
 	{
-		for (const unique_ptr<Mesh> &pMesh : __meshes)
-			pMesh->updateBoneMatrices(__joint.getMatrix());
+		for (const unique_ptr<BoneManager> &pBoneMgr : __boneMgrs)
+			pBoneMgr->updateBones();
 
 		for (SceneObjectNode *const pChild : __children)
 			pChild->updateBones();

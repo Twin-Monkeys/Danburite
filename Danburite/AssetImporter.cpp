@@ -130,15 +130,16 @@ namespace Danburite
 
 		for (size_t animIter = 0ULL; animIter < animMgr.getNumAnimations(); animIter++)
 		{
-			Animation &anim = animMgr.getAnimation(animIter);
+			SceneNodeConnecterManager &connecterMgr =
+				animMgr.getAnimation(animIter).getConnecterManager();
 
-			if (!anim.getSceneNodeConnecter(nodeName))
-				anim.createStaticSceneNodeConnecter(nodeName, localConnectingMat);
+			if (!connecterMgr.getSceneNodeConnecter(nodeName))
+				connecterMgr.addStaticSceneNodeConnecter(nodeName, localConnectingMat);
 		}
 
-		const aiMesh *const *const pAiMeshes = pScene->mMeshes;
+		SceneObjectNode &retVal = sceneObject.createNode(false, nodeName);
 
-		vector<tuple<shared_ptr<VertexArray>, shared_ptr<Material>, BoneManager *>> meshDataList;
+		const aiMesh *const *const pAiMeshes = pScene->mMeshes;
 		for (unsigned meshIter = 0U; meshIter < pNode->mNumMeshes; meshIter++)
 		{
 			const unsigned MESH_IDX = pNode->mMeshes[meshIter];
@@ -185,7 +186,7 @@ namespace Danburite
 			if (pAiMesh->HasTangentsAndBitangents())
 				vertexFlag |= VertexAttributeFlag::TANGENT;
 
-			BoneManager &boneManager = sceneObject.createBoneManager();
+			BoneManager &boneManager = retVal.addBoneManger();
 
 			if (pAiMesh->HasBones())
 			{
@@ -197,7 +198,7 @@ namespace Danburite
 					const string &targetNodeName = pAiBone->mName.C_Str();
 					const mat4 &offsetMat = AssimpDataStructureConverter::toMat4(pAiBone->mOffsetMatrix);
 
-					Bone &bone = boneManager.createBone(targetNodeName, offsetMat);
+					Bone &bone = boneManager.addBone(targetNodeName, nodeName, offsetMat);
 
 					for (unsigned weightIter = 0U; weightIter < pAiBone->mNumWeights; weightIter++)
 					{
@@ -401,10 +402,10 @@ namespace Danburite
 				break;
 			}
 
-			meshDataList.emplace_back(pVertexArray, pMaterial, &boneManager);
+			retVal.addMesh(pVertexArray, pMaterial, boneManager);
 		}
 
-		return sceneObject.createNode(meshDataList, false, nodeName);
+		return retVal;
 	}
 
 	shared_ptr<SceneObject> AssetImporter::import(const string_view &assetPath, const MaterialType materialType)
@@ -464,17 +465,19 @@ namespace Danburite
 
 				// convert sec to ms
 				const float playTime = (1000.f * (float(pAiAnim->mDuration) / ticksPerSec));
+
 				Animation &animation = animManager.createAnimation(playTime, pAiAnim->mName.C_Str());
+				SceneNodeConnecterManager &connecterMgr = animation.getConnecterManager();
 
 				for (unsigned nodeAnimIter = 0U; nodeAnimIter < pAiAnim->mNumChannels; nodeAnimIter++)
 				{
 					const aiNodeAnim *const pAiAnimNode = pAiAnim->mChannels[nodeAnimIter];
 					const string &nodeName = pAiAnimNode->mNodeName.C_Str();
 
-					assert(!animation.getSceneNodeConnecter(nodeName));
+					assert(!connecterMgr.getSceneNodeConnecter(nodeName));
 
 					AnimatingSceneNodeConnecter &nodeConnecter =
-						animation.createAnimatingSceneNodeConnecter(nodeName);
+						connecterMgr.addAnimatingSceneNodeConnecter(nodeName);
 
 					TransformTimeline &timeline = nodeConnecter.getTimeline();
 
@@ -572,47 +575,31 @@ namespace Danburite
 		const string &parentPath = path(assetPath).parent_path().string();
 		unordered_map<string, shared_ptr<Texture2D>> textureCache;
 
-		/*
-			Nodes are little named entities in the scene that have a place
-			And orientation relative to their parents.
-			Starting from the scene¡¯s root node all nodes can have 0 to x child nodes,
-			Thus forming a hierarchy.
-			They form the base on which the scene is built on:
-			A node can refer to 0..x meshes, can be referred to by a bone of a mesh
-			Or can be animated by a key sequence of an animation.
-			DirectX calls them "frames", others call them "objects", we call them aiNode.
-
-			A node can potentially refer to single or multiple meshes.
-			The meshes are not stored inside the node, but instead in an array of aiMesh inside the aiScene.
-			A node only refers to them by their array index.
-			This also means that multiple nodes can refer to the same mesh,
-			Which provides a simple form of instancing.
-			A mesh referred to by this way lives in the node¡¯s local coordinate system.
-			If you want the mesh¡¯s orientation in global space,
-			You¡¯d have to concatenate the transformations from the referring node and all of its parents.
-		*/
+		const aiNode *const pAiRootNode = pScene->mRootNode;
 
 		SceneObjectNode &rootNode =
-			__parseNode(parentPath, pScene->mRootNode, pScene, materialType, textureCache, *pRetVal);
+			__parseNode(parentPath, pAiRootNode, pScene, materialType, textureCache, *pRetVal);
 
 		pRetVal->setRootNode(rootNode);
 
 		// <parent(SceneObjectNode), child(aiNode)> pair stack
 		stack<pair<SceneObjectNode *, const aiNode *>> nodeStack;
-		nodeStack.emplace(&rootNode, pScene->mRootNode);
+
+		for (unsigned i = 0; i < pAiRootNode->mNumChildren; i++)
+			nodeStack.emplace(&rootNode, pAiRootNode->mChildren[i]);
 
 		while (!nodeStack.empty())
 		{
 			const auto [pParentNode, pAiCurrentNode] = nodeStack.top();
 			nodeStack.pop();
 
-			SceneObjectNode &parsedCurrentNode =
+			SceneObjectNode &currentNode =
 				__parseNode(parentPath, pAiCurrentNode, pScene, materialType, textureCache, *pRetVal);
 
-			pParentNode->addChild(parsedCurrentNode);
+			pParentNode->addChild(currentNode);
 
 			for (unsigned i = 0; i < pAiCurrentNode->mNumChildren; i++)
-				nodeStack.emplace(&parsedCurrentNode, pAiCurrentNode->mChildren[i]);
+				nodeStack.emplace(&currentNode, pAiCurrentNode->mChildren[i]);
 		}
 
 		// Everything will be cleaned up by the importer destructor.

@@ -2,8 +2,7 @@
 
 #include <unordered_map>
 #include <memory>
-#include "AnimatingSceneNodeConnecter.h"
-#include "StaticSceneNodeConnecter.h"
+#include "SceneNodeConnecterManager.h"
 #include "Object.h"
 #include "AnimationPlayingOrderType.h"
 
@@ -20,8 +19,7 @@ namespace Danburite
 		int __repCnt = 0;
 
 		const std::string __name;
-
-		std::unordered_map<std::string, std::unique_ptr<SceneNodeConnecterBase>> __connecterMap;
+		SceneNodeConnecterManager __connecterMgr;
 
 	public:
 		Animation(const size_t id, const float playTime, const std::string &name = "") noexcept;
@@ -29,11 +27,8 @@ namespace Danburite
 		constexpr float getPlayTime() const noexcept;
 		constexpr const std::string &getName() const noexcept;
 
-		AnimatingSceneNodeConnecter &createAnimatingSceneNodeConnecter(const std::string &nodeName) noexcept;
-		StaticSceneNodeConnecter &createStaticSceneNodeConnecter(const std::string &nodeName, const glm::mat4 &localConnectingMat) noexcept;
-
-		SceneNodeConnecterBase *getSceneNodeConnecter(const std::string &nodeName) noexcept;
-		const SceneNodeConnecterBase *getSceneNodeConnecter(const std::string &nodeName) const noexcept;
+		constexpr SceneNodeConnecterManager& getConnecterManager() noexcept;
+		constexpr const SceneNodeConnecterManager &getConnecterManager() const noexcept;
 
 		Animation &setTimestamp(const float timestamp) noexcept;
 		Animation &adjustTimestamp(const float deltaTime) noexcept;
@@ -56,6 +51,16 @@ namespace Danburite
 	constexpr const std::string &Animation::getName() const noexcept
 	{
 		return __name;
+	}
+
+	constexpr SceneNodeConnecterManager& Animation::getConnecterManager() noexcept
+	{
+		return __connecterMgr;
+	}
+
+	constexpr const SceneNodeConnecterManager& Animation::getConnecterManager() const noexcept
+	{
+		return __connecterMgr;
 	}
 
 	constexpr float Animation::getPlaySpeed() const noexcept

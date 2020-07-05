@@ -4,36 +4,30 @@
 #include "AnimationManager.h"
 #include "SceneObjectNode.h"
 #include "Drawable.h"
+#include "JointManager.h"
 
 namespace Danburite
 {
-	class SceneObject : public Updatable, public Drawable, public JointUpdateObserver
+	class SceneObject : public Updatable, public Drawable
 	{
 	private:
 		const std::shared_ptr<ModelMatrixBuffer> __pModelMatrixBuffer = std::make_shared<ModelMatrixBuffer>();
 		AnimationManager __animMgr;
+		JointManager __jointMgr;
 
-		std::vector<std::unique_ptr<BoneManager>> __boneMgrs;
 		std::vector<std::unique_ptr<SceneObjectNode>> __nodes;
-		std::vector<std::unique_ptr<Joint>> __joints;
+		std::unordered_map<std::string, SceneObjectNode *> __nameToNodeMap;
 
 		SceneObjectNode *__pRootNode = nullptr;
 
 	public:
+		SceneObject() noexcept;
+
+		SceneObjectNode &createNode(const bool setAsRoot = false, const std::string &name = "NO_NAMED");
 		SceneObjectNode &createNode(
 			const std::shared_ptr<ObjectGL::VertexArray> &pVertexArray,
 			const std::shared_ptr<Material> &pMaterial,
-			BoneManager &boneManager,
-			const bool setAsRoot = false,
-			const std::string_view &name = "NO_NAMED") noexcept;
-
-		SceneObjectNode &createNode(
-			const std::vector<std::tuple<
-				std::shared_ptr<ObjectGL::VertexArray>, std::shared_ptr<Material>, BoneManager *>> &meshDataList,
-			const bool setAsRoot = false,
-			const std::string_view &name = "NO_NAMED") noexcept;
-		
-		BoneManager &createBoneManager() noexcept;
+			const bool setAsRoot = false, const std::string& name = "NO_NAMED");
 
 		size_t getNumInstances() const noexcept;
 		void setNumInstances(const GLsizei numInstances) noexcept;
@@ -46,8 +40,8 @@ namespace Danburite
 
 		constexpr SceneObject &setRootNode(SceneObjectNode &node) noexcept;
 
-		SceneObjectNode *getNode(const std::string_view &name) noexcept;
-		const SceneObjectNode *getNode(const std::string_view &name) const noexcept;
+		SceneObjectNode *getNode(const std::string &name) noexcept;
+		const SceneObjectNode *getNode(const std::string &name) const noexcept;
 
 		AnimationManager &getAnimationManager() noexcept;
 		const AnimationManager &getAnimationManager() const noexcept;
@@ -59,9 +53,6 @@ namespace Danburite
 
 		template <typename MaterialType, typename FunctionType, typename ...Args>
 		void traverseMaterial(const FunctionType function, Args &&...args);
-
-		virtual void onUpdateJointMatrix(
-			const std::string &nodeName, const glm::mat4 &jointMatrix) noexcept override;
 	};
 
 	constexpr SceneObjectNode *SceneObject::getRootNode() noexcept

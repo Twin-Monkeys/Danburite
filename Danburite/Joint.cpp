@@ -13,32 +13,19 @@ namespace Danburite
 			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::JOINT))
 	{}
 
-	Joint &Joint::addObserver(JointUpdateObserver *const pObserver) noexcept
-	{
-		if (pObserver)
-			__observerSet.emplace(pObserver);
-		else
-			assert(false);
-
-		return *this;
-	}
-
 	Joint &Joint::updateMatrix(const mat4 &parentJointMatrix) noexcept
 	{
 		__transform.updateMatrix();
 		__jointMat = (parentJointMatrix * __transform.getMatrix());
 
-		Animation &anim = __animMgr.getActiveAnimation();
-		SceneNodeConnecterBase *const pConnecter = anim.getSceneNodeConnecter(__nodeName);
+		SceneNodeConnecterManager &connecterManager = __animMgr.getActiveAnimation().getConnecterManager();
+		SceneNodeConnecterBase *const pConnecter = connecterManager.getSceneNodeConnecter(__nodeName);
 			
 		if (pConnecter)
 		{
 			pConnecter->updateMatrix();
 			__jointMat *= pConnecter->getMatrix();
 		}
-
-		for (JointUpdateObserver *const pObserver : __observerSet)
-			pObserver->onUpdateJointMatrix(__nodeName, __jointMat);
 
 		return *this;
 	}

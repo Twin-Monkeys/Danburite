@@ -7,19 +7,13 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	Mesh::Mesh(
-		const shared_ptr<VertexArray> &pVertexArray,
-		const shared_ptr<ModelMatrixBuffer> &pModelMatrixBuffer,
-		const shared_ptr<Material> &pMaterial,
-		BoneManager &boneManager) noexcept :
+		const shared_ptr<VertexArray>& pVertexArray,
+		const shared_ptr<Material>& pMaterial,
+		const shared_ptr<ModelMatrixBuffer>& pModelMatrixBuffer,
+		const BoneManager &boneManager) noexcept :
 		__pVertexArray(pVertexArray), __pMaterial(pMaterial), __boneMgr(boneManager)
 	{
 		__pVertexArray->addVertexBuffer(reinterpret_pointer_cast<VertexBuffer>(pModelMatrixBuffer));
-	}
-
-	void Mesh::updateBoneMatrices(const mat4 &jointMatrix) noexcept
-	{
-		__boneMgr.updateSourceJointMatrices(jointMatrix);
-		__boneMgr.updateBoneMatrices();
 	}
 
 	void Mesh::draw(const GLsizei numInstances) noexcept
