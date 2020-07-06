@@ -8,7 +8,7 @@ namespace Danburite
 	class HDRPostProcessor : public ForwardPostProcessor
 	{
 	private:
-		ObjectGL::UniformSetter &__hdrSetter;
+		ObjectGL::UniformBuffer &__hdrSetter;
 		float __exposure = Constant::HDR::DEFAULT_EXPOSURE;
 
 	protected:

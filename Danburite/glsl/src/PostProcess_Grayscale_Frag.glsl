@@ -4,13 +4,14 @@
 #include "header/VariableInOut_Frag_Header.glsl"
 
 #include "header/PostProcess_Header.glsl"
+#include "header/Grayscale_Header.glsl"
  
 out vec4 fragColor;
 
 void main()
 {
 	fragColor = PostProcess_getPixel(0, variableInOut_VertToFrag.texCoord);
-	const float avgColor = ((.2126f * fragColor.r) + (.7152f * fragColor.g) + (.0722f * fragColor.b));
+	const float grayscaledColor = Grayscale_getGrayscaledColor(fragColor.rgb);
 
-	fragColor.rgb = vec3(avgColor);
+	fragColor.rgb = vec3(grayscaledColor);
 } 

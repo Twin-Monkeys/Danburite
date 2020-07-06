@@ -119,6 +119,11 @@ namespace Danburite
 			constexpr GLfloat DEFAULT_EXPOSURE		= 5.f;
 		}
 
+		namespace Bloom
+		{
+			constexpr float DEFAULT_BRIGHTNESS_THRESHOLD = 1.f;
+		}
+
 		namespace Animation
 		{
 			constexpr GLuint MAX_NUM_BONES = 512U;

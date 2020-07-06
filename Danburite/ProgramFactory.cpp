@@ -148,15 +148,24 @@ namespace Danburite
 					"glsl/src/PostProcess_HDR_Frag.glsl"
 				}
 			},
-			/*{
-				ProgramType::POST_PROCESS_BLOOM,
+			{
+				ProgramType::POST_PROCESS_BLOOM_COLOR_EXTRACTION,
 				{
-					"glsl/binary/PostProcess_Bloom.bin",
+					"glsl/binary/PostProcess_Bloom_ColorExtraction.bin",
 					"glsl/src/FullscreenQuad_Vert.glsl",
 					"",
-					"glsl/src/PostProcess_Bloom_Frag.glsl"
+					"glsl/src/PostProcess_Bloom_ColorExtraction_Frag.glsl"
 				}
-			},*/
+			},
+			{
+				ProgramType::POST_PROCESS_BLOOM_COMPOSITION,
+				{
+					"glsl/binary/PostProcess_Bloom_Composition.bin",
+					"glsl/src/FullscreenQuad_Vert.glsl",
+					"",
+					"glsl/src/PostProcess_Bloom_Composition_Frag.glsl"
+				}
+			},
 
 			// Depth baking
 			{
@@ -312,7 +321,8 @@ namespace Danburite
 					ProgramType::POST_PROCESS_MSAA,
 					ProgramType::POST_PROCESS_GAMMA_CORRECTION,
 					ProgramType::POST_PROCESS_HDR,
-					// ProgramType::POST_PROCESS_BLOOM,
+					ProgramType::POST_PROCESS_BLOOM_COLOR_EXTRACTION,
+					ProgramType::POST_PROCESS_BLOOM_COMPOSITION,
 				}
 			},
 			{
@@ -331,6 +341,12 @@ namespace Danburite
 				ShaderIdentifier::Name::UniformBuffer::HDR,
 				{
 					ProgramType::POST_PROCESS_HDR
+				}
+			},
+			{
+				ShaderIdentifier::Name::UniformBuffer::BLOOM,
+				{
+					ProgramType::POST_PROCESS_BLOOM_COLOR_EXTRACTION
 				}
 			},
 			{

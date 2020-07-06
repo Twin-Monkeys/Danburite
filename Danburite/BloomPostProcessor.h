@@ -3,25 +3,50 @@
 #include "PostProcessor.h"
 #include "AttachableTexture2D.h"
 #include "RenderBuffer.h"
+#include "Constant.h"
 
 namespace Danburite
 {
 	class BloomPostProcessor : public PostProcessor
 	{
 	private:
-		ObjectGL::Program &__program;
-		std::unique_ptr<ObjectGL::AttachableTexture2D> __pColorAttachment;
-		std::unique_ptr<ObjectGL::AttachableTexture2D> __pExtractedColorAttachment;
+		ObjectGL::UniformBuffer &__bloomSetter;
+
+		float __brightnessThreshold =
+			Constant::Bloom::DEFAULT_BRIGHTNESS_THRESHOLD;
+
+		std::unique_ptr<ObjectGL::FrameBuffer> __pBloomFrameBuffer;
+
+
+		ObjectGL::Program &__extractionProgram;
+		ObjectGL::Program &__compositionProgram;
+
+		std::unique_ptr<ObjectGL::AttachableTexture2D> __pOriginalColorAttachment;
+		std::unique_ptr<ObjectGL::AttachableTexture2D> __pBloomColorAttachment;
 		std::unique_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
 
 	protected:
 		virtual void _onRender(
-			ObjectGL::UniformBuffer &attachmentSetter, ObjectGL::VertexArray &fullscreenQuadVA) noexcept override;
+			ObjectGL::UniformBuffer& attachmentSetter, ObjectGL::VertexArray& fullscreenQuadVA) noexcept override;
 
 	public:
 		BloomPostProcessor();
+
+		constexpr float getBrightnessThreshold() const noexcept;
+		constexpr void setBrightnessThreshold(const float threshold) noexcept;
+
 		virtual void setScreenSize(const GLsizei width, const GLsizei height) noexcept override;
 
 		virtual ~BloomPostProcessor() = default;
 	};
+
+	constexpr float BloomPostProcessor::getBrightnessThreshold() const noexcept
+	{
+		return __brightnessThreshold;
+	}
+
+	constexpr void BloomPostProcessor::setBrightnessThreshold(const float threshold) noexcept
+	{
+		__brightnessThreshold = threshold;
+	}
 }

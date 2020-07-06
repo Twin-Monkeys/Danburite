@@ -15,6 +15,8 @@ namespace Danburite
 
 		ObjectGL::UniformBuffer &__attachmentSetter;
 
+		static inline PostProcessor *__boundProcessor = nullptr;
+
 		PostProcessor(const PostProcessor &) = delete;
 		PostProcessor &operator=(const PostProcessor &) = delete;
 
@@ -27,6 +29,8 @@ namespace Danburite
 		virtual void _onRender(
 			ObjectGL::UniformBuffer &attachmentSetter, ObjectGL::VertexArray &fullscreenQuadVA) noexcept = 0;
 
+		static constexpr PostProcessor *_getBoundProcessor() noexcept;
+
 	public:
 		void bind() noexcept;
 		void render() noexcept;
@@ -36,4 +40,9 @@ namespace Danburite
 
 		static void unbind() noexcept;
 	};
+
+	constexpr PostProcessor *PostProcessor::_getBoundProcessor() noexcept
+	{
+		return __boundProcessor;
+	}
 }

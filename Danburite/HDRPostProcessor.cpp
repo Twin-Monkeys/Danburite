@@ -9,9 +9,7 @@ namespace Danburite
 {
 	HDRPostProcessor::HDRPostProcessor() :
 		ForwardPostProcessor(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_HDR)),
-
-		__hdrSetter(
-			UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::HDR))
+		__hdrSetter(UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::HDR))
 	{}
 
 	void HDRPostProcessor::_onRender(UniformBuffer &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept

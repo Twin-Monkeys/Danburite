@@ -729,11 +729,11 @@
     <ClCompile Include="SceneNodeConnecterManager.cpp">
       <Filter>Library\Engine\Core\Animation\SceneNodeConnecter</Filter>
     </ClCompile>
-    <ClCompile Include="BloomPostProcessor.cpp">
-      <Filter>Library\Engine\Core\PostProcess\Bloom</Filter>
-    </ClCompile>
     <ClCompile Include="ForwardPostProcessor.cpp">
       <Filter>Library\Engine\Core\PostProcess\Forward</Filter>
+    </ClCompile>
+    <ClCompile Include="BloomPostProcessor.cpp">
+      <Filter>Library\Engine\Core\PostProcess\Bloom</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1426,8 +1426,17 @@
     <None Include="glsl\src\header\Animation_Header.glsl">
       <Filter>Library\Engine\glsl\src\header\animation</Filter>
     </None>
-    <None Include="glsl\src\PostProcess_Bloom_Extraction_Frag.glsl">
+    <None Include="glsl\src\PostProcess_Bloom_Composition_Frag.glsl">
       <Filter>Library\Engine\glsl\src\PostProcess\Bloom</Filter>
+    </None>
+    <None Include="glsl\src\PostProcess_Bloom_ColorExtraction_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\PostProcess\Bloom</Filter>
+    </None>
+    <None Include="glsl\src\header\Bloom_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header\PostProcess</Filter>
+    </None>
+    <None Include="glsl\src\header\Grayscale_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header\PostProcess</Filter>
     </None>
   </ItemGroup>
 </Project>

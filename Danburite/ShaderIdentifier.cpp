@@ -122,6 +122,12 @@ namespace Danburite
 					EXPOSURE = "hdr.exposure";
 			}
 
+			namespace Bloom
+			{
+				const string
+					BRIGHTNESS_THRESHOLD = "bloom.brightnessThreshold";
+			}
+
 			namespace Skybox
 			{
 				const string
@@ -168,6 +174,7 @@ namespace Danburite
 					DEPTH_BAKING_2D			= "UBDepthBaking2D",
 					DEPTH_BAKING_CUBEMAP	= "UBDepthBakingCubemap",
 					HDR						= "UBHDR",
+					BLOOM					= "UBBloom",
 					JOINT					= "UBJoint",
 					BONE					= "UBBone"
 					;

@@ -28,6 +28,7 @@ namespace Danburite
 
 	void PostProcessor::bind() noexcept
 	{
+		__boundProcessor = this;
 		__pFrameBuffer->bind();
 	}
 
@@ -40,6 +41,7 @@ namespace Danburite
 
 	void PostProcessor::unbind() noexcept
 	{
+		__boundProcessor = nullptr;
 		FrameBuffer::unbind();
 	}
 }

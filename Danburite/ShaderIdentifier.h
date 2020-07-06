@@ -118,6 +118,12 @@ namespace Danburite
 					EXPOSURE;
 			}
 
+			namespace Bloom
+			{
+				extern const std::string
+					BRIGHTNESS_THRESHOLD;
+			}
+
 			namespace Skybox
 			{
 				extern const std::string
@@ -158,6 +164,7 @@ namespace Danburite
 					DEPTH_BAKING_2D,
 					DEPTH_BAKING_CUBEMAP,
 					HDR,
+					BLOOM,
 					JOINT,
 					BONE
 					;
@@ -193,8 +200,9 @@ namespace Danburite
 					DEPTH_BAKING_2D			= 7U,
 					DEPTH_BAKING_CUBEMAP	= 8U,
 					HDR						= 9U,
-					JOINT					= 10U,
-					BONE					= 11U
+					BLOOM					= 10U,
+					JOINT					= 11U,
+					BONE					= 12U
 					;
 			}
 
