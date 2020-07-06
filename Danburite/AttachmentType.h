@@ -26,4 +26,9 @@ namespace ObjectGL
 		STENCIL_ATTACHMENT = GL_STENCIL_ATTACHMENT,
 		DEPTH_STENCIL_ATTACHMENT = GL_DEPTH_STENCIL_ATTACHMENT
 	};
+
+	constexpr AttachmentType operator+(const AttachmentType lhs, const unsigned rhs)
+	{
+		return AttachmentType(GLenum(lhs) + rhs);
+	}
 }

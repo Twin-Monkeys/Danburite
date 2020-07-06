@@ -139,7 +139,7 @@ ShadowTestScene::ShadowTestScene()
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
 	// __pPPPipeline->appendProcessor(__pMsaaPP);
-	__pPPPipeline->appendProcessor(__pGammaCorrectionPP);
+	__pPPPipeline->addProcessor(__pGammaCorrectionPP.get());
 
 	UniformBufferFactory::getInstance().
 		getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::MATERIAL).

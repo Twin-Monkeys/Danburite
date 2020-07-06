@@ -22,7 +22,7 @@ namespace Danburite
 		memcpy(__kernel.data(), pData, sizeof(GLfloat) * (kernelSize * kernelSize));
 	}
 
-	void ConvolutionalPostProcessor::_onRender(UniformSetter &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
+	void ConvolutionalPostProcessor::_onRender(UniformBuffer &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
 	{
 		__convSetter.setUniformUint(
 			ShaderIdentifier::Name::Convolutional::KERNEL_SIZE, __kernelSize);

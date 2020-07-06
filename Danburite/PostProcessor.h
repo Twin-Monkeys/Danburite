@@ -2,8 +2,7 @@
 
 #include "FrameBuffer.h"
 #include "VertexArray.h"
-#include "Program.h"
-#include "ProgramType.h"
+#include "UniformBuffer.h"
 #include "Attachable.h"
 
 namespace Danburite
@@ -14,7 +13,7 @@ namespace Danburite
 		std::unique_ptr<ObjectGL::FrameBuffer> __pFrameBuffer;
 		ObjectGL::VertexArray __fullscreenQuadVA { 6 };
 
-		ObjectGL::UniformSetter &__attachmentSetter;
+		ObjectGL::UniformBuffer &__attachmentSetter;
 
 		PostProcessor(const PostProcessor &) = delete;
 		PostProcessor &operator=(const PostProcessor &) = delete;
@@ -26,7 +25,7 @@ namespace Danburite
 		bool _detach(const ObjectGL::AttachmentType attachmentType) noexcept;
 
 		virtual void _onRender(
-			ObjectGL::UniformSetter &attachmentSetter, ObjectGL::VertexArray &fullscreenQuadVA) noexcept = 0;
+			ObjectGL::UniformBuffer &attachmentSetter, ObjectGL::VertexArray &fullscreenQuadVA) noexcept = 0;
 
 	public:
 		void bind() noexcept;

@@ -20,7 +20,7 @@ namespace Danburite
 
 	protected:
 		virtual void _onRender(
-			ObjectGL::UniformSetter &attachmentSetter, ObjectGL::VertexArray &fullscreenQuadVA) noexcept override;
+			ObjectGL::UniformBuffer &attachmentSetter, ObjectGL::VertexArray &fullscreenQuadVA) noexcept override;
 
 	public:
 		MSAAPostProcessor(

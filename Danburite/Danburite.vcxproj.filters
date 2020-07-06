@@ -534,9 +534,6 @@
     <ClCompile Include="RenderBufferException.cpp">
       <Filter>Library\ObjectGL\Core\RenderBuffer</Filter>
     </ClCompile>
-    <ClCompile Include="ForwardPostProcessor.cpp">
-      <Filter>Library\Engine\Core\PostProcess\Forward</Filter>
-    </ClCompile>
     <ClCompile Include="NegativePostProcessor.cpp">
       <Filter>Library\Engine\Core\PostProcess\Negative</Filter>
     </ClCompile>

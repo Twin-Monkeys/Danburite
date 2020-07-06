@@ -14,7 +14,7 @@ namespace Danburite
 			UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::HDR))
 	{}
 
-	void HDRPostProcessor::_onRender(UniformSetter &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
+	void HDRPostProcessor::_onRender(UniformBuffer &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
 	{
 		__hdrSetter.setUniformFloat(ShaderIdentifier::Name::HDR::EXPOSURE, __exposure);
 		ForwardPostProcessor::_onRender(attachmentSetter, fullscreenQuadVA);

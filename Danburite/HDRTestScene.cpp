@@ -180,9 +180,9 @@ HDRTestScene::HDRTestScene()
 	__pHDRPP = make_shared<HDRPostProcessor>();
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
-	__pPPPipeline->appendProcessor(__pMsaaPP);
-	__pPPPipeline->appendProcessor(__pGammaCorrectionPP);
-	__pPPPipeline->appendProcessor(__pHDRPP);
+	// __pPPPipeline->appendProcessor(__pMsaaPP);
+	__pPPPipeline->addProcessor(__pGammaCorrectionPP.get());
+	__pPPPipeline->addProcessor(__pHDRPP.get());
 
 	UniformBufferFactory::getInstance().
 		getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::MATERIAL).

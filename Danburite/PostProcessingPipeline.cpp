@@ -4,25 +4,15 @@ using namespace std;
 
 namespace Danburite
 {
-	void PostProcessingPipeline::appendProcessor(const weak_ptr<PostProcessor> &pProcessor) noexcept
+	void PostProcessingPipeline::addProcessor(PostProcessor *const pProcessor) noexcept
 	{
 		__pipeline.emplace_back(pProcessor);
 	}
 
 	void PostProcessingPipeline::setScreenSize(const GLsizei width, const GLsizei height) noexcept
 	{
-		for (auto it = __pipeline.begin(); it != __pipeline.end();)
-		{
-			const shared_ptr<PostProcessor> &pShared = it->lock();
-			if (!pShared)
-			{
-				it = __pipeline.erase(it);
-				continue;
-			}
-
-			pShared->setScreenSize(width, height);
-			it++;
-		}
+		for (PostProcessor *const pProcessor : __pipeline)
+			pProcessor->setScreenSize(width, height);
 	}
 
 	void PostProcessingPipeline::bind() noexcept
@@ -30,14 +20,7 @@ namespace Danburite
 		if (__pipeline.empty())
 			return;
 
-		const shared_ptr<PostProcessor> &pFirst = __pipeline[0].lock();
-		if (!pFirst)
-		{
-			__pipeline.erase(__pipeline.begin());
-			bind();
-		}
-		else
-			pFirst->bind();
+		__pipeline[0]->bind();
 	}
 
 	void PostProcessingPipeline::render() noexcept
@@ -45,27 +28,14 @@ namespace Danburite
 		if (__pipeline.empty())
 			return;
 
-		if (__pipeline[0].expired())
+		PostProcessor *pPrevProcessor = __pipeline[0];
+		for (size_t i = 1ULL; i < __pipeline.size(); i++)
 		{
-			__pipeline.erase(__pipeline.begin());
-			return;
-		}
-
-		shared_ptr<PostProcessor> pPrevProcessor = __pipeline[0].lock();
-		for (auto it = (__pipeline.begin() + 1); it != __pipeline.end();)
-		{
-			const shared_ptr<PostProcessor> &pCurProcessor = it->lock();
-			if (!pCurProcessor)
-			{
-				it = __pipeline.erase(it);
-				continue;
-			}
+			PostProcessor *const pCurProcessor = __pipeline[i];
 
 			pCurProcessor->bind();
 			pPrevProcessor->render();
 			pPrevProcessor = pCurProcessor;
-
-			it++;
 		}
 
 		PostProcessor::unbind();

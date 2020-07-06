@@ -5,7 +5,7 @@
 
 namespace Danburite
 {
-	class GammaCorrectionPostProcessor : public ForwardPostProcessor
+	class GammaCorrectionPostProcessor : public ForwardPostProcessor<>
 	{
 	private:
 		ObjectGL::UniformSetter &__gammaCorrectionSetter;
@@ -13,7 +13,7 @@ namespace Danburite
 
 	protected:
 		virtual void _onRender(
-			ObjectGL::UniformSetter &attachmentSetter, ObjectGL::VertexArray &fullscreenQuadVA) noexcept override;
+			ObjectGL::UniformBuffer &attachmentSetter, ObjectGL::VertexArray &fullscreenQuadVA) noexcept override;
 
 	public:
 		GammaCorrectionPostProcessor();

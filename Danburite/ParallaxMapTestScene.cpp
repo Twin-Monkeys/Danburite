@@ -111,7 +111,7 @@ ParallaxMapTestScene::ParallaxMapTestScene()
 	__pMsaaPP = make_shared<MSAAPostProcessor>();
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
-	__pPPPipeline->appendProcessor(__pGammaCorrectionPP);
+	__pPPPipeline->addProcessor(__pGammaCorrectionPP.get());
 
 	UniformBufferFactory::getInstance().
 		getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::MATERIAL).
