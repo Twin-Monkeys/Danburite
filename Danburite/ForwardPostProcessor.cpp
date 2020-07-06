@@ -26,7 +26,8 @@ namespace Danburite
 	void ForwardPostProcessor::_onRender(UniformBuffer &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
 	{
 		attachmentSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT_ARRAY[0], TextureUtil::getHandleIfExist(__pColorAttachment));
+			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT_ARRAY[0],
+			TextureUtil::getHandleIfExist(__pColorAttachment));
 
 		__program.bind();
 		fullscreenQuadVA.draw();
