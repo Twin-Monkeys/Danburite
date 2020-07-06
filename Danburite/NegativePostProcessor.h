@@ -4,7 +4,7 @@
 
 namespace Danburite
 {
-	class NegativePostProcessor : public ForwardPostProcessor<>
+	class NegativePostProcessor : public ForwardPostProcessor
 	{
 	public:
 		NegativePostProcessor();

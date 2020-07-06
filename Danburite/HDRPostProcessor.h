@@ -5,7 +5,7 @@
 
 namespace Danburite
 {
-	class HDRPostProcessor : public ForwardPostProcessor<>
+	class HDRPostProcessor : public ForwardPostProcessor
 	{
 	private:
 		ObjectGL::UniformSetter &__hdrSetter;

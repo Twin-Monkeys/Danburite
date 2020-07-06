@@ -148,7 +148,15 @@ namespace Danburite
 					"glsl/src/PostProcess_HDR_Frag.glsl"
 				}
 			},
-
+			/*{
+				ProgramType::POST_PROCESS_BLOOM,
+				{
+					"glsl/binary/PostProcess_Bloom.bin",
+					"glsl/src/FullscreenQuad_Vert.glsl",
+					"",
+					"glsl/src/PostProcess_Bloom_Frag.glsl"
+				}
+			},*/
 
 			// Depth baking
 			{
@@ -304,6 +312,7 @@ namespace Danburite
 					ProgramType::POST_PROCESS_MSAA,
 					ProgramType::POST_PROCESS_GAMMA_CORRECTION,
 					ProgramType::POST_PROCESS_HDR,
+					// ProgramType::POST_PROCESS_BLOOM,
 				}
 			},
 			{

@@ -5,7 +5,7 @@
 
 namespace Danburite
 {
-	class GammaCorrectionPostProcessor : public ForwardPostProcessor<>
+	class GammaCorrectionPostProcessor : public ForwardPostProcessor
 	{
 	private:
 		ObjectGL::UniformSetter &__gammaCorrectionSetter;

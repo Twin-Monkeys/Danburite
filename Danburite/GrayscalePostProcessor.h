@@ -4,7 +4,7 @@
 
 namespace Danburite
 {
-	class GrayscalePostProcessor : public ForwardPostProcessor<>
+	class GrayscalePostProcessor : public ForwardPostProcessor
 	{
 	public:
 		GrayscalePostProcessor();

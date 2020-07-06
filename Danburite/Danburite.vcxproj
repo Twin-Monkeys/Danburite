@@ -165,6 +165,7 @@
     <ClCompile Include="AssimpDataStructureConverter.cpp" />
     <ClCompile Include="AttachableTexture2D.cpp" />
     <ClCompile Include="AttachableTextureCubemap.cpp" />
+    <ClCompile Include="BloomPostProcessor.cpp" />
     <ClCompile Include="Bone.cpp" />
     <ClCompile Include="BoneException.cpp" />
     <ClCompile Include="BoneManager.cpp" />
@@ -174,6 +175,7 @@
     <ClCompile Include="DepthBaker2D.cpp" />
     <ClCompile Include="DepthBakerBase.cpp" />
     <ClCompile Include="DepthBakerCubemap.cpp" />
+    <ClCompile Include="ForwardPostProcessor.cpp" />
     <ClCompile Include="GammaCorrectionPostProcessor.cpp" />
     <ClCompile Include="HDRPostProcessor.cpp" />
     <ClCompile Include="HDRTestScene.cpp" />
@@ -295,6 +297,7 @@
     <ClInclude Include="AttachmentType.h" />
     <ClInclude Include="BlendingEquationType.h" />
     <ClInclude Include="BlendingFunctionType.h" />
+    <ClInclude Include="BloomPostProcessor.h" />
     <ClInclude Include="Bone.h" />
     <ClInclude Include="BoneException.h" />
     <ClInclude Include="BoneManager.h" />

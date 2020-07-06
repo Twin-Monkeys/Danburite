@@ -8,7 +8,7 @@ namespace Danburite
 {
 	namespace ConvValue = ShaderIdentifier::Value::Convolutional;
 
-	class ConvolutionalPostProcessor : public ForwardPostProcessor<>
+	class ConvolutionalPostProcessor : public ForwardPostProcessor
 	{
 	private:
 		ObjectGL::UniformSetter &__convSetter;
