@@ -480,6 +480,7 @@
     <None Include="glsl\src\header\VariableInOut_Frag_Header.glsl" />
     <None Include="glsl\src\header\VariableInOut_Geo_Header.glsl" />
     <None Include="glsl\src\header\VariableInOut_Vert_Header.glsl" />
+    <None Include="glsl\src\PostProcess_Bloom_Extraction_Frag.glsl" />
     <None Include="glsl\src\PostProcess_HDR_Frag.glsl" />
     <None Include="glsl\src\Skybox_Frag.glsl" />
     <None Include="glsl\src\Skybox_Vert.glsl" />
