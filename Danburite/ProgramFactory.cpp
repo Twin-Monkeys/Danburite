@@ -158,6 +158,24 @@ namespace Danburite
 				}
 			},
 			{
+				ProgramType::POST_PROCESS_BLOOM_BLUR_HORIZ,
+				{
+					"glsl/binary/PostProcess_Bloom_BlurHoriz.bin",
+					"glsl/src/FullscreenQuad_Vert.glsl",
+					"",
+					"glsl/src/PostProcess_Bloom_BlurHoriz_Frag.glsl"
+				}
+			},
+			{
+				ProgramType::POST_PROCESS_BLOOM_BLUR_VERT,
+				{
+					"glsl/binary/PostProcess_Bloom_BlurVert.bin",
+					"glsl/src/FullscreenQuad_Vert.glsl",
+					"",
+					"glsl/src/PostProcess_Bloom_BlurVert_Frag.glsl"
+				}
+			},
+			{
 				ProgramType::POST_PROCESS_BLOOM_COMPOSITION,
 				{
 					"glsl/binary/PostProcess_Bloom_Composition.bin",
@@ -166,6 +184,7 @@ namespace Danburite
 					"glsl/src/PostProcess_Bloom_Composition_Frag.glsl"
 				}
 			},
+
 
 			// Depth baking
 			{
@@ -322,7 +341,9 @@ namespace Danburite
 					ProgramType::POST_PROCESS_GAMMA_CORRECTION,
 					ProgramType::POST_PROCESS_HDR,
 					ProgramType::POST_PROCESS_BLOOM_COLOR_EXTRACTION,
-					ProgramType::POST_PROCESS_BLOOM_COMPOSITION,
+					ProgramType::POST_PROCESS_BLOOM_BLUR_HORIZ,
+					ProgramType::POST_PROCESS_BLOOM_BLUR_VERT,
+					ProgramType::POST_PROCESS_BLOOM_COMPOSITION
 				}
 			},
 			{

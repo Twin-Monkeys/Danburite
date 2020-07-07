@@ -5,13 +5,12 @@
 
 #include "header/PostProcess_Header.glsl"
 
- 
-out vec4 fragolor;
+out vec4 fragColor;
 
 void main()
 {
 	const vec3 originalColor = PostProcess_getPixel(0, variableInOut_VertToFrag.texCoord).rgb;
 	const vec3 bloomColor = PostProcess_getPixel(1, variableInOut_VertToFrag.texCoord).rgb;
 
-	fragolor = vec4(originalColor + bloomColor, 1.f);
+	fragColor = vec4(originalColor + bloomColor, 1.f);
 } 

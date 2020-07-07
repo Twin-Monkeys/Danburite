@@ -15,16 +15,15 @@ namespace Danburite
 		float __brightnessThreshold =
 			Constant::Bloom::DEFAULT_BRIGHTNESS_THRESHOLD;
 
-		std::unique_ptr<ObjectGL::FrameBuffer> __pBloomFrameBuffer;
-
-
 		ObjectGL::Program &__extractionProgram;
 		ObjectGL::Program &__blurHorizProgram;
 		ObjectGL::Program &__blurVertProgram;
 		ObjectGL::Program &__compositionProgram;
 
+		std::unique_ptr<ObjectGL::FrameBuffer> __pBloomFrameBuffer;
 		std::unique_ptr<ObjectGL::AttachableTexture2D> __pOriginalColorAttachment;
-		std::unique_ptr<ObjectGL::AttachableTexture2D> __pBloomColorAttachment;
+		std::unique_ptr<ObjectGL::AttachableTexture2D> __pBloomColorAttachment1;
+		std::unique_ptr<ObjectGL::AttachableTexture2D> __pBloomColorAttachment2;
 		std::unique_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
 
 	protected:

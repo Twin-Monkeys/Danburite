@@ -9,9 +9,10 @@
 #include "LightHandler.h"
 #include "Updater.h"
 #include "Drawer.h"
-#include "GammaCorrectionPostProcessor.h"
-#include "HDRPostProcessor.h"
 #include "MSAAPostProcessor.h"
+#include "GammaCorrectionPostProcessor.h"
+#include "BloomPostProcessor.h"
+#include "HDRPostProcessor.h"
 #include "PostProcessingPipeline.h"
 
 class HDRTestScene : public Danburite::Scene, public ObjectGL::ScreenEventHandler
@@ -38,6 +39,7 @@ private:
 
 	std::shared_ptr<Danburite::MSAAPostProcessor> __pMsaaPP;
 	std::shared_ptr<Danburite::GammaCorrectionPostProcessor> __pGammaCorrectionPP;
+	std::shared_ptr<Danburite::BloomPostProcessor> __pBloomPP;
 	std::shared_ptr<Danburite::HDRPostProcessor> __pHDRPP;
 	std::shared_ptr<Danburite::PostProcessingPipeline> __pPPPipeline;
 

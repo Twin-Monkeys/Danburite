@@ -482,6 +482,8 @@
     <None Include="glsl\src\header\VariableInOut_Frag_Header.glsl" />
     <None Include="glsl\src\header\VariableInOut_Geo_Header.glsl" />
     <None Include="glsl\src\header\VariableInOut_Vert_Header.glsl" />
+    <None Include="glsl\src\PostProcess_Bloom_BlurHoriz_Frag.glsl" />
+    <None Include="glsl\src\PostProcess_Bloom_BlurVert_Frag.glsl" />
     <None Include="glsl\src\PostProcess_Bloom_ColorExtraction_Frag.glsl" />
     <None Include="glsl\src\PostProcess_Bloom_Composition_Frag.glsl" />
     <None Include="glsl\src\PostProcess_HDR_Frag.glsl" />

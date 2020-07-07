@@ -230,6 +230,10 @@ namespace Danburite
 							Value::UniformBlockBindingPoint::HDR
 						},
 						{
+							Name::UniformBuffer::BLOOM,
+							Value::UniformBlockBindingPoint::BLOOM
+						},
+						{
 							Name::UniformBuffer::JOINT,
 							Value::UniformBlockBindingPoint::JOINT
 						},
