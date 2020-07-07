@@ -14,6 +14,8 @@ namespace Danburite
 		__bloomSetter(UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::BLOOM)),
 		__pBloomFrameBuffer(make_unique<FrameBuffer>()),
 		__extractionProgram(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_COLOR_EXTRACTION)),
+		__blurHorizProgram(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_COLOR_EXTRACTION)),
+		__blurVertProgram(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_COLOR_EXTRACTION)),
 		__compositionProgram(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_COMPOSITION)),
 		__pOriginalColorAttachment(make_unique<AttachableTexture2D>()),
 		__pBloomColorAttachment(make_unique<AttachableTexture2D>()),
@@ -37,19 +39,7 @@ namespace Danburite
 		__bloomSetter.setUniformFloat(
 			ShaderIdentifier::Name::Bloom::BRIGHTNESS_THRESHOLD, __brightnessThreshold);
 
-		// do something..
-
-		attachmentSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT_ARRAY[0],
-			TextureUtil::getHandleIfExist(__pOriginalColorAttachment));
-
 		__pBloomFrameBuffer->bind();
-		__extractionProgram.bind();
-		fullscreenQuadVA.draw();
-
-		// do something end
-
-		pBoundProcessor->bind();
 
 		attachmentSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT_ARRAY[0],
@@ -59,6 +49,20 @@ namespace Danburite
 			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT_ARRAY[1],
 			TextureUtil::getHandleIfExist(__pBloomColorAttachment));
 
+		// 1. color extraction
+		__extractionProgram.bind();
+		fullscreenQuadVA.draw();
+
+		// 2. horizontal blur
+		__blurHorizProgram.bind();
+		fullscreenQuadVA.draw();
+
+		// 3. vertical blur
+		__blurVertProgram.bind();
+		fullscreenQuadVA.draw();
+
+		// 4. composition
+		pBoundProcessor->bind();
 		__compositionProgram.bind();
 		fullscreenQuadVA.draw();
 	}

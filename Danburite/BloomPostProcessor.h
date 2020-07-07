@@ -19,6 +19,8 @@ namespace Danburite
 
 
 		ObjectGL::Program &__extractionProgram;
+		ObjectGL::Program &__blurHorizProgram;
+		ObjectGL::Program &__blurVertProgram;
 		ObjectGL::Program &__compositionProgram;
 
 		std::unique_ptr<ObjectGL::AttachableTexture2D> __pOriginalColorAttachment;
