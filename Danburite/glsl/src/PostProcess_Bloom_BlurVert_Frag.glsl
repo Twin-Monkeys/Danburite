@@ -5,9 +5,9 @@
 
 #include "header/PostProcess_Header.glsl"
 
-out vec4 fragColor;
+layout (location = 0) out vec4 fragColor;
 
 void main()
 {
-	fragColor = PostProcess_getPixel(0, variableInOut_VertToFrag.texCoord);
+	fragColor = PostProcess_getPixel(2, variableInOut_VertToFrag.texCoord);
 }

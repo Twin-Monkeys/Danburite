@@ -89,18 +89,15 @@ namespace Danburite
 				const string
 					DEPTH_ATTACHMENT = "attachment.depth",
 					STENCIL_ATTACHMENT = "attachment.stencil",
-					
-					COLOR_ATTACHMENT_ARRAY[] =
-					{
-						"attachment.colors[0]",
-						"attachment.colors[1]",
-						"attachment.colors[2]",
-						"attachment.colors[3]",
-						"attachment.colors[4]",
-						"attachment.colors[5]",
-						"attachment.colors[6]",
-						"attachment.colors[7]"
-					};
+					COLOR_ATTACHMENT0 = "attachment.color0",
+					COLOR_ATTACHMENT1 = "attachment.color1",
+					COLOR_ATTACHMENT2 = "attachment.color2",
+					COLOR_ATTACHMENT3 = "attachment.color3",
+					COLOR_ATTACHMENT4 = "attachment.color4",
+					COLOR_ATTACHMENT5 = "attachment.color5",
+					COLOR_ATTACHMENT6 = "attachment.color6",
+					COLOR_ATTACHMENT7 = "attachment.color7"
+					;
 			}
 
 			namespace Convolutional

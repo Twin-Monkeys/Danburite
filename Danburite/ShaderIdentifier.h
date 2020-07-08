@@ -96,7 +96,15 @@ namespace Danburite
 				extern const std::string
 					DEPTH_ATTACHMENT,
 					STENCIL_ATTACHMENT,
-					COLOR_ATTACHMENT_ARRAY[];
+					COLOR_ATTACHMENT0,
+					COLOR_ATTACHMENT1,
+					COLOR_ATTACHMENT2,
+					COLOR_ATTACHMENT3,
+					COLOR_ATTACHMENT4,
+					COLOR_ATTACHMENT5,
+					COLOR_ATTACHMENT6,
+					COLOR_ATTACHMENT7
+					;
 			}
 
 			namespace Convolutional

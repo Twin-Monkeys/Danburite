@@ -22,7 +22,7 @@ namespace Danburite
 	{
 		// AMD Bug; Cannot use bindless sampler2DMS
 		attachmentSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT_ARRAY[0], TextureUtil::getHandleIfExist(__pColorAttachment));
+			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT0, TextureUtil::getHandleIfExist(__pColorAttachment));
 
 		__program.bind();
 		fullscreenQuadVA.draw();

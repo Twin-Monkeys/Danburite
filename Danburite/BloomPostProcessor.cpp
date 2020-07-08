@@ -40,44 +40,36 @@ namespace Danburite
 
 	void BloomPostProcessor::_onRender(UniformBuffer &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
 	{
-		PostProcessor *const pBoundProcessor = _getBoundProcessor();
+ 		PostProcessor *const pBoundProcessor = _getBoundProcessor();
 
 		__bloomSetter.setUniformFloat(
 			ShaderIdentifier::Name::Bloom::BRIGHTNESS_THRESHOLD, __brightnessThreshold);
 
+		attachmentSetter.setUniformUvec2(
+			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT0,
+			TextureUtil::getHandleIfExist(__pOriginalColorAttachment));
+
+		attachmentSetter.setUniformUvec2(
+			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT1,
+			TextureUtil::getHandleIfExist(__pBloomColorAttachment1));
+
+		attachmentSetter.setUniformUvec2(
+			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT2,
+			TextureUtil::getHandleIfExist(__pBloomColorAttachment2));
+
 		__pBloomFrameBuffer->bind();
 
 		// 1. color extraction
-		attachmentSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT_ARRAY[0],
-			TextureUtil::getHandleIfExist(__pOriginalColorAttachment));
-
 		__extractionProgram.bind();
 		fullscreenQuadVA.draw();
 
 		// 2. horizontal blur
-		attachmentSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT_ARRAY[0],
-			TextureUtil::getHandleIfExist(__pBloomColorAttachment1));
-
 		__blurHorizProgram.bind();
 		fullscreenQuadVA.draw();
 
 		// 3. vertical blur
-		attachmentSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT_ARRAY[0],
-			TextureUtil::getHandleIfExist(__pBloomColorAttachment2));
-
 		__blurVertProgram.bind();
 		fullscreenQuadVA.draw();
-
-		attachmentSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT_ARRAY[0],
-			TextureUtil::getHandleIfExist(__pOriginalColorAttachment));
-
-		attachmentSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT_ARRAY[1],
-			TextureUtil::getHandleIfExist(__pBloomColorAttachment1));
 
 		// 4. composition
 		pBoundProcessor->bind();
