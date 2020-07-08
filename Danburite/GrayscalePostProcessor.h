@@ -7,7 +7,7 @@ namespace Danburite
 	class GrayscalePostProcessor : public ForwardPostProcessor
 	{
 	public:
-		GrayscalePostProcessor();
+		GrayscalePostProcessor(const bool attachDepthBuffer = false);
 
 		virtual ~GrayscalePostProcessor() = default;
 	};

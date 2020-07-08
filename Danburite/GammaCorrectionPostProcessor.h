@@ -16,7 +16,7 @@ namespace Danburite
 			ObjectGL::UniformBuffer &attachmentSetter, ObjectGL::VertexArray &fullscreenQuadVA) noexcept override;
 
 	public:
-		GammaCorrectionPostProcessor();
+		GammaCorrectionPostProcessor(const bool attachDepthBuffer = false);
 
 		constexpr void setGamma(const float gamma) noexcept;
 

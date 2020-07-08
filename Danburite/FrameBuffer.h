@@ -39,6 +39,7 @@ namespace ObjectGL
 
 		void setInputColorBuffer(const ColorBufferType type) noexcept;
 		void setOutputColorBuffer(const ColorBufferType type) noexcept;
+		void setOutputColorBuffers(const std::initializer_list<ColorBufferType> &types) noexcept;
 
 		void clearColorBuffer(const GLuint attachmentIndex, const glm::vec4 &clearValue);
 		void clearDepthBuffer(const GLfloat	clearValue);

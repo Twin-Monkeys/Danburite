@@ -25,7 +25,7 @@ namespace Danburite
 			ObjectGL::UniformBuffer &attachmentSetter, ObjectGL::VertexArray &fullscreenQuadVA) noexcept override;
 
 	public:
-		ConvolutionalPostProcessor();
+		ConvolutionalPostProcessor(const bool attachDepthBuffer = false);
 
 		void setKernel(const GLfloat *const pData, const GLuint kernelSize) noexcept;
 

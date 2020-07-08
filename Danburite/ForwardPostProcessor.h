@@ -13,14 +13,16 @@ namespace Danburite
 		std::unique_ptr<ObjectGL::AttachableTexture2D> __pColorAttachment;
 		std::unique_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
 
+		void __initColorAttachment() noexcept;
+
 	protected:
-		ForwardPostProcessor(ObjectGL::Program &program);
+		ForwardPostProcessor(ObjectGL::Program &program, const bool attachDepthBuffer);
 
 		virtual void _onRender(
 			ObjectGL::UniformBuffer &attachmentSetter, ObjectGL::VertexArray &fullscreenQuadVA) noexcept override;
 
 	public:
-		ForwardPostProcessor();
+		ForwardPostProcessor(const bool attachDepthBuffer = false);
 		virtual void setScreenSize(const GLsizei width, const GLsizei height) noexcept override;
 
 		virtual ~ForwardPostProcessor() = default;

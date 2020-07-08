@@ -7,7 +7,7 @@ namespace Danburite
 	class NegativePostProcessor : public ForwardPostProcessor
 	{
 	public:
-		NegativePostProcessor();
+		NegativePostProcessor(const bool attachDepthBuffer = false);
 
 		virtual ~NegativePostProcessor() = default;
 	};

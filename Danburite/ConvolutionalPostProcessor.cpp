@@ -8,9 +8,9 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	ConvolutionalPostProcessor::ConvolutionalPostProcessor() :
-		ForwardPostProcessor(
-			ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_CONVOLUTIONAL)),
+	ConvolutionalPostProcessor::ConvolutionalPostProcessor(const bool attachDepthBuffer) :
+		ForwardPostProcessor(ProgramFactory::getInstance().
+			getProgram(ProgramType::POST_PROCESS_CONVOLUTIONAL), attachDepthBuffer),
 
 		__convSetter(
 			UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::CONVOLUTION))

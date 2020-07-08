@@ -10,5 +10,6 @@ out vec4 fragColor;
 
 void main()
 {
-	fragColor = Convolutional_convolve(PostProcess_getColorAttachment(0), variableInOut_VertToFrag.texCoord);
+	fragColor = vec4(Convolutional_convolve(
+		PostProcess_getColorAttachment(0), variableInOut_VertToFrag.texCoord).rgb, 1.f);
 } 

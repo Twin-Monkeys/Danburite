@@ -7,9 +7,9 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	GammaCorrectionPostProcessor::GammaCorrectionPostProcessor() :
+	GammaCorrectionPostProcessor::GammaCorrectionPostProcessor(const bool attachDepthBuffer) :
 		ForwardPostProcessor(ProgramFactory::getInstance().
-			getProgram(ProgramType::POST_PROCESS_GAMMA_CORRECTION)),
+			getProgram(ProgramType::POST_PROCESS_GAMMA_CORRECTION), attachDepthBuffer),
 
 		__gammaCorrectionSetter(
 			UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::GAMMA_CORRECTION))

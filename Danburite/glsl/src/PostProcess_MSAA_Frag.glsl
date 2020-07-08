@@ -6,9 +6,9 @@ out vec4 fragColor;
 
 void main()
 {
-	vec4 retVal = vec4(0.f);
+	vec3 retVal = vec3(0.f);
 	for (uint i = 0; i < NUM_SAMPLE_POINTS; i++)
-		retVal += MSAA_getPixel(0, int(i));
+		retVal += MSAA_getPixel(0, int(i)).rgb;
 
-	fragColor = (retVal / float(NUM_SAMPLE_POINTS));
+	fragColor = vec4(retVal / float(NUM_SAMPLE_POINTS), 1.f);
 } 

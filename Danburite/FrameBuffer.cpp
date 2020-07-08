@@ -94,6 +94,12 @@ namespace ObjectGL
 		glDrawBuffer(GLenum(type));
 	}
 
+	void FrameBuffer::setOutputColorBuffers(const initializer_list<ColorBufferType> &types) noexcept
+	{
+		bind();
+		glDrawBuffers(GLsizei(types.size()), reinterpret_cast<const GLenum *>(types.begin()));
+	}
+
 	void FrameBuffer::clearColorBuffer(const GLuint attachmentIndex, const vec4 &clearValue)
 	{
 		bind();

@@ -26,6 +26,10 @@ namespace Danburite
 		void _attach(const ObjectGL::AttachmentType attachmentType, ObjectGL::Attachable &attachment) noexcept;
 		bool _detach(const ObjectGL::AttachmentType attachmentType) noexcept;
 
+		void _setInputColorBuffer(const ObjectGL::ColorBufferType type) noexcept;
+		void _setOutputColorBuffer(const ObjectGL::ColorBufferType type) noexcept;
+		void _setOutputColorBuffers(const std::initializer_list<ObjectGL::ColorBufferType> &types) noexcept;
+
 		virtual void _onRender(
 			ObjectGL::UniformBuffer &attachmentSetter, ObjectGL::VertexArray &fullscreenQuadVA) noexcept = 0;
 
@@ -34,6 +38,7 @@ namespace Danburite
 	public:
 		void bind() noexcept;
 		void render() noexcept;
+
 		virtual void setScreenSize(const GLsizei width, const GLsizei height) noexcept = 0;
 
 		virtual ~PostProcessor() = default;

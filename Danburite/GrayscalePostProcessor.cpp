@@ -3,7 +3,8 @@
 
 namespace Danburite
 {
-	GrayscalePostProcessor::GrayscalePostProcessor() :
-		ForwardPostProcessor(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_GRAYSCALE))
+	GrayscalePostProcessor::GrayscalePostProcessor(const bool attachDepthBuffer) :
+		ForwardPostProcessor(ProgramFactory::getInstance().
+			getProgram(ProgramType::POST_PROCESS_GRAYSCALE), attachDepthBuffer)
 	{}
 }

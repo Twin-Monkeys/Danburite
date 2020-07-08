@@ -26,12 +26,14 @@ namespace Danburite
 		std::unique_ptr<ObjectGL::AttachableTexture2D> __pBloomColorAttachment2;
 		std::unique_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
 
+		void __initColorAttachment() noexcept;
+
 	protected:
 		virtual void _onRender(
 			ObjectGL::UniformBuffer& attachmentSetter, ObjectGL::VertexArray& fullscreenQuadVA) noexcept override;
 
 	public:
-		BloomPostProcessor();
+		BloomPostProcessor(const bool attachDepthBuffer = false);
 
 		constexpr float getBrightnessThreshold() const noexcept;
 		constexpr void setBrightnessThreshold(const float threshold) noexcept;

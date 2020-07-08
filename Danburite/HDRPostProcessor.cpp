@@ -7,9 +7,12 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	HDRPostProcessor::HDRPostProcessor() :
-		ForwardPostProcessor(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_HDR)),
-		__hdrSetter(UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::HDR))
+	HDRPostProcessor::HDRPostProcessor(const bool attachDepthBuffer) :
+		ForwardPostProcessor(ProgramFactory::getInstance().
+			getProgram(ProgramType::POST_PROCESS_HDR), attachDepthBuffer),
+
+		__hdrSetter(UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::HDR))
 	{}
 
 	void HDRPostProcessor::_onRender(UniformBuffer &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept

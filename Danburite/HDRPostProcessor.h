@@ -16,7 +16,7 @@ namespace Danburite
 			ObjectGL::UniformBuffer &attachmentSetter, ObjectGL::VertexArray &fullscreenQuadVA) noexcept override;
 
 	public:
-		HDRPostProcessor();
+		HDRPostProcessor(const bool attachDepthBuffer = false);
 
 		constexpr float getExposure() const noexcept;
 		constexpr void setExposure(const float exposure) noexcept;

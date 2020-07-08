@@ -11,11 +11,11 @@ out vec4 extractedColor;
 
 void main()
 {
-	const vec4 originalColor = PostProcess_getPixel(0, variableInOut_VertToFrag.texCoord);
-	const float grayscaledColor = Grayscale_getGrayscaledColor(originalColor.xyz);
+	const vec3 originalColor = PostProcess_getPixel(0, variableInOut_VertToFrag.texCoord).rgb;
+	const float grayscaledColor = Grayscale_getGrayscaledColor(originalColor);
 
 	if (grayscaledColor > Bloom_getBrightnessThreshold())
-		extractedColor = originalColor;
+		extractedColor = vec4(originalColor, 1.f);
 	else
 		extractedColor = vec4(0.f, 0.f, 0.f, 1.f);
 }

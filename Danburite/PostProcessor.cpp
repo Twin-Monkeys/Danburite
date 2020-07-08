@@ -26,6 +26,21 @@ namespace Danburite
 		return __pFrameBuffer->detach(attachmentType);
 	}
 
+	void PostProcessor::_setInputColorBuffer(const ColorBufferType type) noexcept
+	{
+		__pFrameBuffer->setInputColorBuffer(type);
+	}
+
+	void PostProcessor::_setOutputColorBuffer(const ColorBufferType type) noexcept
+	{
+		__pFrameBuffer->setOutputColorBuffer(type);
+	}
+
+	void PostProcessor::_setOutputColorBuffers(const initializer_list<ColorBufferType> &types) noexcept
+	{
+		__pFrameBuffer->setOutputColorBuffers(types);
+	}
+
 	void PostProcessor::bind() noexcept
 	{
 		__boundProcessor = this;

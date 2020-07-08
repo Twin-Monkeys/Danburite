@@ -3,7 +3,8 @@
 
 namespace Danburite
 {
-	NegativePostProcessor::NegativePostProcessor() :
-		ForwardPostProcessor(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_NEGATIVE))
+	NegativePostProcessor::NegativePostProcessor(const bool attachDepthBuffer) :
+		ForwardPostProcessor(ProgramFactory::getInstance().
+			getProgram(ProgramType::POST_PROCESS_NEGATIVE), attachDepthBuffer)
 	{}
 }

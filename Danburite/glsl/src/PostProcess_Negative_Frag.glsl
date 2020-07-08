@@ -9,6 +9,6 @@ out vec4 fragColor;
 
 void main()
 {
-	fragColor = PostProcess_getPixel(0, variableInOut_VertToFrag.texCoord);
+	fragColor = vec4(PostProcess_getPixel(0, variableInOut_VertToFrag.texCoord).rgb, 1.f);
 	fragColor.rgb = (1.f - fragColor.rgb);
 } 

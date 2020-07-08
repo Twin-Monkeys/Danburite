@@ -175,15 +175,18 @@ HDRTestScene::HDRTestScene()
 	__pDrawer->addDrawable(__pLizardObj);
 	__pDrawer->addDrawable(__pGirlObj);
 
-	__pMsaaPP = make_shared<MSAAPostProcessor>();
-	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>();
-	__pBloomPP = make_shared<BloomPostProcessor>();
-	__pHDRPP = make_shared<HDRPostProcessor>();
-
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
+
+	__pMsaaPP = make_shared<MSAAPostProcessor>();
 	// __pPPPipeline->appendProcessor(__pMsaaPP);
+
+	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>(true);
 	__pPPPipeline->addProcessor(__pGammaCorrectionPP.get());
+
+	__pBloomPP = make_shared<BloomPostProcessor>();
 	__pPPPipeline->addProcessor(__pBloomPP.get());
+
+	__pHDRPP = make_shared<HDRPostProcessor>();
 	__pPPPipeline->addProcessor(__pHDRPP.get());
 
 	UniformBufferFactory::getInstance().
@@ -256,12 +259,13 @@ void HDRTestScene::draw() noexcept
 
 	ubCamera.directDeploy(*__pCamera);
 
-	// Render scene onto gamma-corrected frame buffer
 	__pPPPipeline->bind();
 	GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
 
 	__pDrawer->batchDraw();
 	PostProcessingPipeline::unbind();
+
+	GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
 
 	// Render to screen
 	__pPPPipeline->render();
