@@ -241,10 +241,10 @@ bool HDRTestScene::__keyFunc(const float deltaTime) noexcept
 		KEY2 = (GetAsyncKeyState('2') & 0x8000);
 
 	if (KEY1)
-		__pHDRPP->setExposure(__pHDRPP->getExposure() - .05f);
+		__pHDRPP->setExposure(__pHDRPP->getExposure() - .1f);
 
 	if (KEY2)
-		__pHDRPP->setExposure(__pHDRPP->getExposure() + .05f);
+		__pHDRPP->setExposure(__pHDRPP->getExposure() + .1f);
 
 	return true;
 }
@@ -264,8 +264,6 @@ void HDRTestScene::draw() noexcept
 
 	__pDrawer->batchDraw();
 	PostProcessingPipeline::unbind();
-
-	GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
 
 	// Render to screen
 	__pPPPipeline->render();

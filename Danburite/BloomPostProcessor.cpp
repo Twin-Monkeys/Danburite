@@ -55,28 +55,31 @@ namespace Danburite
 		__bloomSetter.setUniformFloat(
 			ShaderIdentifier::Name::Bloom::BRIGHTNESS_THRESHOLD, __brightnessThreshold);
 
+		__pBloomFrameBuffer->bind();
+
+		// 1. color extraction
 		attachmentSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT0,
 			TextureUtil::getHandleIfExist(__pOriginalColorAttachment));
 
-		__pBloomFrameBuffer->bind();
-
-		// 1. color extraction
 		__extractionProgram.bind();
 		fullscreenQuadVA.draw();
 
+		// 2. horizontal blur
 		attachmentSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT1,
 			TextureUtil::getHandleIfExist(__pBloomColorAttachment1));
 
-		//// 2. horizontal blur
-		//__blurHorizProgram.bind();
-		//fullscreenQuadVA.draw();
+		__blurHorizProgram.bind();
+		fullscreenQuadVA.draw();
 
-		//// 3. vertical blur
-		//__blurVertProgram.bind();
-		//fullscreenQuadVA.draw();
+		// 3. vertical blur
+		attachmentSetter.setUniformUvec2(
+			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT2,
+			TextureUtil::getHandleIfExist(__pBloomColorAttachment2));
 
+		__blurVertProgram.bind();
+		fullscreenQuadVA.draw();
 
 		// 4. composition
 		if (pBoundProcessor)
