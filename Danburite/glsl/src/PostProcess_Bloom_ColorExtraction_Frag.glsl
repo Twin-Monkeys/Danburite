@@ -7,7 +7,7 @@
 #include "header/Bloom_Header.glsl"
 #include "header/Grayscale_Header.glsl"
 
-layout(location = 0) out vec4 extractedColor;
+out vec4 extractedColor;
 
 void main()
 {

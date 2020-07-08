@@ -183,7 +183,7 @@ HDRTestScene::HDRTestScene()
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
 	// __pPPPipeline->appendProcessor(__pMsaaPP);
 	__pPPPipeline->addProcessor(__pGammaCorrectionPP.get());
-	// __pPPPipeline->addProcessor(__pBloomPP.get());
+	__pPPPipeline->addProcessor(__pBloomPP.get());
 	__pPPPipeline->addProcessor(__pHDRPP.get());
 
 	UniformBufferFactory::getInstance().

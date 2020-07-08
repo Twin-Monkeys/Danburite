@@ -25,7 +25,7 @@ namespace ObjectGL
 		static void _unbind() noexcept;
 
 	public:
-		void bind() noexcept;
+		void bind(const bool forceBinding = false) noexcept;
 	};
 
 	template <typename BindingType, typename IDType>
@@ -47,13 +47,13 @@ namespace ObjectGL
 	}
 
 	template <typename BindingType, typename IDType>
-	void BindableObject<BindingType, IDType>::bind() noexcept
+	void BindableObject<BindingType, IDType>::bind(const bool forceBinding) noexcept
 	{
 		if (!__bindingIndex)
 			__bindingIndex = __getBindingIndex();
 
 		IDType &curBound = __getBoundID(__bindingIndex);
-		if (this->ID != curBound)
+		if ((this->ID != curBound) || forceBinding)
 		{
 			_onBind();
 			curBound = this->ID;

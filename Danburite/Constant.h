@@ -121,7 +121,7 @@ namespace Danburite
 
 		namespace Bloom
 		{
-			constexpr float DEFAULT_BRIGHTNESS_THRESHOLD = 1.f;
+			constexpr float DEFAULT_BRIGHTNESS_THRESHOLD = .3f;
 		}
 
 		namespace Animation

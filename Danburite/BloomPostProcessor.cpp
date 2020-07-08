@@ -63,13 +63,13 @@ namespace Danburite
 		__extractionProgram.bind();
 		fullscreenQuadVA.draw();
 
-		// 2. horizontal blur
-		__blurHorizProgram.bind();
-		fullscreenQuadVA.draw();
+		//// 2. horizontal blur
+		//__blurHorizProgram.bind();
+		//fullscreenQuadVA.draw();
 
-		// 3. vertical blur
-		__blurVertProgram.bind();
-		fullscreenQuadVA.draw();
+		//// 3. vertical blur
+		//__blurVertProgram.bind();
+		//fullscreenQuadVA.draw();
 
 		// 4. composition
 		pBoundProcessor->bind();
@@ -91,8 +91,7 @@ namespace Danburite
 		__pDepthStencilAttachment->memoryAlloc(
 			width, height, RenderBufferInternalFormatType::DEPTH24_STENCIL8);
 
-		__pBloomFrameBuffer->attach(AttachmentType::COLOR_ATTACHMENT0, *__pBloomColorAttachment1);
-		__pBloomFrameBuffer->attach(AttachmentType::COLOR_ATTACHMENT1, *__pBloomColorAttachment2);
+		__pBloomFrameBuffer->attach(AttachmentType::COLOR_ATTACHMENT0, *__pOriginalColorAttachment);
 		__pBloomFrameBuffer->attach(AttachmentType::DEPTH_STENCIL_ATTACHMENT, *__pDepthStencilAttachment);
 
 		_attach(AttachmentType::COLOR_ATTACHMENT0, *__pOriginalColorAttachment);
