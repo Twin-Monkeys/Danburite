@@ -15,7 +15,8 @@ void main()
 
 	const float sampleOffset = (1.f / textureSize(colorAttachment, 0).x);
 
-	for(int i = 1; i < 10; ++i)
+	const uint KERNEL_ITER = ((NUM_BLOOM_BLUR_KERNELS + 1) / 2);
+	for(uint i = 1U; i < KERNEL_ITER; i++)
     {
 		const float kernel = Bloom_getBlurKernel(i);
 

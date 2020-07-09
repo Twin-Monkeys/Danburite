@@ -95,6 +95,11 @@ const uint
 const uint MAX_NUM_COLOR_ATTACHMENTS = 8U;
 
 
+// Bloom //
+
+const uint NUM_BLOOM_BLUR_KERNELS = 29U;
+
+
 // Convolution //
 
 const uint MAX_KERNEL_SIZE = 7U;

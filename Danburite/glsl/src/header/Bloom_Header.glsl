@@ -22,10 +22,12 @@ float Bloom_getBrightnessThreshold()
 
 float Bloom_getBlurKernel(const uint idx)
 {
-	// Kernel size: 19
-	const float kernels[] = float[] (
-		0.132572f, 0.125472f, 0.106373f, 0.08078f, 0.05495f,
-		0.033482f, 0.018275f, 0.008934f, 0.003912f, 0.001535f);
+	// #Kernels: 29
+	// Sigma: 5
+	const float kernels[(NUM_BLOOM_BLUR_KERNELS + 1) / 2] = float[] (
+		.079954f, .078376f, .073827f, .066823f, .058120f,
+		.048575f, .039011f, .030106f, .022325f, .015908f,
+		.010893f, .007167f, .004531f, .002753f, .001607f);
 
 	return kernels[idx];
 }

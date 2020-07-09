@@ -18,9 +18,6 @@ namespace Danburite
 		__blurVertProgram(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_BLUR_VERT)),
 		__compositionProgram(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_COMPOSITION))
 	{
-		__pBloomFrameBuffer->setOutputColorBuffers(
-			{ ColorBufferType::COLOR_ATTACHMENT0, ColorBufferType::COLOR_ATTACHMENT1 });
-
 		__initColorAttachment();
 
 		if (attachDepthBuffer)
@@ -106,6 +103,9 @@ namespace Danburite
 
 		__pBloomColorAttachment2->memoryAlloc(
 			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB);
+
+		__pBloomFrameBuffer->setOutputColorBuffers(
+			{ ColorBufferType::COLOR_ATTACHMENT0, ColorBufferType::COLOR_ATTACHMENT1 });
 
 		__pBloomFrameBuffer->attach(AttachmentType::COLOR_ATTACHMENT0, *__pBloomColorAttachment1);
 		__pBloomFrameBuffer->attach(AttachmentType::COLOR_ATTACHMENT1, *__pBloomColorAttachment2);
