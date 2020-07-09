@@ -130,7 +130,8 @@ namespace Danburite
 			namespace Bloom
 			{
 				extern const std::string
-					BRIGHTNESS_THRESHOLD;
+					BRIGHTNESS_THRESHOLD,
+					EFFECT_STRENGTH;
 			}
 
 			namespace Skybox

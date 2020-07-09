@@ -123,7 +123,8 @@ namespace Danburite
 			namespace Bloom
 			{
 				const string
-					BRIGHTNESS_THRESHOLD = "bloom.brightnessThreshold";
+					BRIGHTNESS_THRESHOLD = "bloom.brightnessThreshold",
+					EFFECT_STRENGTH = "bloom.effectStrength";
 			}
 
 			namespace Skybox

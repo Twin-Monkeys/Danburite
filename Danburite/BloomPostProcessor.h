@@ -15,6 +15,9 @@ namespace Danburite
 		float __brightnessThreshold =
 			Constant::Bloom::DEFAULT_BRIGHTNESS_THRESHOLD;
 
+		float __effectStrength =
+			Constant::Bloom::DEFAULT_EFFECT_STRENGTH;
+
 		ObjectGL::Program &__extractionProgram;
 		ObjectGL::Program &__blurHorizProgram;
 		ObjectGL::Program &__blurVertProgram;
@@ -39,6 +42,9 @@ namespace Danburite
 		constexpr float getBrightnessThreshold() const noexcept;
 		constexpr void setBrightnessThreshold(const float threshold) noexcept;
 
+		constexpr float getEffectStrength() const noexcept;
+		constexpr void setEffectStrength(const float strength) noexcept;
+
 		virtual void setScreenSize(const GLsizei width, const GLsizei height) noexcept override;
 
 		virtual ~BloomPostProcessor() = default;
@@ -52,5 +58,15 @@ namespace Danburite
 	constexpr void BloomPostProcessor::setBrightnessThreshold(const float threshold) noexcept
 	{
 		__brightnessThreshold = threshold;
+	}
+
+	constexpr float BloomPostProcessor::getEffectStrength() const noexcept
+	{
+		return __effectStrength;
+	}
+
+	constexpr void BloomPostProcessor::setEffectStrength(const float strength) noexcept
+	{
+		__effectStrength = strength;
 	}
 }

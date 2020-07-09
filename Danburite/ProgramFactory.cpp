@@ -367,7 +367,10 @@ namespace Danburite
 			{
 				ShaderIdentifier::Name::UniformBuffer::BLOOM,
 				{
-					ProgramType::POST_PROCESS_BLOOM_COLOR_EXTRACTION
+					ProgramType::POST_PROCESS_BLOOM_COLOR_EXTRACTION,
+					ProgramType::POST_PROCESS_BLOOM_BLUR_HORIZ,
+					ProgramType::POST_PROCESS_BLOOM_BLUR_VERT,
+					ProgramType::POST_PROCESS_BLOOM_COMPOSITION
 				}
 			},
 			{

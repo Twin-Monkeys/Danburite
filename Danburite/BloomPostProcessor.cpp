@@ -53,6 +53,9 @@ namespace Danburite
 		__bloomSetter.setUniformFloat(
 			ShaderIdentifier::Name::Bloom::BRIGHTNESS_THRESHOLD, __brightnessThreshold);
 
+		__bloomSetter.setUniformFloat(
+			ShaderIdentifier::Name::Bloom::EFFECT_STRENGTH, __effectStrength);
+
 		// 1. color extraction
 		__pBloomFrameBuffer1->bind();
 

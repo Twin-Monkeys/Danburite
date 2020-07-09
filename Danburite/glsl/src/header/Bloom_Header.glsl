@@ -8,6 +8,7 @@
 struct Bloom
 {
 	float brightnessThreshold;
+	float effectStrength;
 };
 
 layout(binding = BINDING_POINT_BLOOM) uniform UBBloom
@@ -18,6 +19,11 @@ layout(binding = BINDING_POINT_BLOOM) uniform UBBloom
 float Bloom_getBrightnessThreshold()
 {
 	return bloom.brightnessThreshold;
+}
+
+float Bloom_getEffectStrength()
+{
+	return bloom.effectStrength;
 }
 
 float Bloom_getBlurKernel(const uint idx)
