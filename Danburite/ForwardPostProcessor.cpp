@@ -18,7 +18,8 @@ namespace Danburite
 	}
 
 	ForwardPostProcessor::ForwardPostProcessor(const bool attachDepthBuffer) :
-		ForwardPostProcessor(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_FORWARD), attachDepthBuffer)
+		ForwardPostProcessor(ProgramFactory::getInstance().
+			getProgram(ProgramType::POST_PROCESS_FORWARD), attachDepthBuffer)
 	{}
 
 	void ForwardPostProcessor::__initColorAttachment() noexcept

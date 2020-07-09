@@ -32,4 +32,11 @@ namespace Danburite
 
 		vertexArray.draw(numInstances);
 	}
+
+	void Material::setGamma(const float gamma)
+	{
+		UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::MATERIAL).
+			setUniformFloat(ShaderIdentifier::Name::Material::GAMMA, gamma);
+	}
 }
