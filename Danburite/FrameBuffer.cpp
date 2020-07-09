@@ -104,7 +104,6 @@ namespace ObjectGL
 	{
 		bind();
 		glClearBufferfv(GL_COLOR, attachmentIndex, value_ptr(clearValue));
-		unbind();
 	}
 
 	void FrameBuffer::clearDepthBuffer(const GLfloat clearValue)

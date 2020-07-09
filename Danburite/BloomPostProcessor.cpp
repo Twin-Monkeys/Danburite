@@ -12,7 +12,8 @@ namespace Danburite
 {
 	BloomPostProcessor::BloomPostProcessor(const bool attachDepthBuffer) :
 		__bloomSetter(UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::BLOOM)),
-		__pBloomFrameBuffer(make_unique<FrameBuffer>()),
+		__pBloomFrameBuffer1(make_unique<FrameBuffer>()),
+		__pBloomFrameBuffer2(make_unique<FrameBuffer>()),
 		__extractionProgram(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_COLOR_EXTRACTION)),
 		__blurHorizProgram(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_BLUR_HORIZ)),
 		__blurVertProgram(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_BLUR_VERT)),
@@ -52,9 +53,9 @@ namespace Danburite
 		__bloomSetter.setUniformFloat(
 			ShaderIdentifier::Name::Bloom::BRIGHTNESS_THRESHOLD, __brightnessThreshold);
 
-		__pBloomFrameBuffer->bind();
-
 		// 1. color extraction
+		__pBloomFrameBuffer1->bind();
+
 		attachmentSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT0,
 			TextureUtil::getHandleIfExist(__pOriginalColorAttachment));
@@ -63,22 +64,34 @@ namespace Danburite
 		fullscreenQuadVA.draw();
 
 		// 2. horizontal blur
+		__pBloomFrameBuffer2->bind();
+
 		attachmentSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT1,
+			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT0,
 			TextureUtil::getHandleIfExist(__pBloomColorAttachment1));
 
 		__blurHorizProgram.bind();
 		fullscreenQuadVA.draw();
 
 		// 3. vertical blur
+		__pBloomFrameBuffer1->bind();
+
 		attachmentSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT2,
+			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT0,
 			TextureUtil::getHandleIfExist(__pBloomColorAttachment2));
 
 		__blurVertProgram.bind();
 		fullscreenQuadVA.draw();
 
 		// 4. composition
+		attachmentSetter.setUniformUvec2(
+			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT0,
+			TextureUtil::getHandleIfExist(__pOriginalColorAttachment));
+
+		attachmentSetter.setUniformUvec2(
+			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT1,
+			TextureUtil::getHandleIfExist(__pBloomColorAttachment1));
+
 		if (pBoundProcessor)
 			pBoundProcessor->bind();
 		else
@@ -98,18 +111,6 @@ namespace Danburite
 		
 		_attach(AttachmentType::COLOR_ATTACHMENT0, *__pOriginalColorAttachment);
 
-		__pBloomColorAttachment1->memoryAlloc(
-			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB);
-
-		__pBloomColorAttachment2->memoryAlloc(
-			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB);
-
-		__pBloomFrameBuffer->setOutputColorBuffers(
-			{ ColorBufferType::COLOR_ATTACHMENT0, ColorBufferType::COLOR_ATTACHMENT1 });
-
-		__pBloomFrameBuffer->attach(AttachmentType::COLOR_ATTACHMENT0, *__pBloomColorAttachment1);
-		__pBloomFrameBuffer->attach(AttachmentType::COLOR_ATTACHMENT1, *__pBloomColorAttachment2);
-
 		if (__pDepthStencilAttachment)
 		{
 			__pDepthStencilAttachment->memoryAlloc(
@@ -117,5 +118,15 @@ namespace Danburite
 
 			_attach(AttachmentType::DEPTH_STENCIL_ATTACHMENT, *__pDepthStencilAttachment);
 		}
+
+		__pBloomColorAttachment1->memoryAlloc(
+			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB);
+
+		__pBloomFrameBuffer1->attach(AttachmentType::COLOR_ATTACHMENT0, *__pBloomColorAttachment1);
+
+		__pBloomColorAttachment2->memoryAlloc(
+			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB);
+
+		__pBloomFrameBuffer2->attach(AttachmentType::COLOR_ATTACHMENT0, *__pBloomColorAttachment2);
 	}
 }

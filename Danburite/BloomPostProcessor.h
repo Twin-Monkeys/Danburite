@@ -20,7 +20,8 @@ namespace Danburite
 		ObjectGL::Program &__blurVertProgram;
 		ObjectGL::Program &__compositionProgram;
 
-		std::unique_ptr<ObjectGL::FrameBuffer> __pBloomFrameBuffer;
+		std::unique_ptr<ObjectGL::FrameBuffer> __pBloomFrameBuffer1;
+		std::unique_ptr<ObjectGL::FrameBuffer> __pBloomFrameBuffer2;
 		std::unique_ptr<ObjectGL::AttachableTexture2D> __pOriginalColorAttachment;
 		std::unique_ptr<ObjectGL::AttachableTexture2D> __pBloomColorAttachment1;
 		std::unique_ptr<ObjectGL::AttachableTexture2D> __pBloomColorAttachment2;

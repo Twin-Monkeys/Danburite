@@ -6,11 +6,11 @@
 #include "header/PostProcess_Header.glsl"
 #include "header/Bloom_Header.glsl"
 
-layout (location = 1) out vec4 fragColor;
+out vec4 fragColor;
 
 void main()
 {
-	const sampler2D colorAttachment = PostProcess_getColorAttachment(1);
+	const sampler2D colorAttachment = PostProcess_getColorAttachment(0);
 	vec3 retVal = (texture(colorAttachment, variableInOut_VertToFrag.texCoord).rgb * Bloom_getBlurKernel(0));
 
 	const float sampleOffset = (1.f / textureSize(colorAttachment, 0).x);

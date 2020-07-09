@@ -177,10 +177,10 @@ HDRTestScene::HDRTestScene()
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
 
-	__pMsaaPP = make_shared<MSAAPostProcessor>();
-	// __pPPPipeline->appendProcessor(__pMsaaPP);
+	__pMsaaPP = make_shared<MSAAPostProcessor>(true);
+	__pPPPipeline->addProcessor(__pMsaaPP.get());
 
-	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>(true);
+	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>();
 	__pPPPipeline->addProcessor(__pGammaCorrectionPP.get());
 
 	__pBloomPP = make_shared<BloomPostProcessor>();
