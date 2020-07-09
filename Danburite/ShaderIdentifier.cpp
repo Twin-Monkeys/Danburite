@@ -62,12 +62,13 @@ namespace Danburite
 					VERTEX_FLAG = "material.vertexFlag",
 
 					DIFFUSE_COLOR = "material.diffuseColor",
+					GAMMA = "material.gamma",
+
+					EMISSIVE_STRENGTH = "material.emissiveStrength",
 					SHININESS = "material.shininess",
 
 					AMBIENT_TEX = "material.ambientTex",
 					DIFFUSE_TEX = "material.diffuseTex",
-					GAMMA = "material.gamma",
-
 					SPECULAR_TEX = "material.specularTex",
 					EMISSIVE_TEX = "material.emissiveTex",
 					SHININESS_TEX = "material.shininessTex",

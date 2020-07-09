@@ -19,6 +19,7 @@ namespace Danburite
 		std::shared_ptr<ObjectGL::Texture2D> __pNormalTex;
 		std::shared_ptr<ObjectGL::Texture2D> __pHeightTex;
 
+		float __emissiveStrength = Constant::Material::Phong::DEFAULT_EMISSIVE_STRENGTH;
 		float __shininess = Constant::Material::Phong::DEFAULT_SHININESS;
 
 	protected:
@@ -28,9 +29,11 @@ namespace Danburite
 		void setAmbientTexture(const std::shared_ptr<ObjectGL::Texture2D> &pTexture) noexcept;
 		void setDiffuseTexture(const std::shared_ptr<ObjectGL::Texture2D> &pTexture) noexcept;
 		void setSpecularTexture(const std::shared_ptr<ObjectGL::Texture2D> &pTexture) noexcept;
+
+		constexpr void setEmissiveStrength(const float strength) noexcept;
 		void setEmissiveTexture(const std::shared_ptr<ObjectGL::Texture2D> &pTexture) noexcept;
 
-		void setShininess(const float shininess) noexcept;
+		constexpr void setShininess(const float shininess) noexcept;
 		void setShininessTexture(const std::shared_ptr<ObjectGL::Texture2D> &pTexture) noexcept;
 		void setAlphaTexture(const std::shared_ptr<ObjectGL::Texture2D> &pTexture) noexcept;
 		void setNormalTexture(const std::shared_ptr<ObjectGL::Texture2D> &pTexture) noexcept;
@@ -39,6 +42,8 @@ namespace Danburite
 		constexpr const std::shared_ptr<ObjectGL::Texture2D> &getAmbientTexture() const noexcept;
 		constexpr const std::shared_ptr<ObjectGL::Texture2D> &getDiffuseTexture() const noexcept;
 		constexpr const std::shared_ptr<ObjectGL::Texture2D> &getSpecularTexture() const noexcept;
+
+		constexpr float getEmissiveStrength() const noexcept;
 		constexpr const std::shared_ptr<ObjectGL::Texture2D> &getEmissiveTexture() const noexcept;
 
 		constexpr float getShininess() const noexcept;
@@ -49,6 +54,16 @@ namespace Danburite
 
 		virtual ~PhongMaterialComponent() = default;
 	};
+
+	constexpr void PhongMaterialComponent::setEmissiveStrength(const float strength) noexcept
+	{
+		__emissiveStrength = strength;
+	}
+
+	constexpr void PhongMaterialComponent::setShininess(const float shininess) noexcept
+	{
+		__shininess = shininess;
+	}
 
 	constexpr const std::shared_ptr<ObjectGL::Texture2D> &PhongMaterialComponent::getAmbientTexture() const noexcept
 	{
@@ -63,6 +78,11 @@ namespace Danburite
 	constexpr const std::shared_ptr<ObjectGL::Texture2D> &PhongMaterialComponent::getSpecularTexture() const noexcept
 	{
 		return __pSpecularTex;
+	}
+
+	constexpr float PhongMaterialComponent::getEmissiveStrength() const noexcept
+	{
+		return __emissiveStrength;
 	}
 
 	constexpr const std::shared_ptr<ObjectGL::Texture2D> &PhongMaterialComponent::getEmissiveTexture() const noexcept

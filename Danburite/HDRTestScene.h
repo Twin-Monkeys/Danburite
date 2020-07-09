@@ -43,6 +43,7 @@ private:
 	std::shared_ptr<Danburite::HDRPostProcessor> __pHDRPP;
 	std::shared_ptr<Danburite::PostProcessingPipeline> __pPPPipeline;
 
+	float __emissiveStrength = 0.f;
 	bool __doorOpened = false;
 
 	bool __keyFunc(const float deltaTime) noexcept;

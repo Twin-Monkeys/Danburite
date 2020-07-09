@@ -99,13 +99,14 @@ namespace Danburite
 		__pOriginalColorAttachment->memoryAlloc(
 			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB);
 		
+		_attach(AttachmentType::COLOR_ATTACHMENT0, *__pOriginalColorAttachment);
+
 		__pBloomColorAttachment1->memoryAlloc(
 			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB);
 
 		__pBloomColorAttachment2->memoryAlloc(
 			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB);
 
-		_attach(AttachmentType::COLOR_ATTACHMENT0, *__pOriginalColorAttachment);
 		__pBloomFrameBuffer->attach(AttachmentType::COLOR_ATTACHMENT0, *__pBloomColorAttachment1);
 		__pBloomFrameBuffer->attach(AttachmentType::COLOR_ATTACHMENT1, *__pBloomColorAttachment2);
 

@@ -16,6 +16,7 @@ struct Material
 	vec4 diffuseColor;
 	float gamma;
 
+	float emissiveStrength;
 	float shininess;
 
 	// texture handle
@@ -217,7 +218,7 @@ vec3 Material_getEmissive(const vec2 texCoord)
 	if (!Material_isEmissiveTextureEnabled())
 		return vec3(0.f);
 
-	const vec3 retVal = texture(sampler2D(material.emissiveTex), texCoord).rgb;
+	const vec3 retVal = (texture(sampler2D(material.emissiveTex), texCoord).rgb * material.emissiveStrength);
 	return Material_applyGamma(retVal);
 }
 

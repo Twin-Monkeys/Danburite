@@ -66,6 +66,7 @@ namespace Danburite
 		{
 			namespace Phong
 			{
+				constexpr float DEFAULT_EMISSIVE_STRENGTH = 1.f;
 				constexpr float DEFAULT_SHININESS = 40.f;
 			}
 		}

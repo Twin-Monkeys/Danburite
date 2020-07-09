@@ -69,12 +69,13 @@ namespace Danburite
 					VERTEX_FLAG,
 
 					DIFFUSE_COLOR,
+					GAMMA,
+
+					EMISSIVE_STRENGTH,
 					SHININESS,
 
 					AMBIENT_TEX,
 					DIFFUSE_TEX,
-					GAMMA,
-
 					SPECULAR_TEX,
 					EMISSIVE_TEX,
 					SHININESS_TEX,

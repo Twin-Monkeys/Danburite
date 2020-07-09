@@ -9,17 +9,18 @@ namespace Danburite
 {
 	void PhongMaterialComponent::_deployPhongComponent(UniformSetter &materialSetter) const noexcept
 	{
-		using namespace ShaderIdentifier::Name::Material;
+		using namespace ShaderIdentifier::Name;
 
-		materialSetter.setUniformFloat(SHININESS, __shininess);
-		materialSetter.setUniformUvec2(AMBIENT_TEX, TextureUtil::getHandleIfExist(__pAmbientTex));
-		materialSetter.setUniformUvec2(DIFFUSE_TEX, TextureUtil::getHandleIfExist(__pDiffuseTex));
-		materialSetter.setUniformUvec2(SPECULAR_TEX, TextureUtil::getHandleIfExist(__pSpecularTex));
-		materialSetter.setUniformUvec2(EMISSIVE_TEX, TextureUtil::getHandleIfExist(__pEmissiveTex));
-		materialSetter.setUniformUvec2(SHININESS_TEX, TextureUtil::getHandleIfExist(__pShininessTex));
-		materialSetter.setUniformUvec2(ALPHA_TEX, TextureUtil::getHandleIfExist(__pAlphaTex));
-		materialSetter.setUniformUvec2(NORMAL_TEX, TextureUtil::getHandleIfExist(__pNormalTex));
-		materialSetter.setUniformUvec2(HEIGHT_TEX, TextureUtil::getHandleIfExist(__pHeightTex));
+		materialSetter.setUniformFloat(Material::EMISSIVE_STRENGTH, __emissiveStrength);
+		materialSetter.setUniformFloat(Material::SHININESS, __shininess);
+		materialSetter.setUniformUvec2(Material::AMBIENT_TEX, TextureUtil::getHandleIfExist(__pAmbientTex));
+		materialSetter.setUniformUvec2(Material::DIFFUSE_TEX, TextureUtil::getHandleIfExist(__pDiffuseTex));
+		materialSetter.setUniformUvec2(Material::SPECULAR_TEX, TextureUtil::getHandleIfExist(__pSpecularTex));
+		materialSetter.setUniformUvec2(Material::EMISSIVE_TEX, TextureUtil::getHandleIfExist(__pEmissiveTex));
+		materialSetter.setUniformUvec2(Material::SHININESS_TEX, TextureUtil::getHandleIfExist(__pShininessTex));
+		materialSetter.setUniformUvec2(Material::ALPHA_TEX, TextureUtil::getHandleIfExist(__pAlphaTex));
+		materialSetter.setUniformUvec2(Material::NORMAL_TEX, TextureUtil::getHandleIfExist(__pNormalTex));
+		materialSetter.setUniformUvec2(Material::HEIGHT_TEX, TextureUtil::getHandleIfExist(__pHeightTex));
 	}
 
 	void PhongMaterialComponent::setAmbientTexture(const shared_ptr<Texture2D> &pTexture) noexcept
@@ -40,11 +41,6 @@ namespace Danburite
 	void PhongMaterialComponent::setEmissiveTexture(const shared_ptr<Texture2D> &pTexture) noexcept
 	{
 		__pEmissiveTex = pTexture;
-	}
-
-	void PhongMaterialComponent::setShininess(const float shininess) noexcept
-	{
-		__shininess = shininess;
 	}
 
 	void PhongMaterialComponent::setShininessTexture(const shared_ptr<Texture2D> &pTexture) noexcept

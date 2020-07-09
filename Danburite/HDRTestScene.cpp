@@ -298,6 +298,9 @@ bool HDRTestScene::update(const float deltaTime) noexcept
 		doorAnim.setRepeatCount(1);
 	}
 
+	__emissiveStrength += (deltaTime * .001f);
+	__pCargoBayObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, fabsf(cosf(__emissiveStrength)));
+
 	__pUpdater->update(deltaTime);
 	__updated = true;
 
