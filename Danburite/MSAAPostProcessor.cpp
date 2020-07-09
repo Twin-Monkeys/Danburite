@@ -8,7 +8,7 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	MSAAPostProcessor::MSAAPostProcessor(const GLsizei numSamplePoints, const bool attachDepthBuffer, const bool fixedSampleLocations) :
+	MSAAPostProcessor::MSAAPostProcessor(const bool attachDepthBuffer, const GLsizei numSamplePoints, const bool fixedSampleLocations) :
 		__program(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_MSAA)),
 		NUM_SAMPLE_POINTS(numSamplePoints), FIXED_SAMPLE_LOCATIONS(fixedSampleLocations),
 		__pColorAttachment(make_unique<TextureMultisample>())
