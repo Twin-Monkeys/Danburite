@@ -15,11 +15,14 @@ namespace ObjectGL
 		if (!ID)
 			throw ProgramException("Cannot create program");
 
-		for (const shared_ptr<Shader>& pShader : shaders)
+		for (const shared_ptr<Shader> &pShader : shaders)
 			glAttachShader(ID, pShader->ID);
 
 		glLinkProgram(ID);
 		__linkingCheck();
+
+		for (const shared_ptr<Shader> &pShader : shaders)
+			glDetachShader(ID, pShader->ID);
 	}
 
 	Program::Program(const vector<uint8_t> &binary) :
