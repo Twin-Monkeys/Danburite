@@ -193,7 +193,7 @@ vec3 Material_getDiffuse(const vec2 texCoord)
 		return material.diffuseColor.rgb;
 
 	else if (!Material_isDiffuseTextureEnabled())
-		return vec3(0.f);
+		return vec3(1.f, 1.f, 1.f);
 
 	else
 	{

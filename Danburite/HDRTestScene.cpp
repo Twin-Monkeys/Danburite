@@ -51,6 +51,19 @@ HDRTestScene::HDRTestScene()
 	floorTransform.setScale(60.f, 60.f, 1.f);
 	floorTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
 
+	const shared_ptr<VertexArray> &pSphereVA = VertexArrayFactory::createSphere(
+		VertexAttributeFlag::POS | VertexAttributeFlag::COLOR | VertexAttributeFlag::NORMAL);
+
+	const shared_ptr<PhongMaterial> &pSphereMaterial = make_shared<PhongMaterial>(
+		VertexAttributeFlag::POS | VertexAttributeFlag::COLOR | VertexAttributeFlag::NORMAL);
+
+	__pSphereObj = make_shared<SceneObject>();
+	__pSphereObj->createNode(pSphereVA, pSphereMaterial);
+
+	Transform &sphereTransform = __pSphereObj->getTransform();
+	sphereTransform.setScale(3.f);
+	sphereTransform.setPosition(0.f, 10.f, 0.f);
+
 	__pLampObj = AssetImporter::import("res/asset/bulb_fish/scene.gltf");
 	__pLampObj->setNumInstances(2);
 
@@ -120,6 +133,7 @@ HDRTestScene::HDRTestScene()
 	cameraTransform.setPosition(0.f, 15.f, 50.f);
 	cameraTransform.setRotation(-0.4f, 0.f, 0.f);
 
+
 	// Light √ ±‚»≠
 
 	__pBlueLight = make_shared<PointLight>();
@@ -163,6 +177,7 @@ HDRTestScene::HDRTestScene()
 	__pUpdater->addUpdatable(__pCamera);
 	__pUpdater->addUpdatable(__pBlueLight);
 	__pUpdater->addUpdatable(__pRedLight);
+	__pUpdater->addUpdatable(__pSphereObj);
 
 	__pDrawer = make_shared<Drawer>();
 	__pDrawer->addDrawable(__pFloorObj);
@@ -172,6 +187,7 @@ HDRTestScene::HDRTestScene()
 	__pDrawer->addDrawable(__pDoorObj);
 	__pDrawer->addDrawable(__pLizardObj);
 	__pDrawer->addDrawable(__pGirlObj);
+	__pDrawer->addDrawable(__pSphereObj);
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
 

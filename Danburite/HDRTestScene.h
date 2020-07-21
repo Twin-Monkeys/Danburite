@@ -27,6 +27,7 @@ private:
 	std::shared_ptr<Danburite::SceneObject> __pDoorObj;
 	std::shared_ptr<Danburite::SceneObject> __pLizardObj;
 	std::shared_ptr<Danburite::SceneObject> __pGirlObj;
+	std::shared_ptr<Danburite::SceneObject> __pSphereObj;
 
 	std::shared_ptr<Danburite::PerspectiveCamera> __pCamera;
 
