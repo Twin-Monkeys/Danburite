@@ -51,7 +51,7 @@ HDRTestScene::HDRTestScene()
 	floorTransform.setScale(80.f, 1.f, 80.f);
 
 	const shared_ptr<VertexArray> &pSphereVA = VertexArrayFactory::createCylinder(
-		VertexAttributeFlag::POS | VertexAttributeFlag::COLOR | VertexAttributeFlag::NORMAL, 1.f, 2.f, 3.f);
+		VertexAttributeFlag::POS | VertexAttributeFlag::COLOR | VertexAttributeFlag::NORMAL);
 
 	const shared_ptr<PhongMaterial> &pSphereMaterial = make_shared<PhongMaterial>(
 		VertexAttributeFlag::POS | VertexAttributeFlag::COLOR | VertexAttributeFlag::NORMAL);
@@ -61,7 +61,7 @@ HDRTestScene::HDRTestScene()
 
 	Transform &sphereTransform = __pSphereObj->getTransform();
 	sphereTransform.setScale(3.f);
-	sphereTransform.setPosition(0.f, 10.f, 0.f);
+	sphereTransform.setPosition(0.f, 6.f, 0.f);
 
 	__pLampObj = AssetImporter::import("res/asset/bulb_fish/scene.gltf");
 	__pLampObj->setNumInstances(2);
@@ -190,11 +190,11 @@ HDRTestScene::HDRTestScene()
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
 
-	__pMsaaPP = make_shared<MSAAPostProcessor>(true);
-	__pPPPipeline->addProcessor(__pMsaaPP.get());
+	/*__pMsaaPP = make_shared<MSAAPostProcessor>(true);
+	__pPPPipeline->addProcessor(__pMsaaPP.get());*/
 
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
-	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>();
+	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>(true);
 	__pPPPipeline->addProcessor(__pGammaCorrectionPP.get());
 
 	__pBloomPP = make_shared<BloomPostProcessor>();

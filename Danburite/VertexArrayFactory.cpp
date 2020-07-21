@@ -403,17 +403,16 @@ namespace Danburite
 	}
 
 	shared_ptr<VertexArray> VertexArrayFactory::createCylinder(
-		const VertexAttributeFlag vertexFlag,
-		const float topRadius, const float bottomRadius,
-		const float height, const size_t numStacks, const size_t numSectors)
+		const VertexAttributeFlag vertexFlag, const float topRadius, const float bottomRadius,
+		const float height, const size_t numSectors)
 	{
-		if (vertexFlag & (VertexAttributeFlag::BONE | VertexAttributeFlag::MODELMAT))
+		if ((vertexFlag & (VertexAttributeFlag::BONE | VertexAttributeFlag::MODELMAT)) || (numSectors < 3ULL))
 			throw VertexArrayFactoryException("Invalid flags are detected.");
 
 		constexpr vec4 color = { 1.f, 1.f, 1.f, 1.f };
 		constexpr vec3 normal_top = { 0.f, 1.f, 0.f };
 		constexpr vec3 normal_bottom = { 0.f, -1.f, 0.f };
-		constexpr vec3 tangent = { 1.f, 0.f, 0.f };
+		constexpr vec3 tangent_topBottom = { 1.f, 0.f, 0.f };
 
 		const float sectorAngleStep = (two_pi<float>() / float(numSectors));
 
@@ -440,7 +439,7 @@ namespace Danburite
 			vertices.insert(vertices.end(), { .5f, .5f });
 
 		if (vertexFlag & VertexAttributeFlag::TANGENT)
-			vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
+			vertices.insert(vertices.end(), { tangent_topBottom.x, tangent_topBottom.y, tangent_topBottom.z });
 
 		float curSectorAngle = 0.f;
 		for (size_t sectorIter = 0ULL; sectorIter < numSectors; sectorIter++)
@@ -466,11 +465,11 @@ namespace Danburite
 			}
 
 			if (vertexFlag & VertexAttributeFlag::TANGENT)
-				vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
+				vertices.insert(vertices.end(), { tangent_topBottom.x, tangent_topBottom.y, tangent_topBottom.z });
 
 			indices.emplace_back(baseIdx);
-			indices.emplace_back(baseIdx + GLuint(sectorIter));
-			indices.emplace_back(baseIdx + GLuint(((sectorIter + 1) != numSectors) ? (sectorIter + 1) : 1));
+			indices.emplace_back(baseIdx + 1U + GLuint(sectorIter));
+			indices.emplace_back(baseIdx + 1U + GLuint(((sectorIter + 1) != numSectors) ? (sectorIter + 1) : 0));
 
 			curSectorAngle += sectorAngleStep;
 		}
@@ -496,7 +495,7 @@ namespace Danburite
 			vertices.insert(vertices.end(), { .5f, .5f });
 
 		if (vertexFlag & VertexAttributeFlag::TANGENT)
-			vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
+			vertices.insert(vertices.end(), { tangent_topBottom.x, tangent_topBottom.y, tangent_topBottom.z });
 
 		curSectorAngle = 0.f;
 		for (size_t sectorIter = 0ULL; sectorIter < numSectors; sectorIter++)
@@ -522,11 +521,11 @@ namespace Danburite
 			}
 
 			if (vertexFlag & VertexAttributeFlag::TANGENT)
-				vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
+				vertices.insert(vertices.end(), { tangent_topBottom.x, tangent_topBottom.y, tangent_topBottom.z });
 
 			indices.emplace_back(baseIdx);
-			indices.emplace_back(baseIdx + GLuint(((sectorIter + 1) != numSectors) ? (sectorIter + 1) : 1));
-			indices.emplace_back(baseIdx + GLuint(sectorIter));
+			indices.emplace_back(baseIdx + 1U + GLuint(((sectorIter + 1) != numSectors) ? (sectorIter + 1) : 0));
+			indices.emplace_back(baseIdx + 1U + GLuint(sectorIter));
 
 			curSectorAngle += sectorAngleStep;
 		}
@@ -543,8 +542,8 @@ namespace Danburite
 			const vec3 &curTopLidVertPos = topLidVertPositions[sectorIter];
 			const vec3 &curBottomLidVertPos = bottomLidVertPositions[sectorIter];
 
-			const vec3 &nextTopLidVertPos = topLidVertPositions[((sectorIter + 1) != numSectors) ? (sectorIter + 1) : 0];
-			const vec3 &nextBottomLidVertPos = bottomLidVertPositions[((sectorIter + 1) != numSectors) ? (sectorIter + 1) : 0];
+			const vec3 &nextTopLidVertPos = topLidVertPositions[(sectorIter + 1) % numSectors];
+			const vec3 &nextBottomLidVertPos = bottomLidVertPositions[(sectorIter + 1) % numSectors];
 
 			vec3 curNormal;
 			vec2 curProjNormal;
@@ -671,11 +670,11 @@ namespace Danburite
 
 			indices.emplace_back(baseIdx + sideVertCount);
 			indices.emplace_back(baseIdx + sideVertCount + 1U);
-			indices.emplace_back(baseIdx + (((sectorIter + 1) != numSectors) ? sideVertCount : 0U) + 3U);
+			indices.emplace_back(baseIdx + sideVertCount + 3U);
 
 			indices.emplace_back(baseIdx + sideVertCount);
-			indices.emplace_back(baseIdx + (((sectorIter + 1) != numSectors) ? sideVertCount : 0U) + 3U);
-			indices.emplace_back(baseIdx + (((sectorIter + 1) != numSectors) ? sideVertCount : 0U) + 2U);
+			indices.emplace_back(baseIdx + sideVertCount + 3U);
+			indices.emplace_back(baseIdx + sideVertCount + 2U);
 
 			sideVertCount += 4U;
 		}

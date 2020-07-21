@@ -23,8 +23,7 @@ namespace Danburite
 			const size_t numStacks = 18ULL, const size_t numSectors = 36ULL);
 
 		static std::shared_ptr<ObjectGL::VertexArray> createCylinder(
-			const VertexAttributeFlag vertexFlag,
-			const float topRadius = 1.f, const float bottomRadius = 1.f,
-			const float height = 1.f, const size_t numStacks = 1ULL, const size_t numSectors = 36ULL);
+			const VertexAttributeFlag vertexFlag, const float topRadius = 1.f, const float bottomRadius = 1.f,
+			const float height = 1.f, const size_t numSectors = 36ULL);
 	};
 }
