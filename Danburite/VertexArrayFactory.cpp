@@ -19,14 +19,14 @@ namespace Danburite
 
 		const vec3 positions[] =
 		{
-			{ -EDGE_HALF, -EDGE_HALF, 0.f },
-			{ EDGE_HALF, -EDGE_HALF, 0.f },
-			{ EDGE_HALF, EDGE_HALF, 0.f },
-			{ -EDGE_HALF, EDGE_HALF, 0.f }
+			{ -EDGE_HALF, 0.f, EDGE_HALF },
+			{ EDGE_HALF, 0.f, EDGE_HALF },
+			{ EDGE_HALF, 0.f, -EDGE_HALF },
+			{ -EDGE_HALF, 0.f, -EDGE_HALF }
 		};
 
 		constexpr vec4 color = { 1.f, 1.f, 1.f, 1.f };
-		constexpr vec3 normal = { 0.f, 0.f, 1.f };
+		constexpr vec3 normal = { 0.f, 1.f, 0.f };
 
 		constexpr vec2 texCoords[] =
 		{
@@ -89,16 +89,7 @@ namespace Danburite
 			throw VertexArrayFactoryException("Invalid flags are detected.");
 
 		constexpr vec4 color = { 1.f, 1.f, 1.f, 1.f };
-		constexpr vec3 normal = { 0.f, 0.f, 1.f };
-
-		constexpr vec2 texCoords[] =
-		{
-			{ 0.f, 0.f },
-			{ 1.f, 0.f },
-			{ 1.f, 1.f },
-			{ 0.f, 1.f }
-		};
-
+		constexpr vec3 normal = { 0.f, 1.f, 0.f };
 		constexpr vec3 tangent = { 1.f, 0.f, 0.f };
 
 		const float sectorAngleStep = (two_pi<float>() / float(numSectors));
@@ -130,7 +121,7 @@ namespace Danburite
 		for (size_t sectorIter = 0ULL; sectorIter <= numSectors; sectorIter++)
 		{
 			const vec2 &orient = { cosf(curSectorAngle), sinf(curSectorAngle) };
-			const vec3 &pos = { (radius * orient.x), (radius * orient.y), 0.f };
+			const vec3 &pos = { (radius * orient.x), 0.f, -(radius * orient.y) };
 
 			if (vertexFlag & VertexAttributeFlag::POS)
 				vertices.insert(vertices.end(), { pos.x, pos.y, pos.z });
@@ -178,40 +169,40 @@ namespace Danburite
 		const vec3 positions[] =
 		{
 			// Top
-			{ -EDGE_HALF, EDGE_HALF, EDGE_HALF },
-			{ EDGE_HALF, EDGE_HALF, EDGE_HALF },
-			{ EDGE_HALF, EDGE_HALF, -EDGE_HALF },
-			{ -EDGE_HALF, EDGE_HALF, -EDGE_HALF },
+			{ -EDGE_HALF, edgeLength, EDGE_HALF },
+			{ EDGE_HALF, edgeLength, EDGE_HALF },
+			{ EDGE_HALF, edgeLength, -EDGE_HALF },
+			{ -EDGE_HALF, edgeLength, -EDGE_HALF },
 
 			// Bottom
-			{ -EDGE_HALF, -EDGE_HALF, -EDGE_HALF },
-			{ EDGE_HALF, -EDGE_HALF, -EDGE_HALF },
-			{ EDGE_HALF, -EDGE_HALF, EDGE_HALF },
-			{ -EDGE_HALF, -EDGE_HALF, EDGE_HALF },
+			{ -EDGE_HALF, 0.f, -EDGE_HALF },
+			{ EDGE_HALF, 0.f, -EDGE_HALF },
+			{ EDGE_HALF, 0.f, EDGE_HALF },
+			{ -EDGE_HALF, 0.f, EDGE_HALF },
 
 			// Right
-			{ EDGE_HALF, -EDGE_HALF, EDGE_HALF },
-			{ EDGE_HALF, -EDGE_HALF, -EDGE_HALF },
-			{ EDGE_HALF, EDGE_HALF, -EDGE_HALF },
-			{ EDGE_HALF, EDGE_HALF, EDGE_HALF },
+			{ EDGE_HALF, 0.f, EDGE_HALF },
+			{ EDGE_HALF, 0.f, -EDGE_HALF },
+			{ EDGE_HALF, edgeLength, -EDGE_HALF },
+			{ EDGE_HALF, edgeLength, EDGE_HALF },
 
 			// Left
-			{ -EDGE_HALF, -EDGE_HALF, -EDGE_HALF },
-			{ -EDGE_HALF, -EDGE_HALF, EDGE_HALF },
-			{ -EDGE_HALF, EDGE_HALF, EDGE_HALF },
-			{ -EDGE_HALF, EDGE_HALF, -EDGE_HALF },
+			{ -EDGE_HALF, 0.f, -EDGE_HALF },
+			{ -EDGE_HALF, 0.f, EDGE_HALF },
+			{ -EDGE_HALF, edgeLength, EDGE_HALF },
+			{ -EDGE_HALF, edgeLength, -EDGE_HALF },
 
 			// Forward
-			{ -EDGE_HALF, -EDGE_HALF, EDGE_HALF },
-			{ EDGE_HALF, -EDGE_HALF, EDGE_HALF },
-			{ EDGE_HALF, EDGE_HALF, EDGE_HALF },
-			{ -EDGE_HALF, EDGE_HALF, EDGE_HALF },
+			{ -EDGE_HALF, 0.f, EDGE_HALF },
+			{ EDGE_HALF, 0.f, EDGE_HALF },
+			{ EDGE_HALF, edgeLength, EDGE_HALF },
+			{ -EDGE_HALF, edgeLength, EDGE_HALF },
 
 			// Backward
-			{ EDGE_HALF, -EDGE_HALF, -EDGE_HALF },
-			{ -EDGE_HALF, -EDGE_HALF, -EDGE_HALF },
-			{ -EDGE_HALF, EDGE_HALF, -EDGE_HALF },
-			{ EDGE_HALF, EDGE_HALF, -EDGE_HALF }
+			{ EDGE_HALF, 0.f, -EDGE_HALF },
+			{ -EDGE_HALF, 0.f, -EDGE_HALF },
+			{ -EDGE_HALF, edgeLength, -EDGE_HALF },
+			{ EDGE_HALF, edgeLength, -EDGE_HALF }
 		};
 
 		constexpr vec4 color = { 1.f, 1.f, 1.f, 1.f };
@@ -419,7 +410,77 @@ namespace Danburite
 			throw VertexArrayFactoryException("Invalid flags are detected.");
 
 		constexpr vec4 color = { 1.f, 1.f, 1.f, 1.f };
+		constexpr vec3 normal_top = { 0.f, 1.f, 0.f };
+		constexpr vec3 normal_bottom = { 0.f, -1.f, 0.f };
+		constexpr vec3 tangent = { 1.f, 0.f, 0.f };
+
+		const float sectorAngleStep = (two_pi<float>() / float(numSectors));
 
 		vector<GLfloat> vertices;
+
+
+		// Top Lid //
+
+		if (vertexFlag & VertexAttributeFlag::POS)
+			vertices.insert(vertices.end(), { 0.f, height, 0.f });
+
+		if (vertexFlag & VertexAttributeFlag::COLOR)
+			vertices.insert(vertices.end(), { color.r, color.g, color.b, color.a });
+
+		if (vertexFlag & VertexAttributeFlag::NORMAL)
+			vertices.insert(vertices.end(), { normal_top.x, normal_top.y, normal_top.z });
+
+		if (vertexFlag & VertexAttributeFlag::TEXCOORD)
+			vertices.insert(vertices.end(), { .5f, .5f });
+
+		if (vertexFlag & VertexAttributeFlag::TANGENT)
+			vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
+
+		float curSectorAngle = 0.f;
+		for (size_t sectorIter = 0ULL; sectorIter <= numSectors; sectorIter++)
+		{
+			const vec2& orient = { cosf(curSectorAngle), sinf(curSectorAngle) };
+			const vec3& pos = { (topRadius * orient.x), (topRadius * orient.y), 0.f };
+
+			if (vertexFlag & VertexAttributeFlag::POS)
+				vertices.insert(vertices.end(), { pos.x, pos.y, pos.z });
+
+			if (vertexFlag & VertexAttributeFlag::COLOR)
+				vertices.insert(vertices.end(), { color.r, color.g, color.b, color.a });
+
+			if (vertexFlag & VertexAttributeFlag::NORMAL)
+				vertices.insert(vertices.end(), { normal_top.x, normal_top.y, normal_top.z });
+
+			if (vertexFlag & VertexAttributeFlag::TEXCOORD)
+			{
+				const vec2& texCoord = ((orient + 1.f) * .5f);
+				vertices.insert(vertices.end(), { texCoord.x, texCoord.y });
+			}
+
+			if (vertexFlag & VertexAttributeFlag::TANGENT)
+				vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
+
+			curSectorAngle += sectorAngleStep;
+		}
+
+		vector<GLuint> indices;
+
+
+
+
+
+
+		const shared_ptr<VertexBuffer>& pVertexBuffer = make_shared<VertexBuffer>();
+		pVertexBuffer->memoryAlloc(vertices, BufferUpdatePatternType::STATIC);
+		pVertexBuffer->setAttributes(VertexAttributeListFactory::getInstance(vertexFlag));
+
+		const shared_ptr<IndexBuffer>& pIndexBuffer = make_shared<IndexBuffer>();
+		pIndexBuffer->memoryAlloc(indices, BufferUpdatePatternType::STATIC);
+
+		const shared_ptr<VertexArray>& pRetVal =
+			make_shared<VertexArray>(pVertexBuffer, pIndexBuffer, GLsizei(indices.size()));
+
+		pRetVal->setPrimitiveType(PrimitiveType::TRIANGLE_FAN);
+		return pRetVal;
 	}
 }

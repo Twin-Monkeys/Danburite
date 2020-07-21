@@ -48,8 +48,7 @@ HDRTestScene::HDRTestScene()
 	__pFloorObj->createNode(pFloorVA, pFloorMaterial);
 
 	Transform& floorTransform = __pFloorObj->getTransform();
-	floorTransform.setScale(80.f, 80.f, 1.f);
-	floorTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
+	floorTransform.setScale(80.f, 1.f, 80.f);
 
 	const shared_ptr<VertexArray> &pSphereVA = VertexArrayFactory::createSphere(
 		VertexAttributeFlag::POS | VertexAttributeFlag::COLOR | VertexAttributeFlag::NORMAL);
