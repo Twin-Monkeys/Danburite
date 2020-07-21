@@ -1,6 +1,7 @@
 #include "VertexArrayFactory.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
+#include <glm/gtc/epsilon.hpp>
 #include "VertexAttributeListFactory.h"
 
 using namespace std;
@@ -11,12 +12,15 @@ namespace Danburite
 {
 	shared_ptr<VertexArray> VertexArrayFactory::createRectangle(const VertexAttributeFlag vertexFlag)
 	{
+		if (vertexFlag & (VertexAttributeFlag::BONE | VertexAttributeFlag::MODELMAT))
+			throw VertexArrayFactoryException("Invalid flags are detected.");
+
 		constexpr vec3 positions[] =
 		{
-			{ -1.f, -1.f, 0.f },
-			{ 1.f, -1.f, 0.f },
-			{ 1.f, 1.f, 0.f },
-			{ -1.f, 1.f, 0.f }
+			{ -.5f, -.5f, 0.f },
+			{ .5f, -.5f, 0.f },
+			{ .5f, .5f, 0.f },
+			{ -.5f, .5f, 0.f }
 		};
 
 		constexpr vec4 color = { 1.f, 1.f, 1.f, 1.f };
@@ -74,25 +78,28 @@ namespace Danburite
 
 	shared_ptr<VertexArray> VertexArrayFactory::createCube(const VertexAttributeFlag vertexFlag)
 	{
+		if (vertexFlag & (VertexAttributeFlag::BONE | VertexAttributeFlag::MODELMAT))
+			throw VertexArrayFactoryException("Invalid flags are detected.");
+
 		constexpr vec3 positions[] =
 		{
 			// Top
-			{ -1.f, 1.f, 1.f }, { 1.f, 1.f, 1.f }, { 1.f, 1.f, -1.f }, { -1.f, 1.f, -1.f },
+			{ -.5f, .5f, .5f }, { .5f, .5f, .5f }, { .5f, .5f, -.5f }, { -.5f, .5f, -.5f },
 
 			// Bottom
-			{ -1.f, -1.f, -1.f }, { 1.f, -1.f, -1.f }, { 1.f, -1.f, 1.f }, { -1.f, -1.f, 1.f },
+			{ -.5f, -.5f, -.5f }, { .5f, -.5f, -.5f }, { .5f, -.5f, .5f }, { -.5f, -.5f, .5f },
 
 			// Right
-			{ 1.f, -1.f, 1.f }, { 1.f, -1.f, -1.f }, { 1.f, 1.f, -1.f }, { 1.f, 1.f, 1.f },
+			{ .5f, -.5f, .5f }, { .5f, -.5f, -.5f }, { .5f, .5f, -.5f }, { .5f, .5f, .5f },
 
 			// Left
-			{ -1.f, -1.f, -1.f }, { -1.f, -1.f, 1.f }, { -1.f, 1.f, 1.f }, { -1.f, 1.f, -1.f },
+			{ -.5f, -.5f, -.5f }, { -.5f, -.5f, .5f }, { -.5f, .5f, .5f }, { -.5f, .5f, -.5f },
 
 			// Forward
-			{ -1.f, -1.f, 1.f }, { 1.f, -1.f, 1.f }, { 1.f, 1.f, 1.f }, { -1.f, 1.f, 1.f },
+			{ -.5f, -.5f, .5f }, { .5f, -.5f, .5f }, { .5f, .5f, .5f }, { -.5f, .5f, .5f },
 
 			// Backward
-			{ 1.f, -1.f, -1.f }, { -1.f, -1.f, -1.f }, { -1.f, 1.f, -1.f }, { 1.f, 1.f, -1.f }
+			{ .5f, -.5f, -.5f }, { -.5f, -.5f, -.5f }, { -.5f, .5f, -.5f }, { .5f, .5f, -.5f }
 		};
 
 		constexpr vec4 color = { 1.f, 1.f, 1.f, 1.f };
@@ -201,6 +208,9 @@ namespace Danburite
 	shared_ptr<VertexArray> VertexArrayFactory::createSphere(
 		const VertexAttributeFlag vertexFlag, const size_t numStacks, const size_t numSectors)
 	{
+		if (vertexFlag & (VertexAttributeFlag::BONE | VertexAttributeFlag::MODELMAT))
+			throw VertexArrayFactoryException("Invalid flags are detected.");
+
 		constexpr vec4 color = { 1.f, 1.f, 1.f, 1.f };
 
 		vector<GLfloat> vertices;
@@ -234,6 +244,19 @@ namespace Danburite
 				{
 					vertices.insert(
 						vertices.end(), { float(sectorIter) / float(numSectors), float(stackIter) / float(numStacks) });
+				}
+
+				if (vertexFlag & VertexAttributeFlag::TANGENT)
+				{
+					vec3 tangent { pos.z, 0.f, -pos.x };
+					const float tangentLength = length(tangent);
+
+					if (epsilonEqual(tangentLength, 0.f, epsilon<float>()))
+						tangent = { 1.f, 0.f, 0.f };
+					else
+						tangent /= tangentLength;
+
+					vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
 				}
 
 				curSectorAngle += sectorAngleStep;
