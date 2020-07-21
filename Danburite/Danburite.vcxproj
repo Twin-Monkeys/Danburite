@@ -385,7 +385,6 @@
     <ClInclude Include="RenderBufferMultisample.h" />
     <ClInclude Include="ShaderCompiler.h" />
     <ClInclude Include="ShaderIdentifier.h" />
-    <ClInclude Include="ShapeType.h" />
     <ClInclude Include="SilhouetteMaterial.h" />
     <ClInclude Include="SilhouetteMaterialComponent.h" />
     <ClInclude Include="Skybox.h" />

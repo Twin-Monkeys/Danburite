@@ -34,8 +34,8 @@ HDRTestScene::HDRTestScene()
 	pFloor_diffuse->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
 	pFloor_diffuse->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 
-	const shared_ptr<VertexArray> &pFloorVA = VertexArrayFactory::createInstance(
-			ShapeType::RECTANGLE, VertexAttributeFlag::POS | VertexAttributeFlag::NORMAL | VertexAttributeFlag::TEXCOORD);
+	const shared_ptr<VertexArray> &pFloorVA = VertexArrayFactory::createRectangle(
+		VertexAttributeFlag::POS | VertexAttributeFlag::NORMAL | VertexAttributeFlag::TEXCOORD);
 
 	const shared_ptr<PhongMaterial>& pFloorMaterial = make_shared<PhongMaterial>(
 		VertexAttributeFlag::POS | VertexAttributeFlag::NORMAL | VertexAttributeFlag::TEXCOORD);

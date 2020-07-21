@@ -8,7 +8,7 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	shared_ptr<VertexArray> VertexArrayFactory::__createInstance_rectangle(const VertexAttributeFlag vertexFlag)
+	shared_ptr<VertexArray> VertexArrayFactory::createRectangle(const VertexAttributeFlag vertexFlag)
 	{
 		constexpr vec3 positions[] =
 		{
@@ -73,7 +73,7 @@ namespace Danburite
 		return make_shared<VertexArray>(pVertexBuffer, pIndexBuffer, GLsizei(size(indices)));
 	}
 
-	shared_ptr<VertexArray> VertexArrayFactory::__createInstance_cube(const VertexAttributeFlag vertexFlag)
+	shared_ptr<VertexArray> VertexArrayFactory::createCube(const VertexAttributeFlag vertexFlag)
 	{
 		constexpr vec3 positions[] =
 		{
@@ -199,22 +199,5 @@ namespace Danburite
 		pIndexBuffer->memoryAlloc(indices, BufferUpdatePatternType::STATIC);
 
 		return make_shared<VertexArray>(pVertexBuffer, pIndexBuffer, GLsizei(size(indices)));
-	}
-
-	shared_ptr<VertexArray> VertexArrayFactory::createInstance(const ShapeType shapeType, const VertexAttributeFlag vertexFlag)
-	{
-		if (vertexFlag & (VertexAttributeFlag::BONE | VertexAttributeFlag::MODELMAT))
-			throw VertexArrayFactoryException("Invalid vertex flags are detected.");
-
-		switch (shapeType)
-		{
-		case ShapeType::RECTANGLE:
-			return __createInstance_rectangle(vertexFlag);
-
-		case ShapeType::CUBE:
-			return __createInstance_cube(vertexFlag);
-		}
-
-		return nullptr;
 	}
 }

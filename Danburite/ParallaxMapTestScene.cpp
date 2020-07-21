@@ -50,8 +50,8 @@ ParallaxMapTestScene::ParallaxMapTestScene()
 	pWoodToyTexture_height->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
 	pWoodToyTexture_height->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 
-	const shared_ptr<VertexArray>& pWoodToyVA = VertexArrayFactory::createInstance(
-		ShapeType::RECTANGLE, VertexAttributeFlag::POS | VertexAttributeFlag::NORMAL | VertexAttributeFlag::TEXCOORD | VertexAttributeFlag::TANGENT);
+	const shared_ptr<VertexArray>& pWoodToyVA = VertexArrayFactory::createRectangle(
+		VertexAttributeFlag::POS | VertexAttributeFlag::NORMAL | VertexAttributeFlag::TEXCOORD | VertexAttributeFlag::TANGENT);
 
 	const shared_ptr<PhongMaterial>& pWoodToyMaterial = make_shared<PhongMaterial>(
 		VertexAttributeFlag::POS | VertexAttributeFlag::NORMAL | VertexAttributeFlag::TEXCOORD | VertexAttributeFlag::TANGENT);

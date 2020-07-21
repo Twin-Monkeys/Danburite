@@ -12,7 +12,7 @@ namespace Danburite
 		__skyBoxSetter(UniformBufferFactory::getInstance().
 			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::SKYBOX)),
 
-		__pCubeVA(VertexArrayFactory::createInstance(ShapeType::CUBE, VertexAttributeFlag::POS))
+		__pCubeVA(VertexArrayFactory::createCube(VertexAttributeFlag::POS))
 	{}
 
 	void Skybox::draw() noexcept

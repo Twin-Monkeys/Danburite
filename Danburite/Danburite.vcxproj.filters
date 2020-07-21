@@ -980,9 +980,6 @@
     <ClInclude Include="TextureUtilException.h">
       <Filter>Library\Engine\Util\TextureUtil</Filter>
     </ClInclude>
-    <ClInclude Include="ShapeType.h">
-      <Filter>Library\Engine\Core\VertexArray</Filter>
-    </ClInclude>
     <ClInclude Include="VertexArrayFactory.h">
       <Filter>Library\Engine\Core\VertexArray</Filter>
     </ClInclude>
