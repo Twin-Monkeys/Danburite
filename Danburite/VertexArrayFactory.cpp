@@ -65,7 +65,7 @@ namespace Danburite
 
 		constexpr GLuint indices[] =
 		{
-			0, 1, 3, 1, 2, 3
+			0, 1, 3, 2
 		};
 
 		const shared_ptr<VertexBuffer> &pVertexBuffer = make_shared<VertexBuffer>();
@@ -75,7 +75,97 @@ namespace Danburite
 		const shared_ptr<IndexBuffer> &pIndexBuffer = make_shared<IndexBuffer>();
 		pIndexBuffer->memoryAlloc(indices, BufferUpdatePatternType::STATIC);
 
-		return make_shared<VertexArray>(pVertexBuffer, pIndexBuffer, GLsizei(size(indices)));
+		const shared_ptr<VertexArray> &pRetVal =
+			make_shared<VertexArray>(pVertexBuffer, pIndexBuffer, GLsizei(size(indices)));
+
+		pRetVal->setPrimitiveType(PrimitiveType::TRIANGLE_STRIP);
+		return pRetVal;
+	}
+
+	shared_ptr<VertexArray> VertexArrayFactory::createCircle(
+		const VertexAttributeFlag vertexFlag, const float radius, const size_t numSectors)
+	{
+		if (vertexFlag & (VertexAttributeFlag::BONE | VertexAttributeFlag::MODELMAT))
+			throw VertexArrayFactoryException("Invalid flags are detected.");
+
+		constexpr vec4 color = { 1.f, 1.f, 1.f, 1.f };
+		constexpr vec3 normal = { 0.f, 0.f, 1.f };
+
+		constexpr vec2 texCoords[] =
+		{
+			{ 0.f, 0.f },
+			{ 1.f, 0.f },
+			{ 1.f, 1.f },
+			{ 0.f, 1.f }
+		};
+
+		constexpr vec3 tangent = { 1.f, 0.f, 0.f };
+
+		const float sectorAngleStep = (two_pi<float>() / float(numSectors));
+
+		vector<GLfloat> vertices;
+		vector<GLuint> indices;
+
+		GLuint curIdx = 0;
+		indices.reserve(numSectors + 2ULL);
+
+		if (vertexFlag & VertexAttributeFlag::POS)
+			vertices.insert(vertices.end(), { 0.f, 0.f, 0.f });
+
+		if (vertexFlag & VertexAttributeFlag::COLOR)
+			vertices.insert(vertices.end(), { color.r, color.g, color.b, color.a });
+
+		if (vertexFlag & VertexAttributeFlag::NORMAL)
+			vertices.insert(vertices.end(), { normal.x, normal.y, normal.z });
+
+		if (vertexFlag & VertexAttributeFlag::TEXCOORD)
+			vertices.insert(vertices.end(), { .5f, .5f });
+
+		if (vertexFlag & VertexAttributeFlag::TANGENT)
+			vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
+
+		indices.emplace_back(curIdx++);
+
+		float curSectorAngle = 0.f;
+		for (size_t sectorIter = 0ULL; sectorIter <= numSectors; sectorIter++)
+		{
+			const vec2 &orient = { cosf(curSectorAngle), sinf(curSectorAngle) };
+			const vec3 &pos = { (radius * orient.x), (radius * orient.y), 0.f };
+
+			if (vertexFlag & VertexAttributeFlag::POS)
+				vertices.insert(vertices.end(), { pos.x, pos.y, pos.z });
+
+			if (vertexFlag & VertexAttributeFlag::COLOR)
+				vertices.insert(vertices.end(), { color.r, color.g, color.b, color.a });
+
+			if (vertexFlag & VertexAttributeFlag::NORMAL)
+				vertices.insert(vertices.end(), { normal.x, normal.y, normal.z });
+
+			if (vertexFlag & VertexAttributeFlag::TEXCOORD)
+			{
+				const vec2 &texCoord = ((orient + 1.f) * .5f);
+				vertices.insert(vertices.end(), { texCoord.x, texCoord.y });
+			}
+
+			if (vertexFlag & VertexAttributeFlag::TANGENT)
+				vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
+
+			indices.emplace_back(curIdx++);
+			curSectorAngle += sectorAngleStep;
+		}
+
+		const shared_ptr<VertexBuffer> &pVertexBuffer = make_shared<VertexBuffer>();
+		pVertexBuffer->memoryAlloc(vertices, BufferUpdatePatternType::STATIC);
+		pVertexBuffer->setAttributes(VertexAttributeListFactory::getInstance(vertexFlag));
+
+		const shared_ptr<IndexBuffer> &pIndexBuffer = make_shared<IndexBuffer>();
+		pIndexBuffer->memoryAlloc(indices, BufferUpdatePatternType::STATIC);
+
+		const shared_ptr<VertexArray> &pRetVal =
+			make_shared<VertexArray>(pVertexBuffer, pIndexBuffer, GLsizei(indices.size()));
+
+		pRetVal->setPrimitiveType(PrimitiveType::TRIANGLE_FAN);
+		return pRetVal;
 	}
 
 	shared_ptr<VertexArray> VertexArrayFactory::createCube(const VertexAttributeFlag vertexFlag, const float edgeLength)
@@ -235,10 +325,10 @@ namespace Danburite
 
 		constexpr vec4 color = { 1.f, 1.f, 1.f, 1.f };
 
-		vector<GLfloat> vertices;
-
 		const float stackAngleStep = (pi<float>() / float(numStacks));
 		const float sectorAngleStep = (two_pi<float>() / float(numSectors));
+
+		vector<GLfloat> vertices;
 
 		float curStackAngle = half_pi<float>();
 		for (size_t stackIter = 0ULL; stackIter <= numStacks; stackIter++)
@@ -318,5 +408,18 @@ namespace Danburite
 		pIndexBuffer->memoryAlloc(indices, BufferUpdatePatternType::STATIC);
 
 		return make_shared<VertexArray>(pVertexBuffer, pIndexBuffer, GLsizei(indices.size()));
+	}
+
+	shared_ptr<VertexArray> VertexArrayFactory::createCylinder(
+		const VertexAttributeFlag vertexFlag,
+		const float topRadius, const float bottomRadius,
+		const float height, const size_t numStacks, const size_t numSectors)
+	{
+		if (vertexFlag & (VertexAttributeFlag::BONE | VertexAttributeFlag::MODELMAT))
+			throw VertexArrayFactoryException("Invalid flags are detected.");
+
+		constexpr vec4 color = { 1.f, 1.f, 1.f, 1.f };
+
+		vector<GLfloat> vertices;
 	}
 }
