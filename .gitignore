@@ -342,3 +342,6 @@ healthchecksdb
 # Custom
 # Resources
 !**/res/**/*.*
+
+# Shader Binaries
+*.bin

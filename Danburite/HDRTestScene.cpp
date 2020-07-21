@@ -51,7 +51,7 @@ HDRTestScene::HDRTestScene()
 	floorTransform.setScale(80.f, 80.f, 1.f);
 	floorTransform.setRotation(-half_pi<float>(), 0.f, 0.f);
 
-	const shared_ptr<VertexArray> &pSphereVA = VertexArrayFactory::createCube(
+	const shared_ptr<VertexArray> &pSphereVA = VertexArrayFactory::createSphere(
 		VertexAttributeFlag::POS | VertexAttributeFlag::COLOR | VertexAttributeFlag::NORMAL);
 
 	const shared_ptr<PhongMaterial> &pSphereMaterial = make_shared<PhongMaterial>(
@@ -191,11 +191,11 @@ HDRTestScene::HDRTestScene()
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
 
-	/*__pMsaaPP = make_shared<MSAAPostProcessor>(true);
-	__pPPPipeline->addProcessor(__pMsaaPP.get());*/
+	__pMsaaPP = make_shared<MSAAPostProcessor>(true);
+	__pPPPipeline->addProcessor(__pMsaaPP.get());
 
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
-	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>(true);
+	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>();
 	__pPPPipeline->addProcessor(__pGammaCorrectionPP.get());
 
 	__pBloomPP = make_shared<BloomPostProcessor>();
