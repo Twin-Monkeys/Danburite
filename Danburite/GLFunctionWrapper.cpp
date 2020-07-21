@@ -101,6 +101,7 @@ namespace ObjectGL
 
 	void GLFunctionWrapper::setFrontFace(const WindingOrderType type) noexcept
 	{
+		// The initial value is GL_CCW.
 		glFrontFace(GLenum(type));
 	}
 }

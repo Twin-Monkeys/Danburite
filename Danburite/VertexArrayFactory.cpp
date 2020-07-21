@@ -10,17 +10,19 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	shared_ptr<VertexArray> VertexArrayFactory::createRectangle(const VertexAttributeFlag vertexFlag)
+	shared_ptr<VertexArray> VertexArrayFactory::createRectangle(const VertexAttributeFlag vertexFlag, const float edgeLength)
 	{
 		if (vertexFlag & (VertexAttributeFlag::BONE | VertexAttributeFlag::MODELMAT))
 			throw VertexArrayFactoryException("Invalid flags are detected.");
 
-		constexpr vec3 positions[] =
+		const float EDGE_HALF = (edgeLength * .5f);
+
+		const vec3 positions[] =
 		{
-			{ -.5f, -.5f, 0.f },
-			{ .5f, -.5f, 0.f },
-			{ .5f, .5f, 0.f },
-			{ -.5f, .5f, 0.f }
+			{ -EDGE_HALF, -EDGE_HALF, 0.f },
+			{ EDGE_HALF, -EDGE_HALF, 0.f },
+			{ EDGE_HALF, EDGE_HALF, 0.f },
+			{ -EDGE_HALF, EDGE_HALF, 0.f }
 		};
 
 		constexpr vec4 color = { 1.f, 1.f, 1.f, 1.f };
@@ -76,30 +78,50 @@ namespace Danburite
 		return make_shared<VertexArray>(pVertexBuffer, pIndexBuffer, GLsizei(size(indices)));
 	}
 
-	shared_ptr<VertexArray> VertexArrayFactory::createCube(const VertexAttributeFlag vertexFlag)
+	shared_ptr<VertexArray> VertexArrayFactory::createCube(const VertexAttributeFlag vertexFlag, const float edgeLength)
 	{
 		if (vertexFlag & (VertexAttributeFlag::BONE | VertexAttributeFlag::MODELMAT))
 			throw VertexArrayFactoryException("Invalid flags are detected.");
 
-		constexpr vec3 positions[] =
+		const float EDGE_HALF = (edgeLength * .5f);
+
+		const vec3 positions[] =
 		{
 			// Top
-			{ -.5f, .5f, .5f }, { .5f, .5f, .5f }, { .5f, .5f, -.5f }, { -.5f, .5f, -.5f },
+			{ -EDGE_HALF, EDGE_HALF, EDGE_HALF },
+			{ EDGE_HALF, EDGE_HALF, EDGE_HALF },
+			{ EDGE_HALF, EDGE_HALF, -EDGE_HALF },
+			{ -EDGE_HALF, EDGE_HALF, -EDGE_HALF },
 
 			// Bottom
-			{ -.5f, -.5f, -.5f }, { .5f, -.5f, -.5f }, { .5f, -.5f, .5f }, { -.5f, -.5f, .5f },
+			{ -EDGE_HALF, -EDGE_HALF, -EDGE_HALF },
+			{ EDGE_HALF, -EDGE_HALF, -EDGE_HALF },
+			{ EDGE_HALF, -EDGE_HALF, EDGE_HALF },
+			{ -EDGE_HALF, -EDGE_HALF, EDGE_HALF },
 
 			// Right
-			{ .5f, -.5f, .5f }, { .5f, -.5f, -.5f }, { .5f, .5f, -.5f }, { .5f, .5f, .5f },
+			{ EDGE_HALF, -EDGE_HALF, EDGE_HALF },
+			{ EDGE_HALF, -EDGE_HALF, -EDGE_HALF },
+			{ EDGE_HALF, EDGE_HALF, -EDGE_HALF },
+			{ EDGE_HALF, EDGE_HALF, EDGE_HALF },
 
 			// Left
-			{ -.5f, -.5f, -.5f }, { -.5f, -.5f, .5f }, { -.5f, .5f, .5f }, { -.5f, .5f, -.5f },
+			{ -EDGE_HALF, -EDGE_HALF, -EDGE_HALF },
+			{ -EDGE_HALF, -EDGE_HALF, EDGE_HALF },
+			{ -EDGE_HALF, EDGE_HALF, EDGE_HALF },
+			{ -EDGE_HALF, EDGE_HALF, -EDGE_HALF },
 
 			// Forward
-			{ -.5f, -.5f, .5f }, { .5f, -.5f, .5f }, { .5f, .5f, .5f }, { -.5f, .5f, .5f },
+			{ -EDGE_HALF, -EDGE_HALF, EDGE_HALF },
+			{ EDGE_HALF, -EDGE_HALF, EDGE_HALF },
+			{ EDGE_HALF, EDGE_HALF, EDGE_HALF },
+			{ -EDGE_HALF, EDGE_HALF, EDGE_HALF },
 
 			// Backward
-			{ .5f, -.5f, -.5f }, { -.5f, -.5f, -.5f }, { -.5f, .5f, -.5f }, { .5f, .5f, -.5f }
+			{ EDGE_HALF, -EDGE_HALF, -EDGE_HALF },
+			{ -EDGE_HALF, -EDGE_HALF, -EDGE_HALF },
+			{ -EDGE_HALF, EDGE_HALF, -EDGE_HALF },
+			{ EDGE_HALF, EDGE_HALF, -EDGE_HALF }
 		};
 
 		constexpr vec4 color = { 1.f, 1.f, 1.f, 1.f };
@@ -206,7 +228,7 @@ namespace Danburite
 	}
 
 	shared_ptr<VertexArray> VertexArrayFactory::createSphere(
-		const VertexAttributeFlag vertexFlag, const size_t numStacks, const size_t numSectors)
+		const VertexAttributeFlag vertexFlag, const float radius, const size_t numStacks, const size_t numSectors)
 	{
 		if (vertexFlag & (VertexAttributeFlag::BONE | VertexAttributeFlag::MODELMAT))
 			throw VertexArrayFactoryException("Invalid flags are detected.");
@@ -222,14 +244,14 @@ namespace Danburite
 		for (size_t stackIter = 0ULL; stackIter <= numStacks; stackIter++)
 		{
 			vec3 pos;
-			pos.y = sinf(curStackAngle);
-			const float yProjLength = cosf(curStackAngle);
+			pos.y = (radius * sinf(curStackAngle));
+			const float yProjLength = (radius * cosf(curStackAngle));
 
 			float curSectorAngle = 0.f;
 			for (size_t sectorIter = 0ULL; sectorIter <= numSectors; sectorIter++)
 			{
 				pos.x = (yProjLength * cosf(curSectorAngle));
-				pos.z = (yProjLength * sinf(curSectorAngle));
+				pos.z = -(yProjLength * sinf(curSectorAngle));
 
 				if (vertexFlag & VertexAttributeFlag::POS)
 					vertices.insert(vertices.end(), { pos.x, pos.y, pos.z });
@@ -238,7 +260,10 @@ namespace Danburite
 					vertices.insert(vertices.end(), { color.r, color.g, color.b, color.a });
 
 				if (vertexFlag & VertexAttributeFlag::NORMAL)
-					vertices.insert(vertices.end(), { pos.x, pos.y, pos.z });
+				{
+					const vec3 &normal = (pos / radius);
+					vertices.insert(vertices.end(), { normal.x, normal.y, normal.z });
+				}
 
 				if (vertexFlag & VertexAttributeFlag::TEXCOORD)
 				{
