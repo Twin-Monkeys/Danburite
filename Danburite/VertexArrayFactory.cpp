@@ -118,7 +118,7 @@ namespace Danburite
 		indices.emplace_back(curIdx++);
 
 		float curSectorAngle = 0.f;
-		for (size_t sectorIter = 0ULL; sectorIter <= numSectors; sectorIter++)
+		for (size_t sectorIter = 0ULL; sectorIter < numSectors; sectorIter++)
 		{
 			const vec2 &orient = { cosf(curSectorAngle), sinf(curSectorAngle) };
 			const vec3 &pos = { (radius * orient.x), 0.f, -(radius * orient.y) };
@@ -144,6 +144,7 @@ namespace Danburite
 			indices.emplace_back(curIdx++);
 			curSectorAngle += sectorAngleStep;
 		}
+		indices.emplace_back(1);
 
 		const shared_ptr<VertexBuffer> &pVertexBuffer = make_shared<VertexBuffer>();
 		pVertexBuffer->memoryAlloc(vertices, BufferUpdatePatternType::STATIC);
@@ -417,9 +418,14 @@ namespace Danburite
 		const float sectorAngleStep = (two_pi<float>() / float(numSectors));
 
 		vector<GLfloat> vertices;
+		vector<GLuint> indices;
+		GLuint baseIdx = 0U;
 
 
 		// Top Lid //
+
+		vector<vec3> topLidVertPositions;
+		topLidVertPositions.reserve(numSectors);
 
 		if (vertexFlag & VertexAttributeFlag::POS)
 			vertices.insert(vertices.end(), { 0.f, height, 0.f });
@@ -437,10 +443,12 @@ namespace Danburite
 			vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
 
 		float curSectorAngle = 0.f;
-		for (size_t sectorIter = 0ULL; sectorIter <= numSectors; sectorIter++)
+		for (size_t sectorIter = 0ULL; sectorIter < numSectors; sectorIter++)
 		{
 			const vec2& orient = { cosf(curSectorAngle), sinf(curSectorAngle) };
-			const vec3& pos = { (topRadius * orient.x), (topRadius * orient.y), 0.f };
+			const vec3& pos = { (topRadius * orient.x), height, -(topRadius * orient.y) };
+
+			topLidVertPositions.emplace_back(pos);
 
 			if (vertexFlag & VertexAttributeFlag::POS)
 				vertices.insert(vertices.end(), { pos.x, pos.y, pos.z });
@@ -460,15 +468,217 @@ namespace Danburite
 			if (vertexFlag & VertexAttributeFlag::TANGENT)
 				vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
 
+			indices.emplace_back(baseIdx);
+			indices.emplace_back(baseIdx + GLuint(sectorIter));
+			indices.emplace_back(baseIdx + GLuint(((sectorIter + 1) != numSectors) ? (sectorIter + 1) : 1));
+
 			curSectorAngle += sectorAngleStep;
 		}
 
-		vector<GLuint> indices;
+		baseIdx += GLuint(numSectors + 1);
 
 
+		// Bottom Lid //
+
+		vector<vec3> bottomLidVertPositions;
+		bottomLidVertPositions.reserve(numSectors);
+
+		if (vertexFlag & VertexAttributeFlag::POS)
+			vertices.insert(vertices.end(), { 0.f, 0.f, 0.f });
+
+		if (vertexFlag & VertexAttributeFlag::COLOR)
+			vertices.insert(vertices.end(), { color.r, color.g, color.b, color.a });
+
+		if (vertexFlag & VertexAttributeFlag::NORMAL)
+			vertices.insert(vertices.end(), { normal_bottom.x, normal_bottom.y, normal_bottom.z });
+
+		if (vertexFlag & VertexAttributeFlag::TEXCOORD)
+			vertices.insert(vertices.end(), { .5f, .5f });
+
+		if (vertexFlag & VertexAttributeFlag::TANGENT)
+			vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
+
+		curSectorAngle = 0.f;
+		for (size_t sectorIter = 0ULL; sectorIter < numSectors; sectorIter++)
+		{
+			const vec2& orient = { cosf(curSectorAngle), -sinf(curSectorAngle) };
+			const vec3& pos = { (bottomRadius * orient.x), 0.f, (bottomRadius * orient.y) };
+
+			bottomLidVertPositions.emplace_back(pos);
+
+			if (vertexFlag & VertexAttributeFlag::POS)
+				vertices.insert(vertices.end(), { pos.x, pos.y, pos.z });
+
+			if (vertexFlag & VertexAttributeFlag::COLOR)
+				vertices.insert(vertices.end(), { color.r, color.g, color.b, color.a });
+
+			if (vertexFlag & VertexAttributeFlag::NORMAL)
+				vertices.insert(vertices.end(), { normal_bottom.x, normal_bottom.y, normal_bottom.z });
+
+			if (vertexFlag & VertexAttributeFlag::TEXCOORD)
+			{
+				const vec2& texCoord = ((orient + 1.f) * .5f);
+				vertices.insert(vertices.end(), { texCoord.x, texCoord.y });
+			}
+
+			if (vertexFlag & VertexAttributeFlag::TANGENT)
+				vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
+
+			indices.emplace_back(baseIdx);
+			indices.emplace_back(baseIdx + GLuint(((sectorIter + 1) != numSectors) ? (sectorIter + 1) : 1));
+			indices.emplace_back(baseIdx + GLuint(sectorIter));
+
+			curSectorAngle += sectorAngleStep;
+		}
+
+		baseIdx += GLuint(numSectors + 1);
 
 
+		// Side //
 
+		GLuint sideVertCount = 0U;
+
+		for (size_t sectorIter = 0ULL; sectorIter < numSectors; sectorIter++)
+		{
+			const vec3 &curTopLidVertPos = topLidVertPositions[sectorIter];
+			const vec3 &curBottomLidVertPos = bottomLidVertPositions[sectorIter];
+
+			const vec3 &nextTopLidVertPos = topLidVertPositions[((sectorIter + 1) != numSectors) ? (sectorIter + 1) : 0];
+			const vec3 &nextBottomLidVertPos = bottomLidVertPositions[((sectorIter + 1) != numSectors) ? (sectorIter + 1) : 0];
+
+			vec3 curNormal;
+			vec2 curProjNormal;
+			vec3 curTangent;
+
+			vec3 nextNormal;
+			vec2 nextProjNormal;
+			vec3 nextTangent;
+
+			if (vertexFlag & VertexAttributeFlag::NORMAL)
+			{
+				// current normal
+
+				curProjNormal = { curTopLidVertPos.x, curTopLidVertPos.z };
+				float curProjNormalLength = length(curProjNormal);
+
+				if (epsilonEqual(curProjNormalLength, 0.f, epsilon<float>()))
+				{
+					curProjNormal = { curBottomLidVertPos.x, curBottomLidVertPos.z };
+					curProjNormalLength = length(curProjNormal);
+
+					if (epsilonEqual(curProjNormalLength, 0.f, epsilon<float>()))
+						throw VertexArrayException("Invalid parameters are detected.");
+				}
+
+				curProjNormal /= curProjNormalLength;
+				curNormal = normalize(vec3{ curProjNormal.x, (bottomRadius - topRadius) / height, curProjNormal.y });
+
+
+				// next normal
+
+				nextProjNormal = { nextTopLidVertPos.x, nextTopLidVertPos.z };
+				float nextProjNormalLength = length(nextProjNormal);
+
+				if (epsilonEqual(nextProjNormalLength, 0.f, epsilon<float>()))
+				{
+					nextProjNormal = { nextBottomLidVertPos.x, nextBottomLidVertPos.z };
+					nextProjNormalLength = length(nextProjNormal);
+
+					if (epsilonEqual(nextProjNormalLength, 0.f, epsilon<float>()))
+						throw VertexArrayException("Invalid parameters are detected.");
+				}
+
+				nextProjNormal /= nextProjNormalLength;
+				nextNormal = normalize(vec3{ nextProjNormal.x, (bottomRadius - topRadius) / height, nextProjNormal.y });
+			}
+			
+			if (vertexFlag & VertexAttributeFlag::TANGENT)
+			{
+				curTangent = normalize(vec3{ curProjNormal.y, 0.f, -curProjNormal.x });
+				nextTangent = normalize(vec3{ nextProjNormal.y, 0.f, -nextProjNormal.x });
+			}
+
+			// cur top
+
+			if (vertexFlag & VertexAttributeFlag::POS)
+				vertices.insert(vertices.end(), { curTopLidVertPos.x, curTopLidVertPos.y, curTopLidVertPos.z });
+
+			if (vertexFlag & VertexAttributeFlag::COLOR)
+				vertices.insert(vertices.end(), { color.r, color.g, color.b, color.a });
+
+			if (vertexFlag & VertexAttributeFlag::NORMAL)
+				vertices.insert(vertices.end(), { curNormal.x, curNormal.y, curNormal.z });
+
+			if (vertexFlag & VertexAttributeFlag::TEXCOORD)
+				vertices.insert(vertices.end(), { float(sectorIter) / float(numSectors), 1.f });
+
+			if (vertexFlag & VertexAttributeFlag::TANGENT)
+				vertices.insert(vertices.end(), { curTangent.x, curTangent.y, curTangent.z });
+
+
+			// cur bottom
+
+			if (vertexFlag & VertexAttributeFlag::POS)
+				vertices.insert(vertices.end(), { curBottomLidVertPos.x, curBottomLidVertPos.y, curBottomLidVertPos.z });
+
+			if (vertexFlag & VertexAttributeFlag::COLOR)
+				vertices.insert(vertices.end(), { color.r, color.g, color.b, color.a });
+
+			if (vertexFlag & VertexAttributeFlag::NORMAL)
+				vertices.insert(vertices.end(), { curNormal.x, curNormal.y, curNormal.z });
+
+			if (vertexFlag & VertexAttributeFlag::TEXCOORD)
+				vertices.insert(vertices.end(), { float(sectorIter) / float(numSectors), 0.f });
+
+			if (vertexFlag & VertexAttributeFlag::TANGENT)
+				vertices.insert(vertices.end(), { curTangent.x, curTangent.y, curTangent.z });
+
+
+			// next top
+
+			if (vertexFlag & VertexAttributeFlag::POS)
+				vertices.insert(vertices.end(), { nextTopLidVertPos.x, nextTopLidVertPos.y, nextTopLidVertPos.z });
+
+			if (vertexFlag & VertexAttributeFlag::COLOR)
+				vertices.insert(vertices.end(), { color.r, color.g, color.b, color.a });
+
+			if (vertexFlag & VertexAttributeFlag::NORMAL)
+				vertices.insert(vertices.end(), { nextNormal.x, nextNormal.y, nextNormal.z });
+
+			if (vertexFlag & VertexAttributeFlag::TEXCOORD)
+				vertices.insert(vertices.end(), { float(sectorIter + 1) / float(numSectors), 1.f });
+
+			if (vertexFlag & VertexAttributeFlag::TANGENT)
+				vertices.insert(vertices.end(), { nextTangent.x, nextTangent.y, nextTangent.z });
+
+
+			// cur bottom
+
+			if (vertexFlag & VertexAttributeFlag::POS)
+				vertices.insert(vertices.end(), { nextBottomLidVertPos.x, nextBottomLidVertPos.y, nextBottomLidVertPos.z });
+
+			if (vertexFlag & VertexAttributeFlag::COLOR)
+				vertices.insert(vertices.end(), { color.r, color.g, color.b, color.a });
+
+			if (vertexFlag & VertexAttributeFlag::NORMAL)
+				vertices.insert(vertices.end(), { nextNormal.x, nextNormal.y, nextNormal.z });
+
+			if (vertexFlag & VertexAttributeFlag::TEXCOORD)
+				vertices.insert(vertices.end(), { float(sectorIter + 1) / float(numSectors), 0.f });
+
+			if (vertexFlag & VertexAttributeFlag::TANGENT)
+				vertices.insert(vertices.end(), { nextTangent.x, nextTangent.y, nextTangent.z });
+
+			indices.emplace_back(baseIdx + sideVertCount);
+			indices.emplace_back(baseIdx + sideVertCount + 1U);
+			indices.emplace_back(baseIdx + (((sectorIter + 1) != numSectors) ? sideVertCount : 0U) + 3U);
+
+			indices.emplace_back(baseIdx + sideVertCount);
+			indices.emplace_back(baseIdx + (((sectorIter + 1) != numSectors) ? sideVertCount : 0U) + 3U);
+			indices.emplace_back(baseIdx + (((sectorIter + 1) != numSectors) ? sideVertCount : 0U) + 2U);
+
+			sideVertCount += 4U;
+		}
 
 		const shared_ptr<VertexBuffer>& pVertexBuffer = make_shared<VertexBuffer>();
 		pVertexBuffer->memoryAlloc(vertices, BufferUpdatePatternType::STATIC);
@@ -477,10 +687,6 @@ namespace Danburite
 		const shared_ptr<IndexBuffer>& pIndexBuffer = make_shared<IndexBuffer>();
 		pIndexBuffer->memoryAlloc(indices, BufferUpdatePatternType::STATIC);
 
-		const shared_ptr<VertexArray>& pRetVal =
-			make_shared<VertexArray>(pVertexBuffer, pIndexBuffer, GLsizei(indices.size()));
-
-		pRetVal->setPrimitiveType(PrimitiveType::TRIANGLE_FAN);
-		return pRetVal;
+		return make_shared<VertexArray>(pVertexBuffer, pIndexBuffer, GLsizei(indices.size()));
 	}
 }

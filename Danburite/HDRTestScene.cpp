@@ -50,8 +50,8 @@ HDRTestScene::HDRTestScene()
 	Transform& floorTransform = __pFloorObj->getTransform();
 	floorTransform.setScale(80.f, 1.f, 80.f);
 
-	const shared_ptr<VertexArray> &pSphereVA = VertexArrayFactory::createSphere(
-		VertexAttributeFlag::POS | VertexAttributeFlag::COLOR | VertexAttributeFlag::NORMAL);
+	const shared_ptr<VertexArray> &pSphereVA = VertexArrayFactory::createCylinder(
+		VertexAttributeFlag::POS | VertexAttributeFlag::COLOR | VertexAttributeFlag::NORMAL, 1.f, 2.f, 3.f);
 
 	const shared_ptr<PhongMaterial> &pSphereMaterial = make_shared<PhongMaterial>(
 		VertexAttributeFlag::POS | VertexAttributeFlag::COLOR | VertexAttributeFlag::NORMAL);
