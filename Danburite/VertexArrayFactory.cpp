@@ -85,7 +85,8 @@ namespace Danburite
 	shared_ptr<VertexArray> VertexArrayFactory::createCircle(
 		const VertexAttributeFlag vertexFlag, const float radius, const size_t numSectors)
 	{
-		if (vertexFlag & (VertexAttributeFlag::BONE | VertexAttributeFlag::MODELMAT))
+		if ((vertexFlag & (VertexAttributeFlag::BONE | VertexAttributeFlag::MODELMAT)) ||
+			(numSectors < 3ULL))
 			throw VertexArrayFactoryException("Invalid flags are detected.");
 
 		constexpr vec4 color = { 1.f, 1.f, 1.f, 1.f };
@@ -312,7 +313,8 @@ namespace Danburite
 	shared_ptr<VertexArray> VertexArrayFactory::createSphere(
 		const VertexAttributeFlag vertexFlag, const float radius, const size_t numStacks, const size_t numSectors)
 	{
-		if (vertexFlag & (VertexAttributeFlag::BONE | VertexAttributeFlag::MODELMAT))
+		if ((vertexFlag & (VertexAttributeFlag::BONE | VertexAttributeFlag::MODELMAT)) ||
+			(numStacks < 2ULL) || (numSectors < 3ULL))
 			throw VertexArrayFactoryException("Invalid flags are detected.");
 
 		constexpr vec4 color = { 1.f, 1.f, 1.f, 1.f };
@@ -406,7 +408,10 @@ namespace Danburite
 		const VertexAttributeFlag vertexFlag, const float topRadius, const float bottomRadius,
 		const float height, const size_t numSectors)
 	{
-		if ((vertexFlag & (VertexAttributeFlag::BONE | VertexAttributeFlag::MODELMAT)) || (numSectors < 3ULL))
+		if ((vertexFlag & (VertexAttributeFlag::BONE | VertexAttributeFlag::MODELMAT)) ||
+			(numSectors < 3ULL) ||
+			(epsilonEqual(topRadius, 0.f, epsilon<float>()) && epsilonEqual(bottomRadius, 0.f, epsilon<float>())) ||
+			(height < epsilon<float>()))
 			throw VertexArrayFactoryException("Invalid flags are detected.");
 
 		constexpr vec4 color = { 1.f, 1.f, 1.f, 1.f };
@@ -469,7 +474,7 @@ namespace Danburite
 
 			indices.emplace_back(baseIdx);
 			indices.emplace_back(baseIdx + 1U + GLuint(sectorIter));
-			indices.emplace_back(baseIdx + 1U + GLuint(((sectorIter + 1) != numSectors) ? (sectorIter + 1) : 0));
+			indices.emplace_back(baseIdx + 1U + GLuint((sectorIter + 1) % numSectors));
 
 			curSectorAngle += sectorAngleStep;
 		}
@@ -524,7 +529,7 @@ namespace Danburite
 				vertices.insert(vertices.end(), { tangent_topBottom.x, tangent_topBottom.y, tangent_topBottom.z });
 
 			indices.emplace_back(baseIdx);
-			indices.emplace_back(baseIdx + 1U + GLuint(((sectorIter + 1) != numSectors) ? (sectorIter + 1) : 0));
+			indices.emplace_back(baseIdx + 1U + GLuint((sectorIter + 1) % numSectors));
 			indices.emplace_back(baseIdx + 1U + GLuint(sectorIter));
 
 			curSectorAngle += sectorAngleStep;
@@ -534,8 +539,6 @@ namespace Danburite
 
 
 		// Side //
-
-		GLuint sideVertCount = 0U;
 
 		for (size_t sectorIter = 0ULL; sectorIter < numSectors; sectorIter++)
 		{
@@ -668,15 +671,13 @@ namespace Danburite
 			if (vertexFlag & VertexAttributeFlag::TANGENT)
 				vertices.insert(vertices.end(), { nextTangent.x, nextTangent.y, nextTangent.z });
 
-			indices.emplace_back(baseIdx + sideVertCount);
-			indices.emplace_back(baseIdx + sideVertCount + 1U);
-			indices.emplace_back(baseIdx + sideVertCount + 3U);
+			indices.emplace_back(baseIdx + GLuint(sectorIter * 4ULL));
+			indices.emplace_back(baseIdx + GLuint(sectorIter * 4ULL) + 1U);
+			indices.emplace_back(baseIdx + GLuint(sectorIter * 4ULL) + 3U);
 
-			indices.emplace_back(baseIdx + sideVertCount);
-			indices.emplace_back(baseIdx + sideVertCount + 3U);
-			indices.emplace_back(baseIdx + sideVertCount + 2U);
-
-			sideVertCount += 4U;
+			indices.emplace_back(baseIdx + GLuint(sectorIter * 4ULL));
+			indices.emplace_back(baseIdx + GLuint(sectorIter * 4ULL) + 3U);
+			indices.emplace_back(baseIdx + GLuint(sectorIter * 4ULL) + 2U);
 		}
 
 		const shared_ptr<VertexBuffer>& pVertexBuffer = make_shared<VertexBuffer>();

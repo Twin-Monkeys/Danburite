@@ -51,17 +51,21 @@ HDRTestScene::HDRTestScene()
 	floorTransform.setScale(80.f, 1.f, 80.f);
 
 	const shared_ptr<VertexArray> &pSphereVA = VertexArrayFactory::createCylinder(
-		VertexAttributeFlag::POS | VertexAttributeFlag::COLOR | VertexAttributeFlag::NORMAL);
+		VertexAttributeFlag::POS | VertexAttributeFlag::TEXCOORD | VertexAttributeFlag::NORMAL, 1.f);
 
 	const shared_ptr<PhongMaterial> &pSphereMaterial = make_shared<PhongMaterial>(
-		VertexAttributeFlag::POS | VertexAttributeFlag::COLOR | VertexAttributeFlag::NORMAL);
+		VertexAttributeFlag::POS | VertexAttributeFlag::TEXCOORD | VertexAttributeFlag::NORMAL);
+
+	pSphereMaterial->setDiffuseTexture(pFloor_diffuse);
+	pSphereMaterial->useDiffuseTexture(true);
+	pSphereMaterial->setShininess(150.f);
 
 	__pSphereObj = make_shared<SceneObject>();
 	__pSphereObj->createNode(pSphereVA, pSphereMaterial);
 
 	Transform &sphereTransform = __pSphereObj->getTransform();
 	sphereTransform.setScale(3.f);
-	sphereTransform.setPosition(0.f, 6.f, 0.f);
+	sphereTransform.setPosition(0.f, 7.f, 0.f);
 
 	__pLampObj = AssetImporter::import("res/asset/bulb_fish/scene.gltf");
 	__pLampObj->setNumInstances(2);
