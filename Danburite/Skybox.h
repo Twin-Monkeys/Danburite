@@ -9,10 +9,11 @@ namespace Danburite
 	{
 	private:
 		ObjectGL::UniformSetter &__skyBoxSetter;
+		std::shared_ptr<ObjectGL::VertexArray> __pCubeVA;
 
 	protected:
 		virtual void _onDraw(ObjectGL::UniformSetter &uniformSetter) noexcept = 0;
-		static void _drawBoxVA() noexcept;
+		void _drawBoxVA() noexcept;
 
 	public:
 		Skybox() noexcept;

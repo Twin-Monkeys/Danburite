@@ -272,6 +272,7 @@
     <ClCompile Include="PerspectiveCamera.cpp" />
     <ClCompile Include="VertexArray.cpp" />
     <ClCompile Include="VertexArrayFactory.cpp" />
+    <ClCompile Include="VertexArrayFactoryException.cpp" />
     <ClCompile Include="VertexAttributeDataStructureFactory.cpp" />
     <ClCompile Include="VertexShaderCompiler.cpp" />
     <ClCompile Include="Win32Screen.cpp" />
@@ -443,6 +444,7 @@
     <ClInclude Include="PerspectiveCamera.h" />
     <ClInclude Include="VertexArray.h" />
     <ClInclude Include="VertexArrayFactory.h" />
+    <ClInclude Include="VertexArrayFactoryException.h" />
     <ClInclude Include="VertexAttributeDataStructure.h" />
     <ClInclude Include="VertexAttributeDataStructureType.h" />
     <ClInclude Include="VertexAttributeDataStructureFactory.h" />

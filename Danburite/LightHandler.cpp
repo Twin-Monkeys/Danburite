@@ -15,8 +15,8 @@ namespace Danburite
 		__lights.safeTraverse(&Light::selfDeploy);
 	}
 
-	void LightHandler::batchBakeDepthMap(Drawer &drawer, const bool skipIfShadowDisabled) noexcept
+	void LightHandler::batchBakeDepthMap(Drawer &drawer) noexcept
 	{
-		__lights.safeTraverse(&Light::bakeDepthMap, drawer, skipIfShadowDisabled);
+		__lights.safeTraverse(&Light::bakeDepthMap, drawer);
 	}
 }

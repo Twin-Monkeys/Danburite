@@ -1,7 +1,6 @@
 #include "VertexArrayFactory.h"
 #include <glm/glm.hpp>
 #include "VertexAttributeListFactory.h"
-#include "RenderContext.h"
 
 using namespace std;
 using namespace glm;
@@ -9,19 +8,7 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	shared_ptr<VertexArray> VertexArrayFactory::getVertexArrayPtr(
-		const ShapeType shapeType, const VertexAttributeFlag vertexFlag)
-	{
-		return __cacheCache.getValue(shapeType)->getValue(vertexFlag);
-	}
-
-	VertexArray &VertexArrayFactory::
-		getVertexArrayReference(const ShapeType shapeType, const VertexAttributeFlag vertexFlag)
-	{
-		return *(__cacheCache.getValue(shapeType)->getValue(vertexFlag));
-	}
-
-	shared_ptr<VertexArray> VertexArrayFactory::RectangleCache::_onProvideValue(const VertexAttributeFlag &key)
+	shared_ptr<VertexArray> VertexArrayFactory::__createInstance_rectangle(const VertexAttributeFlag vertexFlag)
 	{
 		constexpr vec3 positions[] =
 		{
@@ -47,29 +34,29 @@ namespace Danburite
 		vector<GLfloat> vertices;
 		for (unsigned i = 0; i < 4; i++)
 		{
-			if (key & VertexAttributeFlag::POS)
+			if (vertexFlag & VertexAttributeFlag::POS)
 			{
 				const vec3 &pos = positions[i];
 				vertices.insert(vertices.end(), { pos.x, pos.y, pos.z });
 			}
 
-			if (key & VertexAttributeFlag::COLOR)
+			if (vertexFlag & VertexAttributeFlag::COLOR)
 				vertices.insert(vertices.end(), { color.r, color.g, color.b, color.a });
 
-			if (key & VertexAttributeFlag::NORMAL)
+			if (vertexFlag & VertexAttributeFlag::NORMAL)
 				vertices.insert(vertices.end(), { normal.x, normal.y, normal.z });
 
-			if (key & VertexAttributeFlag::TEXCOORD)
+			if (vertexFlag & VertexAttributeFlag::TEXCOORD)
 			{
 				const vec2 &texCoord = texCoords[i];
 				vertices.insert(vertices.end(), { texCoord.x, texCoord.y });
 			}
 
-			if (key & VertexAttributeFlag::TANGENT)
+			if (vertexFlag & VertexAttributeFlag::TANGENT)
 				vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
 		}
 
-		const vector<VertexAttribute> &attribList = VertexAttributeListFactory::getInstance(key);
+		const vector<VertexAttribute> &attribList = VertexAttributeListFactory::getInstance(vertexFlag);
 
 		const shared_ptr<VertexBuffer> &pVertexBuffer = make_shared<VertexBuffer>();
 		pVertexBuffer->memoryAlloc(vertices, BufferUpdatePatternType::STATIC);
@@ -86,7 +73,7 @@ namespace Danburite
 		return make_shared<VertexArray>(pVertexBuffer, pIndexBuffer, GLsizei(size(indices)));
 	}
 
-	shared_ptr<VertexArray> VertexArrayFactory::CubeCache::_onProvideValue(const VertexAttributeFlag &key)
+	shared_ptr<VertexArray> VertexArrayFactory::__createInstance_cube(const VertexAttributeFlag vertexFlag)
 	{
 		constexpr vec3 positions[] =
 		{
@@ -164,35 +151,35 @@ namespace Danburite
 		vector<GLfloat> vertices;
 		for (unsigned i = 0; i < 24; i++)
 		{
-			if (key & VertexAttributeFlag::POS)
+			if (vertexFlag & VertexAttributeFlag::POS)
 			{
 				const vec3 &pos = positions[i];
 				vertices.insert(vertices.end(), { pos.x, pos.y, pos.z });
 			}
 
-			if (key & VertexAttributeFlag::COLOR)
+			if (vertexFlag & VertexAttributeFlag::COLOR)
 				vertices.insert(vertices.end(), { color.r, color.g, color.b, color.a });
 
-			if (key & VertexAttributeFlag::NORMAL)
+			if (vertexFlag & VertexAttributeFlag::NORMAL)
 			{
 				const vec3 &normal = normals[i / 4];
 				vertices.insert(vertices.end(), { normal.x, normal.y, normal.z });
 			}
 
-			if (key & VertexAttributeFlag::TEXCOORD)
+			if (vertexFlag & VertexAttributeFlag::TEXCOORD)
 			{
 				const vec2 &texCoord = texCoords[i % 4];
 				vertices.insert(vertices.end(), { texCoord.x, texCoord.y });
 			}
 
-			if (key & VertexAttributeFlag::TANGENT)
+			if (vertexFlag & VertexAttributeFlag::TANGENT)
 			{
 				const vec3 &tangent = tangents[i / 4];
 				vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
 			}
 		}
 
-		const vector<VertexAttribute> &attribList = VertexAttributeListFactory::getInstance(key);
+		const vector<VertexAttribute> &attribList = VertexAttributeListFactory::getInstance(vertexFlag);
 
 		const shared_ptr<VertexBuffer> &pVertexBuffer = make_shared<VertexBuffer>();
 		pVertexBuffer->memoryAlloc(vertices, BufferUpdatePatternType::STATIC);
@@ -214,19 +201,20 @@ namespace Danburite
 		return make_shared<VertexArray>(pVertexBuffer, pIndexBuffer, GLsizei(size(indices)));
 	}
 
-	shared_ptr<Cache<VertexAttributeFlag, shared_ptr<VertexArray>>>
-		VertexArrayFactory::CacheCache::_onProvideValue(const ShapeType &key)
+	shared_ptr<VertexArray> VertexArrayFactory::createInstance(const ShapeType shapeType, const VertexAttributeFlag vertexFlag)
 	{
-		switch (key)
+		if (vertexFlag & (VertexAttributeFlag::BONE | VertexAttributeFlag::MODELMAT))
+			throw VertexArrayFactoryException("Invalid vertex flags are detected.");
+
+		switch (shapeType)
 		{
 		case ShapeType::RECTANGLE:
-			return make_shared<RectangleCache>();
+			return __createInstance_rectangle(vertexFlag);
 
 		case ShapeType::CUBE:
-			return make_shared<CubeCache>();
+			return __createInstance_cube(vertexFlag);
 		}
 
-		assert(false);
 		return nullptr;
 	}
 }

@@ -26,8 +26,6 @@ ParallaxMapTestScene::ParallaxMapTestScene()
 
 	//// Rendering unit »ý¼º ////
 
-	VertexArrayFactory& vaFactory = VertexArrayFactory::getInstance();
-
 	const shared_ptr<Texture2D>& pWoodToyTexture_diffuse =
 		TextureUtil::createTexture2DFromImage("res/image/wood_toy/wood_toy_diffuse.png");
 
@@ -52,7 +50,7 @@ ParallaxMapTestScene::ParallaxMapTestScene()
 	pWoodToyTexture_height->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
 	pWoodToyTexture_height->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 
-	const shared_ptr<VertexArray>& pWoodToyVA = vaFactory.getVertexArrayPtr(
+	const shared_ptr<VertexArray>& pWoodToyVA = VertexArrayFactory::createInstance(
 		ShapeType::RECTANGLE, VertexAttributeFlag::POS | VertexAttributeFlag::NORMAL | VertexAttributeFlag::TEXCOORD | VertexAttributeFlag::TANGENT);
 
 	const shared_ptr<PhongMaterial>& pWoodToyMaterial = make_shared<PhongMaterial>(
@@ -215,7 +213,7 @@ void ParallaxMapTestScene::onMouseDelta(const int xDelta, const int yDelta) noex
 	constexpr float ROTATION_SPEED = .004f;
 
 	Transform& cameraTransform = __pCamera->getTransform();
-	cameraTransform.rotateGlobal(-(yDelta * ROTATION_SPEED), -(xDelta * ROTATION_SPEED), 0.f);
+	cameraTransform.rotateFPS(-(yDelta * ROTATION_SPEED), -(xDelta * ROTATION_SPEED));
 }
 
 void ParallaxMapTestScene::onMouseMButtonDown(const int x, const int y) noexcept

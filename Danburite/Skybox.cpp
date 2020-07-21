@@ -10,7 +10,9 @@ namespace Danburite
 {
 	Skybox::Skybox() noexcept :
 		__skyBoxSetter(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::SKYBOX))
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::SKYBOX)),
+
+		__pCubeVA(VertexArrayFactory::createInstance(ShapeType::CUBE, VertexAttributeFlag::POS))
 	{}
 
 	void Skybox::draw() noexcept
@@ -20,9 +22,6 @@ namespace Danburite
 
 	void Skybox::_drawBoxVA() noexcept
 	{
-		VertexArray &cubeVA =
-			VertexArrayFactory::getInstance().getVertexArrayReference(ShapeType::CUBE, VertexAttributeFlag::POS);
-
-		cubeVA.draw();
+		__pCubeVA->draw();
 	}
 }

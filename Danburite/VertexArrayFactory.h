@@ -3,46 +3,17 @@
 #include "VertexArray.h"
 #include "ShapeType.h"
 #include "VertexAttributeFlag.h"
-#include "Cache.h"
-#include "RenderContext.h"
+#include "VertexArrayFactoryException.h"
 
 namespace Danburite
 {
-	class VertexArrayFactory : public ObjectGL::ContextDependentSingleton<VertexArrayFactory>
+	class VertexArrayFactory abstract final
 	{
-		friend ObjectGL::ContextDependentSingleton<VertexArrayFactory>;
-
 	private:
-		class RectangleCache : public ObjectGL::Cache<VertexAttributeFlag, std::shared_ptr<ObjectGL::VertexArray>>
-		{
-		protected:
-			virtual std::shared_ptr<ObjectGL::VertexArray> _onProvideValue(const VertexAttributeFlag&key) override;
-		};
-
-		class CubeCache : public ObjectGL::Cache<VertexAttributeFlag, std::shared_ptr<ObjectGL::VertexArray>>
-		{
-		protected:
-			virtual std::shared_ptr<ObjectGL::VertexArray> _onProvideValue(const VertexAttributeFlag&key) override;
-		};
-
-		class CacheCache : public ObjectGL::Cache<ShapeType, std::shared_ptr<ObjectGL::Cache<VertexAttributeFlag, std::shared_ptr<ObjectGL::VertexArray>>>>
-		{
-		protected:
-			virtual std::shared_ptr<ObjectGL::Cache<VertexAttributeFlag, std::shared_ptr<ObjectGL::VertexArray>>>
-				_onProvideValue(const ShapeType &key) override;
-		};
-
-		CacheCache __cacheCache;
-
-		VertexArrayFactory() = default;
-		VertexArrayFactory(const VertexArrayFactory &) = delete;
-		VertexArrayFactory(VertexArrayFactory &&) = delete;
+		static std::shared_ptr<ObjectGL::VertexArray> __createInstance_rectangle(const VertexAttributeFlag vertexFlag);
+		static std::shared_ptr<ObjectGL::VertexArray> __createInstance_cube(const VertexAttributeFlag vertexFlag);
 
 	public:
-		std::shared_ptr<ObjectGL::VertexArray>
-			getVertexArrayPtr(const ShapeType shapeType, const VertexAttributeFlag vertexFlag);
-
-		ObjectGL::VertexArray &
-			getVertexArrayReference(const ShapeType shapeType, const VertexAttributeFlag vertexFlag);
+		static std::shared_ptr<ObjectGL::VertexArray> createInstance(const ShapeType shapeType, const VertexAttributeFlag vertexFlag);
 	};
 }

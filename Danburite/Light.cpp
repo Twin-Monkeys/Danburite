@@ -43,9 +43,9 @@ namespace Danburite
 		_onDeployShadowData(__lightSetter);
 	}
 
-	void Light::bakeDepthMap(Drawer &drawer, const bool cancelIfShadowDisabled) noexcept
+	void Light::bakeDepthMap(Drawer &drawer) noexcept
 	{
-		if (cancelIfShadowDisabled && !isShadowEnabled())
+		if (!isShadowEnabled())
 			return;
 
 		_onBakeDepthMap(drawer);

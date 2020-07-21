@@ -26,8 +26,6 @@ HDRTestScene::HDRTestScene()
 
 	//// Rendering unit »ý¼º ////
 
-	VertexArrayFactory& vaFactory = VertexArrayFactory::getInstance();
-
 	const shared_ptr<Texture2D>& pFloor_diffuse =
 		TextureUtil::createTexture2DFromImage("res/image/metal.jpg");
 
@@ -36,7 +34,7 @@ HDRTestScene::HDRTestScene()
 	pFloor_diffuse->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
 	pFloor_diffuse->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 
-	const shared_ptr<VertexArray>& pFloorVA = vaFactory.getVertexArrayPtr(
+	const shared_ptr<VertexArray> &pFloorVA = VertexArrayFactory::createInstance(
 			ShapeType::RECTANGLE, VertexAttributeFlag::POS | VertexAttributeFlag::NORMAL | VertexAttributeFlag::TEXCOORD);
 
 	const shared_ptr<PhongMaterial>& pFloorMaterial = make_shared<PhongMaterial>(
