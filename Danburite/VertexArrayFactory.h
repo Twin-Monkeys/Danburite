@@ -18,7 +18,6 @@ namespace Danburite
 		static std::shared_ptr<ObjectGL::VertexArray> createCube(
 			const VertexAttributeFlag vertexFlag, const float edgeLength = 1.f);
 
-
 		static std::shared_ptr<ObjectGL::VertexArray> createSphere(
 			const VertexAttributeFlag vertexFlag, const float radius = 1.f,
 			const size_t numStacks = 18ULL, const size_t numSectors = 36ULL);
