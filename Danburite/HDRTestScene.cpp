@@ -50,8 +50,8 @@ HDRTestScene::HDRTestScene()
 	Transform& floorTransform = __pFloorObj->getTransform();
 	floorTransform.setScale(80.f, 1.f, 80.f);
 
-	const shared_ptr<VertexArray> &pSphereVA = VertexArrayFactory::createCube(
-		VertexAttributeFlag::POS | VertexAttributeFlag::TEXCOORD | VertexAttributeFlag::NORMAL);
+	const shared_ptr<VertexArray> &pSphereVA = VertexArrayFactory::createCylinder(
+		VertexAttributeFlag::POS | VertexAttributeFlag::TEXCOORD | VertexAttributeFlag::NORMAL, 1.f, 2.f, 3.f, 4);
 
 	const shared_ptr<PhongMaterial> &pSphereMaterial = make_shared<PhongMaterial>(
 		VertexAttributeFlag::POS | VertexAttributeFlag::TEXCOORD | VertexAttributeFlag::NORMAL);
@@ -206,6 +206,9 @@ HDRTestScene::HDRTestScene()
 
 	__pHDRPP = make_shared<HDRPostProcessor>();
 	__pPPPipeline->addProcessor(__pHDRPP.get());
+
+	__pForwardPipeline = make_unique<ForwardRenderingPipeline>(
+		*__pLightHandler, *__pCamera, *__pDrawer, *__pPPPipeline);
 }
 
 bool HDRTestScene::__keyFunc(const float deltaTime) noexcept
@@ -265,22 +268,7 @@ bool HDRTestScene::__keyFunc(const float deltaTime) noexcept
 
 void HDRTestScene::draw() noexcept
 {
-	__pLightHandler->batchDeploy();
-	__pLightHandler->batchBakeDepthMap(*__pDrawer);
-
-	UniformBuffer& ubCamera =
-		UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::CAMERA);
-
-	ubCamera.directDeploy(*__pCamera);
-
-	__pPPPipeline->bind();
-	GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
-
-	__pDrawer->batchDraw();
-	PostProcessingPipeline::unbind();
-
-	// Render to screen
-	__pPPPipeline->render();
+	__pForwardPipeline->render();
 	RenderContext::getCurrent()->requestBufferSwapping();
 }
 

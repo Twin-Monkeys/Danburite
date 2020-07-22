@@ -14,6 +14,7 @@
 #include "BloomPostProcessor.h"
 #include "HDRPostProcessor.h"
 #include "PostProcessingPipeline.h"
+#include "ForwardRenderingPipeline.h"
 
 class HDRTestScene : public Danburite::Scene, public ObjectGL::ScreenEventHandler
 {
@@ -43,6 +44,8 @@ private:
 	std::shared_ptr<Danburite::BloomPostProcessor> __pBloomPP;
 	std::shared_ptr<Danburite::HDRPostProcessor> __pHDRPP;
 	std::shared_ptr<Danburite::PostProcessingPipeline> __pPPPipeline;
+
+	std::unique_ptr<Danburite::ForwardRenderingPipeline> __pForwardPipeline;
 
 	float __emissiveStrength = 0.f;
 	bool __doorOpened = false;

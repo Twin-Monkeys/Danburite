@@ -37,9 +37,6 @@
     <Filter Include="Library\Engine\Util">
       <UniqueIdentifier>{b7320418-1b03-4a4f-aaa9-3ee94646902a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Library\Engine\Base">
-      <UniqueIdentifier>{462d87cf-07d8-4802-8902-81a836f74a69}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library\Engine\Core">
       <UniqueIdentifier>{85203c66-abef-4161-aaef-96fe782b2477}</UniqueIdentifier>
     </Filter>
@@ -271,9 +268,6 @@
     <Filter Include="Library\ObjectGL\Core\Shader\Compiler\GeometryShaderCompiler">
       <UniqueIdentifier>{55ce2923-a802-4c6d-a7c7-3ec1bd089d37}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Library\Engine\Base\Interface">
-      <UniqueIdentifier>{5193592d-2a04-40d3-ad5e-e60f11df3d0d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library\ObjectGL\Base\interface">
       <UniqueIdentifier>{4957fde3-2955-4d79-9676-1c9f209c117c}</UniqueIdentifier>
     </Filter>
@@ -357,6 +351,15 @@
     </Filter>
     <Filter Include="Library\Engine\glsl\src\PostProcess\Bloom">
       <UniqueIdentifier>{f81f970b-420e-4ecb-8348-b8362299682f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Base">
+      <UniqueIdentifier>{462d87cf-07d8-4802-8902-81a836f74a69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Base\Interface">
+      <UniqueIdentifier>{5193592d-2a04-40d3-ad5e-e60f11df3d0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\RenderingPipeline">
+      <UniqueIdentifier>{43d9593c-ad82-4046-b926-ae8493aaebb5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -737,6 +740,12 @@
     </ClCompile>
     <ClCompile Include="VertexArrayFactoryException.cpp">
       <Filter>Library\Engine\Core\VertexArray</Filter>
+    </ClCompile>
+    <ClCompile Include="ForwardRenderingPipeline.cpp">
+      <Filter>Library\Engine\Core\RenderingPipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingPipeline.cpp">
+      <Filter>Library\Engine\Core\RenderingPipeline</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1279,6 +1288,12 @@
     </ClInclude>
     <ClInclude Include="VertexArrayFactoryException.h">
       <Filter>Library\Engine\Core\VertexArray</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingPipeline.h">
+      <Filter>Library\Engine\Core\RenderingPipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="ForwardRenderingPipeline.h">
+      <Filter>Library\Engine\Core\RenderingPipeline</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

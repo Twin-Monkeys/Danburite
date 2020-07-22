@@ -176,11 +176,13 @@
     <ClCompile Include="DepthBakerBase.cpp" />
     <ClCompile Include="DepthBakerCubemap.cpp" />
     <ClCompile Include="ForwardPostProcessor.cpp" />
+    <ClCompile Include="ForwardRenderingPipeline.cpp" />
     <ClCompile Include="GammaCorrectionPostProcessor.cpp" />
     <ClCompile Include="HDRPostProcessor.cpp" />
     <ClCompile Include="HDRTestScene.cpp" />
     <ClCompile Include="IndexType.cpp" />
     <ClCompile Include="JointManager.cpp" />
+    <ClCompile Include="RenderingPipeline.cpp" />
     <ClCompile Include="SceneNodeConnecterBase.cpp" />
     <ClCompile Include="Joint.cpp" />
     <ClCompile Include="ParallaxMapTestScene.cpp" />
@@ -308,6 +310,7 @@
     <ClInclude Include="DepthBakerCubemap.h" />
     <ClInclude Include="DepthBakingType.h" />
     <ClInclude Include="FacetType.h" />
+    <ClInclude Include="ForwardRenderingPipeline.h" />
     <ClInclude Include="GLDebugMessageCallbackFunction.h" />
     <ClInclude Include="GLDebugMessageSeverityType.h" />
     <ClInclude Include="GLDebugMessageSourceType.h" />
@@ -315,6 +318,7 @@
     <ClInclude Include="HDRPostProcessor.h" />
     <ClInclude Include="HDRTestScene.h" />
     <ClInclude Include="JointManager.h" />
+    <ClInclude Include="RenderingPipeline.h" />
     <ClInclude Include="SceneNodeConnecterBase.h" />
     <ClInclude Include="Joint.h" />
     <ClInclude Include="Lerp.h" />
