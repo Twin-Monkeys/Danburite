@@ -184,9 +184,6 @@
     <Filter Include="Library\ObjectGL\Core\RenderBuffer">
       <UniqueIdentifier>{c0c6972c-3c31-46b1-a9f4-8d9b6ae09542}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Library\ObjectGL\Core\Texture\2D\Attachable">
-      <UniqueIdentifier>{a5fd34c0-4298-4710-be0a-36ec2a86af53}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library\Engine\Core\PostProcess">
       <UniqueIdentifier>{544d25ea-ba82-4b25-8a74-c875646c8db2}</UniqueIdentifier>
     </Filter>
@@ -363,6 +360,9 @@
     </Filter>
     <Filter Include="Library\ObjectGL\Core\Texture\Rectangle">
       <UniqueIdentifier>{f01cefe3-654c-469c-9a81-193740a2ae36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\ObjectGL\Core\Texture\Attachable">
+      <UniqueIdentifier>{a5fd34c0-4298-4710-be0a-36ec2a86af53}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -646,7 +646,7 @@
       <Filter>Library\Engine\Core\UniformBuffer</Filter>
     </ClCompile>
     <ClCompile Include="AttachableTexture2D.cpp">
-      <Filter>Library\ObjectGL\Core\Texture\2D\Attachable</Filter>
+      <Filter>Library\ObjectGL\Core\Texture\Attachable</Filter>
     </ClCompile>
     <ClCompile Include="DepthBakerBase.cpp">
       <Filter>Library\Engine\Core\DepthBaker</Filter>
@@ -755,6 +755,9 @@
     </ClCompile>
     <ClCompile Include="TextureRectangle.cpp">
       <Filter>Library\ObjectGL\Core\Texture\Rectangle</Filter>
+    </ClCompile>
+    <ClCompile Include="AttachableTextureRectangle.cpp">
+      <Filter>Library\ObjectGL\Core\Texture\Attachable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1179,7 +1182,7 @@
       <Filter>Library\Engine\Core\UniformBuffer</Filter>
     </ClInclude>
     <ClInclude Include="AttachableTexture2D.h">
-      <Filter>Library\ObjectGL\Core\Texture\2D\Attachable</Filter>
+      <Filter>Library\ObjectGL\Core\Texture\Attachable</Filter>
     </ClInclude>
     <ClInclude Include="DepthBakerBase.h">
       <Filter>Library\Engine\Core\DepthBaker</Filter>
@@ -1309,6 +1312,9 @@
     </ClInclude>
     <ClInclude Include="TextureRectangle.h">
       <Filter>Library\ObjectGL\Core\Texture\Rectangle</Filter>
+    </ClInclude>
+    <ClInclude Include="AttachableTextureRectangle.h">
+      <Filter>Library\ObjectGL\Core\Texture\Attachable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

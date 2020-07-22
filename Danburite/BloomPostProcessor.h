@@ -1,7 +1,7 @@
 #pragma once
 
 #include "PostProcessor.h"
-#include "AttachableTexture2D.h"
+#include "AttachableTextureRectangle.h"
 #include "RenderBuffer.h"
 #include "Constant.h"
 
@@ -25,9 +25,9 @@ namespace Danburite
 
 		std::unique_ptr<ObjectGL::FrameBuffer> __pBloomFrameBuffer1;
 		std::unique_ptr<ObjectGL::FrameBuffer> __pBloomFrameBuffer2;
-		std::unique_ptr<ObjectGL::AttachableTexture2D> __pOriginalColorAttachment;
-		std::unique_ptr<ObjectGL::AttachableTexture2D> __pBloomColorAttachment1;
-		std::unique_ptr<ObjectGL::AttachableTexture2D> __pBloomColorAttachment2;
+		std::unique_ptr<ObjectGL::AttachableTextureRectangle> __pOriginalColorAttachment;
+		std::unique_ptr<ObjectGL::AttachableTextureRectangle> __pBloomColorAttachment1;
+		std::unique_ptr<ObjectGL::AttachableTextureRectangle> __pBloomColorAttachment2;
 		std::unique_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
 
 		void __initColorAttachment() noexcept;

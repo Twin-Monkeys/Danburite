@@ -165,6 +165,7 @@
     <ClCompile Include="AssimpDataStructureConverter.cpp" />
     <ClCompile Include="AttachableTexture2D.cpp" />
     <ClCompile Include="AttachableTextureCubemap.cpp" />
+    <ClCompile Include="AttachableTextureRectangle.cpp" />
     <ClCompile Include="BloomPostProcessor.cpp" />
     <ClCompile Include="Bone.cpp" />
     <ClCompile Include="BoneException.cpp" />
@@ -299,6 +300,7 @@
     <ClInclude Include="Attachable.h" />
     <ClInclude Include="AttachableTexture2D.h" />
     <ClInclude Include="AttachableTextureCubemap.h" />
+    <ClInclude Include="AttachableTextureRectangle.h" />
     <ClInclude Include="AttachmentType.h" />
     <ClInclude Include="BlendingEquationType.h" />
     <ClInclude Include="BlendingFunctionType.h" />

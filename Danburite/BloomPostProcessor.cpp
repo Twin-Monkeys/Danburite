@@ -27,23 +27,23 @@ namespace Danburite
 
 	void BloomPostProcessor::__initColorAttachment() noexcept
 	{
-		__pOriginalColorAttachment = make_unique<AttachableTexture2D>();
+		__pOriginalColorAttachment = make_unique<AttachableTextureRectangle>();
 		__pOriginalColorAttachment->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
 		__pOriginalColorAttachment->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
-		__pOriginalColorAttachment->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR);
-		__pOriginalColorAttachment->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
+		__pOriginalColorAttachment->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::NEAREST);
+		__pOriginalColorAttachment->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::NEAREST);
 
-		__pBloomColorAttachment1 = make_unique<AttachableTexture2D>();
+		__pBloomColorAttachment1 = make_unique<AttachableTextureRectangle>();
 		__pBloomColorAttachment1->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
 		__pBloomColorAttachment1->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
-		__pBloomColorAttachment1->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR);
-		__pBloomColorAttachment1->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
+		__pBloomColorAttachment1->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::NEAREST);
+		__pBloomColorAttachment1->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::NEAREST);
 
-		__pBloomColorAttachment2 = make_unique<AttachableTexture2D>();
+		__pBloomColorAttachment2 = make_unique<AttachableTextureRectangle>();
 		__pBloomColorAttachment2->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
 		__pBloomColorAttachment2->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
-		__pBloomColorAttachment2->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR);
-		__pBloomColorAttachment2->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
+		__pBloomColorAttachment2->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::NEAREST);
+		__pBloomColorAttachment2->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::NEAREST);
 	}
 
 	void BloomPostProcessor::_onRender(UniformBuffer &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
