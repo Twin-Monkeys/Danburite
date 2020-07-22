@@ -63,9 +63,9 @@ namespace Danburite
 				vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
 		}
 
-		constexpr GLuint indices[] =
+		constexpr GLubyte indices[] =
 		{
-			0, 1, 3, 2
+			0U, 1U, 3U, 2U
 		};
 
 		const shared_ptr<VertexBuffer> &pVertexBuffer = make_shared<VertexBuffer>();
@@ -74,6 +74,7 @@ namespace Danburite
 
 		const shared_ptr<IndexBuffer> &pIndexBuffer = make_shared<IndexBuffer>();
 		pIndexBuffer->memoryAlloc(indices, BufferUpdatePatternType::STATIC);
+		pIndexBuffer->setIndexType(IndexType::UNSIGNED_BYTE);
 
 		const shared_ptr<VertexArray> &pRetVal =
 			make_shared<VertexArray>(pVertexBuffer, pIndexBuffer, GLsizei(size(indices)));
@@ -290,14 +291,14 @@ namespace Danburite
 			}
 		}
 
-		constexpr GLuint indices[] =
+		constexpr GLubyte indices[] =
 		{
-			0, 1, 3, 1, 2, 3,
-			4, 5, 7, 5, 6, 7,
-			8, 9, 11, 9, 10, 11,
-			12, 13, 15, 13, 14, 15,
-			16, 17, 19, 17, 18, 19,
-			20, 21, 23, 21, 22, 23
+			0U, 1U, 3U, 1U, 2U, 3U,
+			4U, 5U, 7U, 5U, 6U, 7U,
+			8U, 9U, 11U, 9U, 10U, 11U,
+			12U, 13U, 15U, 13U, 14U, 15U,
+			16U, 17U, 19U, 17U, 18U, 19U,
+			20U, 21U, 23U, 21U, 22U, 23U
 		};
 
 		const shared_ptr<VertexBuffer> &pVertexBuffer = make_shared<VertexBuffer>();
@@ -306,6 +307,7 @@ namespace Danburite
 
 		const shared_ptr<IndexBuffer> &pIndexBuffer = make_shared<IndexBuffer>();
 		pIndexBuffer->memoryAlloc(indices, BufferUpdatePatternType::STATIC);
+		pIndexBuffer->setIndexType(IndexType::UNSIGNED_BYTE);
 
 		return make_shared<VertexArray>(pVertexBuffer, pIndexBuffer, GLsizei(size(indices)));
 	}
@@ -384,10 +386,10 @@ namespace Danburite
 			for (size_t sectorIter = 0ULL; sectorIter < numSectors; sectorIter++)
 			{
 				if (stackIter)
-					indices.insert(indices.end(), { idx0, idx1, idx0 + 1 });
+					indices.insert(indices.end(), { idx0, idx1, idx0 + 1U });
 
 				if (stackIter != GLuint(numStacks - 1ULL))
-					indices.insert(indices.end(), { idx0 + 1, idx1, idx1 + 1 });
+					indices.insert(indices.end(), { idx0 + 1U, idx1, idx1 + 1U });
 
 				idx0++;
 				idx1++;
@@ -558,40 +560,20 @@ namespace Danburite
 
 			if (vertexFlag & VertexAttributeFlag::NORMAL)
 			{
-				// current normal
-
-				curProjNormal = { curTopLidVertPos.x, curTopLidVertPos.z };
-				float curProjNormalLength = length(curProjNormal);
-
-				if (epsilonEqual(curProjNormalLength, 0.f, epsilon<float>()))
+				if (topRadius > epsilon<float>())
 				{
-					curProjNormal = { curBottomLidVertPos.x, curBottomLidVertPos.z };
-					curProjNormalLength = length(curProjNormal);
-
-					if (epsilonEqual(curProjNormalLength, 0.f, epsilon<float>()))
-						throw VertexArrayException("Invalid parameters are detected.");
+					curProjNormal = normalize(vec2 { curTopLidVertPos.x, curTopLidVertPos.z });
+					nextProjNormal = normalize(vec2 { nextTopLidVertPos.x, nextTopLidVertPos.z });
+				}
+				else
+				{
+					curProjNormal = normalize(vec2 { curBottomLidVertPos.x, curBottomLidVertPos.z });
+					nextProjNormal = normalize(vec2 { nextBottomLidVertPos.x, nextBottomLidVertPos.z });
 				}
 
-				curProjNormal /= curProjNormalLength;
-				curNormal = normalize(vec3{ curProjNormal.x, (bottomRadius - topRadius) / height, curProjNormal.y });
-
-
-				// next normal
-
-				nextProjNormal = { nextTopLidVertPos.x, nextTopLidVertPos.z };
-				float nextProjNormalLength = length(nextProjNormal);
-
-				if (epsilonEqual(nextProjNormalLength, 0.f, epsilon<float>()))
-				{
-					nextProjNormal = { nextBottomLidVertPos.x, nextBottomLidVertPos.z };
-					nextProjNormalLength = length(nextProjNormal);
-
-					if (epsilonEqual(nextProjNormalLength, 0.f, epsilon<float>()))
-						throw VertexArrayException("Invalid parameters are detected.");
-				}
-
-				nextProjNormal /= nextProjNormalLength;
-				nextNormal = normalize(vec3{ nextProjNormal.x, (bottomRadius - topRadius) / height, nextProjNormal.y });
+				const float slope = ((bottomRadius - topRadius) / height);
+				curNormal = normalize(vec3 { curProjNormal.x, slope, curProjNormal.y });
+				nextNormal = normalize(vec3 { nextProjNormal.x, slope, nextProjNormal.y });
 			}
 			
 			if (vertexFlag & VertexAttributeFlag::TANGENT)
@@ -599,6 +581,7 @@ namespace Danburite
 				curTangent = normalize(vec3{ curProjNormal.y, 0.f, -curProjNormal.x });
 				nextTangent = normalize(vec3{ nextProjNormal.y, 0.f, -nextProjNormal.x });
 			}
+
 
 			// cur top
 
