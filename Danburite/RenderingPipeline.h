@@ -17,7 +17,10 @@ namespace Danburite
 		PostProcessingPipeline &_ppPipeline;
 
 	public:
-		RenderingPipeline(LightHandler &lightHandler, Camera &camera, Drawer &drawer, PostProcessingPipeline &ppPipeline) noexcept;
+		RenderingPipeline(
+			LightHandler &lightHandler, Camera &camera,
+			Drawer &drawer, PostProcessingPipeline &ppPipeline) noexcept;
+		
 		virtual void render() noexcept = 0;
 	};
 }

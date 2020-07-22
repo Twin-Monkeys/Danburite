@@ -747,6 +747,9 @@
     <ClCompile Include="RenderingPipeline.cpp">
       <Filter>Library\Engine\Core\RenderingPipeline</Filter>
     </ClCompile>
+    <ClCompile Include="LightPrePassRenderingPipeline.cpp">
+      <Filter>Library\Engine\Core\RenderingPipeline</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">
@@ -1293,6 +1296,9 @@
       <Filter>Library\Engine\Core\RenderingPipeline</Filter>
     </ClInclude>
     <ClInclude Include="ForwardRenderingPipeline.h">
+      <Filter>Library\Engine\Core\RenderingPipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="LightPrePassRenderingPipeline.h">
       <Filter>Library\Engine\Core\RenderingPipeline</Filter>
     </ClInclude>
   </ItemGroup>

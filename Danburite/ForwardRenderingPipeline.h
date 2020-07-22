@@ -8,7 +8,8 @@ namespace Danburite
 	{
 	public:
 		ForwardRenderingPipeline(
-			LightHandler &lightHandler, Camera &camera, Drawer &drawer, PostProcessingPipeline &ppPipeline);
+			LightHandler &lightHandler, Camera &camera,
+			Drawer &drawer, PostProcessingPipeline &ppPipeline);
 
 		virtual void render() noexcept override;
 	};

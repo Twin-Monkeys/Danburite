@@ -34,7 +34,7 @@ HDRTestScene::HDRTestScene()
 	pFloor_diffuse->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
 	pFloor_diffuse->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 
-	const shared_ptr<VertexArray> &pFloorVA = VertexArrayFactory::createRectangle(
+	const shared_ptr<VertexArray> &pFloorVA = VertexArrayFactory::createCircle(
 		VertexAttributeFlag::POS | VertexAttributeFlag::NORMAL | VertexAttributeFlag::TEXCOORD);
 
 	const shared_ptr<PhongMaterial>& pFloorMaterial = make_shared<PhongMaterial>(
@@ -51,7 +51,7 @@ HDRTestScene::HDRTestScene()
 	floorTransform.setScale(80.f, 1.f, 80.f);
 
 	const shared_ptr<VertexArray> &pSphereVA = VertexArrayFactory::createCylinder(
-		VertexAttributeFlag::POS | VertexAttributeFlag::TEXCOORD | VertexAttributeFlag::NORMAL, 1.f, 2.f, 3.f, 4);
+		VertexAttributeFlag::POS | VertexAttributeFlag::TEXCOORD | VertexAttributeFlag::NORMAL, 1.f, 2.f, 3.f);
 
 	const shared_ptr<PhongMaterial> &pSphereMaterial = make_shared<PhongMaterial>(
 		VertexAttributeFlag::POS | VertexAttributeFlag::TEXCOORD | VertexAttributeFlag::NORMAL);
