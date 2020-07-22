@@ -23,7 +23,7 @@
     <ProjectGuid>{8FDCDE28-C10D-48DB-AA99-4EB23CD794F7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Danburite</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -43,14 +43,14 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -231,6 +231,7 @@
     <ClCompile Include="StaticSceneNodeConnecter.cpp" />
     <ClCompile Include="TextureCubemap.cpp" />
     <ClCompile Include="TextureMultisample.cpp" />
+    <ClCompile Include="TextureRectangle.cpp" />
     <ClCompile Include="TextureUtil.cpp" />
     <ClCompile Include="TextureUtilException.cpp" />
     <ClCompile Include="TransformableCamera.cpp" />
@@ -329,6 +330,7 @@
     <ClInclude Include="SceneNodeConnecterManager.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="StaticSceneNodeConnecter.h" />
+    <ClInclude Include="TextureRectangle.h" />
     <ClInclude Include="Timeline.h" />
     <ClInclude Include="TimelineWrappingType.h" />
     <ClInclude Include="TransformableLight.h" />

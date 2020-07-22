@@ -4,18 +4,17 @@
 
 namespace ObjectGL
 {
-	class Texture2D : public TextureBase
+	class TextureRectangle : public TextureBase
 	{
 	public:
-		Texture2D();
+		TextureRectangle();
 
 		void memoryAlloc(
 			const GLsizei width, const GLsizei height, const void* const pData,
 			const TextureInternalFormatType internalFormat,
 			const TextureExternalFormatType externalFormat = TextureExternalFormatType::RGB,
-			const TextureDataType dataType = TextureDataType::UNSIGNED_BYTE,
-			const GLint mipmapLevel = 0, const bool mipmapCreation = true) noexcept;
+			const TextureDataType dataType = TextureDataType::UNSIGNED_BYTE) noexcept;
 
-		virtual ~Texture2D() = default;
+		virtual ~TextureRectangle() = default;
 	};
 }

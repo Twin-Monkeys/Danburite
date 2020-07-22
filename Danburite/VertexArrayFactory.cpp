@@ -329,25 +329,28 @@ namespace Danburite
 		float curStackAngle = half_pi<float>();
 		for (size_t stackIter = 0ULL; stackIter <= numStacks; stackIter++)
 		{
-			vec3 pos;
-			pos.y = (radius * sinf(curStackAngle));
+			vec3 localPos;
+			localPos.y = (radius * sinf(curStackAngle));
 			const float yProjLength = (radius * cosf(curStackAngle));
 
 			float curSectorAngle = 0.f;
 			for (size_t sectorIter = 0ULL; sectorIter <= numSectors; sectorIter++)
 			{
-				pos.x = (yProjLength * cosf(curSectorAngle));
-				pos.z = -(yProjLength * sinf(curSectorAngle));
+				localPos.x = (yProjLength * cosf(curSectorAngle));
+				localPos.z = -(yProjLength * sinf(curSectorAngle));
 
 				if (vertexFlag & VertexAttributeFlag::POS)
-					vertices.insert(vertices.end(), { pos.x, pos.y, pos.z });
+				{
+					const vec3 &finalPos = { localPos.x, localPos.y + radius, localPos.z };
+					vertices.insert(vertices.end(), { finalPos.x, finalPos.y, finalPos.z });
+				}
 
 				if (vertexFlag & VertexAttributeFlag::COLOR)
 					vertices.insert(vertices.end(), { color.r, color.g, color.b, color.a });
 
 				if (vertexFlag & VertexAttributeFlag::NORMAL)
 				{
-					const vec3 &normal = (pos / radius);
+					const vec3 &normal = (localPos / radius);
 					vertices.insert(vertices.end(), { normal.x, normal.y, normal.z });
 				}
 
@@ -359,7 +362,7 @@ namespace Danburite
 
 				if (vertexFlag & VertexAttributeFlag::TANGENT)
 				{
-					vec3 tangent { pos.z, 0.f, -pos.x };
+					vec3 tangent { localPos.z, 0.f, -localPos.x };
 					const float tangentLength = length(tangent);
 
 					if (epsilonEqual(tangentLength, 0.f, epsilon<float>()))

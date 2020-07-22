@@ -18,7 +18,7 @@ namespace ObjectGL
 		void memoryAlloc(
 			const GLsizei width, const GLsizei height,
 			const TextureInternalFormatType internalFormat,
-			const TextureExternalFormatType externalFormat,
+			const TextureExternalFormatType externalFormat = TextureExternalFormatType::RGB,
 			const TextureDataType dataType = TextureDataType::UNSIGNED_BYTE) noexcept;
 
 		virtual ~AttachableTexture2D() = default;

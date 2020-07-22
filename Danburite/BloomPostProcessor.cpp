@@ -109,9 +109,7 @@ namespace Danburite
 		if (__pOriginalColorAttachment->isHandleCreated())
 			__initColorAttachment();
 
-		__pOriginalColorAttachment->memoryAlloc(
-			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB);
-		
+		__pOriginalColorAttachment->memoryAlloc(width, height, TextureInternalFormatType::RGB16F);
 		_attach(AttachmentType::COLOR_ATTACHMENT0, *__pOriginalColorAttachment);
 
 		if (__pDepthStencilAttachment)
@@ -122,14 +120,10 @@ namespace Danburite
 			_attach(AttachmentType::DEPTH_STENCIL_ATTACHMENT, *__pDepthStencilAttachment);
 		}
 
-		__pBloomColorAttachment1->memoryAlloc(
-			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB);
-
+		__pBloomColorAttachment1->memoryAlloc(width, height, TextureInternalFormatType::RGB16F);
 		__pBloomFrameBuffer1->attach(AttachmentType::COLOR_ATTACHMENT0, *__pBloomColorAttachment1);
 
-		__pBloomColorAttachment2->memoryAlloc(
-			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB);
-
+		__pBloomColorAttachment2->memoryAlloc(width, height, TextureInternalFormatType::RGB16F);
 		__pBloomFrameBuffer2->attach(AttachmentType::COLOR_ATTACHMENT0, *__pBloomColorAttachment2);
 	}
 }
