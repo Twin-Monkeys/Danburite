@@ -1,7 +1,7 @@
 #pragma once
 
 #include "PostProcessor.h"
-#include "AttachableTexture2D.h"
+#include "AttachableTextureRectangle.h"
 #include "RenderBuffer.h"
 
 namespace Danburite
@@ -10,7 +10,7 @@ namespace Danburite
 	{
 	private:
 		ObjectGL::Program &__program;
-		std::unique_ptr<ObjectGL::AttachableTexture2D> __pColorAttachment;
+		std::unique_ptr<ObjectGL::AttachableTextureRectangle> __pColorAttachment;
 		std::unique_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
 
 		void __initColorAttachment() noexcept;

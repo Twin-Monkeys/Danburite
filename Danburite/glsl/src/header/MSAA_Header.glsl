@@ -41,9 +41,9 @@ sampler2DMS MSAA_getColorAttachment(const uint idx)
 	return sampler2DMS(handle);
 }
 
-vec4 MSAA_getPixel(const uint colorAttachmentIdx, const int samplePointIdx)
+vec4 MSAA_getPixel(const uint colorAttachmentIdx, const ivec2 texCoord, const int samplePointIdx)
 {
-	return texelFetch(MSAA_getColorAttachment(colorAttachmentIdx), ivec2(gl_FragCoord.xy), samplePointIdx);
+	return texelFetch(MSAA_getColorAttachment(colorAttachmentIdx), texCoord, samplePointIdx);
 }
 
 #endif

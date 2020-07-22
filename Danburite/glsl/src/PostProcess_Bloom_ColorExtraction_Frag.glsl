@@ -4,7 +4,7 @@
 #include "header/Bloom_Header.glsl"
 #include "header/Grayscale_Header.glsl"
 
-out vec4 extractedColor;
+out vec3 extractedColor;
 
 void main()
 {
@@ -12,7 +12,7 @@ void main()
 	const float grayscaledColor = Grayscale_getGrayscaledColor(originalColor);
 
 	if (grayscaledColor > Bloom_getBrightnessThreshold())
-		extractedColor = vec4(originalColor, 1.f);
+		extractedColor = originalColor;
 	else
-		extractedColor = vec4(0.f, 0.f, 0.f, 1.f);
+		extractedColor = vec3(0.f, 0.f, 0.f);
 }

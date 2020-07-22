@@ -3,21 +3,19 @@
 #include "header/PostProcess_Header.glsl"
 #include "header/Bloom_Header.glsl"
 
-out vec4 fragColor;
+out vec3 fragColor;
 
 void main()
 {
 	const sampler2DRect colorAttachment = PostProcess_getRectColorAttachment(0);
-	vec3 retVal = (texture(colorAttachment, gl_FragCoord.xy).rgb * Bloom_getBlurKernel(0));
+	fragColor = (texture(colorAttachment, gl_FragCoord.xy).rgb * Bloom_getBlurKernel(0));
 
 	const uint KERNEL_ITER = ((NUM_BLOOM_BLUR_KERNELS + 1) / 2);
 	for(uint i = 1U; i < KERNEL_ITER; i++)
     {
 		const float kernel = Bloom_getBlurKernel(i);
 
-        retVal += (texture(colorAttachment, gl_FragCoord.xy + vec2(i, 0.f)).rgb * kernel);
-        retVal += (texture(colorAttachment, gl_FragCoord.xy - vec2(i, 0.f)).rgb * kernel);
+        fragColor += (texture(colorAttachment, gl_FragCoord.xy + vec2(i, 0.f)).rgb * kernel);
+        fragColor += (texture(colorAttachment, gl_FragCoord.xy - vec2(i, 0.f)).rgb * kernel);
     }
-
-	fragColor = vec4(retVal, 1.f);
 }

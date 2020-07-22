@@ -24,11 +24,11 @@ namespace Danburite
 
 	void ForwardPostProcessor::__initColorAttachment() noexcept
 	{
-		__pColorAttachment = make_unique<AttachableTexture2D>();
+		__pColorAttachment = make_unique<AttachableTextureRectangle>();
 		__pColorAttachment->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
 		__pColorAttachment->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
-		__pColorAttachment->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR);
-		__pColorAttachment->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
+		__pColorAttachment->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::NEAREST);
+		__pColorAttachment->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::NEAREST);
 	}
 
 	void ForwardPostProcessor::_onRender(UniformBuffer &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
@@ -46,16 +46,12 @@ namespace Danburite
 		if (__pColorAttachment->isHandleCreated())
 			__initColorAttachment();
 
-		__pColorAttachment->memoryAlloc(
-			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB);
-
+		__pColorAttachment->memoryAlloc(width, height, TextureInternalFormatType::RGB16F);
 		_attach(AttachmentType::COLOR_ATTACHMENT0, *__pColorAttachment);
 
 		if (__pDepthStencilAttachment)
 		{
-			__pDepthStencilAttachment->memoryAlloc(
-				width, height, RenderBufferInternalFormatType::DEPTH24_STENCIL8);
-
+			__pDepthStencilAttachment->memoryAlloc(width, height, RenderBufferInternalFormatType::DEPTH24_STENCIL8);
 			_attach(AttachmentType::DEPTH_STENCIL_ATTACHMENT, *__pDepthStencilAttachment);
 		}
 	}
