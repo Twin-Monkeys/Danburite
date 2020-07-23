@@ -301,6 +301,8 @@
     <ClInclude Include="AttachableTexture2D.h" />
     <ClInclude Include="AttachableTextureCubemap.h" />
     <ClInclude Include="AttachableTextureRectangle.h" />
+    <ClInclude Include="AttachmentClient.h" />
+    <ClInclude Include="AttachmentServer.h" />
     <ClInclude Include="AttachmentType.h" />
     <ClInclude Include="BlendingEquationType.h" />
     <ClInclude Include="BlendingFunctionType.h" />

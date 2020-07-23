@@ -364,6 +364,9 @@
     <Filter Include="Library\ObjectGL\Core\Texture\Attachable">
       <UniqueIdentifier>{a5fd34c0-4298-4710-be0a-36ec2a86af53}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library\Engine\Core\Attachment">
+      <UniqueIdentifier>{ec28e0ba-6ad7-4457-a2c1-eb224bdcc237}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Buffer.cpp">
@@ -1315,6 +1318,12 @@
     </ClInclude>
     <ClInclude Include="AttachableTextureRectangle.h">
       <Filter>Library\ObjectGL\Core\Texture\Attachable</Filter>
+    </ClInclude>
+    <ClInclude Include="AttachmentServer.h">
+      <Filter>Library\Engine\Core\Attachment</Filter>
+    </ClInclude>
+    <ClInclude Include="AttachmentClient.h">
+      <Filter>Library\Engine\Core\Attachment</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

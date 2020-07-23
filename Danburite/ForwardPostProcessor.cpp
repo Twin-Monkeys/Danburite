@@ -46,7 +46,9 @@ namespace Danburite
 		if (__pColorAttachment->isHandleCreated())
 			__initColorAttachment();
 
-		__pColorAttachment->memoryAlloc(width, height, TextureInternalFormatType::RGB16F);
+		__pColorAttachment->memoryAlloc(
+			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB, TextureDataType::FLOAT);
+
 		_attach(AttachmentType::COLOR_ATTACHMENT0, *__pColorAttachment);
 
 		if (__pDepthStencilAttachment)
