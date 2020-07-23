@@ -1322,9 +1322,6 @@
     <ClInclude Include="AttachmentServer.h">
       <Filter>Library\Engine\Core\Attachment</Filter>
     </ClInclude>
-    <ClInclude Include="AttachmentClient.h">
-      <Filter>Library\Engine\Core\Attachment</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glsl\src\Header\Camera_Header.glsl">
