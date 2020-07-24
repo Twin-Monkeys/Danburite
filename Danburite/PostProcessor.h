@@ -16,8 +16,6 @@ namespace Danburite
 		AttachmentServer *__pAttachmentServer = nullptr;
 		ObjectGL::UniformBuffer &__attachmentSetter;
 
-		static inline PostProcessor *__boundProcessor = nullptr;
-
 		PostProcessor(const PostProcessor &) = delete;
 		PostProcessor &operator=(const PostProcessor &) = delete;
 
@@ -67,13 +65,13 @@ namespace Danburite
 				const size_t retrievingIndex = 0ULL);
 
 		virtual void _onRender(
-			ObjectGL::UniformBuffer &attachmentSetter, ObjectGL::VertexArray &fullscreenQuadVA) noexcept = 0;
-
-		static constexpr PostProcessor *_getBoundProcessor() noexcept;
+			PostProcessor *const pBoundProcessor,
+			ObjectGL::UniformBuffer &attachmentSetter,
+			ObjectGL::VertexArray &fullscreenQuadVA) noexcept = 0;
 
 	public:
 		void bind() noexcept;
-		void render() noexcept;
+		void render(PostProcessor *const pBoundProcessor) noexcept;
 
 		constexpr void setAttachmentServer(AttachmentServer *const pAttachmentServer) noexcept;
 
@@ -87,10 +85,5 @@ namespace Danburite
 	constexpr void PostProcessor::setAttachmentServer(AttachmentServer *const pAttachmentServer) noexcept
 	{
 		__pAttachmentServer = pAttachmentServer;
-	}
-
-	constexpr PostProcessor *PostProcessor::_getBoundProcessor() noexcept
-	{
-		return __boundProcessor;
 	}
 }

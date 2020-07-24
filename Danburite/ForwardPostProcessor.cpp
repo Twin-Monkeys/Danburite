@@ -16,7 +16,9 @@ namespace Danburite
 			getProgram(ProgramType::POST_PROCESS_FORWARD), attachDepthBuffer)
 	{}
 
-	void ForwardPostProcessor::_onRender(UniformBuffer &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
+	void ForwardPostProcessor::_onRender(
+		PostProcessor* const pBoundProcessor,
+		UniformBuffer &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
 	{
 		attachmentSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT0, __pColorAttachment->getHandle());

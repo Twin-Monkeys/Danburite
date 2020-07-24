@@ -19,6 +19,7 @@ namespace Danburite
 		ForwardPostProcessor(ObjectGL::Program &program, const bool attachDepthBuffer);
 
 		virtual void _onRender(
+			PostProcessor* const pBoundProcessor,
 			ObjectGL::UniformBuffer &attachmentSetter, ObjectGL::VertexArray &fullscreenQuadVA) noexcept override;
 
 	public:

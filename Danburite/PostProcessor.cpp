@@ -133,20 +133,18 @@ namespace Danburite
 
 	void PostProcessor::bind() noexcept
 	{
-		__boundProcessor = this;
 		__pFrameBuffer->bind();
 	}
 
-	void PostProcessor::render() noexcept
+	void PostProcessor::render(PostProcessor* const pBoundProcessor) noexcept
 	{
 		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, false);
-		_onRender(__attachmentSetter, __fullscreenQuadVA);
+		_onRender(pBoundProcessor, __attachmentSetter, __fullscreenQuadVA);
 		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
 	}
 
 	void PostProcessor::unbind() noexcept
 	{
-		__boundProcessor = nullptr;
 		FrameBuffer::unbind();
 	}
 }

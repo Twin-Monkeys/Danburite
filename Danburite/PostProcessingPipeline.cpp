@@ -29,12 +29,12 @@ namespace Danburite
 			PostProcessor *const pCurProcessor = __pipeline[i].get();
 
 			pCurProcessor->bind();
-			pPrevProcessor->render();
+			pPrevProcessor->render(pCurProcessor);
 			pPrevProcessor = pCurProcessor;
 		}
 
 		PostProcessor::unbind();
-		pPrevProcessor->render();
+		pPrevProcessor->render(nullptr);
 	}
 
 	void PostProcessingPipeline::unbind() noexcept

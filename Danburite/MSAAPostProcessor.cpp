@@ -17,7 +17,9 @@ namespace Danburite
 		assert(__NUM_SAMPLE_POINTS);
 	}
 
-	void MSAAPostProcessor::_onRender(UniformBuffer &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
+	void MSAAPostProcessor::_onRender(
+		PostProcessor* const pBoundProcessor,
+		UniformBuffer &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
 	{
 		// AMD Bug; Cannot use bindless sampler2DMS
 		attachmentSetter.setUniformUvec2(

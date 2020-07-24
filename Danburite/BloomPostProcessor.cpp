@@ -20,10 +20,10 @@ namespace Danburite
 		__compositionProgram(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_COMPOSITION))
 	{}
 
-	void BloomPostProcessor::_onRender(UniformBuffer &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
+	void BloomPostProcessor::_onRender(
+		PostProcessor* const pBoundProcessor,
+		UniformBuffer &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
 	{
- 		PostProcessor *const pBoundProcessor = _getBoundProcessor();
-
 		__bloomSetter.setUniformFloat(
 			ShaderIdentifier::Name::Bloom::BRIGHTNESS_THRESHOLD, __brightnessThreshold);
 

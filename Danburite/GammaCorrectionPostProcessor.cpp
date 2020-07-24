@@ -15,9 +15,11 @@ namespace Danburite
 			UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::GAMMA_CORRECTION))
 	{}
 
-	void GammaCorrectionPostProcessor::_onRender(UniformBuffer &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
+	void GammaCorrectionPostProcessor::_onRender(
+		PostProcessor* const pBoundProcessor,
+		UniformBuffer &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
 	{
 		__gammaCorrectionSetter.setUniformFloat(ShaderIdentifier::Name::GammaCorrection::GAMMA, __gamma);
-		ForwardPostProcessor::_onRender(attachmentSetter, fullscreenQuadVA);
+		ForwardPostProcessor::_onRender(pBoundProcessor, attachmentSetter, fullscreenQuadVA);
 	}
 }
