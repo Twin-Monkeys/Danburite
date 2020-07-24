@@ -7,14 +7,14 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	MSAAPostProcessor::MSAAPostProcessor(const bool attachDepthBuffer, const GLsizei numSamplePoints, const bool fixedSampleLocations) :
+	MSAAPostProcessor::MSAAPostProcessor(
+		const bool attachDepthBuffer, const GLsizei numSamplePoints, const bool fixedSampleLocations) :
 		__program(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_MSAA)),
-		NUM_SAMPLE_POINTS(numSamplePoints), FIXED_SAMPLE_LOCATIONS(fixedSampleLocations)
+		__attachDepthBuffer(attachDepthBuffer),
+		__NUM_SAMPLE_POINTS(numSamplePoints),
+		__FIXED_SAMPLE_LOCATIONS(fixedSampleLocations)
 	{
-		assert(NUM_SAMPLE_POINTS);
-
-		if (attachDepthBuffer)
-			__pDepthStencilAttachment = make_unique<RenderBufferMultisample>();
+		assert(__NUM_SAMPLE_POINTS);
 	}
 
 	void MSAAPostProcessor::_onRender(UniformBuffer &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
@@ -30,14 +30,14 @@ namespace Danburite
 	void MSAAPostProcessor::setScreenSize(const GLsizei width, const GLsizei height) noexcept
 	{
 		__pColorAttachment = _getTexMultisample(
-			width, height, TextureInternalFormatType::RGB16F, NUM_SAMPLE_POINTS, FIXED_SAMPLE_LOCATIONS);
+			width, height, TextureInternalFormatType::RGB16F, __NUM_SAMPLE_POINTS, __FIXED_SAMPLE_LOCATIONS);
 
 		_attach(AttachmentType::COLOR_ATTACHMENT0, *__pColorAttachment);
 
-		if (__pDepthStencilAttachment)
+		if (__attachDepthBuffer)
 		{
-			__pDepthStencilAttachment->memoryAlloc(
-				width, height, RenderBufferInternalFormatType::DEPTH24_STENCIL8, NUM_SAMPLE_POINTS);
+			__pDepthStencilAttachment = _getRenderBufferMultisample(
+				width, height, RenderBufferInternalFormatType::DEPTH24_STENCIL8, __NUM_SAMPLE_POINTS);
 
 			_attach(AttachmentType::DEPTH_STENCIL_ATTACHMENT, *__pDepthStencilAttachment);
 		}

@@ -4,6 +4,7 @@
 #include <memory>
 #include "AttachableTextureRectangle.h"
 #include "TextureMultisample.h"
+#include "RenderBufferMultisample.h"
 #include "AttachmentServerException.h"
 #include "ShaderIdentifier.h"
 
@@ -26,12 +27,19 @@ namespace Danburite
 			GLsizei, GLsizei,
 			ObjectGL::TextureInternalFormatType, GLsizei, bool>;
 
+		// Render Buffer MultiSample
+		using RBMSParamPack =
+			std::tuple<
+			GLsizei, GLsizei,
+			ObjectGL::RenderBufferInternalFormatType, GLsizei>;
+
 		template<typename $ParamPackType, typename $AttachmentType>
 		using AttachmentContainer =
 			std::list<std::pair<$ParamPackType, std::weak_ptr<$AttachmentType>>>;
 
 		AttachmentContainer<TexRectParamPack, ObjectGL::AttachableTextureRectangle> __texRectWeakPtrs;
 		AttachmentContainer<TexMSParamPack, ObjectGL::TextureMultisample> __texMSWeakPtrs;
+		AttachmentContainer<RBMSParamPack, ObjectGL::RenderBufferMultisample> __RBMSWeakPtrs;
 
 		template<typename $ParamPackType, typename $AttachmentType>
 		[[nodiscard]]
@@ -59,6 +67,14 @@ namespace Danburite
 				const ObjectGL::TextureInternalFormatType internalFormat,
 				const GLsizei numSamplePoints = ShaderIdentifier::Value::MSAA::NUM_SAMPLE_POINTS,
 				const bool fixedSampleLocations = true,
+				const size_t retrievingIndex = 0ULL);
+
+		[[nodiscard]]
+		std::shared_ptr<ObjectGL::RenderBufferMultisample>
+			getRenderBufferMultisample(
+				const GLsizei width, const GLsizei height,
+				const ObjectGL::RenderBufferInternalFormatType internalFormat,
+				const GLsizei numSamplePoints = ShaderIdentifier::Value::MSAA::NUM_SAMPLE_POINTS,
 				const size_t retrievingIndex = 0ULL);
 	};
 

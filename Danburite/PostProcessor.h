@@ -51,6 +51,14 @@ namespace Danburite
 				const bool fixedSampleLocations = true,
 				const size_t retrievingIndex = 0ULL);
 
+		[[nodiscard]]
+		std::shared_ptr<ObjectGL::RenderBufferMultisample>
+			_getRenderBufferMultisample(
+				const GLsizei width, const GLsizei height,
+				const ObjectGL::RenderBufferInternalFormatType internalFormat,
+				const GLsizei numSamplePoints = ShaderIdentifier::Value::MSAA::NUM_SAMPLE_POINTS,
+				const size_t retrievingIndex = 0ULL);
+
 		virtual void _onRender(
 			ObjectGL::UniformBuffer &attachmentSetter, ObjectGL::VertexArray &fullscreenQuadVA) noexcept = 0;
 

@@ -93,6 +93,25 @@ namespace Danburite
 		return pRetVal;
 	}
 
+	shared_ptr<RenderBufferMultisample>
+		PostProcessor::_getRenderBufferMultisample(
+			const GLsizei width, const GLsizei height,
+			const RenderBufferInternalFormatType internalFormat,
+			const GLsizei numSamplePoints, const size_t retrievingIndex)
+	{
+		shared_ptr<RenderBufferMultisample> pRetVal;
+
+		if (!__pAttachmentServer)
+			pRetVal = make_shared<RenderBufferMultisample>();
+		else
+		{
+			pRetVal = __pAttachmentServer->getRenderBufferMultisample(
+				width, height, internalFormat, numSamplePoints, retrievingIndex);
+		}
+
+		return pRetVal;
+	}
+
 	void PostProcessor::bind() noexcept
 	{
 		__boundProcessor = this;
