@@ -14,34 +14,16 @@ namespace Danburite
 			const TextureMinFilterValue minFilter, const TextureMagFilterValue magFilter,
 			const size_t retrievingIndex)
 	{
-		const TexRectParam curParam =
+		const TexRectParamPack curParam =
 			{ width, height, internalFormat, externalFormat, dataType, minFilter, magFilter };
 
-		size_t skipCount = retrievingIndex;
-		for (auto it = __texRectWeakPtrs.begin(); it != __texRectWeakPtrs.end();)
-		{
-			const auto &[elemParam, elemTexPtr] = *it;
-			if (elemTexPtr.expired())
-			{
-				it = __texRectWeakPtrs.erase(it);
-				continue;
-			}
+		shared_ptr<AttachableTextureRectangle> pRetVal =
+			__retrieveContainer(curParam, __texRectWeakPtrs, retrievingIndex);
 
-			if (elemParam == curParam)
-			{
-				if (!skipCount)
-					return elemTexPtr.lock();
+		if (pRetVal)
+			return pRetVal;
 
-				skipCount--;
-			}
-
-			it++;
-		}
-
-		if (skipCount > 1ULL)
-			throw AttachmentServerException("Invalid retrievingIndex is detected.");
-
-		const shared_ptr<AttachableTextureRectangle> &pRetVal = make_shared<AttachableTextureRectangle>();
+		pRetVal = make_shared<AttachableTextureRectangle>();
 		pRetVal->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
 		pRetVal->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 		pRetVal->setState(TextureParamType::TEXTURE_MIN_FILTER, minFilter);
@@ -49,6 +31,29 @@ namespace Danburite
 		pRetVal->memoryAlloc(width, height, internalFormat, externalFormat, dataType);
 
 		__texRectWeakPtrs.emplace_back(curParam, pRetVal);
+		return pRetVal;
+	}
+
+	shared_ptr<TextureMultisample>
+		AttachmentServer::getTexMultisample(
+			const GLsizei width, const GLsizei height,
+			const TextureInternalFormatType internalFormat,
+			const GLsizei numSamplePoints, const bool fixedSampleLocations,
+			const size_t retrievingIndex)
+	{
+		const TexMSParamPack curParam =
+			{ width, height, internalFormat, numSamplePoints, fixedSampleLocations };
+
+		shared_ptr<TextureMultisample> pRetVal =
+			__retrieveContainer(curParam, __texMSWeakPtrs, retrievingIndex);
+		
+		if (pRetVal)
+			return pRetVal;
+
+		pRetVal = make_shared<TextureMultisample>();
+		pRetVal->memoryAlloc(width, height, internalFormat, numSamplePoints, fixedSampleLocations);
+
+		__texMSWeakPtrs.emplace_back(curParam, pRetVal);
 		return pRetVal;
 	}
 }
