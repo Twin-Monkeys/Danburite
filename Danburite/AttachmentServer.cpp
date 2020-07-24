@@ -16,7 +16,7 @@ namespace Danburite
 		const TexRectParam curParam =
 			{ width, height, internalFormat, externalFormat, dataType, minFilter, magFilter };
 
-		for (auto it = __texRectWeakPtrs.begin(); it != __texRectWeakPtrs.end(); it++)
+		for (auto it = __texRectWeakPtrs.begin(); it != __texRectWeakPtrs.end();)
 		{
 			const auto &[elemParam, elemTexPtr] = *it;
 			if (elemTexPtr.expired())
@@ -27,6 +27,8 @@ namespace Danburite
 
 			if (elemParam == curParam)
 				return elemTexPtr.lock();
+
+			it++;
 		}
 
 		const shared_ptr<AttachableTextureRectangle> &pRetVal = make_shared<AttachableTextureRectangle>();

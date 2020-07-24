@@ -31,7 +31,15 @@ namespace Danburite
 		void _setOutputColorBuffer(const ObjectGL::ColorBufferType type) noexcept;
 		void _setOutputColorBuffers(const std::initializer_list<ObjectGL::ColorBufferType> &types) noexcept;
 
-
+		std::shared_ptr<ObjectGL::AttachableTextureRectangle>
+			_getTexRectangle(
+				const GLsizei width, const GLsizei height,
+				const ObjectGL::TextureInternalFormatType internalFormat,
+				const ObjectGL::TextureExternalFormatType externalFormat,
+				const ObjectGL::TextureDataType dataType,
+				const ObjectGL::TextureMinFilterValue minFilter,
+				const ObjectGL::TextureMagFilterValue magFilter
+			) noexcept;
 
 		virtual void _onRender(
 			ObjectGL::UniformBuffer &attachmentSetter, ObjectGL::VertexArray &fullscreenQuadVA) noexcept = 0;

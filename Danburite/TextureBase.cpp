@@ -21,6 +21,9 @@ namespace ObjectGL
 
 	void TextureBase::__release() noexcept
 	{
+		if (__handle)
+			unreside();
+
 		glDeleteTextures(1, &ID);
 	}
 

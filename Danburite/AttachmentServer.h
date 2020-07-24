@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <list>
 #include <memory>
 #include "AttachableTextureRectangle.h"
 
@@ -18,19 +18,19 @@ namespace Danburite
 			ObjectGL::TextureMinFilterValue,
 			ObjectGL::TextureMagFilterValue>;
 
-		std::vector<std::pair<
+		std::list<std::pair<
 			TexRectParam, std::weak_ptr<ObjectGL::AttachableTextureRectangle>>>
 			__texRectWeakPtrs;
 
 	public:
+		[[nodiscard]]
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle>
 			getTexRectangle(
 			const GLsizei width, const GLsizei height,
 			const ObjectGL::TextureInternalFormatType internalFormat,
-			const ObjectGL::TextureExternalFormatType externalFormat = ObjectGL::TextureExternalFormatType::RGB,
-			const ObjectGL::TextureDataType dataType = ObjectGL::TextureDataType::UNSIGNED_BYTE,
-			const ObjectGL::TextureMinFilterValue minFilter = ObjectGL::TextureMinFilterValue::NEAREST,
-			const ObjectGL::TextureMagFilterValue magFilter = ObjectGL::TextureMagFilterValue::NEAREST
-			) noexcept;
+			const ObjectGL::TextureExternalFormatType externalFormat,
+			const ObjectGL::TextureDataType dataType,
+			const ObjectGL::TextureMinFilterValue minFilter,
+			const ObjectGL::TextureMagFilterValue magFilter) noexcept;
 	};
 }

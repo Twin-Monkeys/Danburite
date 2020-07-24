@@ -33,7 +33,7 @@ namespace Danburite
 			is_base_of_v<PostProcessor, ProcessorType>,
 			"The type parameter must be derived of PostProcessor or its compatible types.");
 
-		const size_t pingPongIdx = __pipeline.size();
+		const size_t pingPongIdx = (__pipeline.size() % 2ULL);
 
 		ProcessorType *const pRetVal = static_cast<ProcessorType *>(
 			__pipeline.emplace_back(make_unique<ProcessorType>(forward<Args>(args)...)).get());

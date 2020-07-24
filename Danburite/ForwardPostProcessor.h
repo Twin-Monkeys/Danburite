@@ -10,10 +10,8 @@ namespace Danburite
 	{
 	private:
 		ObjectGL::Program &__program;
-		std::unique_ptr<ObjectGL::AttachableTextureRectangle> __pColorAttachment;
+		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pColorAttachment;
 		std::unique_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
-
-		void __initColorAttachment() noexcept;
 
 	protected:
 		ForwardPostProcessor(ObjectGL::Program &program, const bool attachDepthBuffer);

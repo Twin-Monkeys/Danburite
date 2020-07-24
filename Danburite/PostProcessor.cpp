@@ -40,6 +40,34 @@ namespace Danburite
 		__pFrameBuffer->setOutputColorBuffers(types);
 	}
 
+	shared_ptr<AttachableTextureRectangle>
+		PostProcessor::_getTexRectangle(
+			const GLsizei width, const GLsizei height,
+			const TextureInternalFormatType internalFormat, const TextureExternalFormatType externalFormat,
+			const TextureDataType dataType,
+			const TextureMinFilterValue minFilter, const TextureMagFilterValue magFilter) noexcept
+	{
+		shared_ptr<AttachableTextureRectangle> pRetVal;
+
+		if (!__pAttachmentServer)
+		{
+			pRetVal = make_shared<AttachableTextureRectangle>();
+			pRetVal->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
+			pRetVal->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
+			pRetVal->setState(TextureParamType::TEXTURE_MIN_FILTER, minFilter);
+			pRetVal->setState(TextureParamType::TEXTURE_MAG_FILTER, magFilter);
+			pRetVal->memoryAlloc(width, height, internalFormat, externalFormat, dataType);
+			pRetVal->getHandle();
+		}
+		else
+		{
+			pRetVal = __pAttachmentServer->getTexRectangle(
+				width, height, internalFormat, externalFormat, dataType, minFilter, magFilter);
+		}
+
+		return pRetVal;
+	}
+
 	void PostProcessor::bind() noexcept
 	{
 		__boundProcessor = this;
