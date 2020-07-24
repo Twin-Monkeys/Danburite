@@ -35,8 +35,8 @@ namespace Danburite
 
 		const size_t pingPongIdx = __pipeline.size();
 
-		ProcessorType *const pRetVal =
-			static_cast<ProcessorType *>(__pipeline.emplace_back(make_unique<ProcessorType>(forward<Args>(args)...)).get());
+		ProcessorType *const pRetVal = static_cast<ProcessorType *>(
+			__pipeline.emplace_back(make_unique<ProcessorType>(forward<Args>(args)...)).get());
 
 		pRetVal->setAttachmentServer(&__attachmentServerPingPong[pingPongIdx]);
 		return *pRetVal;

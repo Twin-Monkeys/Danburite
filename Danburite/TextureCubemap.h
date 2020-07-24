@@ -13,9 +13,9 @@ namespace ObjectGL
 		void memoryAlloc(
 			const CubemapSideType sideType,
 			const GLsizei width, const GLsizei height, const void* const pData,
-			const TextureInternalFormatType internalFormat = TextureInternalFormatType::RGB,
-			const TextureExternalFormatType externalFormat = TextureExternalFormatType::RGB,
-			const TextureDataType dataType = TextureDataType::UNSIGNED_BYTE,
+			const TextureInternalFormatType internalFormat,
+			const TextureExternalFormatType externalFormat,
+			const TextureDataType dataType,
 			const GLint mipmapLevel = 0) noexcept;
 
 		void createMipmap() noexcept;

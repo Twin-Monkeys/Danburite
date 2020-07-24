@@ -12,8 +12,8 @@ namespace ObjectGL
 		void memoryAlloc(
 			const GLsizei width, const GLsizei height, const void* const pData,
 			const TextureInternalFormatType internalFormat,
-			const TextureExternalFormatType externalFormat = TextureExternalFormatType::RGB,
-			const TextureDataType dataType = TextureDataType::UNSIGNED_BYTE,
+			const TextureExternalFormatType externalFormat,
+			const TextureDataType dataType,
 			const GLint mipmapLevel = 0, const bool mipmapCreation = true) noexcept;
 
 		virtual ~Texture2D() = default;

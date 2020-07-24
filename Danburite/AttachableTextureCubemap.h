@@ -19,9 +19,9 @@ namespace ObjectGL
 		void memoryAlloc(
 			const CubemapSideType sideType,
 			const GLsizei width, const GLsizei height,
-			const TextureInternalFormatType internalFormat = TextureInternalFormatType::RGB,
-			const TextureExternalFormatType externalFormat = TextureExternalFormatType::RGB,
-			const TextureDataType dataType = TextureDataType::UNSIGNED_BYTE) noexcept;
+			const TextureInternalFormatType internalFormat,
+			const TextureExternalFormatType externalFormat,
+			const TextureDataType dataType) noexcept;
 
 		virtual ~AttachableTextureCubemap() = default;
 	};

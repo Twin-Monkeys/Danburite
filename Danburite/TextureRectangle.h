@@ -12,8 +12,8 @@ namespace ObjectGL
 		void memoryAlloc(
 			const GLsizei width, const GLsizei height, const void* const pData,
 			const TextureInternalFormatType internalFormat,
-			const TextureExternalFormatType externalFormat = TextureExternalFormatType::RGB,
-			const TextureDataType dataType = TextureDataType::UNSIGNED_BYTE) noexcept;
+			const TextureExternalFormatType externalFormat,
+			const TextureDataType dataType) noexcept;
 
 		virtual ~TextureRectangle() = default;
 	};
