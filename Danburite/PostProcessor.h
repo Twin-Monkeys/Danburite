@@ -52,6 +52,13 @@ namespace Danburite
 				const size_t retrievingIndex = 0ULL);
 
 		[[nodiscard]]
+		std::shared_ptr<ObjectGL::RenderBuffer>
+			_getRenderBuffer(
+				const GLsizei width, const GLsizei height,
+				const ObjectGL::RenderBufferInternalFormatType internalFormat,
+				const size_t retrievingIndex = 0ULL);
+
+		[[nodiscard]]
 		std::shared_ptr<ObjectGL::RenderBufferMultisample>
 			_getRenderBufferMultisample(
 				const GLsizei width, const GLsizei height,

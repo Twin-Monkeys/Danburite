@@ -57,7 +57,28 @@ namespace Danburite
 		return pRetVal;
 	}
 
-	[[nodiscard]]
+	shared_ptr<RenderBuffer>
+		AttachmentServer::getRenderBuffer(
+			const GLsizei width, const GLsizei height,
+			const RenderBufferInternalFormatType internalFormat,
+			const size_t retrievingIndex)
+	{
+		const RBParamPack& curParam =
+			{ width, height, internalFormat };
+
+		shared_ptr<RenderBuffer> pRetVal =
+			__retrieveContainer(curParam, __RBWeakPtrs, retrievingIndex);
+
+		if (pRetVal)
+			return pRetVal;
+
+		pRetVal = make_shared<RenderBuffer>();
+		pRetVal->memoryAlloc(width, height, internalFormat);
+
+		__RBWeakPtrs.emplace_back(curParam, pRetVal);
+		return pRetVal;
+	}
+
 	shared_ptr<RenderBufferMultisample>
 		AttachmentServer::getRenderBufferMultisample(
 			const GLsizei width, const GLsizei height,

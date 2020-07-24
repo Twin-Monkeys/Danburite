@@ -10,6 +10,8 @@ namespace Danburite
 	class BloomPostProcessor : public PostProcessor
 	{
 	private:
+		const bool __attachDepthBuffer;
+
 		ObjectGL::UniformBuffer &__bloomSetter;
 
 		float __brightnessThreshold =
@@ -28,7 +30,7 @@ namespace Danburite
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pOriginalColorAttachment;
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pBloomColorAttachment1;
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pBloomColorAttachment2;
-		std::unique_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
+		std::shared_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
 
 	protected:
 		virtual void _onRender(

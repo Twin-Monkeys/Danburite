@@ -8,11 +8,8 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	ForwardPostProcessor::ForwardPostProcessor(Program &program, const bool attachDepthBuffer) :
-		__program(program)
-	{
-		if (attachDepthBuffer)
-			__pDepthStencilAttachment = make_unique<RenderBuffer>();
-	}
+		__program(program), __attachDepthBuffer(attachDepthBuffer)
+	{}
 
 	ForwardPostProcessor::ForwardPostProcessor(const bool attachDepthBuffer) :
 		ForwardPostProcessor(ProgramFactory::getInstance().
@@ -36,9 +33,11 @@ namespace Danburite
 
 		_attach(AttachmentType::COLOR_ATTACHMENT0, *__pColorAttachment);
 
-		if (__pDepthStencilAttachment)
+		if (__attachDepthBuffer)
 		{
-			__pDepthStencilAttachment->memoryAlloc(width, height, RenderBufferInternalFormatType::DEPTH24_STENCIL8);
+			__pDepthStencilAttachment =
+				_getRenderBuffer(width, height, RenderBufferInternalFormatType::DEPTH24_STENCIL8);
+
 			_attach(AttachmentType::DEPTH_STENCIL_ATTACHMENT, *__pDepthStencilAttachment);
 		}
 	}

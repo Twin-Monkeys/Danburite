@@ -9,9 +9,11 @@ namespace Danburite
 	class ForwardPostProcessor : public PostProcessor
 	{
 	private:
+		const bool __attachDepthBuffer;
+
 		ObjectGL::Program &__program;
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pColorAttachment;
-		std::unique_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
+		std::shared_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
 
 	protected:
 		ForwardPostProcessor(ObjectGL::Program &program, const bool attachDepthBuffer);
