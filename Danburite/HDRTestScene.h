@@ -39,10 +39,7 @@ private:
 	std::shared_ptr<Danburite::Updater> __pUpdater;
 	std::shared_ptr<Danburite::Drawer> __pDrawer;
 
-	std::shared_ptr<Danburite::MSAAPostProcessor> __pMsaaPP;
-	std::shared_ptr<Danburite::GammaCorrectionPostProcessor> __pGammaCorrectionPP;
-	std::shared_ptr<Danburite::BloomPostProcessor> __pBloomPP;
-	std::shared_ptr<Danburite::HDRPostProcessor> __pHDRPP;
+	Danburite::HDRPostProcessor *__pHDRPP;
 	std::shared_ptr<Danburite::PostProcessingPipeline> __pPPPipeline;
 
 	std::unique_ptr<Danburite::ForwardRenderingPipeline> __pForwardPipeline;

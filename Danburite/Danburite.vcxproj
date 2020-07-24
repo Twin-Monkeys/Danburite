@@ -23,7 +23,7 @@
     <ProjectGuid>{8FDCDE28-C10D-48DB-AA99-4EB23CD794F7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Danburite</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -43,14 +43,14 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -166,6 +166,7 @@
     <ClCompile Include="AttachableTexture2D.cpp" />
     <ClCompile Include="AttachableTextureCubemap.cpp" />
     <ClCompile Include="AttachableTextureRectangle.cpp" />
+    <ClCompile Include="AttachmentServer.cpp" />
     <ClCompile Include="BloomPostProcessor.cpp" />
     <ClCompile Include="Bone.cpp" />
     <ClCompile Include="BoneException.cpp" />
@@ -187,7 +188,6 @@
     <ClCompile Include="RenderingPipeline.cpp" />
     <ClCompile Include="SceneNodeConnecterBase.cpp" />
     <ClCompile Include="Joint.cpp" />
-    <ClCompile Include="ParallaxMapTestScene.cpp" />
     <ClCompile Include="OrthoCamera.cpp" />
     <ClCompile Include="OrthoLight.cpp" />
     <ClCompile Include="PerspectiveLight.cpp" />
@@ -195,7 +195,6 @@
     <ClCompile Include="RCDSRegisterer.cpp" />
     <ClCompile Include="SceneNodeConnecterManager.cpp" />
     <ClCompile Include="SceneObject.cpp" />
-    <ClCompile Include="ShadowTestScene.cpp" />
     <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="FrameBufferException.cpp" />
@@ -328,7 +327,6 @@
     <ClInclude Include="SceneNodeConnecterBase.h" />
     <ClInclude Include="Joint.h" />
     <ClInclude Include="Lerp.h" />
-    <ClInclude Include="ParallaxMapTestScene.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="SceneNodeConnecterManager.h" />
     <ClInclude Include="SceneObject.h" />
@@ -348,7 +346,6 @@
     <ClInclude Include="OrthoLight.h" />
     <ClInclude Include="PerspectiveLight.h" />
     <ClInclude Include="RCDSRegisterer.h" />
-    <ClInclude Include="ShadowTestScene.h" />
     <ClInclude Include="DepthStencilFunctionType.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="Drawer.h" />

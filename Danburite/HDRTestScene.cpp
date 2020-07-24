@@ -188,20 +188,13 @@ HDRTestScene::HDRTestScene()
 	__pDrawer->addDrawable(__pGirlObj);
 	__pDrawer->addDrawable(__pSphereObj);
 
-	__pPPPipeline = make_shared<PostProcessingPipeline>();
-
-	__pMsaaPP = make_shared<MSAAPostProcessor>(true);
-	__pPPPipeline->addProcessor(__pMsaaPP.get());
-
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
-	__pGammaCorrectionPP = make_shared<GammaCorrectionPostProcessor>();
-	__pPPPipeline->addProcessor(__pGammaCorrectionPP.get());
 
-	__pBloomPP = make_shared<BloomPostProcessor>();
-	__pPPPipeline->addProcessor(__pBloomPP.get());
-
-	__pHDRPP = make_shared<HDRPostProcessor>();
-	__pPPPipeline->addProcessor(__pHDRPP.get());
+	__pPPPipeline = make_shared<PostProcessingPipeline>();
+	// __pPPPipeline->appendProcessor<MSAAPostProcessor>(true);
+	__pPPPipeline->appendProcessor<GammaCorrectionPostProcessor>(true);
+	__pPPPipeline->appendProcessor<BloomPostProcessor>();
+	__pHDRPP = &__pPPPipeline->appendProcessor<HDRPostProcessor>();
 
 	__pForwardPipeline = make_unique<ForwardRenderingPipeline>(
 		*__pLightHandler, *__pCamera, *__pDrawer, *__pPPPipeline);

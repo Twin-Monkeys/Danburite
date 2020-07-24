@@ -621,9 +621,6 @@
     <ClCompile Include="GammaCorrectionPostProcessor.cpp">
       <Filter>Library\Engine\Core\PostProcess\GammaCorrection</Filter>
     </ClCompile>
-    <ClCompile Include="ShadowTestScene.cpp">
-      <Filter>Client\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="RenderContext.cpp">
       <Filter>Library\ObjectGL\Window\RenderContext</Filter>
     </ClCompile>
@@ -671,9 +668,6 @@
     </ClCompile>
     <ClCompile Include="PerspectiveLight.cpp">
       <Filter>Library\Engine\Core\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="ParallaxMapTestScene.cpp">
-      <Filter>Client\Scene</Filter>
     </ClCompile>
     <ClCompile Include="VertexAttributeDataStructureFactory.cpp">
       <Filter>Library\Engine\Core\VertexAttribute</Filter>
@@ -761,6 +755,9 @@
     </ClCompile>
     <ClCompile Include="AttachableTextureRectangle.cpp">
       <Filter>Library\ObjectGL\Core\Texture\Attachable</Filter>
+    </ClCompile>
+    <ClCompile Include="AttachmentServer.cpp">
+      <Filter>Library\Engine\Core\Attachment</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1145,9 +1142,6 @@
     <ClInclude Include="ColorBufferType.h">
       <Filter>Library\ObjectGL\Core\FrameBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="ShadowTestScene.h">
-      <Filter>Client\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="RenderContext.h">
       <Filter>Library\ObjectGL\Window\RenderContext</Filter>
     </ClInclude>
@@ -1210,9 +1204,6 @@
     </ClInclude>
     <ClInclude Include="DepthBakingType.h">
       <Filter>Library\Engine\Core\DepthBaker</Filter>
-    </ClInclude>
-    <ClInclude Include="ParallaxMapTestScene.h">
-      <Filter>Client\Scene</Filter>
     </ClInclude>
     <ClInclude Include="VertexAttributeDataStructure.h">
       <Filter>Library\ObjectGL\Core\Buffer\VetexBuffer\Attribute</Filter>

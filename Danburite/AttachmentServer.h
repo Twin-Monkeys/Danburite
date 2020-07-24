@@ -14,7 +14,9 @@ namespace Danburite
 			GLsizei, GLsizei,
 			ObjectGL::TextureInternalFormatType,
 			ObjectGL::TextureExternalFormatType,
-			ObjectGL::TextureDataType>;
+			ObjectGL::TextureDataType,
+			ObjectGL::TextureMinFilterValue,
+			ObjectGL::TextureMagFilterValue>;
 
 		std::vector<std::pair<
 			TexRectParam, std::weak_ptr<ObjectGL::AttachableTextureRectangle>>>
@@ -26,7 +28,9 @@ namespace Danburite
 			const GLsizei width, const GLsizei height,
 			const ObjectGL::TextureInternalFormatType internalFormat,
 			const ObjectGL::TextureExternalFormatType externalFormat = ObjectGL::TextureExternalFormatType::RGB,
-			const ObjectGL::TextureDataType dataType = ObjectGL::TextureDataType::UNSIGNED_BYTE
+			const ObjectGL::TextureDataType dataType = ObjectGL::TextureDataType::UNSIGNED_BYTE,
+			const ObjectGL::TextureMinFilterValue minFilter = ObjectGL::TextureMinFilterValue::NEAREST,
+			const ObjectGL::TextureMagFilterValue magFilter = ObjectGL::TextureMagFilterValue::NEAREST
 			) noexcept;
 	};
 }

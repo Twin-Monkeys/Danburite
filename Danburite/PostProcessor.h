@@ -3,7 +3,7 @@
 #include "FrameBuffer.h"
 #include "VertexArray.h"
 #include "UniformBuffer.h"
-#include "Attachable.h"
+#include "AttachmentServer.h"
 
 namespace Danburite
 {
@@ -13,6 +13,7 @@ namespace Danburite
 		std::unique_ptr<ObjectGL::FrameBuffer> __pFrameBuffer;
 		ObjectGL::VertexArray __fullscreenQuadVA { 6 };
 
+		AttachmentServer *__pAttachmentServer = nullptr;
 		ObjectGL::UniformBuffer &__attachmentSetter;
 
 		static inline PostProcessor *__boundProcessor = nullptr;
@@ -30,6 +31,7 @@ namespace Danburite
 		void _setOutputColorBuffer(const ObjectGL::ColorBufferType type) noexcept;
 		void _setOutputColorBuffers(const std::initializer_list<ObjectGL::ColorBufferType> &types) noexcept;
 
+
 		virtual void _onRender(
 			ObjectGL::UniformBuffer &attachmentSetter, ObjectGL::VertexArray &fullscreenQuadVA) noexcept = 0;
 
@@ -39,12 +41,32 @@ namespace Danburite
 		void bind() noexcept;
 		void render() noexcept;
 
+		constexpr AttachmentServer *getAttachmentServer() noexcept;
+		constexpr const AttachmentServer *getAttachmentServer() const noexcept;
+
+		constexpr void setAttachmentServer(AttachmentServer *const pAttachmentServer) noexcept;
+
 		virtual void setScreenSize(const GLsizei width, const GLsizei height) noexcept = 0;
 
 		virtual ~PostProcessor() = default;
 
 		static void unbind() noexcept;
 	};
+
+	constexpr AttachmentServer *PostProcessor::getAttachmentServer() noexcept
+	{
+		return __pAttachmentServer;
+	}
+
+	constexpr const AttachmentServer *PostProcessor::getAttachmentServer() const noexcept
+	{
+		return __pAttachmentServer;
+	}
+
+	constexpr void PostProcessor::setAttachmentServer(AttachmentServer *const pAttachmentServer) noexcept
+	{
+		__pAttachmentServer = pAttachmentServer;
+	}
 
 	constexpr PostProcessor *PostProcessor::_getBoundProcessor() noexcept
 	{

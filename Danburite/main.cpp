@@ -4,8 +4,6 @@
 #include "GLFunctionWrapper.h"
 #include "RCDSRegisterer.h"
 #include "HDRTestScene.h"
-#include "ShadowTestScene.h"
-#include "ParallaxMapTestScene.h"
 
 using namespace std;
 using namespace Danburite;

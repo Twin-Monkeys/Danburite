@@ -4,14 +4,9 @@ using namespace std;
 
 namespace Danburite
 {
-	void PostProcessingPipeline::addProcessor(PostProcessor *const pProcessor) noexcept
-	{
-		__pipeline.emplace_back(pProcessor);
-	}
-
 	void PostProcessingPipeline::setScreenSize(const GLsizei width, const GLsizei height) noexcept
 	{
-		for (PostProcessor *const pProcessor : __pipeline)
+		for (const unique_ptr<PostProcessor> &pProcessor : __pipeline)
 			pProcessor->setScreenSize(width, height);
 	}
 
@@ -28,10 +23,10 @@ namespace Danburite
 		if (__pipeline.empty())
 			return;
 
-		PostProcessor *pPrevProcessor = __pipeline[0];
+		PostProcessor *pPrevProcessor = __pipeline[0].get();
 		for (size_t i = 1ULL; i < __pipeline.size(); i++)
 		{
-			PostProcessor *const pCurProcessor = __pipeline[i];
+			PostProcessor *const pCurProcessor = __pipeline[i].get();
 
 			pCurProcessor->bind();
 			pPrevProcessor->render();
