@@ -70,6 +70,29 @@ namespace Danburite
 		return pRetVal;
 	}
 
+	shared_ptr<TextureMultisample>
+		PostProcessor::_getTexMultisample(
+			const GLsizei width, const GLsizei height,
+			const TextureInternalFormatType internalFormat,
+			const GLsizei numSamplePoints, const bool fixedSampleLocations, const size_t retrievingIndex)
+	{
+		shared_ptr<TextureMultisample> pRetVal;
+
+		if (!__pAttachmentServer)
+		{
+			pRetVal = make_shared<TextureMultisample>();
+			pRetVal->getHandle();
+		}
+		else
+		{
+			pRetVal = __pAttachmentServer->getTexMultisample(
+				width, height, internalFormat, numSamplePoints,
+				fixedSampleLocations, retrievingIndex);
+		}
+
+		return pRetVal;
+	}
+
 	void PostProcessor::bind() noexcept
 	{
 		__boundProcessor = this;

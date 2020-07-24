@@ -14,7 +14,7 @@ namespace Danburite
 		const bool FIXED_SAMPLE_LOCATIONS;
 
 		ObjectGL::Program &__program;
-		std::unique_ptr<ObjectGL::TextureMultisample> __pColorAttachment;
+		std::shared_ptr<ObjectGL::TextureMultisample> __pColorAttachment;
 		std::unique_ptr<ObjectGL::RenderBufferMultisample> __pDepthStencilAttachment;
 
 	protected:

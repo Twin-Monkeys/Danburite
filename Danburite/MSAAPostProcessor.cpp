@@ -1,7 +1,6 @@
 #include "MSAAPostProcessor.h"
 #include "ShaderIdentifier.h"
 #include "ProgramFactory.h"
-#include "TextureUtil.h"
 
 using namespace std;
 using namespace ObjectGL;
@@ -10,8 +9,7 @@ namespace Danburite
 {
 	MSAAPostProcessor::MSAAPostProcessor(const bool attachDepthBuffer, const GLsizei numSamplePoints, const bool fixedSampleLocations) :
 		__program(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_MSAA)),
-		NUM_SAMPLE_POINTS(numSamplePoints), FIXED_SAMPLE_LOCATIONS(fixedSampleLocations),
-		__pColorAttachment(make_unique<TextureMultisample>())
+		NUM_SAMPLE_POINTS(numSamplePoints), FIXED_SAMPLE_LOCATIONS(fixedSampleLocations)
 	{
 		assert(NUM_SAMPLE_POINTS);
 
@@ -23,7 +21,7 @@ namespace Danburite
 	{
 		// AMD Bug; Cannot use bindless sampler2DMS
 		attachmentSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT0, TextureUtil::getHandleIfExist(__pColorAttachment));
+			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT0, __pColorAttachment->getHandle());
 
 		__program.bind();
 		fullscreenQuadVA.draw();
@@ -31,10 +29,7 @@ namespace Danburite
 
 	void MSAAPostProcessor::setScreenSize(const GLsizei width, const GLsizei height) noexcept
 	{
-		if (__pColorAttachment->isHandleCreated())
-			__pColorAttachment = make_unique<TextureMultisample>();
-
-		__pColorAttachment->memoryAlloc(
+		__pColorAttachment = _getTexMultisample(
 			width, height, TextureInternalFormatType::RGB16F, NUM_SAMPLE_POINTS, FIXED_SAMPLE_LOCATIONS);
 
 		_attach(AttachmentType::COLOR_ATTACHMENT0, *__pColorAttachment);

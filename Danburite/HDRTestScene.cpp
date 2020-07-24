@@ -191,8 +191,8 @@ HDRTestScene::HDRTestScene()
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
-	// __pPPPipeline->appendProcessor<MSAAPostProcessor>(true);
-	__pPPPipeline->appendProcessor<GammaCorrectionPostProcessor>(true);
+	__pPPPipeline->appendProcessor<MSAAPostProcessor>(true);
+	__pPPPipeline->appendProcessor<GammaCorrectionPostProcessor>();
 	__pPPPipeline->appendProcessor<BloomPostProcessor>();
 	__pHDRPP = &__pPPPipeline->appendProcessor<HDRPostProcessor>();
 
