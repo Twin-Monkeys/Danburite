@@ -3,6 +3,7 @@
 #include <list>
 #include <memory>
 #include "AttachableTextureRectangle.h"
+#include "AttachmentServerException.h"
 
 namespace Danburite
 {
@@ -31,6 +32,7 @@ namespace Danburite
 			const ObjectGL::TextureExternalFormatType externalFormat,
 			const ObjectGL::TextureDataType dataType,
 			const ObjectGL::TextureMinFilterValue minFilter,
-			const ObjectGL::TextureMagFilterValue magFilter) noexcept;
+			const ObjectGL::TextureMagFilterValue magFilter,
+			const size_t retrievingIndex = 0ULL);
 	};
 }

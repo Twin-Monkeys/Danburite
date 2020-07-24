@@ -167,6 +167,7 @@
     <ClCompile Include="AttachableTextureCubemap.cpp" />
     <ClCompile Include="AttachableTextureRectangle.cpp" />
     <ClCompile Include="AttachmentServer.cpp" />
+    <ClCompile Include="AttachmentServerException.cpp" />
     <ClCompile Include="BloomPostProcessor.cpp" />
     <ClCompile Include="Bone.cpp" />
     <ClCompile Include="BoneException.cpp" />
@@ -301,6 +302,7 @@
     <ClInclude Include="AttachableTextureCubemap.h" />
     <ClInclude Include="AttachableTextureRectangle.h" />
     <ClInclude Include="AttachmentServer.h" />
+    <ClInclude Include="AttachmentServerException.h" />
     <ClInclude Include="AttachmentType.h" />
     <ClInclude Include="BlendingEquationType.h" />
     <ClInclude Include="BlendingFunctionType.h" />

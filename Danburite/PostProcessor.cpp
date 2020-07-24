@@ -45,7 +45,8 @@ namespace Danburite
 			const GLsizei width, const GLsizei height,
 			const TextureInternalFormatType internalFormat, const TextureExternalFormatType externalFormat,
 			const TextureDataType dataType,
-			const TextureMinFilterValue minFilter, const TextureMagFilterValue magFilter) noexcept
+			const TextureMinFilterValue minFilter, const TextureMagFilterValue magFilter,
+			const size_t retrievingIndex) noexcept
 	{
 		shared_ptr<AttachableTextureRectangle> pRetVal;
 
@@ -62,7 +63,8 @@ namespace Danburite
 		else
 		{
 			pRetVal = __pAttachmentServer->getTexRectangle(
-				width, height, internalFormat, externalFormat, dataType, minFilter, magFilter);
+				width, height, internalFormat, externalFormat,
+				dataType, minFilter, magFilter, retrievingIndex);
 		}
 
 		return pRetVal;

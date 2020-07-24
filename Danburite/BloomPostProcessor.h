@@ -25,12 +25,10 @@ namespace Danburite
 
 		std::unique_ptr<ObjectGL::FrameBuffer> __pBloomFrameBuffer1;
 		std::unique_ptr<ObjectGL::FrameBuffer> __pBloomFrameBuffer2;
-		std::unique_ptr<ObjectGL::AttachableTextureRectangle> __pOriginalColorAttachment;
-		std::unique_ptr<ObjectGL::AttachableTextureRectangle> __pBloomColorAttachment1;
-		std::unique_ptr<ObjectGL::AttachableTextureRectangle> __pBloomColorAttachment2;
+		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pOriginalColorAttachment;
+		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pBloomColorAttachment1;
+		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pBloomColorAttachment2;
 		std::unique_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
-
-		void __initColorAttachment() noexcept;
 
 	protected:
 		virtual void _onRender(

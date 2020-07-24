@@ -19,31 +19,8 @@ namespace Danburite
 		__blurVertProgram(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_BLUR_VERT)),
 		__compositionProgram(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_COMPOSITION))
 	{
-		__initColorAttachment();
-
 		if (attachDepthBuffer)
 			__pDepthStencilAttachment = make_unique<RenderBuffer>();
-	}
-
-	void BloomPostProcessor::__initColorAttachment() noexcept
-	{
-		__pOriginalColorAttachment = make_unique<AttachableTextureRectangle>();
-		__pOriginalColorAttachment->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
-		__pOriginalColorAttachment->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
-		__pOriginalColorAttachment->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::NEAREST);
-		__pOriginalColorAttachment->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::NEAREST);
-
-		__pBloomColorAttachment1 = make_unique<AttachableTextureRectangle>();
-		__pBloomColorAttachment1->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
-		__pBloomColorAttachment1->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
-		__pBloomColorAttachment1->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::NEAREST);
-		__pBloomColorAttachment1->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::NEAREST);
-
-		__pBloomColorAttachment2 = make_unique<AttachableTextureRectangle>();
-		__pBloomColorAttachment2->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
-		__pBloomColorAttachment2->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
-		__pBloomColorAttachment2->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::NEAREST);
-		__pBloomColorAttachment2->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::NEAREST);
 	}
 
 	void BloomPostProcessor::_onRender(UniformBuffer &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
@@ -106,11 +83,17 @@ namespace Danburite
 
 	void BloomPostProcessor::setScreenSize(const GLsizei width, const GLsizei height) noexcept
 	{
-		if (__pOriginalColorAttachment->isHandleCreated())
-			__initColorAttachment();
+		__pOriginalColorAttachment = _getTexRectangle(
+			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB,
+			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST, 0ULL);
 
-		__pOriginalColorAttachment->memoryAlloc(
-			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB, TextureDataType::FLOAT);
+		__pBloomColorAttachment1 = _getTexRectangle(
+			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB,
+			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST, 1ULL);
+
+		__pBloomColorAttachment2 = _getTexRectangle(
+			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB,
+			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST, 2ULL);
 
 		_attach(AttachmentType::COLOR_ATTACHMENT0, *__pOriginalColorAttachment);
 
@@ -122,14 +105,7 @@ namespace Danburite
 			_attach(AttachmentType::DEPTH_STENCIL_ATTACHMENT, *__pDepthStencilAttachment);
 		}
 
-		__pBloomColorAttachment1->memoryAlloc(
-			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB, TextureDataType::FLOAT);
-
 		__pBloomFrameBuffer1->attach(AttachmentType::COLOR_ATTACHMENT0, *__pBloomColorAttachment1);
-
-		__pBloomColorAttachment2->memoryAlloc(
-			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB, TextureDataType::FLOAT);
-		
 		__pBloomFrameBuffer2->attach(AttachmentType::COLOR_ATTACHMENT0, *__pBloomColorAttachment2);
 	}
 }
