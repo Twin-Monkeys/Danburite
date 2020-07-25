@@ -17,20 +17,20 @@ namespace Danburite
 
 	void Material::render(VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
-		__materialSetter.setUniformUint(ShaderIdentifier::Name::Material::TYPE, GLenum(__MATERIAL_TYPE));
-		__materialSetter.setUniformUint(ShaderIdentifier::Name::Material::VERTEX_FLAG, GLenum(__VERTEX_FLAG));
-		__materialSetter.setUniformUint(ShaderIdentifier::Name::Material::OPTION_FLAG, GLenum(__optionFlag));
+		__materialSetter.setUniformUint(ShaderIdentifier::Name::Material::TYPE, GLuint(__MATERIAL_TYPE));
+		__materialSetter.setUniformUint(ShaderIdentifier::Name::Material::VERTEX_FLAG, GLuint(__VERTEX_FLAG));
+		__materialSetter.setUniformUint(ShaderIdentifier::Name::Material::OPTION_FLAG, GLuint(__optionFlag));
 
 		_onRender(__materialSetter, vertexArray, numInstances);
 	}
 
 	void Material::rawDrawcall(VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
-		__materialSetter.setUniformUint(ShaderIdentifier::Name::Material::TYPE, GLenum(__MATERIAL_TYPE));
-		__materialSetter.setUniformUint(ShaderIdentifier::Name::Material::VERTEX_FLAG, GLenum(__VERTEX_FLAG));
-		__materialSetter.setUniformUint(ShaderIdentifier::Name::Material::OPTION_FLAG, GLenum(__optionFlag));
+		__materialSetter.setUniformUint(ShaderIdentifier::Name::Material::TYPE, GLuint(__MATERIAL_TYPE));
+		__materialSetter.setUniformUint(ShaderIdentifier::Name::Material::VERTEX_FLAG, GLuint(__VERTEX_FLAG));
+		__materialSetter.setUniformUint(ShaderIdentifier::Name::Material::OPTION_FLAG, GLuint(__optionFlag));
 
-		vertexArray.draw(numInstances);
+		_onRawDrawcall(__materialSetter, vertexArray, numInstances);
 	}
 
 	void Material::setGamma(const float gamma)

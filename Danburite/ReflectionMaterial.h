@@ -12,7 +12,12 @@ namespace Danburite
 		ObjectGL::Program &_reflectionProgram;
 
 		virtual void _onRender(
-			ObjectGL::UniformSetter &materialSetter, ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
+			ObjectGL::UniformSetter &materialSetter,
+			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
+
+		virtual void _onRawDrawcall(
+			ObjectGL::UniformSetter& materialSetter,
+			ObjectGL::VertexArray& vertexArray, const GLsizei numInstances) noexcept override;
 
 	public:
 		ReflectionMaterial(const VertexAttributeFlag vertexFlag) noexcept;

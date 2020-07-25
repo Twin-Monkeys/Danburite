@@ -9,6 +9,8 @@ namespace Danburite
 	private:
 		AttachmentServer __attachmentServer;
 
+		ObjectGL::Program &__extractionProgram;
+
 	public:
 		LightPrePassRenderingPipeline(
 			LightHandler& lightHandler, PerspectiveCamera &camera,

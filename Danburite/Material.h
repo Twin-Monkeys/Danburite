@@ -15,10 +15,9 @@ namespace Danburite
 	private:
 		const MaterialType __MATERIAL_TYPE;
 		const VertexAttributeFlag __VERTEX_FLAG;
+		MaterialOptionFlag __optionFlag = MaterialOptionFlag::NONE;
 
 		ObjectGL::UniformSetter &__materialSetter;
-
-		MaterialOptionFlag __optionFlag = MaterialOptionFlag::NONE;
 
 		constexpr void __setOption(const MaterialOptionFlag flags, const bool enabled) noexcept;
 
@@ -28,6 +27,10 @@ namespace Danburite
 		virtual void _onRender(
 			ObjectGL::UniformSetter &materialSetter,
 			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept = 0;
+
+		virtual void _onRawDrawcall(
+			ObjectGL::UniformSetter& materialSetter,
+			ObjectGL::VertexArray& vertexArray, const GLsizei numInstances) noexcept = 0;
 
 		constexpr void useLighting(const bool enabled) noexcept;
 		constexpr void useAmbientTexture(const bool enabled) noexcept;

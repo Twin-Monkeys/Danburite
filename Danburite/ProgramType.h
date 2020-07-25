@@ -31,7 +31,10 @@ namespace Danburite
 
 		// Depth baking
 		DEPTH_BAKING_2D,
-		DEPTH_BAKING_CUBEMAP
+		DEPTH_BAKING_CUBEMAP,
+
+		// Rendering Pipeline
+		LIGHT_PREPASS_NORMAL_SHININESS_EXTRACTION
 	};
 
 	constexpr ProgramType operator+(const ProgramType lhs, const int rhs) noexcept

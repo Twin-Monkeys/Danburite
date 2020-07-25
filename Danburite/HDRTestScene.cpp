@@ -9,6 +9,7 @@
 #include "TextureUtil.h"
 #include "UniformBufferFactory.h"
 #include <glm/gtx/rotate_vector.hpp>
+#include "ForwardRenderingPipeline.h"
 #include "LightPrePassRenderingPipeline.h"
 
 using namespace std;

@@ -34,7 +34,7 @@ namespace Danburite
 		}
 
 		PostProcessor::unbind();
-		pPrevProcessor->render(nullptr);
+		pPrevProcessor->render();
 	}
 
 	void PostProcessingPipeline::unbind() noexcept

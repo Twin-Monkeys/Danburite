@@ -9,12 +9,12 @@
  
 vec4 Phong_calcPhongColor(
 	const vec3 targetPos, const vec3 targetNormal, const mat3 targetTBN,
-	const vec2 materialTexCoord, const vec4 vertexColor)
+	const vec2 targetTexCoord, const vec4 vertexColor)
 {
 	const vec3 viewPos = Camera_getPosition();
 	const vec3 viewDir = normalize(viewPos - targetPos);
 
-	const vec2 finalTexCoord = Material_getTexCoord(materialTexCoord, viewDir, targetTBN);
+	const vec2 finalTexCoord = Material_getTexCoord(targetTexCoord, viewDir, targetTBN);
 
 	vec3 materialAmbient = Material_getAmbient(finalTexCoord);
 	vec3 materialDiffuse = Material_getDiffuse(finalTexCoord);
@@ -32,8 +32,8 @@ vec4 Phong_calcPhongColor(
 	if (!Material_isLightingEnabled())
 		return vec4(materialAmbient + materialDiffuse + materialSpecular + materialEmissive, materialAlpha);
 
-	const float materialShininess = Material_getShininess(finalTexCoord);
-	const vec3 materialNormal = Material_getNormal(finalTexCoord, targetNormal, targetTBN);
+	const float shininess = Material_getShininess(finalTexCoord);
+	const vec3 finalNormal = Material_getNormal(finalTexCoord, targetNormal, targetTBN);
 
 	vec3 ambient = vec3(0.f);
 	vec3 diffuse = vec3(0.f);
@@ -46,7 +46,7 @@ vec4 Phong_calcPhongColor(
 
 		ambient += (materialAmbient * Light_getLightAmbient(lightIdx, targetPos));
 
-		const float lightOcclusion = Light_getOcclusion(lightIdx, targetPos, materialNormal);
+		const float lightOcclusion = Light_getOcclusion(lightIdx, targetPos, finalNormal);
 		if (lightOcclusion >= 1.f)
 			continue;
 
@@ -54,11 +54,11 @@ vec4 Phong_calcPhongColor(
 
 		diffuse += (
 			occlusionInv * materialDiffuse *
-			Light_getLightDiffuse(lightIdx, targetPos, materialNormal));
+			Light_getLightDiffuse(lightIdx, targetPos, finalNormal));
 
 		specular += (
 			occlusionInv * materialSpecular *
-			Light_getLightSpecular(lightIdx, targetPos, materialNormal, viewDir, materialShininess));
+			Light_getLightSpecular(lightIdx, targetPos, finalNormal, viewDir, shininess));
 	}
 
 	return vec4(ambient + diffuse + specular + materialEmissive, materialAlpha);

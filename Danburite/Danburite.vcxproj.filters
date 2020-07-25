@@ -145,9 +145,6 @@
     <Filter Include="Library\Engine\Core\Material\Component">
       <UniqueIdentifier>{7393c937-a1c9-41f0-b35f-784ae02e6858}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Library\Engine\Core\Material\SilhouetteMaterial">
-      <UniqueIdentifier>{9ddb50b7-2abb-40a2-b889-a4490954d58a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library\Engine\Core\Material\PhongMaterial">
       <UniqueIdentifier>{ab5bf8b7-8238-42ab-9ada-784f7fe19f6a}</UniqueIdentifier>
     </Filter>
@@ -159,9 +156,6 @@
     </Filter>
     <Filter Include="Library\Engine\Util\TextureUtil">
       <UniqueIdentifier>{52787f59-c534-4780-bb74-d8eefb5899f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Library\Engine\Core\Material\TransparentPhongMaterial">
-      <UniqueIdentifier>{13062c02-f43f-4615-ad79-7c47dbbd3eb8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Library\ObjectGL\Base\Function">
       <UniqueIdentifier>{aa839809-1fc0-4a2f-9e0f-6187a8470713}</UniqueIdentifier>
@@ -367,6 +361,12 @@
     <Filter Include="Library\Engine\Core\Attachment">
       <UniqueIdentifier>{ec28e0ba-6ad7-4457-a2c1-eb224bdcc237}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library\Engine\glsl\src\RenderingPipeline">
+      <UniqueIdentifier>{f0f7291e-009e-40ac-909f-65870a3f0128}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\RenderingPipeline\LightPrePass">
+      <UniqueIdentifier>{e159e519-be72-45b5-b9e1-9e4d7cf52838}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Buffer.cpp">
@@ -510,9 +510,6 @@
     <ClCompile Include="ShaderIdentifier.cpp">
       <Filter>Library\Engine\glsl</Filter>
     </ClCompile>
-    <ClCompile Include="SilhouetteMaterial.cpp">
-      <Filter>Library\Engine\Core\Material\SilhouetteMaterial</Filter>
-    </ClCompile>
     <ClCompile Include="GLFunctionWrapper.cpp">
       <Filter>Library\ObjectGL\Base\Function</Filter>
     </ClCompile>
@@ -536,9 +533,6 @@
     </ClCompile>
     <ClCompile Include="VertexArrayFactory.cpp">
       <Filter>Library\Engine\Core\VertexArray</Filter>
-    </ClCompile>
-    <ClCompile Include="TransparentPhongMaterial.cpp">
-      <Filter>Library\Engine\Core\Material\TransparentPhongMaterial</Filter>
     </ClCompile>
     <ClCompile Include="FrameBufferException.cpp">
       <Filter>Library\ObjectGL\Core\FrameBuffer</Filter>
@@ -968,9 +962,6 @@
     <ClInclude Include="MaterialOptionFlag.h">
       <Filter>Library\Engine\Core\Material</Filter>
     </ClInclude>
-    <ClInclude Include="SilhouetteMaterial.h">
-      <Filter>Library\Engine\Core\Material\SilhouetteMaterial</Filter>
-    </ClInclude>
     <ClInclude Include="GLFunctionWrapper.h">
       <Filter>Library\ObjectGL\Base\Function</Filter>
     </ClInclude>
@@ -1006,9 +997,6 @@
     </ClInclude>
     <ClInclude Include="VertexArrayFactory.h">
       <Filter>Library\Engine\Core\VertexArray</Filter>
-    </ClInclude>
-    <ClInclude Include="TransparentPhongMaterial.h">
-      <Filter>Library\Engine\Core\Material\TransparentPhongMaterial</Filter>
     </ClInclude>
     <ClInclude Include="BlendingFunctionType.h">
       <Filter>Library\ObjectGL\Base\Function</Filter>
@@ -1485,6 +1473,12 @@
     </None>
     <None Include="glsl\src\PostProcess_Bloom_BlurVert_Frag.glsl">
       <Filter>Library\Engine\glsl\src\PostProcess\Bloom</Filter>
+    </None>
+    <None Include="glsl\src\LightPrePassNormalShininessExtraction_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\RenderingPipeline\LightPrePass</Filter>
+    </None>
+    <None Include="glsl\src\LightPrePassNormalShininessExtraction_Vert.glsl">
+      <Filter>Library\Engine\glsl\src\RenderingPipeline\LightPrePass</Filter>
     </None>
   </ItemGroup>
 </Project>

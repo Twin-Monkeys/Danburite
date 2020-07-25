@@ -17,6 +17,10 @@ namespace Danburite
 			ObjectGL::UniformSetter &materialSetter,
 			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
 
+		virtual void _onRawDrawcall(
+			ObjectGL::UniformSetter& materialSetter,
+			ObjectGL::VertexArray& vertexArray, const GLsizei numInstances) noexcept override;
+
 	public:
 		PhongMaterial(const VertexAttributeFlag vertexFlag) noexcept;
 

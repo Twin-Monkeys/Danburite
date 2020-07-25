@@ -18,11 +18,17 @@ namespace Danburite
 
 	void ReflectionPhongMaterial::_onRender(UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
+		_reflectionPhongProgram.bind();
+		_onRawDrawcall(materialSetter, vertexArray, numInstances);
+	}
+
+	void ReflectionPhongMaterial::_onRawDrawcall(
+		UniformSetter& materialSetter, VertexArray& vertexArray, const GLsizei numInstances) noexcept
+	{
 		_deployPhongComponent(materialSetter);
 		materialSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Material::ENVIRONMENT_TEX, TextureUtil::getHandleIfExist(__pEnvTex));
 
-		_reflectionPhongProgram.bind();
 		vertexArray.draw(numInstances);
 	}
 

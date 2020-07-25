@@ -8,8 +8,6 @@
 #include "TextureUtil.h"
 #include "MonoColorMaterial.h"
 #include "PhongMaterial.h"
-#include "SilhouetteMaterial.h"
-#include "TransparentPhongMaterial.h"
 #include "ReflectionMaterial.h"
 #include "ReflectionPhongMaterial.h"
 #include "RefractionMaterial.h"
@@ -304,9 +302,6 @@ namespace Danburite
 			case MaterialType::REFLECTION_PHONG:
 				[[fallthrough]];
 
-			case MaterialType::TRANSPARENT_PHONG:
-				[[fallthrough]];
-
 			case MaterialType::PHONG:
 			{
 				const shared_ptr<Texture2D> &pAmbientTex =
@@ -342,15 +337,6 @@ namespace Danburite
 						pAmbientTex, pDiffuseTex, pSpecularTex, pEmissiveTex,
 						pShininessTex, pAlphaTex, pNormalTex, pHeightTex);
 				}
-				else if (materialType == MaterialType::TRANSPARENT_PHONG)
-				{
-					pMaterial = make_shared<TransparentPhongMaterial>(vertexFlag);
-
-					__setupPhongStyleMaterial(
-						static_pointer_cast<TransparentPhongMaterial>(pMaterial),
-						pAmbientTex, pDiffuseTex, pSpecularTex, pEmissiveTex,
-						pShininessTex, pAlphaTex, pNormalTex, pHeightTex);
-				}
 				else
 				{
 					pMaterial = make_shared<PhongMaterial>(vertexFlag);
@@ -361,10 +347,6 @@ namespace Danburite
 						pShininessTex, pAlphaTex, pNormalTex, pHeightTex);
 				}
 			}
-				break;
-
-			case MaterialType::SILHOUETTE:
-				pMaterial = make_shared<SilhouetteMaterial>(vertexFlag);
 				break;
 
 			case MaterialType::REFLECTION:

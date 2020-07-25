@@ -15,6 +15,10 @@ namespace Danburite
 			ObjectGL::UniformSetter &materialSetter,
 			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
 
+		virtual void _onRawDrawcall(
+			ObjectGL::UniformSetter& materialSetter,
+			ObjectGL::VertexArray& vertexArray, const GLsizei numInstances) noexcept override;
+
 	public:
 		MonoColorMaterial(const VertexAttributeFlag vertexFlag) noexcept;
 

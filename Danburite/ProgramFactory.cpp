@@ -204,6 +204,17 @@ namespace Danburite
 					"glsl/src/DepthBakingCubemap_Geo.glsl",
 					"glsl/src/DepthBakingCubemap_Frag.glsl"
 				}
+			},
+
+			// Rendering Pipeline
+			{
+				ProgramType::LIGHT_PREPASS_NORMAL_SHININESS_EXTRACTION,
+				{
+					"glsl/binary/LightPrePassNormalShininessExtraction.bin",
+					"glsl/src/LightPrePassNormalShininessExtraction_Vert.glsl",
+					"",
+					"glsl/src/LightPrePassNormalShininessExtraction_Frag.glsl"
+				}
 			}
 		};
 
@@ -277,9 +288,11 @@ namespace Danburite
 		return shared_ptr<Program>(__createProgram(key));
 	}
 
-	const unordered_set<ProgramType> &ProgramFactory::getUsingProgramsFromUniformBufferName(const string &uniformBufferName) noexcept
+	const unordered_set<ProgramType> &ProgramFactory::
+		getUsingProgramsFromUniformBufferName(const string &uniformBufferName) noexcept
 	{
-		static const unordered_map<string, unordered_set<ProgramType>> uniformBufferNameToUsingProgrmsMap =
+		static const unordered_map<string, unordered_set<ProgramType>>
+			uniformBufferNameToUsingProgrmsMap =
 		{
 			{
 				ShaderIdentifier::Name::UniformBuffer::MATERIAL,
@@ -290,7 +303,8 @@ namespace Danburite
 					ProgramType::REFLECTION,
 					ProgramType::REFLECTION_PHONG,
 					ProgramType::REFRACTION,
-					ProgramType::SKYBOX
+					ProgramType::SKYBOX,
+					ProgramType::LIGHT_PREPASS_NORMAL_SHININESS_EXTRACTION
 				}
 			},
 			{
@@ -309,7 +323,8 @@ namespace Danburite
 					ProgramType::REFLECTION,
 					ProgramType::REFLECTION_PHONG,
 					ProgramType::REFRACTION,
-					ProgramType::SKYBOX
+					ProgramType::SKYBOX,
+					ProgramType::LIGHT_PREPASS_NORMAL_SHININESS_EXTRACTION
 				}
 			},
 			{
@@ -383,7 +398,8 @@ namespace Danburite
 					ProgramType::REFLECTION_PHONG,
 					ProgramType::REFRACTION,
 					ProgramType::DEPTH_BAKING_2D,
-					ProgramType::DEPTH_BAKING_CUBEMAP
+					ProgramType::DEPTH_BAKING_CUBEMAP,
+					ProgramType::LIGHT_PREPASS_NORMAL_SHININESS_EXTRACTION
 				}
 			},
 			{
@@ -396,7 +412,8 @@ namespace Danburite
 					ProgramType::REFLECTION_PHONG,
 					ProgramType::REFRACTION,
 					ProgramType::DEPTH_BAKING_2D,
-					ProgramType::DEPTH_BAKING_CUBEMAP
+					ProgramType::DEPTH_BAKING_CUBEMAP,
+					ProgramType::LIGHT_PREPASS_NORMAL_SHININESS_EXTRACTION
 				}
 			}
 		};

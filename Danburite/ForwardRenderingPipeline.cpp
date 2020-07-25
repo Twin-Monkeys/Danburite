@@ -13,6 +13,7 @@ namespace Danburite
 
 	void ForwardRenderingPipeline::setScreenSize(const GLsizei width, const GLsizei height) noexcept
 	{
+		glViewport(0, 0, width, height);
 		_camera.setAspectRatio(width, height);
 		_ppPipeline.setScreenSize(width, height);
 	}

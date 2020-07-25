@@ -71,7 +71,7 @@ namespace Danburite
 
 	public:
 		void bind() noexcept;
-		void render(PostProcessor *const pBoundProcessor) noexcept;
+		void render(PostProcessor *const pBoundProcessor = nullptr) noexcept;
 
 		constexpr void setAttachmentServer(AttachmentServer *const pAttachmentServer) noexcept;
 

@@ -20,9 +20,14 @@ namespace Danburite
 	void PhongMaterial::_onRender(
 		UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
-		_deployPhongComponent(materialSetter);
-
 		_phongProgram.bind();
+		_onRawDrawcall(materialSetter, vertexArray, numInstances);
+	}
+
+	void PhongMaterial::_onRawDrawcall(
+		UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
+	{
+		_deployPhongComponent(materialSetter);
 		vertexArray.draw(numInstances);
 	}
 }
