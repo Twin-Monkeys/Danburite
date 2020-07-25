@@ -6,9 +6,16 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	LightPrePassRenderingPipeline::LightPrePassRenderingPipeline(
-		LightHandler& lightHandler, Camera& camera, Drawer& drawer, PostProcessingPipeline& ppPipeline) :
+		LightHandler& lightHandler, PerspectiveCamera& camera,
+		Drawer& drawer, PostProcessingPipeline& ppPipeline) :
 		RenderingPipeline(lightHandler, camera, drawer, ppPipeline)
 	{}
+
+	void LightPrePassRenderingPipeline::setScreenSize(const GLsizei width, const GLsizei height) noexcept
+	{
+		_camera.setAspectRatio(width, height);
+		_ppPipeline.setScreenSize(width, height);
+	}
 
 	void LightPrePassRenderingPipeline::render() noexcept
 	{

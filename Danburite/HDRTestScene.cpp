@@ -9,6 +9,7 @@
 #include "TextureUtil.h"
 #include "UniformBufferFactory.h"
 #include <glm/gtx/rotate_vector.hpp>
+#include "LightPrePassRenderingPipeline.h"
 
 using namespace std;
 using namespace glm;
@@ -196,7 +197,7 @@ HDRTestScene::HDRTestScene()
 	__pPPPipeline->appendProcessor<BloomPostProcessor>();
 	__pHDRPP = &__pPPPipeline->appendProcessor<HDRPostProcessor>();
 
-	__pForwardPipeline = make_unique<ForwardRenderingPipeline>(
+	__pRenderingPipeline = make_unique<LightPrePassRenderingPipeline>(
 		*__pLightHandler, *__pCamera, *__pDrawer, *__pPPPipeline);
 }
 
@@ -257,7 +258,7 @@ bool HDRTestScene::__keyFunc(const float deltaTime) noexcept
 
 void HDRTestScene::draw() noexcept
 {
-	__pForwardPipeline->render();
+	__pRenderingPipeline->render();
 	RenderContext::getCurrent()->requestBufferSwapping();
 }
 
@@ -311,8 +312,7 @@ void HDRTestScene::onResize(const int width, const int height) noexcept
 	if (!width || !height)
 		return;
 
-	__pCamera->setAspectRatio(width, height);
-	__pPPPipeline->setScreenSize(width, height);
+	__pRenderingPipeline->setScreenSize(width, height);
 }
 
 void HDRTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
