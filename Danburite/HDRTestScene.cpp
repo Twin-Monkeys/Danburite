@@ -143,7 +143,7 @@ HDRTestScene::HDRTestScene()
 	__pBlueLight->setDiffuseStrength(1.f);
 	__pBlueLight->setSpecularStrength(1.f);
 	__pBlueLight->setAttenuation(1.f, 0.09f, 0.032f);
-	__pBlueLight->setDepthMapSize(2048, 2048);
+	// __pBlueLight->setDepthMapSize(2048, 2048);
 	__pBlueLight->setShadowEnabled(true);
 
 	Transform& blueLightTransform = __pBlueLight->getTransform();
@@ -155,7 +155,7 @@ HDRTestScene::HDRTestScene()
 	__pRedLight->setDiffuseStrength(2.f);
 	__pRedLight->setSpecularStrength(2.f);
 	__pRedLight->setAttenuation(1.f, 0.22f, 0.20f);
-	__pRedLight->setDepthMapSize(2048, 2048);
+	// __pRedLight->setDepthMapSize(2048, 2048);
 	__pRedLight->setShadowEnabled(true);
 
 	Transform &redLightTransform = __pRedLight->getTransform();
@@ -198,7 +198,10 @@ HDRTestScene::HDRTestScene()
 	__pPPPipeline->appendProcessor<BloomPostProcessor>();
 	__pHDRPP = &__pPPPipeline->appendProcessor<HDRPostProcessor>();
 
-	__pRenderingPipeline = make_unique<LightPrePassRenderingPipeline>(
+	/*__pRenderingPipeline = make_unique<LightPrePassRenderingPipeline>(
+		*__pLightHandler, *__pCamera, *__pDrawer, *__pPPPipeline);*/
+
+	__pRenderingPipeline = make_unique<ForwardRenderingPipeline>(
 		*__pLightHandler, *__pCamera, *__pDrawer, *__pPPPipeline);
 }
 

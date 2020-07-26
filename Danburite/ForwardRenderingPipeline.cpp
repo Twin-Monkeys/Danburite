@@ -20,8 +20,9 @@ namespace Danburite
 
 	void ForwardRenderingPipeline::render() noexcept
 	{
-		_lightHandler.batchDeploy();
+		// 순서 중요.
 		_lightHandler.batchBakeDepthMap(_drawer);
+		_lightHandler.batchDeploy();
 
 		_cameraSetter.directDeploy(_camera);
 
