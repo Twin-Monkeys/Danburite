@@ -11,7 +11,12 @@ namespace Danburite
 		ObjectGL::VertexArray __fullscreenQuadVA { 6 };
 
 		std::unique_ptr<ObjectGL::FrameBuffer> __pNormalShininessFB;
+		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pPosAttachment;
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pNormalSpecularAttachment;
+
+		std::unique_ptr<ObjectGL::FrameBuffer> __pLightingFB;
+		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pLightingAttachment;
+
 		std::shared_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
 
 		ObjectGL::Program &__extractionProgram;

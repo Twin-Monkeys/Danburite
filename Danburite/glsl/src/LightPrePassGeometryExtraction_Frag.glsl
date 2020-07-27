@@ -9,12 +9,11 @@
 #include "header/Material_Header.glsl"
 #include "header/Camera_Header.glsl"
 
-out vec4 normal3_shininess1;
+layout (location = 0) out vec3 worldPos;
+layout (location = 1) out vec4 normal3_shininess1;
 
 void main()
 {
-	// phong에선 잘 되고 있는데??
-
 	const vec3 viewPos = Camera_getPosition();
 	const vec3 viewDir = normalize(viewPos - variableInOut_VertToFrag.worldPos);
 
@@ -28,6 +27,8 @@ void main()
 
 	const float shininess = Material_getShininess(finalTexCoord);
 
+	// output
+	worldPos = variableInOut_VertToFrag.worldPos;
 	normal3_shininess1.xyz = finalNormal;
 	normal3_shininess1.w = shininess;
 } 

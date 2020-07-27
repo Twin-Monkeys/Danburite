@@ -1474,10 +1474,10 @@
     <None Include="glsl\src\PostProcess_Bloom_BlurVert_Frag.glsl">
       <Filter>Library\Engine\glsl\src\PostProcess\Bloom</Filter>
     </None>
-    <None Include="glsl\src\LightPrePassNormalShininessExtraction_Frag.glsl">
+    <None Include="glsl\src\LightPrePassGeometryExtraction_Vert.glsl">
       <Filter>Library\Engine\glsl\src\RenderingPipeline\LightPrePass</Filter>
     </None>
-    <None Include="glsl\src\LightPrePassNormalShininessExtraction_Vert.glsl">
+    <None Include="glsl\src\LightPrePassGeometryExtraction_Frag.glsl">
       <Filter>Library\Engine\glsl\src\RenderingPipeline\LightPrePass</Filter>
     </None>
   </ItemGroup>

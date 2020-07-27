@@ -208,12 +208,12 @@ namespace Danburite
 
 			// Rendering Pipeline
 			{
-				ProgramType::LIGHT_PREPASS_NORMAL_SHININESS_EXTRACTION,
+				ProgramType::LIGHT_PREPASS_GEOMETRY_EXTRACTION,
 				{
-					"glsl/binary/LightPrePassNormalShininessExtraction.bin",
-					"glsl/src/LightPrePassNormalShininessExtraction_Vert.glsl",
+					"glsl/binary/LightPrePassGeometryExtraction.bin",
+					"glsl/src/LightPrePassGeometryExtraction_Vert.glsl",
 					"",
-					"glsl/src/LightPrePassNormalShininessExtraction_Frag.glsl"
+					"glsl/src/LightPrePassGeometryExtraction_Frag.glsl"
 				}
 			}
 		};
@@ -304,7 +304,7 @@ namespace Danburite
 					ProgramType::REFLECTION_PHONG,
 					ProgramType::REFRACTION,
 					ProgramType::SKYBOX,
-					ProgramType::LIGHT_PREPASS_NORMAL_SHININESS_EXTRACTION
+					ProgramType::LIGHT_PREPASS_GEOMETRY_EXTRACTION
 				}
 			},
 			{
@@ -324,7 +324,7 @@ namespace Danburite
 					ProgramType::REFLECTION_PHONG,
 					ProgramType::REFRACTION,
 					ProgramType::SKYBOX,
-					ProgramType::LIGHT_PREPASS_NORMAL_SHININESS_EXTRACTION
+					ProgramType::LIGHT_PREPASS_GEOMETRY_EXTRACTION
 				}
 			},
 			{
@@ -399,7 +399,7 @@ namespace Danburite
 					ProgramType::REFRACTION,
 					ProgramType::DEPTH_BAKING_2D,
 					ProgramType::DEPTH_BAKING_CUBEMAP,
-					ProgramType::LIGHT_PREPASS_NORMAL_SHININESS_EXTRACTION
+					ProgramType::LIGHT_PREPASS_GEOMETRY_EXTRACTION
 				}
 			},
 			{
@@ -413,7 +413,7 @@ namespace Danburite
 					ProgramType::REFRACTION,
 					ProgramType::DEPTH_BAKING_2D,
 					ProgramType::DEPTH_BAKING_CUBEMAP,
-					ProgramType::LIGHT_PREPASS_NORMAL_SHININESS_EXTRACTION
+					ProgramType::LIGHT_PREPASS_GEOMETRY_EXTRACTION
 				}
 			}
 		};
