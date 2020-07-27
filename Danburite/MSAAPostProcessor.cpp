@@ -22,8 +22,7 @@ namespace Danburite
 		UniformBuffer &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
 	{
 		// AMD Bug; Cannot use bindless sampler2DMS
-		attachmentSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT0, __pColorAttachment->getHandle());
+		attachmentSetter.setUniformUvec2(ShaderIdentifier::Name::Attachment::TEX0, __pColorAttachment->getHandle());
 
 		__program.bind();
 		fullscreenQuadVA.draw();

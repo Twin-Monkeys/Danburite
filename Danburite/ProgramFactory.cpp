@@ -346,7 +346,7 @@ namespace Danburite
 				}
 			},
 			{
-				ShaderIdentifier::Name::UniformBuffer::ATTACHMENT,
+				ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER,
 				{
 					ProgramType::POST_PROCESS_FORWARD,
 					ProgramType::POST_PROCESS_NEGATIVE,

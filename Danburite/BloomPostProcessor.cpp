@@ -34,7 +34,7 @@ namespace Danburite
 		__pBloomFrameBuffer1->bind();
 
 		attachmentSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT0, __pOriginalColorAttachment->getHandle());
+			ShaderIdentifier::Name::Attachment::TEX0, __pOriginalColorAttachment->getHandle());
 
 		__extractionProgram.bind();
 		fullscreenQuadVA.draw();
@@ -43,7 +43,7 @@ namespace Danburite
 		__pBloomFrameBuffer2->bind();
 
 		attachmentSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT0, __pBloomColorAttachment1->getHandle());
+			ShaderIdentifier::Name::Attachment::TEX0, __pBloomColorAttachment1->getHandle());
 
 		__blurHorizProgram.bind();
 		fullscreenQuadVA.draw();
@@ -52,17 +52,17 @@ namespace Danburite
 		__pBloomFrameBuffer1->bind();
 
 		attachmentSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT0, __pBloomColorAttachment2->getHandle());
+			ShaderIdentifier::Name::Attachment::TEX0, __pBloomColorAttachment2->getHandle());
 
 		__blurVertProgram.bind();
 		fullscreenQuadVA.draw();
 
 		// 4. composition
 		attachmentSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT0, __pOriginalColorAttachment->getHandle());
+			ShaderIdentifier::Name::Attachment::TEX0, __pOriginalColorAttachment->getHandle());
 
 		attachmentSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT1, __pBloomColorAttachment1->getHandle());
+			ShaderIdentifier::Name::Attachment::TEX1, __pBloomColorAttachment1->getHandle());
 
 		if (pBoundProcessor)
 			pBoundProcessor->bind();

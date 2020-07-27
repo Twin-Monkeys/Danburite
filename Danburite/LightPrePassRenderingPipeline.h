@@ -15,7 +15,9 @@ namespace Danburite
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pNormalSpecularAttachment;
 
 		std::unique_ptr<ObjectGL::FrameBuffer> __pLightingFB;
-		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pLightingAttachment;
+		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pAmbientAttenuationAttachment;
+		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pDiffuseOcclusionInvAttachment;
+		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pSpecularAttachment;
 
 		std::shared_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
 

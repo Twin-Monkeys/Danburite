@@ -501,7 +501,7 @@
     <None Include="glsl\src\DepthBaking2D_Frag.glsl" />
     <None Include="glsl\src\DepthBaking2D_Vert.glsl" />
     <None Include="glsl\src\FullscreenQuad_Vert.glsl" />
-    <None Include="glsl\src\header\Attachment_Header.glsl" />
+    <None Include="glsl\src\header\TextureContainer_Header.glsl" />
     <None Include="glsl\src\Header\Camera_Header.glsl" />
     <None Include="glsl\src\header\Constant_Header.glsl" />
     <None Include="glsl\src\header\Convolutional_Header.glsl" />
@@ -510,10 +510,8 @@
     <None Include="glsl\src\header\Light_Header.glsl" />
     <None Include="glsl\src\Header\Material_Header.glsl" />
     <None Include="glsl\src\header\ModelCamera_Header.glsl" />
-    <None Include="glsl\src\header\MSAA_Header.glsl" />
     <None Include="glsl\src\header\Phong_Header.glsl" />
     <None Include="glsl\src\Header\Model_Header.glsl" />
-    <None Include="glsl\src\header\PostProcess_Header.glsl" />
     <None Include="glsl\src\header\VertexAttribute_Header.glsl" />
     <None Include="glsl\src\MonoColor_Frag.glsl" />
     <None Include="glsl\src\PostProcess_GammaCorrection_Frag.glsl" />

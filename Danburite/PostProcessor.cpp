@@ -11,8 +11,8 @@ namespace Danburite
 {
 	PostProcessor::PostProcessor() :
 		__pFrameBuffer(make_unique<FrameBuffer>()),
-		__attachmentSetter(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::ATTACHMENT))
+		__texContainerSetter(UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER))
 	{}
 
 	void PostProcessor::_attach(const AttachmentType attachmentType, Attachable &attachment) noexcept
@@ -139,7 +139,7 @@ namespace Danburite
 	void PostProcessor::render(PostProcessor* const pBoundProcessor) noexcept
 	{
 		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, false);
-		_onRender(pBoundProcessor, __attachmentSetter, __fullscreenQuadVA);
+		_onRender(pBoundProcessor, __texContainerSetter, __fullscreenQuadVA);
 		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
 	}
 

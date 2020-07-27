@@ -96,16 +96,16 @@ namespace Danburite
 			namespace Attachment
 			{
 				extern const std::string
-					DEPTH_ATTACHMENT,
-					STENCIL_ATTACHMENT,
-					COLOR_ATTACHMENT0,
-					COLOR_ATTACHMENT1,
-					COLOR_ATTACHMENT2,
-					COLOR_ATTACHMENT3,
-					COLOR_ATTACHMENT4,
-					COLOR_ATTACHMENT5,
-					COLOR_ATTACHMENT6,
-					COLOR_ATTACHMENT7
+					TEX0,
+					TEX1,
+					TEX2,
+					TEX3,
+					TEX4,
+					TEX5,
+					TEX6,
+					TEX7,
+					TEX8,
+					TEX9
 					;
 			}
 
@@ -171,7 +171,7 @@ namespace Danburite
 					CONVOLUTION,
 					GAMMA_CORRECTION,
 					SKYBOX,
-					ATTACHMENT,
+					TEX_CONTAINER,
 					DEPTH_BAKING_2D,
 					DEPTH_BAKING_CUBEMAP,
 					HDR,
@@ -207,7 +207,7 @@ namespace Danburite
 					CONVOLUTION				= 3U,
 					GAMMA_CORRECTION		= 4U,
 					SKYBOX					= 5U,
-					ATTACHMENT				= 6U,
+					TEX_CONTAINER			= 6U,
 					DEPTH_BAKING_2D			= 7U,
 					DEPTH_BAKING_CUBEMAP	= 8U,
 					HDR						= 9U,

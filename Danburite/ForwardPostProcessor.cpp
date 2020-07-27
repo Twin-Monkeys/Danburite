@@ -21,7 +21,7 @@ namespace Danburite
 		UniformBuffer &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
 	{
 		attachmentSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::COLOR_ATTACHMENT0, __pColorAttachment->getHandle());
+			ShaderIdentifier::Name::Attachment::TEX0, __pColorAttachment->getHandle());
 
 		__program.bind();
 		fullscreenQuadVA.draw();

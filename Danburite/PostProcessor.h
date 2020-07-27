@@ -14,7 +14,7 @@ namespace Danburite
 		ObjectGL::VertexArray __fullscreenQuadVA { 6 };
 
 		AttachmentServer *__pAttachmentServer = nullptr;
-		ObjectGL::UniformBuffer &__attachmentSetter;
+		ObjectGL::UniformBuffer &__texContainerSetter;
 
 		PostProcessor(const PostProcessor &) = delete;
 		PostProcessor &operator=(const PostProcessor &) = delete;

@@ -1,11 +1,13 @@
 #version 460 core
 
-#include "header/PostProcess_Header.glsl"
+#include "header/TextureContainer_Header.glsl"
  
 out vec3 fragColor;
 
 void main()
 {
-	fragColor = PostProcess_getPixel(0, gl_FragCoord.xy).rgb;
+	const sampler2DRect srcTex = TextureContainer_getTextureAs2DRect(0);
+
+	fragColor = texture(srcTex, gl_FragCoord.xy).rgb;
 	fragColor = (1.f - fragColor);
 } 

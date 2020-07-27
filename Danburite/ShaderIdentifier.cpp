@@ -89,16 +89,16 @@ namespace Danburite
 			namespace Attachment
 			{
 				const string
-					DEPTH_ATTACHMENT = "attachment.depth",
-					STENCIL_ATTACHMENT = "attachment.stencil",
-					COLOR_ATTACHMENT0 = "attachment.color0",
-					COLOR_ATTACHMENT1 = "attachment.color1",
-					COLOR_ATTACHMENT2 = "attachment.color2",
-					COLOR_ATTACHMENT3 = "attachment.color3",
-					COLOR_ATTACHMENT4 = "attachment.color4",
-					COLOR_ATTACHMENT5 = "attachment.color5",
-					COLOR_ATTACHMENT6 = "attachment.color6",
-					COLOR_ATTACHMENT7 = "attachment.color7"
+					TEX0 = "textureContainer.tex0",
+					TEX1 = "textureContainer.tex1",
+					TEX2 = "textureContainer.tex2",
+					TEX3 = "textureContainer.tex3",
+					TEX4 = "textureContainer.tex4",
+					TEX5 = "textureContainer.tex5",
+					TEX6 = "textureContainer.tex6",
+					TEX7 = "textureContainer.tex7",
+					TEX8 = "textureContainer.tex8",
+					TEX9 = "textureContainer.tex9"
 					;
 			}
 
@@ -170,7 +170,7 @@ namespace Danburite
 					CONVOLUTION				= "UBConvolution",
 					GAMMA_CORRECTION		= "UBGammaCorrection",
 					SKYBOX					= "UBSkybox",
-					ATTACHMENT				= "UBAttachment",
+					TEX_CONTAINER			= "UBTextureContainer",
 					DEPTH_BAKING_2D			= "UBDepthBaking2D",
 					DEPTH_BAKING_CUBEMAP	= "UBDepthBakingCubemap",
 					HDR						= "UBHDR",
@@ -214,8 +214,8 @@ namespace Danburite
 							Value::UniformBlockBindingPoint::SKYBOX
 						},
 						{
-							Name::UniformBuffer::ATTACHMENT,
-							Value::UniformBlockBindingPoint::ATTACHMENT
+							Name::UniformBuffer::TEX_CONTAINER,
+							Value::UniformBlockBindingPoint::TEX_CONTAINER
 						},
 						{
 							Name::UniformBuffer::DEPTH_BAKING_2D,
