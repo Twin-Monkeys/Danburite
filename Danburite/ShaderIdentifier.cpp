@@ -40,6 +40,7 @@ namespace Danburite
 					ATTENUATION_CONST	= "attConst",
 					ATTENUATION_LINEAR	= "attLinear",
 					ATTENUATION_QUAD	= "attQuad",
+					VALID_DISTANCE		= "validDistance",
 
 					INNER_CUTOFF		 = "innerCutOff",
 					OUTER_CUTOFF		 = "outerCutOff",

@@ -43,6 +43,7 @@ namespace Danburite
 					ATTENUATION_CONST,
 					ATTENUATION_LINEAR,
 					ATTENUATION_QUAD,
+					VALID_DISTANCE,
 
 					// spot
 					INNER_CUTOFF,

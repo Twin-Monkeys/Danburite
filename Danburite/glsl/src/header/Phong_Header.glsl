@@ -41,7 +41,7 @@ vec4 Phong_calcPhongColor(
 
 	for (uint lightIdx = 0; lightIdx < MAX_NUM_LIGHTS; lightIdx++)
 	{
-		if (!Light_isLightEnabled(lightIdx))
+		if (!Light_checkValidation(lightIdx, targetPos))
 			continue;
 
 		ambient += (materialAmbient * Light_getLightAmbient(lightIdx, targetPos));

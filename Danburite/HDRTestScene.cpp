@@ -143,8 +143,7 @@ HDRTestScene::HDRTestScene()
 	__pBlueLight->setDiffuseStrength(1.f);
 	__pBlueLight->setSpecularStrength(1.f);
 	__pBlueLight->setAttenuation(1.f, 0.09f, 0.032f);
-	// __pBlueLight->setDepthMapSize(2048, 2048);
-	__pBlueLight->setShadowEnabled(false);
+	__pBlueLight->setShadowEnabled(true);
 
 	Transform& blueLightTransform = __pBlueLight->getTransform();
 	blueLightTransform.setPosition(lamp1Transform.getPosition() + vec3 { 0.f, .3f, 3.5f });
@@ -155,8 +154,7 @@ HDRTestScene::HDRTestScene()
 	__pRedLight->setDiffuseStrength(2.f);
 	__pRedLight->setSpecularStrength(2.f);
 	__pRedLight->setAttenuation(1.f, 0.22f, 0.20f);
-	// __pRedLight->setDepthMapSize(2048, 2048);
-	__pRedLight->setShadowEnabled(false);
+	__pRedLight->setShadowEnabled(true);
 
 	Transform &redLightTransform = __pRedLight->getTransform();
 	redLightTransform.setPosition(lamp2Transform.getPosition() + vec3{ -2.f, .3f, -2.f });
@@ -193,16 +191,16 @@ HDRTestScene::HDRTestScene()
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
 
 	__pPPPipeline = make_shared<PostProcessingPipeline>();
-	__pPPPipeline->appendProcessor<MSAAPostProcessor>(true);
-	__pPPPipeline->appendProcessor<GammaCorrectionPostProcessor>();
+	// __pPPPipeline->appendProcessor<MSAAPostProcessor>(true);
+	__pPPPipeline->appendProcessor<GammaCorrectionPostProcessor>(true);
 	__pPPPipeline->appendProcessor<BloomPostProcessor>();
 	__pHDRPP = &__pPPPipeline->appendProcessor<HDRPostProcessor>();
 
-	__pRenderingPipeline = make_unique<LightPrePassRenderingPipeline>(
-		*__pLightHandler, *__pCamera, *__pDrawer, *__pPPPipeline);
-
-	/*__pRenderingPipeline = make_unique<ForwardRenderingPipeline>(
+	/*__pRenderingPipeline = make_unique<LightPrePassRenderingPipeline>(
 		*__pLightHandler, *__pCamera, *__pDrawer, *__pPPPipeline);*/
+
+	__pRenderingPipeline = make_unique<ForwardRenderingPipeline>(
+		*__pLightHandler, *__pCamera, *__pDrawer, *__pPPPipeline);
 }
 
 bool HDRTestScene::__keyFunc(const float deltaTime) noexcept

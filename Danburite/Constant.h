@@ -23,10 +23,10 @@ namespace Danburite
 		{
 			namespace BaseComponent
 			{
-				constexpr glm::vec3 ALBEDO			= { 1.f, 1.f, 1.f };
-				constexpr float AMBIENT_STRENGTH	= .1f;
-				constexpr float DIFFUSE_STRENGH		= .8f;
-				constexpr float SPECULAR_STRENGH	= .6f;
+				constexpr glm::vec3 ALBEDO				= { 1.f, 1.f, 1.f };
+				constexpr float AMBIENT_STRENGTH		= .1f;
+				constexpr float DIFFUSE_STRENGH			= .8f;
+				constexpr float SPECULAR_STRENGH		= .6f;
 			}
 
 			namespace AttenuatedComponent
@@ -34,6 +34,7 @@ namespace Danburite
 				constexpr float ATT_CONST	= 1.f;
 				constexpr float ATT_LINEAR	= 0.f;
 				constexpr float ATT_QUAD	= 0.f;
+				constexpr float LUMINANCE_TOLERANCE		= .0003f;
 			}
 
 			namespace SpotComponent

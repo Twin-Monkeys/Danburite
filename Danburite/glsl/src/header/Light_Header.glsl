@@ -26,6 +26,7 @@ struct Light
 	float attConst;
 	float attLinear;
 	float attQuad;
+	float validDistance;
 
 	// spot
 	float innerCutOff;
@@ -47,11 +48,6 @@ layout(binding = BINDING_POINT_LIGHT) uniform UBLight
 {
 	Light light[MAX_NUM_LIGHTS];
 };
-
-bool Light_isLightEnabled(uint lightIndex)
-{
-	return light[lightIndex].enabled;
-}
 
 vec3 Light_getLightDirection(uint lightIndex, const vec3 targetPos)
 {
@@ -164,7 +160,40 @@ float Light_getLightDistance(uint lightIndex, const vec3 targetPos)
 	return length(targetPos - light[lightIndex].pos);
 }
 
-float Light_getLightStrength(uint lightIndex, const vec3 targetPos)
+bool Light_checkValidation(const uint lightIndex, const vec3 targetPos)
+{
+	if (!light[lightIndex].enabled)
+		return false;
+
+	const uint LIGHT_TYPE = light[lightIndex].type;
+
+	if (LIGHT_TYPE == LIGHT_TYPE_SPOT)
+	{
+		const float lightDist = Light_getLightDistance(lightIndex, targetPos);
+		if (lightDist > light[lightIndex].validDistance)
+			return false;
+
+		const float theta = dot(light[lightIndex].direction, Light_getLightDirection(lightIndex, targetPos));
+		
+		const float cutOffValue =
+			((theta - light[lightIndex].outerCutOff) /
+			(light[lightIndex].innerCutOff - light[lightIndex].outerCutOff));
+
+		if (cutOffValue < 0.f)
+			return false;
+	}
+	else if (LIGHT_TYPE == LIGHT_TYPE_POINT)
+	{
+		const float lightDist = Light_getLightDistance(lightIndex, targetPos);
+
+		if (lightDist > light[lightIndex].validDistance)
+			return false;
+	}
+
+	return true;
+}
+
+float Light_getAttenuation(uint lightIndex, const vec3 targetPos)
 {
 	const uint LIGHT_TYPE = light[lightIndex].type;
 	float retVal = 1.f;
@@ -205,7 +234,7 @@ vec3 Light_getLightAmbient(uint lightIndex, const vec3 targetPos)
 	return (
 		light[lightIndex].albedo *
 		light[lightIndex].ambientStrength *
-		Light_getLightStrength(lightIndex, targetPos));
+		Light_getAttenuation(lightIndex, targetPos));
 }
 
 float Light_getLightDiffusePower(uint lightIndex, const vec3 targetPos, vec3 targetNormal)
@@ -218,7 +247,7 @@ vec3 Light_getLightDiffuse(uint lightIndex, const vec3 targetPos, vec3 targetNor
 	return (
 		light[lightIndex].albedo *
 		light[lightIndex].diffuseStrength *
-		Light_getLightStrength(lightIndex, targetPos) *
+		Light_getAttenuation(lightIndex, targetPos) *
 		Light_getLightDiffusePower(lightIndex, targetPos, targetNormal));
 }
 
@@ -241,7 +270,7 @@ vec3 Light_getLightSpecular(uint lightIndex, const vec3 targetPos, vec3 targetNo
 	return (
 		light[lightIndex].albedo *
 		light[lightIndex].specularStrength *
-		Light_getLightStrength(lightIndex, targetPos) *
+		Light_getAttenuation(lightIndex, targetPos) *
 		Light_getLightSpecularPower(lightIndex, targetPos, targetNormal, viewDirection, materialShininess));
 }
 

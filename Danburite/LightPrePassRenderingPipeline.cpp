@@ -20,6 +20,7 @@ namespace Danburite
 	{
 		glViewport(0, 0, width, height);
 		_camera.setAspectRatio(width, height);
+		_ppPipeline.setScreenSize(width, height);
 
 		__pNormalSpecularAttachment = __attachmentServer.getTexRectangle(
 			width, height, TextureInternalFormatType::RGBA32F, TextureExternalFormatType::RGBA,
