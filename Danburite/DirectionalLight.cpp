@@ -14,4 +14,9 @@ namespace Danburite
 		_deployBaseComponent(lightSetter);
 		_deployDirection(lightSetter);
 	}
+
+	void DirectionalLight::volumeDrawcall() noexcept
+	{
+		__fullscreenDrawer.draw();
+	}
 }

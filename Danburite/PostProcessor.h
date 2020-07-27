@@ -1,7 +1,7 @@
 #pragma once
 
 #include "FrameBuffer.h"
-#include "VertexArray.h"
+#include "FullscreenDrawer.h"
 #include "UniformBuffer.h"
 #include "AttachmentServer.h"
 
@@ -11,7 +11,7 @@ namespace Danburite
 	{
 	private:
 		std::unique_ptr<ObjectGL::FrameBuffer> __pFrameBuffer;
-		ObjectGL::VertexArray __fullscreenQuadVA { 6 };
+		FullscreenDrawer __fullscreenDrawer;
 
 		AttachmentServer *__pAttachmentServer = nullptr;
 		ObjectGL::UniformBuffer &__texContainerSetter;
@@ -67,7 +67,7 @@ namespace Danburite
 		virtual void _onRender(
 			PostProcessor *const pBoundProcessor,
 			ObjectGL::UniformBuffer &attachmentSetter,
-			ObjectGL::VertexArray &fullscreenQuadVA) noexcept = 0;
+			FullscreenDrawer &fullscreenDrawer) noexcept = 0;
 
 	public:
 		void bind() noexcept;

@@ -139,7 +139,7 @@ namespace Danburite
 	void PostProcessor::render(PostProcessor* const pBoundProcessor) noexcept
 	{
 		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, false);
-		_onRender(pBoundProcessor, __texContainerSetter, __fullscreenQuadVA);
+		_onRender(pBoundProcessor, __texContainerSetter, __fullscreenDrawer);
 		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
 	}
 

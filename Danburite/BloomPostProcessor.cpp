@@ -22,7 +22,7 @@ namespace Danburite
 
 	void BloomPostProcessor::_onRender(
 		PostProcessor* const pBoundProcessor,
-		UniformBuffer &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
+		UniformBuffer &attachmentSetter, FullscreenDrawer &fullscreenDrawer) noexcept
 	{
 		__bloomSetter.setUniformFloat(
 			ShaderIdentifier::Name::Bloom::BRIGHTNESS_THRESHOLD, __brightnessThreshold);
@@ -37,7 +37,7 @@ namespace Danburite
 			ShaderIdentifier::Name::Attachment::TEX0, __pOriginalColorAttachment->getHandle());
 
 		__extractionProgram.bind();
-		fullscreenQuadVA.draw();
+		fullscreenDrawer.draw();
 
 		// 2. horizontal blur
 		__pBloomFrameBuffer2->bind();
@@ -46,7 +46,7 @@ namespace Danburite
 			ShaderIdentifier::Name::Attachment::TEX0, __pBloomColorAttachment1->getHandle());
 
 		__blurHorizProgram.bind();
-		fullscreenQuadVA.draw();
+		fullscreenDrawer.draw();
 
 		// 3. vertical blur
 		__pBloomFrameBuffer1->bind();
@@ -55,7 +55,7 @@ namespace Danburite
 			ShaderIdentifier::Name::Attachment::TEX0, __pBloomColorAttachment2->getHandle());
 
 		__blurVertProgram.bind();
-		fullscreenQuadVA.draw();
+		fullscreenDrawer.draw();
 
 		// 4. composition
 		attachmentSetter.setUniformUvec2(
@@ -70,7 +70,7 @@ namespace Danburite
 			PostProcessor::unbind();
 
 		__compositionProgram.bind();
-		fullscreenQuadVA.draw();
+		fullscreenDrawer.draw();
 	}
 
 	void BloomPostProcessor::setScreenSize(const GLsizei width, const GLsizei height) noexcept

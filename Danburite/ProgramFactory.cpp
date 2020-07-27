@@ -22,7 +22,7 @@ namespace Danburite
 				ProgramType::MONO_COLOR,
 				{
 					"glsl/binary/MonoColor.bin",		// binary
-					"glsl/src/MonoColor_Vert.glsl",		// vertex shader
+					"glsl/src/PositionOnly_Vert.glsl",	// vertex shader
 					"",									// geometry shader
 					"glsl/src/MonoColor_Frag.glsl"		// fragment shader
 				},
@@ -215,6 +215,15 @@ namespace Danburite
 					"",
 					"glsl/src/LightPrePassGeometryExtraction_Frag.glsl"
 				}
+			},
+			{
+			ProgramType::LIGHT_PREPASS_LIGHTING,
+				{
+					"glsl/binary/LightPrePassLighting.bin",
+					"glsl/src/PositionOnly_Vert.glsl",
+					"",
+					"glsl/src/LightPrePassLighting_Frag.glsl"
+				}
 			}
 		};
 
@@ -311,7 +320,8 @@ namespace Danburite
 				ShaderIdentifier::Name::UniformBuffer::LIGHT,
 				{
 					ProgramType::PHONG,
-					ProgramType::REFLECTION_PHONG
+					ProgramType::REFLECTION_PHONG,
+					ProgramType::LIGHT_PREPASS_LIGHTING
 				}
 			},
 			{
@@ -324,7 +334,8 @@ namespace Danburite
 					ProgramType::REFLECTION_PHONG,
 					ProgramType::REFRACTION,
 					ProgramType::SKYBOX,
-					ProgramType::LIGHT_PREPASS_GEOMETRY_EXTRACTION
+					ProgramType::LIGHT_PREPASS_GEOMETRY_EXTRACTION,
+					ProgramType::LIGHT_PREPASS_LIGHTING
 				}
 			},
 			{
@@ -358,7 +369,8 @@ namespace Danburite
 					ProgramType::POST_PROCESS_BLOOM_COLOR_EXTRACTION,
 					ProgramType::POST_PROCESS_BLOOM_BLUR_HORIZ,
 					ProgramType::POST_PROCESS_BLOOM_BLUR_VERT,
-					ProgramType::POST_PROCESS_BLOOM_COMPOSITION
+					ProgramType::POST_PROCESS_BLOOM_COMPOSITION,
+					ProgramType::LIGHT_PREPASS_LIGHTING
 				}
 			},
 			{

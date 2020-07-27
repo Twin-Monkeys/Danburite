@@ -34,7 +34,8 @@ namespace Danburite
 		DEPTH_BAKING_CUBEMAP,
 
 		// Rendering Pipeline
-		LIGHT_PREPASS_GEOMETRY_EXTRACTION
+		LIGHT_PREPASS_GEOMETRY_EXTRACTION,
+		LIGHT_PREPASS_LIGHTING
 	};
 
 	constexpr ProgramType operator+(const ProgramType lhs, const int rhs) noexcept

@@ -15,7 +15,7 @@ namespace Danburite
 		virtual void _onRender(
 			PostProcessor* const pBoundProcessor,
 			ObjectGL::UniformBuffer &attachmentSetter,
-			ObjectGL::VertexArray &fullscreenQuadVA) noexcept override;
+			FullscreenDrawer &fullscreenDrawer) noexcept override;
 
 	public:
 		HDRPostProcessor(const bool attachDepthBuffer = false);

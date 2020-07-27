@@ -180,6 +180,7 @@
     <ClCompile Include="DepthBakerCubemap.cpp" />
     <ClCompile Include="ForwardPostProcessor.cpp" />
     <ClCompile Include="ForwardRenderingPipeline.cpp" />
+    <ClCompile Include="FullscreenDrawer.cpp" />
     <ClCompile Include="GammaCorrectionPostProcessor.cpp" />
     <ClCompile Include="HDRPostProcessor.cpp" />
     <ClCompile Include="HDRTestScene.cpp" />
@@ -315,6 +316,7 @@
     <ClInclude Include="DepthBakingType.h" />
     <ClInclude Include="FacetType.h" />
     <ClInclude Include="ForwardRenderingPipeline.h" />
+    <ClInclude Include="FullscreenDrawer.h" />
     <ClInclude Include="GLDebugMessageCallbackFunction.h" />
     <ClInclude Include="GLDebugMessageSeverityType.h" />
     <ClInclude Include="GLDebugMessageSourceType.h" />
@@ -491,6 +493,7 @@
     <None Include="glsl\src\header\VariableInOut_Vert_Header.glsl" />
     <None Include="glsl\src\LightPrePassGeometryExtraction_Frag.glsl" />
     <None Include="glsl\src\LightPrePassGeometryExtraction_Vert.glsl" />
+    <None Include="glsl\src\LightPrePassLighting_Frag.glsl" />
     <None Include="glsl\src\PostProcess_Bloom_BlurHoriz_Frag.glsl" />
     <None Include="glsl\src\PostProcess_Bloom_BlurVert_Frag.glsl" />
     <None Include="glsl\src\PostProcess_Bloom_ColorExtraction_Frag.glsl" />
@@ -527,7 +530,7 @@
     <None Include="glsl\src\Reflection_Vert.glsl" />
     <None Include="glsl\src\Silhouette_Frag.glsl" />
     <None Include="glsl\src\Phong_Frag.glsl" />
-    <None Include="glsl\src\MonoColor_Vert.glsl" />
+    <None Include="glsl\src\PositionOnly_Vert.glsl" />
     <None Include="glsl\src\Silhouette_Vert.glsl" />
     <None Include="glsl\src\Phong_Vert.glsl" />
   </ItemGroup>

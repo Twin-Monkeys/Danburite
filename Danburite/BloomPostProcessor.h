@@ -36,7 +36,7 @@ namespace Danburite
 		virtual void _onRender(
 			PostProcessor* const pBoundProcessor,
 			ObjectGL::UniformBuffer& attachmentSetter,
-			ObjectGL::VertexArray& fullscreenQuadVA) noexcept override;
+			FullscreenDrawer &fullscreenDrawer) noexcept override;
 
 	public:
 		BloomPostProcessor(const bool attachDepthBuffer = false);

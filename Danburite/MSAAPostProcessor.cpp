@@ -19,13 +19,13 @@ namespace Danburite
 
 	void MSAAPostProcessor::_onRender(
 		PostProcessor* const pBoundProcessor,
-		UniformBuffer &attachmentSetter, VertexArray &fullscreenQuadVA) noexcept
+		UniformBuffer &attachmentSetter, FullscreenDrawer &fullscreenDrawer) noexcept
 	{
 		// AMD Bug; Cannot use bindless sampler2DMS
 		attachmentSetter.setUniformUvec2(ShaderIdentifier::Name::Attachment::TEX0, __pColorAttachment->getHandle());
 
 		__program.bind();
-		fullscreenQuadVA.draw();
+		fullscreenDrawer.draw();
 	}
 
 	void MSAAPostProcessor::setScreenSize(const GLsizei width, const GLsizei height) noexcept

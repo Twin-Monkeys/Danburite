@@ -1,5 +1,6 @@
 #include "LightPrePassRenderingPipeline.h"
 #include "GLFunctionWrapper.h"
+#include "UniformBufferFactory.h"
 #include "ProgramFactory.h"
 
 using namespace std;
@@ -11,10 +12,11 @@ namespace Danburite
 		LightHandler& lightHandler, PerspectiveCamera& camera,
 		Drawer& drawer, PostProcessingPipeline& ppPipeline) :
 		RenderingPipeline(lightHandler, camera, drawer, ppPipeline),
+		__texContainerSetter(UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER)),
 		__pNormalShininessFB(make_unique<FrameBuffer>()),
 		__pLightingFB(make_unique<FrameBuffer>()),
-		__extractionProgram(ProgramFactory::getInstance().
-			getProgram(ProgramType::LIGHT_PREPASS_GEOMETRY_EXTRACTION))
+		__geometryProgram(ProgramFactory::getInstance().getProgram(ProgramType::LIGHT_PREPASS_GEOMETRY_EXTRACTION)),
+		__lightingProgram(ProgramFactory::getInstance().getProgram(ProgramType::LIGHT_PREPASS_LIGHTING))
 	{
 		__pNormalShininessFB->setOutputColorBuffers(
 			{ ColorBufferType::COLOR_ATTACHMENT0, ColorBufferType::COLOR_ATTACHMENT1 });
@@ -71,17 +73,25 @@ namespace Danburite
 
 	void LightPrePassRenderingPipeline::render() noexcept
 	{
+		_lightHandler.batchBakeDepthMap(_drawer);
 		_lightHandler.batchDeploy();
+
 		_cameraSetter.directDeploy(_camera);
 
 		__pNormalShininessFB->bind();
 		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
 
+		// Geometry pass
 		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
-		GLFunctionWrapper::setDepthMask(true);
-
-		__extractionProgram.bind();
+		__geometryProgram.bind();
 		_drawer.batchRawDrawcall();
+
+		// Lighting pass
+		__pLightingFB->bind();
+		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, false);
+
+		__lightingProgram.bind();
+
 		FrameBuffer::unbind();
 
 		__pNormalShininessFB->blit(

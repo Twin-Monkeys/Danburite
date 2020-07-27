@@ -52,6 +52,8 @@ namespace Danburite
 		virtual void setDepthMapSize(const GLsizei width, const GLsizei height) noexcept = 0;
 		void bakeDepthMap(Drawer &drawer) noexcept;
 
+		virtual void volumeDrawcall() noexcept = 0;
+
 		virtual ~Light() noexcept;
 	};
 

@@ -71,4 +71,9 @@ namespace Danburite
 		AttenuatedLightComponent::setAttenuation(constant, linear, quadratic);
 		__setValidDistance();
 	}
+
+	void PointLight::volumeDrawcall() noexcept
+	{
+		
+	}
 }
