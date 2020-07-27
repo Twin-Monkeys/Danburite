@@ -11,6 +11,7 @@
 #include "ReflectionMaterial.h"
 #include "ReflectionPhongMaterial.h"
 #include "RefractionMaterial.h"
+#include "RawDrawcallMaterial.h"
 #include <array>
 #include "AnimationManager.h"
 #include "BoneManager.h"
@@ -381,6 +382,10 @@ namespace Danburite
 
 				pMaterial = pRefractionMaterial;
 			}
+				break;
+
+			case MaterialType::RAW_DRAWCALL:
+				pMaterial = make_shared<RawDrawcallMaterial>(vertexFlag);
 				break;
 			}
 

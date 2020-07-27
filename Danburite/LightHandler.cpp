@@ -19,4 +19,9 @@ namespace Danburite
 	{
 		__lights.safeTraverse(&Light::bakeDepthMap, drawer);
 	}
+
+	void LightHandler::batchVolumeDrawcall() noexcept
+	{
+		__lights.safeTraverse(&Light::volumeDrawcall);
+	}
 }

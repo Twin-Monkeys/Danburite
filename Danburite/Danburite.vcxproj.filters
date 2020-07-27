@@ -145,12 +145,6 @@
     <Filter Include="Library\Engine\Core\Material\Component">
       <UniqueIdentifier>{7393c937-a1c9-41f0-b35f-784ae02e6858}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Library\Engine\Core\Material\PhongMaterial">
-      <UniqueIdentifier>{ab5bf8b7-8238-42ab-9ada-784f7fe19f6a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Library\Engine\Core\Material\MonoColorMaterial">
-      <UniqueIdentifier>{734826c7-732c-4884-aa39-cb4809da0a5e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library\Engine\glsl\src\MonoColor">
       <UniqueIdentifier>{2aa16327-cca2-4334-aee2-9aa0aaa0c467}</UniqueIdentifier>
     </Filter>
@@ -238,17 +232,8 @@
     <Filter Include="Library\Engine\Core\Skybox\CubeSkybox">
       <UniqueIdentifier>{b7cff5eb-95da-454c-99f0-97eb81a0394c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Library\Engine\Core\Material\ReflectionMaterial">
-      <UniqueIdentifier>{1a59e1fc-8294-4e0f-8969-e6bdf8e60eac}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library\Engine\glsl\src\Reflection">
       <UniqueIdentifier>{c9435396-cefc-466b-96ff-9c1ca7bd3f3f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Library\Engine\Core\Material\ReflectionPhongMaterial">
-      <UniqueIdentifier>{002d2470-dbc4-429e-97a5-6da2b64d8c5f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Library\Engine\Core\Material\RefractionMaterial">
-      <UniqueIdentifier>{b889325a-f343-423b-ac0a-60088a9e4d77}</UniqueIdentifier>
     </Filter>
     <Filter Include="Library\Engine\glsl\src\ReflectionPhong">
       <UniqueIdentifier>{6863217a-bf12-47c5-9daf-5417e329cbbd}</UniqueIdentifier>
@@ -372,6 +357,24 @@
     </Filter>
     <Filter Include="Library\Engine\Util\FullscreenDrawer">
       <UniqueIdentifier>{23ccec23-bf6e-4a72-935a-cc24174b3dfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Material\RawDrawcall">
+      <UniqueIdentifier>{20ab9515-3197-4925-884d-9f9313f6e727}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Material\MonoColor">
+      <UniqueIdentifier>{734826c7-732c-4884-aa39-cb4809da0a5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Material\Phong">
+      <UniqueIdentifier>{ab5bf8b7-8238-42ab-9ada-784f7fe19f6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Material\Reflection">
+      <UniqueIdentifier>{1a59e1fc-8294-4e0f-8969-e6bdf8e60eac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Material\ReflectionPhong">
+      <UniqueIdentifier>{002d2470-dbc4-429e-97a5-6da2b64d8c5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\Material\Refraction">
+      <UniqueIdentifier>{b889325a-f343-423b-ac0a-60088a9e4d77}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -511,7 +514,7 @@
       <Filter>Library\Engine\Core\Material</Filter>
     </ClCompile>
     <ClCompile Include="PhongMaterial.cpp">
-      <Filter>Library\Engine\Core\Material\PhongMaterial</Filter>
+      <Filter>Library\Engine\Core\Material\Phong</Filter>
     </ClCompile>
     <ClCompile Include="ShaderIdentifier.cpp">
       <Filter>Library\Engine\glsl</Filter>
@@ -520,7 +523,7 @@
       <Filter>Library\ObjectGL\Base\Function</Filter>
     </ClCompile>
     <ClCompile Include="MonoColorMaterial.cpp">
-      <Filter>Library\Engine\Core\Material\MonoColorMaterial</Filter>
+      <Filter>Library\Engine\Core\Material\MonoColor</Filter>
     </ClCompile>
     <ClCompile Include="MonoColorMaterialComponent.cpp">
       <Filter>Library\Engine\Core\Material\Component</Filter>
@@ -583,16 +586,16 @@
       <Filter>Library\Engine\Core\Material\Component</Filter>
     </ClCompile>
     <ClCompile Include="ReflectionMaterial.cpp">
-      <Filter>Library\Engine\Core\Material\ReflectionMaterial</Filter>
+      <Filter>Library\Engine\Core\Material\Reflection</Filter>
     </ClCompile>
     <ClCompile Include="ReflectionPhongMaterial.cpp">
-      <Filter>Library\Engine\Core\Material\ReflectionPhongMaterial</Filter>
+      <Filter>Library\Engine\Core\Material\ReflectionPhong</Filter>
     </ClCompile>
     <ClCompile Include="RefractionMaterialComponent.cpp">
       <Filter>Library\Engine\Core\Material\Component</Filter>
     </ClCompile>
     <ClCompile Include="RefractionMaterial.cpp">
-      <Filter>Library\Engine\Core\Material\RefractionMaterial</Filter>
+      <Filter>Library\Engine\Core\Material\Refraction</Filter>
     </ClCompile>
     <ClCompile Include="GeometryShaderCompiler.cpp">
       <Filter>Library\ObjectGL\Core\Shader\Compiler\GeometryShaderCompiler</Filter>
@@ -764,6 +767,9 @@
     </ClCompile>
     <ClCompile Include="FullscreenDrawer.cpp">
       <Filter>Library\Engine\Util\FullscreenDrawer</Filter>
+    </ClCompile>
+    <ClCompile Include="RawDrawcallMaterial.cpp">
+      <Filter>Library\Engine\Core\Material\RawDrawcall</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -963,7 +969,7 @@
       <Filter>Library\Engine\Core\Material</Filter>
     </ClInclude>
     <ClInclude Include="PhongMaterial.h">
-      <Filter>Library\Engine\Core\Material\PhongMaterial</Filter>
+      <Filter>Library\Engine\Core\Material\Phong</Filter>
     </ClInclude>
     <ClInclude Include="ShaderIdentifier.h">
       <Filter>Library\Engine\glsl</Filter>
@@ -981,7 +987,7 @@
       <Filter>Library\ObjectGL\Base\Function</Filter>
     </ClInclude>
     <ClInclude Include="MonoColorMaterial.h">
-      <Filter>Library\Engine\Core\Material\MonoColorMaterial</Filter>
+      <Filter>Library\Engine\Core\Material\MonoColor</Filter>
     </ClInclude>
     <ClInclude Include="MonoColorMaterialComponent.h">
       <Filter>Library\Engine\Core\Material\Component</Filter>
@@ -1086,16 +1092,16 @@
       <Filter>Library\Engine\Core\Material\Component</Filter>
     </ClInclude>
     <ClInclude Include="ReflectionMaterial.h">
-      <Filter>Library\Engine\Core\Material\ReflectionMaterial</Filter>
+      <Filter>Library\Engine\Core\Material\Reflection</Filter>
     </ClInclude>
     <ClInclude Include="ReflectionPhongMaterial.h">
-      <Filter>Library\Engine\Core\Material\ReflectionPhongMaterial</Filter>
+      <Filter>Library\Engine\Core\Material\ReflectionPhong</Filter>
     </ClInclude>
     <ClInclude Include="RefractionMaterialComponent.h">
       <Filter>Library\Engine\Core\Material\Component</Filter>
     </ClInclude>
     <ClInclude Include="RefractionMaterial.h">
-      <Filter>Library\Engine\Core\Material\RefractionMaterial</Filter>
+      <Filter>Library\Engine\Core\Material\Refraction</Filter>
     </ClInclude>
     <ClInclude Include="BufferAccessType.h">
       <Filter>Library\ObjectGL\Core\Buffer</Filter>
@@ -1318,6 +1324,9 @@
     </ClInclude>
     <ClInclude Include="FullscreenDrawer.h">
       <Filter>Library\Engine\Util\FullscreenDrawer</Filter>
+    </ClInclude>
+    <ClInclude Include="RawDrawcallMaterial.h">
+      <Filter>Library\Engine\Core\Material\RawDrawcall</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

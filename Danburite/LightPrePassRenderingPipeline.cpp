@@ -78,19 +78,25 @@ namespace Danburite
 
 		_cameraSetter.directDeploy(_camera);
 
+		// Geometry pass
 		__pNormalShininessFB->bind();
 		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
 
-		// Geometry pass
 		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
 		__geometryProgram.bind();
 		_drawer.batchRawDrawcall();
 
+
 		// Lighting pass
 		__pLightingFB->bind();
+		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR);
+
 		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, false);
+		GLFunctionWrapper::setCulledFace(FacetType::FRONT);
 
 		__lightingProgram.bind();
+		_lightHandler.batchVolumeDrawcall();
+
 
 		FrameBuffer::unbind();
 

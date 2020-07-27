@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RenderingPipeline.h"
+#include "FullscreenDrawer.h"
 
 namespace Danburite
 {
@@ -10,7 +11,7 @@ namespace Danburite
 		AttachmentServer __attachmentServer;
 		ObjectGL::UniformBuffer &__texContainerSetter;
 
-		ObjectGL::VertexArray __fullscreenQuadVA { 6 };
+		FullscreenDrawer __fullscreenDrawer;
 
 		ObjectGL::Program &__geometryProgram;
 		std::unique_ptr<ObjectGL::FrameBuffer> __pNormalShininessFB;

@@ -10,6 +10,7 @@ namespace Danburite
 		PHONG,
 		REFLECTION,
 		REFLECTION_PHONG,
-		REFRACTION
+		REFRACTION,
+		RAW_DRAWCALL
 	};
 }
