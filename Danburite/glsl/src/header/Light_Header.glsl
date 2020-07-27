@@ -233,8 +233,7 @@ vec3 Light_getLightAmbient(uint lightIndex, const vec3 targetPos)
 {
 	return (
 		light[lightIndex].albedo *
-		light[lightIndex].ambientStrength *
-		Light_getAttenuation(lightIndex, targetPos));
+		light[lightIndex].ambientStrength);
 }
 
 float Light_getLightDiffusePower(uint lightIndex, const vec3 targetPos, vec3 targetNormal)
@@ -247,7 +246,6 @@ vec3 Light_getLightDiffuse(uint lightIndex, const vec3 targetPos, vec3 targetNor
 	return (
 		light[lightIndex].albedo *
 		light[lightIndex].diffuseStrength *
-		Light_getAttenuation(lightIndex, targetPos) *
 		Light_getLightDiffusePower(lightIndex, targetPos, targetNormal));
 }
 
@@ -270,7 +268,6 @@ vec3 Light_getLightSpecular(uint lightIndex, const vec3 targetPos, vec3 targetNo
 	return (
 		light[lightIndex].albedo *
 		light[lightIndex].specularStrength *
-		Light_getAttenuation(lightIndex, targetPos) *
 		Light_getLightSpecularPower(lightIndex, targetPos, targetNormal, viewDirection, materialShininess));
 }
 

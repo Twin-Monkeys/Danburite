@@ -44,7 +44,11 @@ vec4 Phong_calcPhongColor(
 		if (!Light_checkValidation(lightIdx, targetPos))
 			continue;
 
-		ambient += (materialAmbient * Light_getLightAmbient(lightIdx, targetPos));
+		const float lightAttenuation = Light_getAttenuation(lightIdx, targetPos);
+
+		ambient += (
+			materialAmbient * lightAttenuation *
+			Light_getLightAmbient(lightIdx, targetPos));
 
 		const float lightOcclusion = Light_getOcclusion(lightIdx, targetPos, finalNormal);
 		if (lightOcclusion >= 1.f)
@@ -53,11 +57,11 @@ vec4 Phong_calcPhongColor(
 		const float occlusionInv = (1.f - lightOcclusion);
 
 		diffuse += (
-			occlusionInv * materialDiffuse *
+			occlusionInv * materialDiffuse * lightAttenuation *
 			Light_getLightDiffuse(lightIdx, targetPos, finalNormal));
 
 		specular += (
-			occlusionInv * materialSpecular *
+			occlusionInv * materialSpecular * lightAttenuation *
 			Light_getLightSpecular(lightIdx, targetPos, finalNormal, viewDir, shininess));
 	}
 
