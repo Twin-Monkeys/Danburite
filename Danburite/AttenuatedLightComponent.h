@@ -18,6 +18,8 @@ namespace Danburite
 			const float luminanceTolerance,	const glm::vec3 &albedo,
 			const float ambientStrength, const float diffuseStrength, const float specularStrength) noexcept;
 
+		constexpr float _getValidDistance() const noexcept;
+
 		void _deployAttenuatedComponent(LightUniformSetter &lightSetter) noexcept;
 
 	public:
@@ -25,4 +27,9 @@ namespace Danburite
 
 		virtual ~AttenuatedLightComponent() = default;
 	};
+
+	constexpr float AttenuatedLightComponent::_getValidDistance() const noexcept
+	{
+		return __validDistance;
+	}
 }
