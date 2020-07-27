@@ -13,6 +13,8 @@ namespace Danburite
 		float __luminanceTolerance =
 			Constant::Light::AttenuatedComponent::LUMINANCE_TOLERANCE;
 
+		void __setValidDistance() noexcept;
+
 	protected:
 		PointLight(const LightType type);
 
@@ -20,13 +22,17 @@ namespace Danburite
 
 	public:
 		PointLight();
-		constexpr void setLuminanceTolerance(const float tolerance) noexcept;
+		void setLuminanceTolerance(const float tolerance) noexcept;
+
+		using LightBaseComponent::setAlbedo;
+		virtual void setAlbedo(const glm::vec3 &albedo) noexcept;
+
+		virtual void setAmbientStrength(const float strength) noexcept;
+		virtual void setDiffuseStrength(const float strength) noexcept;
+		virtual void setSpecularStrength(const float strength) noexcept;
+
+		virtual void setAttenuation(const float constant, const float linear, const float quadratic) noexcept override;
 
 		virtual ~PointLight() = default;
 	};
-
-	constexpr void PointLight::setLuminanceTolerance(const float tolerance) noexcept
-	{
-		__luminanceTolerance = tolerance;
-	}
 }

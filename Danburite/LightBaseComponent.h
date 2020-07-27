@@ -19,17 +19,17 @@ namespace Danburite
 
 	public:
 		constexpr const glm::vec3 &getAlbedo() const noexcept;
-		constexpr void setAlbedo(const glm::vec3 &albedo) noexcept;
-		constexpr void setAlbedo(const float r, const float g, const float b) noexcept;
+		virtual void setAlbedo(const glm::vec3 &albedo) noexcept;
+		void setAlbedo(const float r, const float g, const float b) noexcept;
 
 		constexpr float getAmbientStrength() const noexcept;
-		constexpr void setAmbientStrength(const float strength) noexcept;
+		virtual void setAmbientStrength(const float strength) noexcept;
 
 		constexpr float getDiffuseStrength() const noexcept;
-		constexpr void setDiffuseStrength(const float strength) noexcept;
+		virtual void setDiffuseStrength(const float strength) noexcept;
 
 		constexpr float getSpecularStrength() const noexcept;
-		constexpr void setSpecularStrength(const float strength) noexcept;
+		virtual void setSpecularStrength(const float strength) noexcept;
 
 		virtual ~LightBaseComponent() = default;
 	};
@@ -39,24 +39,9 @@ namespace Danburite
 		return __albedo;
 	}
 
-	constexpr void LightBaseComponent::setAlbedo(const glm::vec3 &albedo) noexcept
-	{
-		__albedo = albedo;
-	}
-
-	constexpr void LightBaseComponent::setAlbedo(const float r, const float g, const float b) noexcept
-	{
-		setAlbedo({ r, g, b });
-	}
-
 	constexpr float LightBaseComponent::getAmbientStrength() const noexcept
 	{
 		return __ambientStrength;
-	}
-
-	constexpr void LightBaseComponent::setAmbientStrength(const float strength) noexcept
-	{
-		__ambientStrength = strength;
 	}
 
 	constexpr float LightBaseComponent::getDiffuseStrength() const noexcept
@@ -64,18 +49,8 @@ namespace Danburite
 		return __diffuseStrength;
 	}
 
-	constexpr void LightBaseComponent::setDiffuseStrength(const float strength) noexcept
-	{
-		__diffuseStrength = strength;
-	}
-
 	constexpr float LightBaseComponent::getSpecularStrength() const noexcept
 	{
 		return __specularStrength;
-	}
-
-	constexpr void LightBaseComponent::setSpecularStrength(const float strength) noexcept
-	{
-		__specularStrength = strength;
 	}
 }

@@ -27,4 +27,12 @@ namespace Danburite
 		lightSetter.setUniformFloat(ShaderIdentifier::Name::Light::ATTENUATION_QUAD, __attQuad);
 		lightSetter.setUniformFloat(ShaderIdentifier::Name::Light::VALID_DISTANCE, __validDistance);
 	}
+
+	void AttenuatedLightComponent::setAttenuation(
+		const float constant, const float linear, const float quadratic) noexcept
+	{
+		__attConst = constant;
+		__attLinear = linear;
+		__attQuad = quadratic;
+	}
 }
