@@ -14,6 +14,10 @@ namespace Danburite
 		template <typename ProcessorType, typename ...Args>
 		ProcessorType &appendProcessor(Args &&...args) noexcept;
 
+		size_t getNumProcessors() const noexcept;
+		PostProcessor &getProcessor(const size_t idx) noexcept;
+		const PostProcessor &getProcessor(const size_t idx) const noexcept;
+
 		void setScreenSize(const GLsizei width, const GLsizei height) noexcept;
 
 		void bind() noexcept;

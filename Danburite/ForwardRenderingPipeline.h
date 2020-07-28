@@ -6,12 +6,14 @@ namespace Danburite
 {
 	class ForwardRenderingPipeline : public RenderingPipeline
 	{
+	protected:
+		virtual void _onRender(
+			LightHandler &lightHandler, ObjectGL::UniformBuffer &cameraSetter,
+			PerspectiveCamera &camera, Drawer &drawer, PostProcessingPipeline &ppPipeline) noexcept override;
+
 	public:
 		ForwardRenderingPipeline(
 			LightHandler &lightHandler, PerspectiveCamera &camera,
 			Drawer &drawer, PostProcessingPipeline &ppPipeline);
-
-		virtual void setScreenSize(const GLsizei width, const GLsizei height) noexcept override;
-		virtual void render() noexcept override;
 	};
 }

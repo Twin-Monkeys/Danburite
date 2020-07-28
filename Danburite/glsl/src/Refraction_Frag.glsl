@@ -18,8 +18,7 @@ void main()
 	vec3 envRefraction = Material_getEnvRefraction
 	(
 		normalize(variableInOut_VertToFrag.worldNormal),
-		viewDirection,
-		variableInOut_VertToFrag.texCoord
+		viewDirection, variableInOut_VertToFrag.texCoord
 	).rgb;
 
 	fragColor = vec4(envRefraction, 1.f);

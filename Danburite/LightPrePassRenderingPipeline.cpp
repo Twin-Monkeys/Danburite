@@ -4,6 +4,7 @@
 #include "ProgramFactory.h"
 
 using namespace std;
+using namespace glm;
 using namespace ObjectGL;
 
 namespace Danburite
@@ -11,8 +12,9 @@ namespace Danburite
 	LightPrePassRenderingPipeline::LightPrePassRenderingPipeline(
 		LightHandler& lightHandler, PerspectiveCamera& camera,
 		Drawer& drawer, PostProcessingPipeline& ppPipeline) :
-		RenderingPipeline(lightHandler, camera, drawer, ppPipeline),
+		RenderingPipeline(RenderingPipelineType::LIGHT_PREPASS, lightHandler, camera, drawer, ppPipeline),
 		__texContainerSetter(UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER)),
+		__lightPrePassSetter(UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::LIGHT_PREPASS)),
 		__pNormalShininessFB(make_unique<FrameBuffer>()),
 		__pLightingFB(make_unique<FrameBuffer>()),
 		__geometryProgram(ProgramFactory::getInstance().getProgram(ProgramType::LIGHT_PREPASS_GEOMETRY_EXTRACTION)),
@@ -29,13 +31,8 @@ namespace Danburite
 			});
 	}
 
-	void LightPrePassRenderingPipeline::setScreenSize(const GLsizei width, const GLsizei height) noexcept
+	void LightPrePassRenderingPipeline::_onSetScreenSize(const GLsizei width, const GLsizei height) noexcept
 	{
-		glViewport(0, 0, width, height);
-		_camera.setAspectRatio(width, height);
-		_ppPipeline.setScreenSize(width, height);
-
-
 		// pNormalShininessFB
 		__pPosAttachment = __attachmentServer.getTexRectangle(
 			width, height, TextureInternalFormatType::RGB32F, TextureExternalFormatType::RGB,
@@ -54,48 +51,51 @@ namespace Danburite
 
 
 		// pLightingFB
-		__pAmbientAttenuationAttachment = __attachmentServer.getTexRectangle(
-			width, height, TextureInternalFormatType::RGBA16F, TextureExternalFormatType::RGBA,
+		__pLightAmbientAttachment = __attachmentServer.getTexRectangle(
+			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB,
 			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST, 0);
 
-		__pDiffuseOcclusionInvAttachment = __attachmentServer.getTexRectangle(
-			width, height, TextureInternalFormatType::RGBA16F, TextureExternalFormatType::RGBA,
+		__pLightDiffuseAttachment = __attachmentServer.getTexRectangle(
+			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB,
 			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST, 1);
 
-		__pSpecularAttachment = __attachmentServer.getTexRectangle(
+		__pLightSpecularAttachment = __attachmentServer.getTexRectangle(
 			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB,
-			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST);
+			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST, 2);
 
-		__pLightingFB->attach(AttachmentType::COLOR_ATTACHMENT0, *__pAmbientAttenuationAttachment);
-		__pLightingFB->attach(AttachmentType::COLOR_ATTACHMENT1, *__pDiffuseOcclusionInvAttachment);
-		__pLightingFB->attach(AttachmentType::COLOR_ATTACHMENT2, *__pSpecularAttachment);
+		__pLightingFB->attach(AttachmentType::COLOR_ATTACHMENT0, *__pLightAmbientAttachment);
+		__pLightingFB->attach(AttachmentType::COLOR_ATTACHMENT1, *__pLightDiffuseAttachment);
+		__pLightingFB->attach(AttachmentType::COLOR_ATTACHMENT2, *__pLightSpecularAttachment);
 	}
 
-	void LightPrePassRenderingPipeline::render() noexcept
+	void LightPrePassRenderingPipeline::_onRender(
+		LightHandler &lightHandler, UniformBuffer &cameraSetter,
+		PerspectiveCamera &camera, Drawer &drawer, PostProcessingPipeline &ppPipeline) noexcept
 	{
-		_lightHandler.batchBakeDepthMap(_drawer);
-		_lightHandler.batchDeploy();
+		lightHandler.batchBakeDepthMap(drawer);
+		lightHandler.batchDeploy();
 
-		_cameraSetter.directDeploy(_camera);
+		cameraSetter.directDeploy(camera);
+
 
 		// Geometry pass
+		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
+
 		__pNormalShininessFB->bind();
 		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
 
-		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
 		__geometryProgram.bind();
-		_drawer.batchRawDrawcall();
+		drawer.batchRawDrawcall();
 
 
 		// Lighting pass
-		__pLightingFB->bind();
-		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR);
-
 		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, false);
 		GLFunctionWrapper::setOption(GLOptionType::BLEND, true);
 		GLFunctionWrapper::setBlendingFunction(BlendingFunctionType::ONE, BlendingFunctionType::ONE);
-
 		GLFunctionWrapper::setCulledFace(FacetType::FRONT);
+
+		__pLightingFB->bind();
+		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR);
 
 		__texContainerSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Attachment::TEX0, __pPosAttachment->getHandle());
@@ -104,14 +104,40 @@ namespace Danburite
 			ShaderIdentifier::Name::Attachment::TEX1, __pNormalShininessAttachment->getHandle());
 
 		__lightingProgram.bind();
-		_lightHandler.batchVolumeDrawcall();
+		lightHandler.batchVolumeDrawcall();
+
+
+		// Composition pass (ordinary forward rendering)
+		__lightPrePassSetter.setUniformUvec2(
+			ShaderIdentifier::Name::LightPrePass::LIGHT_AMBIENT_TEX,
+			__pLightAmbientAttachment->getHandle());
+
+		__lightPrePassSetter.setUniformUvec2(
+			ShaderIdentifier::Name::LightPrePass::LIGHT_DIFFUSE_TEX,
+			__pLightDiffuseAttachment->getHandle());
+
+		__lightPrePassSetter.setUniformUvec2(
+			ShaderIdentifier::Name::LightPrePass::LIGHT_SPECULAR_TEX,
+			__pLightSpecularAttachment->getHandle());
 
 		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
+		GLFunctionWrapper::setDepthFunction(DepthStencilFunctionType::LEQUAL);
 		GLFunctionWrapper::setOption(GLOptionType::BLEND, false);
 		GLFunctionWrapper::setCulledFace(FacetType::BACK);
 
-		FrameBuffer::unbind();
+		FrameBuffer &firstFB = ppPipeline.getProcessor(0).getFrameBuffer();
+		const ivec2 &screenSize = getScreenSize();
 
-		__pLightingFB->blit(nullptr, FrameBufferBlitFlag::COLOR_DEPTH_STENCIL, 0, 0, 1600, 900, 0, 0, 1600, 900);
+		__pNormalShininessFB->blit(
+			&firstFB, FrameBufferBlitFlag::DEPTH,
+			0, 0, screenSize.x, screenSize.y, 0, 0, screenSize.x, screenSize.y);
+
+		ppPipeline.bind();
+		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR);
+
+		drawer.batchDraw();
+		PostProcessingPipeline::unbind();
+
+		ppPipeline.render();
 	}
 }

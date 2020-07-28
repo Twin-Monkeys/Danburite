@@ -18,8 +18,7 @@ void main()
 	const vec3 envReflection = Material_getEnvReflection
 	(
 		normalize(variableInOut_VertToFrag.worldNormal),
-		viewDirection,
-		variableInOut_VertToFrag.texCoord
+		viewDirection, variableInOut_VertToFrag.texCoord
 	).rgb;
 	
 	fragColor = vec4(envReflection, 1.f);

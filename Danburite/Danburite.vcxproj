@@ -221,7 +221,6 @@
     <ClCompile Include="PostProcessor.cpp" />
     <ClCompile Include="ReflectionMaterial.cpp" />
     <ClCompile Include="ReflectionMaterialComponent.cpp" />
-    <ClCompile Include="ReflectionPhongMaterial.cpp" />
     <ClCompile Include="RefractionMaterial.cpp" />
     <ClCompile Include="RefractionMaterialComponent.cpp" />
     <ClCompile Include="RenderBuffer.cpp" />
@@ -330,6 +329,7 @@
     <ClInclude Include="MaterialException.h" />
     <ClInclude Include="RawDrawcallMaterial.h" />
     <ClInclude Include="RenderingPipeline.h" />
+    <ClInclude Include="RenderingPipelineType.h" />
     <ClInclude Include="SceneNodeConnecterBase.h" />
     <ClInclude Include="Joint.h" />
     <ClInclude Include="Lerp.h" />
@@ -389,7 +389,6 @@
     <ClInclude Include="PostProcessingPipeline.h" />
     <ClInclude Include="ReflectionMaterial.h" />
     <ClInclude Include="ReflectionMaterialComponent.h" />
-    <ClInclude Include="ReflectionPhongMaterial.h" />
     <ClInclude Include="RefractionMaterial.h" />
     <ClInclude Include="RefractionMaterialComponent.h" />
     <ClInclude Include="RenderBuffer.h" />
@@ -493,6 +492,7 @@
     <None Include="glsl\src\header\HDR_Header.glsl" />
     <None Include="glsl\src\header\Joint_Header.glsl" />
     <None Include="glsl\src\header\LightPrePass_Header.glsl" />
+    <None Include="glsl\src\header\RenderingPipeline_Header.glsl" />
     <None Include="glsl\src\header\VariableInOut_Frag_Header.glsl" />
     <None Include="glsl\src\header\VariableInOut_Geo_Header.glsl" />
     <None Include="glsl\src\header\VariableInOut_Vert_Header.glsl" />
@@ -524,7 +524,6 @@
     <None Include="glsl\src\MonoColor_Frag.glsl" />
     <None Include="glsl\src\PostProcess_GammaCorrection_Frag.glsl" />
     <None Include="glsl\src\PostProcess_MSAA_Frag.glsl" />
-    <None Include="glsl\src\ReflectionPhong_Frag.glsl" />
     <None Include="glsl\src\PostProcess_Convolutional_Frag.glsl" />
     <None Include="glsl\src\PostProcess_Forward_Frag.glsl" />
     <None Include="glsl\src\PostProcess_Grayscale_Frag.glsl" />

@@ -9,7 +9,6 @@
 #include "MonoColorMaterial.h"
 #include "PhongMaterial.h"
 #include "ReflectionMaterial.h"
-#include "ReflectionPhongMaterial.h"
 #include "RefractionMaterial.h"
 #include "RawDrawcallMaterial.h"
 #include <array>
@@ -300,9 +299,6 @@ namespace Danburite
 				pMaterial = make_shared<MonoColorMaterial>(vertexFlag);
 				break;
 
-			case MaterialType::REFLECTION_PHONG:
-				[[fallthrough]];
-
 			case MaterialType::PHONG:
 			{
 				const shared_ptr<Texture2D> &pAmbientTex =
@@ -329,24 +325,12 @@ namespace Danburite
 				const shared_ptr<Texture2D> &pHeightTex =
 					__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_HEIGHT);
 				
-				if (materialType == MaterialType::REFLECTION_PHONG)
-				{
-					pMaterial = make_shared<ReflectionPhongMaterial>(vertexFlag);
+				pMaterial = make_shared<PhongMaterial>(vertexFlag);
 
-					__setupPhongStyleMaterial(
-						static_pointer_cast<ReflectionPhongMaterial>(pMaterial),
-						pAmbientTex, pDiffuseTex, pSpecularTex, pEmissiveTex,
-						pShininessTex, pAlphaTex, pNormalTex, pHeightTex);
-				}
-				else
-				{
-					pMaterial = make_shared<PhongMaterial>(vertexFlag);
-
-					__setupPhongStyleMaterial(
-						static_pointer_cast<PhongMaterial>(pMaterial),
-						pAmbientTex, pDiffuseTex, pSpecularTex, pEmissiveTex,
-						pShininessTex, pAlphaTex, pNormalTex, pHeightTex);
-				}
+				__setupPhongStyleMaterial(
+					static_pointer_cast<PhongMaterial>(pMaterial),
+					pAmbientTex, pDiffuseTex, pSpecularTex, pEmissiveTex,
+					pShininessTex, pAlphaTex, pNormalTex, pHeightTex);
 			}
 				break;
 

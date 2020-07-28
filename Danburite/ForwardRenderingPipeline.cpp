@@ -8,30 +8,25 @@ namespace Danburite
 	ForwardRenderingPipeline::ForwardRenderingPipeline(
 		LightHandler &lightHandler, PerspectiveCamera &camera,
 		Drawer &drawer, PostProcessingPipeline &ppPipeline) :
-		RenderingPipeline(lightHandler, camera, drawer, ppPipeline)
+		RenderingPipeline(RenderingPipelineType::FORWARD, lightHandler, camera, drawer, ppPipeline)
 	{}
 
-	void ForwardRenderingPipeline::setScreenSize(const GLsizei width, const GLsizei height) noexcept
-	{
-		glViewport(0, 0, width, height);
-		_camera.setAspectRatio(width, height);
-		_ppPipeline.setScreenSize(width, height);
-	}
-
-	void ForwardRenderingPipeline::render() noexcept
+	void ForwardRenderingPipeline::_onRender(
+		LightHandler &lightHandler, UniformBuffer &cameraSetter,
+		PerspectiveCamera &camera, Drawer &drawer, PostProcessingPipeline &ppPipeline) noexcept
 	{
 		// 순서 중요.
-		_lightHandler.batchBakeDepthMap(_drawer);
-		_lightHandler.batchDeploy();
+		lightHandler.batchBakeDepthMap(drawer);
+		lightHandler.batchDeploy();
 
-		_cameraSetter.directDeploy(_camera);
+		cameraSetter.directDeploy(camera);
 
-		_ppPipeline.bind();
+		ppPipeline.bind();
 		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
 
-		_drawer.batchDraw();
+		drawer.batchDraw();
 		PostProcessingPipeline::unbind();
 
-		_ppPipeline.render();
+		ppPipeline.render();
 	}
 }

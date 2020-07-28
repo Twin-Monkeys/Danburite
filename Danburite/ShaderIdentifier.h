@@ -162,10 +162,20 @@ namespace Danburite
 					JOINT_MATRIX;
 			}
 
+			namespace RenderingPipeline
+			{
+				extern const std::string
+					TYPE;
+			}
+
 			namespace LightPrePass
 			{
 				extern const std::string
-					CURRENT_LIGHT_IDX;
+					CURRENT_LIGHT_IDX,
+					LIGHT_AMBIENT_TEX,
+					LIGHT_DIFFUSE_TEX,
+					LIGHT_SPECULAR_TEX
+					;
 			}
 
 			namespace UniformBuffer
@@ -184,6 +194,7 @@ namespace Danburite
 					BLOOM,
 					JOINT,
 					BONE,
+					RENDERING_PIPELINE,
 					LIGHT_PREPASS
 					;
 			}
@@ -221,7 +232,8 @@ namespace Danburite
 					BLOOM					= 10U,
 					JOINT					= 11U,
 					BONE					= 12U,
-					LIGHT_PREPASS			= 13U
+					RENDERING_PIPELINE		= 13U,
+					LIGHT_PREPASS			= 14U
 					;
 			}
 

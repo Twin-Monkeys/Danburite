@@ -37,30 +37,12 @@ namespace Danburite
 				}
 			},
 			{
-				ProgramType::SILHOUETTE,
-				{
-					"glsl/binary/Silhouette.bin",
-					"glsl/src/Silhouette_Vert.glsl",
-					"",
-					"glsl/src/Silhouette_Frag.glsl"
-				}
-			},
-			{
 				ProgramType::REFLECTION,
 				{
 					"glsl/binary/Reflection.bin",
 					"glsl/src/Reflection_Vert.glsl",
 					"",
 					"glsl/src/Reflection_Frag.glsl"
-				}
-			},
-			{
-				ProgramType::REFLECTION_PHONG,
-				{
-					"glsl/binary/ReflectionPhong.bin",
-					"glsl/src/Phong_Vert.glsl",
-					"",
-					"glsl/src/ReflectionPhong_Frag.glsl"
 				}
 			},
 			{
@@ -308,9 +290,7 @@ namespace Danburite
 				{
 					ProgramType::MONO_COLOR,
 					ProgramType::PHONG,
-					ProgramType::SILHOUETTE,
 					ProgramType::REFLECTION,
-					ProgramType::REFLECTION_PHONG,
 					ProgramType::REFRACTION,
 					ProgramType::SKYBOX,
 					ProgramType::LIGHT_PREPASS_GEOMETRY_EXTRACTION
@@ -320,7 +300,6 @@ namespace Danburite
 				ShaderIdentifier::Name::UniformBuffer::LIGHT,
 				{
 					ProgramType::PHONG,
-					ProgramType::REFLECTION_PHONG,
 					ProgramType::LIGHT_PREPASS_LIGHTING
 				}
 			},
@@ -329,9 +308,7 @@ namespace Danburite
 				{
 					ProgramType::MONO_COLOR,
 					ProgramType::PHONG,
-					ProgramType::SILHOUETTE,
 					ProgramType::REFLECTION,
-					ProgramType::REFLECTION_PHONG,
 					ProgramType::REFRACTION,
 					ProgramType::SKYBOX,
 					ProgramType::LIGHT_PREPASS_GEOMETRY_EXTRACTION,
@@ -405,9 +382,7 @@ namespace Danburite
 				{
 					ProgramType::MONO_COLOR,
 					ProgramType::PHONG,
-					ProgramType::SILHOUETTE,
 					ProgramType::REFLECTION,
-					ProgramType::REFLECTION_PHONG,
 					ProgramType::REFRACTION,
 					ProgramType::DEPTH_BAKING_2D,
 					ProgramType::DEPTH_BAKING_CUBEMAP,
@@ -419,9 +394,7 @@ namespace Danburite
 				{
 					ProgramType::MONO_COLOR,
 					ProgramType::PHONG,
-					ProgramType::SILHOUETTE,
 					ProgramType::REFLECTION,
-					ProgramType::REFLECTION_PHONG,
 					ProgramType::REFRACTION,
 					ProgramType::DEPTH_BAKING_2D,
 					ProgramType::DEPTH_BAKING_CUBEMAP,
@@ -429,8 +402,15 @@ namespace Danburite
 				}
 			},
 			{
+				ShaderIdentifier::Name::UniformBuffer::RENDERING_PIPELINE,
+				{
+					ProgramType::PHONG
+				}
+			},
+			{
 				ShaderIdentifier::Name::UniformBuffer::LIGHT_PREPASS,
 				{
+					ProgramType::PHONG,
 					ProgramType::LIGHT_PREPASS_LIGHTING
 				}
 			}

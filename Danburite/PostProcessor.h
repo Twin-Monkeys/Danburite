@@ -10,7 +10,9 @@ namespace Danburite
 	class PostProcessor abstract
 	{
 	private:
-		std::unique_ptr<ObjectGL::FrameBuffer> __pFrameBuffer;
+		std::unique_ptr<ObjectGL::FrameBuffer> __pFrameBuffer =
+			std::make_unique<ObjectGL::FrameBuffer>();
+
 		FullscreenDrawer __fullscreenDrawer;
 
 		AttachmentServer *__pAttachmentServer = nullptr;
@@ -70,6 +72,9 @@ namespace Danburite
 			FullscreenDrawer &fullscreenDrawer) noexcept = 0;
 
 	public:
+		ObjectGL::FrameBuffer &getFrameBuffer() noexcept;
+		const ObjectGL::FrameBuffer &getFrameBuffer() const noexcept;
+
 		void bind() noexcept;
 		void render(PostProcessor *const pBoundProcessor = nullptr) noexcept;
 

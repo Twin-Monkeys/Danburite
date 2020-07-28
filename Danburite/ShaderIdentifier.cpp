@@ -155,10 +155,20 @@ namespace Danburite
 					JOINT_MATRIX = "joint.jointMat";
 			}
 
+			namespace RenderingPipeline
+			{
+				const string
+					TYPE = "renderingPipeline.type";
+			}
+
 			namespace LightPrePass
 			{
 				const string
-					CURRENT_LIGHT_IDX = "lightPrePass.currentLightIdx";
+					CURRENT_LIGHT_IDX			= "lightPrePass.currentLightIdx",
+					LIGHT_AMBIENT_TEX			= "lightPrePass.lightAmbientTex",
+					LIGHT_DIFFUSE_TEX			= "lightPrePass.lightDiffuseTex",
+					LIGHT_SPECULAR_TEX			= "lightPrePass.lightSpecularTex"
+					;
 			}
 
 			namespace UniformBuffer
@@ -177,6 +187,7 @@ namespace Danburite
 					BLOOM					= "UBBloom",
 					JOINT					= "UBJoint",
 					BONE					= "UBBone",
+					RENDERING_PIPELINE		= "UBRenderingPipeline",
 					LIGHT_PREPASS			= "UBLightPrePass"
 					;
 			}
@@ -241,6 +252,10 @@ namespace Danburite
 						{
 							Name::UniformBuffer::BONE,
 							Value::UniformBlockBindingPoint::BONE
+						},
+						{
+							Name::UniformBuffer::RENDERING_PIPELINE,
+							Value::UniformBlockBindingPoint::RENDERING_PIPELINE
 						},
 						{
 							Name::UniformBuffer::LIGHT_PREPASS,

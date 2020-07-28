@@ -9,7 +9,6 @@ namespace Danburite
 		MONO_COLOR = 0,
 		PHONG,
 		REFLECTION,
-		REFLECTION_PHONG,
 		REFRACTION,
 		RAW_DRAWCALL
 	};

@@ -5,8 +5,8 @@
 #include "header/Light_Header.glsl"
 #include "header/Camera_Header.glsl"
  
-layout (location = 0) out vec4 ambient3_attenuation1;
-layout (location = 1) out vec4 diffuse3_occlusionInv1;
+layout (location = 0) out vec3 ambient;
+layout (location = 1) out vec3 diffuse;
 layout (location = 2) out vec3 specular;
 
 void main()
@@ -19,18 +19,16 @@ void main()
 
 	const vec3 targetPos = texture(posTex, gl_FragCoord.xy).xyz;
 	const vec3 targetNormal = normal3_shininess1.xyz;
-	const float shininess = normal3_shininess1.w;
-
-	const vec3 ambient = Light_getLightAmbient(curLightIdx, targetPos);
 	const float attenuation = Light_getAttenuation(curLightIdx, targetPos);
-	ambient3_attenuation1 = vec4(ambient, attenuation);
 
-	const vec3 diffuse = Light_getLightDiffuse(curLightIdx, targetPos, targetNormal);
 	const float occlusion = Light_getOcclusion(curLightIdx, targetPos, targetNormal);
 	const float occlusionInv = (1.f - occlusion);
-	diffuse3_occlusionInv1 = vec4(diffuse, occlusionInv);
 
 	const vec3 viewPos = Camera_getPosition();
 	const vec3 viewDir = normalize(viewPos - targetPos);
-	specular = Light_getLightSpecular(curLightIdx, targetPos, targetNormal, viewDir, shininess);
+	const float shininess = normal3_shininess1.w;
+
+	ambient = (attenuation * Light_getLightAmbient(curLightIdx, targetPos));
+	diffuse = (occlusionInv * attenuation * Light_getLightDiffuse(curLightIdx, targetPos, targetNormal));
+	specular = (occlusionInv * attenuation * Light_getLightSpecular(curLightIdx, targetPos, targetNormal, viewDir, shininess));
 } 

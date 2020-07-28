@@ -7,9 +7,7 @@ namespace Danburite
 		// Normal programs
 		MONO_COLOR,
 		PHONG,
-		SILHOUETTE,
 		REFLECTION,
-		REFLECTION_PHONG,
 		REFRACTION,
 
 		// Skybox

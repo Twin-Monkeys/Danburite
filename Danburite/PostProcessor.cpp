@@ -10,7 +10,6 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	PostProcessor::PostProcessor() :
-		__pFrameBuffer(make_unique<FrameBuffer>()),
 		__texContainerSetter(UniformBufferFactory::getInstance().
 			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER))
 	{}
@@ -129,6 +128,16 @@ namespace Danburite
 		}
 
 		return pRetVal;
+	}
+
+	FrameBuffer &PostProcessor::getFrameBuffer() noexcept
+	{
+		return *__pFrameBuffer;
+	}
+
+	const FrameBuffer &PostProcessor::getFrameBuffer() const noexcept
+	{
+		return *__pFrameBuffer;
 	}
 
 	void PostProcessor::bind() noexcept
