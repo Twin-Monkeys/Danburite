@@ -12,9 +12,6 @@ namespace Danburite
 		__pipelineSetter(UniformBufferFactory::getInstance().
 			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::RENDERING_PIPELINE)),
 
-		__cameraSetter(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::CAMERA)),
-
 		__camera(camera), __drawer(drawer), __ppPipeline(ppPipeline)
 	{}
 
@@ -36,6 +33,6 @@ namespace Danburite
 	void RenderingPipeline::render() noexcept
 	{
 		__pipelineSetter.setUniformUint(ShaderIdentifier::Name::RenderingPipeline::TYPE, GLuint(__TYPE));
-		_onRender(__lightManager, __cameraSetter, __camera, __drawer, __ppPipeline);
+		_onRender(__lightManager, __camera, __drawer, __ppPipeline);
 	}
 }

@@ -16,7 +16,6 @@ namespace Danburite
 
 		const RenderingPipelineType __TYPE;
 		ObjectGL::UniformBuffer &__pipelineSetter;
-		ObjectGL::UniformBuffer &__cameraSetter;
 
 		LightManager &__lightManager;
 		PerspectiveCamera &__camera;
@@ -27,8 +26,8 @@ namespace Danburite
 		virtual void _onSetScreenSize(const GLsizei width, const GLsizei height) noexcept;
 
 		virtual void _onRender(
-			LightManager &lightManager, ObjectGL::UniformBuffer &cameraSetter,
-			PerspectiveCamera &camera, BatchProcessor<Drawable> &drawer, PostProcessingPipeline &ppPipeline) noexcept = 0;
+			LightManager &lightManager, PerspectiveCamera &camera,
+			BatchProcessor<Drawable> &drawer, PostProcessingPipeline &ppPipeline) noexcept = 0;
 
 	public:
 		RenderingPipeline(

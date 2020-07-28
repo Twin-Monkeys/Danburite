@@ -7,9 +7,9 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	void CubeSkyboxComponent::_onDeploy(UniformSetter &uniformSetter) const noexcept
+	void CubeSkyboxComponent::_deployCubeCkyboxComponent(UniformBuffer &skyboxSetter) const noexcept
 	{
-		uniformSetter.setUniformUvec2(
+		skyboxSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Skybox::ALBEDO_TEX, TextureUtil::getHandleIfExist(__pAlbedoTex));
 	}
 

@@ -3,7 +3,6 @@
 #include "Object.h"
 #include "TextureType.h"
 #include "TextureException.h"
-#include "UniformDeployable.h"
 #include <cassert>
 
 namespace ObjectGL

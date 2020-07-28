@@ -1043,9 +1043,6 @@
     <ClInclude Include="ConvolutionalPostProcessor.h">
       <Filter>Library\Engine\Core\PostProcess\Convolution</Filter>
     </ClInclude>
-    <ClInclude Include="UniformDeployable.h">
-      <Filter>Library\ObjectGL\Core\Program</Filter>
-    </ClInclude>
     <ClInclude Include="UniformSetter.h">
       <Filter>Library\ObjectGL\Core\Uniform</Filter>
     </ClInclude>

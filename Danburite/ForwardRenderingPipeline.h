@@ -8,8 +8,8 @@ namespace Danburite
 	{
 	protected:
 		virtual void _onRender(
-			LightManager &lightManager, ObjectGL::UniformBuffer &cameraSetter,
-			PerspectiveCamera &camera, BatchProcessor<Drawable> &drawer, PostProcessingPipeline &ppPipeline) noexcept override;
+			LightManager &lightManager, PerspectiveCamera &camera,
+			BatchProcessor<Drawable> &drawer, PostProcessingPipeline &ppPipeline) noexcept override;
 
 	public:
 		ForwardRenderingPipeline(

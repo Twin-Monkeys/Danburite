@@ -67,13 +67,13 @@ namespace Danburite
 	}
 
 	void LightPrePassRenderingPipeline::_onRender(
-		LightManager &lightManager, UniformBuffer &cameraSetter,
-		PerspectiveCamera &camera, BatchProcessor<Drawable> &drawer, PostProcessingPipeline &ppPipeline) noexcept
+		LightManager &lightManager, PerspectiveCamera &camera,
+		BatchProcessor<Drawable> &drawer, PostProcessingPipeline &ppPipeline) noexcept
 	{
 		lightManager.process(&Light::bakeDepthMap, drawer);
 		lightManager.selfDeploy();
 
-		cameraSetter.directDeploy(camera);
+		camera.selfDeploy();
 
 		// Geometry pass
 		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);

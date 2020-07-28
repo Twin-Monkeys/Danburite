@@ -1,19 +1,18 @@
 #pragma once
 
-#include "UniformDeployable.h"
 #include "TextureCubemap.h"
-#include "UniformSetter.h"
+#include "UniformBuffer.h"
 #include <memory>
 
 namespace Danburite
 {
-	class CubeSkyboxComponent : public ObjectGL::UniformDeployable
+	class CubeSkyboxComponent
 	{
 	private:
 		std::shared_ptr<ObjectGL::TextureCubemap> __pAlbedoTex;
 
 	protected:
-		virtual void _onDeploy(ObjectGL::UniformSetter &uniformSetter) const noexcept override;
+		void _deployCubeCkyboxComponent(ObjectGL::UniformBuffer &skyboxSetter) const noexcept;
 
 	public:
 		void setAlbedoTexture(const std::shared_ptr<ObjectGL::TextureCubemap> &pTexture) noexcept;

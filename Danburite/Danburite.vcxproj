@@ -486,7 +486,6 @@
     <ClInclude Include="TransformableCamera.h" />
     <ClInclude Include="TransformTimeline.h" />
     <ClInclude Include="UniformBufferFactory.h" />
-    <ClInclude Include="UniformDeployable.h" />
     <ClInclude Include="UniformSetter.h" />
     <ClInclude Include="BindableObject.h" />
     <ClInclude Include="Buffer.h" />

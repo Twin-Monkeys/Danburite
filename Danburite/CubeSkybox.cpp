@@ -10,9 +10,9 @@ namespace Danburite
 		__skyboxProgram(ProgramFactory::getInstance().getProgram(ProgramType::SKYBOX))
 	{}
 
-	void CubeSkybox::_onDraw(UniformSetter &skyBoxSetter) noexcept
+	void CubeSkybox::_onDraw(UniformBuffer &skyBoxSetter) noexcept
 	{
-		skyBoxSetter.directDeploy(*this);
+		_deployCubeCkyboxComponent(skyBoxSetter);
 
 		__skyboxProgram.bind();
 

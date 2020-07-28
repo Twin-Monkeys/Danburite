@@ -12,14 +12,14 @@ namespace Danburite
 	{}
 
 	void ForwardRenderingPipeline::_onRender(
-		LightManager &lightManager, UniformBuffer &cameraSetter,
-		PerspectiveCamera &camera, BatchProcessor<Drawable> &drawer, PostProcessingPipeline &ppPipeline) noexcept
+		LightManager &lightManager, PerspectiveCamera &camera,
+		BatchProcessor<Drawable> &drawer, PostProcessingPipeline &ppPipeline) noexcept
 	{
 		// 순서 중요.
 		lightManager.process(&Light::bakeDepthMap, drawer);
 		lightManager.selfDeploy();
 
-		cameraSetter.directDeploy(camera);
+		camera.selfDeploy();
 
 		ppPipeline.bind();
 		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
