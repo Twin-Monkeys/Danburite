@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Material.h"
+#include "MaterialException.h"
 
 namespace Danburite
 {
@@ -9,11 +10,11 @@ namespace Danburite
 	protected:
 		virtual void _onRender(
 			ObjectGL::UniformSetter &materialSetter,
-			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
+			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) override;
 
 		virtual void _onRawDrawcall(
 			ObjectGL::UniformSetter& materialSetter,
-			ObjectGL::VertexArray& vertexArray, const GLsizei numInstances) noexcept override;
+			ObjectGL::VertexArray& vertexArray, const GLsizei numInstances) override;
 
 	public:
 		RawDrawcallMaterial(const VertexAttributeFlag vertexFlag) noexcept;

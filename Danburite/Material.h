@@ -26,11 +26,11 @@ namespace Danburite
 
 		virtual void _onRender(
 			ObjectGL::UniformSetter &materialSetter,
-			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept = 0;
+			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) = 0;
 
 		virtual void _onRawDrawcall(
 			ObjectGL::UniformSetter& materialSetter,
-			ObjectGL::VertexArray& vertexArray, const GLsizei numInstances) noexcept = 0;
+			ObjectGL::VertexArray& vertexArray, const GLsizei numInstances) = 0;
 
 		constexpr void useLighting(const bool enabled) noexcept;
 		constexpr void useAmbientTexture(const bool enabled) noexcept;

@@ -16,9 +16,4 @@ namespace Danburite
 		_deploySpotComponent(lightSetter);
 		_deployDirection(lightSetter);
 	}
-
-	void SpotLight::volumeDrawcall() noexcept
-	{
-
-	}
 }

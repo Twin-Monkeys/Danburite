@@ -6,23 +6,23 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	RawDrawcallMaterial::RawDrawcallMaterial(const VertexAttributeFlag vertexFlag) noexcept :
-		Material(MaterialType::MONO_COLOR, vertexFlag),
-		_monoColorProgram(ProgramFactory::getInstance().getProgram(ProgramType::MONO_COLOR))
+		Material(MaterialType::MONO_COLOR, vertexFlag)
 	{
 		useLighting(false);
 	}
 
-	void MonoColorMaterial::_onRender(
-		UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
+	void RawDrawcallMaterial::_onRender(
+		UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances)
 	{
-		_monoColorProgram.bind();
-		_onRawDrawcall(materialSetter, vertexArray, numInstances);
+		/*
+			부모 가상함수가 noexcept 속성이 없더라도 overriding 함수에는 붙일 수 있다.
+			그러나 그 반대는 안됨.
+		*/
+		throw MaterialException("RawDrawcallMaterial cannot use render function.");
 	}
 
-	void MonoColorMaterial::_onRawDrawcall(
-		UniformSetter& materialSetter, VertexArray& vertexArray, const GLsizei numInstances) noexcept
+	void RawDrawcallMaterial::_onRawDrawcall(UniformSetter &, VertexArray& vertexArray, const GLsizei numInstances)
 	{
-		_deployMonoColorComponent(materialSetter);
 		vertexArray.draw(numInstances);
 	}
 }

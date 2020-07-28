@@ -3,6 +3,7 @@
 #include "PerspectiveLight.h"
 #include "LightBaseComponent.h"
 #include "AttenuatedLightComponent.h"
+#include "SceneObject.h"
 
 namespace Danburite
 {
@@ -12,6 +13,8 @@ namespace Danburite
 	private:
 		float __luminanceTolerance =
 			Constant::Light::AttenuatedComponent::LUMINANCE_TOLERANCE;
+
+		std::shared_ptr<Danburite::SceneObject> __pVolume = std::make_shared<SceneObject>();
 
 		void __setValidDistance() noexcept;
 

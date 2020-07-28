@@ -12,8 +12,6 @@ namespace Danburite
 
 	public:
 		SpotLight();
-		virtual void volumeDrawcall() noexcept override;
-
 		virtual ~SpotLight() = default;
 	};
 }

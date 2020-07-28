@@ -1,4 +1,6 @@
 #include "PointLight.h"
+#include "VertexArrayFactory.h"
+#include "RawDrawcallMaterial.h"
 
 using namespace std;
 using namespace glm;
@@ -10,6 +12,14 @@ namespace Danburite
 		PerspectiveLight(type)
 	{
 		setLuminanceTolerance(Constant::Light::AttenuatedComponent::LUMINANCE_TOLERANCE);
+
+		const shared_ptr<VertexArray> &pVolumeVA =
+			VertexArrayFactory::createSphere(VertexAttributeFlag::POS, 1.f, 9ULL, 18ULL);
+
+		const shared_ptr<RawDrawcallMaterial> &pVolumeMaterial =
+			make_shared<RawDrawcallMaterial>(VertexAttributeFlag::POS);
+
+		__pVolume->createNode(pVolumeVA, pVolumeMaterial);
 	}
 
 	PointLight::PointLight() :
@@ -27,6 +37,8 @@ namespace Danburite
 		_setValidDistance(
 			__luminanceTolerance, getAlbedo(),
 			getAmbientStrength(), getDiffuseStrength(), getSpecularStrength());
+
+		__pVolume->getTransform().setScale(_getValidDistance());
 	}
 
 	void PointLight::_onDeploy(LightUniformSetter &lightSetter) noexcept
@@ -74,6 +86,6 @@ namespace Danburite
 
 	void PointLight::volumeDrawcall() noexcept
 	{
-		
+		__pVolume->rawDrawcall();
 	}
 }

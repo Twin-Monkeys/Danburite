@@ -771,6 +771,9 @@
     <ClCompile Include="RawDrawcallMaterial.cpp">
       <Filter>Library\Engine\Core\Material\RawDrawcall</Filter>
     </ClCompile>
+    <ClCompile Include="MaterialException.cpp">
+      <Filter>Library\Engine\Core\Material</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">
@@ -1327,6 +1330,9 @@
     </ClInclude>
     <ClInclude Include="RawDrawcallMaterial.h">
       <Filter>Library\Engine\Core\Material\RawDrawcall</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialException.h">
+      <Filter>Library\Engine\Core\Material</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
