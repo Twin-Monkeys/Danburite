@@ -920,9 +920,6 @@
     <ClInclude Include="LightUniformSetter.h">
       <Filter>Library\Engine\Core\Light\Deployment</Filter>
     </ClInclude>
-    <ClInclude Include="LightUniformDeployable.h">
-      <Filter>Library\Engine\Core\Light\Deployment</Filter>
-    </ClInclude>
     <ClInclude Include="LightBaseComponent.h">
       <Filter>Library\Engine\Core\Light\Component</Filter>
     </ClInclude>

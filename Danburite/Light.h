@@ -1,9 +1,6 @@
 #pragma once
 
 #include "Object.h"
-#include "LightUniformDeployable.h"
-#include <array>
-#include "ShaderIdentifier.h"
 #include "LightUniformSetter.h"
 #include "LightType.h"
 #include "LightException.h"
@@ -14,7 +11,7 @@
 
 namespace Danburite
 {
-	class Light abstract : protected LightUniformDeployable
+	class Light abstract
 	{
 	private:
 		const GLenum __TYPE;
@@ -29,6 +26,7 @@ namespace Danburite
 		void __release() noexcept;
 		
 	protected:
+		virtual void _onDeploy(LightUniformSetter &lightSetter) noexcept = 0;
 		virtual void _onBakeDepthMap(BatchProcessor<Drawable> &drawer) noexcept = 0;
 		virtual void _onDeployShadowData(LightUniformSetter &lightSetter) noexcept = 0;
 		virtual void _onVolumeDrawcall() noexcept = 0;

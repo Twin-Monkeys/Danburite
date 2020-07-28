@@ -1,5 +1,6 @@
 #include "Light.h"
 #include "UniformBufferFactory.h"
+#include "ShaderIdentifier.h"
 
 using namespace std;
 using namespace glm;

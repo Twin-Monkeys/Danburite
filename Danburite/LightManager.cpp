@@ -1,5 +1,6 @@
 #include "LightManager.h"
 #include "UniformBufferFactory.h"
+#include "ShaderIdentifier.h"
 
 using namespace std;
 using namespace ObjectGL;

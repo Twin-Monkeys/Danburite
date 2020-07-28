@@ -1,5 +1,6 @@
 #include "PerspectiveLight.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include "ShaderIdentifier.h"
 
 using namespace glm;
 using namespace ObjectGL;

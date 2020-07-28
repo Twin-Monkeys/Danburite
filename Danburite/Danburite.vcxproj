@@ -455,7 +455,6 @@
     <ClInclude Include="LightException.h" />
     <ClInclude Include="LightType.h" />
     <ClInclude Include="AttenuatedLightComponent.h" />
-    <ClInclude Include="LightUniformDeployable.h" />
     <ClInclude Include="LightUniformSetter.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialType.h" />

@@ -1,4 +1,5 @@
 #include "TransformableLight.h"
+#include "ShaderIdentifier.h"
 
 using namespace glm;
 using namespace ObjectGL;
