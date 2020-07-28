@@ -762,6 +762,9 @@
     <ClCompile Include="LightManager.cpp">
       <Filter>Library\Engine\Core\Light</Filter>
     </ClCompile>
+    <ClCompile Include="ManyLightScene.cpp">
+      <Filter>Client\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">
@@ -832,9 +835,6 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Library\Engine\Core\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Updatable.h">
-      <Filter>Library\Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Library\Engine\Scene</Filter>
@@ -1307,10 +1307,16 @@
     <ClInclude Include="WeakPointerContainer.h">
       <Filter>Library\Engine\Util</Filter>
     </ClInclude>
+    <ClInclude Include="ManyLightScene.h">
+      <Filter>Client\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="BatchProcessor.h">
       <Filter>Library\Engine\Base\Interface</Filter>
     </ClInclude>
     <ClInclude Include="Drawable.h">
+      <Filter>Library\Engine\Base\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Updatable.h">
       <Filter>Library\Engine\Base\Interface</Filter>
     </ClInclude>
   </ItemGroup>

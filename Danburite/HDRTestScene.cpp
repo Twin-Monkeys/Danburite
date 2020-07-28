@@ -159,25 +159,6 @@ HDRTestScene::HDRTestScene()
 	Transform &redLightTransform = __pRedLight->getTransform();
 	redLightTransform.setPosition(lamp2Transform.getPosition() + vec3{ -2.f, .3f, -2.f });
 
-	const size_t numSmallLight = 100ULL;
-	for (size_t i = 0ULL; i < numSmallLight; i++)
-	{
-		PointLight &smallLight = __lightMgr.createLight<PointLight>();
-		smallLight.setAlbedo(float(i % 2) * .8f, .1f, float(i % 3) * .8f);
-		smallLight.setAmbientStrength(.05f);
-		smallLight.setDiffuseStrength((rand() / 32767.f));
-		smallLight.setSpecularStrength((rand() / 32767.f));
-		smallLight.setAttenuation(1.f, 0.7f, 1.8f);
-		smallLight.setShadowEnabled(false);
-
-		Transform &lightTransform = smallLight.getTransform();
-		lightTransform.setPosition(
-			60.f * cosf(float(i) / float(numSmallLight) * two_pi<float>()),
-			1.f,
-			60.f * sinf(float(i) / float(numSmallLight) * two_pi<float>()));
-
-		__updater.add(smallLight);
-	}
 
 	//// Updater / Drawer √ ±‚»≠ ////
 

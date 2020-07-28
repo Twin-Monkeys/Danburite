@@ -267,6 +267,7 @@
     <ClCompile Include="JointManager.cpp" />
     <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="LightPrePassRenderingPipeline.cpp" />
+    <ClCompile Include="ManyLightScene.cpp" />
     <ClCompile Include="MaterialException.cpp" />
     <ClCompile Include="RawDrawcallMaterial.cpp" />
     <ClCompile Include="RenderingPipeline.cpp" />
@@ -406,6 +407,7 @@
     <ClInclude Include="JointManager.h" />
     <ClInclude Include="LightManager.h" />
     <ClInclude Include="LightPrePassRenderingPipeline.h" />
+    <ClInclude Include="ManyLightScene.h" />
     <ClInclude Include="MaterialException.h" />
     <ClInclude Include="RawDrawcallMaterial.h" />
     <ClInclude Include="RenderingPipeline.h" />

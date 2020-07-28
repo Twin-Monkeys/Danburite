@@ -75,6 +75,7 @@ namespace Danburite
 
 		camera.selfDeploy();
 
+
 		// Geometry pass
 		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
 
