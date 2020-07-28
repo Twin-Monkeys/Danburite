@@ -63,7 +63,7 @@ HDRTestScene::HDRTestScene()
 
 	Transform &sphereTransform = __pSphereObj->getTransform();
 	sphereTransform.setScale(2.f);
-	sphereTransform.setPosition(18.f, 0.f, 11.f);
+	sphereTransform.setPosition(18.f, 2.f, 11.f);
 
 	__pLampObj = AssetImporter::import("res/asset/bulb_fish/scene.gltf");
 	__pLampObj->setNumInstances(2);
