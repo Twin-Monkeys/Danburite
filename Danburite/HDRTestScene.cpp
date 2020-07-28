@@ -196,11 +196,11 @@ HDRTestScene::HDRTestScene()
 	__pPPPipeline->appendProcessor<BloomPostProcessor>();
 	__pHDRPP = &__pPPPipeline->appendProcessor<HDRPostProcessor>();
 
-	__pRenderingPipeline = make_unique<LightPrePassRenderingPipeline>(
-		*__pLightHandler, *__pCamera, *__pDrawer, *__pPPPipeline);
-
-	/*__pRenderingPipeline = make_unique<ForwardRenderingPipeline>(
+	/*__pRenderingPipeline = make_unique<LightPrePassRenderingPipeline>(
 		*__pLightHandler, *__pCamera, *__pDrawer, *__pPPPipeline);*/
+
+	__pRenderingPipeline = make_unique<ForwardRenderingPipeline>(
+		*__pLightHandler, *__pCamera, *__pDrawer, *__pPPPipeline);
 }
 
 bool HDRTestScene::__keyFunc(const float deltaTime) noexcept

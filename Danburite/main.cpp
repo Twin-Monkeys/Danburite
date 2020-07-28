@@ -36,7 +36,10 @@ int APIENTRY _tWinMain(const HINSTANCE hInstance, HINSTANCE, LPTSTR, int)
 		const GLDebugMessageSourceType source​Type, const GLDebugMessageType messageType​,
 		const GLDebugMessageSeverityType severity​Type, const string_view message, GLuint messageID​​) noexcept
 	{
-		if (severity​Type != GLDebugMessageSeverityType::NOTIFICATION)
+		if (
+			(severity​Type == GLDebugMessageSeverityType::MEDIUM) &&
+			(severity​Type == GLDebugMessageSeverityType::HIGH) 
+			)
 		{
 			// 버그 잡자!
 			int a = 0;

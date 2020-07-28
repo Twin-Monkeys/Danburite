@@ -108,10 +108,10 @@ vec4 Phong_calcPhongColor(
 	const uint renderingPipelineType = RenderingPipeline_getType();
 
 	if (renderingPipelineType == RENDERING_PIPELINE_TYPE_FORWARD)
-		Phong_calcPhongColor_forward(targetPos, targetNormal, targetTBN, targetTexCoord, vertexColor);
+		return Phong_calcPhongColor_forward(targetPos, targetNormal, targetTBN, targetTexCoord, vertexColor);
 
 	else if (renderingPipelineType == RENDERING_PIPELINE_TYPE_LIGHT_PREPASS)
-		Phong_calcPhongColor_lightPrePass(targetPos, targetTBN, targetTexCoord, vertexColor);
+		return Phong_calcPhongColor_lightPrePass(targetPos, targetTBN, targetTexCoord, vertexColor);
 
 	return vec4(0.f);
 }
