@@ -26,6 +26,9 @@ namespace Danburite
 			namespace Light
 			{
 				extern const std::string
+					NUM_LIGHTS;
+
+				extern const std::string
 					ENABLED,
 
 					// base properties

@@ -17,7 +17,8 @@ namespace Danburite
 	{
 		// 순서 중요.
 		lightManager.process(&Light::bakeDepthMap, drawer);
-		lightManager.process(&Light::selfDeploy);
+		lightManager.selfDeploy();
+
 		cameraSetter.directDeploy(camera);
 
 		ppPipeline.bind();

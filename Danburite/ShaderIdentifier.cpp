@@ -25,6 +25,9 @@ namespace Danburite
 
 			namespace Light
 			{
+				extern const std::string
+					NUM_LIGHTS			= "lightMeta.numLights";
+
 				const string
 					ENABLED				= "enabled",
 

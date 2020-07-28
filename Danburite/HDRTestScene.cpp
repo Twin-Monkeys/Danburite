@@ -195,7 +195,7 @@ HDRTestScene::HDRTestScene()
 		__lightMgr, *__pCamera, __drawer, *__pPPPipeline);
 
 	/*__pRenderingPipeline = make_unique<ForwardRenderingPipeline>(
-		__lightHandler, *__pCamera, __drawer, *__pPPPipeline);*/
+		__lightMgr, *__pCamera, __drawer, *__pPPPipeline);*/
 }
 
 bool HDRTestScene::__keyFunc(const float deltaTime) noexcept

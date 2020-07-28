@@ -7,6 +7,11 @@
 
 #include "Constant_Header.glsl"
 
+struct LightMeta
+{
+	uint numLights;
+};
+
 struct Light
 {
 	bool enabled;
@@ -46,8 +51,14 @@ struct Light
 
 layout(binding = BINDING_POINT_LIGHT) uniform UBLight
 {
+	LightMeta lightMeta;
 	Light light[MAX_NUM_LIGHTS];
 };
+
+uint Light_getNumLights()
+{
+	return lightMeta.numLights;
+}
 
 vec3 Light_getLightDirection(const uint lightIndex, const vec3 targetPos)
 {

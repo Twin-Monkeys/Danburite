@@ -41,7 +41,8 @@ vec4 Phong_calcPhongColor_forward(
 	vec3 diffuse = vec3(0.f);
 	vec3 specular = vec3(0.f);
 
-	for (uint lightIdx = 0; lightIdx < MAX_NUM_LIGHTS; lightIdx++)
+	const uint NUM_LIGHTS = Light_getNumLights();
+	for (uint lightIdx = 0; lightIdx < NUM_LIGHTS; lightIdx++)
 	{
 		if (!Light_checkValidation(lightIdx, targetPos))
 			continue;

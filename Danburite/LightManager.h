@@ -8,13 +8,18 @@ namespace Danburite
 	class LightManager
 	{
 	private:
+		ObjectGL::UniformBuffer &__lightSetter;
 		std::vector<std::unique_ptr<Light>> __lights;
 
 	public:
+		LightManager();
+
 		template <typename $LightType>
 		$LightType &createLight();
 
 		void deleteLight(const Light &light) noexcept;
+
+		void selfDeploy() noexcept;
 
 		template <typename $FunctionType, typename ...Args>
 		void process(const $FunctionType function, Args &&...args);

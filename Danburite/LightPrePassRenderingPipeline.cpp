@@ -71,7 +71,8 @@ namespace Danburite
 		PerspectiveCamera &camera, BatchProcessor<Drawable> &drawer, PostProcessingPipeline &ppPipeline) noexcept
 	{
 		lightManager.process(&Light::bakeDepthMap, drawer);
-		lightManager.process(&Light::selfDeploy);
+		lightManager.selfDeploy();
+
 		cameraSetter.directDeploy(camera);
 
 		// Geometry pass
