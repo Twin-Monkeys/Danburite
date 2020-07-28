@@ -47,7 +47,7 @@ int APIENTRY _tWinMain(const HINSTANCE hInstance, HINSTANCE, LPTSTR, int)
 	});
 #endif
 
-	GLFunctionWrapper::setVerticalSync(true);
+	GLFunctionWrapper::setVerticalSync(false);
 
 	//// Scene 생성 ////
 	shared_ptr<ScreenEventHandler> pScene = make_shared<HDRTestScene>();
