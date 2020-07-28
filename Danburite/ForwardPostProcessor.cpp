@@ -18,9 +18,9 @@ namespace Danburite
 
 	void ForwardPostProcessor::_onRender(
 		PostProcessor* const pBoundProcessor,
-		UniformBuffer &attachmentSetter, FullscreenDrawer &fullscreenDrawer) noexcept
+		UniformBuffer &texContainerSetter, FullscreenDrawer &fullscreenDrawer) noexcept
 	{
-		attachmentSetter.setUniformUvec2(
+		texContainerSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Attachment::TEX0, __pColorAttachment->getHandle());
 
 		__program.bind();

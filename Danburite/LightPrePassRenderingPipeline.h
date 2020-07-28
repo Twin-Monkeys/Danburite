@@ -16,7 +16,7 @@ namespace Danburite
 		ObjectGL::Program &__geometryProgram;
 		std::unique_ptr<ObjectGL::FrameBuffer> __pNormalShininessFB;
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pPosAttachment;
-		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pNormalSpecularAttachment;
+		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pNormalShininessAttachment;
 		std::shared_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
 
 		ObjectGL::Program &__lightingProgram;

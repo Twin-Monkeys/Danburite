@@ -22,7 +22,7 @@ namespace Danburite
 
 	void BloomPostProcessor::_onRender(
 		PostProcessor* const pBoundProcessor,
-		UniformBuffer &attachmentSetter, FullscreenDrawer &fullscreenDrawer) noexcept
+		UniformBuffer &texContainerSetter, FullscreenDrawer &fullscreenDrawer) noexcept
 	{
 		__bloomSetter.setUniformFloat(
 			ShaderIdentifier::Name::Bloom::BRIGHTNESS_THRESHOLD, __brightnessThreshold);
@@ -33,7 +33,7 @@ namespace Danburite
 		// 1. color extraction
 		__pBloomFrameBuffer1->bind();
 
-		attachmentSetter.setUniformUvec2(
+		texContainerSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Attachment::TEX0, __pOriginalColorAttachment->getHandle());
 
 		__extractionProgram.bind();
@@ -42,7 +42,7 @@ namespace Danburite
 		// 2. horizontal blur
 		__pBloomFrameBuffer2->bind();
 
-		attachmentSetter.setUniformUvec2(
+		texContainerSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Attachment::TEX0, __pBloomColorAttachment1->getHandle());
 
 		__blurHorizProgram.bind();
@@ -51,17 +51,17 @@ namespace Danburite
 		// 3. vertical blur
 		__pBloomFrameBuffer1->bind();
 
-		attachmentSetter.setUniformUvec2(
+		texContainerSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Attachment::TEX0, __pBloomColorAttachment2->getHandle());
 
 		__blurVertProgram.bind();
 		fullscreenDrawer.draw();
 
 		// 4. composition
-		attachmentSetter.setUniformUvec2(
+		texContainerSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Attachment::TEX0, __pOriginalColorAttachment->getHandle());
 
-		attachmentSetter.setUniformUvec2(
+		texContainerSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Attachment::TEX1, __pBloomColorAttachment1->getHandle());
 
 		if (pBoundProcessor)

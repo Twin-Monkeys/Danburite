@@ -41,7 +41,7 @@ namespace Danburite
 			width, height, TextureInternalFormatType::RGB32F, TextureExternalFormatType::RGB,
 			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST);
 
-		__pNormalSpecularAttachment = __attachmentServer.getTexRectangle(
+		__pNormalShininessAttachment = __attachmentServer.getTexRectangle(
 			width, height, TextureInternalFormatType::RGBA32F, TextureExternalFormatType::RGBA,
 			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST);
 
@@ -49,7 +49,7 @@ namespace Danburite
 			width, height, RenderBufferInternalFormatType::DEPTH24_STENCIL8);
 
 		__pNormalShininessFB->attach(AttachmentType::COLOR_ATTACHMENT0, *__pPosAttachment);
-		__pNormalShininessFB->attach(AttachmentType::COLOR_ATTACHMENT1, *__pNormalSpecularAttachment);
+		__pNormalShininessFB->attach(AttachmentType::COLOR_ATTACHMENT1, *__pNormalShininessAttachment);
 		__pNormalShininessFB->attach(AttachmentType::DEPTH_STENCIL_ATTACHMENT, *__pDepthStencilAttachment);
 
 
@@ -92,16 +92,26 @@ namespace Danburite
 		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR);
 
 		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, false);
+		GLFunctionWrapper::setOption(GLOptionType::BLEND, true);
+		GLFunctionWrapper::setBlendingFunction(BlendingFunctionType::ONE, BlendingFunctionType::ONE);
+
 		GLFunctionWrapper::setCulledFace(FacetType::FRONT);
+
+		__texContainerSetter.setUniformUvec2(
+			ShaderIdentifier::Name::Attachment::TEX0, __pPosAttachment->getHandle());
+
+		__texContainerSetter.setUniformUvec2(
+			ShaderIdentifier::Name::Attachment::TEX1, __pNormalShininessAttachment->getHandle());
 
 		__lightingProgram.bind();
 		_lightHandler.batchVolumeDrawcall();
 
+		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
+		GLFunctionWrapper::setOption(GLOptionType::BLEND, false);
+		GLFunctionWrapper::setCulledFace(FacetType::BACK);
 
 		FrameBuffer::unbind();
 
-		__pNormalShininessFB->blit(
-			nullptr, 
-			FrameBufferBlitFlag::COLOR_DEPTH_STENCIL, 0, 0, 1600, 900, 0, 0, 1600, 900);
+		__pLightingFB->blit(nullptr, FrameBufferBlitFlag::COLOR_DEPTH_STENCIL, 0, 0, 1600, 900, 0, 0, 1600, 900);
 	}
 }

@@ -23,7 +23,7 @@ namespace Danburite
 	}
 
 	PointLight::PointLight() :
-		PerspectiveLight(LightType::POINT)
+		PointLight(LightType::POINT)
 	{}
 
 	void PointLight::__setValidDistance() noexcept
@@ -87,5 +87,12 @@ namespace Danburite
 	void PointLight::volumeDrawcall() noexcept
 	{
 		__pVolume->rawDrawcall();
+	}
+
+	void PointLight::update(const float delta) noexcept
+	{
+		PerspectiveLight::update(delta);
+		__pVolume->getTransform().setPosition(getTransform().getPosition());
+		__pVolume->update(delta);
 	}
 }

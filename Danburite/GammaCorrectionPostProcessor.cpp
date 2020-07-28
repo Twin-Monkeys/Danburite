@@ -17,9 +17,9 @@ namespace Danburite
 
 	void GammaCorrectionPostProcessor::_onRender(
 		PostProcessor* const pBoundProcessor,
-		UniformBuffer &attachmentSetter, FullscreenDrawer &fullscreenDrawer) noexcept
+		UniformBuffer &texContainerSetter, FullscreenDrawer &fullscreenDrawer) noexcept
 	{
 		__gammaCorrectionSetter.setUniformFloat(ShaderIdentifier::Name::GammaCorrection::GAMMA, __gamma);
-		ForwardPostProcessor::_onRender(pBoundProcessor, attachmentSetter, fullscreenDrawer);
+		ForwardPostProcessor::_onRender(pBoundProcessor, texContainerSetter, fullscreenDrawer);
 	}
 }
