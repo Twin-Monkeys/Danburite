@@ -404,6 +404,7 @@
     <ClInclude Include="HDRPostProcessor.h" />
     <ClInclude Include="HDRTestScene.h" />
     <ClInclude Include="JointManager.h" />
+    <ClInclude Include="LightManager.h" />
     <ClInclude Include="LightPrePassRenderingPipeline.h" />
     <ClInclude Include="MaterialException.h" />
     <ClInclude Include="RawDrawcallMaterial.h" />

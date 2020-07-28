@@ -4,13 +4,19 @@ using namespace std;
 
 namespace Danburite
 {
-	void Updater::addUpdatable(const weak_ptr<Updatable>& pUpdatable) noexcept
+	void Updater::addUpdatable(Updatable &updatable) noexcept
 	{
-		__updatables.add(pUpdatable);
+		__updatableSet.emplace(&updatable);
 	}
 
-	void Updater::update(const float deltaTime) noexcept
+	void Updater::removeUpdatable(Updatable &updatable) noexcept
 	{
-		__updatables.safeTraverse(&Updatable::update, deltaTime);
+		__updatableSet.erase(&updatable);
+	}
+
+	void Updater::batchUpdate(const float deltaTime) noexcept
+	{
+		for (Updatable *const pUpdatable : __updatableSet)
+			pUpdatable->update(deltaTime);
 	}
 }

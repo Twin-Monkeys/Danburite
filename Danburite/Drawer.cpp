@@ -4,18 +4,25 @@ using namespace std;
 
 namespace Danburite
 {
-	void Drawer::addDrawable(const weak_ptr<Drawable> &pDrawable) noexcept
+	void Drawer::addDrawable(Drawable &drawable) noexcept
 	{
-		__drawables.add(pDrawable);
+		__drawableSet.emplace(&drawable);
+	}
+
+	void Drawer::removeDrawable(Drawable &drawable) noexcept
+	{
+		__drawableSet.erase(&drawable);
 	}
 
 	void Drawer::batchDraw() noexcept
 	{
-		__drawables.safeTraverse(&Drawable::draw);
+		for (Drawable *const pDrawable : __drawableSet)
+			pDrawable->draw();
 	}
 
 	void Drawer::batchRawDrawcall() noexcept
 	{
-		__drawables.safeTraverse(&Drawable::rawDrawcall);
+		for (Drawable *const pDrawable : __drawableSet)
+			pDrawable->rawDrawcall();
 	}
 }

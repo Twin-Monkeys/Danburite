@@ -1,17 +1,19 @@
 #pragma once
 
+#include <unordered_set>
 #include "Updatable.h"
-#include "WeakPointerContainer.h"
 
 namespace Danburite
 {
 	class Updater
 	{
 	private:
-		ObjectGL::WeakPointerContainer<Updatable> __updatables;
+		std::unordered_set<Updatable *> __updatableSet;
 
 	public:
-		void addUpdatable(const std::weak_ptr<Updatable> &pUpdatable) noexcept;
-		void update(const float deltaTime) noexcept;
+		void addUpdatable(Updatable &updatable) noexcept;
+		void removeUpdatable(Updatable &updatable) noexcept;
+
+		void batchUpdate(const float deltaTime) noexcept;
 	};
 }

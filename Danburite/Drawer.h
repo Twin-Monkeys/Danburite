@@ -1,17 +1,18 @@
 #pragma once
 
+#include <unordered_set>
 #include "Drawable.h"
-#include "WeakPointerContainer.h"
 
 namespace Danburite
 {
 	class Drawer
 	{
 	private:
-		ObjectGL::WeakPointerContainer<Drawable> __drawables;
+		std::unordered_set<Drawable *> __drawableSet;
 
 	public:
-		void addDrawable(const std::weak_ptr<Drawable> &pDrawable) noexcept;
+		void addDrawable(Drawable &drawable) noexcept;
+		void removeDrawable(Drawable &drawable) noexcept;
 
 		void batchDraw() noexcept;
 		void batchRawDrawcall() noexcept;

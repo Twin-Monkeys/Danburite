@@ -36,8 +36,8 @@ private:
 	std::shared_ptr<Danburite::PointLight> __pRedLight;
 
 	std::shared_ptr<Danburite::LightHandler> __pLightHandler;
-	std::shared_ptr<Danburite::Updater> __pUpdater;
-	std::shared_ptr<Danburite::Drawer> __pDrawer;
+	Danburite::Updater __updater;
+	Danburite::Drawer __drawer;
 
 	Danburite::HDRPostProcessor *__pHDRPP;
 	std::shared_ptr<Danburite::PostProcessingPipeline> __pPPPipeline;

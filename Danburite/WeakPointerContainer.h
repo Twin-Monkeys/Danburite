@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include <memory>
 
-namespace ObjectGL
+namespace Danburite
 {
 	template <typename T>
 	class WeakPointerContainer

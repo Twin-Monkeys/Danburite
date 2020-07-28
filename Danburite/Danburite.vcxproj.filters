@@ -241,9 +241,6 @@
     <Filter Include="Library\ObjectGL\Core\Shader\Compiler\GeometryShaderCompiler">
       <UniqueIdentifier>{55ce2923-a802-4c6d-a7c7-3ec1bd089d37}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Library\ObjectGL\Base\interface">
-      <UniqueIdentifier>{4957fde3-2955-4d79-9676-1c9f209c117c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library\ObjectGL\Core\Texture\Multisample">
       <UniqueIdentifier>{2bdb1d60-2992-4367-b68c-6534d3fefd5a}</UniqueIdentifier>
     </Filter>
@@ -1112,9 +1109,6 @@
     <ClInclude Include="Drawable.h">
       <Filter>Library\Engine\Base\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="WeakPointerContainer.h">
-      <Filter>Library\ObjectGL\Base\interface</Filter>
-    </ClInclude>
     <ClInclude Include="TextureMultisample.h">
       <Filter>Library\ObjectGL\Core\Texture\Multisample</Filter>
     </ClInclude>
@@ -1330,6 +1324,12 @@
     </ClInclude>
     <ClInclude Include="RenderingPipelineType.h">
       <Filter>Library\Engine\Core\RenderingPipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="LightManager.h">
+      <Filter>Library\Engine\Core\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="WeakPointerContainer.h">
+      <Filter>Library\Engine\Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

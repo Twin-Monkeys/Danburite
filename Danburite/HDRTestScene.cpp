@@ -159,34 +159,33 @@ HDRTestScene::HDRTestScene()
 	Transform &redLightTransform = __pRedLight->getTransform();
 	redLightTransform.setPosition(lamp2Transform.getPosition() + vec3{ -2.f, .3f, -2.f });
 
-	//// Deployer / Updater 초기화 ////
+
+	//// Updater / Drawer 초기화 ////
 
 	__pLightHandler = make_shared<LightHandler>();
 	__pLightHandler->addLight(__pBlueLight);
 	__pLightHandler->addLight(__pRedLight);
 
-	__pUpdater = make_shared<Updater>();
-	__pUpdater->addUpdatable(__pFloorObj);
-	__pUpdater->addUpdatable(__pLampObj);
-	__pUpdater->addUpdatable(__pCargoBayObj);
-	__pUpdater->addUpdatable(__pPulseCoreObj);
-	__pUpdater->addUpdatable(__pDoorObj);
-	__pUpdater->addUpdatable(__pLizardObj);
-	__pUpdater->addUpdatable(__pGirlObj);
-	__pUpdater->addUpdatable(__pCamera);
-	__pUpdater->addUpdatable(__pBlueLight);
-	__pUpdater->addUpdatable(__pRedLight);
-	__pUpdater->addUpdatable(__pSphereObj);
+	__updater.addUpdatable(*__pFloorObj);
+	__updater.addUpdatable(*__pLampObj);
+	__updater.addUpdatable(*__pCargoBayObj);
+	__updater.addUpdatable(*__pPulseCoreObj);
+	__updater.addUpdatable(*__pDoorObj);
+	__updater.addUpdatable(*__pLizardObj);
+	__updater.addUpdatable(*__pGirlObj);
+	__updater.addUpdatable(*__pCamera);
+	__updater.addUpdatable(*__pBlueLight);
+	__updater.addUpdatable(*__pRedLight);
+	__updater.addUpdatable(*__pSphereObj);
 
-	__pDrawer = make_shared<Drawer>();
-	__pDrawer->addDrawable(__pFloorObj);
-	__pDrawer->addDrawable(__pLampObj);
-	__pDrawer->addDrawable(__pCargoBayObj);
-	__pDrawer->addDrawable(__pPulseCoreObj);
-	__pDrawer->addDrawable(__pDoorObj);
-	__pDrawer->addDrawable(__pLizardObj);
-	__pDrawer->addDrawable(__pGirlObj);
-	__pDrawer->addDrawable(__pSphereObj);
+	__drawer.addDrawable(*__pFloorObj);
+	__drawer.addDrawable(*__pLampObj);
+	__drawer.addDrawable(*__pCargoBayObj);
+	__drawer.addDrawable(*__pPulseCoreObj);
+	__drawer.addDrawable(*__pDoorObj);
+	__drawer.addDrawable(*__pLizardObj);
+	__drawer.addDrawable(*__pGirlObj);
+	__drawer.addDrawable(*__pSphereObj);
 
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
 
@@ -197,7 +196,7 @@ HDRTestScene::HDRTestScene()
 	__pHDRPP = &__pPPPipeline->appendProcessor<HDRPostProcessor>();
 
 	__pRenderingPipeline = make_unique<LightPrePassRenderingPipeline>(
-		*__pLightHandler, *__pCamera, *__pDrawer, *__pPPPipeline);
+		*__pLightHandler, *__pCamera, __drawer, *__pPPPipeline);
 
 	/*__pRenderingPipeline = make_unique<ForwardRenderingPipeline>(
 		*__pLightHandler, *__pCamera, *__pDrawer, *__pPPPipeline);*/
@@ -295,7 +294,7 @@ bool HDRTestScene::update(const float deltaTime) noexcept
 	__emissiveStrength += (deltaTime * .001f);
 	__pCargoBayObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, fabsf(cosf(__emissiveStrength)));
 
-	__pUpdater->update(deltaTime);
+	__updater.batchUpdate(deltaTime);
 	__updated = true;
 
 	return __keyFunc(deltaTime);

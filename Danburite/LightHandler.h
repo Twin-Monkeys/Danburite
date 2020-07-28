@@ -8,7 +8,7 @@ namespace Danburite
 	class LightHandler
 	{
 	private:
-		ObjectGL::WeakPointerContainer<Light> __lights;
+		WeakPointerContainer<Light> __lights;
 
 	public:
 		void addLight(const std::weak_ptr<Light> &pLight) noexcept;
