@@ -17,6 +17,7 @@ namespace Danburite
 	protected:
 		virtual void _onDeployShadowData(LightUniformSetter& lightSetter) noexcept override;
 		virtual void _onBakeDepthMap(BatchProcessor<Drawable> &drawer) noexcept override;
+		virtual void _onChangeShadowEnabled(const bool enabled) noexcept override;
 
 	public:
 		PerspectiveLight(const LightType type, const GLuint index);
@@ -24,6 +25,7 @@ namespace Danburite
 		constexpr void setDepthBakingNear(const float zNear) noexcept;
 		constexpr void setDepthBakingFar(const float zFar) noexcept;
 
+		virtual const glm::ivec2 &getDepthMapSize() noexcept override;
 		virtual void setDepthMapSize(const GLsizei width, const GLsizei height) noexcept override;
 
 		virtual Transform &getTransform() noexcept override;

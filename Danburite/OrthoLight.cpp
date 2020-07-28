@@ -29,9 +29,19 @@ namespace Danburite
 		__depthBaker.unbind();
 	}
 
+	const ivec2 &OrthoLight::getDepthMapSize() noexcept
+	{
+		return __depthBaker.getDepthMapSize();
+	}
+
 	void OrthoLight::setDepthMapSize(const GLsizei width, const GLsizei height) noexcept
 	{
 		__depthBaker.setDepthMapSize(width, height);
+	}
+
+	void OrthoLight::_onChangeShadowEnabled(const bool enabled) noexcept
+	{
+
 	}
 
 	Transform &OrthoLight::getTransform() noexcept

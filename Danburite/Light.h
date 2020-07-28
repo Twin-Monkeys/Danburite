@@ -30,6 +30,7 @@ namespace Danburite
 		virtual void _onBakeDepthMap(BatchProcessor<Drawable> &drawer) noexcept = 0;
 		virtual void _onDeployShadowData(LightUniformSetter &lightSetter) noexcept = 0;
 		virtual void _onVolumeDrawcall() noexcept = 0;
+		virtual void _onChangeShadowEnabled(const bool enabled) noexcept = 0;
 
 	public:
 		Light(const LightType type, const DepthBakingType depthBakingType, const GLuint index);
@@ -42,10 +43,12 @@ namespace Danburite
 		constexpr bool isEnabled() const noexcept;
 		constexpr void setEnabled(const bool enabled) noexcept;
 
-		constexpr bool isShadowEnabled() const noexcept;
-		constexpr void setShadowEnabled(const bool enabled) noexcept;
-
 		virtual void setDepthMapSize(const GLsizei width, const GLsizei height) noexcept = 0;
+		virtual const glm::ivec2 &getDepthMapSize() noexcept = 0;
+
+		constexpr bool isShadowEnabled() const noexcept;
+		void setShadowEnabled(const bool enabled) noexcept;
+
 		void bakeDepthMap(BatchProcessor<Drawable> &drawer) noexcept;
 
 		void volumeDrawcall() noexcept;
@@ -71,10 +74,5 @@ namespace Danburite
 	constexpr bool Light::isShadowEnabled() const noexcept
 	{
 		return __shadowEnabled;
-	}
-
-	constexpr void Light::setShadowEnabled(const bool enabled) noexcept
-	{
-		__shadowEnabled = enabled;
 	}
 }

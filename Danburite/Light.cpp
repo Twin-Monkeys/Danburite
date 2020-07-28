@@ -48,6 +48,15 @@ namespace Danburite
 		__lightSetter.setIndex(index);
 	}
 
+	void Light::setShadowEnabled(const bool enabled) noexcept
+	{
+		if (__shadowEnabled == enabled)
+			return;
+
+		__shadowEnabled = enabled;
+		_onChangeShadowEnabled(enabled);
+	}
+
 	void Light::bakeDepthMap(BatchProcessor<Drawable> &drawer) noexcept
 	{
 		if (!isShadowEnabled())

@@ -26,9 +26,19 @@ namespace Danburite
 		__depthBaker.unbind();
 	}
 
+	const ivec2 &PerspectiveLight::getDepthMapSize() noexcept
+	{
+		return __depthBaker.getDepthMapSize();
+	}
+
 	void PerspectiveLight::setDepthMapSize(const GLsizei width, const GLsizei height) noexcept
 	{
 		__depthBaker.setDepthMapSize(width, height);
+	}
+
+	void PerspectiveLight::_onChangeShadowEnabled(const bool enabled) noexcept
+	{
+
 	}
 
 	Transform &PerspectiveLight::getTransform() noexcept
