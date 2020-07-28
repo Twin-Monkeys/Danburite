@@ -2,6 +2,7 @@
 
 #include "UniformSetter.h"
 #include "Cache.h"
+#include <memory>
 
 namespace Danburite
 {

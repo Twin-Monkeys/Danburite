@@ -16,11 +16,14 @@ namespace Danburite
 		__depthBakingCubemapSetter(
 			UniformBufferFactory::getInstance().
 			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::DEPTH_BAKING_CUBEMAP))
+	{}
+
+	void DepthBakerCubemap::_releaseDepthMap() noexcept
 	{
-		__createDepthMap();
+		__pDepthMap = nullptr;
 	}
 
-	void DepthBakerCubemap::__createDepthMap() noexcept
+	void DepthBakerCubemap::_allocDepthMap(const GLsizei width, const GLsizei height) noexcept
 	{
 		__pDepthMap = make_unique<AttachableTextureCubemap>();
 		__pDepthMap->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR);
@@ -28,12 +31,6 @@ namespace Danburite
 		__pDepthMap->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
 		__pDepthMap->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
 		__pDepthMap->setState(TextureParamType::TEXTURE_WRAP_R, TextureWrapValue::CLAMP_TO_EDGE);
-	}
-
-	void DepthBakerCubemap::_onSetDepthMapSize(const GLsizei width, const GLsizei height) noexcept
-	{
-		if (__pDepthMap->isHandleCreated())
-			__createDepthMap();
 
 		for (CubemapSideType i = CubemapSideType::POSITIVE_X; i <= CubemapSideType::NEGATIVE_Z; i++)
 		{

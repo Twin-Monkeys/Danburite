@@ -159,14 +159,14 @@ HDRTestScene::HDRTestScene()
 	Transform &redLightTransform = __pRedLight->getTransform();
 	redLightTransform.setPosition(lamp2Transform.getPosition() + vec3{ -2.f, .3f, -2.f });
 
-	const size_t numSmallLight = 500ULL;
+	const size_t numSmallLight = 100ULL;
 	for (size_t i = 0ULL; i < numSmallLight; i++)
 	{
 		PointLight &smallLight = __lightMgr.createLight<PointLight>();
-		smallLight.setAlbedo(float(i % 2) * .7f, float(i % 3) * .7f, float(i % 4) * .7f);
+		smallLight.setAlbedo(float(i % 2) * .8f, .1f, float(i % 3) * .8f);
 		smallLight.setAmbientStrength(.05f);
-		smallLight.setDiffuseStrength((rand() / 32767.f) * 4.f);
-		smallLight.setSpecularStrength((rand() / 32767.f) * 4.f);
+		smallLight.setDiffuseStrength((rand() / 32767.f));
+		smallLight.setSpecularStrength((rand() / 32767.f));
 		smallLight.setAttenuation(1.f, 0.7f, 1.8f);
 		smallLight.setShadowEnabled(false);
 
@@ -210,11 +210,11 @@ HDRTestScene::HDRTestScene()
 	__pPPPipeline->appendProcessor<BloomPostProcessor>();
 	__pHDRPP = &__pPPPipeline->appendProcessor<HDRPostProcessor>();
 
-	/*__pRenderingPipeline = make_unique<LightPrePassRenderingPipeline>(
-		__lightMgr, *__pCamera, __drawer, *__pPPPipeline);*/
-
-	__pRenderingPipeline = make_unique<ForwardRenderingPipeline>(
+	__pRenderingPipeline = make_unique<LightPrePassRenderingPipeline>(
 		__lightMgr, *__pCamera, __drawer, *__pPPPipeline);
+
+	/*__pRenderingPipeline = make_unique<ForwardRenderingPipeline>(
+		__lightMgr, *__pCamera, __drawer, *__pPPPipeline);*/
 }
 
 bool HDRTestScene::__keyFunc(const float deltaTime) noexcept

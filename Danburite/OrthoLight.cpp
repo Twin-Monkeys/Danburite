@@ -41,7 +41,7 @@ namespace Danburite
 
 	void OrthoLight::_onChangeShadowEnabled(const bool enabled) noexcept
 	{
-
+		__depthBaker.setEnabled(enabled);
 	}
 
 	Transform &OrthoLight::getTransform() noexcept

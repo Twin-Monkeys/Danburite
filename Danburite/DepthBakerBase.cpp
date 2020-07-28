@@ -18,19 +18,33 @@ namespace Danburite
 		__pFrameBuffer->attach(attachmentType, attachment);
 	}
 
+	void DepthBakerBase::setEnabled(const bool enabled) noexcept
+	{
+		if (__enabled == enabled)
+			return;
+
+		__enabled = enabled;
+
+		if (!enabled)
+		{
+			_releaseDepthMap();
+			__allocated = false;
+		}
+	}
+
 	void DepthBakerBase::setDepthMapSize(const GLsizei width, const GLsizei height) noexcept
 	{
 		__depthMapSize.x = width;
 		__depthMapSize.y = height;
-
-		_onSetDepthMapSize(width, height);
-		__resolutionInit = true;
 	}
 
 	void DepthBakerBase::bind() noexcept
 	{
-		if (!__resolutionInit)
-			setDepthMapSize(Constant::DepthBaking::DEFAULT_MAP_WIDTH, Constant::DepthBaking::DEFAULT_MAP_HEIGHT);
+		if (!__allocated)
+		{
+			_allocDepthMap(__depthMapSize.x, __depthMapSize.y);
+			__allocated = true;
+		}
 
 		glGetIntegerv(GL_VIEWPORT, __viewportArgs);
 		glViewport(0, 0, __depthMapSize.x, __depthMapSize.y);

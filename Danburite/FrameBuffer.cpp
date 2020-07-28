@@ -126,7 +126,6 @@ namespace ObjectGL
 	void FrameBuffer::unbind() noexcept
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0U);
-
 		_unbind();
 	}
 }

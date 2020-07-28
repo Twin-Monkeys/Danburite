@@ -38,7 +38,7 @@ namespace Danburite
 
 	void PerspectiveLight::_onChangeShadowEnabled(const bool enabled) noexcept
 	{
-
+		__depthBaker.setEnabled(enabled);
 	}
 
 	Transform &PerspectiveLight::getTransform() noexcept

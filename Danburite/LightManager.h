@@ -2,6 +2,7 @@
 
 #include "Light.h"
 #include "LightException.h"
+#include "ShaderIdentifier.h"
 
 namespace Danburite
 {

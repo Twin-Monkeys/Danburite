@@ -50,9 +50,6 @@ namespace Danburite
 
 	void Light::setShadowEnabled(const bool enabled) noexcept
 	{
-		if (__shadowEnabled == enabled)
-			return;
-
 		__shadowEnabled = enabled;
 		_onChangeShadowEnabled(enabled);
 	}

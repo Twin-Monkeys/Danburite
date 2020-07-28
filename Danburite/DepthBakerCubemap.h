@@ -18,10 +18,9 @@ namespace Danburite
 		float __zFar;
 		glm::mat4 __viewProjMatrices[6];
 
-		void __createDepthMap() noexcept;
-
 	protected:
-		virtual void _onSetDepthMapSize(const GLsizei width, const GLsizei height) noexcept override;
+		virtual void _releaseDepthMap()  noexcept override;
+		virtual void _allocDepthMap(const GLsizei width, const GLsizei height) noexcept override;
 		virtual void _onBind() noexcept override;
 
 	public:

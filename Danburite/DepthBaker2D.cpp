@@ -16,24 +16,21 @@ namespace Danburite
 		__depthBaking2DSetter(
 			UniformBufferFactory::getInstance().
 			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::DEPTH_BAKING_2D))
+	{}
+
+	void DepthBaker2D::_releaseDepthMap() noexcept
 	{
-		__createDepthMap();
+		__pDepthMap = nullptr;
 	}
 
-	void DepthBaker2D::__createDepthMap() noexcept
+	void DepthBaker2D::_allocDepthMap(const GLsizei width, const GLsizei height) noexcept
 	{
 		__pDepthMap = make_unique<AttachableTexture2D>();
 		__pDepthMap->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR);
 		__pDepthMap->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
 		__pDepthMap->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_BORDER);
 		__pDepthMap->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_BORDER);
-		__pDepthMap->setStates(TextureParamType::TEXTURE_BORDER_COLOR, {1.f, 1.f, 1.f, 1.f });
-	}
-
-	void DepthBaker2D::_onSetDepthMapSize(const GLsizei width, const GLsizei height) noexcept
-	{
-		if (__pDepthMap->isHandleCreated())
-			__createDepthMap();
+		__pDepthMap->setStates(TextureParamType::TEXTURE_BORDER_COLOR, { 1.f, 1.f, 1.f, 1.f });
 
 		__pDepthMap->memoryAlloc(
 			width, height,
