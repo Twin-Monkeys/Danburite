@@ -12,7 +12,7 @@ namespace Danburite
 		ObjectGL::Program &__skyboxProgram;
 
 	protected:
-		virtual void _onDraw(ObjectGL::UniformBuffer &skyboxSetter) noexcept override;
+		virtual void _onDraw(ObjectGL::UniformBuffer &skyboxSetter, ObjectGL::VertexArray &cubeVA) noexcept override;
 
 	public:
 		CubeSkybox() noexcept;

@@ -12,8 +12,8 @@ namespace Danburite
 		std::shared_ptr<ObjectGL::VertexArray> __pCubeVA;
 
 	protected:
-		virtual void _onDraw(ObjectGL::UniformBuffer &uniformSetter) noexcept = 0;
-		void _drawBoxVA() noexcept;
+		virtual void _onDraw(
+			ObjectGL::UniformBuffer &uniformSetter, ObjectGL::VertexArray &cubeVA) noexcept = 0;
 
 	public:
 		Skybox() noexcept;

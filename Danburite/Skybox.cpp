@@ -17,11 +17,6 @@ namespace Danburite
 
 	void Skybox::draw() noexcept
 	{
-		_onDraw(__skyBoxSetter);
-	}
-
-	void Skybox::_drawBoxVA() noexcept
-	{
-		__pCubeVA->draw();
+		_onDraw(__skyBoxSetter, *__pCubeVA);
 	}
 }

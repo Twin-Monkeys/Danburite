@@ -10,7 +10,7 @@ namespace Danburite
 		__skyboxProgram(ProgramFactory::getInstance().getProgram(ProgramType::SKYBOX))
 	{}
 
-	void CubeSkybox::_onDraw(UniformBuffer &skyBoxSetter) noexcept
+	void CubeSkybox::_onDraw(UniformBuffer &skyBoxSetter, VertexArray &cubeVA) noexcept
 	{
 		_deployCubeCkyboxComponent(skyBoxSetter);
 
@@ -18,7 +18,7 @@ namespace Danburite
 
 		GLFunctionWrapper::setDepthFunction(DepthStencilFunctionType::LEQUAL);
 		GLFunctionWrapper::setCulledFace(FacetType::FRONT);
-		_drawBoxVA();
+		cubeVA.draw();
 		GLFunctionWrapper::setCulledFace(FacetType::BACK);
 		GLFunctionWrapper::setDepthFunction(DepthStencilFunctionType::LESS);
 	}
