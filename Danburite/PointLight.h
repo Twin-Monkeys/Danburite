@@ -22,6 +22,7 @@ namespace Danburite
 		PointLight(const LightType type);
 
 		virtual void _onDeploy(LightUniformSetter &lightSetter) noexcept override;
+		virtual void _onVolumeDrawcall() noexcept override;
 
 	public:
 		PointLight();
@@ -36,7 +37,6 @@ namespace Danburite
 
 		virtual void setAttenuation(const float constant, const float linear, const float quadratic) noexcept override;
 
-		virtual void volumeDrawcall() noexcept override;
 		virtual void update(const float delta) noexcept override;
 
 		virtual ~PointLight() = default;

@@ -376,6 +376,12 @@
     <Filter Include="Library\Engine\Core\Material\Refraction">
       <UniqueIdentifier>{b889325a-f343-423b-ac0a-60088a9e4d77}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library\Engine\glsl\src\header\RenderingPipeline">
+      <UniqueIdentifier>{5e7bf512-2c44-4f7e-8d74-3d8a163b8346}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\header\RenderingPipeline\LightPrePass">
+      <UniqueIdentifier>{1a3a971a-2463-431e-9146-b6edba8a3150}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Buffer.cpp">
@@ -1503,6 +1509,9 @@
     </None>
     <None Include="glsl\src\LightPrePassLighting_Frag.glsl">
       <Filter>Library\Engine\glsl\src\RenderingPipeline\LightPrePass</Filter>
+    </None>
+    <None Include="glsl\src\header\LightPrePass_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header\RenderingPipeline\LightPrePass</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -427,6 +427,12 @@ namespace Danburite
 					ProgramType::DEPTH_BAKING_CUBEMAP,
 					ProgramType::LIGHT_PREPASS_GEOMETRY_EXTRACTION
 				}
+			},
+			{
+				ShaderIdentifier::Name::UniformBuffer::LIGHT_PREPASS,
+				{
+					ProgramType::LIGHT_PREPASS_LIGHTING
+				}
 			}
 		};
 

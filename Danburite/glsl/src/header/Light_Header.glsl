@@ -49,7 +49,7 @@ layout(binding = BINDING_POINT_LIGHT) uniform UBLight
 	Light light[MAX_NUM_LIGHTS];
 };
 
-vec3 Light_getLightDirection(uint lightIndex, const vec3 targetPos)
+vec3 Light_getLightDirection(const uint lightIndex, const vec3 targetPos)
 {
 	const uint LIGHT_TYPE = light[lightIndex].type;
 	vec3 retVal = vec3(0.f);

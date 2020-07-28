@@ -155,10 +155,10 @@ namespace Danburite
 					JOINT_MATRIX = "joint.jointMat";
 			}
 
-			namespace Animation
+			namespace LightPrePass
 			{
 				const string
-					BONE_MATRICES = "animation.boneMatrices";
+					CURRENT_LIGHT_IDX = "lightPrePass.currentLightIdx";
 			}
 
 			namespace UniformBuffer
@@ -176,7 +176,8 @@ namespace Danburite
 					HDR						= "UBHDR",
 					BLOOM					= "UBBloom",
 					JOINT					= "UBJoint",
-					BONE					= "UBBone"
+					BONE					= "UBBone",
+					LIGHT_PREPASS			= "UBLightPrePass"
 					;
 			}
 		}
@@ -240,6 +241,10 @@ namespace Danburite
 						{
 							Name::UniformBuffer::BONE,
 							Value::UniformBlockBindingPoint::BONE
+						},
+						{
+							Name::UniformBuffer::LIGHT_PREPASS,
+							Value::UniformBlockBindingPoint::LIGHT_PREPASS
 						}
 					};
 

@@ -48,6 +48,11 @@ namespace Danburite
 		_deployPosition(lightSetter);
 	}
 
+	void PointLight::_onVolumeDrawcall() noexcept
+	{
+		__pVolume->rawDrawcall();
+	}
+
 	void PointLight::setLuminanceTolerance(const float tolerance) noexcept
 	{
 		__luminanceTolerance = tolerance;
@@ -82,11 +87,6 @@ namespace Danburite
 	{
 		AttenuatedLightComponent::setAttenuation(constant, linear, quadratic);
 		__setValidDistance();
-	}
-
-	void PointLight::volumeDrawcall() noexcept
-	{
-		__pVolume->rawDrawcall();
 	}
 
 	void PointLight::update(const float delta) noexcept

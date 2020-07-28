@@ -15,7 +15,7 @@ namespace Danburite
 		_deployDirection(lightSetter);
 	}
 
-	void DirectionalLight::volumeDrawcall() noexcept
+	void DirectionalLight::_onVolumeDrawcall() noexcept
 	{
 		__fullscreenDrawer.draw();
 	}

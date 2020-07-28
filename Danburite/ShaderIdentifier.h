@@ -162,6 +162,12 @@ namespace Danburite
 					JOINT_MATRIX;
 			}
 
+			namespace LightPrePass
+			{
+				extern const std::string
+					CURRENT_LIGHT_IDX;
+			}
+
 			namespace UniformBuffer
 			{
 				extern const std::string
@@ -177,7 +183,8 @@ namespace Danburite
 					HDR,
 					BLOOM,
 					JOINT,
-					BONE
+					BONE,
+					LIGHT_PREPASS
 					;
 			}
 		}
@@ -213,7 +220,8 @@ namespace Danburite
 					HDR						= 9U,
 					BLOOM					= 10U,
 					JOINT					= 11U,
-					BONE					= 12U
+					BONE					= 12U,
+					LIGHT_PREPASS			= 13U
 					;
 			}
 

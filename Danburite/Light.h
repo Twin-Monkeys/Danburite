@@ -9,6 +9,7 @@
 #include "LightException.h"
 #include "Drawer.h"
 #include "DepthBakingType.h"
+#include "UniformBuffer.h"
 
 namespace Danburite
 {
@@ -29,6 +30,7 @@ namespace Danburite
 		bool __shadowEnabled = false;
 
 		LightUniformSetter __lightSetter;
+		ObjectGL::UniformBuffer &__lightPrePassSetter;
 
 		void __release() noexcept;
 		
@@ -37,6 +39,7 @@ namespace Danburite
 	protected:
 		virtual void _onBakeDepthMap(Drawer &drawer) noexcept = 0;
 		virtual void _onDeployShadowData(LightUniformSetter &lightSetter) noexcept = 0;
+		virtual void _onVolumeDrawcall() noexcept = 0;
 
 	public:
 		Light(const LightType type, const DepthBakingType depthBakingType);
@@ -52,7 +55,7 @@ namespace Danburite
 		virtual void setDepthMapSize(const GLsizei width, const GLsizei height) noexcept = 0;
 		void bakeDepthMap(Drawer &drawer) noexcept;
 
-		virtual void volumeDrawcall() noexcept = 0;
+		void volumeDrawcall() noexcept;
 
 		virtual ~Light() noexcept;
 	};

@@ -13,10 +13,10 @@ namespace Danburite
 
 	protected:
 		virtual void _onDeploy(LightUniformSetter &lightSetter) noexcept override;
+		virtual void _onVolumeDrawcall() noexcept override;
 
 	public:
 		DirectionalLight();
-		virtual void volumeDrawcall() noexcept override;
 
 		virtual ~DirectionalLight() = default;
 	};

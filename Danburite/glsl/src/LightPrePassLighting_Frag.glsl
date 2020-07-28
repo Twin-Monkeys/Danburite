@@ -1,6 +1,9 @@
 #version 460 core
 
+#include "header/LightPrePass_Header.glsl"
 #include "header/TextureContainer_Header.glsl"
+#include "header/Light_Header.glsl"
+#include "header/Camera_Header.glsl"
  
 layout (location = 0) out vec4 ambient3_attenuation1;
 layout (location = 1) out vec4 diffuse3_occlusionInv1;
@@ -8,6 +11,8 @@ layout (location = 2) out vec3 specular;
 
 void main()
 {
+	const uint curLightIdx = LightPrePass_getCurrentLightIdx();
+
 	const sampler2DRect posTex = TextureContainer_getTextureAs2DRect(0);
 	const sampler2DRect normal3_shininess1Tex = TextureContainer_getTextureAs2DRect(1);
 

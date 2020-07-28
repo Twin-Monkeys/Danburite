@@ -16,7 +16,10 @@ namespace Danburite
 	Light::Light(const LightType type, const DepthBakingType depthBakingType) :
 		Object(__getAllocator().allocate()),
 		__lightSetter(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::LIGHT), ID)
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::LIGHT), ID),
+
+		__lightPrePassSetter(UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::LIGHT_PREPASS))
 	{
 		__lightSetter.setUniformUint(ShaderIdentifier::Name::Light::TYPE, GLenum(type));
 		__lightSetter.setUniformUint(ShaderIdentifier::Name::Light::DEPTH_BAKING_TYPE, GLenum(depthBakingType));
@@ -49,6 +52,14 @@ namespace Danburite
 			return;
 
 		_onBakeDepthMap(drawer);
+	}
+
+	void Light::volumeDrawcall() noexcept
+	{
+		__lightPrePassSetter.setUniformUint(
+			ShaderIdentifier::Name::LightPrePass::CURRENT_LIGHT_IDX, ID);
+
+		_onVolumeDrawcall();
 	}
 
 	Light::~Light() noexcept
