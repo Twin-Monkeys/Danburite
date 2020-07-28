@@ -5,8 +5,8 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	OrthoLight::OrthoLight(const LightType type) :
-		TransformableLight(type, DepthBakingType::ORTHO)
+	OrthoLight::OrthoLight(const LightType type, const GLuint index) :
+		TransformableLight(type, DepthBakingType::ORTHO, index)
 	{}
 
 	void OrthoLight::_onDeployShadowData(LightUniformSetter &lightSetter) noexcept
@@ -21,10 +21,10 @@ namespace Danburite
 			ShaderIdentifier::Name::Light::DEPTH_MAP, __depthBaker.getDepthMapHandle());
 	}
 
-	void OrthoLight::_onBakeDepthMap(Drawer &drawer) noexcept
+	void OrthoLight::_onBakeDepthMap(BatchProcessor<Drawable> &drawer) noexcept
 	{
 		__depthBaker.bind();
-		drawer.batchRawDrawcall();
+		drawer.process(&Drawable::rawDrawcall);
 		__depthBaker.unbind();
 	}
 

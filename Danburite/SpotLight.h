@@ -11,7 +11,7 @@ namespace Danburite
 		virtual void _onDeploy(LightUniformSetter &lightSetter) noexcept override;
 
 	public:
-		SpotLight();
+		SpotLight(const GLuint index);
 		virtual ~SpotLight() = default;
 	};
 }

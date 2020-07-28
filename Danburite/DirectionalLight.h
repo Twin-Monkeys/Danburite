@@ -16,7 +16,7 @@ namespace Danburite
 		virtual void _onVolumeDrawcall() noexcept override;
 
 	public:
-		DirectionalLight();
+		DirectionalLight(const GLuint index);
 
 		virtual ~DirectionalLight() = default;
 	};

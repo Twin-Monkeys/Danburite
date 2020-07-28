@@ -19,13 +19,13 @@ namespace Danburite
 		void __setValidDistance() noexcept;
 
 	protected:
-		PointLight(const LightType type);
+		PointLight(const LightType type, const GLuint index);
 
 		virtual void _onDeploy(LightUniformSetter &lightSetter) noexcept override;
 		virtual void _onVolumeDrawcall() noexcept override;
 
 	public:
-		PointLight();
+		PointLight(const GLuint index);
 		void setLuminanceTolerance(const float tolerance) noexcept;
 
 		using LightBaseComponent::setAlbedo;

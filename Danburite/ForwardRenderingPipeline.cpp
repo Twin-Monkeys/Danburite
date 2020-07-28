@@ -6,25 +6,24 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	ForwardRenderingPipeline::ForwardRenderingPipeline(
-		LightHandler &lightHandler, PerspectiveCamera &camera,
-		Drawer &drawer, PostProcessingPipeline &ppPipeline) :
-		RenderingPipeline(RenderingPipelineType::FORWARD, lightHandler, camera, drawer, ppPipeline)
+		LightManager &lightManager, PerspectiveCamera &camera,
+		BatchProcessor<Drawable> &drawer, PostProcessingPipeline &ppPipeline) :
+		RenderingPipeline(RenderingPipelineType::FORWARD, lightManager, camera, drawer, ppPipeline)
 	{}
 
 	void ForwardRenderingPipeline::_onRender(
-		LightHandler &lightHandler, UniformBuffer &cameraSetter,
-		PerspectiveCamera &camera, Drawer &drawer, PostProcessingPipeline &ppPipeline) noexcept
+		LightManager &lightManager, UniformBuffer &cameraSetter,
+		PerspectiveCamera &camera, BatchProcessor<Drawable> &drawer, PostProcessingPipeline &ppPipeline) noexcept
 	{
 		// 순서 중요.
-		lightHandler.batchBakeDepthMap(drawer);
-		lightHandler.batchDeploy();
-
+		lightManager.process(&Light::bakeDepthMap, drawer);
+		lightManager.process(&Light::selfDeploy);
 		cameraSetter.directDeploy(camera);
 
 		ppPipeline.bind();
 		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
 
-		drawer.batchDraw();
+		drawer.process(&Drawable::draw);
 		PostProcessingPipeline::unbind();
 
 		ppPipeline.render();

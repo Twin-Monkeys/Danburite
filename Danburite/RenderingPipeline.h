@@ -1,10 +1,11 @@
 #pragma once
 
 #include "RenderingPipelineType.h"
-#include "LightHandler.h"
 #include "PerspectiveCamera.h"
-#include "Drawer.h"
+#include "BatchProcessor.h"
 #include "PostProcessingPipeline.h"
+#include "LightManager.h"
+#include "Drawable.h"
 
 namespace Danburite
 {
@@ -15,25 +16,25 @@ namespace Danburite
 
 		const RenderingPipelineType __TYPE;
 		ObjectGL::UniformBuffer &__pipelineSetter;
-
-		LightHandler &__lightHandler;
 		ObjectGL::UniformBuffer &__cameraSetter;
+
+		LightManager &__lightManager;
 		PerspectiveCamera &__camera;
-		Drawer &__drawer;
+		BatchProcessor<Drawable> &__drawer;
 		PostProcessingPipeline &__ppPipeline;
 
 	protected:
 		virtual void _onSetScreenSize(const GLsizei width, const GLsizei height) noexcept;
 
 		virtual void _onRender(
-			LightHandler &lightHandler, ObjectGL::UniformBuffer &cameraSetter,
-			PerspectiveCamera &camera, Drawer &drawer, PostProcessingPipeline &ppPipeline) noexcept = 0;
+			LightManager &lightManager, ObjectGL::UniformBuffer &cameraSetter,
+			PerspectiveCamera &camera, BatchProcessor<Drawable> &drawer, PostProcessingPipeline &ppPipeline) noexcept = 0;
 
 	public:
 		RenderingPipeline(
 			const RenderingPipelineType pipelineType,
-			LightHandler &lightHandler, PerspectiveCamera &camera,
-			Drawer &drawer, PostProcessingPipeline &ppPipeline) noexcept;
+			LightManager &lightManager, PerspectiveCamera &camera,
+			BatchProcessor<Drawable> &drawer, PostProcessingPipeline &ppPipeline) noexcept;
 		
 		constexpr RenderingPipelineType getType() const noexcept;
 

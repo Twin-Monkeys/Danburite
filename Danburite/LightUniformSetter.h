@@ -8,6 +8,8 @@ namespace Danburite
 	class LightUniformSetter : public ObjectGL::UniformSetter
 	{
 	private:
+		GLuint __idx;
+
 		class LightUniformNameCache : public ObjectGL::Cache<std::string, std::string>
 		{
 		private:
@@ -21,10 +23,13 @@ namespace Danburite
 		};
 
 		ObjectGL::UniformSetter &__uniformSetter;
-		LightUniformNameCache __uniformNameCache;
+		std::unique_ptr<LightUniformNameCache> __pUniformNameCache;
 
 	public:
-		LightUniformSetter(ObjectGL::UniformSetter &lightSetter, const glm::uint id);
+		LightUniformSetter(ObjectGL::UniformSetter &lightSetter, const GLuint idx);
+
+		constexpr GLuint getIndex() const noexcept;
+		void setIndex(const GLuint index) noexcept;
 
 		using UniformSetter::setUniformUvec2;
 		using UniformSetter::setUniformVec3;
@@ -48,4 +53,9 @@ namespace Danburite
 
 		virtual ~LightUniformSetter() = default;
 	};
+
+	constexpr GLuint LightUniformSetter::getIndex() const noexcept
+	{
+		return __idx;
+	}
 }

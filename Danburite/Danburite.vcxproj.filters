@@ -486,9 +486,6 @@
     <ClCompile Include="LightException.cpp">
       <Filter>Library\Engine\Core\Light</Filter>
     </ClCompile>
-    <ClCompile Include="Updater.cpp">
-      <Filter>Library\Engine\Base\Interface</Filter>
-    </ClCompile>
     <ClCompile Include="LightUniformSetter.cpp">
       <Filter>Library\Engine\Core\Light\Deployment</Filter>
     </ClCompile>
@@ -594,9 +591,6 @@
     <ClCompile Include="GeometryShaderCompiler.cpp">
       <Filter>Library\ObjectGL\Core\Shader\Compiler\GeometryShaderCompiler</Filter>
     </ClCompile>
-    <ClCompile Include="Drawer.cpp">
-      <Filter>Library\Engine\Base\Interface</Filter>
-    </ClCompile>
     <ClCompile Include="TextureMultisample.cpp">
       <Filter>Library\ObjectGL\Core\Texture\Multisample</Filter>
     </ClCompile>
@@ -635,9 +629,6 @@
     </ClCompile>
     <ClCompile Include="TransformableCamera.cpp">
       <Filter>Library\Engine\Core\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="LightHandler.cpp">
-      <Filter>Library\Engine\Core\Light\Deployment</Filter>
     </ClCompile>
     <ClCompile Include="UniformBufferFactory.cpp">
       <Filter>Library\Engine\Core\UniformBuffer</Filter>
@@ -767,6 +758,9 @@
     </ClCompile>
     <ClCompile Include="MaterialException.cpp">
       <Filter>Library\Engine\Core\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="LightManager.cpp">
+      <Filter>Library\Engine\Core\Light</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -922,9 +916,6 @@
     </ClInclude>
     <ClInclude Include="LightException.h">
       <Filter>Library\Engine\Core\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="Updater.h">
-      <Filter>Library\Engine\Base\Interface</Filter>
     </ClInclude>
     <ClInclude Include="LightUniformSetter.h">
       <Filter>Library\Engine\Core\Light\Deployment</Filter>
@@ -1103,12 +1094,6 @@
     <ClInclude Include="GeometryShaderCompiler.h">
       <Filter>Library\ObjectGL\Core\Shader\Compiler\GeometryShaderCompiler</Filter>
     </ClInclude>
-    <ClInclude Include="Drawer.h">
-      <Filter>Library\Engine\Base\Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Drawable.h">
-      <Filter>Library\Engine\Base\Interface</Filter>
-    </ClInclude>
     <ClInclude Include="TextureMultisample.h">
       <Filter>Library\ObjectGL\Core\Texture\Multisample</Filter>
     </ClInclude>
@@ -1168,9 +1153,6 @@
     </ClInclude>
     <ClInclude Include="GLDebugMessageSeverityType.h">
       <Filter>Library\ObjectGL\Window\RenderContext\debug</Filter>
-    </ClInclude>
-    <ClInclude Include="LightHandler.h">
-      <Filter>Library\Engine\Core\Light\Deployment</Filter>
     </ClInclude>
     <ClInclude Include="UniformBufferFactory.h">
       <Filter>Library\Engine\Core\UniformBuffer</Filter>
@@ -1330,6 +1312,12 @@
     </ClInclude>
     <ClInclude Include="WeakPointerContainer.h">
       <Filter>Library\Engine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="BatchProcessor.h">
+      <Filter>Library\Engine\Base\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawable.h">
+      <Filter>Library\Engine\Base\Interface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

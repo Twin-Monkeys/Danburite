@@ -4,11 +4,10 @@
 #include "ScreenEventHandler.h"
 #include "SceneObject.h"
 #include "PerspectiveCamera.h"
+#include "LightManager.h"
 #include "PointLight.h"
 #include "SpotLight.h"
-#include "LightHandler.h"
-#include "Updater.h"
-#include "Drawer.h"
+#include "BatchProcessor.h"
 #include "MSAAPostProcessor.h"
 #include "GammaCorrectionPostProcessor.h"
 #include "BloomPostProcessor.h"
@@ -32,12 +31,12 @@ private:
 
 	std::shared_ptr<Danburite::PerspectiveCamera> __pCamera;
 
-	std::shared_ptr<Danburite::PointLight> __pBlueLight;
-	std::shared_ptr<Danburite::PointLight> __pRedLight;
+	Danburite::LightManager __lightMgr;
+	Danburite::PointLight *__pBlueLight = nullptr;
+	Danburite::PointLight *__pRedLight = nullptr;
 
-	std::shared_ptr<Danburite::LightHandler> __pLightHandler;
-	Danburite::Updater __updater;
-	Danburite::Drawer __drawer;
+	Danburite::BatchProcessor<Danburite::Updatable> __updater;
+	Danburite::BatchProcessor<Danburite::Drawable> __drawer;
 
 	Danburite::HDRPostProcessor *__pHDRPP;
 	std::shared_ptr<Danburite::PostProcessingPipeline> __pPPPipeline;

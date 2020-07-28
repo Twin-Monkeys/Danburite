@@ -2,7 +2,7 @@
 
 #include <exception>
 
-namespace ObjectGL
+namespace Danburite
 {
 	class LightException : public std::exception
 	{

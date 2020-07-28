@@ -5,8 +5,9 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	TransformableLight::TransformableLight(const LightType type, const DepthBakingType depthBakingType) :
-		Light(type, depthBakingType)
+	TransformableLight::TransformableLight(
+		const LightType type, const DepthBakingType depthBakingType, const GLuint index) :
+		Light(type, depthBakingType, index)
 	{}
 
 	void TransformableLight::_deployDirection(LightUniformSetter &lightSetter) const noexcept

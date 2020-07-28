@@ -265,6 +265,7 @@
     <ClCompile Include="HDRTestScene.cpp" />
     <ClCompile Include="IndexType.cpp" />
     <ClCompile Include="JointManager.cpp" />
+    <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="LightPrePassRenderingPipeline.cpp" />
     <ClCompile Include="MaterialException.cpp" />
     <ClCompile Include="RawDrawcallMaterial.cpp" />
@@ -278,7 +279,6 @@
     <ClCompile Include="RCDSRegisterer.cpp" />
     <ClCompile Include="SceneNodeConnecterManager.cpp" />
     <ClCompile Include="SceneObject.cpp" />
-    <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="FrameBufferException.cpp" />
     <ClCompile Include="GeometryShaderCompiler.cpp" />
@@ -320,7 +320,6 @@
     <ClCompile Include="TransformTimeline.cpp" />
     <ClCompile Include="UniformBufferFactory.cpp" />
     <ClCompile Include="UniformSetter.cpp" />
-    <ClCompile Include="Updater.cpp" />
     <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="BufferException.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -330,7 +329,6 @@
     <ClCompile Include="FragmentShaderCompiler.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="LightBaseComponent.cpp" />
-    <ClCompile Include="LightHandler.cpp" />
     <ClCompile Include="LightException.cpp" />
     <ClCompile Include="LightUniformSetter.cpp" />
     <ClCompile Include="PointLight.cpp" />
@@ -383,6 +381,7 @@
     <ClInclude Include="AttachmentServer.h" />
     <ClInclude Include="AttachmentServerException.h" />
     <ClInclude Include="AttachmentType.h" />
+    <ClInclude Include="BatchProcessor.h" />
     <ClInclude Include="BlendingEquationType.h" />
     <ClInclude Include="BlendingFunctionType.h" />
     <ClInclude Include="BloomPostProcessor.h" />
@@ -394,6 +393,7 @@
     <ClInclude Include="DepthBakerBase.h" />
     <ClInclude Include="DepthBakerCubemap.h" />
     <ClInclude Include="DepthBakingType.h" />
+    <ClInclude Include="Drawable.h" />
     <ClInclude Include="FacetType.h" />
     <ClInclude Include="ForwardRenderingPipeline.h" />
     <ClInclude Include="FullscreenDrawer.h" />
@@ -433,8 +433,6 @@
     <ClInclude Include="PerspectiveLight.h" />
     <ClInclude Include="RCDSRegisterer.h" />
     <ClInclude Include="DepthStencilFunctionType.h" />
-    <ClInclude Include="Drawable.h" />
-    <ClInclude Include="Drawer.h" />
     <ClInclude Include="ForwardPostProcessor.h" />
     <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="FrameBufferException.h" />
@@ -454,7 +452,6 @@
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="FragmentShaderCompiler.h" />
     <ClInclude Include="LightBaseComponent.h" />
-    <ClInclude Include="LightHandler.h" />
     <ClInclude Include="LightException.h" />
     <ClInclude Include="LightType.h" />
     <ClInclude Include="AttenuatedLightComponent.h" />
@@ -492,7 +489,6 @@
     <ClInclude Include="UniformBufferFactory.h" />
     <ClInclude Include="UniformDeployable.h" />
     <ClInclude Include="UniformSetter.h" />
-    <ClInclude Include="Updater.h" />
     <ClInclude Include="BindableObject.h" />
     <ClInclude Include="Buffer.h" />
     <ClInclude Include="BufferException.h" />

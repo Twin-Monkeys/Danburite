@@ -2,7 +2,7 @@
 
 using namespace std;
 
-namespace ObjectGL
+namespace Danburite
 {
 	LightException::LightException(char const* const _Message) noexcept :
 		exception(_Message)

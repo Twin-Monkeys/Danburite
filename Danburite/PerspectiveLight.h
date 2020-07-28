@@ -16,10 +16,10 @@ namespace Danburite
 
 	protected:
 		virtual void _onDeployShadowData(LightUniformSetter& lightSetter) noexcept override;
-		virtual void _onBakeDepthMap(Drawer& drawer) noexcept override;
+		virtual void _onBakeDepthMap(BatchProcessor<Drawable> &drawer) noexcept override;
 
 	public:
-		PerspectiveLight(const LightType type);
+		PerspectiveLight(const LightType type, const GLuint index);
 
 		constexpr void setDepthBakingNear(const float zNear) noexcept;
 		constexpr void setDepthBakingFar(const float zFar) noexcept;

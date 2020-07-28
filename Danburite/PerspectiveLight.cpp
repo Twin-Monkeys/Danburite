@@ -6,8 +6,8 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	PerspectiveLight::PerspectiveLight(const LightType type) :
-		TransformableLight(type, DepthBakingType::CUBEMAP)
+	PerspectiveLight::PerspectiveLight(const LightType type, const GLuint index) :
+		TransformableLight(type, DepthBakingType::CUBEMAP, index)
 	{}
 
 	void PerspectiveLight::_onDeployShadowData(LightUniformSetter &lightSetter) noexcept
@@ -18,10 +18,10 @@ namespace Danburite
 		lightSetter.setUniformFloat(ShaderIdentifier::Name::Light::Z_FAR, __zFar);
 	}
 
-	void PerspectiveLight::_onBakeDepthMap(Drawer &drawer) noexcept
+	void PerspectiveLight::_onBakeDepthMap(BatchProcessor<Drawable> &drawer) noexcept
 	{
 		__depthBaker.bind();
-		drawer.batchRawDrawcall();
+		drawer.process(&Drawable::rawDrawcall);
 		__depthBaker.unbind();
 	}
 

@@ -5,9 +5,9 @@ namespace Danburite
 {
 	RenderingPipeline::RenderingPipeline(
 		const RenderingPipelineType pipelineType,
-		LightHandler &lightHandler, PerspectiveCamera &camera,
-		Drawer &drawer, PostProcessingPipeline &ppPipeline) noexcept :
-		__TYPE(pipelineType), __lightHandler(lightHandler),
+		LightManager &lightManager, PerspectiveCamera &camera,
+		BatchProcessor<Drawable> &drawer, PostProcessingPipeline &ppPipeline) noexcept :
+		__TYPE(pipelineType), __lightManager(lightManager),
 
 		__pipelineSetter(UniformBufferFactory::getInstance().
 			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::RENDERING_PIPELINE)),
@@ -36,6 +36,6 @@ namespace Danburite
 	void RenderingPipeline::render() noexcept
 	{
 		__pipelineSetter.setUniformUint(ShaderIdentifier::Name::RenderingPipeline::TYPE, GLuint(__TYPE));
-		_onRender(__lightHandler, __cameraSetter, __camera, __drawer, __ppPipeline);
+		_onRender(__lightManager, __cameraSetter, __camera, __drawer, __ppPipeline);
 	}
 }

@@ -8,8 +8,8 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	PointLight::PointLight(const LightType type) :
-		PerspectiveLight(type)
+	PointLight::PointLight(const LightType type, const GLuint index) :
+		PerspectiveLight(type, index)
 	{
 		setLuminanceTolerance(Constant::Light::AttenuatedComponent::LUMINANCE_TOLERANCE);
 
@@ -22,8 +22,8 @@ namespace Danburite
 		__pVolume->createNode(pVolumeVA, pVolumeMaterial);
 	}
 
-	PointLight::PointLight() :
-		PointLight(LightType::POINT)
+	PointLight::PointLight(const GLuint index) :
+		PointLight(LightType::POINT, index)
 	{}
 
 	void PointLight::__setValidDistance() noexcept

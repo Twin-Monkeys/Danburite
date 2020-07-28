@@ -10,9 +10,9 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	LightPrePassRenderingPipeline::LightPrePassRenderingPipeline(
-		LightHandler& lightHandler, PerspectiveCamera& camera,
-		Drawer& drawer, PostProcessingPipeline& ppPipeline) :
-		RenderingPipeline(RenderingPipelineType::LIGHT_PREPASS, lightHandler, camera, drawer, ppPipeline),
+		LightManager &lightManager, PerspectiveCamera& camera,
+		BatchProcessor<Drawable> &drawer, PostProcessingPipeline& ppPipeline) :
+		RenderingPipeline(RenderingPipelineType::LIGHT_PREPASS, lightManager, camera, drawer, ppPipeline),
 		__texContainerSetter(UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER)),
 		__lightPrePassSetter(UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::LIGHT_PREPASS)),
 		__geometryProgram(ProgramFactory::getInstance().getProgram(ProgramType::LIGHT_PREPASS_GEOMETRY_EXTRACTION)),
@@ -67,14 +67,12 @@ namespace Danburite
 	}
 
 	void LightPrePassRenderingPipeline::_onRender(
-		LightHandler &lightHandler, UniformBuffer &cameraSetter,
-		PerspectiveCamera &camera, Drawer &drawer, PostProcessingPipeline &ppPipeline) noexcept
+		LightManager &lightManager, UniformBuffer &cameraSetter,
+		PerspectiveCamera &camera, BatchProcessor<Drawable> &drawer, PostProcessingPipeline &ppPipeline) noexcept
 	{
-		lightHandler.batchBakeDepthMap(drawer);
-		lightHandler.batchDeploy();
-
+		lightManager.process(&Light::bakeDepthMap, drawer);
+		lightManager.process(&Light::selfDeploy);
 		cameraSetter.directDeploy(camera);
-
 
 		// Geometry pass
 		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
@@ -83,7 +81,7 @@ namespace Danburite
 		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
 
 		__geometryProgram.bind();
-		drawer.batchRawDrawcall();
+		drawer.process(&Drawable::rawDrawcall);
 
 
 		// Lighting pass
@@ -102,7 +100,7 @@ namespace Danburite
 			ShaderIdentifier::Name::Attachment::TEX1, __pNormalShininessAttachment->getHandle());
 
 		__lightingProgram.bind();
-		lightHandler.batchVolumeDrawcall();
+		lightManager.process(&Light::volumeDrawcall);
 
 
 		// Composition pass (ordinary forward rendering)
@@ -133,7 +131,7 @@ namespace Danburite
 		ppPipeline.bind();
 		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR);
 
-		drawer.batchDraw();
+		drawer.process(&Drawable::draw);
 		PostProcessingPipeline::unbind();
 
 		ppPipeline.render();

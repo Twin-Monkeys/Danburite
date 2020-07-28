@@ -240,7 +240,7 @@ namespace Danburite
 			namespace Light
 			{
 				constexpr GLuint
-					MAX_NUM_LIGHTS = 7U;
+					MAX_NUM_LIGHTS = 1024U;
 			}
 
 			namespace PostProcess

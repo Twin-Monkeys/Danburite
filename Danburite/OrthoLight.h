@@ -14,10 +14,10 @@ namespace Danburite
 
 	protected:
 		virtual void _onDeployShadowData(LightUniformSetter &lightSetter) noexcept override;
-		virtual void _onBakeDepthMap(Drawer &drawer) noexcept override;
+		virtual void _onBakeDepthMap(BatchProcessor<Drawable> &drawer) noexcept override;
 
 	public:
-		OrthoLight(const LightType type);
+		OrthoLight(const LightType type, const GLuint index);
 
 		constexpr void setDepthBakingOrthoHeight(const float height) noexcept;
 		constexpr void resetDepthBakingOrthoHeight() noexcept;
