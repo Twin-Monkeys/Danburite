@@ -172,40 +172,40 @@ namespace Danburite
 		const vec3 positions[] =
 		{
 			// Top
-			{ -EDGE_HALF, edgeLength, EDGE_HALF },
-			{ EDGE_HALF, edgeLength, EDGE_HALF },
-			{ EDGE_HALF, edgeLength, -EDGE_HALF },
-			{ -EDGE_HALF, edgeLength, -EDGE_HALF },
+			{ -EDGE_HALF, EDGE_HALF, EDGE_HALF },
+			{ EDGE_HALF, EDGE_HALF, EDGE_HALF },
+			{ EDGE_HALF, EDGE_HALF, -EDGE_HALF },
+			{ -EDGE_HALF, EDGE_HALF, -EDGE_HALF },
 
 			// Bottom
-			{ -EDGE_HALF, 0.f, -EDGE_HALF },
-			{ EDGE_HALF, 0.f, -EDGE_HALF },
-			{ EDGE_HALF, 0.f, EDGE_HALF },
-			{ -EDGE_HALF, 0.f, EDGE_HALF },
+			{ -EDGE_HALF, -EDGE_HALF, -EDGE_HALF },
+			{ EDGE_HALF, -EDGE_HALF, -EDGE_HALF },
+			{ EDGE_HALF, -EDGE_HALF, EDGE_HALF },
+			{ -EDGE_HALF, -EDGE_HALF, EDGE_HALF },
 
 			// Right
-			{ EDGE_HALF, 0.f, EDGE_HALF },
-			{ EDGE_HALF, 0.f, -EDGE_HALF },
-			{ EDGE_HALF, edgeLength, -EDGE_HALF },
-			{ EDGE_HALF, edgeLength, EDGE_HALF },
+			{ EDGE_HALF, -EDGE_HALF, EDGE_HALF },
+			{ EDGE_HALF, -EDGE_HALF, -EDGE_HALF },
+			{ EDGE_HALF, EDGE_HALF, -EDGE_HALF },
+			{ EDGE_HALF, EDGE_HALF, EDGE_HALF },
 
 			// Left
-			{ -EDGE_HALF, 0.f, -EDGE_HALF },
-			{ -EDGE_HALF, 0.f, EDGE_HALF },
-			{ -EDGE_HALF, edgeLength, EDGE_HALF },
-			{ -EDGE_HALF, edgeLength, -EDGE_HALF },
+			{ -EDGE_HALF, -EDGE_HALF, -EDGE_HALF },
+			{ -EDGE_HALF, -EDGE_HALF, EDGE_HALF },
+			{ -EDGE_HALF, EDGE_HALF, EDGE_HALF },
+			{ -EDGE_HALF, EDGE_HALF, -EDGE_HALF },
 
 			// Forward
-			{ -EDGE_HALF, 0.f, EDGE_HALF },
-			{ EDGE_HALF, 0.f, EDGE_HALF },
-			{ EDGE_HALF, edgeLength, EDGE_HALF },
-			{ -EDGE_HALF, edgeLength, EDGE_HALF },
+			{ -EDGE_HALF, -EDGE_HALF, EDGE_HALF },
+			{ EDGE_HALF, -EDGE_HALF, EDGE_HALF },
+			{ EDGE_HALF, EDGE_HALF, EDGE_HALF },
+			{ -EDGE_HALF, EDGE_HALF, EDGE_HALF },
 
 			// Backward
-			{ EDGE_HALF, 0.f, -EDGE_HALF },
-			{ -EDGE_HALF, 0.f, -EDGE_HALF },
-			{ -EDGE_HALF, edgeLength, -EDGE_HALF },
-			{ EDGE_HALF, edgeLength, -EDGE_HALF }
+			{ EDGE_HALF, -EDGE_HALF, -EDGE_HALF },
+			{ -EDGE_HALF, -EDGE_HALF, -EDGE_HALF },
+			{ -EDGE_HALF, EDGE_HALF, -EDGE_HALF },
+			{ EDGE_HALF, EDGE_HALF, -EDGE_HALF }
 		};
 
 		constexpr vec4 color = { 1.f, 1.f, 1.f, 1.f };
@@ -329,28 +329,25 @@ namespace Danburite
 		float curStackAngle = half_pi<float>();
 		for (size_t stackIter = 0ULL; stackIter <= numStacks; stackIter++)
 		{
-			vec3 localPos;
-			localPos.y = (radius * sinf(curStackAngle));
+			vec3 pos;
+			pos.y = (radius * sinf(curStackAngle));
 			const float yProjLength = (radius * cosf(curStackAngle));
 
 			float curSectorAngle = 0.f;
 			for (size_t sectorIter = 0ULL; sectorIter <= numSectors; sectorIter++)
 			{
-				localPos.x = (yProjLength * cosf(curSectorAngle));
-				localPos.z = -(yProjLength * sinf(curSectorAngle));
+				pos.x = (yProjLength * cosf(curSectorAngle));
+				pos.z = -(yProjLength * sinf(curSectorAngle));
 
 				if (vertexFlag & VertexAttributeFlag::POS)
-				{
-					const vec3 &finalPos = { localPos.x, localPos.y + radius, localPos.z };
-					vertices.insert(vertices.end(), { finalPos.x, finalPos.y, finalPos.z });
-				}
+					vertices.insert(vertices.end(), { pos.x, pos.y, pos.z });
 
 				if (vertexFlag & VertexAttributeFlag::COLOR)
 					vertices.insert(vertices.end(), { color.r, color.g, color.b, color.a });
 
 				if (vertexFlag & VertexAttributeFlag::NORMAL)
 				{
-					const vec3 &normal = (localPos / radius);
+					const vec3 &normal = (pos / radius);
 					vertices.insert(vertices.end(), { normal.x, normal.y, normal.z });
 				}
 
@@ -362,7 +359,7 @@ namespace Danburite
 
 				if (vertexFlag & VertexAttributeFlag::TANGENT)
 				{
-					vec3 tangent { localPos.z, 0.f, -localPos.x };
+					vec3 tangent { pos.z, 0.f, -pos.x };
 					const float tangentLength = length(tangent);
 
 					if (epsilonEqual(tangentLength, 0.f, epsilon<float>()))
