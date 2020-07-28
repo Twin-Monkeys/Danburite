@@ -15,13 +15,13 @@ namespace Danburite
 		FullscreenDrawer __fullscreenDrawer;
 
 		ObjectGL::Program &__geometryProgram;
-		std::unique_ptr<ObjectGL::FrameBuffer> __pNormalShininessFB;
+		std::unique_ptr<ObjectGL::FrameBuffer> __pNormalShininessFB = std::make_unique<ObjectGL::FrameBuffer>();
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pPosAttachment;
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pNormalShininessAttachment;
 		std::shared_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
 
 		ObjectGL::Program &__lightingProgram;
-		std::unique_ptr<ObjectGL::FrameBuffer> __pLightingFB;
+		std::unique_ptr<ObjectGL::FrameBuffer> __pLightingFB = std::make_unique<ObjectGL::FrameBuffer>();
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pLightAmbientAttachment;
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pLightDiffuseAttachment;
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pLightSpecularAttachment;

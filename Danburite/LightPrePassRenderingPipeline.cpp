@@ -15,8 +15,6 @@ namespace Danburite
 		RenderingPipeline(RenderingPipelineType::LIGHT_PREPASS, lightHandler, camera, drawer, ppPipeline),
 		__texContainerSetter(UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER)),
 		__lightPrePassSetter(UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::LIGHT_PREPASS)),
-		__pNormalShininessFB(make_unique<FrameBuffer>()),
-		__pLightingFB(make_unique<FrameBuffer>()),
 		__geometryProgram(ProgramFactory::getInstance().getProgram(ProgramType::LIGHT_PREPASS_GEOMETRY_EXTRACTION)),
 		__lightingProgram(ProgramFactory::getInstance().getProgram(ProgramType::LIGHT_PREPASS_LIGHTING))
 	{
