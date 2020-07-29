@@ -6,8 +6,6 @@
 
 namespace ObjectGL
 {
-	class UniformDeployable;
-
 	class UniformSetter abstract
 	{
 	public:
@@ -44,8 +42,6 @@ namespace ObjectGL
 		template <GLsizei NUM_ELEMS>
 		bool setUniformMat4Array(
 			const std::string &name, const glm::mat4 (&arrValues)[NUM_ELEMS], const bool transposition = false) noexcept;
-
-		void directDeploy(const UniformDeployable &deployable) noexcept;
 
 		virtual ~UniformSetter() = default;
 	};

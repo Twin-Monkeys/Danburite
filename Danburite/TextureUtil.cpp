@@ -69,6 +69,9 @@ namespace Danburite
 			const string_view &imagePath = imagePaths[i];
 			pImage = unique_ptr<stbi_uc[]>(stbi_load(imagePath.data(), &width, &height, &numChannels, 0));
 
+			if (!pImage)
+				return nullptr;
+
 			TextureInternalFormatType internalFormat;
 			TextureExternalFormatType externalFormat;
 			switch (numChannels)

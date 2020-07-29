@@ -38,8 +38,9 @@ private:
 	Danburite::BatchProcessor<Danburite::Updatable> __updater;
 	Danburite::BatchProcessor<Danburite::Drawable> __drawer;
 
+	Danburite::Skybox __skybox;
 	Danburite::HDRPostProcessor *__pHDRPP;
-	std::shared_ptr<Danburite::PostProcessingPipeline> __pPPPipeline;
+	Danburite::PostProcessingPipeline __ppPipeline;
 
 	std::unique_ptr<Danburite::RenderingPipeline> __pRenderingPipeline;
 

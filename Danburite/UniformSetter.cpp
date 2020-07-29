@@ -1,6 +1,5 @@
 #include "UniformSetter.h"
 #include <glm/gtc/type_ptr.hpp>
-#include "UniformDeployable.h"
 
 using namespace std;
 using namespace glm;
@@ -66,10 +65,5 @@ namespace ObjectGL
 		const string &name, const mat4 *const pValues, const GLsizei numElements, const bool transposition) noexcept
 	{
 		return setUniformMat4Array(name, reinterpret_cast<const GLfloat *>(pValues), numElements, transposition);
-	}
-
-	void UniformSetter::directDeploy(const UniformDeployable &deployable) noexcept
-	{
-		deployable._onDeploy(*this);
 	}
 }

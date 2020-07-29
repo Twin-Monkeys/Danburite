@@ -9,11 +9,11 @@ namespace Danburite
 	protected:
 		virtual void _onRender(
 			LightManager &lightManager, PerspectiveCamera &camera,
-			BatchProcessor<Drawable> &drawer, PostProcessingPipeline &ppPipeline) noexcept override;
+			BatchProcessor<Drawable> &drawer, Skybox &skybox, PostProcessingPipeline &ppPipeline) noexcept override;
 
 	public:
 		ForwardRenderingPipeline(
 			LightManager &lightManager, PerspectiveCamera &camera,
-			BatchProcessor<Drawable> &drawer, PostProcessingPipeline &ppPipeline);
+			BatchProcessor<Drawable> &drawer, Skybox &skybox, PostProcessingPipeline &ppPipeline);
 	};
 }
