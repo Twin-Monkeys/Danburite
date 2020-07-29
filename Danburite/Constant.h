@@ -31,10 +31,11 @@ namespace Danburite
 
 			namespace AttenuatedComponent
 			{
-				constexpr float ATT_CONST	= 1.f;
-				constexpr float ATT_LINEAR	= 0.f;
-				constexpr float ATT_QUAD	= 0.f;
+				constexpr float ATT_CONST				= 1.f;
+				constexpr float ATT_LINEAR				= 0.f;
+				constexpr float ATT_QUAD				= 0.f;
 				constexpr float LUMINANCE_TOLERANCE		= .0003f;
+				constexpr float MAX_VALID_DISTANCE		= 1e6f;
 			}
 
 			namespace SpotComponent

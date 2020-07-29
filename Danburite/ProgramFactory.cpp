@@ -202,7 +202,7 @@ namespace Danburite
 			ProgramType::LIGHT_PREPASS_LIGHTING,
 				{
 					"glsl/binary/LightPrePassLighting.bin",
-					"glsl/src/PositionOnly_Vert.glsl",
+					"glsl/src/LightPrePassLighting_Vert.glsl",
 					"",
 					"glsl/src/LightPrePassLighting_Frag.glsl"
 				}

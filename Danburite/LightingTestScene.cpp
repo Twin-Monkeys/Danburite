@@ -9,7 +9,6 @@
 #include "TextureUtil.h"
 #include "UniformBufferFactory.h"
 #include <glm/gtx/rotate_vector.hpp>
-#include "ForwardRenderingPipeline.h"
 #include "LightPrePassRenderingPipeline.h"
 #include "GammaCorrectionPostProcessor.h"
 #include "BloomPostProcessor.h"
@@ -42,61 +41,21 @@ LightingTestScene::LightingTestScene()
 
 	// Light 초기화
 
-	__pBlueLight = &__lightMgr.createLight<PointLight>();
-	__pBlueLight->setAlbedo(.2f, .3f, 1.f);
-	__pBlueLight->setAmbientStrength(.05f);
-	__pBlueLight->setDiffuseStrength(1.f);
-	__pBlueLight->setSpecularStrength(1.f);
-	__pBlueLight->setAttenuation(1.f, 0.09f, 0.032f);
-	__pBlueLight->setShadowEnabled(true);
-
-	Transform& blueLightTransform = __pBlueLight->getTransform();
-	blueLightTransform.setPosition({ 0.f, .3f, 3.5f });
-
-	__pRedLight = &__lightMgr.createLight<PointLight>();
-	__pRedLight->setAlbedo(1.f, .1f, .1f);
-	__pRedLight->setAmbientStrength(.05f);
-	__pRedLight->setDiffuseStrength(2.f);
-	__pRedLight->setSpecularStrength(2.f);
-	__pRedLight->setAttenuation(1.f, 0.22f, 0.20f);
-	__pRedLight->setShadowEnabled(true);
-
-	Transform &redLightTransform = __pRedLight->getTransform();
-	redLightTransform.setPosition(vec3{ -2.f, .3f, -2.f });
-
+	__pGlobalLight = &__lightMgr.createLight<PointLight>();
+	__pGlobalLight->setAlbedo(1.f, 1.f, 1.f);
+	__pGlobalLight->setAmbientStrength(1.f);
+	__pGlobalLight->setDiffuseStrength(.05f);
+	__pGlobalLight->setSpecularStrength(.05f);
+	__pGlobalLight->setAttenuation(1.f, 0.f, 0.f);
+	__pGlobalLight->setShadowEnabled(false);
 
 	//// Updater / Drawer 초기화 ////
 
 	__updater.add(__camera);
-	__updater.add(*__pBlueLight);
-	__updater.add(*__pRedLight);
+	__updater.add(*__pGlobalLight);
 	__updater.add(*__pCorridorObj);
 
 	__drawer.add(*__pCorridorObj);
-
-
-	// Skybox
-
-	/*const shared_ptr<TextureCubemap> &pSkyboxAlbedoTex =
-		TextureUtil::createTextureCubemapFromImage(
-			{
-				"res/image/skybox/space/right.png",
-				"res/image/skybox/space/left.png",
-				"res/image/skybox/space/top.png",
-				"res/image/skybox/space/bot.png",
-				"res/image/skybox/space/front.png",
-				"res/image/skybox/space/back.png"
-			});
-
-	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_MIN_FILTER, TextureMinFilterValue::LINEAR);
-	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_MAG_FILTER, TextureMagFilterValue::LINEAR);
-	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_WRAP_S, TextureWrapValue::CLAMP_TO_EDGE);
-	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_WRAP_T, TextureWrapValue::CLAMP_TO_EDGE);
-	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_WRAP_R, TextureWrapValue::CLAMP_TO_EDGE);
-
-	__skybox.setAlbedoTexture(pSkyboxAlbedoTex);
-	__skybox.setLuminance(.1f);
-	__skybox.setEnabled(true);*/
 
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
 
@@ -107,9 +66,6 @@ LightingTestScene::LightingTestScene()
 
 	__pRenderingPipeline = make_unique<LightPrePassRenderingPipeline>(
 		__lightMgr, __camera, __drawer, __skybox, __ppPipeline);
-
-	/*__pRenderingPipeline = make_unique<ForwardRenderingPipeline>(
-		__lightMgr, *__pCamera, __drawer, __skybox, __ppPipeline);*/
 }
 
 bool LightingTestScene::__keyFunc(const float deltaTime) noexcept

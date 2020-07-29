@@ -11,7 +11,7 @@ namespace Danburite
 		float __attConst		= Constant::Light::AttenuatedComponent::ATT_CONST;
 		float __attLinear		= Constant::Light::AttenuatedComponent::ATT_LINEAR;
 		float __attQuad			= Constant::Light::AttenuatedComponent::ATT_QUAD;
-		float __validDistance	= std::numeric_limits<float>::max();
+		float __validDistance	= Constant::Light::AttenuatedComponent::MAX_VALID_DISTANCE;
 
 	protected:
 		void _setValidDistance(

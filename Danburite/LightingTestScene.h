@@ -22,8 +22,7 @@ private:
 	Danburite::PerspectiveCamera __camera;
 
 	Danburite::LightManager __lightMgr;
-	Danburite::PointLight *__pBlueLight = nullptr;
-	Danburite::PointLight *__pRedLight = nullptr;
+	Danburite::PointLight *__pGlobalLight = nullptr;
 
 	Danburite::BatchProcessor<Danburite::Updatable> __updater;
 	Danburite::BatchProcessor<Danburite::Drawable> __drawer;

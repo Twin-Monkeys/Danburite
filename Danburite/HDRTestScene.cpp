@@ -127,8 +127,6 @@ HDRTestScene::HDRTestScene()
 	girlAnim.setPlaySpeed(.7f);
 	girlAnim.setRepeatCount(-1);
 
-	__pCorridorObj = AssetImporter::import("res/asset/corridor/scene.gltf");
-
 
 	//// 카메라 초기화 ////
 
@@ -175,7 +173,6 @@ HDRTestScene::HDRTestScene()
 	__updater.add(*__pBlueLight);
 	__updater.add(*__pRedLight);
 	__updater.add(*__pSphereObj);
-	__updater.add(*__pCorridorObj);
 
 	__drawer.add(*__pFloorObj);
 	__drawer.add(*__pLampObj);
@@ -185,7 +182,6 @@ HDRTestScene::HDRTestScene()
 	__drawer.add(*__pLizardObj);
 	__drawer.add(*__pGirlObj);
 	__drawer.add(*__pSphereObj);
-	__drawer.add(*__pCorridorObj);
 
 
 	// Skybox
