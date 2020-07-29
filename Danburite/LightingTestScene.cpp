@@ -9,6 +9,7 @@
 #include "TextureUtil.h"
 #include "UniformBufferFactory.h"
 #include <glm/gtx/rotate_vector.hpp>
+#include "ForwardRenderingPipeline.h"
 #include "LightPrePassRenderingPipeline.h"
 #include "GammaCorrectionPostProcessor.h"
 #include "BloomPostProcessor.h"
@@ -43,9 +44,9 @@ LightingTestScene::LightingTestScene()
 
 	__pGlobalLight = &__lightMgr.createLight<DirectionalLight>();
 	__pGlobalLight->setAlbedo(1.f, 1.f, 1.f);
-	__pGlobalLight->setAmbientStrength(1.f);
-	__pGlobalLight->setDiffuseStrength(1.f);
-	__pGlobalLight->setSpecularStrength(1.f);
+	__pGlobalLight->setAmbientStrength(.001f);
+	__pGlobalLight->setDiffuseStrength(0.f);
+	__pGlobalLight->setSpecularStrength(0.f);
 	__pGlobalLight->setShadowEnabled(false);
 
 	//// Updater / Drawer √ ±‚»≠ ////
@@ -65,6 +66,9 @@ LightingTestScene::LightingTestScene()
 
 	__pRenderingPipeline = make_unique<LightPrePassRenderingPipeline>(
 		__lightMgr, __camera, __drawer, __skybox, __ppPipeline);
+
+	/*__pRenderingPipeline = make_unique<ForwardRenderingPipeline>(
+		__lightMgr, __camera, __drawer, __skybox, __ppPipeline);*/
 }
 
 bool LightingTestScene::__keyFunc(const float deltaTime) noexcept

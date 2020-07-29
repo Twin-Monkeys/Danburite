@@ -122,4 +122,11 @@ const uint
 	RENDERING_PIPELINE_TYPE_LIGHT_PREPASS	= 1U
 	;
 
+
+// Light PrePass
+
+const uint
+	LIGHT_VOLUME_TYPE_FULLSCREEN	= 0U,
+	LIGHT_VOLUME_TYPE_GEOMETRY		= 1U;
+
 #endif

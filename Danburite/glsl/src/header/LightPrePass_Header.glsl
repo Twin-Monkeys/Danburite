@@ -7,7 +7,12 @@
 
 #include "Constant_Header.glsl"
 
-struct LightPrePass
+struct LightPrePass_LightVolume
+{
+	uint type;
+};
+
+struct LightPrePass_LightingPass
 {
 	uint currentLightIdx;
 	uvec2 lightAmbientTex;
@@ -17,27 +22,33 @@ struct LightPrePass
 
 layout(binding = BINDING_POINT_LIGHT_PREPASS) uniform UBLightPrePass
 {
-	LightPrePass lightPrePass;
+	LightPrePass_LightVolume lightPrePass_lightVolume;
+	LightPrePass_LightingPass lightPrePass_lightingPass;
 };
+
+uint LightPrePass_getLightVolumeType()
+{
+	return lightPrePass_lightVolume.type;
+}
 
 uint LightPrePass_getCurrentLightIdx()
 {
-	return lightPrePass.currentLightIdx;
+	return lightPrePass_lightingPass.currentLightIdx;
 }
 
 vec3 LightPrePass_getLightAmbient(const vec2 screenCoord)
 {
-	return texture(sampler2DRect(lightPrePass.lightAmbientTex), screenCoord).rgb;
+	return texture(sampler2DRect(lightPrePass_lightingPass.lightAmbientTex), screenCoord).rgb;
 }
 
 vec3 LightPrePass_getLightDiffuse(const vec2 screenCoord)
 {
-	return texture(sampler2DRect(lightPrePass.lightDiffuseTex), screenCoord).rgb;
+	return texture(sampler2DRect(lightPrePass_lightingPass.lightDiffuseTex), screenCoord).rgb;
 }
 
 vec3 LightPrePass_getLightSpecular(const vec2 screenCoord)
 {
-	return texture(sampler2DRect(lightPrePass.lightSpecularTex), screenCoord).rgb;
+	return texture(sampler2DRect(lightPrePass_lightingPass.lightSpecularTex), screenCoord).rgb;
 }
 
 #endif

@@ -1301,6 +1301,9 @@
     <ClInclude Include="LightingTestScene.h">
       <Filter>Client\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="LightVolumeType.h">
+      <Filter>Library\Engine\Core\Light</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glsl\src\Header\Camera_Header.glsl">
@@ -1476,6 +1479,9 @@
     </None>
     <None Include="glsl\src\LightPrePassLighting_Vert.glsl">
       <Filter>Library\Engine\glsl\src\RenderingPipeline\LightPrePass</Filter>
+    </None>
+    <None Include="glsl\src\header\Fullscreen_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header</Filter>
     </None>
   </ItemGroup>
 </Project>

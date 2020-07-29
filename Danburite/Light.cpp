@@ -8,8 +8,10 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	Light::Light(const LightType type, const DepthBakingType depthBakingType, const GLuint index) :
-		__TYPE(GLenum(type)), __DEPTH_BAKING_TYPE(GLenum(depthBakingType)),
+	Light::Light(
+		const LightType type, const LightVolumeType volumeType,
+		const DepthBakingType depthBakingType, const GLuint index) :
+		__TYPE(GLuint(type)), __VOLUME_TYPE(GLuint(volumeType)), __DEPTH_BAKING_TYPE(GLuint(depthBakingType)),
 
 		__lightSetter(UniformBufferFactory::getInstance().
 			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::LIGHT), index),
@@ -66,6 +68,9 @@ namespace Danburite
 	{
 		__lightPrePassSetter.setUniformUint(
 			ShaderIdentifier::Name::LightPrePass::CURRENT_LIGHT_IDX, getIndex());
+
+		__lightPrePassSetter.setUniformUint(
+			ShaderIdentifier::Name::LightPrePass::LIGHT_VOLUME_TYPE, __VOLUME_TYPE);
 
 		_onVolumeDrawcall();
 	}

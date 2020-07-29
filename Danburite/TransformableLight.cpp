@@ -7,8 +7,9 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	TransformableLight::TransformableLight(
-		const LightType type, const DepthBakingType depthBakingType, const GLuint index) :
-		Light(type, depthBakingType, index)
+		const LightType type, const LightVolumeType volumeType,
+		const DepthBakingType depthBakingType, const GLuint index) :
+		Light(type, volumeType, depthBakingType, index)
 	{}
 
 	void TransformableLight::_deployDirection(LightUniformSetter &lightSetter) const noexcept
@@ -16,8 +17,7 @@ namespace Danburite
 		const Transform &transform = getTransform();
 		const vec4 &forward = transform.getForward();
 
-		lightSetter.setUniformVec3(
-			ShaderIdentifier::Name::Light::DIRECTION, -forward.x, -forward.y, -forward.z);
+		lightSetter.setUniformVec3(ShaderIdentifier::Name::Light::DIRECTION, forward);
 	}
 
 	void TransformableLight::_deployPosition(LightUniformSetter &lightSetter) const noexcept

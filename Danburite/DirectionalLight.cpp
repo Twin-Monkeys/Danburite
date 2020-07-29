@@ -1,4 +1,5 @@
 #include "DirectionalLight.h"
+#include "GLFunctionWrapper.h"
 
 using namespace glm;
 using namespace ObjectGL;
@@ -17,6 +18,7 @@ namespace Danburite
 
 	void DirectionalLight::_onVolumeDrawcall() noexcept
 	{
+		GLFunctionWrapper::setCulledFace(FacetType::BACK);
 		__fullscreenDrawer.draw();
 	}
 }

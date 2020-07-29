@@ -175,6 +175,9 @@ namespace Danburite
 			namespace LightPrePass
 			{
 				extern const std::string
+					LIGHT_VOLUME_TYPE;
+
+				extern const std::string
 					CURRENT_LIGHT_IDX,
 					LIGHT_AMBIENT_TEX,
 					LIGHT_DIFFUSE_TEX,

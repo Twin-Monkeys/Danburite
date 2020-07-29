@@ -406,6 +406,7 @@
     <ClInclude Include="LightingTestScene.h" />
     <ClInclude Include="LightManager.h" />
     <ClInclude Include="LightPrePassRenderingPipeline.h" />
+    <ClInclude Include="LightVolumeType.h" />
     <ClInclude Include="MaterialException.h" />
     <ClInclude Include="RawDrawcallMaterial.h" />
     <ClInclude Include="RenderingPipeline.h" />
@@ -560,6 +561,7 @@
     <None Include="glsl\src\header\Bone_Header.glsl" />
     <None Include="glsl\src\header\DepthBaking2D_Header.glsl" />
     <None Include="glsl\src\header\DepthBakingCubemap_Header.glsl" />
+    <None Include="glsl\src\header\Fullscreen_Header.glsl" />
     <None Include="glsl\src\header\Grayscale_Header.glsl" />
     <None Include="glsl\src\header\HDR_Header.glsl" />
     <None Include="glsl\src\header\Joint_Header.glsl" />

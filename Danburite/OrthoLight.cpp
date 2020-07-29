@@ -7,7 +7,7 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	OrthoLight::OrthoLight(const LightType type, const GLuint index) :
-		TransformableLight(type, DepthBakingType::ORTHO, index)
+		TransformableLight(type, LightVolumeType::FULLSCREEN, DepthBakingType::ORTHO, index)
 	{}
 
 	void OrthoLight::_onDeployShadowData(LightUniformSetter &lightSetter) noexcept

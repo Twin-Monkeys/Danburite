@@ -3,6 +3,7 @@
 #include "Object.h"
 #include "LightUniformSetter.h"
 #include "LightType.h"
+#include "LightVolumeType.h"
 #include "LightException.h"
 #include "BatchProcessor.h"
 #include "DepthBakingType.h"
@@ -14,8 +15,9 @@ namespace Danburite
 	class Light abstract
 	{
 	private:
-		const GLenum __TYPE;
-		const GLenum __DEPTH_BAKING_TYPE;
+		const GLuint __TYPE;
+		const GLuint __VOLUME_TYPE;
+		const GLuint __DEPTH_BAKING_TYPE;
 
 		bool __enabled = true;
 		bool __shadowEnabled = false;
@@ -33,7 +35,9 @@ namespace Danburite
 		virtual void _onChangeShadowEnabled(const bool enabled) noexcept = 0;
 
 	public:
-		Light(const LightType type, const DepthBakingType depthBakingType, const GLuint index);
+		Light(
+			const LightType type, const LightVolumeType volumeType,
+			const DepthBakingType depthBakingType, const GLuint index);
 
 		void selfDeploy() noexcept;
 

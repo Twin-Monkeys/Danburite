@@ -168,10 +168,13 @@ namespace Danburite
 			namespace LightPrePass
 			{
 				const string
-					CURRENT_LIGHT_IDX			= "lightPrePass.currentLightIdx",
-					LIGHT_AMBIENT_TEX			= "lightPrePass.lightAmbientTex",
-					LIGHT_DIFFUSE_TEX			= "lightPrePass.lightDiffuseTex",
-					LIGHT_SPECULAR_TEX			= "lightPrePass.lightSpecularTex"
+					LIGHT_VOLUME_TYPE			= "lightPrePass_lightVolume.type";
+
+				const string
+					CURRENT_LIGHT_IDX			= "lightPrePass_lightingPass.currentLightIdx",
+					LIGHT_AMBIENT_TEX			= "lightPrePass_lightingPass.lightAmbientTex",
+					LIGHT_DIFFUSE_TEX			= "lightPrePass_lightingPass.lightDiffuseTex",
+					LIGHT_SPECULAR_TEX			= "lightPrePass_lightingPass.lightSpecularTex"
 					;
 			}
 

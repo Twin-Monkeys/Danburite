@@ -88,9 +88,9 @@ namespace Danburite
 
 		// Lighting pass
 		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, false);
+		GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, true);
 		GLFunctionWrapper::setOption(GLOptionType::BLEND, true);
 		GLFunctionWrapper::setBlendingFunction(BlendingFunctionType::ONE, BlendingFunctionType::ONE);
-		GLFunctionWrapper::setCulledFace(FacetType::FRONT);
 
 		__pLightingFB->bind();
 		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR);
@@ -132,12 +132,9 @@ namespace Danburite
 
 		ppPipeline.bind();
 		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR);
-
 		drawer.process(&Drawable::draw);
-
-
+		
 		PostProcessingPipeline::unbind();
-
 		ppPipeline.render();
 	}
 }
