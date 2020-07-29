@@ -4,6 +4,7 @@
 #include "GLFunctionWrapper.h"
 #include "RCDSRegisterer.h"
 #include "HDRTestScene.h"
+#include "LightingTestScene.h"
 
 using namespace std;
 using namespace Danburite;
@@ -50,7 +51,7 @@ int APIENTRY _tWinMain(const HINSTANCE hInstance, HINSTANCE, LPTSTR, int)
 	GLFunctionWrapper::setVerticalSync(false);
 
 	//// Scene 생성 ////
-	shared_ptr<ScreenEventHandler> pScene = make_shared<HDRTestScene>();
+	shared_ptr<ScreenEventHandler> pScene = make_shared<LightingTestScene>();
 
 	//// 이벤트 핸들러 등록 ////
 	pScreen->setEventHandler(pScene);

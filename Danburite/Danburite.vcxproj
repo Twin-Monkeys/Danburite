@@ -263,6 +263,7 @@
     <ClCompile Include="HDRTestScene.cpp" />
     <ClCompile Include="IndexType.cpp" />
     <ClCompile Include="JointManager.cpp" />
+    <ClCompile Include="LightingTestScene.cpp" />
     <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="LightPrePassRenderingPipeline.cpp" />
     <ClCompile Include="MaterialException.cpp" />
@@ -402,6 +403,7 @@
     <ClInclude Include="HDRPostProcessor.h" />
     <ClInclude Include="HDRTestScene.h" />
     <ClInclude Include="JointManager.h" />
+    <ClInclude Include="LightingTestScene.h" />
     <ClInclude Include="LightManager.h" />
     <ClInclude Include="LightPrePassRenderingPipeline.h" />
     <ClInclude Include="MaterialException.h" />

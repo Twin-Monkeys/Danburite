@@ -750,6 +750,9 @@
     <ClCompile Include="LightManager.cpp">
       <Filter>Library\Engine\Core\Light</Filter>
     </ClCompile>
+    <ClCompile Include="LightingTestScene.cpp">
+      <Filter>Client\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">
@@ -1294,6 +1297,9 @@
     </ClInclude>
     <ClInclude Include="Updatable.h">
       <Filter>Library\Engine\Base\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="LightingTestScene.h">
+      <Filter>Client\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -8,9 +8,6 @@
 #include "PointLight.h"
 #include "SpotLight.h"
 #include "BatchProcessor.h"
-#include "MSAAPostProcessor.h"
-#include "GammaCorrectionPostProcessor.h"
-#include "BloomPostProcessor.h"
 #include "HDRPostProcessor.h"
 #include "PostProcessingPipeline.h"
 #include "RenderingPipeline.h"
@@ -28,8 +25,9 @@ private:
 	std::shared_ptr<Danburite::SceneObject> __pLizardObj;
 	std::shared_ptr<Danburite::SceneObject> __pGirlObj;
 	std::shared_ptr<Danburite::SceneObject> __pSphereObj;
+	std::shared_ptr<Danburite::SceneObject> __pCorridorObj;
 
-	std::shared_ptr<Danburite::PerspectiveCamera> __pCamera;
+	Danburite::PerspectiveCamera __camera;
 
 	Danburite::LightManager __lightMgr;
 	Danburite::PointLight *__pBlueLight = nullptr;

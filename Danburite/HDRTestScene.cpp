@@ -11,6 +11,8 @@
 #include <glm/gtx/rotate_vector.hpp>
 #include "ForwardRenderingPipeline.h"
 #include "LightPrePassRenderingPipeline.h"
+#include "GammaCorrectionPostProcessor.h"
+#include "BloomPostProcessor.h"
 
 using namespace std;
 using namespace glm;
@@ -125,12 +127,12 @@ HDRTestScene::HDRTestScene()
 	girlAnim.setPlaySpeed(.7f);
 	girlAnim.setRepeatCount(-1);
 
+	__pCorridorObj = AssetImporter::import("res/asset/corridor/scene.gltf");
 
-	//// 카메라 생성 ////
 
-	__pCamera = make_shared<PerspectiveCamera>();
+	//// 카메라 초기화 ////
 
-	Transform &cameraTransform = __pCamera->getTransform();
+	Transform &cameraTransform = __camera.getTransform();
 	cameraTransform.setPosition(0.f, 15.f, 50.f);
 	cameraTransform.setRotation(-0.4f, 0.f, 0.f);
 
@@ -169,10 +171,11 @@ HDRTestScene::HDRTestScene()
 	__updater.add(*__pDoorObj);
 	__updater.add(*__pLizardObj);
 	__updater.add(*__pGirlObj);
-	__updater.add(*__pCamera);
+	__updater.add(__camera);
 	__updater.add(*__pBlueLight);
 	__updater.add(*__pRedLight);
 	__updater.add(*__pSphereObj);
+	__updater.add(*__pCorridorObj);
 
 	__drawer.add(*__pFloorObj);
 	__drawer.add(*__pLampObj);
@@ -182,6 +185,7 @@ HDRTestScene::HDRTestScene()
 	__drawer.add(*__pLizardObj);
 	__drawer.add(*__pGirlObj);
 	__drawer.add(*__pSphereObj);
+	__drawer.add(*__pCorridorObj);
 
 
 	// Skybox
@@ -214,11 +218,11 @@ HDRTestScene::HDRTestScene()
 	__ppPipeline.appendProcessor<BloomPostProcessor>();
 	__pHDRPP = &__ppPipeline.appendProcessor<HDRPostProcessor>();
 
-	/*__pRenderingPipeline = make_unique<LightPrePassRenderingPipeline>(
-		__lightMgr, *__pCamera, __drawer, __skybox, __ppPipeline);*/
+	__pRenderingPipeline = make_unique<LightPrePassRenderingPipeline>(
+		__lightMgr, __camera, __drawer, __skybox, __ppPipeline);
 
-	__pRenderingPipeline = make_unique<ForwardRenderingPipeline>(
-		__lightMgr, *__pCamera, __drawer, __skybox, __ppPipeline);
+	/*__pRenderingPipeline = make_unique<ForwardRenderingPipeline>(
+		__lightMgr, *__pCamera, __drawer, __skybox, __ppPipeline);*/
 }
 
 bool HDRTestScene::__keyFunc(const float deltaTime) noexcept
@@ -243,7 +247,7 @@ bool HDRTestScene::__keyFunc(const float deltaTime) noexcept
 		UP = (GetAsyncKeyState('E') & 0x8000),
 		DOWN = (GetAsyncKeyState('Q') & 0x8000);
 
-	Transform& cameraTransform = __pCamera->getTransform();
+	Transform& cameraTransform = __camera.getTransform();
 
 	if (LEFT)
 		cameraTransform.moveHorizontal(-MOVE_SPEED);
@@ -291,7 +295,7 @@ bool HDRTestScene::update(const float deltaTime) noexcept
 	__pBlueLight->getTransform().orbit(deltaTime * .0005f, pivot, axis, false);
 
 	const float doorDist =
-		length(__pCamera->getTransform().getPosition() - __pDoorObj->getTransform().getPosition());
+		length(__camera.getTransform().getPosition() - __pDoorObj->getTransform().getPosition());
 
 	if ((doorDist < 40.f) && !__doorOpened)
 	{
@@ -339,20 +343,20 @@ void HDRTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
 {
 	constexpr float ROTATION_SPEED = .004f;
 
-	Transform &cameraTransform = __pCamera->getTransform();
+	Transform &cameraTransform = __camera.getTransform();
 	cameraTransform.rotateFPS(-(yDelta * ROTATION_SPEED), -(xDelta * ROTATION_SPEED));
 }
 
 void HDRTestScene::onMouseMButtonDown(const int x, const int y) noexcept
 {
-	__pCamera->resetFov();
+	__camera.resetFov();
 }
 
 void HDRTestScene::onMouseWheel(const short zDelta) noexcept
 {
 	constexpr float ZOOM_SPEED = -.0005f;
 
-	__pCamera->adjustFov(ZOOM_SPEED * zDelta);
+	__camera.adjustFov(ZOOM_SPEED * zDelta);
 }
 
 bool HDRTestScene::onIdle(const float deltaTime) noexcept
