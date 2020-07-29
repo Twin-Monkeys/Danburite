@@ -119,7 +119,7 @@ namespace Danburite
 
 		namespace HDR
 		{
-			constexpr GLfloat DEFAULT_EXPOSURE		= 5.f;
+			constexpr GLfloat DEFAULT_EXPOSURE		= 1.4f;
 		}
 
 		namespace Bloom

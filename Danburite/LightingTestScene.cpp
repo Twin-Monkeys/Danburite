@@ -41,12 +41,11 @@ LightingTestScene::LightingTestScene()
 
 	// Light 초기화
 
-	__pGlobalLight = &__lightMgr.createLight<PointLight>();
+	__pGlobalLight = &__lightMgr.createLight<DirectionalLight>();
 	__pGlobalLight->setAlbedo(1.f, 1.f, 1.f);
 	__pGlobalLight->setAmbientStrength(1.f);
-	__pGlobalLight->setDiffuseStrength(.05f);
-	__pGlobalLight->setSpecularStrength(.05f);
-	__pGlobalLight->setAttenuation(1.f, 0.f, 0.f);
+	__pGlobalLight->setDiffuseStrength(1.f);
+	__pGlobalLight->setSpecularStrength(1.f);
 	__pGlobalLight->setShadowEnabled(false);
 
 	//// Updater / Drawer 초기화 ////

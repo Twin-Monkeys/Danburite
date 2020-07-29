@@ -5,6 +5,7 @@
 #include "SceneObject.h"
 #include "PerspectiveCamera.h"
 #include "LightManager.h"
+#include "DirectionalLight.h"
 #include "PointLight.h"
 #include "SpotLight.h"
 #include "BatchProcessor.h"
@@ -22,7 +23,7 @@ private:
 	Danburite::PerspectiveCamera __camera;
 
 	Danburite::LightManager __lightMgr;
-	Danburite::PointLight *__pGlobalLight = nullptr;
+	Danburite::DirectionalLight *__pGlobalLight = nullptr;
 
 	Danburite::BatchProcessor<Danburite::Updatable> __updater;
 	Danburite::BatchProcessor<Danburite::Drawable> __drawer;
