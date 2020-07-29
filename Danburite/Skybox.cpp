@@ -22,6 +22,11 @@ namespace Danburite
 		__pAlbedoTex = pTexture;
 	}
 
+	void Skybox::setLuminance(const float luminance) noexcept
+	{
+		__luminance = luminance;
+	}
+
 	void Skybox::draw() noexcept
 	{
 		if (!__enabled)
@@ -29,6 +34,8 @@ namespace Danburite
 
 		__skyboxSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Skybox::ALBEDO_TEX, TextureUtil::getHandleIfExist(__pAlbedoTex));
+
+		__skyboxSetter.setUniformFloat(ShaderIdentifier::Name::Skybox::LUMINANCE, __luminance);
 
 		__skyboxProgram.bind();
 

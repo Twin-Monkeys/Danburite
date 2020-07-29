@@ -9,6 +9,7 @@
 struct Skybox
 {
 	uvec2 albedoTex;
+	float luminance;
 };
 
 layout(binding = BINDING_POINT_SKYBOX) uniform UBSkybox
@@ -18,7 +19,7 @@ layout(binding = BINDING_POINT_SKYBOX) uniform UBSkybox
 
 vec4 Skybox_getAlbedo(const vec3 pos)
 {
-	return texture(samplerCube(skybox.albedoTex), pos);
+	return (texture(samplerCube(skybox.albedoTex), pos) * skybox.luminance);
 }
 
 #endif

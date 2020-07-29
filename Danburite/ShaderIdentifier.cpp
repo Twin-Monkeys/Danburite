@@ -134,7 +134,8 @@ namespace Danburite
 			namespace Skybox
 			{
 				const string
-					ALBEDO_TEX = "skybox.albedoTex";
+					ALBEDO_TEX = "skybox.albedoTex",
+					LUMINANCE = "skybox.luminance";
 			}
 
 			namespace DepthBaking2D

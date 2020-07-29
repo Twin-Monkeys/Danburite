@@ -13,6 +13,8 @@ namespace Danburite
 		ObjectGL::Program &__skyboxProgram;
 
 		std::shared_ptr<ObjectGL::TextureCubemap> __pAlbedoTex;
+		float __luminance = 1.f;
+
 		std::shared_ptr<ObjectGL::VertexArray> __pCubeVA;
 
 		bool __enabled = false;
@@ -24,6 +26,7 @@ namespace Danburite
 		constexpr void setEnabled(const bool enabled) noexcept;
 
 		void setAlbedoTexture(const std::shared_ptr<ObjectGL::TextureCubemap> &pTexture) noexcept;
+		void setLuminance(const float luminance) noexcept;
 
 		void draw() noexcept;
 

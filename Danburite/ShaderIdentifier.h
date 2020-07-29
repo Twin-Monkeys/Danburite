@@ -141,7 +141,8 @@ namespace Danburite
 			namespace Skybox
 			{
 				extern const std::string
-					ALBEDO_TEX;
+					ALBEDO_TEX,
+					LUMINANCE;
 			}
 
 			namespace DepthBaking2D

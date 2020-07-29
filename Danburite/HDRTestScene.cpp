@@ -189,17 +189,6 @@ HDRTestScene::HDRTestScene()
 	/*const shared_ptr<TextureCubemap> &pSkyboxAlbedoTex =
 		TextureUtil::createTextureCubemapFromImage(
 			{
-				"res/image/skybox/galaxy/PositiveX.tga",
-				"res/image/skybox/galaxy/NegativeX.tga",
-				"res/image/skybox/galaxy/PositiveY.tga",
-				"res/image/skybox/galaxy/NegativeY.tga",
-				"res/image/skybox/galaxy/PositiveZ.tga",
-				"res/image/skybox/galaxy/NegativeZ.tga"
-			});*/
-
-	const shared_ptr<TextureCubemap> &pSkyboxAlbedoTex =
-		TextureUtil::createTextureCubemapFromImage(
-			{
 				"res/image/skybox/space/right.png",
 				"res/image/skybox/space/left.png",
 				"res/image/skybox/space/top.png",
@@ -215,14 +204,15 @@ HDRTestScene::HDRTestScene()
 	pSkyboxAlbedoTex->setState(TextureParamType::TEXTURE_WRAP_R, TextureWrapValue::CLAMP_TO_EDGE);
 
 	__skybox.setAlbedoTexture(pSkyboxAlbedoTex);
-	__skybox.setEnabled(true);
+	__skybox.setLuminance(.1f);
+	__skybox.setEnabled(true);*/
 
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
 
 	// __pPPPipeline->appendProcessor<MSAAPostProcessor>(true);
 	__ppPipeline.appendProcessor<GammaCorrectionPostProcessor>(true);
-	// __ppPipeline.appendProcessor<BloomPostProcessor>();
-	// __pHDRPP = &__ppPipeline.appendProcessor<HDRPostProcessor>();
+	__ppPipeline.appendProcessor<BloomPostProcessor>();
+	__pHDRPP = &__ppPipeline.appendProcessor<HDRPostProcessor>();
 
 	/*__pRenderingPipeline = make_unique<LightPrePassRenderingPipeline>(
 		__lightMgr, *__pCamera, __drawer, __skybox, __ppPipeline);*/
@@ -277,11 +267,11 @@ bool HDRTestScene::__keyFunc(const float deltaTime) noexcept
 		KEY1 = (GetAsyncKeyState('1') & 0x8000),
 		KEY2 = (GetAsyncKeyState('2') & 0x8000);
 
-	/*if (KEY1)
+	if (KEY1)
 		__pHDRPP->setExposure(__pHDRPP->getExposure() - .1f);
 
 	if (KEY2)
-		__pHDRPP->setExposure(__pHDRPP->getExposure() + .1f);*/
+		__pHDRPP->setExposure(__pHDRPP->getExposure() + .1f);
 
 	return true;
 }
