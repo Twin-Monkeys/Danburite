@@ -54,12 +54,26 @@ LightingTestScene::LightingTestScene()
 	wrenchTransform.setPosition(-12.f, 0.f, 90.f);
 	wrenchTransform.setRotation(0.f, -.7f, 0.f);
 
+	__pCharacterObj = AssetImporter::import("res/asset/scifi_male/scene.gltf");
+	__pCharacterObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
+	Transform &characterTransform = __pCharacterObj->getTransform();
+	characterTransform.setScale(.1f);
+
+	AnimationManager &characterAnimMgr = __pCharacterObj->getAnimationManager();
+	characterAnimMgr.activateAnimation(8);
+
+	Animation &characterAnim = characterAnimMgr.getActiveAnimation();
+	// characterAnim.setPlaySpeed(.7f);
+	characterAnim.setRepeatCount(-1);
+
 	//// 카메라 초기화 ////
 
 	Transform &cameraTransform = __camera.getTransform();
-	cameraTransform.setPosition(0.f, 25.f, 0.f);
-	cameraTransform.setRotation(-0.4f, pi<float>(), 0.f);
+	cameraTransform.setPosition(0.f, 30.f, 0.f);
+	cameraTransform.setRotation(-0.5f, pi<float>(), 0.f);
 
+	const vec3 &cameraPos = cameraTransform.getPosition();
+	characterTransform.setPosition(cameraPos.x, cameraPos.y - __CHARACTER_DIST_Y, cameraPos.z + __CHARACTER_DIST_Z);
 
 	// Light 초기화
 
@@ -78,11 +92,13 @@ LightingTestScene::LightingTestScene()
 	__updater.add(*__pCargoBayObj);
 	__updater.add(*__pPulseCoreObj);
 	__updater.add(*__pWrenchObj);
+	__updater.add(*__pCharacterObj);
 
 	__drawer.add(*__pCorridorObj);
 	__drawer.add(*__pCargoBayObj);
 	__drawer.add(*__pPulseCoreObj);
 	__drawer.add(*__pWrenchObj);
+	__drawer.add(*__pCharacterObj);
 
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
 
@@ -121,24 +137,43 @@ bool LightingTestScene::__keyFunc(const float deltaTime) noexcept
 		DOWN = (GetAsyncKeyState('Q') & 0x8000);
 
 	Transform& cameraTransform = __camera.getTransform();
+	Transform &characterTransform = __pCharacterObj->getTransform();
 
 	if (LEFT)
+	{
 		cameraTransform.moveHorizontal(-MOVE_SPEED);
+		characterTransform.moveHorizontal(MOVE_SPEED);
+	}
 
 	if (RIGHT)
+	{
 		cameraTransform.moveHorizontal(MOVE_SPEED);
+		characterTransform.moveHorizontal(-MOVE_SPEED);
+	}
 
-	if (FRONT)
-		cameraTransform.moveForward(-MOVE_SPEED);
+	if (FRONT || BACK)
+	{
+		const vec4 &cameraForward = cameraTransform.getForward();
+		vec3 projForward = { cameraForward.x, 0.f, cameraForward.z };
 
-	if (BACK)
-		cameraTransform.moveForward(MOVE_SPEED);
+		const float projForwardLength = length(projForward);
+		if (projForwardLength > epsilon<float>())
+		{
+			projForward /= projForwardLength;
 
-	if (UP)
-		cameraTransform.moveVertical(MOVE_SPEED);
+			if (FRONT)
+			{
+				cameraTransform.adjustPosition(projForward * -MOVE_SPEED);
+				characterTransform.adjustPosition(projForward * -MOVE_SPEED);
+			}
 
-	if (DOWN)
-		cameraTransform.moveVertical(-MOVE_SPEED);
+			if (BACK)
+			{
+				cameraTransform.adjustPosition(projForward * MOVE_SPEED);
+				characterTransform.adjustPosition(projForward * MOVE_SPEED);
+			}
+		}
+	}
 
 	const bool
 		KEY1 = (GetAsyncKeyState('1') & 0x8000),
@@ -171,9 +206,9 @@ bool LightingTestScene::update(const float deltaTime) noexcept
 		__blinkingDelay = 70.f;
 	}
 
-	__pulseCoreEmissive += (deltaTime * .001f);
-	__pulseCoreEmissive = fmodf(__pulseCoreEmissive, two_pi<float>());
-	__pCargoBayObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 2.f * fabsf(cosf(__pulseCoreEmissive)));
+	__cargoBayEmissive += (deltaTime * .001f);
+	__cargoBayEmissive = fmodf(__cargoBayEmissive, two_pi<float>());
+	__pCargoBayObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 2.f * fabsf(cosf(__cargoBayEmissive)));
 
 	__updater.process(&Updatable::update, deltaTime);
 	__updated = true;
@@ -202,7 +237,18 @@ void LightingTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcep
 	constexpr float ROTATION_SPEED = .004f;
 
 	Transform &cameraTransform = __camera.getTransform();
-	cameraTransform.rotateFPS(-(yDelta * ROTATION_SPEED), -(xDelta * ROTATION_SPEED));
+	Transform &characterTransform = __pCharacterObj->getTransform();
+
+	const vec3 &cameraPos = cameraTransform.getPosition();
+	const vec3 &characterPos = characterTransform.getPosition();
+
+	const vec3 &rotationPivot = { characterPos.x, characterPos.y + 18.f, characterPos.z };
+
+	cameraTransform.
+		orbit(-(yDelta * ROTATION_SPEED), rotationPivot, cameraTransform.getHorizontal()).
+		orbit(-(xDelta * ROTATION_SPEED), rotationPivot, { 0.f, 1.f, 0.f });
+
+	characterTransform.rotateLocal(0.f, -(xDelta * ROTATION_SPEED), 0.f);
 }
 
 void LightingTestScene::onMouseMButtonDown(const int x, const int y) noexcept

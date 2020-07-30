@@ -23,6 +23,7 @@ private:
 	std::shared_ptr<Danburite::SceneObject> __pCargoBayObj;
 	std::shared_ptr<Danburite::SceneObject> __pPulseCoreObj;
 	std::shared_ptr<Danburite::SceneObject> __pWrenchObj;
+	std::shared_ptr<Danburite::SceneObject> __pCharacterObj;
 
 	Danburite::PerspectiveCamera __camera;
 
@@ -44,7 +45,10 @@ private:
 	float __blinkingDelay = 0.f;
 	bool __keyFunc(const float deltaTime) noexcept;
 
-	float __pulseCoreEmissive = 0.f;
+	float __cargoBayEmissive = 0.f;
+
+	static constexpr float __CHARACTER_DIST_Y = 28.f;
+	static constexpr float __CHARACTER_DIST_Z = 30.f;
 
 public:
 	LightingTestScene();
