@@ -54,6 +54,22 @@ LightingTestScene::LightingTestScene()
 	wrenchTransform.setPosition(-12.f, 0.f, 90.f);
 	wrenchTransform.setRotation(0.f, -.7f, 0.f);
 
+	__pDroneObj = AssetImporter::import("res/asset/scifi_drone/scene.gltf");
+	__pDroneObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
+	__pDroneObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 2.f);
+	__pDroneObj->setNumInstances(GLsizei(__NUM_DRONES));
+
+	for (size_t droneIter = 0ULL; droneIter < __NUM_DRONES; droneIter++)
+	{
+		const float randPosX = __dronePosDistributeX(__randEngine);
+		const float randPosZ = __dronePosDistributeZ(__randEngine);
+
+		Transform &droneTransform = __pDroneObj->getTransform(droneIter);
+		droneTransform.setScale(.002f);
+		droneTransform.setPosition(randPosX, 1.f, randPosZ);
+		droneTransform.setRotation(__randDistribute(__randEngine) * .2f, __randDistribute(__randEngine), 0.f);
+	}
+
 	__pSpotLightObj = AssetImporter::import("res/asset/stage_light/scene.gltf");
 	__pSpotLightObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 	__pSpotLightObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 3.f);
@@ -99,16 +115,9 @@ LightingTestScene::LightingTestScene()
 
 	// Light 초기화
 
-	__pGlobalLight = &__lightMgr.createLight<DirectionalLight>();
-	__pGlobalLight->setAlbedo(1.f, 1.f, 1.f);
-	__pGlobalLight->setAmbientStrength(.002f);
-	__pGlobalLight->setDiffuseStrength(0.f);
-	__pGlobalLight->setSpecularStrength(0.f);
-	__pGlobalLight->setShadowEnabled(false);
-
 	__pPointLight = &__lightMgr.createLight<PointLight>();
 	__pPointLight->setAlbedo(.25f, .35f, .8f);
-	__pPointLight->setAmbientStrength(.1f);
+	__pPointLight->setAmbientStrength(0.f);
 	__pPointLight->setDiffuseStrength(20.f);
 	__pPointLight->setSpecularStrength(20.f);
 	__pPointLight->setAttenuation(1.f, .35f, .44f);
@@ -116,7 +125,7 @@ LightingTestScene::LightingTestScene()
 
 	__pSpotLight = &__lightMgr.createLight<SpotLight>();
 	__pSpotLight->setAlbedo(.32f, .88f, .96f);
-	__pSpotLight->setAmbientStrength(.1f);
+	__pSpotLight->setAmbientStrength(0.01f);
 	__pSpotLight->setDiffuseStrength(30.f);
 	__pSpotLight->setSpecularStrength(30.f);
 	__pSpotLight->setAttenuation(1.f, .14f, .07f);
@@ -131,17 +140,42 @@ LightingTestScene::LightingTestScene()
 	Transform &pointLightTransform = __pPointLight->getTransform();
 	pointLightTransform.setPosition(8.f, 5.f, 110.f);
 
+	for (size_t smallLightIter = 0ULL; smallLightIter < __NUM_SMALL_LIGHTS; smallLightIter++)
+	{
+		const vec3 &randAlbedo =
+		{
+			__randDistribute(__randEngine),
+			__randDistribute(__randEngine),
+			__randDistribute(__randEngine)
+		};
+
+		PointLight &smallLight = __lightMgr.createLight<PointLight>();
+		smallLight.setAlbedo(randAlbedo);
+		smallLight.setAmbientStrength(0.f);
+		smallLight.setDiffuseStrength(10.f);
+		smallLight.setSpecularStrength(10.f);
+		smallLight.setAttenuation(1.f, .7f, 1.8f);
+		smallLight.setShadowEnabled(false);
+
+		const float randPosX = __smallLightPosDistributeX(__randEngine);
+		const float randPosZ = __smallLightPosDistributeZ(__randEngine);
+
+		Transform &smallLightTransform = smallLight.getTransform();
+		smallLightTransform.setPosition(randPosX, .3f, randPosZ);
+
+		__updater.add(smallLight);
+	}
 
 	//// Updater / Drawer 초기화 ////
 
 	__updater.add(__camera);
-	__updater.add(*__pGlobalLight);
 	__updater.add(*__pPointLight);
 	__updater.add(*__pSpotLight);
 	__updater.add(*__pCorridorObj);
 	__updater.add(*__pCargoBayObj);
 	__updater.add(*__pPulseCoreObj);
 	__updater.add(*__pWrenchObj);
+	__updater.add(*__pDroneObj);
 	__updater.add(*__pSpotLightObj);
 	__updater.add(*__pCharacterObj);
 
@@ -149,6 +183,7 @@ LightingTestScene::LightingTestScene()
 	__drawer.add(*__pCargoBayObj);
 	__drawer.add(*__pPulseCoreObj);
 	__drawer.add(*__pWrenchObj);
+	__drawer.add(*__pDroneObj);
 	__drawer.add(*__pSpotLightObj);
 	__drawer.add(*__pCharacterObj);
 
@@ -277,14 +312,19 @@ bool LightingTestScene::update(const float deltaTime) noexcept
 	if (__blinkingDelay < epsilon<float>())
 	{
 		const float randVal = __randDistribute(__randEngine);
-		__pCorridorObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, (randVal < .1f) ? .2f : 1.f);
+		__pCorridorObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, (randVal < .1f) ? .6f : 2.f);
 
 		__blinkingDelay = 70.f;
 	}
 
 	__cargoBayEmissive += (deltaTime * .001f);
 	__cargoBayEmissive = fmodf(__cargoBayEmissive, two_pi<float>());
+
+	__droneEmissive += (deltaTime * .0001f);
+	__droneEmissive = fmodf(__cargoBayEmissive, two_pi<float>());
+
 	__pCargoBayObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 2.f * fabsf(cosf(__cargoBayEmissive)));
+	__pDroneObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 2.f * fabsf(cosf(__droneEmissive)));
 
 	__updater.process(&Updatable::update, deltaTime);
 	__updated = true;

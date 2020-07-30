@@ -23,13 +23,13 @@ private:
 	std::shared_ptr<Danburite::SceneObject> __pCargoBayObj;
 	std::shared_ptr<Danburite::SceneObject> __pPulseCoreObj;
 	std::shared_ptr<Danburite::SceneObject> __pWrenchObj;
+	std::shared_ptr<Danburite::SceneObject> __pDroneObj;
 	std::shared_ptr<Danburite::SceneObject> __pSpotLightObj;
 	std::shared_ptr<Danburite::SceneObject> __pCharacterObj;
 
 	Danburite::PerspectiveCamera __camera;
 
 	Danburite::LightManager __lightMgr;
-	Danburite::DirectionalLight *__pGlobalLight = nullptr;
 	Danburite::PointLight *__pPointLight = nullptr;
 	Danburite::SpotLight *__pSpotLight = nullptr;
 
@@ -45,10 +45,20 @@ private:
 	std::default_random_engine __randEngine;
 	std::uniform_real_distribution<float> __randDistribute;
 
+	std::uniform_real_distribution<float> __dronePosDistributeX { -15.f, 15.f };
+	std::uniform_real_distribution<float> __dronePosDistributeZ { 5.f, 205.f };
+
+	std::uniform_real_distribution<float> __smallLightPosDistributeX { -14.f, 14.f };
+	std::uniform_real_distribution<float> __smallLightPosDistributeZ { 120.f, 205.f };
+
 	float __blinkingDelay = 0.f;
 	bool __keyFunc(const float deltaTime) noexcept;
 
 	float __cargoBayEmissive = 0.f;
+	float __droneEmissive = 0.f;
+
+	static constexpr size_t __NUM_DRONES = 50ULL;
+	static constexpr size_t __NUM_SMALL_LIGHTS = 50ULL;
 
 	static constexpr size_t __ANIM_IDX_LOOK_UP = 3ULL;
 	static constexpr size_t __ANIM_IDX_WALK_LEFT = 9ULL;
