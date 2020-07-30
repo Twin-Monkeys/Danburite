@@ -54,6 +54,14 @@ LightingTestScene::LightingTestScene()
 	wrenchTransform.setPosition(-12.f, 0.f, 90.f);
 	wrenchTransform.setRotation(0.f, -.7f, 0.f);
 
+	__pSpotLightObj = AssetImporter::import("res/asset/stage_light/scene.gltf");
+	__pSpotLightObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
+	__pSpotLightObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 3.f);
+	Transform &spotLightObjTransform = __pSpotLightObj->getTransform();
+	spotLightObjTransform.setScale(.7f);
+	spotLightObjTransform.setPosition(16.f, 0.f, 60.f);
+	spotLightObjTransform.setRotation(.15f, -half_pi<float>() * 1.2f, 0.f);
+
 	__pCharacterObj = AssetImporter::import("res/asset/scifi_male/scene.gltf");
 	__pCharacterObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 	__pCharacterObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 2.f);
@@ -77,6 +85,7 @@ LightingTestScene::LightingTestScene()
 	Animation &frontWalkAnim = characterAnimMgr.getAnimation(__ANIM_IDX_WALK_FRONT);
 	frontWalkAnim.setRepeatCount(-1);
 	frontWalkAnim.setPlaySpeed(.8f);
+
 
 	//// 카메라 초기화 ////
 
@@ -105,6 +114,20 @@ LightingTestScene::LightingTestScene()
 	__pPointLight->setAttenuation(1.f, .35f, .44f);
 	__pPointLight->setShadowEnabled(true);
 
+	__pSpotLight = &__lightMgr.createLight<SpotLight>();
+	__pSpotLight->setAlbedo(.32f, .88f, .96f);
+	__pSpotLight->setAmbientStrength(.1f);
+	__pSpotLight->setDiffuseStrength(30.f);
+	__pSpotLight->setSpecularStrength(30.f);
+	__pSpotLight->setAttenuation(1.f, .14f, .07f);
+	__pSpotLight->setCutOff(.35f, .5f);
+	__pSpotLight->setShadowEnabled(true);
+
+	Transform &spotLightTransform = __pSpotLight->getTransform();
+	spotLightTransform.setPosition(spotLightObjTransform.getPosition() + vec3{ 0.f, 5.f, 0.f });
+	spotLightTransform.setRotation(spotLightObjTransform.getRotation());
+	spotLightTransform.rotateLocal(.1f, 0.f, 0.f);
+
 	Transform &pointLightTransform = __pPointLight->getTransform();
 	pointLightTransform.setPosition(8.f, 5.f, 110.f);
 
@@ -114,16 +137,19 @@ LightingTestScene::LightingTestScene()
 	__updater.add(__camera);
 	__updater.add(*__pGlobalLight);
 	__updater.add(*__pPointLight);
+	__updater.add(*__pSpotLight);
 	__updater.add(*__pCorridorObj);
 	__updater.add(*__pCargoBayObj);
 	__updater.add(*__pPulseCoreObj);
 	__updater.add(*__pWrenchObj);
+	__updater.add(*__pSpotLightObj);
 	__updater.add(*__pCharacterObj);
 
 	__drawer.add(*__pCorridorObj);
 	__drawer.add(*__pCargoBayObj);
 	__drawer.add(*__pPulseCoreObj);
 	__drawer.add(*__pWrenchObj);
+	__drawer.add(*__pSpotLightObj);
 	__drawer.add(*__pCharacterObj);
 
 

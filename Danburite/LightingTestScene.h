@@ -23,6 +23,7 @@ private:
 	std::shared_ptr<Danburite::SceneObject> __pCargoBayObj;
 	std::shared_ptr<Danburite::SceneObject> __pPulseCoreObj;
 	std::shared_ptr<Danburite::SceneObject> __pWrenchObj;
+	std::shared_ptr<Danburite::SceneObject> __pSpotLightObj;
 	std::shared_ptr<Danburite::SceneObject> __pCharacterObj;
 
 	Danburite::PerspectiveCamera __camera;
@@ -30,6 +31,7 @@ private:
 	Danburite::LightManager __lightMgr;
 	Danburite::DirectionalLight *__pGlobalLight = nullptr;
 	Danburite::PointLight *__pPointLight = nullptr;
+	Danburite::SpotLight *__pSpotLight = nullptr;
 
 	Danburite::BatchProcessor<Danburite::Updatable> __updater;
 	Danburite::BatchProcessor<Danburite::Drawable> __drawer;
