@@ -31,7 +31,8 @@ private:
 
 	Danburite::LightManager __lightMgr;
 	Danburite::PointLight *__pPointLight = nullptr;
-	Danburite::SpotLight *__pSpotLight = nullptr;
+	Danburite::SpotLight *__pSpotLight1 = nullptr;
+	Danburite::SpotLight *__pSpotLight2 = nullptr;
 
 	Danburite::BatchProcessor<Danburite::Updatable> __updater;
 	Danburite::BatchProcessor<Danburite::Drawable> __drawer;

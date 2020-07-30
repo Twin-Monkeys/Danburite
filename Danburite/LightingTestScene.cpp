@@ -37,7 +37,7 @@ LightingTestScene::LightingTestScene()
 	__pCargoBayObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 	Transform &cargoBayTransform = __pCargoBayObj->getTransform();
 	cargoBayTransform.setScale(8.f);
-	cargoBayTransform.setPosition(9.f, 2.7f, 120.f);
+	cargoBayTransform.setPosition(11.f, 2.7f, 90.f);
 	cargoBayTransform.setRotation(0.f, .3f, 0.f);
 
 	__pPulseCoreObj = AssetImporter::import("res/asset/arc_pulse_core/scene.gltf");
@@ -73,10 +73,17 @@ LightingTestScene::LightingTestScene()
 	__pSpotLightObj = AssetImporter::import("res/asset/stage_light/scene.gltf");
 	__pSpotLightObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 	__pSpotLightObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 3.f);
-	Transform &spotLightObjTransform = __pSpotLightObj->getTransform();
-	spotLightObjTransform.setScale(.7f);
-	spotLightObjTransform.setPosition(16.f, 0.f, 15.f);
-	spotLightObjTransform.setRotation(0.f, -pi<float>() * .3f, 0.f);
+	__pSpotLightObj->setNumInstances(2);
+
+	Transform &spotLightObjTransform1 = __pSpotLightObj->getTransform(0);
+	spotLightObjTransform1.setScale(.7f);
+	spotLightObjTransform1.setPosition(16.f, 0.f, 15.f);
+	spotLightObjTransform1.setRotation(0.f, -pi<float>() * .3f, 0.f);
+
+	Transform &spotLightObjTransform2 = __pSpotLightObj->getTransform(1);
+	spotLightObjTransform2.setScale(.7f);
+	spotLightObjTransform2.setPosition(-16.f, 0.f, 60.f);
+	spotLightObjTransform2.setRotation(0.f, pi<float>() * .3f, 0.f);
 
 	__pCharacterObj = AssetImporter::import("res/asset/scifi_male/scene.gltf");
 	__pCharacterObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
@@ -122,23 +129,35 @@ LightingTestScene::LightingTestScene()
 	__pPointLight->setSpecularStrength(20.f);
 	__pPointLight->setAttenuation(1.f, .35f, .44f);
 	__pPointLight->setShadowEnabled(true);
-
-	__pSpotLight = &__lightMgr.createLight<SpotLight>();
-	__pSpotLight->setAlbedo(.32f, .88f, .96f);
-	__pSpotLight->setAmbientStrength(.03f);
-	__pSpotLight->setDiffuseStrength(50.f);
-	__pSpotLight->setSpecularStrength(50.f);
-	__pSpotLight->setAttenuation(1.f, .14f, .07f);
-	__pSpotLight->setCutOff(.1f, .4f);
-	__pSpotLight->setShadowEnabled(true);
-
-	Transform &spotLightTransform = __pSpotLight->getTransform();
-	spotLightTransform.setPosition(spotLightObjTransform.getPosition() + vec3{ 0.f, 4.f, 0.f });
-	spotLightTransform.setRotation(spotLightObjTransform.getRotation());
-	spotLightTransform.rotateLocal(.1f, 0.f, 0.f);
-
 	Transform &pointLightTransform = __pPointLight->getTransform();
 	pointLightTransform.setPosition(8.f, 5.f, 110.f);
+
+	__pSpotLight1 = &__lightMgr.createLight<SpotLight>();
+	__pSpotLight1->setAlbedo(.32f, .88f, .96f);
+	__pSpotLight1->setAmbientStrength(.03f);
+	__pSpotLight1->setDiffuseStrength(50.f);
+	__pSpotLight1->setSpecularStrength(50.f);
+	__pSpotLight1->setAttenuation(1.f, .14f, .07f);
+	__pSpotLight1->setCutOff(.1f, .4f);
+	__pSpotLight1->setShadowEnabled(true);
+	Transform &spotLightTransform1 = __pSpotLight1->getTransform();
+	spotLightTransform1.setPosition(spotLightObjTransform1.getPosition() + vec3{ 0.f, 4.f, 0.f });
+	spotLightTransform1.setRotation(spotLightObjTransform1.getRotation());
+	spotLightTransform1.rotateLocal(.1f, 0.f, 0.f);
+
+	__pSpotLight2 = &__lightMgr.createLight<SpotLight>();
+	__pSpotLight2->setAlbedo(.32f, .88f, .96f);
+	__pSpotLight2->setAmbientStrength(.03f);
+	__pSpotLight2->setDiffuseStrength(50.f);
+	__pSpotLight2->setSpecularStrength(50.f);
+	__pSpotLight2->setAttenuation(1.f, .14f, .07f);
+	__pSpotLight2->setCutOff(.1f, .4f);
+	__pSpotLight2->setShadowEnabled(true);
+	Transform &spotLightTransform2 = __pSpotLight2->getTransform();
+	spotLightTransform2.setPosition(spotLightObjTransform2.getPosition() + vec3{ 0.f, 4.f, 0.f });
+	spotLightTransform2.setRotation(spotLightObjTransform2.getRotation());
+	spotLightTransform2.rotateLocal(.1f, 0.f, 0.f);
+
 
 	for (size_t smallLightIter = 0ULL; smallLightIter < __NUM_SMALL_LIGHTS; smallLightIter++)
 	{
@@ -170,7 +189,8 @@ LightingTestScene::LightingTestScene()
 
 	__updater.add(__camera);
 	__updater.add(*__pPointLight);
-	__updater.add(*__pSpotLight);
+	__updater.add(*__pSpotLight1);
+	__updater.add(*__pSpotLight2);
 	__updater.add(*__pCorridorObj);
 	__updater.add(*__pCargoBayObj);
 	__updater.add(*__pPulseCoreObj);
