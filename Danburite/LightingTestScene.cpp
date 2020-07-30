@@ -125,7 +125,7 @@ LightingTestScene::LightingTestScene()
 
 	__pSpotLight = &__lightMgr.createLight<SpotLight>();
 	__pSpotLight->setAlbedo(.32f, .88f, .96f);
-	__pSpotLight->setAmbientStrength(.1f);
+	__pSpotLight->setAmbientStrength(.03f);
 	__pSpotLight->setDiffuseStrength(50.f);
 	__pSpotLight->setSpecularStrength(50.f);
 	__pSpotLight->setAttenuation(1.f, .14f, .07f);
@@ -233,26 +233,30 @@ bool LightingTestScene::__keyFunc(const float deltaTime) noexcept
 	}
 	else
 	{
-		if (LEFT)
+		if (LEFT || RIGHT)
 		{
 			characterAnimMgr.activateAnimation(__ANIM_IDX_WALK_LEFT);
-
 			Animation &leftWalkAnim = characterAnimMgr.getActiveAnimation();
-			leftWalkAnim.setPlayingOrder(AnimationPlayingOrderType::FORWARD);
 
-			cameraTransform.moveHorizontal(-MOVE_SPEED);
-			characterTransform.moveHorizontal(MOVE_SPEED);
-		}
+			const vec4 &cameraHoriz = cameraTransform.getHorizontal();
 
-		if (RIGHT)
-		{
-			characterAnimMgr.activateAnimation(__ANIM_IDX_WALK_LEFT);
+			if (LEFT)
+			{
+				leftWalkAnim.setPlayingOrder(AnimationPlayingOrderType::FORWARD);
 
-			Animation &leftWalkAnim = characterAnimMgr.getActiveAnimation();
-			leftWalkAnim.setPlayingOrder(AnimationPlayingOrderType::REVERSE);
+				const vec3 &posAdj = (cameraHoriz * -MOVE_SPEED);
+				cameraTransform.adjustPosition(posAdj);
+				characterTransform.adjustPosition(posAdj);
+			}
 
-			cameraTransform.moveHorizontal(MOVE_SPEED);
-			characterTransform.moveHorizontal(-MOVE_SPEED);
+			if (RIGHT)
+			{
+				leftWalkAnim.setPlayingOrder(AnimationPlayingOrderType::REVERSE);
+
+				const vec3 &posAdj = (cameraHoriz * MOVE_SPEED);
+				cameraTransform.adjustPosition(posAdj);
+				characterTransform.adjustPosition(posAdj);
+			}
 		}
 
 		if (FRONT || BACK)
@@ -272,15 +276,19 @@ bool LightingTestScene::__keyFunc(const float deltaTime) noexcept
 				if (FRONT)
 				{
 					frontWalkAnim.setPlayingOrder(AnimationPlayingOrderType::FORWARD);
-					cameraTransform.adjustPosition(projForward * -MOVE_SPEED);
-					characterTransform.adjustPosition(projForward * -MOVE_SPEED);
+
+					const vec3 &posAdj = (projForward * -MOVE_SPEED);
+					cameraTransform.adjustPosition(posAdj);
+					characterTransform.adjustPosition(posAdj);
 				}
 
 				if (BACK)
 				{
 					frontWalkAnim.setPlayingOrder(AnimationPlayingOrderType::REVERSE);
-					cameraTransform.adjustPosition(projForward * MOVE_SPEED);
-					characterTransform.adjustPosition(projForward * MOVE_SPEED);
+
+					const vec3 &posAdj = (projForward * MOVE_SPEED);
+					cameraTransform.adjustPosition(posAdj);
+					characterTransform.adjustPosition(posAdj);
 				}
 			}
 		}
@@ -360,12 +368,13 @@ void LightingTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcep
 
 	const vec3 &rotationPivot = { characterPos.x, characterPos.y + 18.f, characterPos.z };
 
-	const vec3 &cameraHoriz = cameraTransform.getHorizontal();
-	const vec3 &cameraProjHoriz = normalize(vec3{ cameraHoriz.x, 0.f, cameraHoriz.z });
+	cameraTransform.
+		orbit(-(yDelta * ROTATION_SPEED), rotationPivot, cameraTransform.getHorizontal(), false).
+		orbit(-(xDelta * ROTATION_SPEED), rotationPivot, { 0.f, 1.f, 0.f }, false);
 
 	cameraTransform.
-		orbit(-(yDelta * ROTATION_SPEED), rotationPivot, cameraProjHoriz).
-		orbit(-(xDelta * ROTATION_SPEED), rotationPivot, { 0.f, 1.f, 0.f });
+		rotateLocal(-(yDelta * ROTATION_SPEED), 0.f, 0.f).
+		rotateGlobal(0.f, -(xDelta * ROTATION_SPEED), 0.f);
 
 	characterTransform.rotateLocal(0.f, -(xDelta * ROTATION_SPEED), 0.f);
 }
