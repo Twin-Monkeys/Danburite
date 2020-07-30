@@ -45,7 +45,7 @@ LightingTestScene::LightingTestScene()
 	__pPulseCoreObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 2.f);
 	Transform& pulseCoreTransform = __pPulseCoreObj->getTransform();
 	pulseCoreTransform.setScale(4.f);
-	pulseCoreTransform.setPosition(-10.f, 0.f, 30.f);
+	pulseCoreTransform.setPosition(-10.f, 0.2f, 30.f);
 
 	__pWrenchObj = AssetImporter::import("res/asset/wrench/scene.gltf");
 	__pWrenchObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
@@ -56,15 +56,27 @@ LightingTestScene::LightingTestScene()
 
 	__pCharacterObj = AssetImporter::import("res/asset/scifi_male/scene.gltf");
 	__pCharacterObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
+	__pCharacterObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 2.f);
 	Transform &characterTransform = __pCharacterObj->getTransform();
 	characterTransform.setScale(.1f);
 
-	AnimationManager &characterAnimMgr = __pCharacterObj->getAnimationManager();
-	characterAnimMgr.activateAnimation(8);
 
-	Animation &characterAnim = characterAnimMgr.getActiveAnimation();
-	// characterAnim.setPlaySpeed(.7f);
-	characterAnim.setRepeatCount(-1);
+	// 애니메이션 초기화
+
+	AnimationManager &characterAnimMgr = __pCharacterObj->getAnimationManager();
+
+	Animation &lookUpAnim = characterAnimMgr.getAnimation(__ANIM_IDX_LOOK_UP);
+	lookUpAnim.setRepeatCount(-1);
+	lookUpAnim.setPlaySpeed(.3f);
+	lookUpAnim.setAnimationRepeatType(AnimationRepeatType::PINGPONG);
+
+	Animation &leftWalkAnim = characterAnimMgr.getAnimation(__ANIM_IDX_WALK_LEFT);
+	leftWalkAnim.setRepeatCount(-1);
+	leftWalkAnim.setPlaySpeed(.8f);
+
+	Animation &frontWalkAnim = characterAnimMgr.getAnimation(__ANIM_IDX_WALK_FRONT);
+	frontWalkAnim.setRepeatCount(-1);
+	frontWalkAnim.setPlaySpeed(.8f);
 
 	//// 카메라 초기화 ////
 
@@ -75,19 +87,33 @@ LightingTestScene::LightingTestScene()
 	const vec3 &cameraPos = cameraTransform.getPosition();
 	characterTransform.setPosition(cameraPos.x, cameraPos.y - __CHARACTER_DIST_Y, cameraPos.z + __CHARACTER_DIST_Z);
 
+
 	// Light 초기화
 
 	__pGlobalLight = &__lightMgr.createLight<DirectionalLight>();
 	__pGlobalLight->setAlbedo(1.f, 1.f, 1.f);
-	__pGlobalLight->setAmbientStrength(.005f);
+	__pGlobalLight->setAmbientStrength(.002f);
 	__pGlobalLight->setDiffuseStrength(0.f);
 	__pGlobalLight->setSpecularStrength(0.f);
 	__pGlobalLight->setShadowEnabled(false);
+
+	__pPointLight = &__lightMgr.createLight<PointLight>();
+	__pPointLight->setAlbedo(.25f, .35f, .8f);
+	__pPointLight->setAmbientStrength(.1f);
+	__pPointLight->setDiffuseStrength(20.f);
+	__pPointLight->setSpecularStrength(20.f);
+	__pPointLight->setAttenuation(1.f, .35f, .44f);
+	__pPointLight->setShadowEnabled(true);
+
+	Transform &pointLightTransform = __pPointLight->getTransform();
+	pointLightTransform.setPosition(8.f, 5.f, 110.f);
+
 
 	//// Updater / Drawer 초기화 ////
 
 	__updater.add(__camera);
 	__updater.add(*__pGlobalLight);
+	__updater.add(*__pPointLight);
 	__updater.add(*__pCorridorObj);
 	__updater.add(*__pCargoBayObj);
 	__updater.add(*__pPulseCoreObj);
@@ -100,12 +126,18 @@ LightingTestScene::LightingTestScene()
 	__drawer.add(*__pWrenchObj);
 	__drawer.add(*__pCharacterObj);
 
+
+	// PostProcessor 초기화
+
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
 
 	// __pPPPipeline->appendProcessor<MSAAPostProcessor>(true);
 	__ppPipeline.appendProcessor<GammaCorrectionPostProcessor>(true);
 	__ppPipeline.appendProcessor<BloomPostProcessor>();
 	__pHDRPP = &__ppPipeline.appendProcessor<HDRPostProcessor>();
+
+
+	// 렌더링 파이프라인 초기화
 
 	__pRenderingPipeline = make_unique<LightPrePassRenderingPipeline>(
 		__lightMgr, __camera, __drawer, __skybox, __ppPipeline);
@@ -120,57 +152,75 @@ bool LightingTestScene::__keyFunc(const float deltaTime) noexcept
 	if (ESC)
 		return false;
 
-	float accel = 1.f;
-	const bool SHIFT = (GetAsyncKeyState(VK_SHIFT) & 0x8000);
-	if (SHIFT)
-		accel *= 4.f;
-
 	constexpr float MOVE_SPEED_FACTOR = .013f;
-	const float MOVE_SPEED = (MOVE_SPEED_FACTOR * deltaTime * accel);
+	const float MOVE_SPEED = (MOVE_SPEED_FACTOR * deltaTime);
 
 	const bool
 		LEFT = (GetAsyncKeyState('A') & 0x8000),
 		RIGHT = (GetAsyncKeyState('D') & 0x8000),
 		FRONT = (GetAsyncKeyState('W') & 0x8000),
-		BACK = (GetAsyncKeyState('S') & 0x8000),
-		UP = (GetAsyncKeyState('E') & 0x8000),
-		DOWN = (GetAsyncKeyState('Q') & 0x8000);
+		BACK = (GetAsyncKeyState('S') & 0x8000);
 
 	Transform& cameraTransform = __camera.getTransform();
 	Transform &characterTransform = __pCharacterObj->getTransform();
 
-	if (LEFT)
+	AnimationManager &characterAnimMgr = __pCharacterObj->getAnimationManager();
+
+	if (!(LEFT || RIGHT || FRONT || BACK))
 	{
-		cameraTransform.moveHorizontal(-MOVE_SPEED);
-		characterTransform.moveHorizontal(MOVE_SPEED);
+		characterAnimMgr.activateAnimation(__ANIM_IDX_LOOK_UP);
 	}
-
-	if (RIGHT)
+	else
 	{
-		cameraTransform.moveHorizontal(MOVE_SPEED);
-		characterTransform.moveHorizontal(-MOVE_SPEED);
-	}
-
-	if (FRONT || BACK)
-	{
-		const vec4 &cameraForward = cameraTransform.getForward();
-		vec3 projForward = { cameraForward.x, 0.f, cameraForward.z };
-
-		const float projForwardLength = length(projForward);
-		if (projForwardLength > epsilon<float>())
+		if (LEFT)
 		{
-			projForward /= projForwardLength;
+			characterAnimMgr.activateAnimation(__ANIM_IDX_WALK_LEFT);
 
-			if (FRONT)
-			{
-				cameraTransform.adjustPosition(projForward * -MOVE_SPEED);
-				characterTransform.adjustPosition(projForward * -MOVE_SPEED);
-			}
+			Animation &leftWalkAnim = characterAnimMgr.getActiveAnimation();
+			leftWalkAnim.setPlayingOrder(AnimationPlayingOrderType::FORWARD);
 
-			if (BACK)
+			cameraTransform.moveHorizontal(-MOVE_SPEED);
+			characterTransform.moveHorizontal(MOVE_SPEED);
+		}
+
+		if (RIGHT)
+		{
+			characterAnimMgr.activateAnimation(__ANIM_IDX_WALK_LEFT);
+
+			Animation &leftWalkAnim = characterAnimMgr.getActiveAnimation();
+			leftWalkAnim.setPlayingOrder(AnimationPlayingOrderType::REVERSE);
+
+			cameraTransform.moveHorizontal(MOVE_SPEED);
+			characterTransform.moveHorizontal(-MOVE_SPEED);
+		}
+
+		if (FRONT || BACK)
+		{
+			characterAnimMgr.activateAnimation(__ANIM_IDX_WALK_FRONT);
+
+			Animation &frontWalkAnim = characterAnimMgr.getActiveAnimation();
+
+			const vec4 &cameraForward = cameraTransform.getForward();
+			vec3 projForward = { cameraForward.x, 0.f, cameraForward.z };
+
+			const float projForwardLength = length(projForward);
+			if (projForwardLength > epsilon<float>())
 			{
-				cameraTransform.adjustPosition(projForward * MOVE_SPEED);
-				characterTransform.adjustPosition(projForward * MOVE_SPEED);
+				projForward /= projForwardLength;
+
+				if (FRONT)
+				{
+					frontWalkAnim.setPlayingOrder(AnimationPlayingOrderType::FORWARD);
+					cameraTransform.adjustPosition(projForward * -MOVE_SPEED);
+					characterTransform.adjustPosition(projForward * -MOVE_SPEED);
+				}
+
+				if (BACK)
+				{
+					frontWalkAnim.setPlayingOrder(AnimationPlayingOrderType::REVERSE);
+					cameraTransform.adjustPosition(projForward * MOVE_SPEED);
+					characterTransform.adjustPosition(projForward * MOVE_SPEED);
+				}
 			}
 		}
 	}
@@ -201,7 +251,7 @@ bool LightingTestScene::update(const float deltaTime) noexcept
 	if (__blinkingDelay < epsilon<float>())
 	{
 		const float randVal = __randDistribute(__randEngine);
-		__pCorridorObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, (randVal < .1f) ? .3f : 1.f);
+		__pCorridorObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, (randVal < .1f) ? .2f : 1.f);
 
 		__blinkingDelay = 70.f;
 	}

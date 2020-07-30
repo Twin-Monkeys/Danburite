@@ -29,6 +29,7 @@ private:
 
 	Danburite::LightManager __lightMgr;
 	Danburite::DirectionalLight *__pGlobalLight = nullptr;
+	Danburite::PointLight *__pPointLight = nullptr;
 
 	Danburite::BatchProcessor<Danburite::Updatable> __updater;
 	Danburite::BatchProcessor<Danburite::Drawable> __drawer;
@@ -46,6 +47,10 @@ private:
 	bool __keyFunc(const float deltaTime) noexcept;
 
 	float __cargoBayEmissive = 0.f;
+
+	static constexpr size_t __ANIM_IDX_LOOK_UP = 3ULL;
+	static constexpr size_t __ANIM_IDX_WALK_LEFT = 9ULL;
+	static constexpr size_t __ANIM_IDX_WALK_FRONT = 8ULL;
 
 	static constexpr float __CHARACTER_DIST_Y = 28.f;
 	static constexpr float __CHARACTER_DIST_Z = 30.f;

@@ -372,6 +372,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationManager.h" />
     <ClInclude Include="AnimationPlayingOrderType.h" />
+    <ClInclude Include="AnimationRepeatType.h" />
     <ClInclude Include="AssimpDataStructureConverter.h" />
     <ClInclude Include="Attachable.h" />
     <ClInclude Include="AttachableTexture2D.h" />

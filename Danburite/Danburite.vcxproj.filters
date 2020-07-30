@@ -1304,6 +1304,9 @@
     <ClInclude Include="LightVolumeType.h">
       <Filter>Library\Engine\Core\Light</Filter>
     </ClInclude>
+    <ClInclude Include="AnimationRepeatType.h">
+      <Filter>Library\Engine\Core\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glsl\src\Header\Camera_Header.glsl">

@@ -5,6 +5,7 @@
 #include "SceneNodeConnecterManager.h"
 #include "Object.h"
 #include "AnimationPlayingOrderType.h"
+#include "AnimationRepeatType.h"
 
 namespace Danburite
 {
@@ -15,6 +16,8 @@ namespace Danburite
 		float __timestamp = 0.f;
 
 		AnimationPlayingOrderType __playingOrderType = AnimationPlayingOrderType::FORWARD;
+		AnimationRepeatType __animationRepeatType = AnimationRepeatType::ONE_WAY;
+
 		float __playSpeed = 1.f;
 		int __repCnt = 0;
 
@@ -37,7 +40,10 @@ namespace Danburite
 		constexpr Animation &setPlaySpeed(const float speed) noexcept;
 
 		constexpr AnimationPlayingOrderType getPlayingOrder() const noexcept;
-		constexpr void setPlayingOrder(const AnimationPlayingOrderType type, const bool rewind = true) noexcept;
+		constexpr void setPlayingOrder(const AnimationPlayingOrderType type, const bool rewindIfChanged = true) noexcept;
+
+		constexpr AnimationRepeatType getAnimationRepeatType() const noexcept;
+		constexpr void setAnimationRepeatType(const AnimationRepeatType type) noexcept;
 
 		constexpr int getRepeatCount() const noexcept;
 		constexpr Animation &setRepeatCount(const int count) noexcept;
@@ -79,11 +85,14 @@ namespace Danburite
 		return __playingOrderType;
 	}
 
-	constexpr void Animation::setPlayingOrder(const AnimationPlayingOrderType type, const bool rewind) noexcept
+	constexpr void Animation::setPlayingOrder(const AnimationPlayingOrderType type, const bool rewindIfChanged) noexcept
 	{
+		if (__playingOrderType == type)
+			return;
+
 		__playingOrderType = type;
 
-		if (!rewind)
+		if (!rewindIfChanged)
 			return;
 
 		switch (type)
@@ -96,6 +105,16 @@ namespace Danburite
 			__timestamp = __playTime;
 			break;
 		}
+	}
+
+	constexpr AnimationRepeatType Animation::getAnimationRepeatType() const noexcept
+	{
+		return __animationRepeatType;
+	}
+
+	constexpr void Animation::setAnimationRepeatType(const AnimationRepeatType type) noexcept
+	{
+		__animationRepeatType = type;
 	}
 
 	constexpr int Animation::getRepeatCount() const noexcept

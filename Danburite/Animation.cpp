@@ -20,10 +20,22 @@ namespace Danburite
 		if ((__timestamp > __playTime) || (__timestamp < 0.f))
 		{
 			if (__repCnt > 0)
+			{
 				__repCnt--;
+			}
 
-			if (__repCnt)
-				__timestamp -= (__playTime * floorf(__timestamp / __playTime));
+			if (__animationRepeatType == Danburite::AnimationRepeatType::PINGPONG)
+			{
+				if (__playingOrderType == AnimationPlayingOrderType::FORWARD)
+					setPlayingOrder(AnimationPlayingOrderType::REVERSE);
+				else
+					setPlayingOrder(AnimationPlayingOrderType::FORWARD);
+			}
+			else
+			{
+				if (__repCnt)
+					__timestamp -= (__playTime * floorf(__timestamp / __playTime));
+			}
 		}
 
 		return *this;
