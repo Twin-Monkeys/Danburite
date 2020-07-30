@@ -45,11 +45,8 @@ private:
 	std::default_random_engine __randEngine;
 	std::uniform_real_distribution<float> __randDistribute;
 
-	std::uniform_real_distribution<float> __dronePosDistributeX { -15.f, 15.f };
-	std::uniform_real_distribution<float> __dronePosDistributeZ { 5.f, 205.f };
-
-	std::uniform_real_distribution<float> __smallLightPosDistributeX { -14.f, 14.f };
-	std::uniform_real_distribution<float> __smallLightPosDistributeZ { 120.f, 205.f };
+	std::uniform_real_distribution<float> __posDistributeX { -16.f, 16.f };
+	std::uniform_real_distribution<float> __posDistributeZ { 120.f, 205.f };
 
 	float __blinkingDelay = 0.f;
 	bool __keyFunc(const float deltaTime) noexcept;
@@ -57,7 +54,7 @@ private:
 	float __cargoBayEmissive = 0.f;
 	float __droneEmissive = 0.f;
 
-	static constexpr size_t __NUM_DRONES = 50ULL;
+	static constexpr size_t __NUM_DRONES = 30ULL;
 	static constexpr size_t __NUM_SMALL_LIGHTS = 50ULL;
 
 	static constexpr size_t __ANIM_IDX_LOOK_UP = 3ULL;

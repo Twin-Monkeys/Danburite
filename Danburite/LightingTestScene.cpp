@@ -61,8 +61,8 @@ LightingTestScene::LightingTestScene()
 
 	for (size_t droneIter = 0ULL; droneIter < __NUM_DRONES; droneIter++)
 	{
-		const float randPosX = __dronePosDistributeX(__randEngine);
-		const float randPosZ = __dronePosDistributeZ(__randEngine);
+		const float randPosX = __posDistributeX(__randEngine);
+		const float randPosZ = __posDistributeZ(__randEngine);
 
 		Transform &droneTransform = __pDroneObj->getTransform(droneIter);
 		droneTransform.setScale(.002f);
@@ -125,7 +125,7 @@ LightingTestScene::LightingTestScene()
 
 	__pSpotLight = &__lightMgr.createLight<SpotLight>();
 	__pSpotLight->setAlbedo(.32f, .88f, .96f);
-	__pSpotLight->setAmbientStrength(1.f);
+	__pSpotLight->setAmbientStrength(.1f);
 	__pSpotLight->setDiffuseStrength(30.f);
 	__pSpotLight->setSpecularStrength(30.f);
 	__pSpotLight->setAttenuation(1.f, .14f, .07f);
@@ -157,8 +157,8 @@ LightingTestScene::LightingTestScene()
 		smallLight.setAttenuation(1.f, .7f, 1.8f);
 		smallLight.setShadowEnabled(false);
 
-		const float randPosX = __smallLightPosDistributeX(__randEngine);
-		const float randPosZ = __smallLightPosDistributeZ(__randEngine);
+		const float randPosX = __posDistributeX(__randEngine);
+		const float randPosZ = __posDistributeZ(__randEngine);
 
 		Transform &smallLightTransform = smallLight.getTransform();
 		smallLightTransform.setPosition(randPosX, .3f, randPosZ);
@@ -324,7 +324,7 @@ bool LightingTestScene::update(const float deltaTime) noexcept
 	__droneEmissive = fmodf(__cargoBayEmissive, two_pi<float>());
 
 	__pCargoBayObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 2.f * fabsf(cosf(__cargoBayEmissive)));
-	__pDroneObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 2.f * fabsf(cosf(__droneEmissive)));
+	__pDroneObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 3.f * fabsf(cosf(__droneEmissive)));
 
 	__updater.process(&Updatable::update, deltaTime);
 	__updated = true;
@@ -360,8 +360,11 @@ void LightingTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcep
 
 	const vec3 &rotationPivot = { characterPos.x, characterPos.y + 18.f, characterPos.z };
 
+	const vec3 &cameraHoriz = cameraTransform.getHorizontal();
+	const vec3 &cameraProjHoriz = normalize(vec3{ cameraHoriz.x, 0.f, cameraHoriz.z });
+
 	cameraTransform.
-		orbit(-(yDelta * ROTATION_SPEED), rotationPivot, cameraTransform.getHorizontal()).
+		orbit(-(yDelta * ROTATION_SPEED), rotationPivot, cameraProjHoriz).
 		orbit(-(xDelta * ROTATION_SPEED), rotationPivot, { 0.f, 1.f, 0.f });
 
 	characterTransform.rotateLocal(0.f, -(xDelta * ROTATION_SPEED), 0.f);
