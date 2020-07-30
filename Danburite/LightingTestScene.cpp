@@ -125,7 +125,7 @@ LightingTestScene::LightingTestScene()
 
 	__pSpotLight = &__lightMgr.createLight<SpotLight>();
 	__pSpotLight->setAlbedo(.32f, .88f, .96f);
-	__pSpotLight->setAmbientStrength(0.01f);
+	__pSpotLight->setAmbientStrength(1.f);
 	__pSpotLight->setDiffuseStrength(30.f);
 	__pSpotLight->setSpecularStrength(30.f);
 	__pSpotLight->setAttenuation(1.f, .14f, .07f);

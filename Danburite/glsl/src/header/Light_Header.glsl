@@ -209,24 +209,7 @@ float Light_getAttenuation(uint lightIndex, const vec3 targetPos)
 	const uint LIGHT_TYPE = light[lightIndex].type;
 	float retVal = 1.f;
 
-	if (LIGHT_TYPE == LIGHT_TYPE_SPOT)
-	{
-		const float theta = dot(light[lightIndex].direction, Light_getLightDirection(lightIndex, targetPos));
-		
-		retVal = clamp(
-			(theta - light[lightIndex].outerCutOff) /
-			(light[lightIndex].innerCutOff - light[lightIndex].outerCutOff),
-			0.f, 1.f);
-
-		const float lightDist = Light_getLightDistance(lightIndex, targetPos);
-		const float attenuation =
-			(light[lightIndex].attConst +
-			(light[lightIndex].attLinear * lightDist) +
-			(light[lightIndex].attQuad * lightDist * lightDist));
-
-		retVal /= attenuation;
-	}
-	else if (LIGHT_TYPE == LIGHT_TYPE_POINT)
+	if ((LIGHT_TYPE == LIGHT_TYPE_SPOT) || (LIGHT_TYPE == LIGHT_TYPE_POINT))
 	{
 		const float lightDist = Light_getLightDistance(lightIndex, targetPos);
 		const float attenuation =
@@ -247,9 +230,26 @@ vec3 Light_getLightAmbient(uint lightIndex, const vec3 targetPos)
 		light[lightIndex].ambientStrength);
 }
 
+float Light_getCutOff(const uint lightIndex, const vec3 targetPos)
+{
+	const uint LIGHT_TYPE = light[lightIndex].type;
+
+	if (LIGHT_TYPE != LIGHT_TYPE_SPOT)
+		return 1.f;
+
+	const float theta =
+		dot(light[lightIndex].direction, Light_getLightDirection(lightIndex, targetPos));
+		
+	return clamp(
+		(theta - light[lightIndex].outerCutOff) /
+		(light[lightIndex].innerCutOff - light[lightIndex].outerCutOff), 0.f, 1.f);
+}
+
 float Light_getLightDiffusePower(uint lightIndex, const vec3 targetPos, vec3 targetNormal)
 {
-	return max(dot(targetNormal, -Light_getLightDirection(lightIndex, targetPos)), 0.f);
+	return
+		(Light_getCutOff(lightIndex, targetPos) *
+		max(dot(targetNormal, -Light_getLightDirection(lightIndex, targetPos)), 0.f));
 }
 
 vec3 Light_getLightDiffuse(uint lightIndex, const vec3 targetPos, vec3 targetNormal)
@@ -271,7 +271,9 @@ float Light_getLightSpecularPower(
 	vec3 lightDirection = -Light_getLightDirection(lightIndex, targetPos);
 	vec3 halfwayDirection = normalize(lightDirection + viewDirection);
 
-	return pow(max(dot(targetNormal, halfwayDirection), 0.f), materialShininess);
+	return
+		(Light_getCutOff(lightIndex, targetPos) *
+		pow(max(dot(targetNormal, halfwayDirection), 0.f), materialShininess));
 }
 
 vec3 Light_getLightSpecular(uint lightIndex, const vec3 targetPos, vec3 targetNormal, vec3 viewDirection, float materialShininess)
