@@ -75,8 +75,8 @@ LightingTestScene::LightingTestScene()
 	__pSpotLightObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 3.f);
 	Transform &spotLightObjTransform = __pSpotLightObj->getTransform();
 	spotLightObjTransform.setScale(.7f);
-	spotLightObjTransform.setPosition(16.f, 0.f, 60.f);
-	spotLightObjTransform.setRotation(.15f, -half_pi<float>() * 1.2f, 0.f);
+	spotLightObjTransform.setPosition(16.f, 0.f, 15.f);
+	spotLightObjTransform.setRotation(0.f, -pi<float>() * .3f, 0.f);
 
 	__pCharacterObj = AssetImporter::import("res/asset/scifi_male/scene.gltf");
 	__pCharacterObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
@@ -126,14 +126,14 @@ LightingTestScene::LightingTestScene()
 	__pSpotLight = &__lightMgr.createLight<SpotLight>();
 	__pSpotLight->setAlbedo(.32f, .88f, .96f);
 	__pSpotLight->setAmbientStrength(.1f);
-	__pSpotLight->setDiffuseStrength(30.f);
-	__pSpotLight->setSpecularStrength(30.f);
+	__pSpotLight->setDiffuseStrength(50.f);
+	__pSpotLight->setSpecularStrength(50.f);
 	__pSpotLight->setAttenuation(1.f, .14f, .07f);
-	__pSpotLight->setCutOff(.35f, .5f);
+	__pSpotLight->setCutOff(.1f, .4f);
 	__pSpotLight->setShadowEnabled(true);
 
 	Transform &spotLightTransform = __pSpotLight->getTransform();
-	spotLightTransform.setPosition(spotLightObjTransform.getPosition() + vec3{ 0.f, 5.f, 0.f });
+	spotLightTransform.setPosition(spotLightObjTransform.getPosition() + vec3{ 0.f, 4.f, 0.f });
 	spotLightTransform.setRotation(spotLightObjTransform.getRotation());
 	spotLightTransform.rotateLocal(.1f, 0.f, 0.f);
 
