@@ -19,7 +19,7 @@ namespace Danburite
 		std::shared_ptr<ObjectGL::Texture2D> __pNormalTex;
 		std::shared_ptr<ObjectGL::Texture2D> __pHeightTex;
 
-		float __emissiveStrength = Constant::Material::Phong::DEFAULT_EMISSIVE_STRENGTH;
+		float __emissiveStrength = 1.f;
 		float __shininess = Constant::Material::Phong::DEFAULT_SHININESS;
 
 	protected:

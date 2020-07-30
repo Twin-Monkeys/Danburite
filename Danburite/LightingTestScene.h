@@ -12,6 +12,7 @@
 #include "HDRPostProcessor.h"
 #include "PostProcessingPipeline.h"
 #include "RenderingPipeline.h"
+#include <random>
 
 class LightingTestScene : public Danburite::Scene, public ObjectGL::ScreenEventHandler
 {
@@ -19,6 +20,9 @@ private:
 	bool __updated = false;
 
 	std::shared_ptr<Danburite::SceneObject> __pCorridorObj;
+	std::shared_ptr<Danburite::SceneObject> __pCargoBayObj;
+	std::shared_ptr<Danburite::SceneObject> __pPulseCoreObj;
+	std::shared_ptr<Danburite::SceneObject> __pWrenchObj;
 
 	Danburite::PerspectiveCamera __camera;
 
@@ -34,7 +38,13 @@ private:
 
 	std::unique_ptr<Danburite::RenderingPipeline> __pRenderingPipeline;
 
+	std::default_random_engine __randEngine;
+	std::uniform_real_distribution<float> __randDistribute;
+
+	float __blinkingDelay = 0.f;
 	bool __keyFunc(const float deltaTime) noexcept;
+
+	float __pulseCoreEmissive = 0.f;
 
 public:
 	LightingTestScene();

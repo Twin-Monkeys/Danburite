@@ -31,20 +31,41 @@ LightingTestScene::LightingTestScene()
 	//// Rendering unit 생성 ////
 
 	__pCorridorObj = AssetImporter::import("res/asset/corridor/scene.gltf");
+	__pCorridorObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 
+	__pCargoBayObj = AssetImporter::import("res/asset/cargo_bay/scene.gltf");
+	__pCargoBayObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
+	Transform &cargoBayTransform = __pCargoBayObj->getTransform();
+	cargoBayTransform.setScale(8.f);
+	cargoBayTransform.setPosition(9.f, 2.7f, 120.f);
+	cargoBayTransform.setRotation(0.f, .3f, 0.f);
+
+	__pPulseCoreObj = AssetImporter::import("res/asset/arc_pulse_core/scene.gltf");
+	__pPulseCoreObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
+	__pPulseCoreObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 2.f);
+	Transform& pulseCoreTransform = __pPulseCoreObj->getTransform();
+	pulseCoreTransform.setScale(4.f);
+	pulseCoreTransform.setPosition(-10.f, 0.f, 30.f);
+
+	__pWrenchObj = AssetImporter::import("res/asset/wrench/scene.gltf");
+	__pWrenchObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
+	Transform &wrenchTransform = __pWrenchObj->getTransform();
+	wrenchTransform.setScale(15.f);
+	wrenchTransform.setPosition(-12.f, 0.f, 90.f);
+	wrenchTransform.setRotation(0.f, -.7f, 0.f);
 
 	//// 카메라 초기화 ////
 
 	Transform &cameraTransform = __camera.getTransform();
-	cameraTransform.setPosition(0.f, 15.f, 50.f);
-	cameraTransform.setRotation(-0.4f, 0.f, 0.f);
+	cameraTransform.setPosition(0.f, 25.f, 0.f);
+	cameraTransform.setRotation(-0.4f, pi<float>(), 0.f);
 
 
 	// Light 초기화
 
 	__pGlobalLight = &__lightMgr.createLight<DirectionalLight>();
 	__pGlobalLight->setAlbedo(1.f, 1.f, 1.f);
-	__pGlobalLight->setAmbientStrength(.001f);
+	__pGlobalLight->setAmbientStrength(.005f);
 	__pGlobalLight->setDiffuseStrength(0.f);
 	__pGlobalLight->setSpecularStrength(0.f);
 	__pGlobalLight->setShadowEnabled(false);
@@ -54,8 +75,14 @@ LightingTestScene::LightingTestScene()
 	__updater.add(__camera);
 	__updater.add(*__pGlobalLight);
 	__updater.add(*__pCorridorObj);
+	__updater.add(*__pCargoBayObj);
+	__updater.add(*__pPulseCoreObj);
+	__updater.add(*__pWrenchObj);
 
 	__drawer.add(*__pCorridorObj);
+	__drawer.add(*__pCargoBayObj);
+	__drawer.add(*__pPulseCoreObj);
+	__drawer.add(*__pWrenchObj);
 
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
 
@@ -134,8 +161,19 @@ void LightingTestScene::draw() noexcept
 
 bool LightingTestScene::update(const float deltaTime) noexcept
 {
-	constexpr vec3 pivot { 0.f, 0.f, 0.f };
-	constexpr vec3 axis { 0.f, 1.f, 0.f };
+	__blinkingDelay -= deltaTime;
+
+	if (__blinkingDelay < epsilon<float>())
+	{
+		const float randVal = __randDistribute(__randEngine);
+		__pCorridorObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, (randVal < .1f) ? .3f : 1.f);
+
+		__blinkingDelay = 70.f;
+	}
+
+	__pulseCoreEmissive += (deltaTime * .001f);
+	__pulseCoreEmissive = fmodf(__pulseCoreEmissive, two_pi<float>());
+	__pCargoBayObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 2.f * fabsf(cosf(__pulseCoreEmissive)));
 
 	__updater.process(&Updatable::update, deltaTime);
 	__updated = true;
