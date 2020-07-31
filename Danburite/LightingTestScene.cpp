@@ -37,7 +37,7 @@ LightingTestScene::LightingTestScene()
 	__pCargoBayObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 	Transform &cargoBayTransform = __pCargoBayObj->getTransform();
 	cargoBayTransform.setScale(8.f);
-	cargoBayTransform.setPosition(11.f, 2.7f, 90.f);
+	cargoBayTransform.setPosition(11.f, 2.7f, 85.f);
 	cargoBayTransform.setRotation(0.f, .3f, 0.f);
 
 	__pPulseCoreObj = AssetImporter::import("res/asset/arc_pulse_core/scene.gltf");
@@ -46,6 +46,13 @@ LightingTestScene::LightingTestScene()
 	Transform& pulseCoreTransform = __pPulseCoreObj->getTransform();
 	pulseCoreTransform.setScale(4.f);
 	pulseCoreTransform.setPosition(-10.f, 0.2f, 30.f);
+
+	__pDoorObj = AssetImporter::import("res/asset/scifi_door/scene.gltf");
+	Transform &doorTransform = __pDoorObj->getTransform();
+	doorTransform.setScale(.15f);
+	doorTransform.setPosition(0.f, 0.f, 105.f);
+	__pDoorObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
+	__pDoorObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 2.f);
 
 	__pWrenchObj = AssetImporter::import("res/asset/wrench/scene.gltf");
 	__pWrenchObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
@@ -56,7 +63,7 @@ LightingTestScene::LightingTestScene()
 
 	__pDroneObj = AssetImporter::import("res/asset/scifi_drone/scene.gltf");
 	__pDroneObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
-	__pDroneObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 2.f);
+	__pDroneObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 3.f);
 	__pDroneObj->setNumInstances(GLsizei(__NUM_DRONES));
 
 	for (size_t droneIter = 0ULL; droneIter < __NUM_DRONES; droneIter++)
@@ -82,12 +89,12 @@ LightingTestScene::LightingTestScene()
 
 	Transform &spotLightObjTransform2 = __pSpotLightObj->getTransform(1);
 	spotLightObjTransform2.setScale(.7f);
-	spotLightObjTransform2.setPosition(-16.f, 0.f, 60.f);
+	spotLightObjTransform2.setPosition(-16.f, 0.f, 65.f);
 	spotLightObjTransform2.setRotation(0.f, pi<float>() * .3f, 0.f);
 
 	__pCharacterObj = AssetImporter::import("res/asset/scifi_male/scene.gltf");
 	__pCharacterObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
-	__pCharacterObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 2.f);
+	__pCharacterObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 3.f);
 	Transform &characterTransform = __pCharacterObj->getTransform();
 	characterTransform.setScale(.1f);
 
@@ -109,6 +116,10 @@ LightingTestScene::LightingTestScene()
 	frontWalkAnim.setRepeatCount(-1);
 	frontWalkAnim.setPlaySpeed(.8f);
 
+	AnimationManager &doorAnimMgr = __pDoorObj->getAnimationManager();
+	doorAnimMgr.activateAnimation(1);
+	doorAnimMgr.getActiveAnimation().setPlaySpeed(.6f);
+
 
 	//// 카메라 초기화 ////
 
@@ -121,16 +132,6 @@ LightingTestScene::LightingTestScene()
 
 
 	// Light 초기화
-
-	__pPointLight = &__lightMgr.createLight<PointLight>();
-	__pPointLight->setAlbedo(.25f, .35f, .8f);
-	__pPointLight->setAmbientStrength(0.f);
-	__pPointLight->setDiffuseStrength(20.f);
-	__pPointLight->setSpecularStrength(20.f);
-	__pPointLight->setAttenuation(1.f, .35f, .44f);
-	__pPointLight->setShadowEnabled(true);
-	Transform &pointLightTransform = __pPointLight->getTransform();
-	pointLightTransform.setPosition(8.f, 5.f, 110.f);
 
 	__pSpotLight1 = &__lightMgr.createLight<SpotLight>();
 	__pSpotLight1->setAlbedo(.32f, .88f, .96f);
@@ -171,8 +172,8 @@ LightingTestScene::LightingTestScene()
 		PointLight &smallLight = __lightMgr.createLight<PointLight>();
 		smallLight.setAlbedo(randAlbedo);
 		smallLight.setAmbientStrength(0.f);
-		smallLight.setDiffuseStrength(10.f);
-		smallLight.setSpecularStrength(10.f);
+		smallLight.setDiffuseStrength(20.f);
+		smallLight.setSpecularStrength(20.f);
 		smallLight.setAttenuation(1.f, .7f, 1.8f);
 		smallLight.setShadowEnabled(false);
 
@@ -188,12 +189,12 @@ LightingTestScene::LightingTestScene()
 	//// Updater / Drawer 초기화 ////
 
 	__updater.add(__camera);
-	__updater.add(*__pPointLight);
 	__updater.add(*__pSpotLight1);
 	__updater.add(*__pSpotLight2);
 	__updater.add(*__pCorridorObj);
 	__updater.add(*__pCargoBayObj);
 	__updater.add(*__pPulseCoreObj);
+	__updater.add(*__pDoorObj);
 	__updater.add(*__pWrenchObj);
 	__updater.add(*__pDroneObj);
 	__updater.add(*__pSpotLightObj);
@@ -202,6 +203,7 @@ LightingTestScene::LightingTestScene()
 	__drawer.add(*__pCorridorObj);
 	__drawer.add(*__pCargoBayObj);
 	__drawer.add(*__pPulseCoreObj);
+	__drawer.add(*__pDoorObj);
 	__drawer.add(*__pWrenchObj);
 	__drawer.add(*__pDroneObj);
 	__drawer.add(*__pSpotLightObj);
@@ -258,13 +260,13 @@ bool LightingTestScene::__keyFunc(const float deltaTime) noexcept
 			characterAnimMgr.activateAnimation(__ANIM_IDX_WALK_LEFT);
 			Animation &leftWalkAnim = characterAnimMgr.getActiveAnimation();
 
-			const vec4 &cameraHoriz = cameraTransform.getHorizontal();
+			const vec4 &characterHoriz = characterTransform.getHorizontal();
 
 			if (LEFT)
 			{
 				leftWalkAnim.setPlayingOrder(AnimationPlayingOrderType::FORWARD);
 
-				const vec3 &posAdj = (cameraHoriz * -MOVE_SPEED);
+				const vec3 &posAdj = (characterHoriz * MOVE_SPEED);
 				cameraTransform.adjustPosition(posAdj);
 				characterTransform.adjustPosition(posAdj);
 			}
@@ -273,7 +275,7 @@ bool LightingTestScene::__keyFunc(const float deltaTime) noexcept
 			{
 				leftWalkAnim.setPlayingOrder(AnimationPlayingOrderType::REVERSE);
 
-				const vec3 &posAdj = (cameraHoriz * MOVE_SPEED);
+				const vec3 &posAdj = (characterHoriz * -MOVE_SPEED);
 				cameraTransform.adjustPosition(posAdj);
 				characterTransform.adjustPosition(posAdj);
 			}
@@ -285,8 +287,8 @@ bool LightingTestScene::__keyFunc(const float deltaTime) noexcept
 
 			Animation &frontWalkAnim = characterAnimMgr.getActiveAnimation();
 
-			const vec4 &cameraForward = cameraTransform.getForward();
-			vec3 projForward = { cameraForward.x, 0.f, cameraForward.z };
+			const vec4 &characterForward = characterTransform.getForward();
+			vec3 projForward = { characterForward.x, 0.f, characterForward.z };
 
 			const float projForwardLength = length(projForward);
 			if (projForwardLength > epsilon<float>())
@@ -297,7 +299,7 @@ bool LightingTestScene::__keyFunc(const float deltaTime) noexcept
 				{
 					frontWalkAnim.setPlayingOrder(AnimationPlayingOrderType::FORWARD);
 
-					const vec3 &posAdj = (projForward * -MOVE_SPEED);
+					const vec3 &posAdj = (projForward * MOVE_SPEED);
 					cameraTransform.adjustPosition(posAdj);
 					characterTransform.adjustPosition(posAdj);
 				}
@@ -306,7 +308,7 @@ bool LightingTestScene::__keyFunc(const float deltaTime) noexcept
 				{
 					frontWalkAnim.setPlayingOrder(AnimationPlayingOrderType::REVERSE);
 
-					const vec3 &posAdj = (projForward * MOVE_SPEED);
+					const vec3 &posAdj = (projForward * -MOVE_SPEED);
 					cameraTransform.adjustPosition(posAdj);
 					characterTransform.adjustPosition(posAdj);
 				}
@@ -342,17 +344,32 @@ bool LightingTestScene::update(const float deltaTime) noexcept
 		const float randVal = __randDistribute(__randEngine);
 		__pCorridorObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, (randVal < .1f) ? .6f : 2.f);
 
-		__blinkingDelay = 70.f;
+		__blinkingDelay = 80.f;
 	}
 
 	__cargoBayEmissive += (deltaTime * .001f);
 	__cargoBayEmissive = fmodf(__cargoBayEmissive, two_pi<float>());
+	__pCargoBayObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 3.f * fabsf(cosf(__cargoBayEmissive)));
 
-	__droneEmissive += (deltaTime * .0001f);
-	__droneEmissive = fmodf(__cargoBayEmissive, two_pi<float>());
+	const float doorDist =
+		length(__pCharacterObj->getTransform().getPosition() - __pDoorObj->getTransform().getPosition());
 
-	__pCargoBayObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 2.f * fabsf(cosf(__cargoBayEmissive)));
-	__pDroneObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 3.f * fabsf(cosf(__droneEmissive)));
+	if ((doorDist < 30.f) && !__doorOpened)
+	{
+		__doorOpened = true;
+
+		Animation &doorAnim = __pDoorObj->getAnimationManager().getActiveAnimation();
+		doorAnim.setPlayingOrder(AnimationPlayingOrderType::FORWARD, false);
+		doorAnim.setRepeatCount(1);
+	}
+	else if ((doorDist > 30.f) && __doorOpened)
+	{
+		__doorOpened = false;
+
+		Animation& doorAnim = __pDoorObj->getAnimationManager().getActiveAnimation();
+		doorAnim.setPlayingOrder(AnimationPlayingOrderType::REVERSE, false);
+		doorAnim.setRepeatCount(1);
+	}
 
 	__updater.process(&Updatable::update, deltaTime);
 	__updated = true;
@@ -396,12 +413,18 @@ void LightingTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcep
 		rotateLocal(-(yDelta * ROTATION_SPEED), 0.f, 0.f).
 		rotateGlobal(0.f, -(xDelta * ROTATION_SPEED), 0.f);
 
-	characterTransform.rotateLocal(0.f, -(xDelta * ROTATION_SPEED), 0.f);
+	if (!__mButtonDown)
+		characterTransform.rotateLocal(0.f, -(xDelta * ROTATION_SPEED), 0.f);
 }
 
 void LightingTestScene::onMouseMButtonDown(const int x, const int y) noexcept
 {
-	__camera.resetFov();
+	__mButtonDown = true;
+}
+
+void LightingTestScene::onMouseMButtonUp(const int x, const int y) noexcept
+{
+	__mButtonDown = false;
 }
 
 void LightingTestScene::onMouseWheel(const short zDelta) noexcept

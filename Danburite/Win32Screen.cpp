@@ -149,6 +149,10 @@ namespace Danburite
 			pEventHandler->onMouseMButtonDown(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 			break;
 
+		case WM_MBUTTONUP:
+			pEventHandler->onMouseMButtonUp(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+			break;
+
 		case WM_MOUSEWHEEL:
 			pEventHandler->onMouseWheel(GET_WHEEL_DELTA_WPARAM(wParam));
 			break;
