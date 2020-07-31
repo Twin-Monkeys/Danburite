@@ -77,6 +77,14 @@ LightingTestScene::LightingTestScene()
 		droneTransform.setRotation(__randDistribute(__randEngine) * .2f, __randDistribute(__randEngine), 0.f);
 	}
 
+	__pRobotObj = AssetImporter::import("res/asset/scifi_robot/scene.gltf");
+	__pRobotObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
+	__pRobotObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 3.f);
+	Transform &robotTransform = __pRobotObj->getTransform();
+	robotTransform.setScale(1.7f);
+	robotTransform.setPosition(-10.f, 0.f, 65.f);
+	robotTransform.setRotation(0.f, pi<float>() * .7f, 0.f);
+
 	__pHoverDroneObj = AssetImporter::import("res/asset/scifi_hover_drone/scene.gltf");
 	__pHoverDroneObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 	__pHoverDroneObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 3.f);
@@ -160,6 +168,11 @@ LightingTestScene::LightingTestScene()
 	Animation &hoverBikeAnim = hoverBikeAnimMgr.getActiveAnimation();
 	hoverBikeAnim.setRepeatCount(-1);
 
+	AnimationManager &robotAnimMgr = __pRobotObj->getAnimationManager();
+	robotAnimMgr.activateAnimation(1);
+	Animation &robotAnim = robotAnimMgr.getActiveAnimation();
+	robotAnim.setRepeatCount(-1);
+
 
 	//// 카메라 초기화 ////
 
@@ -239,6 +252,7 @@ LightingTestScene::LightingTestScene()
 	__updater.add(*__pDoorObj);
 	__updater.add(*__pWrenchObj);
 	__updater.add(*__pDroneObj);
+	__updater.add(*__pRobotObj);
 	__updater.add(*__pHoverDroneObj);
 	__updater.add(*__pHoverBikeObj);
 	__updater.add(*__pSpotLightObj);
@@ -250,6 +264,7 @@ LightingTestScene::LightingTestScene()
 	__drawer.add(*__pDoorObj);
 	__drawer.add(*__pWrenchObj);
 	__drawer.add(*__pDroneObj);
+	__drawer.add(*__pRobotObj);
 	__drawer.add(*__pHoverDroneObj);
 	__drawer.add(*__pHoverBikeObj);
 	__drawer.add(*__pSpotLightObj);

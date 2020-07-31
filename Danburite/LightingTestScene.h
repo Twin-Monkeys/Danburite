@@ -25,6 +25,7 @@ private:
 	std::shared_ptr<Danburite::SceneObject> __pDoorObj;
 	std::shared_ptr<Danburite::SceneObject> __pWrenchObj;
 	std::shared_ptr<Danburite::SceneObject> __pDroneObj;
+	std::shared_ptr<Danburite::SceneObject> __pRobotObj;
 	std::shared_ptr<Danburite::SceneObject> __pHoverDroneObj;
 	std::shared_ptr<Danburite::SceneObject> __pHoverBikeObj;
 	std::shared_ptr<Danburite::SceneObject> __pSpotLightObj;
