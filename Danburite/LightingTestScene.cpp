@@ -77,6 +77,20 @@ LightingTestScene::LightingTestScene()
 		droneTransform.setRotation(__randDistribute(__randEngine) * .2f, __randDistribute(__randEngine), 0.f);
 	}
 
+	__pHoverDroneObj = AssetImporter::import("res/asset/scifi_hover_drone/scene.gltf");
+	__pHoverDroneObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
+	__pHoverDroneObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 3.f);
+	__pHoverDroneObj->setNumInstances(2);
+
+	Transform &hoverDroneTransform1 = __pHoverDroneObj->getTransform(0);
+	hoverDroneTransform1.setScale(.02f);
+	hoverDroneTransform1.setPosition(12.f, 10.f, 80.f);
+	hoverDroneTransform1.setRotation(0.f, pi<float>() * .8f, 0.f);
+
+	Transform &hoverDroneTransform2 = __pHoverDroneObj->getTransform(1);
+	hoverDroneTransform2.setScale(.02f);
+	hoverDroneTransform2.setPosition(-12.f, 16.f, 88.f);
+
 	__pSpotLightObj = AssetImporter::import("res/asset/stage_light/scene.gltf");
 	__pSpotLightObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
 	__pSpotLightObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 3.f);
@@ -89,8 +103,16 @@ LightingTestScene::LightingTestScene()
 
 	Transform &spotLightObjTransform2 = __pSpotLightObj->getTransform(1);
 	spotLightObjTransform2.setScale(.7f);
-	spotLightObjTransform2.setPosition(-16.f, 0.f, 65.f);
-	spotLightObjTransform2.setRotation(0.f, pi<float>() * .3f, 0.f);
+	spotLightObjTransform2.setPosition(-16.f, 0.f, 50.f);
+	spotLightObjTransform2.setRotation(-.2f, pi<float>() * .1f, 0.f);
+
+	__pHoverBikeObj = AssetImporter::import("res/asset/hover_bike/scene.gltf");
+	__pHoverBikeObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
+	__pHoverBikeObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 3.f);
+	Transform &hoverBikeTransform = __pHoverBikeObj->getTransform();
+	hoverBikeTransform.setScale(.03f);
+	hoverBikeTransform.setPosition(-13.f, 3.f, 170.f);
+	hoverBikeTransform.setRotation(0.f, half_pi<float>(), 0.f);
 
 	__pCharacterObj = AssetImporter::import("res/asset/scifi_male/scene.gltf");
 	__pCharacterObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
@@ -116,9 +138,27 @@ LightingTestScene::LightingTestScene()
 	frontWalkAnim.setRepeatCount(-1);
 	frontWalkAnim.setPlaySpeed(.8f);
 
+	Animation &frontCrawlAnim = characterAnimMgr.getAnimation(__ANIM_IDX_WALK_CRAWL);
+	frontCrawlAnim.setRepeatCount(-1);
+	frontCrawlAnim.setPlaySpeed(.4f);
+
+	Animation &frontRunAnim = characterAnimMgr.getAnimation(__ANIM_IDX_RUN_FRONT);
+	frontRunAnim.setRepeatCount(-1);
+	frontRunAnim.setPlaySpeed(.8f);
+
 	AnimationManager &doorAnimMgr = __pDoorObj->getAnimationManager();
 	doorAnimMgr.activateAnimation(1);
 	doorAnimMgr.getActiveAnimation().setPlaySpeed(.6f);
+
+	AnimationManager &hoverDroneAnimMgr = __pHoverDroneObj->getAnimationManager();
+	hoverDroneAnimMgr.activateAnimation(1);
+	Animation &hoverDroneAnim = hoverDroneAnimMgr.getActiveAnimation();
+	hoverDroneAnim.setRepeatCount(-1);
+
+	AnimationManager &hoverBikeAnimMgr = __pHoverBikeObj->getAnimationManager();
+	hoverBikeAnimMgr.activateAnimation(1);
+	Animation &hoverBikeAnim = hoverBikeAnimMgr.getActiveAnimation();
+	hoverBikeAnim.setRepeatCount(-1);
 
 
 	//// 카메라 초기화 ////
@@ -141,6 +181,7 @@ LightingTestScene::LightingTestScene()
 	__pSpotLight1->setAttenuation(1.f, .14f, .07f);
 	__pSpotLight1->setCutOff(.1f, .4f);
 	__pSpotLight1->setShadowEnabled(true);
+	__pSpotLight1->setDepthMapSize(2048, 2048);
 	Transform &spotLightTransform1 = __pSpotLight1->getTransform();
 	spotLightTransform1.setPosition(spotLightObjTransform1.getPosition() + vec3{ 0.f, 4.f, 0.f });
 	spotLightTransform1.setRotation(spotLightObjTransform1.getRotation());
@@ -154,6 +195,7 @@ LightingTestScene::LightingTestScene()
 	__pSpotLight2->setAttenuation(1.f, .14f, .07f);
 	__pSpotLight2->setCutOff(.1f, .4f);
 	__pSpotLight2->setShadowEnabled(true);
+	__pSpotLight2->setDepthMapSize(2048, 2048);
 	Transform &spotLightTransform2 = __pSpotLight2->getTransform();
 	spotLightTransform2.setPosition(spotLightObjTransform2.getPosition() + vec3{ 0.f, 4.f, 0.f });
 	spotLightTransform2.setRotation(spotLightObjTransform2.getRotation());
@@ -197,6 +239,8 @@ LightingTestScene::LightingTestScene()
 	__updater.add(*__pDoorObj);
 	__updater.add(*__pWrenchObj);
 	__updater.add(*__pDroneObj);
+	__updater.add(*__pHoverDroneObj);
+	__updater.add(*__pHoverBikeObj);
 	__updater.add(*__pSpotLightObj);
 	__updater.add(*__pCharacterObj);
 
@@ -206,6 +250,8 @@ LightingTestScene::LightingTestScene()
 	__drawer.add(*__pDoorObj);
 	__drawer.add(*__pWrenchObj);
 	__drawer.add(*__pDroneObj);
+	__drawer.add(*__pHoverDroneObj);
+	__drawer.add(*__pHoverBikeObj);
 	__drawer.add(*__pSpotLightObj);
 	__drawer.add(*__pCharacterObj);
 
@@ -236,13 +282,16 @@ bool LightingTestScene::__keyFunc(const float deltaTime) noexcept
 		return false;
 
 	constexpr float MOVE_SPEED_FACTOR = .013f;
-	const float MOVE_SPEED = (MOVE_SPEED_FACTOR * deltaTime);
+	float moveSpeed = (MOVE_SPEED_FACTOR * deltaTime);
 
 	const bool
 		LEFT = (GetAsyncKeyState('A') & 0x8000),
 		RIGHT = (GetAsyncKeyState('D') & 0x8000),
 		FRONT = (GetAsyncKeyState('W') & 0x8000),
-		BACK = (GetAsyncKeyState('S') & 0x8000);
+		BACK = (GetAsyncKeyState('S') & 0x8000),
+		SPACE = (GetAsyncKeyState(VK_SPACE) & 0x8000),
+		SHIFT = (GetAsyncKeyState(VK_SHIFT) & 0x8000)
+		;
 
 	Transform& cameraTransform = __camera.getTransform();
 	Transform &characterTransform = __pCharacterObj->getTransform();
@@ -266,7 +315,7 @@ bool LightingTestScene::__keyFunc(const float deltaTime) noexcept
 			{
 				leftWalkAnim.setPlayingOrder(AnimationPlayingOrderType::FORWARD);
 
-				const vec3 &posAdj = (characterHoriz * MOVE_SPEED);
+				const vec3 &posAdj = (characterHoriz * moveSpeed);
 				cameraTransform.adjustPosition(posAdj);
 				characterTransform.adjustPosition(posAdj);
 			}
@@ -275,7 +324,7 @@ bool LightingTestScene::__keyFunc(const float deltaTime) noexcept
 			{
 				leftWalkAnim.setPlayingOrder(AnimationPlayingOrderType::REVERSE);
 
-				const vec3 &posAdj = (characterHoriz * -MOVE_SPEED);
+				const vec3 &posAdj = (characterHoriz * -moveSpeed);
 				cameraTransform.adjustPosition(posAdj);
 				characterTransform.adjustPosition(posAdj);
 			}
@@ -283,9 +332,20 @@ bool LightingTestScene::__keyFunc(const float deltaTime) noexcept
 
 		if (FRONT || BACK)
 		{
-			characterAnimMgr.activateAnimation(__ANIM_IDX_WALK_FRONT);
+			if (SPACE)
+			{
+				moveSpeed *= .4f;
+				characterAnimMgr.activateAnimation(__ANIM_IDX_WALK_CRAWL);
+			}
+			else if (SHIFT)
+			{
+				moveSpeed *= 3.3f;
+				characterAnimMgr.activateAnimation(__ANIM_IDX_RUN_FRONT);
+			}
+			else
+				characterAnimMgr.activateAnimation(__ANIM_IDX_WALK_FRONT);
 
-			Animation &frontWalkAnim = characterAnimMgr.getActiveAnimation();
+			Animation &activeAnim = characterAnimMgr.getActiveAnimation();
 
 			const vec4 &characterForward = characterTransform.getForward();
 			vec3 projForward = { characterForward.x, 0.f, characterForward.z };
@@ -297,18 +357,18 @@ bool LightingTestScene::__keyFunc(const float deltaTime) noexcept
 
 				if (FRONT)
 				{
-					frontWalkAnim.setPlayingOrder(AnimationPlayingOrderType::FORWARD);
+					activeAnim.setPlayingOrder(AnimationPlayingOrderType::FORWARD);
 
-					const vec3 &posAdj = (projForward * MOVE_SPEED);
+					const vec3 &posAdj = (projForward * moveSpeed);
 					cameraTransform.adjustPosition(posAdj);
 					characterTransform.adjustPosition(posAdj);
 				}
 
 				if (BACK)
 				{
-					frontWalkAnim.setPlayingOrder(AnimationPlayingOrderType::REVERSE);
+					activeAnim.setPlayingOrder(AnimationPlayingOrderType::REVERSE);
 
-					const vec3 &posAdj = (projForward * -MOVE_SPEED);
+					const vec3 &posAdj = (projForward * -moveSpeed);
 					cameraTransform.adjustPosition(posAdj);
 					characterTransform.adjustPosition(posAdj);
 				}
@@ -349,7 +409,9 @@ bool LightingTestScene::update(const float deltaTime) noexcept
 
 	__cargoBayEmissive += (deltaTime * .001f);
 	__cargoBayEmissive = fmodf(__cargoBayEmissive, two_pi<float>());
-	__pCargoBayObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 3.f * fabsf(cosf(__cargoBayEmissive)));
+
+	__pCargoBayObj->traverseMaterial<PhongMaterial>(
+		&PhongMaterial::setEmissiveStrength, 3.f * fabsf(cosf(__cargoBayEmissive)));
 
 	const float doorDist =
 		length(__pCharacterObj->getTransform().getPosition() - __pDoorObj->getTransform().getPosition());
@@ -370,6 +432,15 @@ bool LightingTestScene::update(const float deltaTime) noexcept
 		doorAnim.setPlayingOrder(AnimationPlayingOrderType::REVERSE, false);
 		doorAnim.setRepeatCount(1);
 	}
+
+	Transform &characterTransform = __pCharacterObj->getTransform();
+	Transform &hoverDroneTransform1 = __pHoverDroneObj->getTransform(0);
+	Transform &hoverDroneTransform2 = __pHoverDroneObj->getTransform(1);
+
+	const vec3 &lookAtTarget = (characterTransform.getPosition() + vec3{ 0.f, 11.f, 0.f });
+
+	hoverDroneTransform1.orient(lookAtTarget - hoverDroneTransform1.getPosition());
+	hoverDroneTransform2.orient(lookAtTarget - hoverDroneTransform2.getPosition());
 
 	__updater.process(&Updatable::update, deltaTime);
 	__updated = true;

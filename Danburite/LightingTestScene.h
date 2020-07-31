@@ -25,6 +25,8 @@ private:
 	std::shared_ptr<Danburite::SceneObject> __pDoorObj;
 	std::shared_ptr<Danburite::SceneObject> __pWrenchObj;
 	std::shared_ptr<Danburite::SceneObject> __pDroneObj;
+	std::shared_ptr<Danburite::SceneObject> __pHoverDroneObj;
+	std::shared_ptr<Danburite::SceneObject> __pHoverBikeObj;
 	std::shared_ptr<Danburite::SceneObject> __pSpotLightObj;
 	std::shared_ptr<Danburite::SceneObject> __pCharacterObj;
 
@@ -46,7 +48,7 @@ private:
 	std::default_random_engine __randEngine;
 	std::uniform_real_distribution<float> __randDistribute;
 
-	std::uniform_real_distribution<float> __posDistributeX { -16.f, 16.f };
+	std::uniform_real_distribution<float> __posDistributeX { -18.f, 18.f };
 	std::uniform_real_distribution<float> __posDistributeZ { 120.f, 205.f };
 
 	float __blinkingDelay = 0.f;
@@ -55,12 +57,14 @@ private:
 	bool __doorOpened = false;
 	bool __mButtonDown = false;
 
-	static constexpr size_t __NUM_DRONES = 30ULL;
-	static constexpr size_t __NUM_SMALL_LIGHTS = 50ULL;
+	static constexpr size_t __NUM_DRONES = 100ULL;
+	static constexpr size_t __NUM_SMALL_LIGHTS = 70ULL;
 
 	static constexpr size_t __ANIM_IDX_LOOK_UP = 3ULL;
-	static constexpr size_t __ANIM_IDX_WALK_LEFT = 9ULL;
+	static constexpr size_t __ANIM_IDX_RUN_FRONT = 4ULL;
+	static constexpr size_t __ANIM_IDX_WALK_CRAWL = 6ULL;
 	static constexpr size_t __ANIM_IDX_WALK_FRONT = 8ULL;
+	static constexpr size_t __ANIM_IDX_WALK_LEFT = 9ULL;
 
 	static constexpr float __CHARACTER_DIST_Y = 28.f;
 	static constexpr float __CHARACTER_DIST_Z = 30.f;
