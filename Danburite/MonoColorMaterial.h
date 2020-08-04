@@ -2,12 +2,14 @@
 
 #include "Material.h"
 #include "Program.h"
-#include "MonoColorMaterialComponent.h"
 
 namespace Danburite
 {
-	class MonoColorMaterial : public Material, public MonoColorMaterialComponent
+	class MonoColorMaterial : public Material
 	{
+	private:
+		glm::vec4 __color { 1.f, 1.f, 1.f, 1.f };
+
 	protected:
 		ObjectGL::Program &_monoColorProgram;
 
@@ -22,6 +24,13 @@ namespace Danburite
 	public:
 		MonoColorMaterial(const VertexAttributeFlag vertexFlag) noexcept;
 
+		constexpr void setColor(const glm::vec4 &color) noexcept;
+
 		virtual ~MonoColorMaterial() = default;
 	};
+
+	constexpr void MonoColorMaterial::setColor(const glm::vec4 &color) noexcept
+	{
+		__color = color;
+	}
 }

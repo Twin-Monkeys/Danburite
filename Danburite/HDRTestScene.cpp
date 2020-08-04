@@ -45,7 +45,6 @@ HDRTestScene::HDRTestScene()
 		VertexAttributeFlag::POS | VertexAttributeFlag::NORMAL | VertexAttributeFlag::TEXCOORD);
 
 	pFloorMaterial->setDiffuseTexture(pFloor_diffuse);
-	pFloorMaterial->useDiffuseTexture(true);
 	pFloorMaterial->setShininess(150.f);
 
 	__pFloorObj = make_shared<SceneObject>();

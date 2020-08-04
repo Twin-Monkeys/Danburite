@@ -284,10 +284,8 @@
     <ClCompile Include="GLFunctionWrapper.cpp" />
     <ClCompile Include="GrayscalePostProcessor.cpp" />
     <ClCompile Include="ModelMatrixBuffer.cpp" />
-    <ClCompile Include="MonoColorMaterialComponent.cpp" />
     <ClCompile Include="MSAAPostProcessor.cpp" />
     <ClCompile Include="NegativePostProcessor.cpp" />
-    <ClCompile Include="PhongMaterialComponent.cpp" />
     <ClCompile Include="PhongMaterial.cpp" />
     <ClCompile Include="AssetImporter.cpp" />
     <ClCompile Include="AssetImporterException.cpp" />
@@ -298,15 +296,12 @@
     <ClCompile Include="PostProcessingPipeline.cpp" />
     <ClCompile Include="PostProcessor.cpp" />
     <ClCompile Include="ReflectionMaterial.cpp" />
-    <ClCompile Include="ReflectionMaterialComponent.cpp" />
     <ClCompile Include="RefractionMaterial.cpp" />
-    <ClCompile Include="RefractionMaterialComponent.cpp" />
     <ClCompile Include="RenderBuffer.cpp" />
     <ClCompile Include="RenderBufferBase.cpp" />
     <ClCompile Include="RenderBufferException.cpp" />
     <ClCompile Include="RenderBufferMultisample.cpp" />
     <ClCompile Include="ShaderIdentifier.cpp" />
-    <ClCompile Include="SilhouetteMaterialComponent.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="StaticSceneNodeConnecter.cpp" />
     <ClCompile Include="TextureCubemap.cpp" />
@@ -442,7 +437,6 @@
     <ClInclude Include="GLOptionType.h" />
     <ClInclude Include="GrayscalePostProcessor.h" />
     <ClInclude Include="ModelMatrixBuffer.h" />
-    <ClInclude Include="MonoColorMaterialComponent.h" />
     <ClInclude Include="MSAAPostProcessor.h" />
     <ClInclude Include="NegativePostProcessor.h" />
     <ClInclude Include="PhongMaterial.h" />
@@ -461,12 +455,9 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MonoColorMaterial.h" />
     <ClInclude Include="MaterialOptionFlag.h" />
-    <ClInclude Include="PhongMaterialComponent.h" />
     <ClInclude Include="PostProcessingPipeline.h" />
     <ClInclude Include="ReflectionMaterial.h" />
-    <ClInclude Include="ReflectionMaterialComponent.h" />
     <ClInclude Include="RefractionMaterial.h" />
-    <ClInclude Include="RefractionMaterialComponent.h" />
     <ClInclude Include="RenderBuffer.h" />
     <ClInclude Include="RenderBufferBase.h" />
     <ClInclude Include="RenderBufferException.h" />
@@ -474,7 +465,6 @@
     <ClInclude Include="RenderBufferMultisample.h" />
     <ClInclude Include="ShaderCompiler.h" />
     <ClInclude Include="ShaderIdentifier.h" />
-    <ClInclude Include="SilhouetteMaterialComponent.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="SpotLight.h" />
     <ClInclude Include="SpotLightComponent.h" />
@@ -608,10 +598,8 @@
     <None Include="glsl\src\Reflection_Frag.glsl" />
     <None Include="glsl\src\Refraction_Vert.glsl" />
     <None Include="glsl\src\Reflection_Vert.glsl" />
-    <None Include="glsl\src\Silhouette_Frag.glsl" />
     <None Include="glsl\src\Phong_Frag.glsl" />
     <None Include="glsl\src\PositionOnly_Vert.glsl" />
-    <None Include="glsl\src\Silhouette_Vert.glsl" />
     <None Include="glsl\src\Phong_Vert.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

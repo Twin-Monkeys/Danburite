@@ -1,13 +1,18 @@
 #pragma once
 
 #include "Material.h"
-#include "ReflectionMaterialComponent.h"
 #include "Program.h"
+#include "TextureCubemap.h"
+#include "Texture2D.h"
 
 namespace Danburite
 {
-	class ReflectionMaterial : public Material, public ReflectionMaterialComponent
+	class ReflectionMaterial : public Material
 	{
+	private:
+		std::shared_ptr<ObjectGL::TextureCubemap> __pEnvTex;
+		std::shared_ptr<ObjectGL::Texture2D> __pNormalTex;
+
 	protected:
 		ObjectGL::Program &_reflectionProgram;
 
@@ -22,7 +27,8 @@ namespace Danburite
 	public:
 		ReflectionMaterial(const VertexAttributeFlag vertexFlag) noexcept;
 
-		using Material::useNormalTexture;
+		void setEnvironmentTexture(const std::shared_ptr<ObjectGL::TextureCubemap> &pTexture) noexcept;
+		void setNormalTexture(const std::shared_ptr<ObjectGL::Texture2D> &pTexture) noexcept;
 
 		virtual ~ReflectionMaterial() = default;
 	};

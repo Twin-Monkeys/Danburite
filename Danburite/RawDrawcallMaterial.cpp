@@ -8,7 +8,7 @@ namespace Danburite
 	RawDrawcallMaterial::RawDrawcallMaterial(const VertexAttributeFlag vertexFlag) noexcept :
 		Material(MaterialType::MONO_COLOR, vertexFlag)
 	{
-		useLighting(false);
+		enableLighting(false);
 	}
 
 	void RawDrawcallMaterial::_onRender(

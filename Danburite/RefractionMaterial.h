@@ -2,12 +2,17 @@
 
 #include "Material.h"
 #include "Program.h"
-#include "RefractionMaterialComponent.h"
+#include "TextureCubemap.h"
+#include "Texture2D.h"
 
 namespace Danburite
 {
-	class RefractionMaterial : public Material, public RefractionMaterialComponent
+	class RefractionMaterial : public Material
 	{
+	private:
+		std::shared_ptr<ObjectGL::TextureCubemap> __pEnvTex;
+		std::shared_ptr<ObjectGL::Texture2D> __pNormalTex;
+
 	protected:
 		ObjectGL::Program &_refractionProgram;
 
@@ -22,7 +27,8 @@ namespace Danburite
 	public:
 		RefractionMaterial(const VertexAttributeFlag vertexFlag) noexcept;
 
-		using Material::useNormalTexture;
+		void setEnvironmentTexture(const std::shared_ptr<ObjectGL::TextureCubemap> &pTexture) noexcept;
+		void setNormalTexture(const std::shared_ptr<ObjectGL::Texture2D> &pTexture) noexcept;
 
 		virtual ~RefractionMaterial() = default;
 	};

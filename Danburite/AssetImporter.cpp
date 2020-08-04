@@ -67,53 +67,7 @@ namespace Danburite
 		const shared_ptr<Texture2D> &pNormalTex,
 		const shared_ptr<Texture2D> &pHeightTex)
 	{
-		if (pAmbientTex)
-		{
-			pMaterial->setAmbientTexture(pAmbientTex);
-			pMaterial->useAmbientTexture(true);
-		}
-
-		if (pDiffuseTex)
-		{
-			pMaterial->setDiffuseTexture(pDiffuseTex);
-			pMaterial->useDiffuseTexture(true);
-		}
-
-		if (pSpecularTex)
-		{
-			pMaterial->setSpecularTexture(pSpecularTex);
-			pMaterial->useSpecularTexture(true);
-		}
-
-		if (pEmissiveTex)
-		{
-			pMaterial->setEmissiveTexture(pEmissiveTex);
-			pMaterial->useEmissiveTexture(true);
-		}
-
-		if (pShininessTex)
-		{
-			pMaterial->setShininessTexture(pShininessTex);
-			pMaterial->useShininessTexture(true);
-		}
-
-		if (pAlphaTex)
-		{
-			pMaterial->setAlphaTexture(pAlphaTex);
-			pMaterial->useAlphaTexture(true);
-		}
-
-		if (pNormalTex)
-		{
-			pMaterial->setNormalTexture(pNormalTex);
-			pMaterial->useNormalTexture(true);
-		}
-
-		if (pHeightTex)
-		{
-			pMaterial->setHeightTexture(pHeightTex);
-			pMaterial->useHeightTexture(true);
-		}
+		
 	}
 
 	static SceneObjectNode &__parseNode(
@@ -301,52 +255,24 @@ namespace Danburite
 
 			case MaterialType::PHONG:
 			{
-				const shared_ptr<Texture2D> &pAmbientTex =
-					__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_AMBIENT);
+				const shared_ptr<PhongMaterial> &pPhongMaterial = make_shared<PhongMaterial>(vertexFlag);
+				pPhongMaterial->setAmbientTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_AMBIENT));
+				pPhongMaterial->setDiffuseTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_DIFFUSE));
+				pPhongMaterial->setSpecularTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_SPECULAR));
+				pPhongMaterial->setEmissiveTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_EMISSIVE));
+				pPhongMaterial->setShininessTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_SHININESS));
+				pPhongMaterial->setAlphaTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_OPACITY));
+				pPhongMaterial->setNormalTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_NORMALS));
+				pPhongMaterial->setHeightTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_HEIGHT));
 
-				const shared_ptr<Texture2D> &pDiffuseTex =
-					__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_DIFFUSE);
-
-				const shared_ptr<Texture2D> &pSpecularTex =
-					__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_SPECULAR);
-
-				const shared_ptr<Texture2D> &pEmissiveTex =
-					__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_EMISSIVE);
-
-				const shared_ptr<Texture2D> &pShininessTex =
-					__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_SHININESS);
-
-				const shared_ptr<Texture2D> &pAlphaTex =
-					__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_OPACITY);
-
-				const shared_ptr<Texture2D> &pNormalTex =
-					__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_NORMALS);
-
-				const shared_ptr<Texture2D> &pHeightTex =
-					__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_HEIGHT);
-				
-				pMaterial = make_shared<PhongMaterial>(vertexFlag);
-
-				__setupPhongStyleMaterial(
-					static_pointer_cast<PhongMaterial>(pMaterial),
-					pAmbientTex, pDiffuseTex, pSpecularTex, pEmissiveTex,
-					pShininessTex, pAlphaTex, pNormalTex, pHeightTex);
+				pMaterial = pPhongMaterial;
 			}
 				break;
 
 			case MaterialType::REFLECTION:
 			{
 				const shared_ptr<ReflectionMaterial> &pReflectionMaterial = make_shared<ReflectionMaterial>(vertexFlag);
-
-				const shared_ptr<Texture2D> &pNormalTex =
-					__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_NORMALS);
-
-				if (pNormalTex)
-				{
-					pReflectionMaterial->setNormalTexture(pNormalTex);
-					pReflectionMaterial->useNormalTexture(true);
-				}
-
+				pReflectionMaterial->setNormalTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_NORMALS));
 				pMaterial = pReflectionMaterial;
 			}
 				break;
@@ -354,16 +280,7 @@ namespace Danburite
 			case MaterialType::REFRACTION:
 			{
 				const shared_ptr<RefractionMaterial> &pRefractionMaterial = make_shared<RefractionMaterial>(vertexFlag);
-
-				const shared_ptr<Texture2D> &pNormalTex =
-					__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_NORMALS);
-
-				if (pNormalTex)
-				{
-					pRefractionMaterial->setNormalTexture(pNormalTex);
-					pRefractionMaterial->useNormalTexture(true);
-				}
-
+				pRefractionMaterial->setNormalTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_NORMALS));
 				pMaterial = pRefractionMaterial;
 			}
 				break;
