@@ -53,6 +53,9 @@ namespace Danburite
 		virtual void draw() noexcept override;
 		virtual void rawDrawcall() noexcept override;
 
+		template <typename $MaterialQuery>
+		void drawIf(const $MaterialQuery query) noexcept;
+
 		template <typename MaterialType, typename FunctionType, typename ...Args>
 		void traverseMaterial(const FunctionType function, Args &&...args);
 	};
@@ -91,6 +94,13 @@ namespace Danburite
 	constexpr const JointManager &SceneObject::getJointManager() const noexcept
 	{
 		return __jointMgr;
+	}
+
+	template <typename $MaterialQuery>
+	void SceneObject::drawIf(const $MaterialQuery query) noexcept
+	{
+		__pModelMatrixBuffer->selfDeploy();
+		__pRootNode->drawIf(query, getNumInstances());
 	}
 
 	template <typename MaterialType, typename FunctionType, typename ...Args>

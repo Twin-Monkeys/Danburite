@@ -22,10 +22,14 @@ namespace Danburite
 			const std::shared_ptr<ModelMatrixBuffer> &pModelMatrixBuffer,
 			const BoneManager &boneManager) noexcept;
 
+		[[nodiscard]]
 		constexpr const std::shared_ptr<Material> &getMaterial() const noexcept;
 
 		void draw(const GLsizei numInstances = 1) noexcept;
 		void rawDrawcall(const GLsizei numInstances = 1) noexcept;
+
+		template <typename $MaterialQuery>
+		void drawIf(const $MaterialQuery query, const GLsizei numInstances = 1) noexcept;
 
 		virtual ~Mesh() = default;
 	};
@@ -33,5 +37,13 @@ namespace Danburite
 	constexpr const std::shared_ptr<Material> &Mesh::getMaterial() const noexcept
 	{
 		return __pMaterial;
+	}
+
+	template <typename $MaterialQuery>
+	void Mesh::drawIf(const $MaterialQuery query, const GLsizei numInstances) noexcept
+	{
+		Material &material = *__pMaterial;
+		if ((material.*query)())
+			draw(numInstances);
 	}
 }

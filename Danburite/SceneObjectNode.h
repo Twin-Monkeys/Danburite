@@ -46,8 +46,11 @@ namespace Danburite
 		void updateJoint(const glm::mat4 &parentJointMatrix = Constant::Common::IDENTITY_MATRIX) noexcept;
 		void updateBones() noexcept;
 
-		void draw(const size_t numInstances) noexcept;
-		void rawDrawcall(const size_t numInstances) noexcept;
+		void draw(const size_t numInstances = 1ULL) noexcept;
+		void rawDrawcall(const size_t numInstances = 1ULL) noexcept;
+
+		template <typename $MaterialQuery>
+		void drawIf(const $MaterialQuery query, const size_t numInstances = 1ULL) noexcept;
 
 		template <typename MaterialType, typename FunctionType, typename ...Args>
 		void traverseMaterial(const FunctionType function, Args &&...args);
@@ -58,6 +61,18 @@ namespace Danburite
 	constexpr const std::string &SceneObjectNode::getName() const noexcept
 	{
 		return __name;
+	}
+
+	template <typename $MaterialQuery>
+	void SceneObjectNode::drawIf(const $MaterialQuery query, const size_t numInstances) noexcept
+	{
+		__joint.selfDeploy();
+
+		for (const std::unique_ptr<Mesh> &pMesh : __meshes)
+			pMesh->drawIf(query, numInstances);
+
+		for (SceneObjectNode *const pChild : __children)
+			pChild->drawIf(query, numInstances);
 	}
 
 	template <typename MaterialType, typename FunctionType, typename ...Args>
