@@ -48,6 +48,11 @@ bool Material_isLightingEnabled()
 	return ((material.optionFlag & MATERIAL_OPTION_FLAG_LIGHTING) != 0);
 }
 
+bool Material_isTranslucencyEnabled()
+{
+	return ((material.optionFlag & MATERIAL_OPTION_FLAG_TRANSLUCENCY) != 0);
+}
+
 bool Material_isAmbientTextureEnabled()
 {
 	return ((material.optionFlag & MATERIAL_OPTION_FLAG_AMBIENT_TEXTURE) != 0);
