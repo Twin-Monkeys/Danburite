@@ -31,11 +31,11 @@ namespace Danburite
 
 		virtual void _onRender(
 			LightManager &lightManager, PerspectiveCamera &camera,
-			BatchProcessor<Drawable> &drawer, Skybox &skybox, PostProcessingPipeline &ppPipeline) noexcept override;
+			BatchProcessor<SceneObject> &drawer, Skybox &skybox, PostProcessingPipeline &ppPipeline) noexcept override;
 
 	public:
 		LightPrePassRenderingPipeline(
 			LightManager &lightManager, PerspectiveCamera &camera,
-			BatchProcessor<Drawable> &drawer, Skybox &skybox, PostProcessingPipeline& ppPipeline);
+			BatchProcessor<SceneObject> &drawer, Skybox &skybox, PostProcessingPipeline& ppPipeline);
 	};
 }

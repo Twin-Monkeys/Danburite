@@ -11,7 +11,7 @@ namespace Danburite
 {
 	LightPrePassRenderingPipeline::LightPrePassRenderingPipeline(
 		LightManager &lightManager, PerspectiveCamera& camera,
-		BatchProcessor<Drawable> &drawer, Skybox &skybox, PostProcessingPipeline& ppPipeline) :
+		BatchProcessor<SceneObject> &drawer, Skybox &skybox, PostProcessingPipeline& ppPipeline) :
 		RenderingPipeline(RenderingPipelineType::LIGHT_PREPASS, lightManager, camera, drawer, skybox, ppPipeline),
 		__texContainerSetter(UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER)),
 		__lightPrePassSetter(UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::LIGHT_PREPASS)),
@@ -68,7 +68,7 @@ namespace Danburite
 
 	void LightPrePassRenderingPipeline::_onRender(
 		LightManager &lightManager, PerspectiveCamera &camera,
-		BatchProcessor<Drawable> &drawer, Skybox &skybox, PostProcessingPipeline &ppPipeline) noexcept
+		BatchProcessor<SceneObject> &drawer, Skybox &skybox, PostProcessingPipeline &ppPipeline) noexcept
 	{
 		lightManager.process(&Light::bakeDepthMap, drawer);
 		lightManager.selfDeploy();
@@ -83,7 +83,7 @@ namespace Danburite
 		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
 
 		__geometryProgram.bind();
-		drawer.process(&Drawable::rawDrawcall);
+		drawer.process(&SceneObject::rawDrawcall);
 
 
 		// Lighting pass
@@ -132,7 +132,7 @@ namespace Danburite
 
 		ppPipeline.bind();
 		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR);
-		drawer.process(&Drawable::draw);
+		drawer.process(&SceneObject::draw);
 		
 		PostProcessingPipeline::unbind();
 		ppPipeline.render();

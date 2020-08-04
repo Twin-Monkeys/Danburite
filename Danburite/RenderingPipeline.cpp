@@ -6,7 +6,7 @@ namespace Danburite
 	RenderingPipeline::RenderingPipeline(
 		const RenderingPipelineType pipelineType,
 		LightManager &lightManager, PerspectiveCamera &camera,
-		BatchProcessor<Drawable> &drawer, Skybox &skybox, PostProcessingPipeline &ppPipeline) noexcept :
+		BatchProcessor<SceneObject> &drawer, Skybox &skybox, PostProcessingPipeline &ppPipeline) noexcept :
 		__TYPE(pipelineType), __lightManager(lightManager), __skybox(skybox),
 
 		__pipelineSetter(UniformBufferFactory::getInstance().

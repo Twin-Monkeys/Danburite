@@ -19,10 +19,10 @@ namespace Danburite
 		lightSetter.setUniformFloat(ShaderIdentifier::Name::Light::Z_FAR, __zFar);
 	}
 
-	void PerspectiveLight::_onBakeDepthMap(BatchProcessor<Drawable> &drawer) noexcept
+	void PerspectiveLight::_onBakeDepthMap(BatchProcessor<SceneObject> &drawer) noexcept
 	{
 		__depthBaker.bind();
-		drawer.process(&Drawable::rawDrawcall);
+		drawer.process(&SceneObject::rawDrawcall);
 		__depthBaker.unbind();
 	}
 

@@ -38,7 +38,7 @@ private:
 	Danburite::SpotLight *__pSpotLight2 = nullptr;
 
 	Danburite::BatchProcessor<Danburite::Updatable> __updater;
-	Danburite::BatchProcessor<Danburite::Drawable> __drawer;
+	Danburite::BatchProcessor<Danburite::SceneObject> __drawer;
 
 	Danburite::Skybox __skybox;
 	Danburite::HDRPostProcessor *__pHDRPP;

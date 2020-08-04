@@ -56,7 +56,7 @@ namespace Danburite
 		_onChangeShadowEnabled(enabled);
 	}
 
-	void Light::bakeDepthMap(BatchProcessor<Drawable> &drawer) noexcept
+	void Light::bakeDepthMap(BatchProcessor<SceneObject> &drawer) noexcept
 	{
 		if (!isShadowEnabled())
 			return;

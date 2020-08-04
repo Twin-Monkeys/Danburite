@@ -4,8 +4,8 @@
 #include "PerspectiveCamera.h"
 #include "BatchProcessor.h"
 #include "PostProcessingPipeline.h"
+#include "SceneObject.h"
 #include "LightManager.h"
-#include "Drawable.h"
 #include "Skybox.h"
 
 namespace Danburite
@@ -20,7 +20,7 @@ namespace Danburite
 
 		LightManager &__lightManager;
 		PerspectiveCamera &__camera;
-		BatchProcessor<Drawable> &__drawer;
+		BatchProcessor<SceneObject> &__drawer;
 		PostProcessingPipeline &__ppPipeline;
 		Skybox &__skybox;
 
@@ -29,13 +29,13 @@ namespace Danburite
 
 		virtual void _onRender(
 			LightManager &lightManager, PerspectiveCamera &camera,
-			BatchProcessor<Drawable> &drawer, Skybox &skybox, PostProcessingPipeline &ppPipeline) noexcept = 0;
+			BatchProcessor<SceneObject> &drawer, Skybox &skybox, PostProcessingPipeline &ppPipeline) noexcept = 0;
 
 	public:
 		RenderingPipeline(
 			const RenderingPipelineType pipelineType,
 			LightManager &lightManager, PerspectiveCamera &camera,
-			BatchProcessor<Drawable> &drawer, Skybox &skybox, PostProcessingPipeline &ppPipeline) noexcept;
+			BatchProcessor<SceneObject> &drawer, Skybox &skybox, PostProcessingPipeline &ppPipeline) noexcept;
 		
 		constexpr RenderingPipelineType getType() const noexcept;
 

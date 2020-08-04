@@ -22,10 +22,10 @@ namespace Danburite
 			ShaderIdentifier::Name::Light::DEPTH_MAP, __depthBaker.getDepthMapHandle());
 	}
 
-	void OrthoLight::_onBakeDepthMap(BatchProcessor<Drawable> &drawer) noexcept
+	void OrthoLight::_onBakeDepthMap(BatchProcessor<SceneObject> &drawer) noexcept
 	{
 		__depthBaker.bind();
-		drawer.process(&Drawable::rawDrawcall);
+		drawer.process(&SceneObject::rawDrawcall);
 		__depthBaker.unbind();
 	}
 

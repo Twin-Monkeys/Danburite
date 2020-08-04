@@ -16,7 +16,7 @@ namespace Danburite
 
 	protected:
 		virtual void _onDeployShadowData(LightUniformSetter& lightSetter) noexcept override;
-		virtual void _onBakeDepthMap(BatchProcessor<Drawable> &drawer) noexcept override;
+		virtual void _onBakeDepthMap(BatchProcessor<SceneObject> &drawer) noexcept override;
 		virtual void _onChangeShadowEnabled(const bool enabled) noexcept override;
 
 	public:

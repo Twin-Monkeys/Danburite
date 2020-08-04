@@ -8,7 +8,7 @@
 #include "BatchProcessor.h"
 #include "DepthBakingType.h"
 #include "UniformBuffer.h"
-#include "Drawable.h"
+#include "SceneObject.h"
 
 namespace Danburite
 {
@@ -29,7 +29,7 @@ namespace Danburite
 		
 	protected:
 		virtual void _onDeploy(LightUniformSetter &lightSetter) noexcept = 0;
-		virtual void _onBakeDepthMap(BatchProcessor<Drawable> &drawer) noexcept = 0;
+		virtual void _onBakeDepthMap(BatchProcessor<SceneObject> &drawer) noexcept = 0;
 		virtual void _onDeployShadowData(LightUniformSetter &lightSetter) noexcept = 0;
 		virtual void _onVolumeDrawcall() noexcept = 0;
 		virtual void _onChangeShadowEnabled(const bool enabled) noexcept = 0;
@@ -53,7 +53,7 @@ namespace Danburite
 		constexpr bool isShadowEnabled() const noexcept;
 		void setShadowEnabled(const bool enabled) noexcept;
 
-		void bakeDepthMap(BatchProcessor<Drawable> &drawer) noexcept;
+		void bakeDepthMap(BatchProcessor<SceneObject> &drawer) noexcept;
 
 		void volumeDrawcall() noexcept;
 
