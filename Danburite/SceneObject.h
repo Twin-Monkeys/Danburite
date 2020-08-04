@@ -3,12 +3,11 @@
 #include "ModelMatrixBuffer.h"
 #include "AnimationManager.h"
 #include "SceneObjectNode.h"
-#include "Drawable.h"
 #include "JointManager.h"
 
 namespace Danburite
 {
-	class SceneObject : public Updatable, public Drawable
+	class SceneObject : public Updatable
 	{
 	private:
 		const std::shared_ptr<ModelMatrixBuffer> __pModelMatrixBuffer = std::make_shared<ModelMatrixBuffer>();
@@ -50,8 +49,8 @@ namespace Danburite
 		constexpr const JointManager& getJointManager() const noexcept;
 
 		virtual void update(const float deltaTime) noexcept override;
-		virtual void draw() noexcept override;
-		virtual void rawDrawcall() noexcept override;
+		void draw() noexcept;
+		void rawDrawcall() noexcept;
 
 		template <typename $MaterialQuery>
 		void drawIf(const $MaterialQuery query) noexcept;

@@ -1259,9 +1259,6 @@
     <ClInclude Include="BatchProcessor.h">
       <Filter>Library\Engine\Base\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Drawable.h">
-      <Filter>Library\Engine\Base\Interface</Filter>
-    </ClInclude>
     <ClInclude Include="Updatable.h">
       <Filter>Library\Engine\Base\Interface</Filter>
     </ClInclude>

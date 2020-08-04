@@ -388,7 +388,6 @@
     <ClInclude Include="DepthBakerBase.h" />
     <ClInclude Include="DepthBakerCubemap.h" />
     <ClInclude Include="DepthBakingType.h" />
-    <ClInclude Include="Drawable.h" />
     <ClInclude Include="FacetType.h" />
     <ClInclude Include="ForwardRenderingPipeline.h" />
     <ClInclude Include="FullscreenDrawer.h" />
