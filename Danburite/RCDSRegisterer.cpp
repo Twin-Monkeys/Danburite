@@ -2,7 +2,6 @@
 #include "RenderContext.h"
 #include "ProgramFactory.h"
 #include "UniformBufferFactory.h"
-#include "FrameBufferBindingStack.h"
 
 using namespace ObjectGL;
 
@@ -12,6 +11,5 @@ namespace Danburite
 	{
 		RenderContext::registerContextDependentSingleton<ProgramFactory>();
 		RenderContext::registerContextDependentSingleton<UniformBufferFactory>();
-		RenderContext::registerContextDependentSingleton<FrameBufferBindingStack>();
 	}
 }

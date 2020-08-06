@@ -741,9 +741,6 @@
     <ClCompile Include="LightPrePassRenderingPipeline.cpp">
       <Filter>Library\Engine\Core\Pipeline\RenderingPipeline\LightPrePass</Filter>
     </ClCompile>
-    <ClCompile Include="FrameBufferBindingStack.cpp">
-      <Filter>Library\ObjectGL\Core\FrameBuffer</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">
@@ -1279,9 +1276,6 @@
     </ClInclude>
     <ClInclude Include="LightPrePassRenderingPipeline.h">
       <Filter>Library\Engine\Core\Pipeline\RenderingPipeline\LightPrePass</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameBufferBindingStack.h">
-      <Filter>Library\ObjectGL\Core\FrameBuffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
