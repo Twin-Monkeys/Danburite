@@ -10,8 +10,8 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	LightPrePassRenderingPipeline::LightPrePassRenderingPipeline(
-		LightManager &lightManager, PerspectiveCamera& camera,
-		BatchProcessor<SceneObject> &drawer, Skybox &skybox, PostProcessingPipeline& ppPipeline) :
+		LightManager& lightManager, PerspectiveCamera& camera,
+		BatchProcessor<SceneObject>& drawer, Skybox& skybox, PostProcessingPipeline& ppPipeline) :
 		RenderingPipeline(RenderingPipelineType::LIGHT_PREPASS, lightManager, camera, drawer, skybox, ppPipeline),
 		__texContainerSetter(UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER)),
 		__lightPrePassSetter(UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::LIGHT_PREPASS)),
@@ -64,11 +64,12 @@ namespace Danburite
 		__pLightingFB->attach(AttachmentType::COLOR_ATTACHMENT0, *__pLightAmbientAttachment);
 		__pLightingFB->attach(AttachmentType::COLOR_ATTACHMENT1, *__pLightDiffuseAttachment);
 		__pLightingFB->attach(AttachmentType::COLOR_ATTACHMENT2, *__pLightSpecularAttachment);
+		__pLightingFB->attach(AttachmentType::STENCIL_ATTACHMENT, *__pDepthStencilAttachment);
 	}
 
 	void LightPrePassRenderingPipeline::_onRender(
-		LightManager &lightManager, PerspectiveCamera &camera,
-		BatchProcessor<SceneObject> &drawer, Skybox &skybox, PostProcessingPipeline &ppPipeline) noexcept
+		LightManager& lightManager, PerspectiveCamera& camera,
+		BatchProcessor<SceneObject>& drawer, Skybox& skybox, PostProcessingPipeline& ppPipeline) noexcept
 	{
 		lightManager.process(&Light::bakeDepthMap, drawer);
 		lightManager.selfDeploy();
@@ -78,9 +79,15 @@ namespace Danburite
 
 		// Geometry pass
 		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
+		GLFunctionWrapper::setOption(GLOptionType::STENCIL_TEST, true);
+		GLFunctionWrapper::setStencilMask(0xFFU);
 
 		__pNormalShininessFB->bind();
-		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
+		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::DEPTH | FrameBufferBlitFlag::STENCIL);
+
+		GLFunctionWrapper::setStencilFunction(DepthStencilFunctionType::ALWAYS, 0x01U);
+		GLFunctionWrapper::setStencilOperation(
+			StencilOperationType::KEEP, StencilOperationType::KEEP, StencilOperationType::REPLACE);
 
 		__geometryProgram.bind();
 		drawer.process(&SceneObject::rawDrawcall);
@@ -101,6 +108,9 @@ namespace Danburite
 		__texContainerSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Attachment::TEX1, __pNormalShininessAttachment->getHandle());
 
+		GLFunctionWrapper::setStencilFunction(DepthStencilFunctionType::EQUAL, 0x01U);
+		GLFunctionWrapper::setStencilMask(0x00U);
+
 		__lightingProgram.bind();
 		lightManager.process(&Light::volumeDrawcall);
 
@@ -119,12 +129,13 @@ namespace Danburite
 			__pLightSpecularAttachment->getHandle());
 
 		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
+		GLFunctionWrapper::setOption(GLOptionType::STENCIL_TEST, false);
 		GLFunctionWrapper::setDepthFunction(DepthStencilFunctionType::LEQUAL);
 		GLFunctionWrapper::setOption(GLOptionType::BLEND, false);
 		GLFunctionWrapper::setCulledFace(FacetType::BACK);
 
-		FrameBuffer &firstFB = ppPipeline.getProcessor(0).getFrameBuffer();
-		const ivec2 &screenSize = getScreenSize();
+		FrameBuffer& firstFB = ppPipeline.getProcessor(0).getFrameBuffer();
+		const ivec2& screenSize = getScreenSize();
 
 		__pNormalShininessFB->blit(
 			&firstFB, FrameBufferBlitFlag::DEPTH,
@@ -133,7 +144,7 @@ namespace Danburite
 		ppPipeline.bind();
 		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR);
 		drawer.process(&SceneObject::draw);
-		
+
 		PostProcessingPipeline::unbind();
 		ppPipeline.render();
 	}
