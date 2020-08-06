@@ -257,6 +257,7 @@
     <ClCompile Include="DepthBakerCubemap.cpp" />
     <ClCompile Include="ForwardPostProcessor.cpp" />
     <ClCompile Include="ForwardRenderingPipeline.cpp" />
+    <ClCompile Include="FrameBufferBindingStack.cpp" />
     <ClCompile Include="FullscreenDrawer.cpp" />
     <ClCompile Include="GammaCorrectionPostProcessor.cpp" />
     <ClCompile Include="HDRPostProcessor.cpp" />
@@ -390,6 +391,7 @@
     <ClInclude Include="DepthBakingType.h" />
     <ClInclude Include="FacetType.h" />
     <ClInclude Include="ForwardRenderingPipeline.h" />
+    <ClInclude Include="FrameBufferBindingStack.h" />
     <ClInclude Include="FullscreenDrawer.h" />
     <ClInclude Include="GLDebugMessageCallbackFunction.h" />
     <ClInclude Include="GLDebugMessageSeverityType.h" />
