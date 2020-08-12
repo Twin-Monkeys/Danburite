@@ -159,6 +159,6 @@ namespace Danburite
 
 	void PostProcessor::unbind() noexcept
 	{
-		FrameBuffer::unbind();
+		FrameBuffer::bindDefault();
 	}
 }

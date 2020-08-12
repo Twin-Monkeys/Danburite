@@ -138,8 +138,7 @@ namespace Danburite
 		const ivec2& screenSize = getScreenSize();
 
 		__pNormalShininessFB->blit(
-			&firstFB, FrameBufferBlitFlag::DEPTH,
-			0, 0, screenSize.x, screenSize.y, 0, 0, screenSize.x, screenSize.y);
+			firstFB, FrameBufferBlitFlag::DEPTH, screenSize.x, screenSize.y);
 
 		ppPipeline.bind();
 		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR);

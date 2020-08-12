@@ -15,6 +15,7 @@ namespace ObjectGL
 	private:
 		std::unordered_map<AttachmentType, Attachable *> __attachmentMap;
 
+		explicit FrameBuffer(const GLuint id) noexcept;
 		FrameBuffer(const FrameBuffer &) = delete;
 		FrameBuffer &operator=(const FrameBuffer &) = delete;
 
@@ -33,9 +34,13 @@ namespace ObjectGL
 		bool detach(const AttachmentType attachmentType) noexcept;
 
 		void blit(
-			FrameBuffer* const pTarget, const FrameBufferBlitFlag mask,
+			FrameBuffer &target, const FrameBufferBlitFlag mask,
 			const GLint srcLeft, const GLint srcBottom, const GLint srcRight, const GLint srcUp,
-			const GLint targetLeft, const GLint targetBottom, const GLint targetRight, const GLint targetUp) const noexcept;
+			const GLint targetLeft, const GLint targetBottom, const GLint targetRight, const GLint targetUp) noexcept;
+
+		void blit(
+			FrameBuffer &target, const FrameBufferBlitFlag mask,
+			const GLint width, const GLint height) noexcept;
 
 		void setInputColorBuffer(const ColorBufferType type) noexcept;
 		void setOutputColorBuffer(const ColorBufferType type) noexcept;
@@ -47,6 +52,7 @@ namespace ObjectGL
 
 		virtual ~FrameBuffer() noexcept;
 
-		static void unbind() noexcept;
+		static FrameBuffer &getDefault() noexcept;
+		static void bindDefault() noexcept;
 	};
 }

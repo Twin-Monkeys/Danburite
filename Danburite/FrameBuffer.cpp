@@ -17,8 +17,12 @@ namespace ObjectGL
 		return retVal;
 	}
 
+	FrameBuffer::FrameBuffer(const GLuint id) noexcept :
+		BindableObject(id)
+	{}
+
 	FrameBuffer::FrameBuffer() :
-		BindableObject(__createBufObj())
+		FrameBuffer(__createBufObj())
 	{}
 
 	void FrameBuffer::__release() noexcept
@@ -62,24 +66,22 @@ namespace ObjectGL
 	}
 
 	void FrameBuffer::blit(
-		FrameBuffer* const pTarget, const FrameBufferBlitFlag mask,
+		FrameBuffer &target, const FrameBufferBlitFlag mask,
 		const GLint srcLeft, const GLint srcBottom, const GLint srcRight, const GLint srcUp,
-		const GLint targetLeft, const GLint targetBottom, const GLint targetRight, const GLint targetUp) const noexcept
+		const GLint targetLeft, const GLint targetBottom, const GLint targetRight, const GLint targetUp) noexcept
 	{
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, ID);
-
-		GLuint targetObj = 0U;
-		if (pTarget)
-			targetObj = pTarget->ID;
-
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, targetObj);
-
+		bind();
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, target.ID);
 		glBlitFramebuffer(
 			srcLeft, srcBottom, srcRight, srcUp,
 			targetLeft, targetBottom, targetRight, targetUp,
 			GLbitfield(mask), GL_NEAREST);
+	}
 
-		unbind();
+	void FrameBuffer::blit(
+		FrameBuffer& target, const FrameBufferBlitFlag mask, const GLint width, const GLint height) noexcept
+	{
+		blit(target, mask, 0, 0, width, height, 0, 0, width, height);
 	}
 
 	void FrameBuffer::setInputColorBuffer(const ColorBufferType type) noexcept
@@ -123,9 +125,14 @@ namespace ObjectGL
 		__release();
 	}
 
-	void FrameBuffer::unbind() noexcept
+	FrameBuffer &FrameBuffer::getDefault() noexcept
 	{
-		glBindFramebuffer(GL_FRAMEBUFFER, 0U);
-		_unbind();
+		static FrameBuffer defaultBuffer { 0 };
+		return defaultBuffer;
+	}
+
+	void FrameBuffer::bindDefault() noexcept
+	{
+		getDefault().bind();
 	}
 }
