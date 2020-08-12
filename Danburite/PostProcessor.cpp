@@ -57,7 +57,6 @@ namespace Danburite
 			pRetVal->setState(TextureParamType::TEXTURE_MIN_FILTER, minFilter);
 			pRetVal->setState(TextureParamType::TEXTURE_MAG_FILTER, magFilter);
 			pRetVal->memoryAlloc(width, height, internalFormat, externalFormat, dataType);
-			pRetVal->getHandle();
 		}
 		else
 		{
@@ -80,7 +79,7 @@ namespace Danburite
 		if (!__pAttachmentServer)
 		{
 			pRetVal = make_shared<TextureMultisample>();
-			pRetVal->getHandle();
+			pRetVal->memoryAlloc(width, height, internalFormat, numSamplePoints, fixedSampleLocations);
 		}
 		else
 		{
@@ -101,7 +100,10 @@ namespace Danburite
 		shared_ptr<RenderBuffer> pRetVal;
 
 		if (!__pAttachmentServer)
+		{
 			pRetVal = make_shared<RenderBuffer>();
+			pRetVal->memoryAlloc(width, height, internalFormat);
+		}
 		else
 		{
 			pRetVal = __pAttachmentServer->getRenderBuffer(
@@ -120,7 +122,10 @@ namespace Danburite
 		shared_ptr<RenderBufferMultisample> pRetVal;
 
 		if (!__pAttachmentServer)
+		{
 			pRetVal = make_shared<RenderBufferMultisample>();
+			pRetVal->memoryAlloc(width, height, internalFormat, numSamplePoints);
+		}
 		else
 		{
 			pRetVal = __pAttachmentServer->getRenderBufferMultisample(
