@@ -12,7 +12,7 @@ namespace Danburite
 	{}
 
 	void ForwardRenderingPipeline::_onRender(
-			LightManager &lightManager, PerspectiveCamera &camera,
+			FrameBuffer &renderTarget, LightManager &lightManager, PerspectiveCamera &camera,
 			BatchProcessor<SceneObject> &drawer, Skybox &skybox, PostProcessingPipeline &ppPipeline) noexcept
 	{
 		// 순서 중요.
@@ -26,8 +26,6 @@ namespace Danburite
 
 		drawer.process(&SceneObject::draw);
 		skybox.draw();
-
-		PostProcessingPipeline::unbind();
 
 		ppPipeline.render();
 	}

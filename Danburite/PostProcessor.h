@@ -83,8 +83,6 @@ namespace Danburite
 		virtual void setScreenSize(const GLsizei width, const GLsizei height) noexcept = 0;
 
 		virtual ~PostProcessor() = default;
-
-		static void unbind() noexcept;
 	};
 
 	constexpr void PostProcessor::setAttachmentServer(AttachmentServer *const pAttachmentServer) noexcept

@@ -67,7 +67,7 @@ namespace Danburite
 		if (pBoundProcessor)
 			pBoundProcessor->bind();
 		else
-			PostProcessor::unbind();
+			FrameBuffer::bindDefault();
 
 		__compositionProgram.bind();
 		fullscreenDrawer.draw();

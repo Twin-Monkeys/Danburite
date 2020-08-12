@@ -33,6 +33,6 @@ namespace Danburite
 	void RenderingPipeline::render() noexcept
 	{
 		__pipelineSetter.setUniformUint(ShaderIdentifier::Name::RenderingPipeline::TYPE, GLuint(__TYPE));
-		_onRender(__lightManager, __camera, __drawer, __skybox, __ppPipeline);
+		_onRender(*__pRenderTarget, __lightManager, __camera, __drawer, __skybox, __ppPipeline);
 	}
 }

@@ -68,7 +68,7 @@ namespace Danburite
 	}
 
 	void LightPrePassRenderingPipeline::_onRender(
-		LightManager& lightManager, PerspectiveCamera& camera,
+		FrameBuffer& renderTarget, LightManager& lightManager, PerspectiveCamera& camera,
 		BatchProcessor<SceneObject>& drawer, Skybox& skybox, PostProcessingPipeline& ppPipeline) noexcept
 	{
 		lightManager.process(&Light::bakeDepthMap, drawer);
@@ -144,7 +144,6 @@ namespace Danburite
 		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR);
 		drawer.process(&SceneObject::draw);
 
-		PostProcessingPipeline::unbind();
 		ppPipeline.render();
 	}
 }

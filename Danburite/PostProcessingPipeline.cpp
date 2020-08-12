@@ -49,12 +49,7 @@ namespace Danburite
 			pPrevProcessor = pCurProcessor;
 		}
 
-		PostProcessor::unbind();
+		FrameBuffer::bindDefault();
 		pPrevProcessor->render();
-	}
-
-	void PostProcessingPipeline::unbind() noexcept
-	{
-		PostProcessor::unbind();
 	}
 }

@@ -18,6 +18,8 @@ namespace Danburite
 		const RenderingPipelineType __TYPE;
 		ObjectGL::UniformBuffer &__pipelineSetter;
 
+		ObjectGL::FrameBuffer *__pRenderTarget = &ObjectGL::FrameBuffer::getDefault();
+
 		LightManager &__lightManager;
 		PerspectiveCamera &__camera;
 		BatchProcessor<SceneObject> &__drawer;
@@ -28,7 +30,7 @@ namespace Danburite
 		virtual void _onSetScreenSize(const GLsizei width, const GLsizei height) noexcept;
 
 		virtual void _onRender(
-			LightManager &lightManager, PerspectiveCamera &camera,
+			ObjectGL::FrameBuffer &renderTarget, LightManager &lightManager, PerspectiveCamera &camera,
 			BatchProcessor<SceneObject> &drawer, Skybox &skybox, PostProcessingPipeline &ppPipeline) noexcept = 0;
 
 	public:
@@ -42,6 +44,8 @@ namespace Danburite
 		void setScreenSize(const GLsizei width, const GLsizei height) noexcept;
 		constexpr const glm::ivec2 &getScreenSize() const noexcept;
 
+		constexpr void setRenderTarget(ObjectGL::FrameBuffer &target) noexcept;
+
 		void render() noexcept;
 	};
 
@@ -53,5 +57,10 @@ namespace Danburite
 	constexpr const glm::ivec2 &RenderingPipeline::getScreenSize() const noexcept
 	{
 		return __screenSize;
+	}
+
+	constexpr void RenderingPipeline::setRenderTarget(ObjectGL::FrameBuffer &target) noexcept
+	{
+		__pRenderTarget = &target;
 	}
 }

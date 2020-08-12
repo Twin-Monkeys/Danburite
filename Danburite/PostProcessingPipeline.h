@@ -24,8 +24,6 @@ namespace Danburite
 		void render() noexcept;
 
 		virtual ~PostProcessingPipeline() = default;
-
-		static void unbind() noexcept;
 	};
 
 	template <typename ProcessorType, typename ...Args>

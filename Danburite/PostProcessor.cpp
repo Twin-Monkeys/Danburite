@@ -156,9 +156,4 @@ namespace Danburite
 		_onRender(pBoundProcessor, __texContainerSetter, __fullscreenDrawer);
 		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
 	}
-
-	void PostProcessor::unbind() noexcept
-	{
-		FrameBuffer::bindDefault();
-	}
 }

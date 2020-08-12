@@ -30,7 +30,7 @@ namespace Danburite
 		virtual void _onSetScreenSize(const GLsizei width, const GLsizei height) noexcept override;
 
 		virtual void _onRender(
-			LightManager &lightManager, PerspectiveCamera &camera,
+			ObjectGL::FrameBuffer& renderTarget, LightManager &lightManager, PerspectiveCamera &camera,
 			BatchProcessor<SceneObject> &drawer, Skybox &skybox, PostProcessingPipeline &ppPipeline) noexcept override;
 
 	public:
