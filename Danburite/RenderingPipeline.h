@@ -3,7 +3,7 @@
 #include "RenderingPipelineType.h"
 #include "PerspectiveCamera.h"
 #include "BatchProcessor.h"
-#include "PostProcessingPipeline.h"
+#include "PostProcessorPipeline.h"
 #include "SceneObject.h"
 #include "LightManager.h"
 #include "Skybox.h"
@@ -18,26 +18,24 @@ namespace Danburite
 		const RenderingPipelineType __TYPE;
 		ObjectGL::UniformBuffer &__pipelineSetter;
 
-		ObjectGL::FrameBuffer *__pRenderTarget = &ObjectGL::FrameBuffer::getDefault();
+		PostProcessorPipeline __ppPipeline;
 
 		LightManager &__lightManager;
 		PerspectiveCamera &__camera;
 		BatchProcessor<SceneObject> &__drawer;
-		PostProcessingPipeline &__ppPipeline;
 		Skybox &__skybox;
 
 	protected:
 		virtual void _onSetScreenSize(const GLsizei width, const GLsizei height) noexcept;
 
 		virtual void _onRender(
-			ObjectGL::FrameBuffer &renderTarget, LightManager &lightManager, PerspectiveCamera &camera,
-			BatchProcessor<SceneObject> &drawer, Skybox &skybox, PostProcessingPipeline &ppPipeline) noexcept = 0;
+			LightManager &lightManager, PerspectiveCamera &camera,
+			BatchProcessor<SceneObject> &drawer, Skybox &skybox, PostProcessorPipeline &ppPipeline) noexcept = 0;
 
 	public:
 		RenderingPipeline(
-			const RenderingPipelineType pipelineType,
-			LightManager &lightManager, PerspectiveCamera &camera,
-			BatchProcessor<SceneObject> &drawer, Skybox &skybox, PostProcessingPipeline &ppPipeline) noexcept;
+			const RenderingPipelineType pipelineType, LightManager &lightManager,
+			PerspectiveCamera &camera, BatchProcessor<SceneObject> &drawer, Skybox &skybox) noexcept;
 		
 		constexpr RenderingPipelineType getType() const noexcept;
 
@@ -45,6 +43,9 @@ namespace Danburite
 		constexpr const glm::ivec2 &getScreenSize() const noexcept;
 
 		constexpr void setRenderTarget(ObjectGL::FrameBuffer &target) noexcept;
+
+		constexpr PostProcessorPipeline &getPostProcessorPipeline() noexcept;
+		constexpr const PostProcessorPipeline &getPostProcessorPipeline() const noexcept;
 
 		void render() noexcept;
 	};
@@ -59,8 +60,13 @@ namespace Danburite
 		return __screenSize;
 	}
 
-	constexpr void RenderingPipeline::setRenderTarget(ObjectGL::FrameBuffer &target) noexcept
+	constexpr PostProcessorPipeline &RenderingPipeline::getPostProcessorPipeline() noexcept
 	{
-		__pRenderTarget = &target;
+		return __ppPipeline;
+	}
+
+	constexpr const PostProcessorPipeline &RenderingPipeline::getPostProcessorPipeline() const noexcept
+	{
+		return __ppPipeline;
 	}
 }

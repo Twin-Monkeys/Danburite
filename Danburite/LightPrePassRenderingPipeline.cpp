@@ -10,9 +10,8 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	LightPrePassRenderingPipeline::LightPrePassRenderingPipeline(
-		LightManager& lightManager, PerspectiveCamera& camera,
-		BatchProcessor<SceneObject>& drawer, Skybox& skybox, PostProcessingPipeline& ppPipeline) :
-		RenderingPipeline(RenderingPipelineType::LIGHT_PREPASS, lightManager, camera, drawer, skybox, ppPipeline),
+		LightManager& lightManager, PerspectiveCamera& camera, BatchProcessor<SceneObject>& drawer, Skybox& skybox) :
+		RenderingPipeline(RenderingPipelineType::LIGHT_PREPASS, lightManager, camera, drawer, skybox),
 		__texContainerSetter(UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER)),
 		__lightPrePassSetter(UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::LIGHT_PREPASS)),
 		__geometryProgram(ProgramFactory::getInstance().getProgram(ProgramType::LIGHT_PREPASS_GEOMETRY_EXTRACTION)),
@@ -68,8 +67,8 @@ namespace Danburite
 	}
 
 	void LightPrePassRenderingPipeline::_onRender(
-		FrameBuffer& renderTarget, LightManager& lightManager, PerspectiveCamera& camera,
-		BatchProcessor<SceneObject>& drawer, Skybox& skybox, PostProcessingPipeline& ppPipeline) noexcept
+		LightManager& lightManager, PerspectiveCamera& camera,
+		BatchProcessor<SceneObject>& drawer, Skybox& skybox, PostProcessorPipeline& ppPipeline) noexcept
 	{
 		lightManager.process(&Light::bakeDepthMap, drawer);
 		lightManager.selfDeploy();

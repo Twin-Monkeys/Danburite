@@ -549,9 +549,6 @@
     <ClCompile Include="PostProcessor.cpp">
       <Filter>Library\Engine\Core\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="PostProcessingPipeline.cpp">
-      <Filter>Library\Engine\Core\PostProcess\Pipeline</Filter>
-    </ClCompile>
     <ClCompile Include="TextureCubemap.cpp">
       <Filter>Library\ObjectGL\Core\Texture\Cubemap</Filter>
     </ClCompile>
@@ -740,6 +737,9 @@
     </ClCompile>
     <ClCompile Include="LightPrePassRenderingPipeline.cpp">
       <Filter>Library\Engine\Core\Pipeline\RenderingPipeline\LightPrePass</Filter>
+    </ClCompile>
+    <ClCompile Include="PostProcessorPipeline.cpp">
+      <Filter>Library\Engine\Core\PostProcess\Pipeline</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1016,9 +1016,6 @@
     <ClInclude Include="Constant.h">
       <Filter>Library\Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="PostProcessingPipeline.h">
-      <Filter>Library\Engine\Core\PostProcess\Pipeline</Filter>
-    </ClInclude>
     <ClInclude Include="TextureCubemap.h">
       <Filter>Library\ObjectGL\Core\Texture\Cubemap</Filter>
     </ClInclude>
@@ -1276,6 +1273,9 @@
     </ClInclude>
     <ClInclude Include="LightPrePassRenderingPipeline.h">
       <Filter>Library\Engine\Core\Pipeline\RenderingPipeline\LightPrePass</Filter>
+    </ClInclude>
+    <ClInclude Include="PostProcessorPipeline.h">
+      <Filter>Library\Engine\Core\PostProcess\Pipeline</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

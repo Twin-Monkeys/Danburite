@@ -30,12 +30,11 @@ namespace Danburite
 		virtual void _onSetScreenSize(const GLsizei width, const GLsizei height) noexcept override;
 
 		virtual void _onRender(
-			ObjectGL::FrameBuffer& renderTarget, LightManager &lightManager, PerspectiveCamera &camera,
-			BatchProcessor<SceneObject> &drawer, Skybox &skybox, PostProcessingPipeline &ppPipeline) noexcept override;
+			LightManager &lightManager, PerspectiveCamera &camera,
+			BatchProcessor<SceneObject> &drawer, Skybox &skybox, PostProcessorPipeline &ppPipeline) noexcept override;
 
 	public:
 		LightPrePassRenderingPipeline(
-			LightManager &lightManager, PerspectiveCamera &camera,
-			BatchProcessor<SceneObject> &drawer, Skybox &skybox, PostProcessingPipeline& ppPipeline);
+			LightManager &lightManager, PerspectiveCamera &camera, BatchProcessor<SceneObject> &drawer, Skybox &skybox);
 	};
 }

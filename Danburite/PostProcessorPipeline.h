@@ -4,9 +4,11 @@
 
 namespace Danburite
 {
-	class PostProcessingPipeline
+	class PostProcessorPipeline
 	{
 	private:
+		ObjectGL::FrameBuffer *__pRenderTarget = &ObjectGL::FrameBuffer::getDefault();
+
 		AttachmentServer __attachmentServerPingPong[2];
 		std::vector<std::unique_ptr<PostProcessor>> __pipeline;
 
@@ -23,11 +25,13 @@ namespace Danburite
 		void bind() noexcept;
 		void render() noexcept;
 
-		virtual ~PostProcessingPipeline() = default;
+		constexpr void setRenderTarget(ObjectGL::FrameBuffer &target) noexcept;
+
+		virtual ~PostProcessorPipeline() = default;
 	};
 
 	template <typename ProcessorType, typename ...Args>
-	ProcessorType &PostProcessingPipeline::appendProcessor(Args &&...args) noexcept
+	ProcessorType &PostProcessorPipeline::appendProcessor(Args &&...args) noexcept
 	{
 		using namespace std;
 
@@ -42,5 +46,10 @@ namespace Danburite
 
 		pRetVal->setAttachmentServer(&__attachmentServerPingPong[pingPongIdx]);
 		return *pRetVal;
+	}
+
+	constexpr void PostProcessorPipeline::setRenderTarget(ObjectGL::FrameBuffer &target) noexcept
+	{
+		__pRenderTarget = &target;
 	}
 }

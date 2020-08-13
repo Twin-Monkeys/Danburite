@@ -4,15 +4,14 @@
 namespace Danburite
 {
 	RenderingPipeline::RenderingPipeline(
-		const RenderingPipelineType pipelineType,
-		LightManager &lightManager, PerspectiveCamera &camera,
-		BatchProcessor<SceneObject> &drawer, Skybox &skybox, PostProcessingPipeline &ppPipeline) noexcept :
+		const RenderingPipelineType pipelineType, LightManager &lightManager, PerspectiveCamera &camera,
+		BatchProcessor<SceneObject> &drawer, Skybox &skybox) noexcept :
 		__TYPE(pipelineType), __lightManager(lightManager), __skybox(skybox),
 
 		__pipelineSetter(UniformBufferFactory::getInstance().
 			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::RENDERING_PIPELINE)),
 
-		__camera(camera), __drawer(drawer), __ppPipeline(ppPipeline)
+		__camera(camera), __drawer(drawer)
 	{}
 
 	void RenderingPipeline::_onSetScreenSize(const GLsizei width, const GLsizei height) noexcept
@@ -33,6 +32,6 @@ namespace Danburite
 	void RenderingPipeline::render() noexcept
 	{
 		__pipelineSetter.setUniformUint(ShaderIdentifier::Name::RenderingPipeline::TYPE, GLuint(__TYPE));
-		_onRender(*__pRenderTarget, __lightManager, __camera, __drawer, __skybox, __ppPipeline);
+		_onRender(__lightManager, __camera, __drawer, __skybox, __ppPipeline);
 	}
 }

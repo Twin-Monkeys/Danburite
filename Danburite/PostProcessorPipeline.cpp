@@ -1,32 +1,32 @@
-#include "PostProcessingPipeline.h"
+#include "PostProcessorPipeline.h"
 
 using namespace std;
 using namespace ObjectGL;
 
 namespace Danburite
 {
-	size_t PostProcessingPipeline::getNumProcessors() const noexcept
+	size_t PostProcessorPipeline::getNumProcessors() const noexcept
 	{
 		return __pipeline.size();
 	}
 
-	PostProcessor &PostProcessingPipeline::getProcessor(const size_t idx) noexcept
+	PostProcessor &PostProcessorPipeline::getProcessor(const size_t idx) noexcept
 	{
 		return *__pipeline[idx];
 	}
 
-	const PostProcessor &PostProcessingPipeline::getProcessor(const size_t idx) const noexcept
+	const PostProcessor &PostProcessorPipeline::getProcessor(const size_t idx) const noexcept
 	{
 		return *__pipeline[idx];
 	}
 
-	void PostProcessingPipeline::setScreenSize(const GLsizei width, const GLsizei height) noexcept
+	void PostProcessorPipeline::setScreenSize(const GLsizei width, const GLsizei height) noexcept
 	{
 		for (const unique_ptr<PostProcessor> &pProcessor : __pipeline)
 			pProcessor->setScreenSize(width, height);
 	}
 
-	void PostProcessingPipeline::bind() noexcept
+	void PostProcessorPipeline::bind() noexcept
 	{
 		if (__pipeline.empty())
 			return;
@@ -34,7 +34,7 @@ namespace Danburite
 		__pipeline[0]->bind();
 	}
 
-	void PostProcessingPipeline::render() noexcept
+	void PostProcessorPipeline::render() noexcept
 	{
 		if (__pipeline.empty())
 			return;
@@ -49,7 +49,7 @@ namespace Danburite
 			pPrevProcessor = pCurProcessor;
 		}
 
-		FrameBuffer::bindDefault();
+		__pRenderTarget->bind();
 		pPrevProcessor->render();
 	}
 }

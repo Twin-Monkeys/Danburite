@@ -206,18 +206,21 @@ HDRTestScene::HDRTestScene()
 	__skybox.setLuminance(.1f);
 	__skybox.setEnabled(true);*/
 
+
+	// 파이프라인 초기화
+
+	__pRenderingPipeline =
+		make_unique<LightPrePassRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);
+
+	/*__pRenderingPipeline =
+		make_unique<ForwardRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);*/
+
+	PostProcessorPipeline &ppPipeline = __pRenderingPipeline->getPostProcessorPipeline();
+
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
-
-	// __pPPPipeline->appendProcessor<MSAAPostProcessor>(true);
-	__ppPipeline.appendProcessor<GammaCorrectionPostProcessor>(true);
-	__ppPipeline.appendProcessor<BloomPostProcessor>();
-	__pHDRPP = &__ppPipeline.appendProcessor<HDRPostProcessor>();
-
-	__pRenderingPipeline = make_unique<LightPrePassRenderingPipeline>(
-		__lightMgr, __camera, __drawer, __skybox, __ppPipeline);
-
-	/*__pRenderingPipeline = make_unique<ForwardRenderingPipeline>(
-		__lightMgr, __camera, __drawer, __skybox, __ppPipeline);*/
+	ppPipeline.appendProcessor<GammaCorrectionPostProcessor>(true);
+	ppPipeline.appendProcessor<BloomPostProcessor>();
+	__pHDRPP = &ppPipeline.appendProcessor<HDRPostProcessor>();
 }
 
 bool HDRTestScene::__keyFunc(const float deltaTime) noexcept

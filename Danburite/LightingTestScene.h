@@ -10,7 +10,6 @@
 #include "SpotLight.h"
 #include "BatchProcessor.h"
 #include "HDRPostProcessor.h"
-#include "PostProcessingPipeline.h"
 #include "RenderingPipeline.h"
 #include <random>
 
@@ -42,7 +41,6 @@ private:
 
 	Danburite::Skybox __skybox;
 	Danburite::HDRPostProcessor *__pHDRPP;
-	Danburite::PostProcessingPipeline __ppPipeline;
 
 	std::unique_ptr<Danburite::RenderingPipeline> __pRenderingPipeline;
 
