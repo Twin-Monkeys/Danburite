@@ -1,6 +1,9 @@
 #pragma once
 
 #include "PostProcessor.h"
+#include "BatchProcessor.h"
+#include "SceneObject.h"
+#include "Skybox.h"
 
 namespace Danburite
 {
@@ -16,14 +19,13 @@ namespace Danburite
 		template <typename ProcessorType, typename ...Args>
 		ProcessorType &appendProcessor(Args &&...args) noexcept;
 
-		size_t getNumProcessors() const noexcept;
-		PostProcessor &getProcessor(const size_t idx) noexcept;
-		const PostProcessor &getProcessor(const size_t idx) const noexcept;
+		ObjectGL::FrameBuffer& getFrameBuffer() noexcept;
+		const ObjectGL::FrameBuffer& getFrameBuffer() const noexcept;
 
 		void setScreenSize(const GLsizei width, const GLsizei height) noexcept;
-
-		void bind() noexcept;
-		void render() noexcept;
+		void render(
+			BatchProcessor<SceneObject> &drawer, Skybox &skybox,
+			const ObjectGL::FrameBufferBlitFlag bufferClearFlag) noexcept;
 
 		constexpr void setRenderTarget(ObjectGL::FrameBuffer &target) noexcept;
 

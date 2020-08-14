@@ -145,15 +145,10 @@ namespace Danburite
 		return *__pFrameBuffer;
 	}
 
-	void PostProcessor::bind() noexcept
-	{
-		__pFrameBuffer->bind();
-	}
-
-	void PostProcessor::render(PostProcessor* const pBoundProcessor) noexcept
+	void PostProcessor::render(FrameBuffer &renderTarget) noexcept
 	{
 		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, false);
-		_onRender(pBoundProcessor, __texContainerSetter, __fullscreenDrawer);
+		_onRender(renderTarget, __texContainerSetter, __fullscreenDrawer);
 		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
 	}
 }

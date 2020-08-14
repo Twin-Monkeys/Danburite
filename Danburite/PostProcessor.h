@@ -67,7 +67,7 @@ namespace Danburite
 				const size_t retrievingIndex = 0ULL);
 
 		virtual void _onRender(
-			PostProcessor *const pBoundProcessor,
+			ObjectGL::FrameBuffer &renderTarget,
 			ObjectGL::UniformBuffer &texContainerSetter,
 			FullscreenDrawer &fullscreenDrawer) noexcept = 0;
 
@@ -75,8 +75,7 @@ namespace Danburite
 		ObjectGL::FrameBuffer &getFrameBuffer() noexcept;
 		const ObjectGL::FrameBuffer &getFrameBuffer() const noexcept;
 
-		void bind() noexcept;
-		void render(PostProcessor *const pBoundProcessor = nullptr) noexcept;
+		void render(ObjectGL::FrameBuffer &renderTarget) noexcept;
 
 		constexpr void setAttachmentServer(AttachmentServer *const pAttachmentServer) noexcept;
 

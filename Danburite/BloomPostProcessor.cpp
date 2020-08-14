@@ -21,8 +21,7 @@ namespace Danburite
 	{}
 
 	void BloomPostProcessor::_onRender(
-		PostProcessor* const pBoundProcessor,
-		UniformBuffer &texContainerSetter, FullscreenDrawer &fullscreenDrawer) noexcept
+		FrameBuffer &renderTarget, UniformBuffer &texContainerSetter, FullscreenDrawer &fullscreenDrawer) noexcept
 	{
 		__bloomSetter.setUniformFloat(
 			ShaderIdentifier::Name::Bloom::BRIGHTNESS_THRESHOLD, __brightnessThreshold);
@@ -64,11 +63,7 @@ namespace Danburite
 		texContainerSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Attachment::TEX1, __pBloomColorAttachment1->getHandle());
 
-		if (pBoundProcessor)
-			pBoundProcessor->bind();
-		else
-			FrameBuffer::bindDefault();
-
+		renderTarget.bind();
 		__compositionProgram.bind();
 		fullscreenDrawer.draw();
 	}

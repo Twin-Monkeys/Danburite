@@ -18,12 +18,12 @@ namespace Danburite
 	}
 
 	void MSAAPostProcessor::_onRender(
-		PostProcessor* const pBoundProcessor,
-		UniformBuffer &texContainerSetter, FullscreenDrawer &fullscreenDrawer) noexcept
+		FrameBuffer &renderTarget, UniformBuffer &texContainerSetter, FullscreenDrawer &fullscreenDrawer) noexcept
 	{
 		// AMD Bug; Cannot use bindless sampler2DMS
 		texContainerSetter.setUniformUvec2(ShaderIdentifier::Name::Attachment::TEX0, __pColorAttachment->getHandle());
 
+		renderTarget.bind();
 		__program.bind();
 		fullscreenDrawer.draw();
 	}

@@ -34,7 +34,7 @@ namespace Danburite
 
 	protected:
 		virtual void _onRender(
-			PostProcessor* const pBoundProcessor,
+			ObjectGL::FrameBuffer &renderTarget,
 			ObjectGL::UniformBuffer &texContainerSetter,
 			FullscreenDrawer &fullscreenDrawer) noexcept override;
 

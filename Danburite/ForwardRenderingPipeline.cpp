@@ -1,5 +1,4 @@
 #include "ForwardRenderingPipeline.h"
-#include "GLFunctionWrapper.h"
 
 using namespace ObjectGL;
 
@@ -19,14 +18,6 @@ namespace Danburite
 		lightManager.selfDeploy();
 
 		camera.selfDeploy();
-
-		ppPipeline.bind();
-
-		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR_DEPTH);
-
-		drawer.process(&SceneObject::draw);
-		skybox.draw();
-
-		ppPipeline.render();
+		ppPipeline.render(drawer, skybox, FrameBufferBlitFlag::COLOR | FrameBufferBlitFlag::DEPTH);
 	}
 }

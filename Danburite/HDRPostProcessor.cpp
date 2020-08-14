@@ -16,10 +16,9 @@ namespace Danburite
 	{}
 
 	void HDRPostProcessor::_onRender(
-		PostProcessor* const pBoundProcessor,
-		UniformBuffer &texContainerSetter, FullscreenDrawer &fullscreenDrawer) noexcept
+		FrameBuffer &renderTarget, UniformBuffer &texContainerSetter, FullscreenDrawer &fullscreenDrawer) noexcept
 	{
 		__hdrSetter.setUniformFloat(ShaderIdentifier::Name::HDR::EXPOSURE, __exposure);
-		ForwardPostProcessor::_onRender(pBoundProcessor, texContainerSetter, fullscreenDrawer);
+		ForwardPostProcessor::_onRender(renderTarget, texContainerSetter, fullscreenDrawer);
 	}
 }

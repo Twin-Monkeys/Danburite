@@ -23,8 +23,7 @@ namespace Danburite
 	}
 
 	void ConvolutionalPostProcessor::_onRender(
-		PostProcessor* const pBoundProcessor,
-		UniformBuffer &texContainerSetter, FullscreenDrawer &fullscreenDrawer) noexcept
+		FrameBuffer &renderTarget, UniformBuffer &texContainerSetter, FullscreenDrawer &fullscreenDrawer) noexcept
 	{
 		__convSetter.setUniformUint(
 			ShaderIdentifier::Name::Convolutional::KERNEL_SIZE, __kernelSize);
@@ -32,6 +31,6 @@ namespace Danburite
 		__convSetter.setUniformFloatArray(
 			ShaderIdentifier::Name::Convolutional::KERNEL, __kernel.data(), __kernelSize * __kernelSize);
 
-		ForwardPostProcessor::_onRender(pBoundProcessor, texContainerSetter, fullscreenDrawer);
+		ForwardPostProcessor::_onRender(renderTarget, texContainerSetter, fullscreenDrawer);
 	}
 }

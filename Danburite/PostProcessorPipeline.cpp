@@ -1,23 +1,25 @@
 #include "PostProcessorPipeline.h"
+#include "GLFunctionWrapper.h"
 
 using namespace std;
 using namespace ObjectGL;
 
 namespace Danburite
 {
-	size_t PostProcessorPipeline::getNumProcessors() const noexcept
+	FrameBuffer &PostProcessorPipeline::getFrameBuffer() noexcept
 	{
-		return __pipeline.size();
+		if (__pipeline.empty())
+			return *__pRenderTarget;
+
+		return __pipeline[0]->getFrameBuffer();
 	}
 
-	PostProcessor &PostProcessorPipeline::getProcessor(const size_t idx) noexcept
+	const FrameBuffer &PostProcessorPipeline::getFrameBuffer() const noexcept
 	{
-		return *__pipeline[idx];
-	}
+		if (__pipeline.empty())
+			return *__pRenderTarget;
 
-	const PostProcessor &PostProcessorPipeline::getProcessor(const size_t idx) const noexcept
-	{
-		return *__pipeline[idx];
+		return __pipeline[0]->getFrameBuffer();
 	}
 
 	void PostProcessorPipeline::setScreenSize(const GLsizei width, const GLsizei height) noexcept
@@ -26,30 +28,34 @@ namespace Danburite
 			pProcessor->setScreenSize(width, height);
 	}
 
-	void PostProcessorPipeline::bind() noexcept
+	void PostProcessorPipeline::render(
+		BatchProcessor<SceneObject> &drawer, Skybox &skybox,
+		const FrameBufferBlitFlag bufferClearFlag) noexcept
 	{
+		PostProcessor* pCurProcessor = nullptr;
+		PostProcessor* pNextProcessor = nullptr;
+
 		if (__pipeline.empty())
-			return;
-
-		__pipeline[0]->bind();
-	}
-
-	void PostProcessorPipeline::render() noexcept
-	{
-		if (__pipeline.empty())
-			return;
-
-		PostProcessor *pPrevProcessor = __pipeline[0].get();
-		for (size_t i = 1ULL; i < __pipeline.size(); i++)
+			__pRenderTarget->bind();
+		else
 		{
-			PostProcessor *const pCurProcessor = __pipeline[i].get();
-
-			pCurProcessor->bind();
-			pPrevProcessor->render(pCurProcessor);
-			pPrevProcessor = pCurProcessor;
+			pCurProcessor = __pipeline[0].get();
+			pCurProcessor->getFrameBuffer().bind();
 		}
 
-		__pRenderTarget->bind();
-		pPrevProcessor->render();
+		GLFunctionWrapper::clearBuffers(bufferClearFlag);
+		drawer.process(&SceneObject::draw);
+		skybox.draw();
+
+		for (size_t i = 1ULL; i < __pipeline.size(); i++)
+		{
+			pNextProcessor = __pipeline[i].get();
+
+			pCurProcessor->render(pNextProcessor->getFrameBuffer());
+			pCurProcessor = pNextProcessor;
+		}
+
+		if (pCurProcessor)
+			pCurProcessor->render(*__pRenderTarget);
 	}
 }

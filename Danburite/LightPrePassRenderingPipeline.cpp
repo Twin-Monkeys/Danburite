@@ -133,16 +133,10 @@ namespace Danburite
 		GLFunctionWrapper::setOption(GLOptionType::BLEND, false);
 		GLFunctionWrapper::setCulledFace(FacetType::BACK);
 
-		FrameBuffer& firstFB = ppPipeline.getProcessor(0).getFrameBuffer();
 		const ivec2& screenSize = getScreenSize();
-
 		__pNormalShininessFB->blit(
-			firstFB, FrameBufferBlitFlag::DEPTH, screenSize.x, screenSize.y);
+			ppPipeline.getFrameBuffer(), FrameBufferBlitFlag::DEPTH, screenSize.x, screenSize.y);
 
-		ppPipeline.bind();
-		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR);
-		drawer.process(&SceneObject::draw);
-
-		ppPipeline.render();
+		ppPipeline.render(drawer, skybox, FrameBufferBlitFlag::COLOR);
 	}
 }
