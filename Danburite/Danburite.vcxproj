@@ -384,6 +384,7 @@
     <ClInclude Include="BoneException.h" />
     <ClInclude Include="BoneManager.h" />
     <ClInclude Include="BufferAccessType.h" />
+    <ClInclude Include="ContextStateManager.h" />
     <ClInclude Include="DepthBaker2D.h" />
     <ClInclude Include="DepthBakerBase.h" />
     <ClInclude Include="DepthBakerCubemap.h" />

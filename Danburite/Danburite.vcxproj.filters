@@ -1277,6 +1277,9 @@
     <ClInclude Include="PostProcessorPipeline.h">
       <Filter>Library\Engine\Core\PostProcess\Pipeline</Filter>
     </ClInclude>
+    <ClInclude Include="ContextStateManager.h">
+      <Filter>Library\ObjectGL\Window\RenderContext</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glsl\src\Header\Camera_Header.glsl">

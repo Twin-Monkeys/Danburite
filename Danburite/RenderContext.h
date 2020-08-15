@@ -3,6 +3,7 @@
 #include "BindableObject.h"
 #include "PixelFormatDescriptor.h"
 #include "RCAttributeDescriptor.h"
+#include "ContextStateManager.h"
 #include "RCException.h"
 #include <unordered_set>
 #include <cassert>
@@ -37,6 +38,7 @@ namespace ObjectGL
 	{
 	private:
 		DeviceContext &__deviceContext;
+		ContextStateManager __stateMgr;
 
 		RenderContext(const RenderContext &src) = delete;
 		RenderContext& operator=(const RenderContext &) = delete;
@@ -71,6 +73,9 @@ namespace ObjectGL
 
 		void requestBufferSwapping() noexcept;
 		void setDebugMessageCallback(const GLDebugMessageCallbackFunction pCallback) noexcept;
+
+		constexpr ContextStateManager &getStateManager() noexcept;
+		constexpr const ContextStateManager &getStateManager() const noexcept;
 
 		virtual ~RenderContext() noexcept;
 

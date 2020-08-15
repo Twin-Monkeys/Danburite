@@ -57,12 +57,11 @@ namespace ObjectGL
 		static unordered_map<thread::id, bool> initializedThreads;
 
 		mut.lock();
-
 		bool &initialized = initializedThreads[this_thread::get_id()];
+		mut.unlock();
+
 		if (initialized)
 			return;
-
-		mut.unlock();
 
 		const HGLRC hTmpRC = wglCreateContext(deviceContext);
 		if (!hTmpRC)
@@ -124,7 +123,7 @@ namespace ObjectGL
 		return rcMap;
 	}
 
-	RenderContext*& RenderContext::__getCurrentPtrReference() noexcept
+	RenderContext *&RenderContext::__getCurrentPtrReference() noexcept
 	{
 		return __getCurrentMap()[this_thread::get_id()];
 	}
@@ -134,7 +133,22 @@ namespace ObjectGL
 		const BOOL result = wglMakeCurrent(__deviceContext, ID);
 		assert(result);
 
+		RenderContext *&pCurrentRef = __getCurrentPtrReference();
+		if (pCurrentRef)
+			pCurrentRef->getStateManager()._setValid(false);
+
+		this->getStateManager()._setValid(true);
 		__getCurrentPtrReference() = this;
+	}
+
+	constexpr ContextStateManager &RenderContext::getStateManager() noexcept
+	{
+		return __stateMgr;
+	}
+
+	constexpr const ContextStateManager &RenderContext::getStateManager() const noexcept
+	{
+		return __stateMgr;
 	}
 
 	RenderContext::~RenderContext() noexcept
@@ -178,14 +192,16 @@ namespace ObjectGL
 
 	void RenderContext::unbind() noexcept
 	{
-		RenderContext*& pCurrent = __getCurrentPtrReference();
-		if (!pCurrent)
+		RenderContext *&pCurrentRef = __getCurrentPtrReference();
+		if (!pCurrentRef)
 			return;
 
-		const bool valid = wglMakeCurrent(pCurrent->__deviceContext, nullptr);
+		pCurrentRef->getStateManager()._setValid(false);
+
+		const bool valid = wglMakeCurrent(pCurrentRef->__deviceContext, nullptr);
 		assert(valid);
 
-		pCurrent = nullptr;
+		pCurrentRef = nullptr;
 		_unbind();
 	}
 
