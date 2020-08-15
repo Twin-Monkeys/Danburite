@@ -11,7 +11,9 @@ namespace Danburite
 {
 	PostProcessor::PostProcessor() :
 		__texContainerSetter(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER))
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER)),
+
+		__fullscreenDrawer(FullscreenDrawer::getInstance())
 	{}
 
 	void PostProcessor::_attach(const AttachmentType attachmentType, Attachable &attachment) noexcept

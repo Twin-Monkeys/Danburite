@@ -203,7 +203,7 @@ namespace Danburite
 		const float timestamp, const ComponentType &component) noexcept
 	{
 		__keyframes.emplace(timestamp, component);
-		__playTime = glm::max(__playTime, timestamp);
+		__playTime = glm::max<float>(__playTime, timestamp);
 
 		return *this;
 	}

@@ -22,6 +22,7 @@ int APIENTRY _tWinMain(const HINSTANCE hInstance, HINSTANCE, LPTSTR, int)
 	const PixelFormatDescriptor pixelFormatDesc {};
 	const RCAttributeDescriptor attributeDesc {};
 
+	// RC 생정 전 등록 필요.
 	RCDSRegisterer::batchRegister();
 
 	unique_ptr<RenderContext> pRenderContext =

@@ -12,7 +12,7 @@ namespace Danburite
 		ObjectGL::UniformBuffer &__texContainerSetter;
 		ObjectGL::UniformBuffer &__lightPrePassSetter;
 
-		FullscreenDrawer __fullscreenDrawer;
+		FullscreenDrawer &__fullscreenDrawer;
 
 		ObjectGL::Program &__geometryProgram;
 		std::unique_ptr<ObjectGL::FrameBuffer> __pNormalShininessFB = std::make_unique<ObjectGL::FrameBuffer>();

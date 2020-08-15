@@ -13,7 +13,7 @@ namespace Danburite
 		std::unique_ptr<ObjectGL::FrameBuffer> __pFrameBuffer =
 			std::make_unique<ObjectGL::FrameBuffer>();
 
-		FullscreenDrawer __fullscreenDrawer;
+		FullscreenDrawer &__fullscreenDrawer;
 
 		AttachmentServer *__pAttachmentServer = nullptr;
 		ObjectGL::UniformBuffer &__texContainerSetter;

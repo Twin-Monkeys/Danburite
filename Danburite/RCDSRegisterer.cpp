@@ -2,6 +2,7 @@
 #include "RenderContext.h"
 #include "ProgramFactory.h"
 #include "UniformBufferFactory.h"
+#include "FullscreenDrawer.h"
 
 using namespace ObjectGL;
 
@@ -11,5 +12,6 @@ namespace Danburite
 	{
 		RenderContext::registerContextDependentSingleton<ProgramFactory>();
 		RenderContext::registerContextDependentSingleton<UniformBufferFactory>();
+		RenderContext::registerContextDependentSingleton<FullscreenDrawer>();
 	}
 }
