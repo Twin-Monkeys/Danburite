@@ -135,9 +135,9 @@ namespace ObjectGL
 
 		RenderContext *&pCurrentRef = __getCurrentPtrReference();
 		if (pCurrentRef)
-			pCurrentRef->getStateManager()._setValid(false);
+			pCurrentRef->getStateManager().__validFlag = false;
 
-		this->getStateManager()._setValid(true);
+		this->getStateManager().__validFlag = true;
 		__getCurrentPtrReference() = this;
 	}
 
@@ -196,7 +196,7 @@ namespace ObjectGL
 		if (!pCurrentRef)
 			return;
 
-		pCurrentRef->getStateManager()._setValid(false);
+		pCurrentRef->getStateManager().__validFlag = false;
 
 		const bool valid = wglMakeCurrent(pCurrentRef->__deviceContext, nullptr);
 		assert(valid);
