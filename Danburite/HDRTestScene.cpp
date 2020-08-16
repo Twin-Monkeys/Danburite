@@ -2,7 +2,6 @@
 #include "VertexAttributeListFactory.h"
 #include "RenderContext.h"
 #include "AssetImporter.h"
-#include "GLFunctionWrapper.h"
 #include "VertexArrayFactory.h"
 #include "Constant.h"
 #include "PhongMaterial.h"
@@ -23,9 +22,9 @@ HDRTestScene::HDRTestScene()
 {
 	// 전역 옵션
 
-	GLFunctionWrapper::setState(GLStateType::MULTISAMPLE, true);
-	GLFunctionWrapper::setState(GLStateType::DEPTH_TEST, true);
-	GLFunctionWrapper::setState(GLStateType::CULL_FACE, true);
+	ContextStateManager &stateMgr = RenderContext::getCurrentStateManager();
+	stateMgr.setState(GLStateType::DEPTH_TEST, true);
+	stateMgr.setState(GLStateType::CULL_FACE, true);
 
 
 	//// Rendering unit 생성 ////
@@ -185,7 +184,7 @@ HDRTestScene::HDRTestScene()
 
 	// Skybox
 
-	/*const shared_ptr<TextureCubemap> &pSkyboxAlbedoTex =
+	const shared_ptr<TextureCubemap> &pSkyboxAlbedoTex =
 		TextureUtil::createTextureCubemapFromImage(
 			{
 				"res/image/skybox/space/right.png",
@@ -204,16 +203,16 @@ HDRTestScene::HDRTestScene()
 
 	__skybox.setAlbedoTexture(pSkyboxAlbedoTex);
 	__skybox.setLuminance(.1f);
-	__skybox.setEnabled(true);*/
+	__skybox.setEnabled(true);
 
 
 	// 파이프라인 초기화
 
-	__pRenderingPipeline =
-		make_unique<LightPrePassRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);
-
 	/*__pRenderingPipeline =
-		make_unique<ForwardRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);*/
+		make_unique<LightPrePassRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);*/
+
+	__pRenderingPipeline =
+		make_unique<ForwardRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);
 
 	PostProcessorPipeline &ppPipeline = __pRenderingPipeline->getPostProcessorPipeline();
 

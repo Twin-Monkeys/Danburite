@@ -12,6 +12,7 @@
 #include "RasterizationType.h"
 #include "FacetType.h"
 #include "WindingOrderType.h"
+#include "RCException.h"
 
 namespace ObjectGL
 {
@@ -68,41 +69,41 @@ namespace ObjectGL
 
 		constexpr bool isValid() const noexcept;
 
-		bool enableVerticalSync(const bool enabled) noexcept;
-		bool setState(const GLStateType stateType, const bool state) noexcept;
+		bool enableVerticalSync(const bool enabled);
+		bool setState(const GLStateType stateType, const bool state);
 
 		bool setClearColor(
-			const float red, const float green, const float blue, const float alpha = 1.f) noexcept;
+			const float red, const float green, const float blue, const float alpha = 1.f);
 		
-		bool setClearColor(const glm::vec3 &color, const float alpha = 1.f) noexcept;
-		bool setClearColor(const glm::vec4 &color) noexcept;
+		bool setClearColor(const glm::vec3 &color, const float alpha = 1.f);
+		bool setClearColor(const glm::vec4 &color);
 
-		bool enableDepthMask(const bool enabled) noexcept;
-		bool setDepthFunction(const DepthStencilFunctionType func) noexcept;
+		bool enableDepthMask(const bool enabled);
+		bool setDepthFunction(const DepthStencilFunctionType func);
 
-		bool setStencilMask(const GLuint mask) noexcept;
-		bool setStencilFunction(const DepthStencilFunctionType func, const GLuint queryValue) noexcept;
+		bool setStencilMask(const GLuint mask);
+		bool setStencilFunction(const DepthStencilFunctionType func, const GLuint queryValue);
 
 		bool setStencilOperation(
 			const StencilOperationType stencilFail,
 			const StencilOperationType stencilPassDepthFail,
-			const StencilOperationType stencilDepthPass) noexcept;
+			const StencilOperationType stencilDepthPass);
 
 		bool setBlendingFunction(
 			const BlendingFunctionType srcFuncType,
-			const BlendingFunctionType destFuncType) noexcept;
+			const BlendingFunctionType destFuncType);
 
 		bool setBlendingFunction(
 			const BlendingFunctionType srcRGBFuncType,
 			const BlendingFunctionType destRGBFuncType,
 			const BlendingFunctionType srcAlphaFuncType,
-			const BlendingFunctionType destAlphaFuncType) noexcept;
+			const BlendingFunctionType destAlphaFuncType);
 
-		bool setBlendingEquation(const BlendingEquationType type) noexcept;
-		bool setPolygonMode(const RenderTargetType renderTargetType, const RasterizationType rasterizationType) noexcept;
+		bool setBlendingEquation(const BlendingEquationType type);
+		bool setPolygonMode(const RenderTargetType renderTargetType, const RasterizationType rasterizationType);
 
-		bool setCulledFace(const FacetType type) noexcept;
-		bool setFrontFace(const WindingOrderType type) noexcept;
+		bool setCulledFace(const FacetType type);
+		bool setFrontFace(const WindingOrderType type);
 	};
 
 	constexpr bool ContextStateManager::isValid() const noexcept

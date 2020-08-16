@@ -2,7 +2,6 @@
 #include "VertexAttributeListFactory.h"
 #include "RenderContext.h"
 #include "AssetImporter.h"
-#include "GLFunctionWrapper.h"
 #include "VertexArrayFactory.h"
 #include "Constant.h"
 #include "PhongMaterial.h"
@@ -23,9 +22,9 @@ LightingTestScene::LightingTestScene()
 {
 	// 傈开 可记
 
-	GLFunctionWrapper::setState(GLStateType::MULTISAMPLE, true);
-	GLFunctionWrapper::setState(GLStateType::DEPTH_TEST, true);
-	GLFunctionWrapper::setState(GLStateType::CULL_FACE, true);
+	ContextStateManager& stateMgr = RenderContext::getCurrentStateManager();
+	stateMgr.setState(GLStateType::DEPTH_TEST, true);
+	stateMgr.setState(GLStateType::CULL_FACE, true);
 
 
 	//// Rendering unit 积己 ////
@@ -275,11 +274,11 @@ LightingTestScene::LightingTestScene()
 
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
 
-	__pRenderingPipeline =
-		make_unique<LightPrePassRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);
-
 	/*__pRenderingPipeline =
-		make_unique<ForwardRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);*/
+		make_unique<LightPrePassRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);*/
+
+	__pRenderingPipeline =
+		make_unique<ForwardRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);
 
 	PostProcessorPipeline &ppPipeline = __pRenderingPipeline->getPostProcessorPipeline();
 

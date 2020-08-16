@@ -1,7 +1,6 @@
 #include "PostProcessor.h"
 #include "ProgramFactory.h"
 #include "ShaderIdentifier.h"
-#include "GLFunctionWrapper.h"
 #include "UniformBufferFactory.h"
 
 using namespace std;
@@ -149,8 +148,7 @@ namespace Danburite
 
 	void PostProcessor::render(FrameBuffer &renderTarget) noexcept
 	{
-		GLFunctionWrapper::setState(GLStateType::DEPTH_TEST, false);
+		RenderContext::getCurrentStateManager().setState(GLStateType::DEPTH_TEST, false);
 		_onRender(renderTarget, __texContainerSetter, __fullscreenDrawer);
-		GLFunctionWrapper::setState(GLStateType::DEPTH_TEST, true);
 	}
 }

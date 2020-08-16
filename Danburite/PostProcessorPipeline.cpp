@@ -1,5 +1,4 @@
 #include "PostProcessorPipeline.h"
-#include "GLFunctionWrapper.h"
 
 using namespace std;
 using namespace ObjectGL;
@@ -29,21 +28,25 @@ namespace Danburite
 	}
 
 	void PostProcessorPipeline::render(
-		BatchProcessor<SceneObject> &drawer, Skybox &skybox,
-		const FrameBufferBlitFlag bufferClearFlag) noexcept
+		BatchProcessor<SceneObject> &drawer, Skybox &skybox, const FrameBufferBlitFlag bufferClearFlag) noexcept
 	{
 		PostProcessor* pCurProcessor = nullptr;
 		PostProcessor* pNextProcessor = nullptr;
 
 		if (__pipeline.empty())
+		{
 			__pRenderTarget->bind();
+			__pRenderTarget->clearBuffers(bufferClearFlag);
+		}
 		else
 		{
 			pCurProcessor = __pipeline[0].get();
-			pCurProcessor->getFrameBuffer().bind();
+
+			FrameBuffer &curFB = pCurProcessor->getFrameBuffer();
+			curFB.bind();
+			curFB.clearBuffers(bufferClearFlag);
 		}
 
-		GLFunctionWrapper::clearBuffers(bufferClearFlag);
 		drawer.process(&SceneObject::draw);
 		skybox.draw();
 

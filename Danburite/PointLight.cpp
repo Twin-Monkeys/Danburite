@@ -1,7 +1,6 @@
 #include "PointLight.h"
 #include "VertexArrayFactory.h"
 #include "RawDrawcallMaterial.h"
-#include "GLFunctionWrapper.h"
 
 using namespace std;
 using namespace glm;
@@ -51,7 +50,6 @@ namespace Danburite
 
 	void PointLight::_onVolumeDrawcall() noexcept
 	{
-		GLFunctionWrapper::setCulledFace(FacetType::FRONT);
 		__pVolume->rawDrawcall();
 	}
 

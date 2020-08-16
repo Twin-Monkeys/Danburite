@@ -1,5 +1,4 @@
 #include "LightPrePassRenderingPipeline.h"
-#include "GLFunctionWrapper.h"
 #include "UniformBufferFactory.h"
 #include "ProgramFactory.h"
 
@@ -76,42 +75,45 @@ namespace Danburite
 
 		camera.selfDeploy();
 
+		ContextStateManager &stateMgr = RenderContext::getCurrentStateManager();
 
 		// Geometry pass
-		GLFunctionWrapper::setState(GLStateType::DEPTH_TEST, true);
-		GLFunctionWrapper::setState(GLStateType::STENCIL_TEST, true);
-		GLFunctionWrapper::setStencilMask(0xFFU);
-
+		__pNormalShininessFB->clearBuffers(FrameBufferBlitFlag::DEPTH | FrameBufferBlitFlag::STENCIL);
 		__pNormalShininessFB->bind();
-		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::DEPTH | FrameBufferBlitFlag::STENCIL);
-
-		GLFunctionWrapper::setStencilFunction(DepthStencilFunctionType::ALWAYS, 0x01U);
-		GLFunctionWrapper::setStencilOperation(
-			StencilOperationType::KEEP, StencilOperationType::KEEP, StencilOperationType::REPLACE);
-
 		__geometryProgram.bind();
+
+		stateMgr.setState(GLStateType::DEPTH_TEST, true);
+		stateMgr.setState(GLStateType::STENCIL_TEST, true);
+		stateMgr.setStencilMask(0xFFU);
+
+		stateMgr.setStencilFunction(DepthStencilFunctionType::ALWAYS, 0x01U);
+		stateMgr.setStencilOperation(StencilOperationType::KEEP, StencilOperationType::KEEP, StencilOperationType::REPLACE);
+
 		drawer.process(&SceneObject::rawDrawcall);
 
 
 		// Lighting pass
-		GLFunctionWrapper::setState(GLStateType::DEPTH_TEST, false);
-		GLFunctionWrapper::setState(GLStateType::CULL_FACE, true);
-		GLFunctionWrapper::setState(GLStateType::BLEND, true);
-		GLFunctionWrapper::setBlendingFunction(BlendingFunctionType::ONE, BlendingFunctionType::ONE);
-
-		__pLightingFB->bind();
-		GLFunctionWrapper::clearBuffers(FrameBufferBlitFlag::COLOR);
-
 		__texContainerSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Attachment::TEX0, __pPosAttachment->getHandle());
 
 		__texContainerSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Attachment::TEX1, __pNormalShininessAttachment->getHandle());
 
-		GLFunctionWrapper::setStencilFunction(DepthStencilFunctionType::EQUAL, 0x01U);
-		GLFunctionWrapper::setStencilMask(0x00U);
-
+		stateMgr.setClearColor(0.f, 0.f, 0.f, 0.f);
+		__pLightingFB->clearBuffers(FrameBufferBlitFlag::COLOR);
+		__pLightingFB->bind();
 		__lightingProgram.bind();
+
+		stateMgr.setState(GLStateType::DEPTH_TEST, false);
+		stateMgr.setState(GLStateType::CULL_FACE, true);
+		stateMgr.setCulledFace(FacetType::FRONT);
+
+		stateMgr.setStencilFunction(DepthStencilFunctionType::EQUAL, 0x01U);
+		stateMgr.setStencilMask(0x00U);
+
+		stateMgr.setState(GLStateType::BLEND, true);
+		stateMgr.setBlendingFunction(BlendingFunctionType::ONE, BlendingFunctionType::ONE);
+
 		lightManager.process(&Light::volumeDrawcall);
 
 
@@ -128,15 +130,14 @@ namespace Danburite
 			ShaderIdentifier::Name::LightPrePass::LIGHT_SPECULAR_TEX,
 			__pLightSpecularAttachment->getHandle());
 
-		GLFunctionWrapper::setState(GLStateType::DEPTH_TEST, true);
-		GLFunctionWrapper::setState(GLStateType::STENCIL_TEST, false);
-		GLFunctionWrapper::setDepthFunction(DepthStencilFunctionType::LEQUAL);
-		GLFunctionWrapper::setState(GLStateType::BLEND, false);
-		GLFunctionWrapper::setCulledFace(FacetType::BACK);
-
 		const ivec2& screenSize = getScreenSize();
-		__pNormalShininessFB->blit(
-			ppPipeline.getFrameBuffer(), FrameBufferBlitFlag::DEPTH, screenSize.x, screenSize.y);
+		__pNormalShininessFB->blit(ppPipeline.getFrameBuffer(), FrameBufferBlitFlag::DEPTH, screenSize.x, screenSize.y);
+
+		stateMgr.setState(GLStateType::DEPTH_TEST, true);
+		stateMgr.setState(GLStateType::STENCIL_TEST, false);
+		stateMgr.setDepthFunction(DepthStencilFunctionType::LEQUAL);
+		stateMgr.setState(GLStateType::BLEND, false);
+		stateMgr.setCulledFace(FacetType::BACK);
 
 		ppPipeline.render(drawer, skybox, FrameBufferBlitFlag::COLOR);
 	}

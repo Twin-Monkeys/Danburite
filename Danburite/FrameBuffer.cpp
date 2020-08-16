@@ -1,5 +1,6 @@
 #include "FrameBuffer.h"
 #include <glm/gtc/type_ptr.hpp>
+#include "RenderContext.h"
 
 using namespace std;
 using namespace glm;
@@ -102,22 +103,55 @@ namespace ObjectGL
 		glDrawBuffers(GLsizei(types.size()), reinterpret_cast<const GLenum *>(types.begin()));
 	}
 
-	void FrameBuffer::clearColorBuffer(const GLuint attachmentIndex, const vec4 &clearValue)
+	void FrameBuffer::clearColorBuffer(const GLuint attachmentIndex, const GLfloat clearValue) noexcept
+	{
+		clearColorBuffer(attachmentIndex, { clearValue, clearValue, clearValue, clearValue });
+	}
+
+	void FrameBuffer::clearColorBuffer(const GLuint attachmentIndex, const vec4 &clearValue) noexcept
 	{
 		bind();
 		glClearBufferfv(GL_COLOR, attachmentIndex, value_ptr(clearValue));
 	}
 
-	void FrameBuffer::clearDepthBuffer(const GLfloat clearValue)
+	void FrameBuffer::clearDepthBuffer(const GLfloat clearValue) noexcept
 	{
+		ContextStateManager &stateMgr = RenderContext::getCurrentStateManager();
+		stateMgr.setState(GLStateType::DEPTH_TEST, true);
+		stateMgr.enableDepthMask(true);
+
 		bind();
 		glClearBufferfv(GL_DEPTH, 0, &clearValue);
 	}
 
-	void FrameBuffer::clearStencilBuffer(const GLuint clearValue)
+	void FrameBuffer::clearStencilBuffer(const GLuint clearValue) noexcept
 	{
+		ContextStateManager& stateMgr = RenderContext::getCurrentStateManager();
+		stateMgr.setState(GLStateType::STENCIL_TEST, true);
+		stateMgr.setStencilMask(0xFFU);
+
 		bind();
 		glClearBufferuiv(GL_STENCIL, 0, &clearValue);
+	}
+
+	void FrameBuffer::clearBuffers(const FrameBufferBlitFlag targets) noexcept
+	{
+		ContextStateManager &stateMgr = RenderContext::getCurrentStateManager();
+
+		if (targets & FrameBufferBlitFlag::DEPTH)
+		{
+			stateMgr.setState(GLStateType::DEPTH_TEST, true);
+			stateMgr.enableDepthMask(true);
+		}
+
+		if (targets & FrameBufferBlitFlag::DEPTH)
+		{
+			stateMgr.setState(GLStateType::STENCIL_TEST, true);
+			stateMgr.setStencilMask(0xFFU);
+		}
+
+		bind();
+		glClear(GLbitfield(targets));
 	}
 
 	FrameBuffer::~FrameBuffer()

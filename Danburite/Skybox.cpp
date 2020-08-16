@@ -3,7 +3,6 @@
 #include "ProgramFactory.h"
 #include "UniformBufferFactory.h"
 #include "ShaderIdentifier.h"
-#include "GLFunctionWrapper.h"
 #include "TextureUtil.h"
 
 using namespace std;
@@ -36,13 +35,12 @@ namespace Danburite
 			ShaderIdentifier::Name::Skybox::ALBEDO_TEX, TextureUtil::getHandleIfExist(__pAlbedoTex));
 
 		__skyboxSetter.setUniformFloat(ShaderIdentifier::Name::Skybox::LUMINANCE, __luminance);
-
 		__skyboxProgram.bind();
 
-		GLFunctionWrapper::setDepthFunction(DepthStencilFunctionType::LEQUAL);
-		GLFunctionWrapper::setCulledFace(FacetType::FRONT);
+		ContextStateManager &stateMgr = RenderContext::getCurrentStateManager();
+		stateMgr.setDepthFunction(DepthStencilFunctionType::LEQUAL);
+		stateMgr.setCulledFace(FacetType::FRONT);
+
 		__pCubeVA->draw();
-		GLFunctionWrapper::setCulledFace(FacetType::BACK);
-		GLFunctionWrapper::setDepthFunction(DepthStencilFunctionType::LESS);
 	}
 }

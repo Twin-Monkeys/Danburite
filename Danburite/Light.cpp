@@ -72,6 +72,8 @@ namespace Danburite
 		__lightPrePassSetter.setUniformUint(
 			ShaderIdentifier::Name::LightPrePass::LIGHT_VOLUME_TYPE, __VOLUME_TYPE);
 
+
+
 		_onVolumeDrawcall();
 	}
 

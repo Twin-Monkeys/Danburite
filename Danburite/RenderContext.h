@@ -82,6 +82,7 @@ namespace ObjectGL
 		static void unbind() noexcept;
 
 		static RenderContext *getCurrent() noexcept;
+		static ContextStateManager &getCurrentStateManager() noexcept;
 
 		template <typename T>
 		static void registerContextDependentSingleton() noexcept;

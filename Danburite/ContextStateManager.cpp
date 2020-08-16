@@ -96,8 +96,11 @@ namespace ObjectGL
 		}
 	{}
 
-	bool ContextStateManager::enableVerticalSync(const bool enabled) noexcept
+	bool ContextStateManager::enableVerticalSync(const bool enabled)
 	{
+		if (!__validFlag)
+			throw RCException("This context is not bound.");
+
 		if (__vsyncEnabled == enabled)
 			return false;
 
@@ -107,8 +110,11 @@ namespace ObjectGL
 		return true;
 	}
 
-	bool ContextStateManager::setState(const GLStateType stateType, const bool state) noexcept
+	bool ContextStateManager::setState(const GLStateType stateType, const bool state)
 	{
+		if (!__validFlag)
+			throw RCException("This context is not bound.");
+
 		auto resultIt = __stateMap.find(stateType);
 		if (resultIt != __stateMap.end())
 		{
@@ -128,18 +134,21 @@ namespace ObjectGL
 		return true;
 	}
 
-	bool ContextStateManager::setClearColor(const float red, const float green, const float blue, const float alpha) noexcept
+	bool ContextStateManager::setClearColor(const float red, const float green, const float blue, const float alpha)
 	{
 		return setClearColor({ red, green, blue, alpha });
 	}
 
-	bool ContextStateManager::setClearColor(const vec3 &color, const float alpha) noexcept
+	bool ContextStateManager::setClearColor(const vec3 &color, const float alpha)
 	{
 		return setClearColor(vec4 { color, alpha });
 	}
 
-	bool ContextStateManager::setClearColor(const vec4 &color) noexcept
+	bool ContextStateManager::setClearColor(const vec4 &color)
 	{
+		if (!__validFlag)
+			throw RCException("This context is not bound.");
+
 		if (all(epsilonEqual(__clearColor, color, epsilon<float>())))
 			return false;
 
@@ -149,8 +158,11 @@ namespace ObjectGL
 		return true;
 	}
 
-	bool ContextStateManager::enableDepthMask(const bool enabled) noexcept
+	bool ContextStateManager::enableDepthMask(const bool enabled)
 	{
+		if (!__validFlag)
+			throw RCException("This context is not bound.");
+
 		if (__depthMask == enabled)
 			return false;
 
@@ -160,8 +172,11 @@ namespace ObjectGL
 		return true;
 	}
 
-	bool ContextStateManager::setDepthFunction(const DepthStencilFunctionType func) noexcept
+	bool ContextStateManager::setDepthFunction(const DepthStencilFunctionType func)
 	{
+		if (!__validFlag)
+			throw RCException("This context is not bound.");
+
 		if (__depthFunc == func)
 			return false;
 
@@ -171,8 +186,11 @@ namespace ObjectGL
 		return true;
 	}
 
-	bool ContextStateManager::setStencilMask(const GLuint mask) noexcept
+	bool ContextStateManager::setStencilMask(const GLuint mask)
 	{
+		if (!__validFlag)
+			throw RCException("This context is not bound.");
+
 		if (__stencilMask == mask)
 			return false;
 
@@ -183,8 +201,11 @@ namespace ObjectGL
 	}
 
 	bool ContextStateManager::setStencilFunction(
-		const DepthStencilFunctionType func, const GLuint queryValue) noexcept
+		const DepthStencilFunctionType func, const GLuint queryValue)
 	{
+		if (!__validFlag)
+			throw RCException("This context is not bound.");
+
 		if ((__stencilFunc == func) &&
 			(__stencilQueryValue == queryValue))
 			return false;
@@ -199,8 +220,11 @@ namespace ObjectGL
 	bool ContextStateManager::setStencilOperation(
 		const StencilOperationType stencilFail,
 		const StencilOperationType stencilPassDepthFail,
-		const StencilOperationType stencilDepthPass) noexcept
+		const StencilOperationType stencilDepthPass)
 	{
+		if (!__validFlag)
+			throw RCException("This context is not bound.");
+
 		if ((__stencilFail == stencilFail) &&
 			(__stencilPassDepthFail == stencilPassDepthFail) &&
 			(__stencilDepthPass == stencilDepthPass))
@@ -219,15 +243,18 @@ namespace ObjectGL
 	}
 
 	bool ContextStateManager::setBlendingFunction(
-		const BlendingFunctionType srcFuncType, const BlendingFunctionType destFuncType) noexcept
+		const BlendingFunctionType srcFuncType, const BlendingFunctionType destFuncType)
 	{
 		return setBlendingFunction(srcFuncType, destFuncType, srcFuncType, destFuncType);
 	}
 
 	bool ContextStateManager::setBlendingFunction(
 		const BlendingFunctionType srcRGBFuncType, const BlendingFunctionType destRGBFuncType,
-		const BlendingFunctionType srcAlphaFuncType, const BlendingFunctionType destAlphaFuncType) noexcept
+		const BlendingFunctionType srcAlphaFuncType, const BlendingFunctionType destAlphaFuncType)
 	{
+		if (!__validFlag)
+			throw RCException("This context is not bound.");
+
 		if ((__blendingSrcRGBFuncType == srcRGBFuncType) &&
 			(__blendingDestRGBFuncType == destRGBFuncType) &&
 			(__blendingSrcAlphaFuncType == srcAlphaFuncType) &&
@@ -246,8 +273,11 @@ namespace ObjectGL
 		return true;
 	}
 
-	bool ContextStateManager::setBlendingEquation(const BlendingEquationType type) noexcept
+	bool ContextStateManager::setBlendingEquation(const BlendingEquationType type)
 	{
+		if (!__validFlag)
+			throw RCException("This context is not bound.");
+
 		if (__blendingEqType == type)
 			return false;
 
@@ -258,8 +288,11 @@ namespace ObjectGL
 	}
 
 	bool ContextStateManager::setPolygonMode(
-		const RenderTargetType renderTargetType, const RasterizationType rasterizationType) noexcept
+		const RenderTargetType renderTargetType, const RasterizationType rasterizationType)
 	{
+		if (!__validFlag)
+			throw RCException("This context is not bound.");
+
 		if ((__polyModeRenderTarget == renderTargetType) &&
 			(__polyModeRasterType == rasterizationType))
 			return false;
@@ -271,8 +304,11 @@ namespace ObjectGL
 		return true;
 	}
 
-	bool ContextStateManager::setCulledFace(const FacetType type) noexcept
+	bool ContextStateManager::setCulledFace(const FacetType type)
 	{
+		if (!__validFlag)
+			throw RCException("This context is not bound.");
+
 		if (__cullingFacet == type)
 			return false;
 
@@ -282,8 +318,11 @@ namespace ObjectGL
 		return true;
 	}
 
-	bool ContextStateManager::setFrontFace(const WindingOrderType type) noexcept
+	bool ContextStateManager::setFrontFace(const WindingOrderType type)
 	{
+		if (!__validFlag)
+			throw RCException("This context is not bound.");
+
 		if (__windingOrder == type)
 			return false;
 

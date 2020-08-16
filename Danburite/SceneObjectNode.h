@@ -85,7 +85,7 @@ namespace Danburite
 		for (const unique_ptr<Mesh> &pMesh : __meshes)
 		{
 			MaterialType *const pMaterial =
-				dynamic_pointer_cast<MaterialType>(pMesh->getMaterial()).get();
+				static_cast<MaterialType *>(pMesh->getMaterial().get());
 
 			if (pMaterial)
 				(pMaterial->*function)(std::forward<Args>(args)...);

@@ -18,6 +18,15 @@ namespace Danburite
 		lightManager.selfDeploy();
 
 		camera.selfDeploy();
+
+		ContextStateManager& stateMgr = RenderContext::getCurrentStateManager();
+
+		stateMgr.setState(GLStateType::DEPTH_TEST, true);
+		stateMgr.setState(GLStateType::STENCIL_TEST, false);
+		stateMgr.setDepthFunction(DepthStencilFunctionType::LESS);
+		stateMgr.setState(GLStateType::BLEND, false);
+		stateMgr.setCulledFace(FacetType::BACK);
+
 		ppPipeline.render(drawer, skybox, FrameBufferBlitFlag::COLOR | FrameBufferBlitFlag::DEPTH);
 	}
 }

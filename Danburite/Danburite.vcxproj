@@ -282,7 +282,6 @@
     <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="FrameBufferException.cpp" />
     <ClCompile Include="GeometryShaderCompiler.cpp" />
-    <ClCompile Include="GLFunctionWrapper.cpp" />
     <ClCompile Include="GrayscalePostProcessor.cpp" />
     <ClCompile Include="ModelMatrixBuffer.cpp" />
     <ClCompile Include="MSAAPostProcessor.cpp" />
@@ -434,7 +433,6 @@
     <ClInclude Include="FrameBufferException.h" />
     <ClInclude Include="FrameBufferStatusType.h" />
     <ClInclude Include="GeometryShaderCompiler.h" />
-    <ClInclude Include="GLFunctionWrapper.h" />
     <ClInclude Include="GLStateType.h" />
     <ClInclude Include="GrayscalePostProcessor.h" />
     <ClInclude Include="ModelMatrixBuffer.h" />

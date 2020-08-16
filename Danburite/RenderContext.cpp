@@ -209,4 +209,9 @@ namespace ObjectGL
 	{
 		return __getCurrentPtrReference();
 	}
+
+	ContextStateManager &RenderContext::getCurrentStateManager() noexcept
+	{
+		return __getCurrentPtrReference()->getStateManager();
+	}
 }
