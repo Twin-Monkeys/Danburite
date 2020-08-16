@@ -4,7 +4,7 @@
 
 namespace ObjectGL
 {
-	enum class FrameBufferPositionType : GLenum
+	enum class RenderTargetType : GLenum
 	{
 		NONE = GL_NONE,
 		FRONT_LEFT = GL_FRONT_LEFT,

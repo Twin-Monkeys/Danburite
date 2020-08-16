@@ -370,6 +370,9 @@
     <Filter Include="Library\Engine\Core\Pipeline\RenderingPipeline\LightPrePass">
       <UniqueIdentifier>{20a8bcaa-ca4a-456d-afc2-bc29f5ce5e62}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library\ObjectGL\Window\RenderContext\StateManager">
+      <UniqueIdentifier>{fb29fcae-69f7-4242-8ff3-242cd84761ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Buffer.cpp">
@@ -741,6 +744,9 @@
     <ClCompile Include="PostProcessorPipeline.cpp">
       <Filter>Library\Engine\Core\PostProcess\Pipeline</Filter>
     </ClCompile>
+    <ClCompile Include="ContextStateManager.cpp">
+      <Filter>Library\ObjectGL\Window\RenderContext\StateManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">
@@ -941,20 +947,8 @@
     <ClInclude Include="GLFunctionWrapper.h">
       <Filter>Library\ObjectGL\Base\Function</Filter>
     </ClInclude>
-    <ClInclude Include="GLOptionType.h">
-      <Filter>Library\ObjectGL\Base\Function</Filter>
-    </ClInclude>
-    <ClInclude Include="RasterizationType.h">
-      <Filter>Library\ObjectGL\Base\Function</Filter>
-    </ClInclude>
     <ClInclude Include="MonoColorMaterial.h">
       <Filter>Library\Engine\Core\Material\MonoColor</Filter>
-    </ClInclude>
-    <ClInclude Include="StencilOperationType.h">
-      <Filter>Library\ObjectGL\Base\Function</Filter>
-    </ClInclude>
-    <ClInclude Include="DepthStencilFunctionType.h">
-      <Filter>Library\ObjectGL\Base\Function</Filter>
     </ClInclude>
     <ClInclude Include="TextureUtil.h">
       <Filter>Library\Engine\Util\TextureUtil</Filter>
@@ -964,15 +958,6 @@
     </ClInclude>
     <ClInclude Include="VertexArrayFactory.h">
       <Filter>Library\Engine\Core\VertexArray</Filter>
-    </ClInclude>
-    <ClInclude Include="BlendingFunctionType.h">
-      <Filter>Library\ObjectGL\Base\Function</Filter>
-    </ClInclude>
-    <ClInclude Include="BlendingEquationType.h">
-      <Filter>Library\ObjectGL\Base\Function</Filter>
-    </ClInclude>
-    <ClInclude Include="WindingOrderType.h">
-      <Filter>Library\ObjectGL\Base\Function</Filter>
     </ClInclude>
     <ClInclude Include="FrameBuffer.h">
       <Filter>Library\ObjectGL\Core\FrameBuffer</Filter>
@@ -1046,9 +1031,6 @@
     <ClInclude Include="RenderBufferMultisample.h">
       <Filter>Library\ObjectGL\Core\RenderBuffer\Multisample</Filter>
     </ClInclude>
-    <ClInclude Include="FrameBufferBlitFlag.h">
-      <Filter>Library\ObjectGL\Base\Function</Filter>
-    </ClInclude>
     <ClInclude Include="MSAAPostProcessor.h">
       <Filter>Library\Engine\Core\PostProcess\MSAA</Filter>
     </ClInclude>
@@ -1063,9 +1045,6 @@
     </ClInclude>
     <ClInclude Include="GammaCorrectionPostProcessor.h">
       <Filter>Library\Engine\Core\PostProcess\GammaCorrection</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameBufferPositionType.h">
-      <Filter>Library\ObjectGL\Base\Function</Filter>
     </ClInclude>
     <ClInclude Include="ColorBufferType.h">
       <Filter>Library\ObjectGL\Core\FrameBuffer</Filter>
@@ -1084,9 +1063,6 @@
     </ClInclude>
     <ClInclude Include="TransformableCamera.h">
       <Filter>Library\Engine\Core\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="FacetType.h">
-      <Filter>Library\ObjectGL\Base\Function</Filter>
     </ClInclude>
     <ClInclude Include="GLDebugMessageCallbackFunction.h">
       <Filter>Library\ObjectGL\Window\RenderContext\debug</Filter>
@@ -1278,7 +1254,37 @@
       <Filter>Library\Engine\Core\PostProcess\Pipeline</Filter>
     </ClInclude>
     <ClInclude Include="ContextStateManager.h">
-      <Filter>Library\ObjectGL\Window\RenderContext</Filter>
+      <Filter>Library\ObjectGL\Window\RenderContext\StateManager</Filter>
+    </ClInclude>
+    <ClInclude Include="BlendingEquationType.h">
+      <Filter>Library\ObjectGL\Window\RenderContext\StateManager</Filter>
+    </ClInclude>
+    <ClInclude Include="BlendingFunctionType.h">
+      <Filter>Library\ObjectGL\Window\RenderContext\StateManager</Filter>
+    </ClInclude>
+    <ClInclude Include="DepthStencilFunctionType.h">
+      <Filter>Library\ObjectGL\Window\RenderContext\StateManager</Filter>
+    </ClInclude>
+    <ClInclude Include="FacetType.h">
+      <Filter>Library\ObjectGL\Window\RenderContext\StateManager</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameBufferBlitFlag.h">
+      <Filter>Library\ObjectGL\Window\RenderContext\StateManager</Filter>
+    </ClInclude>
+    <ClInclude Include="RasterizationType.h">
+      <Filter>Library\ObjectGL\Window\RenderContext\StateManager</Filter>
+    </ClInclude>
+    <ClInclude Include="StencilOperationType.h">
+      <Filter>Library\ObjectGL\Window\RenderContext\StateManager</Filter>
+    </ClInclude>
+    <ClInclude Include="WindingOrderType.h">
+      <Filter>Library\ObjectGL\Window\RenderContext\StateManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GLStateType.h">
+      <Filter>Library\ObjectGL\Window\RenderContext\StateManager</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTargetType.h">
+      <Filter>Library\ObjectGL\Window\RenderContext\StateManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

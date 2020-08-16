@@ -149,8 +149,8 @@ namespace Danburite
 
 	void PostProcessor::render(FrameBuffer &renderTarget) noexcept
 	{
-		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, false);
+		GLFunctionWrapper::setState(GLStateType::DEPTH_TEST, false);
 		_onRender(renderTarget, __texContainerSetter, __fullscreenDrawer);
-		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
+		GLFunctionWrapper::setState(GLStateType::DEPTH_TEST, true);
 	}
 }

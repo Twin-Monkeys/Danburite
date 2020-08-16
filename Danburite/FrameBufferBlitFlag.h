@@ -11,6 +11,12 @@ namespace ObjectGL
 		STENCIL	= GL_STENCIL_BUFFER_BIT
 	};
 
+	constexpr bool operator&(
+		const FrameBufferBlitFlag lhs, const FrameBufferBlitFlag rhs) noexcept
+	{
+		return bool(GLbitfield(lhs) | GLbitfield(rhs));
+	}
+
 	constexpr FrameBufferBlitFlag operator|(
 		const FrameBufferBlitFlag lhs, const FrameBufferBlitFlag rhs) noexcept
 	{

@@ -78,8 +78,8 @@ namespace Danburite
 
 
 		// Geometry pass
-		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
-		GLFunctionWrapper::setOption(GLOptionType::STENCIL_TEST, true);
+		GLFunctionWrapper::setState(GLStateType::DEPTH_TEST, true);
+		GLFunctionWrapper::setState(GLStateType::STENCIL_TEST, true);
 		GLFunctionWrapper::setStencilMask(0xFFU);
 
 		__pNormalShininessFB->bind();
@@ -94,9 +94,9 @@ namespace Danburite
 
 
 		// Lighting pass
-		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, false);
-		GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, true);
-		GLFunctionWrapper::setOption(GLOptionType::BLEND, true);
+		GLFunctionWrapper::setState(GLStateType::DEPTH_TEST, false);
+		GLFunctionWrapper::setState(GLStateType::CULL_FACE, true);
+		GLFunctionWrapper::setState(GLStateType::BLEND, true);
 		GLFunctionWrapper::setBlendingFunction(BlendingFunctionType::ONE, BlendingFunctionType::ONE);
 
 		__pLightingFB->bind();
@@ -128,10 +128,10 @@ namespace Danburite
 			ShaderIdentifier::Name::LightPrePass::LIGHT_SPECULAR_TEX,
 			__pLightSpecularAttachment->getHandle());
 
-		GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
-		GLFunctionWrapper::setOption(GLOptionType::STENCIL_TEST, false);
+		GLFunctionWrapper::setState(GLStateType::DEPTH_TEST, true);
+		GLFunctionWrapper::setState(GLStateType::STENCIL_TEST, false);
 		GLFunctionWrapper::setDepthFunction(DepthStencilFunctionType::LEQUAL);
-		GLFunctionWrapper::setOption(GLOptionType::BLEND, false);
+		GLFunctionWrapper::setState(GLStateType::BLEND, false);
 		GLFunctionWrapper::setCulledFace(FacetType::BACK);
 
 		const ivec2& screenSize = getScreenSize();

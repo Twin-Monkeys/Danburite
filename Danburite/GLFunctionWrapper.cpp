@@ -12,12 +12,12 @@ namespace ObjectGL
 		assert(result);
 	}
 
-	void GLFunctionWrapper::setOption(const GLOptionType optionType, const bool enabled) noexcept
+	void GLFunctionWrapper::setState(const GLStateType stateType, const bool enabled) noexcept
 	{
 		if (enabled)
-			glEnable(GLenum(optionType));
+			glEnable(GLenum(stateType));
 		else
-			glDisable(GLenum(optionType));
+			glDisable(GLenum(stateType));
 	}
 
 	void GLFunctionWrapper::setClearColor(const float r, const float g, const float b, const float a) noexcept
@@ -41,9 +41,9 @@ namespace ObjectGL
 	}
 
 	void GLFunctionWrapper::setPolygonMode(
-		const FrameBufferPositionType positionType, const RasterizationType rasterizationType) noexcept
+		const RenderTargetType renderTargetType, const RasterizationType rasterizationType) noexcept
 	{
-		glPolygonMode(GLenum(positionType), GLenum(rasterizationType));
+		glPolygonMode(GLenum(renderTargetType), GLenum(rasterizationType));
 	}
 
 	void GLFunctionWrapper::setDepthMask(const bool enabled) noexcept

@@ -4,7 +4,7 @@
 
 namespace ObjectGL
 {
-	enum class GLOptionType : GLenum
+	enum class GLStateType : GLenum
 	{
 		ALPHA_TEST = GL_ALPHA_TEST,
 		AUTO_NORMAL = GL_AUTO_NORMAL,

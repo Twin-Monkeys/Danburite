@@ -1,9 +1,9 @@
 #pragma once
 
-#include "GLOptionType.h"
+#include "GLStateType.h"
 #include <glm/glm.hpp>
 #include "FrameBufferBlitFlag.h"
-#include "FrameBufferPositionType.h"
+#include "RenderTargetType.h"
 #include "RasterizationType.h"
 #include "DepthStencilFunctionType.h"
 #include "StencilOperationType.h"
@@ -18,14 +18,14 @@ namespace ObjectGL
 	{
 	public:
 		static void setVerticalSync(const bool enabled) noexcept;
-		static void setOption(const GLOptionType optionType, const bool enabled) noexcept;
+		static void setState(const GLStateType stateType, const bool enabled) noexcept;
 		static void setClearColor(const float r, const float g, const float b, const float a = 1.f) noexcept;
 		static void setClearColor(const glm::vec3 &color) noexcept;
 		static void setClearColor(const glm::vec4 &color) noexcept;
 		static void clearBuffers(const FrameBufferBlitFlag flags) noexcept;
 
 		static void setPolygonMode(
-			const FrameBufferPositionType positionType, const RasterizationType rasterizationType) noexcept;
+			const RenderTargetType positionType, const RasterizationType rasterizationType) noexcept;
 
 		static void setDepthMask(const bool enabled) noexcept;
 		static void setDepthFunction(const DepthStencilFunctionType func) noexcept;

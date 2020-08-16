@@ -23,9 +23,9 @@ HDRTestScene::HDRTestScene()
 {
 	// 傈开 可记
 
-	GLFunctionWrapper::setOption(GLOptionType::MULTISAMPLE, true);
-	GLFunctionWrapper::setOption(GLOptionType::DEPTH_TEST, true);
-	GLFunctionWrapper::setOption(GLOptionType::CULL_FACE, true);
+	GLFunctionWrapper::setState(GLStateType::MULTISAMPLE, true);
+	GLFunctionWrapper::setState(GLStateType::DEPTH_TEST, true);
+	GLFunctionWrapper::setState(GLStateType::CULL_FACE, true);
 
 
 	//// Rendering unit 积己 ////

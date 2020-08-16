@@ -251,6 +251,7 @@
     <ClCompile Include="Bone.cpp" />
     <ClCompile Include="BoneException.cpp" />
     <ClCompile Include="BoneManager.cpp" />
+    <ClCompile Include="ContextStateManager.cpp" />
     <ClCompile Include="ConvolutionalPostProcessor.cpp" />
     <ClCompile Include="DepthBaker2D.cpp" />
     <ClCompile Include="DepthBakerBase.cpp" />
@@ -434,7 +435,7 @@
     <ClInclude Include="FrameBufferStatusType.h" />
     <ClInclude Include="GeometryShaderCompiler.h" />
     <ClInclude Include="GLFunctionWrapper.h" />
-    <ClInclude Include="GLOptionType.h" />
+    <ClInclude Include="GLStateType.h" />
     <ClInclude Include="GrayscalePostProcessor.h" />
     <ClInclude Include="ModelMatrixBuffer.h" />
     <ClInclude Include="MSAAPostProcessor.h" />
@@ -491,7 +492,7 @@
     <ClInclude Include="TextReader.h" />
     <ClInclude Include="UniformBuffer.h" />
     <ClInclude Include="ScreenEventHandler.h" />
-    <ClInclude Include="FrameBufferPositionType.h" />
+    <ClInclude Include="RenderTargetType.h" />
     <ClInclude Include="IndexType.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="PointLight.h" />
