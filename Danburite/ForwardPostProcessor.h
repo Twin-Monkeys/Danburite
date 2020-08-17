@@ -3,6 +3,7 @@
 #include "PostProcessor.h"
 #include "AttachableTextureRectangle.h"
 #include "RenderBuffer.h"
+#include "SetupTransaction.h"
 
 namespace Danburite
 {
@@ -14,6 +15,8 @@ namespace Danburite
 		ObjectGL::Program &__program;
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pColorAttachment;
 		std::shared_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
+
+		SetupTransaction __setupTransaction;
 
 	protected:
 		ForwardPostProcessor(ObjectGL::Program &program, const bool attachDepthBuffer);

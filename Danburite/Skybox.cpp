@@ -14,7 +14,19 @@ namespace Danburite
 		__skyboxProgram(ProgramFactory::getInstance().getProgram(ProgramType::SKYBOX)),
 		__skyboxSetter(UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::SKYBOX)),
 		__pCubeVA(VertexArrayFactory::createCube(VertexAttributeFlag::POS))
-	{}
+	{
+		__setupTransaction.setSetupFunction([this] (ContextStateManager &stateMgr)
+		{
+			__skyboxSetter.setUniformUvec2(
+				ShaderIdentifier::Name::Skybox::ALBEDO_TEX, TextureUtil::getHandleIfExist(__pAlbedoTex));
+
+			__skyboxSetter.setUniformFloat(
+				ShaderIdentifier::Name::Skybox::LUMINANCE, __luminance);
+
+			stateMgr.setDepthFunction(DepthStencilFunctionType::LEQUAL);
+			stateMgr.setCulledFace(FacetType::FRONT);
+		});
+	}
 
 	void Skybox::setAlbedoTexture(const shared_ptr<TextureCubemap> &pTexture) noexcept
 	{
@@ -31,16 +43,7 @@ namespace Danburite
 		if (!__enabled)
 			return;
 
-		__skyboxSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Skybox::ALBEDO_TEX, TextureUtil::getHandleIfExist(__pAlbedoTex));
-
-		__skyboxSetter.setUniformFloat(ShaderIdentifier::Name::Skybox::LUMINANCE, __luminance);
-		__skyboxProgram.bind();
-
-		ContextStateManager &stateMgr = RenderContext::getCurrentStateManager();
-		stateMgr.setDepthFunction(DepthStencilFunctionType::LEQUAL);
-		stateMgr.setCulledFace(FacetType::FRONT);
-
+		__setupTransaction.setup();
 		__pCubeVA->draw();
 	}
 }

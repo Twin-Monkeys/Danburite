@@ -4,6 +4,7 @@
 #include "TextureMultisample.h"
 #include "RenderBufferMultisample.h"
 #include "ShaderIdentifier.h"
+#include "SetupTransaction.h"
 
 namespace Danburite
 {
@@ -17,6 +18,8 @@ namespace Danburite
 		ObjectGL::Program &__program;
 		std::shared_ptr<ObjectGL::TextureMultisample> __pColorAttachment;
 		std::shared_ptr<ObjectGL::RenderBufferMultisample> __pDepthStencilAttachment;
+
+		SetupTransaction __setupTransaction;
 
 	protected:
 		virtual void _onRender(

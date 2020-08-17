@@ -15,6 +15,19 @@ namespace Danburite
 		__FIXED_SAMPLE_LOCATIONS(fixedSampleLocations)
 	{
 		assert(__NUM_SAMPLE_POINTS);
+
+		__setupTransaction.setSetupFunction([this](ContextStateManager& stateMgr)
+		{
+			stateMgr.setState(GLStateType::DEPTH_TEST, true);
+			stateMgr.setState(GLStateType::STENCIL_TEST, false);
+			stateMgr.setState(GLStateType::BLEND, false);
+			stateMgr.setState(GLStateType::CULL_FACE, true);
+
+			stateMgr.setDepthFunction(DepthStencilFunctionType::LESS);
+			stateMgr.enableDepthMask(true);
+			stateMgr.setCulledFace(FacetType::BACK);
+			stateMgr.setFrontFace(WindingOrderType::COUNTER_CLOCKWISE);
+		});
 	}
 
 	void MSAAPostProcessor::_onRender(
@@ -22,6 +35,8 @@ namespace Danburite
 	{
 		// AMD Bug; Cannot use bindless sampler2DMS
 		texContainerSetter.setUniformUvec2(ShaderIdentifier::Name::Attachment::TEX0, __pColorAttachment->getHandle());
+
+		__setupTransaction.setup();
 
 		renderTarget.bind();
 		__program.bind();

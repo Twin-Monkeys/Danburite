@@ -28,6 +28,7 @@ namespace Danburite
 	}
 
 	void PostProcessorPipeline::render(
+		const SetupTransaction &sceneDrawingSetup,
 		BatchProcessor<SceneObject> &drawer, Skybox &skybox, const FrameBufferBlitFlag bufferClearFlag) noexcept
 	{
 		PostProcessor* pCurProcessor = nullptr;
@@ -47,6 +48,7 @@ namespace Danburite
 			curFB.clearBuffers(bufferClearFlag);
 		}
 
+		sceneDrawingSetup.setup();
 		drawer.process(&SceneObject::draw);
 		skybox.draw();
 

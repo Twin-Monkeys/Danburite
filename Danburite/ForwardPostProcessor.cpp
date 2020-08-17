@@ -9,7 +9,17 @@ namespace Danburite
 {
 	ForwardPostProcessor::ForwardPostProcessor(Program &program, const bool attachDepthBuffer) :
 		__program(program), __attachDepthBuffer(attachDepthBuffer)
-	{}
+	{
+		__setupTransaction.setSetupFunction([this] (ContextStateManager &stateMgr)
+		{
+			stateMgr.setState(GLStateType::DEPTH_TEST, false);
+			stateMgr.setState(GLStateType::STENCIL_TEST, false);
+			stateMgr.setState(GLStateType::CULL_FACE, true);
+
+			stateMgr.setCulledFace(FacetType::BACK);
+			stateMgr.setFrontFace(WindingOrderType::COUNTER_CLOCKWISE);
+		});
+	}
 
 	ForwardPostProcessor::ForwardPostProcessor(const bool attachDepthBuffer) :
 		ForwardPostProcessor(ProgramFactory::getInstance().
@@ -21,6 +31,8 @@ namespace Danburite
 	{
 		texContainerSetter.setUniformUvec2(
 			ShaderIdentifier::Name::Attachment::TEX0, __pColorAttachment->getHandle());
+
+		__setupTransaction.setup();
 
 		renderTarget.bind();
 		__program.bind();

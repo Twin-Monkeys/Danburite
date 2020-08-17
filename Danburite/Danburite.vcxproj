@@ -270,6 +270,7 @@
     <ClCompile Include="MaterialException.cpp" />
     <ClCompile Include="RawDrawcallMaterial.cpp" />
     <ClCompile Include="RenderingPipeline.cpp" />
+    <ClCompile Include="SetupTransaction.cpp" />
     <ClCompile Include="SceneNodeConnecterBase.cpp" />
     <ClCompile Include="Joint.cpp" />
     <ClCompile Include="OrthoCamera.cpp" />
@@ -407,6 +408,7 @@
     <ClInclude Include="RawDrawcallMaterial.h" />
     <ClInclude Include="RenderingPipeline.h" />
     <ClInclude Include="RenderingPipelineType.h" />
+    <ClInclude Include="SetupTransaction.h" />
     <ClInclude Include="SceneNodeConnecterBase.h" />
     <ClInclude Include="Joint.h" />
     <ClInclude Include="Lerp.h" />

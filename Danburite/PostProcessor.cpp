@@ -148,7 +148,6 @@ namespace Danburite
 
 	void PostProcessor::render(FrameBuffer &renderTarget) noexcept
 	{
-		RenderContext::getCurrentStateManager().setState(GLStateType::DEPTH_TEST, false);
 		_onRender(renderTarget, __texContainerSetter, __fullscreenDrawer);
 	}
 }

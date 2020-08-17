@@ -6,6 +6,9 @@ namespace Danburite
 {
 	class ForwardRenderingPipeline : public RenderingPipeline
 	{
+	private:
+		SetupTransaction __setupTransaction;
+
 	protected:
 		virtual void _onRender(
 			LightManager &lightManager, PerspectiveCamera &camera,

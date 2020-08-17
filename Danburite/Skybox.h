@@ -3,21 +3,25 @@
 #include "VertexArray.h"
 #include "UniformBuffer.h"
 #include "TextureCubemap.h"
+#include "SetupTransaction.h"
 
 namespace Danburite
 {
 	class Skybox
 	{
 	private:
+		bool __enabled = false;
+
 		ObjectGL::UniformBuffer &__skyboxSetter;
 		ObjectGL::Program &__skyboxProgram;
 
 		std::shared_ptr<ObjectGL::TextureCubemap> __pAlbedoTex;
 		float __luminance = 1.f;
 
+		SetupTransaction __setupTransaction;
+
 		std::shared_ptr<ObjectGL::VertexArray> __pCubeVA;
 
-		bool __enabled = false;
 
 	public:
 		Skybox();

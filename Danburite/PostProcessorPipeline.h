@@ -24,6 +24,7 @@ namespace Danburite
 
 		void setScreenSize(const GLsizei width, const GLsizei height) noexcept;
 		void render(
+			const SetupTransaction &sceneDrawingSetup,
 			BatchProcessor<SceneObject> &drawer, Skybox &skybox,
 			const ObjectGL::FrameBufferBlitFlag bufferClearFlag) noexcept;
 

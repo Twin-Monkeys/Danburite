@@ -28,17 +28,18 @@ int APIENTRY _tWinMain(const HINSTANCE hInstance, HINSTANCE, LPTSTR, int)
 		make_unique<RenderContext>(*pDeviceContext, pixelFormatDesc, attributeDesc);
 
 	pRenderContext->bind();
+	ContextStateManager &stateMgr = pRenderContext->getStateManager();
 
 #ifndef NDEBUG
-	GLFunctionWrapper::setOption(GLOptionType::DEBUG_OUTPUT, true);
-	GLFunctionWrapper::setOption(GLOptionType::DEBUG_OUTPUT_SYNCHRONOUS, true);
+	stateMgr.setState(GLStateType::DEBUG_OUTPUT, true);
+	stateMgr.setState(GLStateType::DEBUG_OUTPUT_SYNCHRONOUS, true);
 
 	pRenderContext->setDebugMessageCallback([](
 		const GLDebugMessageSourceType source​Type, const GLDebugMessageType messageType​,
 		const GLDebugMessageSeverityType severity​Type, const string_view message, GLuint messageID​​) noexcept
 	{
 		if (
-			(severity​Type == GLDebugMessageSeverityType::MEDIUM) &&
+			(severity​Type == GLDebugMessageSeverityType::MEDIUM) ||
 			(severity​Type == GLDebugMessageSeverityType::HIGH) 
 			)
 		{
@@ -48,7 +49,7 @@ int APIENTRY _tWinMain(const HINSTANCE hInstance, HINSTANCE, LPTSTR, int)
 	});
 #endif
 
-	pRenderContext->getStateManager().enableVerticalSync(false);
+	stateMgr.enableVerticalSync(false);
 
 	//// Scene 생성 ////
 	shared_ptr<ScreenEventHandler> pScene = make_shared<HDRTestScene>();
