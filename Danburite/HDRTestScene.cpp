@@ -203,7 +203,7 @@ HDRTestScene::HDRTestScene()
 
 	__skybox.setAlbedoTexture(pSkyboxAlbedoTex);
 	__skybox.setLuminance(.1f);
-	__skybox.setEnabled(false);
+	__skybox.setEnabled(true);
 
 
 	// 파이프라인 초기화
@@ -214,9 +214,9 @@ HDRTestScene::HDRTestScene()
 	/*__pRenderingPipeline =
 		make_unique<ForwardRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);*/
 
-	PostProcessorPipeline &ppPipeline = __pRenderingPipeline->getPostProcessorPipeline();
+	PostProcessorPipeline &ppPipeline =
+		__pRenderingPipeline->getPostProcessorPipeline();
 
-	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
 	ppPipeline.appendProcessor<GammaCorrectionPostProcessor>(true);
 	ppPipeline.appendProcessor<BloomPostProcessor>();
 	__pHDRPP = &ppPipeline.appendProcessor<HDRPostProcessor>();

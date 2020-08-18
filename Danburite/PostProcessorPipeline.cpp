@@ -35,17 +35,11 @@ namespace Danburite
 		PostProcessor* pNextProcessor = nullptr;
 
 		if (__pipeline.empty())
-		{
-			__pRenderTarget->bind();
 			__pRenderTarget->clearBuffers(bufferClearFlag);
-		}
 		else
 		{
 			pCurProcessor = __pipeline[0].get();
-
-			FrameBuffer &curFB = pCurProcessor->getFrameBuffer();
-			curFB.bind();
-			curFB.clearBuffers(bufferClearFlag);
+			pCurProcessor->getFrameBuffer().clearBuffers(bufferClearFlag);
 		}
 
 		sceneDrawingSetup.setup();

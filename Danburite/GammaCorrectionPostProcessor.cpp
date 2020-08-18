@@ -2,6 +2,7 @@
 #include "ProgramFactory.h"
 #include "UniformBufferFactory.h"
 #include "ShaderIdentifier.h"
+#include "Material.h"
 
 using namespace ObjectGL;
 
@@ -19,6 +20,14 @@ namespace Danburite
 			__gammaCorrectionSetter.setUniformFloat(
 				ShaderIdentifier::Name::GammaCorrection::GAMMA, __gamma);
 		});
+
+		setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
+	}
+
+	void GammaCorrectionPostProcessor::setGamma(const float gamma) noexcept
+	{
+		__gamma = gamma;
+		Material::setGamma(gamma);
 	}
 
 	void GammaCorrectionPostProcessor::render(FrameBuffer &renderTarget) noexcept

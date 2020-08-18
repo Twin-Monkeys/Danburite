@@ -34,6 +34,9 @@ namespace Danburite
 			stateMgr.setState(GLStateType::CULL_FACE, true);
 			stateMgr.setState(GLStateType::BLEND, false);
 
+			stateMgr.setDepthFunction(DepthStencilFunctionType::LESS);
+			stateMgr.enableDepthMask(true);
+
 			stateMgr.setStencilMask(0xFFU);
 			stateMgr.setStencilFunction(DepthStencilFunctionType::ALWAYS, 0x01U);
 			stateMgr.setStencilOperation(

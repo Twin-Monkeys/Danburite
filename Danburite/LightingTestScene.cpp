@@ -272,8 +272,6 @@ LightingTestScene::LightingTestScene()
 
 	// 파이프라인 초기화
 
-	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
-
 	__pRenderingPipeline =
 		make_unique<LightPrePassRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);
 

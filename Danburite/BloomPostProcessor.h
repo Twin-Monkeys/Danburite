@@ -38,7 +38,7 @@ namespace Danburite
 		ObjectGL::UniformBuffer &__texContainerSetter;
 		FullscreenDrawer &__fullscreenDrawer;
 
-		SetupTransaction __basicPropSetup;
+		SetupTransaction __basicSetup;
 		SetupTransaction __colorExtractionSetup;
 		SetupTransaction __horizBlurSetup;
 		SetupTransaction __horizVertSetup;

@@ -23,13 +23,21 @@ namespace Danburite
 
 		__fullscreenDrawer(FullscreenDrawer::getInstance())
 	{
-		__basicPropSetup.setSetupFunction([this](ContextStateManager& stateMgr)
+		__basicSetup.setSetupFunction([this](ContextStateManager& stateMgr)
 		{
 			__bloomSetter.setUniformFloat(
 				ShaderIdentifier::Name::Bloom::BRIGHTNESS_THRESHOLD, __brightnessThreshold);
 
 			__bloomSetter.setUniformFloat(
 				ShaderIdentifier::Name::Bloom::EFFECT_STRENGTH, __effectStrength);
+
+			stateMgr.setState(GLStateType::DEPTH_TEST, false);
+			stateMgr.setState(GLStateType::STENCIL_TEST, false);
+			stateMgr.setState(GLStateType::BLEND, false);
+			stateMgr.setState(GLStateType::CULL_FACE, true);
+
+			stateMgr.setCulledFace(FacetType::BACK);
+			stateMgr.setFrontFace(WindingOrderType::COUNTER_CLOCKWISE);
 		});
 
 		__colorExtractionSetup.setSetupFunction([this](ContextStateManager& stateMgr)
@@ -62,7 +70,7 @@ namespace Danburite
 
 	void BloomPostProcessor::render(FrameBuffer &renderTarget) noexcept
 	{
-		__basicPropSetup.setup();
+		__basicSetup.setup();
 
 		// 1. color extraction
 		__colorExtractionSetup.setup();

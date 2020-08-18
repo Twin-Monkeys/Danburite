@@ -9,7 +9,7 @@ namespace Danburite
 	{
 	private:
 		ObjectGL::UniformSetter &__gammaCorrectionSetter;
-		float __gamma = Constant::GammaCorrection::DEFAULT_GAMMA;
+		float __gamma;
 
 		SetupTransaction __setupTransaction;
 
@@ -18,14 +18,8 @@ namespace Danburite
 
 	public:
 		GammaCorrectionPostProcessor(const bool attachDepthBuffer = false);
-
-		constexpr void setGamma(const float gamma) noexcept;
+		void setGamma(const float gamma) noexcept;
 
 		virtual ~GammaCorrectionPostProcessor() = default;
 	};
-
-	constexpr void GammaCorrectionPostProcessor::setGamma(const float gamma) noexcept
-	{
-		__gamma = gamma;
-	}
 }

@@ -23,8 +23,14 @@ namespace Danburite
 			__skyboxSetter.setUniformFloat(
 				ShaderIdentifier::Name::Skybox::LUMINANCE, __luminance);
 
+			stateMgr.setState(GLStateType::DEPTH_TEST, true);
+			stateMgr.setState(GLStateType::CULL_FACE, true);
+
 			stateMgr.setDepthFunction(DepthStencilFunctionType::LEQUAL);
+			stateMgr.enableDepthMask(false);
+
 			stateMgr.setCulledFace(FacetType::FRONT);
+			stateMgr.setFrontFace(WindingOrderType::COUNTER_CLOCKWISE);
 		});
 	}
 
