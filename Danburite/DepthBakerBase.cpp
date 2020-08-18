@@ -55,7 +55,6 @@ namespace Danburite
 
 	void DepthBakerBase::unbind() noexcept
 	{
-		FrameBuffer::bindDefault();
 		glViewport(__viewportArgs[0], __viewportArgs[1], __viewportArgs[2], __viewportArgs[3]);
 	}
 }
