@@ -8,13 +8,6 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	PostProcessor::PostProcessor() :
-		__texContainerSetter(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER)),
-
-		__fullscreenDrawer(FullscreenDrawer::getInstance())
-	{}
-
 	void PostProcessor::_attach(const AttachmentType attachmentType, Attachable &attachment) noexcept
 	{
 		__pFrameBuffer->attach(attachmentType, attachment);
@@ -144,10 +137,5 @@ namespace Danburite
 	const FrameBuffer &PostProcessor::getFrameBuffer() const noexcept
 	{
 		return *__pFrameBuffer;
-	}
-
-	void PostProcessor::render(FrameBuffer &renderTarget) noexcept
-	{
-		_onRender(renderTarget, __texContainerSetter, __fullscreenDrawer);
 	}
 }

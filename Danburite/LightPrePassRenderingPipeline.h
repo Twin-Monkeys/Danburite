@@ -2,6 +2,7 @@
 
 #include "RenderingPipeline.h"
 #include "FullscreenDrawer.h"
+#include "SetupTransaction.h"
 
 namespace Danburite
 {
@@ -25,6 +26,10 @@ namespace Danburite
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pLightAmbientAttachment;
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pLightDiffuseAttachment;
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pLightSpecularAttachment;
+
+		SetupTransaction __geometryPassSetup;
+		SetupTransaction __lightingPassSetup;
+		SetupTransaction __compositionPassSetup;
 
 	protected:
 		virtual void _onSetScreenSize(const GLsizei width, const GLsizei height) noexcept override;

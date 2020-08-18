@@ -1,9 +1,12 @@
 #pragma once
 
 #include "PostProcessor.h"
+#include "UniformBuffer.h"
 #include "AttachableTextureRectangle.h"
 #include "RenderBuffer.h"
 #include "Constant.h"
+#include "FullscreenDrawer.h"
+#include "SetupTransaction.h"
 
 namespace Danburite
 {
@@ -32,11 +35,17 @@ namespace Danburite
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pBloomColorAttachment2;
 		std::shared_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
 
+		ObjectGL::UniformBuffer &__texContainerSetter;
+		FullscreenDrawer &__fullscreenDrawer;
+
+		SetupTransaction __basicPropSetup;
+		SetupTransaction __colorExtractionSetup;
+		SetupTransaction __horizBlurSetup;
+		SetupTransaction __horizVertSetup;
+		SetupTransaction __compositionSetup;
+
 	protected:
-		virtual void _onRender(
-			ObjectGL::FrameBuffer &renderTarget,
-			ObjectGL::UniformBuffer &texContainerSetter,
-			FullscreenDrawer &fullscreenDrawer) noexcept override;
+		virtual void render(ObjectGL::FrameBuffer &renderTarget) noexcept override;
 
 	public:
 		BloomPostProcessor(const bool attachDepthBuffer = false);

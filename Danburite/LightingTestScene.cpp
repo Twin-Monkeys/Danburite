@@ -274,11 +274,11 @@ LightingTestScene::LightingTestScene()
 
 	Material::setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);
 
-	/*__pRenderingPipeline =
-		make_unique<LightPrePassRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);*/
-
 	__pRenderingPipeline =
-		make_unique<ForwardRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);
+		make_unique<LightPrePassRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);
+
+	/*__pRenderingPipeline =
+		make_unique<ForwardRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);*/
 
 	PostProcessorPipeline &ppPipeline = __pRenderingPipeline->getPostProcessorPipeline();
 

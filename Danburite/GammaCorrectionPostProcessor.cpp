@@ -13,12 +13,17 @@ namespace Danburite
 
 		__gammaCorrectionSetter(
 			UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::GAMMA_CORRECTION))
-	{}
-
-	void GammaCorrectionPostProcessor::_onRender(
-		FrameBuffer &renderTarget, UniformBuffer &texContainerSetter, FullscreenDrawer &fullscreenDrawer) noexcept
 	{
-		__gammaCorrectionSetter.setUniformFloat(ShaderIdentifier::Name::GammaCorrection::GAMMA, __gamma);
-		ForwardPostProcessor::_onRender(renderTarget, texContainerSetter, fullscreenDrawer);
+		__setupTransaction.setSetupFunction([this](ContextStateManager& stateMgr)
+		{
+			__gammaCorrectionSetter.setUniformFloat(
+				ShaderIdentifier::Name::GammaCorrection::GAMMA, __gamma);
+		});
+	}
+
+	void GammaCorrectionPostProcessor::render(FrameBuffer &renderTarget) noexcept
+	{
+		__setupTransaction.setup();
+		ForwardPostProcessor::render(renderTarget);
 	}
 }

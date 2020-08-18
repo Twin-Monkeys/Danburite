@@ -21,9 +21,10 @@ namespace Danburite
 			0.f, 0.f, 0.f
 		};
 
-		virtual void _onRender(
-			ObjectGL::FrameBuffer &renderTarget,
-			ObjectGL::UniformBuffer &texContainerSetter, FullscreenDrawer &fullscreenDrawer) noexcept override;
+		SetupTransaction __setupTransaction;
+
+	protected:
+		virtual void render(ObjectGL::FrameBuffer &renderTarget) noexcept override;
 
 	public:
 		ConvolutionalPostProcessor(const bool attachDepthBuffer = false);

@@ -26,6 +26,60 @@ namespace Danburite
 				ColorBufferType::COLOR_ATTACHMENT1,
 				ColorBufferType::COLOR_ATTACHMENT2
 			});
+
+		__geometryPassSetup.setSetupFunction([this](ContextStateManager &stateMgr)
+		{
+			stateMgr.setState(GLStateType::DEPTH_TEST, true);
+			stateMgr.setState(GLStateType::STENCIL_TEST, true);
+			stateMgr.setState(GLStateType::CULL_FACE, true);
+			stateMgr.setState(GLStateType::BLEND, false);
+
+			stateMgr.setStencilMask(0xFFU);
+			stateMgr.setStencilFunction(DepthStencilFunctionType::ALWAYS, 0x01U);
+			stateMgr.setStencilOperation(
+				StencilOperationType::KEEP, StencilOperationType::KEEP, StencilOperationType::REPLACE);
+
+			stateMgr.setCulledFace(FacetType::BACK);
+			stateMgr.setFrontFace(WindingOrderType::COUNTER_CLOCKWISE);
+		});
+
+		__lightingPassSetup.setSetupFunction([this](ContextStateManager &stateMgr)
+		{
+			__texContainerSetter.setUniformUvec2(
+				ShaderIdentifier::Name::Attachment::TEX0, __pPosAttachment->getHandle());
+
+			__texContainerSetter.setUniformUvec2(
+				ShaderIdentifier::Name::Attachment::TEX1, __pNormalShininessAttachment->getHandle());
+
+			stateMgr.setClearColor(0.f, 0.f, 0.f, 0.f);
+			stateMgr.setState(GLStateType::DEPTH_TEST, false);
+			stateMgr.setState(GLStateType::BLEND, true);
+
+			stateMgr.setStencilFunction(DepthStencilFunctionType::EQUAL, 0x01U);
+			stateMgr.setStencilMask(0x00U);
+			stateMgr.setCulledFace(FacetType::FRONT);
+			stateMgr.setBlendingFunction(BlendingFunctionType::ONE, BlendingFunctionType::ONE);
+		});
+
+		__compositionPassSetup.setSetupFunction([this](ContextStateManager& stateMgr)
+		{
+			__lightPrePassSetter.setUniformUvec2(
+				ShaderIdentifier::Name::LightPrePass::LIGHT_AMBIENT_TEX,
+				__pLightAmbientAttachment->getHandle());
+
+			__lightPrePassSetter.setUniformUvec2(
+				ShaderIdentifier::Name::LightPrePass::LIGHT_DIFFUSE_TEX,
+				__pLightDiffuseAttachment->getHandle());
+
+			__lightPrePassSetter.setUniformUvec2(
+				ShaderIdentifier::Name::LightPrePass::LIGHT_SPECULAR_TEX,
+				__pLightSpecularAttachment->getHandle());
+
+			stateMgr.setState(GLStateType::DEPTH_TEST, true);
+			stateMgr.setState(GLStateType::STENCIL_TEST, false);
+			stateMgr.setDepthFunction(DepthStencilFunctionType::LEQUAL);
+			stateMgr.setCulledFace(FacetType::BACK);
+		});
 	}
 
 	void LightPrePassRenderingPipeline::_onSetScreenSize(const GLsizei width, const GLsizei height) noexcept
@@ -72,73 +126,25 @@ namespace Danburite
 	{
 		lightManager.process(&Light::bakeDepthMap, drawer);
 		lightManager.selfDeploy();
-
 		camera.selfDeploy();
 
-		ContextStateManager &stateMgr = RenderContext::getCurrentStateManager();
-
 		// Geometry pass
+		__geometryPassSetup.setup();
 		__pNormalShininessFB->clearBuffers(FrameBufferBlitFlag::DEPTH | FrameBufferBlitFlag::STENCIL);
-		__pNormalShininessFB->bind();
 		__geometryProgram.bind();
-
-		stateMgr.setState(GLStateType::DEPTH_TEST, true);
-		stateMgr.setState(GLStateType::STENCIL_TEST, true);
-		stateMgr.setStencilMask(0xFFU);
-
-		stateMgr.setStencilFunction(DepthStencilFunctionType::ALWAYS, 0x01U);
-		stateMgr.setStencilOperation(StencilOperationType::KEEP, StencilOperationType::KEEP, StencilOperationType::REPLACE);
-
 		drawer.process(&SceneObject::rawDrawcall);
 
-
 		// Lighting pass
-		__texContainerSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::TEX0, __pPosAttachment->getHandle());
-
-		__texContainerSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::TEX1, __pNormalShininessAttachment->getHandle());
-
-		stateMgr.setClearColor(0.f, 0.f, 0.f, 0.f);
+		__lightingPassSetup.setup();
 		__pLightingFB->clearBuffers(FrameBufferBlitFlag::COLOR);
-		__pLightingFB->bind();
 		__lightingProgram.bind();
-
-		stateMgr.setState(GLStateType::DEPTH_TEST, false);
-		stateMgr.setState(GLStateType::CULL_FACE, true);
-		stateMgr.setCulledFace(FacetType::FRONT);
-
-		stateMgr.setStencilFunction(DepthStencilFunctionType::EQUAL, 0x01U);
-		stateMgr.setStencilMask(0x00U);
-
-		stateMgr.setState(GLStateType::BLEND, true);
-		stateMgr.setBlendingFunction(BlendingFunctionType::ONE, BlendingFunctionType::ONE);
-
 		lightManager.process(&Light::volumeDrawcall);
 
-
 		// Composition pass (ordinary forward rendering)
-		__lightPrePassSetter.setUniformUvec2(
-			ShaderIdentifier::Name::LightPrePass::LIGHT_AMBIENT_TEX,
-			__pLightAmbientAttachment->getHandle());
-
-		__lightPrePassSetter.setUniformUvec2(
-			ShaderIdentifier::Name::LightPrePass::LIGHT_DIFFUSE_TEX,
-			__pLightDiffuseAttachment->getHandle());
-
-		__lightPrePassSetter.setUniformUvec2(
-			ShaderIdentifier::Name::LightPrePass::LIGHT_SPECULAR_TEX,
-			__pLightSpecularAttachment->getHandle());
-
 		const ivec2& screenSize = getScreenSize();
-		__pNormalShininessFB->blit(ppPipeline.getFrameBuffer(), FrameBufferBlitFlag::DEPTH, screenSize.x, screenSize.y);
+		__pNormalShininessFB->blit(
+			ppPipeline.getFrameBuffer(), FrameBufferBlitFlag::DEPTH, screenSize.x, screenSize.y);
 
-		stateMgr.setState(GLStateType::DEPTH_TEST, true);
-		stateMgr.setState(GLStateType::STENCIL_TEST, false);
-		stateMgr.setDepthFunction(DepthStencilFunctionType::LEQUAL);
-		stateMgr.setState(GLStateType::BLEND, false);
-		stateMgr.setCulledFace(FacetType::BACK);
-
-		ppPipeline.render(drawer, skybox, FrameBufferBlitFlag::COLOR);
+		ppPipeline.render(__compositionPassSetup, drawer, skybox, FrameBufferBlitFlag::COLOR);
 	}
 }

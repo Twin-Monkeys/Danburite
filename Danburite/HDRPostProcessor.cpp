@@ -13,12 +13,17 @@ namespace Danburite
 
 		__hdrSetter(UniformBufferFactory::getInstance().
 			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::HDR))
-	{}
-
-	void HDRPostProcessor::_onRender(
-		FrameBuffer &renderTarget, UniformBuffer &texContainerSetter, FullscreenDrawer &fullscreenDrawer) noexcept
 	{
-		__hdrSetter.setUniformFloat(ShaderIdentifier::Name::HDR::EXPOSURE, __exposure);
-		ForwardPostProcessor::_onRender(renderTarget, texContainerSetter, fullscreenDrawer);
+		__setupTransaction.setSetupFunction([this](ContextStateManager &stateMgr)
+		{
+			__hdrSetter.setUniformFloat(
+				ShaderIdentifier::Name::HDR::EXPOSURE, __exposure);
+		});
+	}
+
+	void HDRPostProcessor::render(FrameBuffer &renderTarget) noexcept
+	{
+		__setupTransaction.setup();
+		ForwardPostProcessor::render(renderTarget);
 	}
 }

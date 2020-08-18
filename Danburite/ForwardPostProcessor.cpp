@@ -1,5 +1,6 @@
 #include "ForwardPostProcessor.h"
 #include "ProgramFactory.h"
+#include "UniformBufferFactory.h"
 #include "ShaderIdentifier.h"
 
 using namespace std;
@@ -8,12 +9,20 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	ForwardPostProcessor::ForwardPostProcessor(Program &program, const bool attachDepthBuffer) :
-		__program(program), __attachDepthBuffer(attachDepthBuffer)
+		__program(program), __attachDepthBuffer(attachDepthBuffer),
+		__texContainerSetter(UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER)),
+
+		__fullscreenDrawer(FullscreenDrawer::getInstance())
 	{
 		__setupTransaction.setSetupFunction([this] (ContextStateManager &stateMgr)
 		{
+			__texContainerSetter.setUniformUvec2(
+				ShaderIdentifier::Name::Attachment::TEX0, __pColorAttachment->getHandle());
+
 			stateMgr.setState(GLStateType::DEPTH_TEST, false);
 			stateMgr.setState(GLStateType::STENCIL_TEST, false);
+			stateMgr.setState(GLStateType::BLEND, false);
 			stateMgr.setState(GLStateType::CULL_FACE, true);
 
 			stateMgr.setCulledFace(FacetType::BACK);
@@ -26,17 +35,13 @@ namespace Danburite
 			getProgram(ProgramType::POST_PROCESS_FORWARD), attachDepthBuffer)
 	{}
 
-	void ForwardPostProcessor::_onRender(
-		FrameBuffer &renderTarget, UniformBuffer &texContainerSetter, FullscreenDrawer &fullscreenDrawer) noexcept
+	void ForwardPostProcessor::render(FrameBuffer &renderTarget) noexcept
 	{
-		texContainerSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::TEX0, __pColorAttachment->getHandle());
-
 		__setupTransaction.setup();
 
 		renderTarget.bind();
 		__program.bind();
-		fullscreenDrawer.draw();
+		__fullscreenDrawer.draw();
 	}
 
 	void ForwardPostProcessor::setScreenSize(const GLsizei width, const GLsizei height) noexcept

@@ -1,6 +1,7 @@
 #include "MSAAPostProcessor.h"
 #include "ShaderIdentifier.h"
 #include "ProgramFactory.h"
+#include "UniformBufferFactory.h"
 
 using namespace std;
 using namespace ObjectGL;
@@ -12,35 +13,37 @@ namespace Danburite
 		__program(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_MSAA)),
 		__attachDepthBuffer(attachDepthBuffer),
 		__NUM_SAMPLE_POINTS(numSamplePoints),
-		__FIXED_SAMPLE_LOCATIONS(fixedSampleLocations)
+		__FIXED_SAMPLE_LOCATIONS(fixedSampleLocations),
+		__texContainerSetter(UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER)),
+
+		__fullscreenDrawer(FullscreenDrawer::getInstance())
 	{
 		assert(__NUM_SAMPLE_POINTS);
 
 		__setupTransaction.setSetupFunction([this](ContextStateManager& stateMgr)
 		{
-			stateMgr.setState(GLStateType::DEPTH_TEST, true);
+			// AMD Bug; Cannot use bindless sampler2DMS
+			__texContainerSetter.setUniformUvec2(
+				ShaderIdentifier::Name::Attachment::TEX0, __pColorAttachment->getHandle());
+
+			stateMgr.setState(GLStateType::DEPTH_TEST, false);
 			stateMgr.setState(GLStateType::STENCIL_TEST, false);
 			stateMgr.setState(GLStateType::BLEND, false);
 			stateMgr.setState(GLStateType::CULL_FACE, true);
 
-			stateMgr.setDepthFunction(DepthStencilFunctionType::LESS);
-			stateMgr.enableDepthMask(true);
 			stateMgr.setCulledFace(FacetType::BACK);
 			stateMgr.setFrontFace(WindingOrderType::COUNTER_CLOCKWISE);
 		});
 	}
 
-	void MSAAPostProcessor::_onRender(
-		FrameBuffer &renderTarget, UniformBuffer &texContainerSetter, FullscreenDrawer &fullscreenDrawer) noexcept
+	void MSAAPostProcessor::render(FrameBuffer &renderTarget) noexcept
 	{
-		// AMD Bug; Cannot use bindless sampler2DMS
-		texContainerSetter.setUniformUvec2(ShaderIdentifier::Name::Attachment::TEX0, __pColorAttachment->getHandle());
-
 		__setupTransaction.setup();
 
 		renderTarget.bind();
 		__program.bind();
-		fullscreenDrawer.draw();
+		__fullscreenDrawer.draw();
 	}
 
 	void MSAAPostProcessor::setScreenSize(const GLsizei width, const GLsizei height) noexcept

@@ -1,10 +1,12 @@
 #pragma once
 
 #include "PostProcessor.h"
+#include "Program.h"
 #include "TextureMultisample.h"
 #include "RenderBufferMultisample.h"
 #include "ShaderIdentifier.h"
 #include "SetupTransaction.h"
+#include "FullscreenDrawer.h"
 
 namespace Danburite
 {
@@ -19,13 +21,13 @@ namespace Danburite
 		std::shared_ptr<ObjectGL::TextureMultisample> __pColorAttachment;
 		std::shared_ptr<ObjectGL::RenderBufferMultisample> __pDepthStencilAttachment;
 
+		ObjectGL::UniformBuffer &__texContainerSetter;
+		FullscreenDrawer &__fullscreenDrawer;
+
 		SetupTransaction __setupTransaction;
 
 	protected:
-		virtual void _onRender(
-			ObjectGL::FrameBuffer &renderTarget,
-			ObjectGL::UniformBuffer &texContainerSetter,
-			FullscreenDrawer &fullscreenDrawer) noexcept override;
+		virtual void render(ObjectGL::FrameBuffer &renderTarget) noexcept override;
 
 	public:
 		MSAAPostProcessor(

@@ -1,8 +1,6 @@
 #pragma once
 
 #include "FrameBuffer.h"
-#include "FullscreenDrawer.h"
-#include "UniformBuffer.h"
 #include "AttachmentServer.h"
 
 namespace Danburite
@@ -13,17 +11,14 @@ namespace Danburite
 		std::unique_ptr<ObjectGL::FrameBuffer> __pFrameBuffer =
 			std::make_unique<ObjectGL::FrameBuffer>();
 
-		FullscreenDrawer &__fullscreenDrawer;
-
 		AttachmentServer *__pAttachmentServer = nullptr;
-		ObjectGL::UniformBuffer &__texContainerSetter;
 
 		PostProcessor(const PostProcessor &) = delete;
 		PostProcessor &operator=(const PostProcessor &) = delete;
 
 	protected:
-		PostProcessor();
-		
+		PostProcessor() = default;
+
 		void _attach(const ObjectGL::AttachmentType attachmentType, ObjectGL::Attachable &attachment) noexcept;
 		bool _detach(const ObjectGL::AttachmentType attachmentType) noexcept;
 
@@ -66,20 +61,15 @@ namespace Danburite
 				const GLsizei numSamplePoints = ShaderIdentifier::Value::MSAA::NUM_SAMPLE_POINTS,
 				const size_t retrievingIndex = 0ULL);
 
-		virtual void _onRender(
-			ObjectGL::FrameBuffer &renderTarget,
-			ObjectGL::UniformBuffer &texContainerSetter,
-			FullscreenDrawer &fullscreenDrawer) noexcept = 0;
 
 	public:
 		ObjectGL::FrameBuffer &getFrameBuffer() noexcept;
 		const ObjectGL::FrameBuffer &getFrameBuffer() const noexcept;
 
-		void render(ObjectGL::FrameBuffer &renderTarget) noexcept;
-
 		constexpr void setAttachmentServer(AttachmentServer *const pAttachmentServer) noexcept;
 
 		virtual void setScreenSize(const GLsizei width, const GLsizei height) noexcept = 0;
+		virtual void render(ObjectGL::FrameBuffer &renderTarget) noexcept = 0;
 
 		virtual ~PostProcessor() = default;
 	};

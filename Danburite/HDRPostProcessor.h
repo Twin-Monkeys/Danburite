@@ -11,11 +11,10 @@ namespace Danburite
 		ObjectGL::UniformBuffer &__hdrSetter;
 		float __exposure = Constant::HDR::DEFAULT_EXPOSURE;
 
+		SetupTransaction __setupTransaction;
+
 	protected:
-		virtual void _onRender(
-			ObjectGL::FrameBuffer &renderTarget,
-			ObjectGL::UniformBuffer &texContainerSetter,
-			FullscreenDrawer &fullscreenDrawer) noexcept override;
+		virtual void render(ObjectGL::FrameBuffer &renderTarget) noexcept override;
 
 	public:
 		HDRPostProcessor(const bool attachDepthBuffer = false);

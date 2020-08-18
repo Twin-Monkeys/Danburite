@@ -17,55 +17,76 @@ namespace Danburite
 		__extractionProgram(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_COLOR_EXTRACTION)),
 		__blurHorizProgram(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_BLUR_HORIZ)),
 		__blurVertProgram(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_BLUR_VERT)),
-		__compositionProgram(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_COMPOSITION))
-	{}
+		__compositionProgram(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_COMPOSITION)),
+		__texContainerSetter(UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER)),
 
-	void BloomPostProcessor::_onRender(
-		FrameBuffer &renderTarget, UniformBuffer &texContainerSetter, FullscreenDrawer &fullscreenDrawer) noexcept
+		__fullscreenDrawer(FullscreenDrawer::getInstance())
 	{
-		__bloomSetter.setUniformFloat(
-			ShaderIdentifier::Name::Bloom::BRIGHTNESS_THRESHOLD, __brightnessThreshold);
+		__basicPropSetup.setSetupFunction([this](ContextStateManager& stateMgr)
+		{
+			__bloomSetter.setUniformFloat(
+				ShaderIdentifier::Name::Bloom::BRIGHTNESS_THRESHOLD, __brightnessThreshold);
 
-		__bloomSetter.setUniformFloat(
-			ShaderIdentifier::Name::Bloom::EFFECT_STRENGTH, __effectStrength);
+			__bloomSetter.setUniformFloat(
+				ShaderIdentifier::Name::Bloom::EFFECT_STRENGTH, __effectStrength);
+		});
+
+		__colorExtractionSetup.setSetupFunction([this](ContextStateManager& stateMgr)
+		{
+			__texContainerSetter.setUniformUvec2(
+				ShaderIdentifier::Name::Attachment::TEX0, __pOriginalColorAttachment->getHandle());
+		});
+
+		__horizBlurSetup.setSetupFunction([this](ContextStateManager& stateMgr)
+		{
+			__texContainerSetter.setUniformUvec2(
+				ShaderIdentifier::Name::Attachment::TEX0, __pBloomColorAttachment1->getHandle());
+		});
+
+		__horizVertSetup.setSetupFunction([this](ContextStateManager& stateMgr)
+		{
+			__texContainerSetter.setUniformUvec2(
+				ShaderIdentifier::Name::Attachment::TEX0, __pBloomColorAttachment2->getHandle());
+		});
+
+		__compositionSetup.setSetupFunction([this](ContextStateManager& stateMgr)
+		{
+			__texContainerSetter.setUniformUvec2(
+				ShaderIdentifier::Name::Attachment::TEX0, __pOriginalColorAttachment->getHandle());
+
+			__texContainerSetter.setUniformUvec2(
+				ShaderIdentifier::Name::Attachment::TEX1, __pBloomColorAttachment1->getHandle());
+		});
+	}
+
+	void BloomPostProcessor::render(FrameBuffer &renderTarget) noexcept
+	{
+		__basicPropSetup.setup();
 
 		// 1. color extraction
+		__colorExtractionSetup.setup();
 		__pBloomFrameBuffer1->bind();
-
-		texContainerSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::TEX0, __pOriginalColorAttachment->getHandle());
-
 		__extractionProgram.bind();
-		fullscreenDrawer.draw();
+		__fullscreenDrawer.draw();
 
 		// 2. horizontal blur
+		__horizBlurSetup.setup();
 		__pBloomFrameBuffer2->bind();
-
-		texContainerSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::TEX0, __pBloomColorAttachment1->getHandle());
-
 		__blurHorizProgram.bind();
-		fullscreenDrawer.draw();
+		__fullscreenDrawer.draw();
 
 		// 3. vertical blur
+		__horizVertSetup.setup();
 		__pBloomFrameBuffer1->bind();
-
-		texContainerSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::TEX0, __pBloomColorAttachment2->getHandle());
-
 		__blurVertProgram.bind();
-		fullscreenDrawer.draw();
+		__fullscreenDrawer.draw();
 
 		// 4. composition
-		texContainerSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::TEX0, __pOriginalColorAttachment->getHandle());
-
-		texContainerSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Attachment::TEX1, __pBloomColorAttachment1->getHandle());
-
+		__compositionSetup.setup();
 		renderTarget.bind();
 		__compositionProgram.bind();
-		fullscreenDrawer.draw();
+		__fullscreenDrawer.draw();
 	}
 
 	void BloomPostProcessor::setScreenSize(const GLsizei width, const GLsizei height) noexcept

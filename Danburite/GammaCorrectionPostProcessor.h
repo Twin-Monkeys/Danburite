@@ -11,11 +11,10 @@ namespace Danburite
 		ObjectGL::UniformSetter &__gammaCorrectionSetter;
 		float __gamma = Constant::GammaCorrection::DEFAULT_GAMMA;
 
+		SetupTransaction __setupTransaction;
+
 	protected:
-		virtual void _onRender(
-			ObjectGL::FrameBuffer &renderTarget,
-			ObjectGL::UniformBuffer &texContainerSetter,
-			FullscreenDrawer &fullscreenDrawer) noexcept override;
+		virtual void render(ObjectGL::FrameBuffer &renderTarget) noexcept override;
 
 	public:
 		GammaCorrectionPostProcessor(const bool attachDepthBuffer = false);
