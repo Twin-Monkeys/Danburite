@@ -24,6 +24,7 @@ namespace Danburite
 				ShaderIdentifier::Name::Skybox::LUMINANCE, __luminance);
 
 			stateMgr.setState(GLStateType::DEPTH_TEST, true);
+			stateMgr.setState(GLStateType::STENCIL_TEST, false);
 			stateMgr.setState(GLStateType::CULL_FACE, true);
 
 			stateMgr.setDepthFunction(DepthStencilFunctionType::LEQUAL);
@@ -50,6 +51,7 @@ namespace Danburite
 			return;
 
 		__setupTransaction.setup();
+		__skyboxProgram.bind();
 		__pCubeVA->draw();
 	}
 }

@@ -144,7 +144,7 @@ namespace ObjectGL
 			stateMgr.enableDepthMask(true);
 		}
 
-		if (targets & FrameBufferBlitFlag::DEPTH)
+		if (targets & FrameBufferBlitFlag::STENCIL)
 		{
 			stateMgr.setState(GLStateType::STENCIL_TEST, true);
 			stateMgr.setStencilMask(0xFFU);
