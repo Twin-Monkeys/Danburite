@@ -20,13 +20,6 @@ using namespace Danburite;
 
 HDRTestScene::HDRTestScene()
 {
-	// 傈开 可记
-
-	ContextStateManager &stateMgr = RenderContext::getCurrentStateManager();
-	stateMgr.setState(GLStateType::DEPTH_TEST, true);
-	stateMgr.setState(GLStateType::CULL_FACE, true);
-
-
 	//// Rendering unit 积己 ////
 
 	const shared_ptr<Texture2D>& pFloor_diffuse =

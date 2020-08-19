@@ -20,13 +20,6 @@ using namespace Danburite;
 
 LightingTestScene::LightingTestScene()
 {
-	// 傈开 可记
-
-	ContextStateManager& stateMgr = RenderContext::getCurrentStateManager();
-	stateMgr.setState(GLStateType::DEPTH_TEST, true);
-	stateMgr.setState(GLStateType::CULL_FACE, true);
-
-
 	//// Rendering unit 积己 ////
 
 	__pCorridorObj = AssetImporter::import("res/asset/corridor/scene.gltf");
