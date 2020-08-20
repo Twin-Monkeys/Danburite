@@ -1,10 +1,9 @@
 #version 460 core
 
 #include "header/Material_Header.glsl"
-
-out vec4 fragColor;
+#include "header/TranslucencySwitcher_Frag.glsl"
 
 void main()
 {
-	fragColor = material.diffuseColor;
+	TranslucencySwitcher_outColor(material.diffuseColor);
 } 

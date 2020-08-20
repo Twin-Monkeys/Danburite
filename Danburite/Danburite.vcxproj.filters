@@ -298,9 +298,6 @@
     <Filter Include="Library\Engine\Core\Animation\Joint">
       <UniqueIdentifier>{ad93b38b-9f13-419a-870e-4dcd706043e3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Library\Engine\glsl\src\header\animation">
-      <UniqueIdentifier>{dc9aa90b-d0d5-4607-8d83-26025833535f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library\Engine\Core\PostProcess\Bloom">
       <UniqueIdentifier>{1c85800a-d09e-4b49-96b4-a30101487308}</UniqueIdentifier>
     </Filter>
@@ -372,6 +369,18 @@
     </Filter>
     <Filter Include="Library\Engine\Core\RenderTransaction">
       <UniqueIdentifier>{12820f0f-d323-48e4-a13d-e780abc5bff9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\header\VariableInOut">
+      <UniqueIdentifier>{b4bdd6ad-b286-4d7a-b2ff-884820f603d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\header\Animation">
+      <UniqueIdentifier>{dc9aa90b-d0d5-4607-8d83-26025833535f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\header\DepthBaking">
+      <UniqueIdentifier>{8df14e70-5f1b-4f7b-87ad-9c393841c29c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\header\Wboit">
+      <UniqueIdentifier>{26a2094d-823f-43d7-ad82-305c64179bff}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1286,6 +1295,9 @@
     <ClInclude Include="SetupTransaction.h">
       <Filter>Library\Engine\Core\RenderTransaction</Filter>
     </ClInclude>
+    <ClInclude Include="TranslucencyType.h">
+      <Filter>Library\Engine\Core\PostProcess\Pipeline</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glsl\src\Header\Camera_Header.glsl">
@@ -1357,9 +1369,6 @@
     <None Include="glsl\src\DepthBaking2D_Vert.glsl">
       <Filter>Library\Engine\glsl\src\DepthBaking</Filter>
     </None>
-    <None Include="glsl\src\header\DepthBaking2D_Header.glsl">
-      <Filter>Library\Engine\glsl\src\header</Filter>
-    </None>
     <None Include="glsl\src\DepthBakingCubemap_Vert.glsl">
       <Filter>Library\Engine\glsl\src\DepthBaking</Filter>
     </None>
@@ -1368,15 +1377,6 @@
     </None>
     <None Include="glsl\src\DepthBakingCubemap_Geo.glsl">
       <Filter>Library\Engine\glsl\src\DepthBaking</Filter>
-    </None>
-    <None Include="glsl\src\header\DepthBakingCubemap_Header.glsl">
-      <Filter>Library\Engine\glsl\src\header</Filter>
-    </None>
-    <None Include="glsl\src\header\VariableInOut_Vert_Header.glsl">
-      <Filter>Library\Engine\glsl\src\header</Filter>
-    </None>
-    <None Include="glsl\src\header\VariableInOut_Frag_Header.glsl">
-      <Filter>Library\Engine\glsl\src\header</Filter>
     </None>
     <None Include="glsl\src\Phong_Frag.glsl">
       <Filter>Library\Engine\glsl\src\Phong</Filter>
@@ -1390,9 +1390,6 @@
     <None Include="glsl\src\header\Phong_Header.glsl">
       <Filter>Library\Engine\glsl\src\header</Filter>
     </None>
-    <None Include="glsl\src\header\VariableInOut_Geo_Header.glsl">
-      <Filter>Library\Engine\glsl\src\header</Filter>
-    </None>
     <None Include="glsl\src\PostProcess_HDR_Frag.glsl">
       <Filter>Library\Engine\glsl\src\PostProcess\HDR</Filter>
     </None>
@@ -1403,16 +1400,16 @@
       <Filter>Library\Engine\glsl\src\header</Filter>
     </None>
     <None Include="glsl\src\header\Bone_Header.glsl">
-      <Filter>Library\Engine\glsl\src\header\animation</Filter>
+      <Filter>Library\Engine\glsl\src\header\Animation</Filter>
     </None>
     <None Include="glsl\src\header\Joint_Header.glsl">
-      <Filter>Library\Engine\glsl\src\header\animation</Filter>
+      <Filter>Library\Engine\glsl\src\header\Animation</Filter>
     </None>
     <None Include="glsl\src\Phong_Vert.glsl">
       <Filter>Library\Engine\glsl\src\Phong</Filter>
     </None>
     <None Include="glsl\src\header\Animation_Header.glsl">
-      <Filter>Library\Engine\glsl\src\header\animation</Filter>
+      <Filter>Library\Engine\glsl\src\header\Animation</Filter>
     </None>
     <None Include="glsl\src\PostProcess_Bloom_Composition_Frag.glsl">
       <Filter>Library\Engine\glsl\src\PostProcess\Bloom</Filter>
@@ -1458,6 +1455,27 @@
     </None>
     <None Include="glsl\src\header\Fullscreen_Header.glsl">
       <Filter>Library\Engine\glsl\src\header</Filter>
+    </None>
+    <None Include="glsl\src\header\VariableInOut_Vert_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header\VariableInOut</Filter>
+    </None>
+    <None Include="glsl\src\header\VariableInOut_Frag_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header\VariableInOut</Filter>
+    </None>
+    <None Include="glsl\src\header\VariableInOut_Geo_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header\VariableInOut</Filter>
+    </None>
+    <None Include="glsl\src\header\DepthBakingCubemap_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header\DepthBaking</Filter>
+    </None>
+    <None Include="glsl\src\header\DepthBaking2D_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header\DepthBaking</Filter>
+    </None>
+    <None Include="glsl\src\header\TranslucencySwitcher_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\header</Filter>
+    </None>
+    <None Include="glsl\src\header\Wboit_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header\Wboit</Filter>
     </None>
   </ItemGroup>
 </Project>

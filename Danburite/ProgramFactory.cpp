@@ -413,6 +413,15 @@ namespace Danburite
 					ProgramType::PHONG,
 					ProgramType::LIGHT_PREPASS_LIGHTING
 				}
+			},
+			{
+				ShaderIdentifier::Name::UniformBuffer::TRANSLUCENCY_SWITCHER,
+				{
+					ProgramType::MONO_COLOR,
+					ProgramType::PHONG,
+					ProgramType::REFLECTION,
+					ProgramType::REFRACTION
+				}
 			}
 		};
 

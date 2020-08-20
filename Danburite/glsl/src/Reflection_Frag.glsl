@@ -8,18 +8,17 @@
 
 #include "header/Material_Header.glsl"
 #include "header/Camera_Header.glsl"
-
-out vec4 fragColor;
+#include "header/TranslucencySwitcher_Frag.glsl"
 
 void main()
 {
 	const vec3 viewDirection = normalize(variableInOut_VertToFrag.worldPos - Camera_getPosition());
 
-	const vec3 envReflection = Material_getEnvReflection
+	const vec4 outColor = Material_getEnvReflection
 	(
 		normalize(variableInOut_VertToFrag.worldNormal),
 		viewDirection, variableInOut_VertToFrag.texCoord
-	).rgb;
+	);
 	
-	fragColor = vec4(envReflection, 1.f);
-} 
+	TranslucencySwitcher_outColor(outColor);
+}

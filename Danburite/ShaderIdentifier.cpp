@@ -178,6 +178,11 @@ namespace Danburite
 					;
 			}
 
+			namespace TranslucencySwitcher
+			{
+				const string MODE = "translucencySwitcher.mode";
+			}
+
 			namespace UniformBuffer
 			{
 				const string
@@ -195,7 +200,8 @@ namespace Danburite
 					JOINT					= "UBJoint",
 					BONE					= "UBBone",
 					RENDERING_PIPELINE		= "UBRenderingPipeline",
-					LIGHT_PREPASS			= "UBLightPrePass"
+					LIGHT_PREPASS			= "UBLightPrePass",
+					TRANSLUCENCY_SWITCHER	= "UBTranslucencySwitcher"
 					;
 			}
 		}
@@ -267,6 +273,10 @@ namespace Danburite
 						{
 							Name::UniformBuffer::LIGHT_PREPASS,
 							Value::UniformBlockBindingPoint::LIGHT_PREPASS
+						},
+						{
+							Name::UniformBuffer::TRANSLUCENCY_SWITCHER,
+							Value::UniformBlockBindingPoint::TRANSLUCENCY_SWITCHER
 						}
 					};
 

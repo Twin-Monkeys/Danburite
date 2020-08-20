@@ -12,6 +12,7 @@
 #include "LightPrePassRenderingPipeline.h"
 #include "GammaCorrectionPostProcessor.h"
 #include "BloomPostProcessor.h"
+#include "TranslucencyType.h"
 
 using namespace std;
 using namespace glm;
@@ -92,6 +93,8 @@ HDRTestScene::HDRTestScene()
 	__pDoorObj->getAnimationManager().getActiveAnimation().setPlaySpeed(.6f);
 
 	__pLizardObj = AssetImporter::import("res/asset/lizard_man/scene.gltf");
+	__pLizardObj->traverseMaterial(&Material::enableTranslucency, true);
+
 	Transform &lizardTransform = __pLizardObj->getTransform();
 	lizardTransform.setScale(7.f);
 	lizardTransform.setPosition(-10.f, 8.f, 10.f);
@@ -201,11 +204,11 @@ HDRTestScene::HDRTestScene()
 
 	// 파이프라인 초기화
 
-	__pRenderingPipeline =
-		make_unique<LightPrePassRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);
-
 	/*__pRenderingPipeline =
-		make_unique<ForwardRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);*/
+		make_unique<LightPrePassRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);*/
+
+	__pRenderingPipeline =
+		make_unique<ForwardRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);
 
 	PostProcessorPipeline &ppPipeline =
 		__pRenderingPipeline->getPostProcessorPipeline();
@@ -213,6 +216,13 @@ HDRTestScene::HDRTestScene()
 	ppPipeline.appendProcessor<GammaCorrectionPostProcessor>(true);
 	ppPipeline.appendProcessor<BloomPostProcessor>();
 	__pHDRPP = &ppPipeline.appendProcessor<HDRPostProcessor>();
+
+	UniformBuffer &ubTranslucencySwitcher = UniformBufferFactory::getInstance().
+		 getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TRANSLUCENCY_SWITCHER);
+
+	ubTranslucencySwitcher.setUniformUint(
+		ShaderIdentifier::Name::TranslucencySwitcher::MODE,
+		GLuint(TranslucencyType::TRANSLUCENCY_MODE));
 }
 
 bool HDRTestScene::__keyFunc(const float deltaTime) noexcept

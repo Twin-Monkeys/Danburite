@@ -8,20 +8,20 @@
 #include "header/VariableInOut_Frag_Header.glsl"
 
 #include "header/Phong_Header.glsl"
-
-out vec4 fragColor;
+#include "header/TranslucencySwitcher_Frag.glsl"
 
 void main()
 {
-	// Normalizing normals in the vertex shader and then passing them to the fragment shader
-	// doesn't ensure they are normalized after being passed.
-	// By only passing the normals in the vertex shader and then
-	// normalizing them in the fragment shader the problem (multisample white dot artifact) was fixed.
+	/*
+		Normalizing normals in the vertex shader and then passing them to the fragment shader
+		doesn't ensure they are normalized after being passed.
+		By only passing the normals in the vertex shader and then
+		normalizing them in the fragment shader the problem (multisample white dot artifact) was fixed.
+	*/
+	const vec4 outColor =
+		Phong_calcPhongColor(
+			variableInOut_VertToFrag.worldPos, normalize(variableInOut_VertToFrag.worldNormal),
+			variableInOut_VertToFrag.TBN, variableInOut_VertToFrag.texCoord, variableInOut_VertToFrag.color);
 
-	fragColor = Phong_calcPhongColor(
-		variableInOut_VertToFrag.worldPos,
-		normalize(variableInOut_VertToFrag.worldNormal),
-		variableInOut_VertToFrag.TBN,
-		variableInOut_VertToFrag.texCoord,
-		variableInOut_VertToFrag.color);
+	TranslucencySwitcher_outColor(outColor);
 } 

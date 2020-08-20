@@ -185,6 +185,12 @@ namespace Danburite
 					;
 			}
 
+			namespace TranslucencySwitcher
+			{
+				extern const std::string
+					MODE;
+			}
+
 			namespace UniformBuffer
 			{
 				extern const std::string
@@ -202,7 +208,8 @@ namespace Danburite
 					JOINT,
 					BONE,
 					RENDERING_PIPELINE,
-					LIGHT_PREPASS
+					LIGHT_PREPASS,
+					TRANSLUCENCY_SWITCHER
 					;
 			}
 		}
@@ -240,7 +247,8 @@ namespace Danburite
 					JOINT					= 11U,
 					BONE					= 12U,
 					RENDERING_PIPELINE		= 13U,
-					LIGHT_PREPASS			= 14U
+					LIGHT_PREPASS			= 14U,
+					TRANSLUCENCY_SWITCHER	= 15U
 					;
 			}
 

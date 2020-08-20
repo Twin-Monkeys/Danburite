@@ -476,6 +476,7 @@
     <ClInclude Include="TextureUtilException.h" />
     <ClInclude Include="TransformableCamera.h" />
     <ClInclude Include="TransformTimeline.h" />
+    <ClInclude Include="TranslucencyType.h" />
     <ClInclude Include="UniformBufferFactory.h" />
     <ClInclude Include="UniformSetter.h" />
     <ClInclude Include="BindableObject.h" />
@@ -558,7 +559,9 @@
     <None Include="glsl\src\header\HDR_Header.glsl" />
     <None Include="glsl\src\header\Joint_Header.glsl" />
     <None Include="glsl\src\header\LightPrePass_Header.glsl" />
+    <None Include="glsl\src\header\Wboit_Header.glsl" />
     <None Include="glsl\src\header\RenderingPipeline_Header.glsl" />
+    <None Include="glsl\src\header\TranslucencySwitcher_Frag.glsl" />
     <None Include="glsl\src\header\VariableInOut_Frag_Header.glsl" />
     <None Include="glsl\src\header\VariableInOut_Geo_Header.glsl" />
     <None Include="glsl\src\header\VariableInOut_Vert_Header.glsl" />

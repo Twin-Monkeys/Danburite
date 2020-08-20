@@ -43,11 +43,15 @@ namespace Danburite
 		}
 
 		sceneDrawingSetup.setup();
-		drawer.process(&SceneObject::draw);
-		/*drawer.process([](SceneObject& iter)
+		drawer.process([](SceneObject& iter)
 		{
 			iter.drawUnderMaterialCondition(false, &Material::isTranslucencyEnabled);
-		});*/
+		});
+
+		drawer.process([](SceneObject& iter)
+		{
+			iter.drawUnderMaterialCondition(true, &Material::isTranslucencyEnabled);
+		});
 
 		skybox.draw();
 
