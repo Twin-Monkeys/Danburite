@@ -21,11 +21,13 @@ namespace Danburite
 
 		template <typename $ReturnType, typename ...$Args>
 		void processIf(
-			bool($TargetType::*discriminant)(), $ReturnType($TargetType::*memberFunc)($Args ...args), $Args ...args);
+			bool($TargetType::*const discriminant)() const,
+			$ReturnType($TargetType::*memberFunc)($Args ...args), $Args ...args);
 
 		template <typename $ReturnType, typename ...$Args>
 		void processIf(
-			const std::function<bool(const $TargetType &iter)> &discriminant, $ReturnType($TargetType::*memberFunc)($Args ...args), $Args ...args);
+			const std::function<bool(const $TargetType &iter)> &discriminant,
+			$ReturnType($TargetType::*memberFunc)($Args ...args), $Args ...args);
 	};
 
 	template <typename $TargetType>
@@ -52,7 +54,8 @@ namespace Danburite
 	template <typename $TargetType>
 	template <typename $ReturnType, typename ...$Args>
 	void BatchProcessor<$TargetType>::processIf(
-		bool($TargetType::*discriminant)(), $ReturnType($TargetType::*memberFunc)($Args ...args), $Args ...args)
+		bool($TargetType::*const discriminant)() const,
+		$ReturnType($TargetType::*memberFunc)($Args ...args), $Args ...args)
 	{
 		for ($TargetType *const pTarget : __targets)
 		{

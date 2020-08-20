@@ -45,6 +45,7 @@ LightingTestScene::LightingTestScene()
 	doorTransform.setPosition(0.f, 0.f, 105.f);
 	__pDoorObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
 	__pDoorObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 2.f);
+	__pDoorObj->traverseMaterial(&PhongMaterial::enableTranslucency, true);
 
 	__pWrenchObj = AssetImporter::import("res/asset/wrench/scene.gltf");
 	__pWrenchObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
