@@ -1,4 +1,5 @@
 #include "PostProcessorPipeline.h"
+#include "TranslucencySwitchType.h"
 
 using namespace std;
 using namespace ObjectGL;
@@ -43,10 +44,19 @@ namespace Danburite
 		}
 
 		sceneDrawingSetup.setup();
+
+		__translucencySwitcherSetter.setUniformUint(
+			ShaderIdentifier::Name::TranslucencySwitcher::MODE,
+			GLuint(TranslucencySwitchType::OPAQUE_MODE));
+
 		drawer.process([](SceneObject& iter)
 		{
 			iter.drawUnderMaterialCondition(false, &Material::isTranslucencyEnabled);
 		});
+
+		__translucencySwitcherSetter.setUniformUint(
+			ShaderIdentifier::Name::TranslucencySwitcher::MODE,
+			GLuint(TranslucencySwitchType::TRANSLUCENCY_MODE));
 
 		drawer.process([](SceneObject& iter)
 		{

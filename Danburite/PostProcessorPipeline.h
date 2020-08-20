@@ -4,6 +4,7 @@
 #include "BatchProcessor.h"
 #include "SceneObject.h"
 #include "Skybox.h"
+#include "UniformBufferFactory.h"
 
 namespace Danburite
 {
@@ -14,6 +15,10 @@ namespace Danburite
 
 		AttachmentServer __attachmentServerPingPong[2];
 		std::vector<std::unique_ptr<PostProcessor>> __pipeline;
+
+		ObjectGL::UniformBuffer &__translucencySwitcherSetter = 
+			UniformBufferFactory::getInstance().getUniformBuffer(
+				ShaderIdentifier::Name::UniformBuffer::TRANSLUCENCY_SWITCHER);
 
 	public:
 		template <typename ProcessorType, typename ...$Args>

@@ -2,7 +2,7 @@
 
 namespace Danburite
 {
-	enum class TranslucencyType : unsigned
+	enum class TranslucencySwitchType : unsigned
 	{
 		OPAQUE_MODE = 0U,
 		TRANSLUCENCY_MODE

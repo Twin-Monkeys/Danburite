@@ -476,7 +476,7 @@
     <ClInclude Include="TextureUtilException.h" />
     <ClInclude Include="TransformableCamera.h" />
     <ClInclude Include="TransformTimeline.h" />
-    <ClInclude Include="TranslucencyType.h" />
+    <ClInclude Include="TranslucencySwitchType.h" />
     <ClInclude Include="UniformBufferFactory.h" />
     <ClInclude Include="UniformSetter.h" />
     <ClInclude Include="BindableObject.h" />

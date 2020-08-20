@@ -1295,7 +1295,7 @@
     <ClInclude Include="SetupTransaction.h">
       <Filter>Library\Engine\Core\RenderTransaction</Filter>
     </ClInclude>
-    <ClInclude Include="TranslucencyType.h">
+    <ClInclude Include="TranslucencySwitchType.h">
       <Filter>Library\Engine\Core\PostProcess\Pipeline</Filter>
     </ClInclude>
   </ItemGroup>

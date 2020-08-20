@@ -12,7 +12,6 @@
 #include "LightPrePassRenderingPipeline.h"
 #include "GammaCorrectionPostProcessor.h"
 #include "BloomPostProcessor.h"
-#include "TranslucencyType.h"
 
 using namespace std;
 using namespace glm;
@@ -216,13 +215,6 @@ HDRTestScene::HDRTestScene()
 	ppPipeline.appendProcessor<GammaCorrectionPostProcessor>(true);
 	ppPipeline.appendProcessor<BloomPostProcessor>();
 	__pHDRPP = &ppPipeline.appendProcessor<HDRPostProcessor>();
-
-	UniformBuffer &ubTranslucencySwitcher = UniformBufferFactory::getInstance().
-		 getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TRANSLUCENCY_SWITCHER);
-
-	ubTranslucencySwitcher.setUniformUint(
-		ShaderIdentifier::Name::TranslucencySwitcher::MODE,
-		GLuint(TranslucencyType::TRANSLUCENCY_MODE));
 }
 
 bool HDRTestScene::__keyFunc(const float deltaTime) noexcept
