@@ -25,11 +25,12 @@ namespace Danburite
 		[[nodiscard]]
 		constexpr const std::shared_ptr<Material> &getMaterial() const noexcept;
 
-		void draw(const GLsizei numInstances = 1) noexcept;
-		void rawDrawcall(const GLsizei numInstances = 1) noexcept;
+		void draw(const GLsizei numInstances) noexcept;
+		void rawDrawcall(const GLsizei numInstances) noexcept;
 
-		template <typename $MaterialQuery>
-		void drawIf(const $MaterialQuery query, const GLsizei numInstances = 1) noexcept;
+		template <typename $MaterialType, typename ...$Args>
+		void drawUnderMaterialCondition(
+			const size_t numInstances, const bool($MaterialType::*memberFunc)($Args ...args) const, $Args ...args) noexcept;
 
 		virtual ~Mesh() = default;
 	};
@@ -39,11 +40,12 @@ namespace Danburite
 		return __pMaterial;
 	}
 
-	template <typename $MaterialQuery>
-	void Mesh::drawIf(const $MaterialQuery query, const GLsizei numInstances) noexcept
+	template <typename $MaterialType, typename ...$Args>
+	void Mesh::drawUnderMaterialCondition(
+		const size_t numInstances, const bool($MaterialType::*memberFunc)($Args ...args) const, $Args ...args) noexcept
 	{
-		Material &material = *__pMaterial;
-		if ((material.*query)())
+		const Material &material = *__pMaterial;
+		if ((material.*memberFunc)(std::forward<$Args>(args)...))
 			draw(numInstances);
 	}
 }

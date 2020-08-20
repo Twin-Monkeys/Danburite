@@ -46,14 +46,15 @@ namespace Danburite
 		void updateJoint(const glm::mat4 &parentJointMatrix = Constant::Common::IDENTITY_MATRIX) noexcept;
 		void updateBones() noexcept;
 
-		void draw(const size_t numInstances = 1ULL) noexcept;
-		void rawDrawcall(const size_t numInstances = 1ULL) noexcept;
+		void draw(const size_t numInstances) noexcept;
+		void rawDrawcall(const size_t numInstances) noexcept;
 
-		template <typename $MaterialQuery>
-		void drawIf(const $MaterialQuery query, const size_t numInstances = 1ULL) noexcept;
+		template <typename $MaterialType, typename ...$Args>
+		void drawUnderMaterialCondition(
+			const size_t numInstances, const bool($MaterialType::*memberFunc)($Args ...args) const, $Args ...args) noexcept;
 
-		template <typename MaterialType, typename FunctionType, typename ...Args>
-		void traverseMaterial(const FunctionType function, Args &&...args);
+		template <typename MaterialType, typename FunctionType, typename ...$Args>
+		void traverseMaterial(const FunctionType function, $Args &&...args);
 
 		virtual ~SceneObjectNode() = default;
 	};
@@ -63,20 +64,21 @@ namespace Danburite
 		return __name;
 	}
 
-	template <typename $MaterialQuery>
-	void SceneObjectNode::drawIf(const $MaterialQuery query, const size_t numInstances) noexcept
+	template <typename $MaterialType, typename ...$Args>
+	void SceneObjectNode::drawUnderMaterialCondition(
+		const size_t numInstances, const bool($MaterialType::*memberFunc)($Args ...args) const, $Args ...args) noexcept
 	{
 		__joint.selfDeploy();
 
 		for (const std::unique_ptr<Mesh> &pMesh : __meshes)
-			pMesh->drawIf(query, numInstances);
+			pMesh->drawUnderMaterialCondition(numInstances, memberFunc, std::forward<$Args>(args)...);
 
 		for (SceneObjectNode *const pChild : __children)
-			pChild->drawIf(query, numInstances);
+			pChild->drawUnderMaterialCondition(numInstances, memberFunc, std::forward<$Args>(args)...);
 	}
 
-	template <typename MaterialType, typename FunctionType, typename ...Args>
-	void SceneObjectNode::traverseMaterial(const FunctionType function, Args &&...args)
+	template <typename MaterialType, typename FunctionType, typename ...$Args>
+	void SceneObjectNode::traverseMaterial(const FunctionType function, $Args &&...args)
 	{
 		using namespace std;
 
@@ -88,10 +90,10 @@ namespace Danburite
 				static_cast<MaterialType *>(pMesh->getMaterial().get());
 
 			if (pMaterial)
-				(pMaterial->*function)(std::forward<Args>(args)...);
+				(pMaterial->*function)(std::forward<$Args>(args)...);
 		}
 
 		for (SceneObjectNode *const pChild : __children)
-			pChild->traverseMaterial<MaterialType>(function, std::forward<Args>(args)...);
+			pChild->traverseMaterial<MaterialType>(function, std::forward<$Args>(args)...);
 	}
 }

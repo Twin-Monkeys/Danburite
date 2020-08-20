@@ -16,8 +16,8 @@ namespace Danburite
 		std::vector<std::unique_ptr<PostProcessor>> __pipeline;
 
 	public:
-		template <typename ProcessorType, typename ...Args>
-		ProcessorType &appendProcessor(Args &&...args) noexcept;
+		template <typename ProcessorType, typename ...$Args>
+		ProcessorType &appendProcessor($Args &&...args) noexcept;
 
 		ObjectGL::FrameBuffer& getFrameBuffer() noexcept;
 		const ObjectGL::FrameBuffer& getFrameBuffer() const noexcept;
@@ -33,8 +33,8 @@ namespace Danburite
 		virtual ~PostProcessorPipeline() = default;
 	};
 
-	template <typename ProcessorType, typename ...Args>
-	ProcessorType &PostProcessorPipeline::appendProcessor(Args &&...args) noexcept
+	template <typename ProcessorType, typename ...$Args>
+	ProcessorType &PostProcessorPipeline::appendProcessor($Args &&...args) noexcept
 	{
 		using namespace std;
 
@@ -45,7 +45,7 @@ namespace Danburite
 		const size_t pingPongIdx = (__pipeline.size() % 2ULL);
 
 		ProcessorType *const pRetVal = static_cast<ProcessorType *>(
-			__pipeline.emplace_back(make_unique<ProcessorType>(forward<Args>(args)...)).get());
+			__pipeline.emplace_back(make_unique<ProcessorType>(forward<$Args>(args)...)).get());
 
 		pRetVal->setAttachmentServer(&__attachmentServerPingPong[pingPongIdx]);
 		return *pRetVal;

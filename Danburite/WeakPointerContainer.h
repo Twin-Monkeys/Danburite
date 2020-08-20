@@ -15,8 +15,8 @@ namespace Danburite
 		void add(const std::weak_ptr<T> &pContent) noexcept;
 		void clear() noexcept;
 
-		template <typename FunctionType, typename ...Args>
-		void safeTraverse(const FunctionType function, Args &&...args);
+		template <typename FunctionType, typename ...$Args>
+		void safeTraverse(const FunctionType function, $Args &&...args);
 	};
 
 	template <typename T>
@@ -32,8 +32,8 @@ namespace Danburite
 	}
 
 	template <typename T>
-	template <typename FunctionType, typename ...Args>
-	void WeakPointerContainer<T>::safeTraverse(const FunctionType function, Args &&...args)
+	template <typename FunctionType, typename ...$Args>
+	void WeakPointerContainer<T>::safeTraverse(const FunctionType function, $Args &&...args)
 	{
 		for (auto it = __container.begin(); it != __container.end();)
 		{
@@ -44,7 +44,7 @@ namespace Danburite
 				continue;
 			}
 
-			(pContent.get()->*function)(std::forward<Args>(args)...);
+			(pContent.get()->*function)(std::forward<$Args>(args)...);
 			it++;
 		}
 	}

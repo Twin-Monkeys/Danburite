@@ -52,11 +52,11 @@ namespace Danburite
 		void draw() noexcept;
 		void rawDrawcall() noexcept;
 
-		template <typename $MaterialQuery>
-		void drawIf(const $MaterialQuery query) noexcept;
+		template <typename $MaterialType, typename ...$Args>
+		void drawUnderMaterialCondition(const bool($MaterialType::*memberFunc)($Args ...args) const, $Args ...args) noexcept;
 
-		template <typename MaterialType, typename FunctionType, typename ...Args>
-		void traverseMaterial(const FunctionType function, Args &&...args);
+		template <typename MaterialType, typename FunctionType, typename ...$Args>
+		void traverseMaterial(const FunctionType function, $Args &&...args);
 	};
 
 	constexpr SceneObjectNode *SceneObject::getRootNode() noexcept
@@ -95,16 +95,16 @@ namespace Danburite
 		return __jointMgr;
 	}
 
-	template <typename $MaterialQuery>
-	void SceneObject::drawIf(const $MaterialQuery query) noexcept
+	template <typename $MaterialType, typename ...$Args>
+	void SceneObject::drawUnderMaterialCondition(const bool($MaterialType::*memberFunc)($Args ...args) const, $Args ...args) noexcept
 	{
 		__pModelMatrixBuffer->selfDeploy();
-		__pRootNode->drawIf(query, getNumInstances());
+		__pRootNode->drawUnderMaterialCondition(getNumInstances(), memberFunc, std::forward<$Args>(args)...);
 	}
 
-	template <typename MaterialType, typename FunctionType, typename ...Args>
-	void SceneObject::traverseMaterial(const FunctionType function, Args &&...args)
+	template <typename MaterialType, typename FunctionType, typename ...$Args>
+	void SceneObject::traverseMaterial(const FunctionType function, $Args &&...args)
 	{
-		__pRootNode->traverseMaterial<MaterialType>(function, std::forward<Args>(args)...);
+		__pRootNode->traverseMaterial<MaterialType>(function, std::forward<$Args>(args)...);
 	}
 }

@@ -22,8 +22,8 @@ namespace Danburite
 
 		void selfDeploy() noexcept;
 
-		template <typename $FunctionType, typename ...Args>
-		void process(const $FunctionType function, Args &&...args);
+		template <typename $FunctionType, typename ...$Args>
+		void process(const $FunctionType function, $Args &&...args);
 	};
 
 	template <typename $LightType>
@@ -43,12 +43,12 @@ namespace Danburite
 		return static_cast<$LightType &>(*__lights.emplace_back(make_unique<$LightType>(idx)));
 	}
 
-	template <typename $FunctionType, typename ...Args>
-	void LightManager::process(const $FunctionType function, Args &&...args)
+	template <typename $FunctionType, typename ...$Args>
+	void LightManager::process(const $FunctionType function, $Args &&...args)
 	{
 		using namespace std;
 
 		for (const unique_ptr<Light> &pLight : __lights)
-			(pLight.get()->*function)(std::forward<Args>(args)...);
+			(pLight.get()->*function)(std::forward<$Args>(args)...);
 	}
 }
