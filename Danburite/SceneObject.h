@@ -96,14 +96,17 @@ namespace Danburite
 	}
 
 	template <typename $MaterialType, typename ...$Args>
-	void SceneObject::drawUnderMaterialCondition(bool($MaterialType::*const memberFunc)($Args ...args) const, $Args ...args) noexcept
+	void SceneObject::drawUnderMaterialCondition(
+		bool($MaterialType::*const memberFunc)($Args ...args) const, $Args ...args) noexcept
 	{
 		__pModelMatrixBuffer->selfDeploy();
-		__pRootNode->drawUnderMaterialCondition(getNumInstances(), memberFunc, std::forward<$Args>(args)...);
+		__pRootNode->drawUnderMaterialCondition(
+			getNumInstances(), memberFunc, std::forward<$Args>(args)...);
 	}
 
 	template <typename $MaterialType, typename $ReturnType, typename ...$Args>
-	void SceneObject::traverseMaterial($ReturnType($MaterialType::*const memberFunc)($Args ...args), $Args ...args)
+	void SceneObject::traverseMaterial(
+		$ReturnType($MaterialType::*const memberFunc)($Args ...args), $Args ...args)
 	{
 		__pRootNode->traverseMaterial(memberFunc, std::forward<$Args>(args)...);
 	}

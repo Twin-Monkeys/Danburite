@@ -46,6 +46,6 @@ namespace Danburite
 	{
 		const Material &material = *__pMaterial;
 		if ((material.*memberFunc)(std::forward<$Args>(args)...))
-			draw(numInstances);
+			draw(GLsizei(numInstances));
 	}
 }
