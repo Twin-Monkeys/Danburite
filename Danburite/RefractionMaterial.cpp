@@ -1,6 +1,4 @@
 #include "RefractionMaterial.h"
-#include "ShaderIdentifier.h"
-#include "ProgramFactory.h"
 
 using namespace std;
 using namespace ObjectGL;
@@ -8,14 +6,13 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	RefractionMaterial::RefractionMaterial(const VertexAttributeFlag vertexFlag) noexcept :
-		Material(MaterialType::REFRACTION, vertexFlag),
-		_refractionProgram(ProgramFactory::getInstance().getProgram(ProgramType::REFRACTION))
+		Material(MaterialType::REFRACTION, vertexFlag)
 	{}
 
 	void RefractionMaterial::_onRender(
 		UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
-		_refractionProgram.bind();
+		__refractionProgram.bind();
 		_onRawDrawcall(materialSetter, vertexArray, numInstances);
 	}
 

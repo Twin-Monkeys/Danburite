@@ -1,7 +1,9 @@
 #pragma once
 
 #include "PostProcessor.h"
-#include "UniformBuffer.h"
+#include "ProgramFactory.h"
+#include "UniformBufferFactory.h"
+#include "ShaderIdentifier.h"
 #include "AttachableTextureRectangle.h"
 #include "RenderBuffer.h"
 #include "Constant.h"
@@ -13,30 +15,39 @@ namespace Danburite
 	class BloomPostProcessor : public PostProcessor
 	{
 	private:
+		ObjectGL::UniformBuffer &__bloomSetter =
+			UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::BLOOM);
+
+		ObjectGL::UniformBuffer &__texContainerSetter =
+			UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER);
+
+		ObjectGL::Program &__extractionProgram =
+			ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_COLOR_EXTRACTION);
+
+		ObjectGL::Program &__blurHorizProgram =
+			ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_BLUR_HORIZ);
+
+		ObjectGL::Program &__blurVertProgram =
+			ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_BLUR_VERT);
+
+		ObjectGL::Program &__compositionProgram =
+			ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_COMPOSITION);
+
+		FullscreenDrawer &__fullscreenDrawer = FullscreenDrawer::getInstance();
+
 		const bool __attachDepthBuffer;
 
-		ObjectGL::UniformBuffer &__bloomSetter;
+		float __brightnessThreshold = Constant::Bloom::DEFAULT_BRIGHTNESS_THRESHOLD;
+		float __effectStrength = Constant::Bloom::DEFAULT_EFFECT_STRENGTH;
 
-		float __brightnessThreshold =
-			Constant::Bloom::DEFAULT_BRIGHTNESS_THRESHOLD;
-
-		float __effectStrength =
-			Constant::Bloom::DEFAULT_EFFECT_STRENGTH;
-
-		ObjectGL::Program &__extractionProgram;
-		ObjectGL::Program &__blurHorizProgram;
-		ObjectGL::Program &__blurVertProgram;
-		ObjectGL::Program &__compositionProgram;
-
-		std::unique_ptr<ObjectGL::FrameBuffer> __pBloomFrameBuffer1;
-		std::unique_ptr<ObjectGL::FrameBuffer> __pBloomFrameBuffer2;
+		std::unique_ptr<ObjectGL::FrameBuffer> __pBloomFrameBuffer1 = std::make_unique<ObjectGL::FrameBuffer>();
+		std::unique_ptr<ObjectGL::FrameBuffer> __pBloomFrameBuffer2 = std::make_unique<ObjectGL::FrameBuffer>();
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pOriginalColorAttachment;
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pBloomColorAttachment1;
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pBloomColorAttachment2;
 		std::shared_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
-
-		ObjectGL::UniformBuffer &__texContainerSetter;
-		FullscreenDrawer &__fullscreenDrawer;
 
 		SetupTransaction __basicSetup;
 		SetupTransaction __colorExtractionSetup;

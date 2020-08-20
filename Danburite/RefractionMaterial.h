@@ -4,18 +4,21 @@
 #include "Program.h"
 #include "TextureCubemap.h"
 #include "Texture2D.h"
+#include "ShaderIdentifier.h"
+#include "ProgramFactory.h"
 
 namespace Danburite
 {
 	class RefractionMaterial : public Material
 	{
 	private:
+		ObjectGL::Program &__refractionProgram =
+			ProgramFactory::getInstance().getProgram(ProgramType::REFRACTION);
+
 		std::shared_ptr<ObjectGL::TextureCubemap> __pEnvTex;
 		std::shared_ptr<ObjectGL::Texture2D> __pNormalTex;
 
 	protected:
-		ObjectGL::Program &_refractionProgram;
-
 		virtual void _onRender(
 			ObjectGL::UniformSetter &materialSetter,
 			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;

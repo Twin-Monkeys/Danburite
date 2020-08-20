@@ -1,8 +1,4 @@
 #include "Skybox.h"
-#include "VertexArrayFactory.h"
-#include "ProgramFactory.h"
-#include "UniformBufferFactory.h"
-#include "ShaderIdentifier.h"
 #include "TextureUtil.h"
 
 using namespace std;
@@ -10,10 +6,7 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	Skybox::Skybox() :
-		__skyboxProgram(ProgramFactory::getInstance().getProgram(ProgramType::SKYBOX)),
-		__skyboxSetter(UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::SKYBOX)),
-		__pCubeVA(VertexArrayFactory::createCube(VertexAttributeFlag::POS))
+	Skybox::Skybox()
 	{
 		__setupTransaction.setSetupFunction([this] (ContextStateManager &stateMgr)
 		{

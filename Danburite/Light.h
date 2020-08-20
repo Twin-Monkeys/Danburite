@@ -9,6 +9,8 @@
 #include "DepthBakingType.h"
 #include "UniformBuffer.h"
 #include "SceneObject.h"
+#include "UniformBufferFactory.h"
+#include "ShaderIdentifier.h"
 
 namespace Danburite
 {
@@ -23,7 +25,10 @@ namespace Danburite
 		bool __shadowEnabled = false;
 
 		LightUniformSetter __lightSetter;
-		ObjectGL::UniformBuffer &__lightPrePassSetter;
+
+		ObjectGL::UniformBuffer &__lightPrePassSetter =
+			UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::LIGHT_PREPASS);
 
 		void __release() noexcept;
 		

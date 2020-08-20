@@ -4,17 +4,21 @@
 #include "Program.h"
 #include "TextureCubemap.h"
 #include "Texture2D.h"
+#include "ProgramFactory.h"
+#include "ShaderIdentifier.h"
 
 namespace Danburite
 {
 	class ReflectionMaterial : public Material
 	{
 	private:
+		ObjectGL::Program &__reflectionProgram =
+			ProgramFactory::getInstance().getProgram(ProgramType::REFLECTION);
+
 		std::shared_ptr<ObjectGL::TextureCubemap> __pEnvTex;
 		std::shared_ptr<ObjectGL::Texture2D> __pNormalTex;
 
 	protected:
-		ObjectGL::Program &_reflectionProgram;
 
 		virtual void _onRender(
 			ObjectGL::UniformSetter &materialSetter,

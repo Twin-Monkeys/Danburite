@@ -3,6 +3,8 @@
 #include "RenderingPipeline.h"
 #include "FullscreenDrawer.h"
 #include "SetupTransaction.h"
+#include "UniformBufferFactory.h"
+#include "ProgramFactory.h"
 
 namespace Danburite
 {
@@ -10,18 +12,28 @@ namespace Danburite
 	{
 	private:
 		AttachmentServer __attachmentServer;
-		ObjectGL::UniformBuffer &__texContainerSetter;
-		ObjectGL::UniformBuffer &__lightPrePassSetter;
 
-		FullscreenDrawer &__fullscreenDrawer;
+		ObjectGL::UniformBuffer &__texContainerSetter =
+			UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER);
 
-		ObjectGL::Program &__geometryProgram;
+		ObjectGL::UniformBuffer &__lightPrePassSetter =
+			UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::LIGHT_PREPASS);
+
+		ObjectGL::Program &__geometryProgram =
+			ProgramFactory::getInstance().getProgram(ProgramType::LIGHT_PREPASS_GEOMETRY_EXTRACTION);
+
+		ObjectGL::Program &__lightingProgram =
+			ProgramFactory::getInstance().getProgram(ProgramType::LIGHT_PREPASS_LIGHTING);
+
+		FullscreenDrawer &__fullscreenDrawer = FullscreenDrawer::getInstance();
+
 		std::unique_ptr<ObjectGL::FrameBuffer> __pNormalShininessFB = std::make_unique<ObjectGL::FrameBuffer>();
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pPosAttachment;
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pNormalShininessAttachment;
 		std::shared_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
 
-		ObjectGL::Program &__lightingProgram;
 		std::unique_ptr<ObjectGL::FrameBuffer> __pLightingFB = std::make_unique<ObjectGL::FrameBuffer>();
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pLightAmbientAttachment;
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pLightDiffuseAttachment;

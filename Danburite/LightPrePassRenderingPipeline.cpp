@@ -1,6 +1,4 @@
 #include "LightPrePassRenderingPipeline.h"
-#include "UniformBufferFactory.h"
-#include "ProgramFactory.h"
 
 using namespace std;
 using namespace glm;
@@ -10,12 +8,7 @@ namespace Danburite
 {
 	LightPrePassRenderingPipeline::LightPrePassRenderingPipeline(
 		LightManager& lightManager, PerspectiveCamera& camera, BatchProcessor<SceneObject>& drawer, Skybox& skybox) :
-		RenderingPipeline(RenderingPipelineType::LIGHT_PREPASS, lightManager, camera, drawer, skybox),
-		__texContainerSetter(UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER)),
-		__lightPrePassSetter(UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::LIGHT_PREPASS)),
-		__geometryProgram(ProgramFactory::getInstance().getProgram(ProgramType::LIGHT_PREPASS_GEOMETRY_EXTRACTION)),
-		__lightingProgram(ProgramFactory::getInstance().getProgram(ProgramType::LIGHT_PREPASS_LIGHTING)),
-		__fullscreenDrawer(FullscreenDrawer::getInstance())
+		RenderingPipeline(RenderingPipelineType::LIGHT_PREPASS, lightManager, camera, drawer, skybox)
 	{
 		__pNormalShininessFB->setOutputColorBuffers(
 			{ ColorBufferType::COLOR_ATTACHMENT0, ColorBufferType::COLOR_ATTACHMENT1 });

@@ -1,5 +1,4 @@
 #include "ConvolutionalPostProcessor.h"
-#include "UniformBufferFactory.h"
 #include "ProgramFactory.h"
 
 using namespace std;
@@ -10,10 +9,7 @@ namespace Danburite
 {
 	ConvolutionalPostProcessor::ConvolutionalPostProcessor(const bool attachDepthBuffer) :
 		ForwardPostProcessor(ProgramFactory::getInstance().
-			getProgram(ProgramType::POST_PROCESS_CONVOLUTIONAL), attachDepthBuffer),
-
-		__convSetter(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::CONVOLUTION))
+			getProgram(ProgramType::POST_PROCESS_CONVOLUTIONAL), attachDepthBuffer)
 	{
 		__setupTransaction.setSetupFunction([this](ContextStateManager &stateMgr)
 		{

@@ -1,7 +1,4 @@
 #include "DepthBaker2D.h"
-#include "ProgramFactory.h"
-#include "ShaderIdentifier.h"
-#include "UniformBufferFactory.h"
 
 using namespace std;
 using namespace glm;
@@ -9,15 +6,6 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	DepthBaker2D::DepthBaker2D() :
-		__depthBakingProgram(
-			ProgramFactory::getInstance().getProgram(ProgramType::DEPTH_BAKING_2D)),
-
-		__depthBaking2DSetter(
-			UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::DEPTH_BAKING_2D))
-	{}
-
 	void DepthBaker2D::_releaseDepthMap() noexcept
 	{
 		__pDepthMap = nullptr;

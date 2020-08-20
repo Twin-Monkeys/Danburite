@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ForwardPostProcessor.h"
+#include "UniformBufferFactory.h"
 #include "ShaderIdentifier.h"
 #include <array>
 
@@ -11,7 +12,10 @@ namespace Danburite
 	class ConvolutionalPostProcessor : public ForwardPostProcessor
 	{
 	private:
-		ObjectGL::UniformSetter &__convSetter;
+		ObjectGL::UniformSetter &__convSetter =
+			UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::CONVOLUTION);
+
 		GLuint __kernelSize = 3U;
 
 		std::array<GLfloat, ConvValue::MAX_KERNEL_SIZE * ConvValue::MAX_KERNEL_SIZE> __kernel =

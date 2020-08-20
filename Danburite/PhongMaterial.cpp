@@ -1,27 +1,20 @@
 #include "PhongMaterial.h"
-#include "ProgramFactory.h"
-#include "ShaderIdentifier.h"
 
 using namespace std;
 using namespace ObjectGL;
 
 namespace Danburite
 {
-	PhongMaterial::PhongMaterial(const MaterialType materialType, const VertexAttributeFlag vertexFlag) noexcept :
-		Material(materialType, vertexFlag),
-		_phongProgram(ProgramFactory::getInstance().getProgram(ProgramType::PHONG))
+	PhongMaterial::PhongMaterial(const VertexAttributeFlag vertexFlag) noexcept :
+		Material(MaterialType::PHONG, vertexFlag)
 	{
 		enableLighting(true);
 	}
 
-	PhongMaterial::PhongMaterial(const VertexAttributeFlag vertexFlag) noexcept :
-		PhongMaterial(MaterialType::PHONG, vertexFlag)
-	{}
-
 	void PhongMaterial::_onRender(
 		UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
-		_phongProgram.bind();
+		__phongProgram.bind();
 		_onRawDrawcall(materialSetter, vertexArray, numInstances);
 	}
 

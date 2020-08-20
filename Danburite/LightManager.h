@@ -3,18 +3,21 @@
 #include "Light.h"
 #include "LightException.h"
 #include "ShaderIdentifier.h"
+#include "UniformBufferFactory.h"
+#include "ShaderIdentifier.h"
 
 namespace Danburite
 {
 	class LightManager
 	{
 	private:
-		ObjectGL::UniformBuffer &__lightSetter;
+		ObjectGL::UniformBuffer &__lightSetter =
+			UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::LIGHT);
+
 		std::vector<std::unique_ptr<Light>> __lights;
 
 	public:
-		LightManager();
-
 		template <typename $LightType>
 		$LightType &createLight();
 

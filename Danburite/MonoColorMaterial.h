@@ -1,18 +1,20 @@
 #pragma once
 
 #include "Material.h"
-#include "Program.h"
+#include "ProgramFactory.h"
+#include "ShaderIdentifier.h"
 
 namespace Danburite
 {
 	class MonoColorMaterial : public Material
 	{
 	private:
+		ObjectGL::Program &__monoColorProgram =
+			ProgramFactory::getInstance().getProgram(ProgramType::MONO_COLOR);
+
 		glm::vec4 __color { 1.f, 1.f, 1.f, 1.f };
 
 	protected:
-		ObjectGL::Program &_monoColorProgram;
-
 		virtual void _onRender(
 			ObjectGL::UniformSetter &materialSetter,
 			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;

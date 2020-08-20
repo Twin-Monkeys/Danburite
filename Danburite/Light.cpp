@@ -1,6 +1,4 @@
 #include "Light.h"
-#include "UniformBufferFactory.h"
-#include "ShaderIdentifier.h"
 
 using namespace std;
 using namespace glm;
@@ -14,10 +12,7 @@ namespace Danburite
 		__TYPE(GLuint(type)), __VOLUME_TYPE(GLuint(volumeType)), __DEPTH_BAKING_TYPE(GLuint(depthBakingType)),
 
 		__lightSetter(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::LIGHT), index),
-
-		__lightPrePassSetter(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::LIGHT_PREPASS))
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::LIGHT), index)
 	{
 		setIndex(index);
 	}

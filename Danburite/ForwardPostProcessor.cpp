@@ -1,6 +1,5 @@
 #include "ForwardPostProcessor.h"
 #include "ProgramFactory.h"
-#include "UniformBufferFactory.h"
 #include "ShaderIdentifier.h"
 
 using namespace std;
@@ -9,11 +8,7 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	ForwardPostProcessor::ForwardPostProcessor(Program &program, const bool attachDepthBuffer) :
-		__program(program), __attachDepthBuffer(attachDepthBuffer),
-		__texContainerSetter(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER)),
-
-		__fullscreenDrawer(FullscreenDrawer::getInstance())
+		__program(program), __attachDepthBuffer(attachDepthBuffer)
 	{
 		__setupTransaction.setSetupFunction([this] (ContextStateManager &stateMgr)
 		{

@@ -6,12 +6,8 @@ namespace Danburite
 	RenderingPipeline::RenderingPipeline(
 		const RenderingPipelineType pipelineType, LightManager &lightManager, PerspectiveCamera &camera,
 		BatchProcessor<SceneObject> &drawer, Skybox &skybox) noexcept :
-		__TYPE(pipelineType), __lightManager(lightManager), __skybox(skybox),
-
-		__pipelineSetter(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::RENDERING_PIPELINE)),
-
-		__camera(camera), __drawer(drawer)
+		__TYPE(pipelineType), __lightManager(lightManager),
+		__skybox(skybox), __camera(camera), __drawer(drawer)
 	{}
 
 	void RenderingPipeline::_onSetScreenSize(const GLsizei width, const GLsizei height) noexcept

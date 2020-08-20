@@ -6,6 +6,7 @@
 #include "RenderBuffer.h"
 #include "FullscreenDrawer.h"
 #include "SetupTransaction.h"
+#include "UniformBufferFactory.h"
 
 namespace Danburite
 {
@@ -18,9 +19,11 @@ namespace Danburite
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pColorAttachment;
 		std::shared_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
 
-		ObjectGL::UniformBuffer &__texContainerSetter;
-		FullscreenDrawer &__fullscreenDrawer;
+		ObjectGL::UniformBuffer &__texContainerSetter =
+			UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER);
 
+		FullscreenDrawer &__fullscreenDrawer = FullscreenDrawer::getInstance();
 		SetupTransaction __setupTransaction;
 
 	protected:

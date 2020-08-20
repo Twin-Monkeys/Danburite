@@ -3,7 +3,11 @@
 #include "VertexArray.h"
 #include "UniformBuffer.h"
 #include "TextureCubemap.h"
+#include "VertexArrayFactory.h"
+#include "ProgramFactory.h"
+#include "UniformBufferFactory.h"
 #include "SetupTransaction.h"
+#include "ShaderIdentifier.h"
 
 namespace Danburite
 {
@@ -12,16 +16,20 @@ namespace Danburite
 	private:
 		bool __enabled = false;
 
-		ObjectGL::UniformBuffer &__skyboxSetter;
-		ObjectGL::Program &__skyboxProgram;
+		ObjectGL::UniformBuffer &__skyboxSetter =
+			UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::SKYBOX);
+
+		ObjectGL::Program &__skyboxProgram =
+			ProgramFactory::getInstance().getProgram(ProgramType::SKYBOX);
+
+		std::shared_ptr<ObjectGL::VertexArray> __pCubeVA =
+			VertexArrayFactory::createCube(VertexAttributeFlag::POS);
 
 		std::shared_ptr<ObjectGL::TextureCubemap> __pAlbedoTex;
 		float __luminance = 1.f;
 
 		SetupTransaction __setupTransaction;
-
-		std::shared_ptr<ObjectGL::VertexArray> __pCubeVA;
-
 
 	public:
 		Skybox();

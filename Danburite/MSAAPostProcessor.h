@@ -7,6 +7,8 @@
 #include "ShaderIdentifier.h"
 #include "SetupTransaction.h"
 #include "FullscreenDrawer.h"
+#include "UniformBufferFactory.h"
+#include "ProgramFactory.h"
 
 namespace Danburite
 {
@@ -17,12 +19,17 @@ namespace Danburite
 		const bool __FIXED_SAMPLE_LOCATIONS;
 		const bool __attachDepthBuffer;
 
-		ObjectGL::Program &__program;
+		ObjectGL::Program &__program =
+			ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_MSAA);
+
 		std::shared_ptr<ObjectGL::TextureMultisample> __pColorAttachment;
 		std::shared_ptr<ObjectGL::RenderBufferMultisample> __pDepthStencilAttachment;
 
-		ObjectGL::UniformBuffer &__texContainerSetter;
-		FullscreenDrawer &__fullscreenDrawer;
+		ObjectGL::UniformBuffer &__texContainerSetter =
+			UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER);
+
+		FullscreenDrawer &__fullscreenDrawer = FullscreenDrawer::getInstance();
 
 		SetupTransaction __setupTransaction;
 

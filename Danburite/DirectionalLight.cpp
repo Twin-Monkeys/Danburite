@@ -6,8 +6,7 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	DirectionalLight::DirectionalLight(const GLuint index) :
-		OrthoLight(LightType::DIRECTIONAL, index),
-		__fullscreenDrawer(FullscreenDrawer::getInstance())
+		OrthoLight(LightType::DIRECTIONAL, index)
 	{}
 
 	void DirectionalLight::_onDeploy(LightUniformSetter &lightSetter) noexcept

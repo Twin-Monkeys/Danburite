@@ -1,7 +1,4 @@
 #include "BloomPostProcessor.h"
-#include "ProgramFactory.h"
-#include "UniformBufferFactory.h"
-#include "ShaderIdentifier.h"
 
 using namespace std;
 using namespace glm;
@@ -10,18 +7,7 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	BloomPostProcessor::BloomPostProcessor(const bool attachDepthBuffer) :
-		__attachDepthBuffer(attachDepthBuffer),
-		__bloomSetter(UniformBufferFactory::getInstance().getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::BLOOM)),
-		__pBloomFrameBuffer1(make_unique<FrameBuffer>()),
-		__pBloomFrameBuffer2(make_unique<FrameBuffer>()),
-		__extractionProgram(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_COLOR_EXTRACTION)),
-		__blurHorizProgram(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_BLUR_HORIZ)),
-		__blurVertProgram(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_BLUR_VERT)),
-		__compositionProgram(ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_COMPOSITION)),
-		__texContainerSetter(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER)),
-
-		__fullscreenDrawer(FullscreenDrawer::getInstance())
+		__attachDepthBuffer(attachDepthBuffer)
 	{
 		__basicSetup.setSetupFunction([this](ContextStateManager& stateMgr)
 		{

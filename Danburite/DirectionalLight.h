@@ -9,7 +9,7 @@ namespace Danburite
 	class DirectionalLight : public OrthoLight, public LightBaseComponent
 	{
 	private:
-		FullscreenDrawer &__fullscreenDrawer;
+		FullscreenDrawer &__fullscreenDrawer = FullscreenDrawer::getInstance();
 
 	protected:
 		virtual void _onDeploy(LightUniformSetter &lightSetter) noexcept override;

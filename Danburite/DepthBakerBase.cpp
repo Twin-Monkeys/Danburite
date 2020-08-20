@@ -6,8 +6,7 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	DepthBakerBase::DepthBakerBase() :
-		__pFrameBuffer(make_unique<FrameBuffer>())
+	DepthBakerBase::DepthBakerBase()
 	{
 		__pFrameBuffer->setInputColorBuffer(ColorBufferType::NONE);
 		__pFrameBuffer->setOutputColorBuffer(ColorBufferType::NONE);

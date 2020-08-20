@@ -1,7 +1,4 @@
 #include "DepthBakerCubemap.h"
-#include "ProgramFactory.h"
-#include "ShaderIdentifier.h"
-#include "UniformBufferFactory.h"
 
 using namespace std;
 using namespace glm;
@@ -9,15 +6,6 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	DepthBakerCubemap::DepthBakerCubemap() :
-		__depthBakingProgram(
-			ProgramFactory::getInstance().getProgram(ProgramType::DEPTH_BAKING_CUBEMAP)),
-
-		__depthBakingCubemapSetter(
-			UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::DEPTH_BAKING_CUBEMAP))
-	{}
-
 	void DepthBakerCubemap::_releaseDepthMap() noexcept
 	{
 		__pDepthMap = nullptr;

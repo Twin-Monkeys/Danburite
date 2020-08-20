@@ -1,6 +1,4 @@
 #include "MonoColorMaterial.h"
-#include "ProgramFactory.h"
-#include "ShaderIdentifier.h"
 
 using namespace std;
 using namespace ObjectGL;
@@ -8,8 +6,7 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	MonoColorMaterial::MonoColorMaterial(const VertexAttributeFlag vertexFlag) noexcept :
-		Material(MaterialType::MONO_COLOR, vertexFlag),
-		_monoColorProgram(ProgramFactory::getInstance().getProgram(ProgramType::MONO_COLOR))
+		Material(MaterialType::MONO_COLOR, vertexFlag)
 	{
 		enableLighting(false);
 	}
@@ -17,7 +14,7 @@ namespace Danburite
 	void MonoColorMaterial::_onRender(
 		UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
-		_monoColorProgram.bind();
+		__monoColorProgram.bind();
 		_onRawDrawcall(materialSetter, vertexArray, numInstances);
 	}
 

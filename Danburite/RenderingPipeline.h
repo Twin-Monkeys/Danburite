@@ -16,7 +16,10 @@ namespace Danburite
 		glm::ivec2 __screenSize { 0, 0 };
 
 		const RenderingPipelineType __TYPE;
-		ObjectGL::UniformBuffer &__pipelineSetter;
+
+		ObjectGL::UniformBuffer &__pipelineSetter =
+			UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::RENDERING_PIPELINE);
 
 		PostProcessorPipeline __ppPipeline;
 

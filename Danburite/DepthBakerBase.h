@@ -9,7 +9,8 @@ namespace Danburite
 	class DepthBakerBase abstract
 	{
 	private:
-		std::unique_ptr<ObjectGL::FrameBuffer> __pFrameBuffer;
+		std::unique_ptr<ObjectGL::FrameBuffer> __pFrameBuffer =
+			std::make_unique<ObjectGL::FrameBuffer>();
 
 		bool __enabled = false;
 		bool __allocated = false;
@@ -20,7 +21,7 @@ namespace Danburite
 			Constant::DepthBaking::DEFAULT_MAP_HEIGHT
 		};
 
-		GLint __viewportArgs[4];
+		GLint __viewportArgs[4] { 0 };
 
 	protected:
 		virtual void _releaseDepthMap() noexcept = 0;

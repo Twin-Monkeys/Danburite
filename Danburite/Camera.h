@@ -3,6 +3,8 @@
 #include "Updatable.h"
 #include <glm/glm.hpp>
 #include "UniformBuffer.h"
+#include "ShaderIdentifier.h"
+#include "UniformBufferFactory.h"
 
 namespace Danburite
 {
@@ -12,7 +14,9 @@ namespace Danburite
 		glm::mat4 __viewMat { 1.f };
 		glm::mat4 __projMat { 1.f };
 
-		ObjectGL::UniformBuffer &__cameraSetter;
+		ObjectGL::UniformBuffer &__cameraSetter =
+			UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::CAMERA);
 
 	protected:
 		virtual void _onDeploy(ObjectGL::UniformSetter &cameraSetter) noexcept = 0;
@@ -20,8 +24,6 @@ namespace Danburite
 		virtual void _onUpdateProjMatrix(glm::mat4 &projMatrix) noexcept = 0;
 
 	public:
-		Camera();
-
 		constexpr const glm::mat4 &getViewMatrix() const noexcept;
 		constexpr const glm::mat4 &getProjectionMatrix() const noexcept;
 

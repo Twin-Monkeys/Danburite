@@ -2,13 +2,17 @@
 
 #include "ForwardPostProcessor.h"
 #include "Constant.h"
+#include "UniformBufferFactory.h"
 
 namespace Danburite
 {
 	class HDRPostProcessor : public ForwardPostProcessor
 	{
 	private:
-		ObjectGL::UniformBuffer &__hdrSetter;
+		ObjectGL::UniformBuffer &__hdrSetter =
+			UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::HDR);
+
 		float __exposure = Constant::HDR::DEFAULT_EXPOSURE;
 
 		SetupTransaction __setupTransaction;

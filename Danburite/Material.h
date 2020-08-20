@@ -7,6 +7,8 @@
 #include "VertexAttributeFlag.h"
 #include "Constant.h"
 #include "UniformSetter.h"
+#include "ShaderIdentifier.h"
+#include "UniformBufferFactory.h"
 
 namespace Danburite
 {
@@ -17,7 +19,9 @@ namespace Danburite
 		const VertexAttributeFlag __VERTEX_FLAG;
 		MaterialOptionFlag __optionFlag = MaterialOptionFlag::NONE;
 
-		ObjectGL::UniformSetter &__materialSetter;
+		ObjectGL::UniformSetter &__materialSetter =
+			UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::MATERIAL);
 
 		constexpr void __setOption(const MaterialOptionFlag flags, const bool enabled) noexcept;
 		constexpr bool __isOptionEnabled(const MaterialOptionFlag flags) const noexcept;
@@ -59,8 +63,6 @@ namespace Danburite
 
 		void render(ObjectGL::VertexArray &vertexArray, const GLsizei numInstances = 1) noexcept;
 		void rawDrawcall(ObjectGL::VertexArray &vertexArray, const GLsizei numInstances = 1) noexcept;
-
-		static void setGamma(const float gamma);
 
 		virtual ~Material() = default;
 	};

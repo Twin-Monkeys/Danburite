@@ -3,12 +3,17 @@
 #include "Material.h"
 #include "Program.h"
 #include "Texture2D.h"
+#include "ProgramFactory.h"
+#include "ShaderIdentifier.h"
 
 namespace Danburite
 {
 	class PhongMaterial : public Material
 	{
 	private:
+		ObjectGL::Program &__phongProgram =
+			ProgramFactory::getInstance().getProgram(ProgramType::PHONG);
+
 		std::shared_ptr<ObjectGL::Texture2D> __pAmbientTex;
 		std::shared_ptr<ObjectGL::Texture2D> __pDiffuseTex;
 		std::shared_ptr<ObjectGL::Texture2D> __pSpecularTex;
@@ -22,10 +27,6 @@ namespace Danburite
 		float __shininess = Constant::Material::Phong::DEFAULT_SHININESS;
 
 	protected:
-		ObjectGL::Program &_phongProgram;
-
-		PhongMaterial(const MaterialType materialType, const VertexAttributeFlag vertexFlag) noexcept;
-
 		virtual void _onRender(
 			ObjectGL::UniformSetter &materialSetter,
 			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;

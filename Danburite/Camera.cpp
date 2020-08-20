@@ -1,6 +1,4 @@
 #include "Camera.h"
-#include "ShaderIdentifier.h"
-#include "UniformBufferFactory.h"
 
 using namespace std;
 using namespace glm;
@@ -8,11 +6,6 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
-	Camera::Camera() :
-		__cameraSetter(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::CAMERA))
-	{}
-
 	void Camera::update(const float deltaTime) noexcept
 	{
 		_onUpdateViewMatrix(__viewMat);
