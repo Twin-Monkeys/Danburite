@@ -74,19 +74,19 @@ HDRTestScene::HDRTestScene()
 	Transform &cargoBayTransform = __pCargoBayObj->getTransform();
 	cargoBayTransform.setScale(10.f);
 	cargoBayTransform.setPosition(0.f, 3.5f, 0.f);
-	__pCargoBayObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
+	__pCargoBayObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
 
 	__pPulseCoreObj = AssetImporter::import("res/asset/arc_pulse_core/scene.gltf");
 	Transform& pulseCoreTransform = __pPulseCoreObj->getTransform();
 	pulseCoreTransform.setScale(6.f);
 	pulseCoreTransform.setPosition(18.f, 0.f, 0.f);
-	__pPulseCoreObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
+	__pPulseCoreObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
 
 	__pDoorObj = AssetImporter::import("res/asset/scifi_door/scene.gltf");
 	Transform &doorTransform = __pDoorObj->getTransform();
 	doorTransform.setScale(.1f);
 	doorTransform.setPosition(0.f, 0.f, -35.f);
-	__pDoorObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
+	__pDoorObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
 
 	__pDoorObj->getAnimationManager().activateAnimation(1);
 	__pDoorObj->getAnimationManager().getActiveAnimation().setPlaySpeed(.6f);
@@ -305,7 +305,7 @@ bool HDRTestScene::update(const float deltaTime) noexcept
 	}
 
 	__emissiveStrength += (deltaTime * .001f);
-	__pCargoBayObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, fabsf(cosf(__emissiveStrength)));
+	__pCargoBayObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, fabsf(cosf(__emissiveStrength)));
 
 	__updater.process(&Updatable::update, deltaTime);
 	__updated = true;

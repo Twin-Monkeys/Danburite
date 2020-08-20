@@ -51,10 +51,10 @@ namespace Danburite
 
 		template <typename $MaterialType, typename ...$Args>
 		void drawUnderMaterialCondition(
-			const size_t numInstances, const bool($MaterialType::*memberFunc)($Args ...args) const, $Args ...args) noexcept;
+			const size_t numInstances, bool($MaterialType::*const memberFunc)($Args ...args) const, $Args ...args) noexcept;
 
-		template <typename MaterialType, typename FunctionType, typename ...$Args>
-		void traverseMaterial(const FunctionType function, $Args &&...args);
+		template <typename $MaterialType, typename $ReturnType, typename ...$Args>
+		void traverseMaterial($ReturnType($MaterialType::*const memberFunc)($Args ...args), $Args ...args);
 
 		virtual ~SceneObjectNode() = default;
 	};
@@ -66,7 +66,7 @@ namespace Danburite
 
 	template <typename $MaterialType, typename ...$Args>
 	void SceneObjectNode::drawUnderMaterialCondition(
-		const size_t numInstances, const bool($MaterialType::*memberFunc)($Args ...args) const, $Args ...args) noexcept
+		const size_t numInstances, bool($MaterialType::*const memberFunc)($Args ...args) const, $Args ...args) noexcept
 	{
 		__joint.selfDeploy();
 
@@ -77,23 +77,23 @@ namespace Danburite
 			pChild->drawUnderMaterialCondition(numInstances, memberFunc, std::forward<$Args>(args)...);
 	}
 
-	template <typename MaterialType, typename FunctionType, typename ...$Args>
-	void SceneObjectNode::traverseMaterial(const FunctionType function, $Args &&...args)
+	template <typename $MaterialType, typename $ReturnType, typename ...$Args>
+	void SceneObjectNode::traverseMaterial($ReturnType($MaterialType::*const memberFunc)($Args ...args), $Args ...args)
 	{
 		using namespace std;
 
-		static_assert(is_base_of_v<Material, MaterialType>, "MaterialType must be derived from Material.");
+		static_assert(is_base_of_v<Material, $MaterialType>, "MaterialType must be derived from Material.");
 
 		for (const unique_ptr<Mesh> &pMesh : __meshes)
 		{
-			MaterialType *const pMaterial =
-				static_cast<MaterialType *>(pMesh->getMaterial().get());
+			$MaterialType *const pMaterial =
+				dynamic_cast<$MaterialType *>(pMesh->getMaterial().get());
 
 			if (pMaterial)
-				(pMaterial->*function)(std::forward<$Args>(args)...);
+				(pMaterial->*memberFunc)(std::forward<$Args>(args)...);
 		}
 
 		for (SceneObjectNode *const pChild : __children)
-			pChild->traverseMaterial<MaterialType>(function, std::forward<$Args>(args)...);
+			pChild->traverseMaterial(memberFunc, std::forward<$Args>(args)...);
 	}
 }

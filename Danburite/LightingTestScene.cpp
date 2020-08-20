@@ -23,18 +23,18 @@ LightingTestScene::LightingTestScene()
 	//// Rendering unit »ý¼º ////
 
 	__pCorridorObj = AssetImporter::import("res/asset/corridor/scene.gltf");
-	__pCorridorObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
+	__pCorridorObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
 
 	__pCargoBayObj = AssetImporter::import("res/asset/cargo_bay/scene.gltf");
-	__pCargoBayObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
+	__pCargoBayObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
 	Transform &cargoBayTransform = __pCargoBayObj->getTransform();
 	cargoBayTransform.setScale(8.f);
 	cargoBayTransform.setPosition(11.f, 2.7f, 85.f);
 	cargoBayTransform.setRotation(0.f, .3f, 0.f);
 
 	__pPulseCoreObj = AssetImporter::import("res/asset/arc_pulse_core/scene.gltf");
-	__pPulseCoreObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
-	__pPulseCoreObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 2.f);
+	__pPulseCoreObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
+	__pPulseCoreObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 2.f);
 	Transform& pulseCoreTransform = __pPulseCoreObj->getTransform();
 	pulseCoreTransform.setScale(4.f);
 	pulseCoreTransform.setPosition(-10.f, 0.2f, 30.f);
@@ -43,19 +43,19 @@ LightingTestScene::LightingTestScene()
 	Transform &doorTransform = __pDoorObj->getTransform();
 	doorTransform.setScale(.15f);
 	doorTransform.setPosition(0.f, 0.f, 105.f);
-	__pDoorObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
-	__pDoorObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 2.f);
+	__pDoorObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
+	__pDoorObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 2.f);
 
 	__pWrenchObj = AssetImporter::import("res/asset/wrench/scene.gltf");
-	__pWrenchObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
+	__pWrenchObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
 	Transform &wrenchTransform = __pWrenchObj->getTransform();
 	wrenchTransform.setScale(15.f);
 	wrenchTransform.setPosition(-12.f, 0.f, 90.f);
 	wrenchTransform.setRotation(0.f, -.7f, 0.f);
 
 	__pDroneObj = AssetImporter::import("res/asset/scifi_drone/scene.gltf");
-	__pDroneObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
-	__pDroneObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 3.f);
+	__pDroneObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
+	__pDroneObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 3.f);
 	__pDroneObj->setNumInstances(GLsizei(__NUM_DRONES));
 
 	for (size_t droneIter = 0ULL; droneIter < __NUM_DRONES; droneIter++)
@@ -70,16 +70,16 @@ LightingTestScene::LightingTestScene()
 	}
 
 	__pRobotObj = AssetImporter::import("res/asset/scifi_robot/scene.gltf");
-	__pRobotObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
-	__pRobotObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 3.f);
+	__pRobotObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
+	__pRobotObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 3.f);
 	Transform &robotTransform = __pRobotObj->getTransform();
 	robotTransform.setScale(1.7f);
 	robotTransform.setPosition(-10.f, 0.f, 65.f);
 	robotTransform.setRotation(0.f, pi<float>() * .7f, 0.f);
 
 	__pHoverDroneObj = AssetImporter::import("res/asset/scifi_hover_drone/scene.gltf");
-	__pHoverDroneObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
-	__pHoverDroneObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 3.f);
+	__pHoverDroneObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
+	__pHoverDroneObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 3.f);
 	__pHoverDroneObj->setNumInstances(2);
 
 	Transform &hoverDroneTransform1 = __pHoverDroneObj->getTransform(0);
@@ -92,8 +92,8 @@ LightingTestScene::LightingTestScene()
 	hoverDroneTransform2.setPosition(-12.f, 16.f, 88.f);
 
 	__pSpotLightObj = AssetImporter::import("res/asset/stage_light/scene.gltf");
-	__pSpotLightObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
-	__pSpotLightObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 3.f);
+	__pSpotLightObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
+	__pSpotLightObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 3.f);
 	__pSpotLightObj->setNumInstances(2);
 
 	Transform &spotLightObjTransform1 = __pSpotLightObj->getTransform(0);
@@ -107,16 +107,16 @@ LightingTestScene::LightingTestScene()
 	spotLightObjTransform2.setRotation(-.2f, pi<float>() * .1f, 0.f);
 
 	__pHoverBikeObj = AssetImporter::import("res/asset/hover_bike/scene.gltf");
-	__pHoverBikeObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
-	__pHoverBikeObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 3.f);
+	__pHoverBikeObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
+	__pHoverBikeObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 3.f);
 	Transform &hoverBikeTransform = __pHoverBikeObj->getTransform();
 	hoverBikeTransform.setScale(.03f);
 	hoverBikeTransform.setPosition(-13.f, 3.f, 170.f);
 	hoverBikeTransform.setRotation(0.f, half_pi<float>(), 0.f);
 
 	__pCharacterObj = AssetImporter::import("res/asset/scifi_male/scene.gltf");
-	__pCharacterObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setShininess, 150.f);
-	__pCharacterObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, 3.f);
+	__pCharacterObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
+	__pCharacterObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 3.f);
 	Transform &characterTransform = __pCharacterObj->getTransform();
 	characterTransform.setScale(.1f);
 
@@ -405,7 +405,7 @@ bool LightingTestScene::update(const float deltaTime) noexcept
 	if (__blinkingDelay < epsilon<float>())
 	{
 		const float randVal = __randDistribute(__randEngine);
-		__pCorridorObj->traverseMaterial<PhongMaterial>(&PhongMaterial::setEmissiveStrength, (randVal < .1f) ? .6f : 2.f);
+		__pCorridorObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, (randVal < .1f) ? .6f : 2.f);
 
 		__blinkingDelay = 80.f;
 	}
@@ -413,8 +413,7 @@ bool LightingTestScene::update(const float deltaTime) noexcept
 	__cargoBayEmissive += (deltaTime * .001f);
 	__cargoBayEmissive = fmodf(__cargoBayEmissive, two_pi<float>());
 
-	__pCargoBayObj->traverseMaterial<PhongMaterial>(
-		&PhongMaterial::setEmissiveStrength, 3.f * fabsf(cosf(__cargoBayEmissive)));
+	__pCargoBayObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 3.f * fabsf(cosf(__cargoBayEmissive)));
 
 	const float doorDist =
 		length(__pCharacterObj->getTransform().getPosition() - __pDoorObj->getTransform().getPosition());
