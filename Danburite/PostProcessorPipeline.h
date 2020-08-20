@@ -11,9 +11,15 @@ namespace Danburite
 	class PostProcessorPipeline
 	{
 	private:
+		AttachmentServer __attachmentServerPingPong[2];
+
 		ObjectGL::FrameBuffer *__pRenderTarget = &ObjectGL::FrameBuffer::getDefault();
 
-		AttachmentServer __attachmentServerPingPong[2];
+		std::unique_ptr<ObjectGL::FrameBuffer>
+			__pWboitAccumFB = std::make_unique<ObjectGL::FrameBuffer>();
+
+		std::shared_ptr<ObjectGL::RenderBuffer> __pWboitDepthStencilAttachment;
+
 		std::vector<std::unique_ptr<PostProcessor>> __pipeline;
 
 		ObjectGL::UniformBuffer &__translucencySwitcherSetter = 
