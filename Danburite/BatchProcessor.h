@@ -14,8 +14,8 @@ namespace Danburite
 		void add($TargetType &target) noexcept;
 		void remove($TargetType &target) noexcept;
 
-		template <typename $FunctionType, typename ...Args>
-		void process(const $FunctionType function, Args &&...args);
+		template <typename $ReturnType, typename ...$Args>
+		void process($ReturnType($TargetType::*memberFunc)($Args...), $Args ...args);
 	};
 
 	template <typename $TargetType>
@@ -31,10 +31,10 @@ namespace Danburite
 	}
 
 	template <typename $TargetType>
-	template <typename $FunctionType, typename ...Args>
-	void BatchProcessor<$TargetType>::process(const $FunctionType function, Args &&...args)
+	template <typename $ReturnType, typename ...$Args>
+	void BatchProcessor<$TargetType>::process($ReturnType($TargetType::*memberFunc)($Args...), $Args ...args)
 	{
 		for ($TargetType *const pTarget : __targets)
-			(pTarget->*function)(std::forward<Args>(args)...);
+			(pTarget->*memberFunc)(std::forward<$Args>(args)...);
 	}
 }
