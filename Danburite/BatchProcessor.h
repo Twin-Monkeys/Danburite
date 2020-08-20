@@ -19,6 +19,9 @@ namespace Danburite
 		void process(
 			$ReturnType($TargetType::*memberFunc)($Args ...args), $Args ...args);
 
+		template <typename ...$Args>
+		void process(const std::function<void($TargetType &iter)> &forEach);
+
 		template <typename $ReturnType, typename ...$Args>
 		void processIf(
 			bool($TargetType::*const discriminant)() const,
@@ -49,6 +52,14 @@ namespace Danburite
 	{
 		for ($TargetType *const pTarget : __targets)
 			(pTarget->*memberFunc)(std::forward<$Args>(args)...);
+	}
+
+	template <typename $TargetType>
+	template <typename ...$Args>
+	void BatchProcessor<$TargetType>::process(const std::function<void($TargetType &iter)> &forEach)
+	{
+		for ($TargetType* const pTarget : __targets)
+			forEach(*pTarget);
 	}
 
 	template <typename $TargetType>
