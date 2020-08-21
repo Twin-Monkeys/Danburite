@@ -12,9 +12,13 @@ void main()
 	const vec4 accumulation = texture(accumulationTex, gl_FragCoord.xy);
 	const float revealage = texture(revealageTex, gl_FragCoord.xy).r;
 
+	/*
+		accum alpha가 0이면 revealage는 항상 1이므로
+		이에 대한 예외처리를 추가할 필요는 없음.
+	*/
 	if (accumulation.a < EPSILON)
 		discard;
 
 	outColor.rgb = (accumulation.rgb / accumulation.a);
-	outColor.a = (1.f - revealage);
+	outColor.a = min(.999f, 1.f - revealage);
 } 

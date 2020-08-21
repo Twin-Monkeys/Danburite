@@ -198,7 +198,7 @@ HDRTestScene::HDRTestScene()
 
 	__skybox.setAlbedoTexture(pSkyboxAlbedoTex);
 	__skybox.setLuminance(.1f);
-	__skybox.setEnabled(true);
+	__skybox.setEnabled(false);
 
 
 	// 파이프라인 초기화
