@@ -33,7 +33,10 @@ namespace Danburite
 
 		// Rendering Pipeline
 		LIGHT_PREPASS_GEOMETRY_EXTRACTION,
-		LIGHT_PREPASS_LIGHTING
+		LIGHT_PREPASS_LIGHTING,
+
+		// WBOIT
+		WBOIT
 	};
 
 	constexpr ProgramType operator+(const ProgramType lhs, const int rhs) noexcept

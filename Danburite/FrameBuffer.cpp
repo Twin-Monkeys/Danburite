@@ -71,12 +71,14 @@ namespace ObjectGL
 		const GLint srcLeft, const GLint srcBottom, const GLint srcRight, const GLint srcUp,
 		const GLint targetLeft, const GLint targetBottom, const GLint targetRight, const GLint targetUp) noexcept
 	{
-		bind();
+		glBindFramebuffer(GL_READ_BUFFER, ID);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, target.ID);
 		glBlitFramebuffer(
 			srcLeft, srcBottom, srcRight, srcUp,
 			targetLeft, targetBottom, targetRight, targetUp,
 			GLbitfield(mask), GL_NEAREST);
+
+		bindDefault();
 	}
 
 	void FrameBuffer::blit(
@@ -111,6 +113,7 @@ namespace ObjectGL
 	void FrameBuffer::clearColorBuffer(const GLuint attachmentIndex, const vec4 &clearValue) noexcept
 	{
 		bind();
+		// clear buffer는 state 변경이 아니므로 clear color가 저장되지 않음.
 		glClearBufferfv(GL_COLOR, attachmentIndex, value_ptr(clearValue));
 	}
 

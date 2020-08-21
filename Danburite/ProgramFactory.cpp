@@ -206,6 +206,17 @@ namespace Danburite
 					"",
 					"glsl/src/LightPrePassLighting_Frag.glsl"
 				}
+			},
+
+			// WBOIT
+			{
+			ProgramType::WBOIT,
+				{
+					"glsl/binary/Wboit.bin",
+					"glsl/src/FullscreenQuad_Vert.glsl",
+					"",
+					"glsl/src/Wboit_Frag.glsl"
+				}
 			}
 		};
 
@@ -347,7 +358,8 @@ namespace Danburite
 					ProgramType::POST_PROCESS_BLOOM_BLUR_HORIZ,
 					ProgramType::POST_PROCESS_BLOOM_BLUR_VERT,
 					ProgramType::POST_PROCESS_BLOOM_COMPOSITION,
-					ProgramType::LIGHT_PREPASS_LIGHTING
+					ProgramType::LIGHT_PREPASS_LIGHTING,
+					ProgramType::WBOIT
 				}
 			},
 			{
@@ -402,7 +414,7 @@ namespace Danburite
 				}
 			},
 			{
-				ShaderIdentifier::Name::UniformBuffer::RENDERING_PIPELINE,
+				ShaderIdentifier::Name::UniformBuffer::PHONG,
 				{
 					ProgramType::PHONG
 				}

@@ -1,4 +1,5 @@
 #include "ForwardRenderingPipeline.h"
+#include "PhongCalcMethodType.h"
 
 using namespace ObjectGL;
 
@@ -6,10 +7,13 @@ namespace Danburite
 {
 	ForwardRenderingPipeline::ForwardRenderingPipeline(
 		LightManager &lightManager, PerspectiveCamera &camera, BatchProcessor<SceneObject> &drawer, Skybox &skybox) :
-		RenderingPipeline(RenderingPipelineType::FORWARD, lightManager, camera, drawer, skybox)
+		RenderingPipeline(lightManager, camera, drawer, skybox)
 	{
 		__setupTransaction.setSetupFunction([this](ContextStateManager &stateMgr)
 		{
+			__phongSetter.setUniformUint(
+				ShaderIdentifier::Name::Phong::CALC_METHOD_TYPE, GLuint(PhongCalcMethodType::FORWARD));
+
 			stateMgr.setState(GLStateType::DEPTH_TEST, true);
 			stateMgr.setState(GLStateType::STENCIL_TEST, false);
 			stateMgr.setState(GLStateType::BLEND, false);

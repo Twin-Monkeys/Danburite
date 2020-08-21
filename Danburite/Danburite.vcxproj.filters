@@ -349,9 +349,6 @@
     <Filter Include="Library\Engine\glsl\src\header\RenderingPipeline">
       <UniqueIdentifier>{5e7bf512-2c44-4f7e-8d74-3d8a163b8346}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Library\Engine\glsl\src\header\RenderingPipeline\LightPrePass">
-      <UniqueIdentifier>{1a3a971a-2463-431e-9146-b6edba8a3150}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library\Engine\Core\Pipeline">
       <UniqueIdentifier>{81f11e0c-1529-47cd-86b8-fffa0f2de60e}</UniqueIdentifier>
     </Filter>
@@ -381,6 +378,9 @@
     </Filter>
     <Filter Include="Library\Engine\glsl\src\header\Wboit">
       <UniqueIdentifier>{26a2094d-823f-43d7-ad82-305c64179bff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\glsl\src\Wboit">
+      <UniqueIdentifier>{de8fc677-83f7-4448-9b55-dbc084a0c6d9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1226,9 +1226,6 @@
     <ClInclude Include="MaterialException.h">
       <Filter>Library\Engine\Core\Material</Filter>
     </ClInclude>
-    <ClInclude Include="RenderingPipelineType.h">
-      <Filter>Library\Engine\Core\Pipeline\RenderingPipeline</Filter>
-    </ClInclude>
     <ClInclude Include="LightManager.h">
       <Filter>Library\Engine\Core\Light</Filter>
     </ClInclude>
@@ -1297,6 +1294,9 @@
     </ClInclude>
     <ClInclude Include="TranslucencySwitchType.h">
       <Filter>Library\Engine\Core\PostProcess\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="PhongCalcMethodType.h">
+      <Filter>Library\Engine\Core\Material\Phong</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1444,12 +1444,6 @@
     <None Include="glsl\src\LightPrePassLighting_Frag.glsl">
       <Filter>Library\Engine\glsl\src\RenderingPipeline\LightPrePass</Filter>
     </None>
-    <None Include="glsl\src\header\LightPrePass_Header.glsl">
-      <Filter>Library\Engine\glsl\src\header\RenderingPipeline\LightPrePass</Filter>
-    </None>
-    <None Include="glsl\src\header\RenderingPipeline_Header.glsl">
-      <Filter>Library\Engine\glsl\src\header\RenderingPipeline</Filter>
-    </None>
     <None Include="glsl\src\LightPrePassLighting_Vert.glsl">
       <Filter>Library\Engine\glsl\src\RenderingPipeline\LightPrePass</Filter>
     </None>
@@ -1471,11 +1465,17 @@
     <None Include="glsl\src\header\DepthBaking2D_Header.glsl">
       <Filter>Library\Engine\glsl\src\header\DepthBaking</Filter>
     </None>
-    <None Include="glsl\src\header\TranslucencySwitcher_Frag.glsl">
-      <Filter>Library\Engine\glsl\src\header</Filter>
-    </None>
     <None Include="glsl\src\header\Wboit_Header.glsl">
       <Filter>Library\Engine\glsl\src\header\Wboit</Filter>
+    </None>
+    <None Include="glsl\src\header\LightPrePass_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header\RenderingPipeline</Filter>
+    </None>
+    <None Include="glsl\src\header\TranslucencySwitcher_Frag_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header</Filter>
+    </None>
+    <None Include="glsl\src\Wboit_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\Wboit</Filter>
     </None>
   </ItemGroup>
 </Project>

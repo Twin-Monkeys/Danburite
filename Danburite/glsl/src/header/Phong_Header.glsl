@@ -6,8 +6,17 @@
 #include "Light_Header.glsl"
 #include "Material_Header.glsl"
 #include "Camera_Header.glsl"
-#include "RenderingPipeline_Header.glsl"
 #include "LightPrePass_Header.glsl"
+
+struct Phong
+{
+	uint calcMethodType;
+};
+
+layout(binding = BINDING_POINT_PHONG) uniform UBPhong
+{
+	Phong phong;
+};
 
 vec4 Phong_calcPhongColor_forward(
 	const vec3 targetPos, const vec3 targetNormal, const mat3 targetTBN,
@@ -106,12 +115,10 @@ vec4 Phong_calcPhongColor(
 	const vec3 targetPos, const vec3 targetNormal, const mat3 targetTBN,
 	const vec2 targetTexCoord, const vec4 vertexColor)
 {
-	const uint renderingPipelineType = RenderingPipeline_getType();
-
-	if (renderingPipelineType == RENDERING_PIPELINE_TYPE_FORWARD)
+	if (phong.calcMethodType == PHONG_CALC_METHOD_TYPE_FORWARD)
 		return Phong_calcPhongColor_forward(targetPos, targetNormal, targetTBN, targetTexCoord, vertexColor);
 
-	else if (renderingPipelineType == RENDERING_PIPELINE_TYPE_LIGHT_PREPASS)
+	else if (phong.calcMethodType == PHONG_CALC_METHOD_TYPE_LIGHT_PREPASS)
 		return Phong_calcPhongColor_lightPrePass(targetPos, targetTBN, targetTexCoord, vertexColor);
 
 	return vec4(0.f);

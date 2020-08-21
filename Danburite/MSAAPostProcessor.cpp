@@ -41,7 +41,7 @@ namespace Danburite
 	void MSAAPostProcessor::setScreenSize(const GLsizei width, const GLsizei height) noexcept
 	{
 		__pColorAttachment = _getTexMultisample(
-			width, height, TextureInternalFormatType::RGB16F, __NUM_SAMPLE_POINTS, __FIXED_SAMPLE_LOCATIONS);
+			width, height, TextureInternalFormatType::RGBA16F, __NUM_SAMPLE_POINTS, __FIXED_SAMPLE_LOCATIONS);
 
 		_attach(AttachmentType::COLOR_ATTACHMENT0, *__pColorAttachment);
 

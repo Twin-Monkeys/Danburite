@@ -5,6 +5,7 @@
 #include "SceneObject.h"
 #include "Skybox.h"
 #include "UniformBufferFactory.h"
+#include "FullscreenDrawer.h"
 
 namespace Danburite
 {
@@ -15,18 +16,41 @@ namespace Danburite
 
 		ObjectGL::FrameBuffer *__pRenderTarget = &ObjectGL::FrameBuffer::getDefault();
 
-		std::unique_ptr<ObjectGL::FrameBuffer>
-			__pWboitAccumFB = std::make_unique<ObjectGL::FrameBuffer>();
+		glm::ivec2 __screenSize { 0, 0 };
 
+		std::unique_ptr<ObjectGL::FrameBuffer>
+			__pWboitFrameBuffer = std::make_unique<ObjectGL::FrameBuffer>();
+
+		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pWboitAccumAttachment;
+		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pWboitRevealageAttachment;
 		std::shared_ptr<ObjectGL::RenderBuffer> __pWboitDepthStencilAttachment;
 
 		std::vector<std::unique_ptr<PostProcessor>> __pipeline;
 
+		ObjectGL::Program &__wboitProgram =
+			ProgramFactory::getInstance().getProgram(ProgramType::WBOIT);
+
+		ObjectGL::UniformBuffer &__texContainerSetter =
+			UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER);
+
 		ObjectGL::UniformBuffer &__translucencySwitcherSetter = 
-			UniformBufferFactory::getInstance().getUniformBuffer(
-				ShaderIdentifier::Name::UniformBuffer::TRANSLUCENCY_SWITCHER);
+			UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TRANSLUCENCY_SWITCHER);
+
+		ObjectGL::UniformBuffer &__phongSetter =
+			UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::PHONG);
+
+		SetupTransaction __opaqueSetup;
+		SetupTransaction __translucentSetup;
+		SetupTransaction __compositionSetup;
+
+		FullscreenDrawer &__fullscreenDrawer = FullscreenDrawer::getInstance();
 
 	public:
+		PostProcessorPipeline() noexcept;
+
 		template <typename ProcessorType, typename ...$Args>
 		ProcessorType &appendProcessor($Args &&...args) noexcept;
 

@@ -8,7 +8,7 @@
 #include "header/VariableInOut_Frag_Header.glsl"
 
 #include "header/Phong_Header.glsl"
-#include "header/TranslucencySwitcher_Frag.glsl"
+#include "header/TranslucencySwitcher_Frag_Header.glsl"
 
 void main()
 {
@@ -23,5 +23,6 @@ void main()
 			variableInOut_VertToFrag.worldPos, normalize(variableInOut_VertToFrag.worldNormal),
 			variableInOut_VertToFrag.TBN, variableInOut_VertToFrag.texCoord, variableInOut_VertToFrag.color);
 
-	TranslucencySwitcher_outColor(outColor);
+	const float viewSpaceDepth = Camera_getViewSpaceDepth(gl_FragCoord.z);
+	TranslucencySwitcher_outColor(outColor, viewSpaceDepth);
 } 

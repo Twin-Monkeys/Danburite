@@ -1,12 +1,17 @@
 #pragma once
 
 #include "RenderingPipeline.h"
+#include "UniformBufferFactory.h"
 
 namespace Danburite
 {
 	class ForwardRenderingPipeline : public RenderingPipeline
 	{
 	private:
+		ObjectGL::UniformBuffer &__phongSetter =
+			UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::PHONG);
+
 		SetupTransaction __setupTransaction;
 
 	protected:

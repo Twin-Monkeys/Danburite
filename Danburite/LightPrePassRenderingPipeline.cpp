@@ -1,4 +1,5 @@
 #include "LightPrePassRenderingPipeline.h"
+#include "PhongCalcMethodType.h"
 
 using namespace std;
 using namespace glm;
@@ -8,7 +9,7 @@ namespace Danburite
 {
 	LightPrePassRenderingPipeline::LightPrePassRenderingPipeline(
 		LightManager& lightManager, PerspectiveCamera& camera, BatchProcessor<SceneObject>& drawer, Skybox& skybox) :
-		RenderingPipeline(RenderingPipelineType::LIGHT_PREPASS, lightManager, camera, drawer, skybox)
+		RenderingPipeline(lightManager, camera, drawer, skybox)
 	{
 		__pNormalShininessFB->setOutputColorBuffers(
 			{ ColorBufferType::COLOR_ATTACHMENT0, ColorBufferType::COLOR_ATTACHMENT1 });
@@ -59,6 +60,10 @@ namespace Danburite
 
 		__compositionPassSetup.setSetupFunction([this](ContextStateManager& stateMgr)
 		{
+			__phongSetter.setUniformUint(
+				ShaderIdentifier::Name::Phong::CALC_METHOD_TYPE,
+				GLuint(PhongCalcMethodType::LIGHT_PREPASS));
+
 			__lightPrePassSetter.setUniformUvec2(
 				ShaderIdentifier::Name::LightPrePass::LIGHT_AMBIENT_TEX,
 				__pLightAmbientAttachment->getHandle());

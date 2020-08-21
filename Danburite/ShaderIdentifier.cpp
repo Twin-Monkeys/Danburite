@@ -159,10 +159,10 @@ namespace Danburite
 					JOINT_MATRIX = "joint.jointMat";
 			}
 
-			namespace RenderingPipeline
+			namespace Phong
 			{
 				const string
-					TYPE = "renderingPipeline.type";
+					CALC_METHOD_TYPE = "phong.calcMethodType";
 			}
 
 			namespace LightPrePass
@@ -199,7 +199,7 @@ namespace Danburite
 					BLOOM					= "UBBloom",
 					JOINT					= "UBJoint",
 					BONE					= "UBBone",
-					RENDERING_PIPELINE		= "UBRenderingPipeline",
+					PHONG					= "UBPhong",
 					LIGHT_PREPASS			= "UBLightPrePass",
 					TRANSLUCENCY_SWITCHER	= "UBTranslucencySwitcher"
 					;
@@ -267,8 +267,8 @@ namespace Danburite
 							Value::UniformBlockBindingPoint::BONE
 						},
 						{
-							Name::UniformBuffer::RENDERING_PIPELINE,
-							Value::UniformBlockBindingPoint::RENDERING_PIPELINE
+							Name::UniformBuffer::PHONG,
+							Value::UniformBlockBindingPoint::PHONG
 						},
 						{
 							Name::UniformBuffer::LIGHT_PREPASS,

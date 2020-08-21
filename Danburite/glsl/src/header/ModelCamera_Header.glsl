@@ -8,13 +8,13 @@
 
 mat4 ModelCamera_getModelViewProjMatrix(mat4 modelMat)
 {
-	return (camera.projMat * camera.viewMat * modelMat);
+	return (Camera_getProjMatrix() * Camera_getViewMatrix() * modelMat);
 }
 
 mat4 ModelCamera_getViewProjMatrixWithoutTranslation()
 {
 	// Remove translation
-	return (camera.projMat * mat4(mat3(camera.viewMat)));
+	return (Camera_getProjMatrix() * mat4(mat3(Camera_getViewMatrix())));
 }
 
 vec4 ModelCamera_getNDCPosition(mat4 modelMat, const vec3 localPos)

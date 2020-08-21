@@ -1,6 +1,5 @@
 #pragma once
 
-#include "RenderingPipelineType.h"
 #include "PerspectiveCamera.h"
 #include "BatchProcessor.h"
 #include "PostProcessorPipeline.h"
@@ -14,12 +13,6 @@ namespace Danburite
 	{
 	private:
 		glm::ivec2 __screenSize { 0, 0 };
-
-		const RenderingPipelineType __TYPE;
-
-		ObjectGL::UniformBuffer &__pipelineSetter =
-			UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::RENDERING_PIPELINE);
 
 		PostProcessorPipeline __ppPipeline;
 
@@ -37,11 +30,9 @@ namespace Danburite
 
 	public:
 		RenderingPipeline(
-			const RenderingPipelineType pipelineType, LightManager &lightManager,
-			PerspectiveCamera &camera, BatchProcessor<SceneObject> &drawer, Skybox &skybox) noexcept;
+			LightManager &lightManager, PerspectiveCamera &camera,
+			BatchProcessor<SceneObject> &drawer, Skybox &skybox) noexcept;
 		
-		constexpr RenderingPipelineType getType() const noexcept;
-
 		void setScreenSize(const GLsizei width, const GLsizei height) noexcept;
 		constexpr const glm::ivec2 &getScreenSize() const noexcept;
 
@@ -52,11 +43,6 @@ namespace Danburite
 
 		void render() noexcept;
 	};
-
-	constexpr RenderingPipelineType RenderingPipeline::getType() const noexcept
-	{
-		return __TYPE;
-	}
 
 	constexpr const glm::ivec2 &RenderingPipeline::getScreenSize() const noexcept
 	{

@@ -42,7 +42,7 @@ namespace Danburite
 	void ForwardPostProcessor::setScreenSize(const GLsizei width, const GLsizei height) noexcept
 	{
 		__pColorAttachment = _getTexRectangle(
-			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB,
+			width, height, TextureInternalFormatType::RGBA16F, TextureExternalFormatType::RGBA,
 			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST);
 
 		_attach(AttachmentType::COLOR_ATTACHMENT0, *__pColorAttachment);

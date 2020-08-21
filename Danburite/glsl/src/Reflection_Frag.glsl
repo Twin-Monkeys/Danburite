@@ -8,7 +8,7 @@
 
 #include "header/Material_Header.glsl"
 #include "header/Camera_Header.glsl"
-#include "header/TranslucencySwitcher_Frag.glsl"
+#include "header/TranslucencySwitcher_Frag_Header.glsl"
 
 void main()
 {
@@ -20,5 +20,6 @@ void main()
 		viewDirection, variableInOut_VertToFrag.texCoord
 	);
 	
-	TranslucencySwitcher_outColor(outColor);
+	const float viewSpaceDepth = Camera_getViewSpaceDepth(gl_FragCoord.z);
+	TranslucencySwitcher_outColor(outColor, viewSpaceDepth);
 }

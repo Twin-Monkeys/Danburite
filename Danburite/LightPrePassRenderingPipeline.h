@@ -13,6 +13,10 @@ namespace Danburite
 	private:
 		AttachmentServer __attachmentServer;
 
+		ObjectGL::UniformBuffer &__phongSetter =
+			UniformBufferFactory::getInstance().
+			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::PHONG);
+
 		ObjectGL::UniformBuffer &__texContainerSetter =
 			UniformBufferFactory::getInstance().
 			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER);

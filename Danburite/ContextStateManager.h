@@ -99,6 +99,18 @@ namespace ObjectGL
 			const BlendingFunctionType srcAlphaFuncType,
 			const BlendingFunctionType destAlphaFuncType);
 
+		bool setBlendingFunction(
+			const GLuint colorAttachmentIdx,
+			const BlendingFunctionType srcFuncType,
+			const BlendingFunctionType destFuncType);
+
+		bool setBlendingFunction(
+			const GLuint colorAttachmentIdx,
+			const BlendingFunctionType srcRGBFuncType,
+			const BlendingFunctionType destRGBFuncType,
+			const BlendingFunctionType srcAlphaFuncType,
+			const BlendingFunctionType destAlphaFuncType);
+
 		bool setBlendingEquation(const BlendingEquationType type);
 		bool setPolygonMode(const RenderTargetType renderTargetType, const RasterizationType rasterizationType);
 

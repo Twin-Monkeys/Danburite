@@ -273,6 +273,30 @@ namespace ObjectGL
 		return true;
 	}
 
+	bool ContextStateManager::setBlendingFunction(
+		const GLuint colorAttachmentIdx, const BlendingFunctionType srcFuncType, const BlendingFunctionType destFuncType)
+	{
+		return setBlendingFunction(colorAttachmentIdx, srcFuncType, destFuncType, srcFuncType, destFuncType);
+	}
+
+	bool ContextStateManager::setBlendingFunction(
+		const GLuint colorAttachmentIdx,
+		const BlendingFunctionType srcRGBFuncType, const BlendingFunctionType destRGBFuncType,
+		const BlendingFunctionType srcAlphaFuncType, const BlendingFunctionType destAlphaFuncType)
+	{
+		if (!colorAttachmentIdx)
+			return setBlendingFunction(srcRGBFuncType, destRGBFuncType, srcAlphaFuncType, destAlphaFuncType);
+
+		if (!__validFlag)
+			throw RCException("This context is not bound.");
+
+		glBlendFuncSeparatei(colorAttachmentIdx,
+			GLenum(srcRGBFuncType), GLenum(destRGBFuncType),
+			GLenum(srcAlphaFuncType), GLenum(destAlphaFuncType));
+
+		return true;
+	}
+
 	bool ContextStateManager::setBlendingEquation(const BlendingEquationType type)
 	{
 		if (!__validFlag)
