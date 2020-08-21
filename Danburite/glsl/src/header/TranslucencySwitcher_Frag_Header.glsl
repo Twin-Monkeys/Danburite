@@ -35,6 +35,9 @@ void TranslucencySwitcher_outColor_opaque(const vec4 color)
 
 void TranslucencySwitcher_outColor_translucency(const vec4 color, const float viewSpaceDepth)
 {
+	if (color.a < EPSILON)
+		discard;
+
 	TranslucencySwitcher_out0 = Wboit_getAccumulation(color, viewSpaceDepth);
 	TranslucencySwitcher_out1 = color.a;
 }

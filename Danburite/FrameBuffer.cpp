@@ -78,7 +78,7 @@ namespace ObjectGL
 			targetLeft, targetBottom, targetRight, targetUp,
 			GLbitfield(mask), GL_NEAREST);
 
-		bindDefault();
+		bind(true);
 	}
 
 	void FrameBuffer::blit(
