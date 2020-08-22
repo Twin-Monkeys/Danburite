@@ -9,6 +9,12 @@ namespace Danburite
 {
 	PostProcessorPipeline::PostProcessorPipeline() noexcept
 	{
+		__pWboitFrameBuffer->setOutputColorBuffers(
+			{
+				ColorBufferType::COLOR_ATTACHMENT0,
+				ColorBufferType::COLOR_ATTACHMENT1
+			});
+
 		__opaqueSetup.setSetupFunction([this](ContextStateManager &stateMgr)
 		{
 			__translucencySwitcherSetter.setUniformUint(
@@ -78,7 +84,7 @@ namespace Danburite
 		__screenSize = { width, height };
 
 		__pWboitAccumAttachment = __attachmentServerPingPong[1].getTexRectangle(
-			width, height, TextureInternalFormatType::RGBA16F, TextureExternalFormatType::RGBA,
+			width, height, TextureInternalFormatType::RGBA32F, TextureExternalFormatType::RGBA,
 			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST);
 
 		__pWboitRevealageAttachment = __attachmentServerPingPong[1].getTexRectangle(

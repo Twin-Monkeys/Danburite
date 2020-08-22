@@ -20,5 +20,11 @@ void main()
 		discard;
 
 	outColor.rgb = (accumulation.rgb / accumulation.a);
+
+	
+	/*
+		revealage가 완전 0인 경우에도 약간의 투명 효과를 부여햐여
+		사용자가 어색함을 느끼지 않도록 한다.
+	*/
 	outColor.a = min(.999f, 1.f - revealage);
 } 
