@@ -9,7 +9,7 @@ namespace Danburite
 	BloomPostProcessor::BloomPostProcessor(const bool attachDepthBuffer) :
 		__attachDepthBuffer(attachDepthBuffer)
 	{
-		__basicSetup.setSetupFunction([this](ContextStateManager& stateMgr)
+		__basicSetup.setup([this](ContextStateManager& stateMgr)
 		{
 			__bloomSetter.setUniformFloat(
 				ShaderIdentifier::Name::Bloom::BRIGHTNESS_THRESHOLD, __brightnessThreshold);
@@ -26,25 +26,25 @@ namespace Danburite
 			stateMgr.setFrontFace(WindingOrderType::COUNTER_CLOCKWISE);
 		});
 
-		__colorExtractionSetup.setSetupFunction([this](ContextStateManager& stateMgr)
+		__colorExtractionSetup.setup([this](ContextStateManager& stateMgr)
 		{
 			__texContainerSetter.setUniformUvec2(
 				ShaderIdentifier::Name::Attachment::TEX0, __pOriginalColorAttachment->getHandle());
 		});
 
-		__horizBlurSetup.setSetupFunction([this](ContextStateManager& stateMgr)
+		__horizBlurSetup.setup([this](ContextStateManager& stateMgr)
 		{
 			__texContainerSetter.setUniformUvec2(
 				ShaderIdentifier::Name::Attachment::TEX0, __pBloomColorAttachment1->getHandle());
 		});
 
-		__horizVertSetup.setSetupFunction([this](ContextStateManager& stateMgr)
+		__horizVertSetup.setup([this](ContextStateManager& stateMgr)
 		{
 			__texContainerSetter.setUniformUvec2(
 				ShaderIdentifier::Name::Attachment::TEX0, __pBloomColorAttachment2->getHandle());
 		});
 
-		__compositionSetup.setSetupFunction([this](ContextStateManager& stateMgr)
+		__compositionSetup.setup([this](ContextStateManager& stateMgr)
 		{
 			__texContainerSetter.setUniformUvec2(
 				ShaderIdentifier::Name::Attachment::TEX0, __pOriginalColorAttachment->getHandle());
@@ -56,28 +56,28 @@ namespace Danburite
 
 	void BloomPostProcessor::render(FrameBuffer &renderTarget) noexcept
 	{
-		__basicSetup.setup();
+		__basicSetup();
 
 		// 1. color extraction
-		__colorExtractionSetup.setup();
+		__colorExtractionSetup();
 		__pBloomFrameBuffer1->bind();
 		__extractionProgram.bind();
 		__fullscreenDrawer.draw();
 
 		// 2. horizontal blur
-		__horizBlurSetup.setup();
+		__horizBlurSetup();
 		__pBloomFrameBuffer2->bind();
 		__blurHorizProgram.bind();
 		__fullscreenDrawer.draw();
 
 		// 3. vertical blur
-		__horizVertSetup.setup();
+		__horizVertSetup();
 		__pBloomFrameBuffer1->bind();
 		__blurVertProgram.bind();
 		__fullscreenDrawer.draw();
 
 		// 4. composition
-		__compositionSetup.setup();
+		__compositionSetup();
 		renderTarget.bind();
 		__compositionProgram.bind();
 		__fullscreenDrawer.draw();

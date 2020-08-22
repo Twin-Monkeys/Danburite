@@ -13,7 +13,7 @@ namespace Danburite
 	{
 		assert(__NUM_SAMPLE_POINTS);
 
-		__setupTransaction.setSetupFunction([this](ContextStateManager& stateMgr)
+		__setupTransaction.setup([this](ContextStateManager& stateMgr)
 		{
 			// AMD Bug; Cannot use bindless sampler2DMS
 			__texContainerSetter.setUniformUvec2(
@@ -31,8 +31,7 @@ namespace Danburite
 
 	void MSAAPostProcessor::render(FrameBuffer &renderTarget) noexcept
 	{
-		__setupTransaction.setup();
-
+		__setupTransaction();
 		renderTarget.bind();
 		__program.bind();
 		__fullscreenDrawer.draw();

@@ -8,7 +8,7 @@ namespace Danburite
 {
 	Skybox::Skybox()
 	{
-		__setupTransaction.setSetupFunction([this] (ContextStateManager &stateMgr)
+		__setupTransaction.setup([this] (ContextStateManager &stateMgr)
 		{
 			__skyboxSetter.setUniformUvec2(
 				ShaderIdentifier::Name::Skybox::ALBEDO_TEX, TextureUtil::getHandleIfExist(__pAlbedoTex));
@@ -43,7 +43,7 @@ namespace Danburite
 		if (!__enabled)
 			return;
 
-		__setupTransaction.setup();
+		__setupTransaction();
 		__skyboxProgram.bind();
 		__pCubeVA->draw();
 	}

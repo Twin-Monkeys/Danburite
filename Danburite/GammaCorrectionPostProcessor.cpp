@@ -12,7 +12,7 @@ namespace Danburite
 		ForwardPostProcessor(ProgramFactory::getInstance().
 			getProgram(ProgramType::POST_PROCESS_GAMMA_CORRECTION), attachDepthBuffer)
 	{
-		__setupTransaction.setSetupFunction([this](ContextStateManager& stateMgr)
+		__setupTransaction.setup([this](ContextStateManager& stateMgr)
 		{
 			__materialSetter.setUniformFloat(
 				ShaderIdentifier::Name::Material::GAMMA, __gamma);
@@ -31,7 +31,7 @@ namespace Danburite
 
 	void GammaCorrectionPostProcessor::render(FrameBuffer &renderTarget) noexcept
 	{
-		__setupTransaction.setup();
+		__setupTransaction();
 		ForwardPostProcessor::render(renderTarget);
 	}
 }

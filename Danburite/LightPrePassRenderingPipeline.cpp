@@ -21,7 +21,7 @@ namespace Danburite
 				ColorBufferType::COLOR_ATTACHMENT2
 			});
 
-		__geometryPassSetup.setSetupFunction([this](ContextStateManager &stateMgr)
+		__geometryPassSetup.setup([this](ContextStateManager &stateMgr)
 		{
 			stateMgr.setState(GLStateType::DEPTH_TEST, true);
 			stateMgr.setState(GLStateType::STENCIL_TEST, true);
@@ -40,7 +40,7 @@ namespace Danburite
 			stateMgr.setFrontFace(WindingOrderType::COUNTER_CLOCKWISE);
 		});
 
-		__lightingPassSetup.setSetupFunction([this](ContextStateManager &stateMgr)
+		__lightingPassSetup.setup([this](ContextStateManager &stateMgr)
 		{
 			__texContainerSetter.setUniformUvec2(
 				ShaderIdentifier::Name::Attachment::TEX0, __pPosAttachment->getHandle());
@@ -58,7 +58,7 @@ namespace Danburite
 			stateMgr.setBlendingFunction(BlendingFunctionType::ONE, BlendingFunctionType::ONE);
 		});
 
-		__compositionPassSetup.setSetupFunction([this](ContextStateManager& stateMgr)
+		__compositionPassSetup.setup([this](ContextStateManager& stateMgr)
 		{
 			__phongSetter.setUniformUint(
 				ShaderIdentifier::Name::Phong::CALC_METHOD_TYPE,
@@ -130,13 +130,13 @@ namespace Danburite
 		camera.selfDeploy();
 
 		// Geometry pass
-		__geometryPassSetup.setup();
+		__geometryPassSetup();
 		__pNormalShininessFB->clearBuffers(FrameBufferBlitFlag::DEPTH | FrameBufferBlitFlag::STENCIL);
 		__geometryProgram.bind();
 		drawer.process(&SceneObject::rawDrawcall);
 
 		// Lighting pass
-		__lightingPassSetup.setup();
+		__lightingPassSetup();
 		__pLightingFB->clearBuffers(FrameBufferBlitFlag::COLOR);
 		__lightingProgram.bind();
 		lightManager.process(&Light::volumeDrawcall);

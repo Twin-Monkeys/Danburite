@@ -9,6 +9,7 @@
 #include "UniformSetter.h"
 #include "ShaderIdentifier.h"
 #include "UniformBufferFactory.h"
+#include "SetupTransaction.h"
 
 namespace Danburite
 {
@@ -19,9 +20,13 @@ namespace Danburite
 		const VertexAttributeFlag __VERTEX_FLAG;
 		MaterialOptionFlag __optionFlag = MaterialOptionFlag::NONE;
 
+		float __overriddenAlpha = 1.f;
+
 		ObjectGL::UniformSetter &__materialSetter =
 			UniformBufferFactory::getInstance().
 			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::MATERIAL);
+
+		SetupTransaction __defaultSetup;
 
 		constexpr void __setOption(const MaterialOptionFlag flags, const bool enabled) noexcept;
 		constexpr bool __isOptionEnabled(const MaterialOptionFlag flags) const noexcept;
@@ -60,6 +65,12 @@ namespace Danburite
 	public:
 		constexpr void enableTranslucency(const bool enabled) noexcept;
 		constexpr bool isTranslucencyEnabled() const noexcept;
+
+		constexpr void overrideAlpha(const bool enabled) noexcept;
+		constexpr bool isAlphaOverridden() const noexcept;
+
+		constexpr float getOverriddenAlpha() const noexcept;
+		constexpr void setOverriddenAlpha(const float alpha) noexcept;
 
 		void render(ObjectGL::VertexArray &vertexArray, const GLsizei numInstances = 1) noexcept;
 		void rawDrawcall(ObjectGL::VertexArray &vertexArray, const GLsizei numInstances = 1) noexcept;
@@ -130,6 +141,11 @@ namespace Danburite
 		__setOption(MaterialOptionFlag::HEIGHT_TEXTURE, enabled);
 	}
 
+	constexpr void Material::overrideAlpha(const bool enabled) noexcept
+	{
+		__setOption(MaterialOptionFlag::ALPHA_OVERRIDING, enabled);
+	}
+
 	constexpr bool Material::isLightingEnabled() const noexcept
 	{
 		return __isOptionEnabled(MaterialOptionFlag::LIGHTING);
@@ -178,5 +194,20 @@ namespace Danburite
 	constexpr bool Material::isHeightTextureEnabled() const noexcept
 	{
 		return __isOptionEnabled(MaterialOptionFlag::HEIGHT_TEXTURE);
+	}
+
+	constexpr bool Material::isAlphaOverridden() const noexcept
+	{
+		return __isOptionEnabled(MaterialOptionFlag::ALPHA_OVERRIDING);
+	}
+
+	constexpr float Material::getOverriddenAlpha() const noexcept
+	{
+		return __overriddenAlpha;
+	}
+
+	constexpr void Material::setOverriddenAlpha(const float alpha) noexcept
+	{
+		__overriddenAlpha = alpha;
 	}
 }

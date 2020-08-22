@@ -10,7 +10,7 @@ namespace Danburite
 		ForwardPostProcessor(ProgramFactory::getInstance().
 			getProgram(ProgramType::POST_PROCESS_HDR), attachDepthBuffer)
 	{
-		__setupTransaction.setSetupFunction([this](ContextStateManager &stateMgr)
+		__setupTransaction.setup([this](ContextStateManager &stateMgr)
 		{
 			__hdrSetter.setUniformFloat(
 				ShaderIdentifier::Name::HDR::EXPOSURE, __exposure);
@@ -19,7 +19,7 @@ namespace Danburite
 
 	void HDRPostProcessor::render(FrameBuffer &renderTarget) noexcept
 	{
-		__setupTransaction.setup();
+		__setupTransaction();
 		ForwardPostProcessor::render(renderTarget);
 	}
 }

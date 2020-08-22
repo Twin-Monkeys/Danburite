@@ -10,7 +10,7 @@ namespace Danburite
 	ForwardPostProcessor::ForwardPostProcessor(Program &program, const bool attachDepthBuffer) :
 		__program(program), __attachDepthBuffer(attachDepthBuffer)
 	{
-		__setupTransaction.setSetupFunction([this] (ContextStateManager &stateMgr)
+		__setupTransaction.setup([this] (ContextStateManager &stateMgr)
 		{
 			__texContainerSetter.setUniformUvec2(
 				ShaderIdentifier::Name::Attachment::TEX0, __pColorAttachment->getHandle());
@@ -32,8 +32,7 @@ namespace Danburite
 
 	void ForwardPostProcessor::render(FrameBuffer &renderTarget) noexcept
 	{
-		__setupTransaction.setup();
-
+		__setupTransaction();
 		renderTarget.bind();
 		__program.bind();
 		__fullscreenDrawer.draw();

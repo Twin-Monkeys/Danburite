@@ -9,7 +9,7 @@ namespace Danburite
 		LightManager &lightManager, PerspectiveCamera &camera, BatchProcessor<SceneObject> &drawer, Skybox &skybox) :
 		RenderingPipeline(lightManager, camera, drawer, skybox)
 	{
-		__setupTransaction.setSetupFunction([this](ContextStateManager &stateMgr)
+		__setupTransaction.setup([this](ContextStateManager &stateMgr)
 		{
 			__phongSetter.setUniformUint(
 				ShaderIdentifier::Name::Phong::CALC_METHOD_TYPE, GLuint(PhongCalcMethodType::FORWARD));

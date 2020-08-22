@@ -1,19 +1,17 @@
 #include "SetupTransaction.h"
-#include "RenderContext.h"
 
 using namespace std;
 using namespace ObjectGL;
 
 namespace Danburite
 {
-	void SetupTransaction::setSetupFunction(
-		const function<void(ContextStateManager &currentStateMgr)> &setupFunc) noexcept
+	void SetupTransaction::setup(const function<void(ContextStateManager &currentStateMgr)> &setupFunc) noexcept
 	{
 		__setupFunc = setupFunc;
 	}
 
-	void SetupTransaction::setup() const
+	void SetupTransaction::operator()() const
 	{
-		__setupFunc(RenderContext::getCurrentStateManager());
+		__setupFunc(__stateMgr);
 	}
 }

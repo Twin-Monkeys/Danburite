@@ -11,7 +11,7 @@ namespace Danburite
 		ForwardPostProcessor(ProgramFactory::getInstance().
 			getProgram(ProgramType::POST_PROCESS_CONVOLUTIONAL), attachDepthBuffer)
 	{
-		__setupTransaction.setSetupFunction([this](ContextStateManager &stateMgr)
+		__setupTransaction.setup([this](ContextStateManager &stateMgr)
 		{
 			__convSetter.setUniformUint(
 				ShaderIdentifier::Name::Convolutional::KERNEL_SIZE, __kernelSize);
@@ -29,7 +29,7 @@ namespace Danburite
 
 	void ConvolutionalPostProcessor::render(FrameBuffer &renderTarget) noexcept
 	{
-		__setupTransaction.setup();
+		__setupTransaction();
 		ForwardPostProcessor::render(renderTarget);
 	}
 }

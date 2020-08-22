@@ -15,13 +15,13 @@ namespace Danburite
 				ColorBufferType::COLOR_ATTACHMENT1
 			});
 
-		__opaqueSetup.setSetupFunction([this](ContextStateManager &stateMgr)
+		__opaqueSetup.setup([this](ContextStateManager &stateMgr)
 		{
 			__translucencySwitcherSetter.setUniformUint(
 				ShaderIdentifier::Name::TranslucencySwitcher::MODE, GLuint(TranslucencySwitchType::OPAQUE_MODE));
 		});
 
-		__translucentSetup.setSetupFunction([this](ContextStateManager &stateMgr)
+		__translucentSetup.setup([this](ContextStateManager &stateMgr)
 		{
 			__phongSetter.setUniformUint(
 				ShaderIdentifier::Name::Phong::CALC_METHOD_TYPE, GLuint(PhongCalcMethodType::FORWARD));
@@ -42,7 +42,7 @@ namespace Danburite
 			stateMgr.setBlendingFunction(1, BlendingFunctionType::ZERO, BlendingFunctionType::ONE_MINUS_SRC_COLOR);
 		});
 
-		__compositionSetup.setSetupFunction([this](ContextStateManager &stateMgr)
+		__compositionSetup.setup([this](ContextStateManager &stateMgr)
 		{
 			__texContainerSetter.setUniformUvec2(
 				ShaderIdentifier::Name::Attachment::TEX0, __pWboitAccumAttachment->getHandle());
@@ -120,8 +120,8 @@ namespace Danburite
 
 
 		// Draw opaque
-		sceneDrawingSetup.setup();
-		__opaqueSetup.setup();
+		sceneDrawingSetup();
+		__opaqueSetup();
 
 		pFirstFrameBuffer->clearBuffers(bufferClearFlag);
 		drawer.process([](SceneObject& iter)
@@ -137,7 +137,7 @@ namespace Danburite
 		__pWboitFrameBuffer->clearColorBuffer(0, 0.f);
 		__pWboitFrameBuffer->clearColorBuffer(1, 1.f);
 
-		__translucentSetup.setup();
+		__translucentSetup();
 		drawer.process([](SceneObject& iter)
 		{
 			iter.drawUnderMaterialCondition(true, &Material::isTranslucencyEnabled);
@@ -145,7 +145,7 @@ namespace Danburite
 
 
 		// Wboit composition
-		__compositionSetup.setup();
+		__compositionSetup();
 		pFirstFrameBuffer->bind();
 		__wboitProgram.bind();
 		__fullscreenDrawer.draw();

@@ -1,20 +1,21 @@
 #pragma once
 
 #include <functional>
-#include "ContextStateManager.h"
+#include "RenderContext.h"
 
 namespace Danburite
 {
 	class SetupTransaction
 	{
 	private:
+		ObjectGL::ContextStateManager &__stateMgr =
+			ObjectGL::RenderContext::getCurrentStateManager();
+
 		std::function<void(ObjectGL::ContextStateManager &currentStateMgr)> __setupFunc;
 
 	public:
-		void setSetupFunction(
-			const std::function<void(ObjectGL::ContextStateManager &currentStateMgr)> &setupFunc) noexcept;
-
-		void setup() const;
+		void setup(const std::function<void(ObjectGL::ContextStateManager &currentStateMgr)> &setupFunc) noexcept;
+		void operator()() const;
 	};
 }
 
