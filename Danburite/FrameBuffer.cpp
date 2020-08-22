@@ -71,14 +71,14 @@ namespace ObjectGL
 		const GLint srcLeft, const GLint srcBottom, const GLint srcRight, const GLint srcUp,
 		const GLint targetLeft, const GLint targetBottom, const GLint targetRight, const GLint targetUp) noexcept
 	{
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, ID);
+		bind();
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, target.ID);
 		glBlitFramebuffer(
 			srcLeft, srcBottom, srcRight, srcUp,
 			targetLeft, targetBottom, targetRight, targetUp,
 			GLbitfield(mask), GL_NEAREST);
 
-		bind(true);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, ID);
 	}
 
 	void FrameBuffer::blit(

@@ -86,7 +86,7 @@ namespace Danburite
 	void BloomPostProcessor::setScreenSize(const GLsizei width, const GLsizei height) noexcept
 	{
 		__pOriginalColorAttachment = _getTexRectangle(
-			width, height, TextureInternalFormatType::RGBA16F, TextureExternalFormatType::RGBA,
+			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB,
 			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST, 0ULL);
 
 		_attach(AttachmentType::COLOR_ATTACHMENT0, *__pOriginalColorAttachment);
@@ -101,14 +101,14 @@ namespace Danburite
 
 
 		__pBloomColorAttachment1 = _getTexRectangle(
-			width, height, TextureInternalFormatType::RGBA16F, TextureExternalFormatType::RGBA,
+			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB,
 			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST, 1ULL);
 
 		__pBloomFrameBuffer1->attach(AttachmentType::COLOR_ATTACHMENT0, *__pBloomColorAttachment1);
 
 
 		__pBloomColorAttachment2 = _getTexRectangle(
-			width, height, TextureInternalFormatType::RGBA16F, TextureExternalFormatType::RGBA,
+			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB,
 			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST, 2ULL);
 
 		__pBloomFrameBuffer2->attach(AttachmentType::COLOR_ATTACHMENT0, *__pBloomColorAttachment2);
