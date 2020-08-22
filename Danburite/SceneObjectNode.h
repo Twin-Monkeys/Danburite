@@ -54,6 +54,11 @@ namespace Danburite
 			const size_t numInstances, const bool expectedResult,
 			bool($MaterialType::*const memberFunc)($Args ...args) const, $Args ...args) noexcept;
 
+		template <typename $MaterialType, typename ...$Args>
+		void rawDrawcallUnderMaterialCondition(
+			const size_t numInstances, const bool expectedResult,
+			bool($MaterialType::* const memberFunc)($Args ...args) const, $Args ...args) noexcept;
+
 		template <typename $MaterialType, typename $ReturnType, typename ...$Args>
 		void traverseMaterial($ReturnType($MaterialType::*const memberFunc)($Args ...args), $Args ...args);
 
@@ -72,7 +77,7 @@ namespace Danburite
 	{
 		__joint.selfDeploy();
 
-		for (const std::unique_ptr<Mesh>& pMesh : __meshes)
+		for (const std::unique_ptr<Mesh> &pMesh : __meshes)
 		{
 			pMesh->drawUnderMaterialCondition(
 				numInstances, expectedResult, memberFunc, std::forward<$Args>(args)...);
@@ -81,6 +86,26 @@ namespace Danburite
 		for (SceneObjectNode* const pChild : __children)
 		{
 			pChild->drawUnderMaterialCondition(
+				numInstances, expectedResult, memberFunc, std::forward<$Args>(args)...);
+		}
+	}
+
+	template <typename $MaterialType, typename ...$Args>
+	void SceneObjectNode::rawDrawcallUnderMaterialCondition(
+		const size_t numInstances, const bool expectedResult,
+		bool($MaterialType::*const memberFunc)($Args ...args) const, $Args ...args) noexcept
+	{
+		__joint.selfDeploy();
+
+		for (const std::unique_ptr<Mesh> &pMesh : __meshes)
+		{
+			pMesh->rawDrawcallUnderMaterialCondition(
+				numInstances, expectedResult, memberFunc, std::forward<$Args>(args)...);
+		}
+
+		for (SceneObjectNode* const pChild : __children)
+		{
+			pChild->rawDrawcallUnderMaterialCondition(
 				numInstances, expectedResult, memberFunc, std::forward<$Args>(args)...);
 		}
 	}

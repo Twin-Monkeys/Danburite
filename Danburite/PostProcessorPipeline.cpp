@@ -150,6 +150,7 @@ namespace Danburite
 		__wboitProgram.bind();
 		__fullscreenDrawer.draw();
 
+
 		for (size_t i = 1ULL; i < __pipeline.size(); i++)
 		{
 			pNextProcessor = __pipeline[i].get();

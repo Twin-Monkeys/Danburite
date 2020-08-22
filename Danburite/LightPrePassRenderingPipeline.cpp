@@ -78,8 +78,13 @@ namespace Danburite
 
 			stateMgr.setState(GLStateType::DEPTH_TEST, true);
 			stateMgr.setState(GLStateType::STENCIL_TEST, false);
+			// stateMgr.setState(GLStateType::BLEND, false);
+			// stateMgr.setState(GLStateType::CULL_FACE, true);
+
+			// stateMgr.enableDepthMask(false);
 			stateMgr.setDepthFunction(DepthStencilFunctionType::LEQUAL);
 			stateMgr.setCulledFace(FacetType::BACK);
+			// stateMgr.setFrontFace(WindingOrderType::COUNTER_CLOCKWISE);
 		});
 	}
 
@@ -129,17 +134,25 @@ namespace Danburite
 		lightManager.selfDeploy();
 		camera.selfDeploy();
 
+
 		// Geometry pass
 		__geometryPassSetup();
 		__pNormalShininessFB->clearBuffers(FrameBufferBlitFlag::DEPTH | FrameBufferBlitFlag::STENCIL);
 		__geometryProgram.bind();
-		drawer.process(&SceneObject::rawDrawcall);
+
+		// drawer.process(&SceneObject::rawDrawcall);
+		drawer.process([](SceneObject& iter)
+		{
+			iter.rawDrawcallUnderMaterialCondition(false, &Material::isTranslucencyEnabled);
+		});
+
 
 		// Lighting pass
 		__lightingPassSetup();
 		__pLightingFB->clearBuffers(FrameBufferBlitFlag::COLOR);
 		__lightingProgram.bind();
 		lightManager.process(&Light::volumeDrawcall);
+
 
 		// Composition pass (ordinary forward rendering)
 		const ivec2& screenSize = getScreenSize();

@@ -94,7 +94,7 @@ HDRTestScene::HDRTestScene()
 	__pLizardObj = AssetImporter::import("res/asset/lizard_man/scene.gltf");
 	__pLizardObj->traverseMaterial(&Material::enableTranslucency, true);
 	__pLizardObj->traverseMaterial(&Material::overrideAlpha, true);
-	__pLizardObj->traverseMaterial(&Material::setOverriddenAlpha, .7f);
+	__pLizardObj->traverseMaterial(&Material::setOverriddenAlpha, .5f);
 
 	Transform &lizardTransform = __pLizardObj->getTransform();
 	lizardTransform.setScale(7.f);
@@ -205,11 +205,11 @@ HDRTestScene::HDRTestScene()
 
 	// 파이프라인 초기화
 
-	/*__pRenderingPipeline =
-		make_unique<LightPrePassRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);*/
-
 	__pRenderingPipeline =
-		make_unique<ForwardRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);
+		make_unique<LightPrePassRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);
+
+	/*__pRenderingPipeline =
+		make_unique<ForwardRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);*/
 
 	PostProcessorPipeline &ppPipeline =
 		__pRenderingPipeline->getPostProcessorPipeline();

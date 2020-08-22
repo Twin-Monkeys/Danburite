@@ -33,6 +33,11 @@ namespace Danburite
 			const size_t numInstances, const bool expectedResult,
 			bool($MaterialType::*const memberFunc)($Args ...args) const, $Args ...args) noexcept;
 
+		template <typename $MaterialType, typename ...$Args>
+		void rawDrawcallUnderMaterialCondition(
+			const size_t numInstances, const bool expectedResult,
+			bool($MaterialType::* const memberFunc)($Args ...args) const, $Args ...args) noexcept;
+
 		virtual ~Mesh() = default;
 	};
 
@@ -47,7 +52,19 @@ namespace Danburite
 		bool($MaterialType::*const memberFunc)($Args ...args) const, $Args ...args) noexcept
 	{
 		const Material &material = *__pMaterial;
+
 		if ((material.*memberFunc)(std::forward<$Args>(args)...) == expectedResult)
 			draw(GLsizei(numInstances));
+	}
+
+	template <typename $MaterialType, typename ...$Args>
+	void Mesh::rawDrawcallUnderMaterialCondition(
+		const size_t numInstances, const bool expectedResult,
+		bool($MaterialType::* const memberFunc)($Args ...args) const, $Args ...args) noexcept
+	{
+		const Material &material = *__pMaterial;
+
+		if ((material.*memberFunc)(std::forward<$Args>(args)...) == expectedResult)
+			rawDrawcall(GLsizei(numInstances));
 	}
 }

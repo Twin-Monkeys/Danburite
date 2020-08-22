@@ -57,6 +57,11 @@ namespace Danburite
 			const bool expectedResult,
 			bool ($MaterialType::*const memberFunc)($Args ...args) const, $Args ...args) noexcept;
 
+		template <typename $MaterialType, typename ...$Args>
+		void rawDrawcallUnderMaterialCondition(
+			const bool expectedResult,
+			bool ($MaterialType::* const memberFunc)($Args ...args) const, $Args ...args) noexcept;
+
 		template <typename $MaterialType, typename $ReturnType, typename ...$Args>
 		void traverseMaterial($ReturnType ($MaterialType::*const memberFunc)($Args ...args), $Args ...args);
 	};
@@ -104,6 +109,16 @@ namespace Danburite
 	{
 		__pModelMatrixBuffer->selfDeploy();
 		__pRootNode->drawUnderMaterialCondition(
+			getNumInstances(), expectedResult, memberFunc, std::forward<$Args>(args)...);
+	}
+
+	template <typename $MaterialType, typename ...$Args>
+	void SceneObject::rawDrawcallUnderMaterialCondition(
+		const bool expectedResult,
+		bool ($MaterialType::*const memberFunc)($Args ...args) const, $Args ...args) noexcept
+	{
+		__pModelMatrixBuffer->selfDeploy();
+		__pRootNode->rawDrawcallUnderMaterialCondition(
 			getNumInstances(), expectedResult, memberFunc, std::forward<$Args>(args)...);
 	}
 
