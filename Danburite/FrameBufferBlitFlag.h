@@ -14,7 +14,7 @@ namespace ObjectGL
 	constexpr bool operator&(
 		const FrameBufferBlitFlag lhs, const FrameBufferBlitFlag rhs) noexcept
 	{
-		return bool(GLbitfield(lhs) | GLbitfield(rhs));
+		return bool(GLbitfield(lhs) & GLbitfield(rhs));
 	}
 
 	constexpr FrameBufferBlitFlag operator|(
