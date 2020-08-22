@@ -11,7 +11,7 @@ namespace Danburite
 		LightManager& lightManager, PerspectiveCamera& camera, BatchProcessor<SceneObject>& drawer, Skybox& skybox) :
 		RenderingPipeline(lightManager, camera, drawer, skybox)
 	{
-		__pNormalShininessFB->setOutputColorBuffers(
+		__pPosNormalShininessFB->setOutputColorBuffers(
 			{ ColorBufferType::COLOR_ATTACHMENT0, ColorBufferType::COLOR_ATTACHMENT1 });
 
 		__pLightingFB->setOutputColorBuffers(
@@ -78,13 +78,13 @@ namespace Danburite
 
 			stateMgr.setState(GLStateType::DEPTH_TEST, true);
 			stateMgr.setState(GLStateType::STENCIL_TEST, false);
-			// stateMgr.setState(GLStateType::BLEND, false);
-			// stateMgr.setState(GLStateType::CULL_FACE, true);
+			stateMgr.setState(GLStateType::BLEND, false);
+			stateMgr.setState(GLStateType::CULL_FACE, true);
 
-			// stateMgr.enableDepthMask(false);
+			stateMgr.enableDepthMask(false);
 			stateMgr.setDepthFunction(DepthStencilFunctionType::LEQUAL);
 			stateMgr.setCulledFace(FacetType::BACK);
-			// stateMgr.setFrontFace(WindingOrderType::COUNTER_CLOCKWISE);
+			stateMgr.setFrontFace(WindingOrderType::COUNTER_CLOCKWISE);
 		});
 	}
 
@@ -102,9 +102,9 @@ namespace Danburite
 		__pDepthStencilAttachment = __attachmentServer.getRenderBuffer(
 			width, height, RenderBufferInternalFormatType::DEPTH24_STENCIL8);
 
-		__pNormalShininessFB->attach(AttachmentType::COLOR_ATTACHMENT0, *__pPosAttachment);
-		__pNormalShininessFB->attach(AttachmentType::COLOR_ATTACHMENT1, *__pNormalShininessAttachment);
-		__pNormalShininessFB->attach(AttachmentType::DEPTH_STENCIL_ATTACHMENT, *__pDepthStencilAttachment);
+		__pPosNormalShininessFB->attach(AttachmentType::COLOR_ATTACHMENT0, *__pPosAttachment);
+		__pPosNormalShininessFB->attach(AttachmentType::COLOR_ATTACHMENT1, *__pNormalShininessAttachment);
+		__pPosNormalShininessFB->attach(AttachmentType::DEPTH_STENCIL_ATTACHMENT, *__pDepthStencilAttachment);
 
 
 		// pLightingFB
@@ -137,10 +137,9 @@ namespace Danburite
 
 		// Geometry pass
 		__geometryPassSetup();
-		__pNormalShininessFB->clearBuffers(FrameBufferBlitFlag::DEPTH | FrameBufferBlitFlag::STENCIL);
+		__pPosNormalShininessFB->clearBuffers(FrameBufferBlitFlag::DEPTH | FrameBufferBlitFlag::STENCIL);
 		__geometryProgram.bind();
 
-		// drawer.process(&SceneObject::rawDrawcall);
 		drawer.process([](SceneObject& iter)
 		{
 			iter.rawDrawcallUnderMaterialCondition(false, &Material::isTranslucencyEnabled);
@@ -156,7 +155,7 @@ namespace Danburite
 
 		// Composition pass (ordinary forward rendering)
 		const ivec2& screenSize = getScreenSize();
-		__pNormalShininessFB->blit(
+		__pPosNormalShininessFB->blit(
 			ppPipeline.getFrameBuffer(), FrameBufferBlitFlag::DEPTH, screenSize.x, screenSize.y);
 
 		ppPipeline.render(__compositionPassSetup, drawer, skybox, FrameBufferBlitFlag::COLOR);

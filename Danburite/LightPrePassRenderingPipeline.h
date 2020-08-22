@@ -33,7 +33,7 @@ namespace Danburite
 
 		FullscreenDrawer &__fullscreenDrawer = FullscreenDrawer::getInstance();
 
-		std::unique_ptr<ObjectGL::FrameBuffer> __pNormalShininessFB = std::make_unique<ObjectGL::FrameBuffer>();
+		std::unique_ptr<ObjectGL::FrameBuffer> __pPosNormalShininessFB = std::make_unique<ObjectGL::FrameBuffer>();
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pPosAttachment;
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pNormalShininessAttachment;
 		std::shared_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
