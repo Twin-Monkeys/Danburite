@@ -35,7 +35,7 @@ struct Material
 
 	vec4 outlineColor;
 	float thicknessRatio;
-
+	float overriddenAlpha;
 };
 
 layout (binding = BINDING_POINT_MATERIAL) uniform UBMaterial
@@ -91,6 +91,11 @@ bool Material_isNormalTextureEnabled()
 bool Material_isHeightTextureEnabled()
 {
 	return ((material.optionFlag & MATERIAL_OPTION_FLAG_HEIGHT_TEXTURE) != 0);
+}
+
+bool Material_isAlphaOverriding()
+{
+	return ((material.optionFlag & MATERIAL_OPTION_FLAG_ALPHA_OVERRIDING) != 0);
 }
 
 bool Material_isVertexPositionEnabled()
@@ -237,19 +242,20 @@ float Material_getShininess(const vec2 texCoord)
 
 float Material_getAlpha(const vec2 texCoord)
 {
-	if (!Material_isAlphaTextureEnabled())
-	{
-		if (material.type == MATERIAL_TYPE_MONO_COLOR)
-			return material.diffuseColor.a;
-		
-		else if (Material_isDiffuseTextureEnabled())
-			return texture(sampler2D(material.diffuseTex), texCoord).a;
-		
-		else
-			return 1.f;
-	}
-	else
+	if (Material_isAlphaOverriding())
+		return material.overriddenAlpha;
+
+	if (Material_isAlphaTextureEnabled())
 		return texture(sampler2D(material.alphaTex), texCoord).r;
+
+	if (material.type == MATERIAL_TYPE_MONO_COLOR)
+		return material.diffuseColor.a;
+		
+	else if (Material_isDiffuseTextureEnabled())
+		return texture(sampler2D(material.diffuseTex), texCoord).a;
+		
+	else
+		return 1.f;
 }
 
 vec3 Material_getNormal(const vec2 texCoord, const vec3 targetNormal, const mat3 TBN)

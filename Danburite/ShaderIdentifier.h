@@ -93,7 +93,9 @@ namespace Danburite
 					OUTLINE_COLOR,
 					THICKNESS_RATIO,
 					
-					ENVIRONMENT_TEX;
+					ENVIRONMENT_TEX,
+					OVERRIDDEN_ALPHA
+					;
 			}
 
 			namespace Attachment

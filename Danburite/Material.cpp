@@ -18,6 +18,12 @@ namespace Danburite
 
 			__materialSetter.setUniformUint(
 				ShaderIdentifier::Name::Material::OPTION_FLAG, GLuint(__optionFlag));
+
+			if (isAlphaOverridden())
+			{
+				__materialSetter.setUniformFloat(
+					ShaderIdentifier::Name::Material::OVERRIDDEN_ALPHA, __overriddenAlpha);
+			}
 		});
 	}
 

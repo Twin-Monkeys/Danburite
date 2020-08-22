@@ -86,7 +86,9 @@ namespace Danburite
 					OUTLINE_COLOR = "material.outlineColor",
 					THICKNESS_RATIO = "material.thicknessRatio",
 					
-					ENVIRONMENT_TEX = "material.environmentTex";
+					ENVIRONMENT_TEX = "material.environmentTex",
+					OVERRIDDEN_ALPHA = "material.overriddenAlpha"
+					;
 			}
 
 			namespace Attachment

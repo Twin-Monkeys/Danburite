@@ -93,6 +93,8 @@ HDRTestScene::HDRTestScene()
 
 	__pLizardObj = AssetImporter::import("res/asset/lizard_man/scene.gltf");
 	__pLizardObj->traverseMaterial(&Material::enableTranslucency, true);
+	__pLizardObj->traverseMaterial(&Material::overrideAlpha, true);
+	__pLizardObj->traverseMaterial(&Material::setOverriddenAlpha, .7f);
 
 	Transform &lizardTransform = __pLizardObj->getTransform();
 	lizardTransform.setScale(7.f);

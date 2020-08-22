@@ -21,7 +21,7 @@ namespace Danburite
 		NORMAL_TEXTURE		= 0b0000'0001'0000'0000U,
 		HEIGHT_TEXTURE		= 0b0000'0010'0000'0000U,
 
-		ALPHA_OVERRIDING		= 0b0000'0100'0000'0000U
+		ALPHA_OVERRIDING	= 0b0000'0100'0000'0000U
 	};
 
 	constexpr MaterialOptionFlag operator|(const MaterialOptionFlag lhs, const MaterialOptionFlag rhs)
