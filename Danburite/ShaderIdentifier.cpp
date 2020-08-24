@@ -182,7 +182,7 @@ namespace Danburite
 
 			namespace TranslucencySwitcher
 			{
-				const string MODE = "translucencySwitcher.mode";
+				const string MODE = "UBTranslucencySwitcher.mode";
 			}
 
 			namespace UniformBuffer

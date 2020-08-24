@@ -39,9 +39,9 @@ namespace Danburite
 	}
 
 	bool LightUniformSetter::setUniformMat4Array(
-		const string &name, const GLfloat *const pValues, const GLsizei numElements, const bool transposition) noexcept
+		const string &name, const GLfloat *const pValues, const GLsizei numElements) noexcept
 	{
-		return __uniformSetter.setUniformMat4Array(__pUniformNameCache->getValue(name), pValues, numElements, transposition);
+		return __uniformSetter.setUniformMat4Array(__pUniformNameCache->getValue(name), pValues, numElements);
 	}
 
 	bool LightUniformSetter::setUniformUvec2(const string &name, const GLuint *const pValue) noexcept
@@ -59,9 +59,9 @@ namespace Danburite
 		return __uniformSetter.setUniformVec4(__pUniformNameCache->getValue(name), pValues);
 	}
 
-	bool LightUniformSetter::setUniformMat3(const string &name, const GLfloat *const pValues, const bool transposition) noexcept
+	bool LightUniformSetter::setUniformMat3(const string &name, const GLfloat *const pValues) noexcept
 	{
-		return __uniformSetter.setUniformMat3(__pUniformNameCache->getValue(name), pValues, transposition);
+		return __uniformSetter.setUniformMat3(__pUniformNameCache->getValue(name), pValues);
 	}
 
 	LightUniformSetter::LightUniformNameCache::LightUniformNameCache(const uint id) noexcept :

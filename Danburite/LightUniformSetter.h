@@ -45,12 +45,12 @@ namespace Danburite
 			const std::string &name, const GLfloat *const pValues, const GLsizei numElements) noexcept override;
 
 		virtual bool setUniformMat4Array(
-			const std::string& name, const GLfloat* const pValues, const GLsizei numElements, const bool transposition = false) noexcept override;
+			const std::string& name, const GLfloat* const pValues, const GLsizei numElements) noexcept override;
 
 		virtual bool setUniformUvec2(const std::string &name, const GLuint *const pValue) noexcept override;
 		virtual bool setUniformVec3(const std::string &name, const GLfloat *const pValues) noexcept override;
 		virtual bool setUniformVec4(const std::string &name, const GLfloat *const pValues) noexcept override;
-		virtual bool setUniformMat3(const std::string &name, const GLfloat *const pValues, const bool transposition = false) noexcept override;
+		virtual bool setUniformMat3(const std::string &name, const GLfloat *const pValues) noexcept override;
 
 		virtual ~LightUniformSetter() = default;
 	};
