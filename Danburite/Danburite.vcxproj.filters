@@ -759,9 +759,6 @@
     <ClCompile Include="SetupTransaction.cpp">
       <Filter>Library\Engine\Core\RenderTransaction</Filter>
     </ClCompile>
-    <ClCompile Include="DeferredUniformBuffer.cpp">
-      <Filter>Library\Engine\Core\UniformBuffer</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">
@@ -1307,7 +1304,7 @@
     <ClInclude Include="DeferredUniformBuffer.h">
       <Filter>Library\Engine\Core\UniformBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="PaddingField.h">
+    <ClInclude Include="UniformInterface.h">
       <Filter>Library\Engine\Core\UniformBuffer\Interface</Filter>
     </ClInclude>
   </ItemGroup>
