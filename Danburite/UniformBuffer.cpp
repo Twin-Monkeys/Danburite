@@ -6,7 +6,7 @@ using namespace glm;
 
 namespace ObjectGL
 {
-	UniformBuffer::UniformBuffer(const string &blockName, const GLuint bindingPoint) :
+	UniformBuffer::UniformBuffer(const string_view &blockName, const GLuint bindingPoint) :
 		Buffer(BufferType::UNIFORM), __blockName(blockName), __bindingPoint(bindingPoint)
 	{
 		glBindBufferBase(__RAW_TYPE, __bindingPoint, ID);

@@ -253,6 +253,7 @@
     <ClCompile Include="BoneManager.cpp" />
     <ClCompile Include="ContextStateManager.cpp" />
     <ClCompile Include="ConvolutionalPostProcessor.cpp" />
+    <ClCompile Include="DeferredUniformBuffer.cpp" />
     <ClCompile Include="DepthBaker2D.cpp" />
     <ClCompile Include="DepthBakerBase.cpp" />
     <ClCompile Include="DepthBakerCubemap.cpp" />
@@ -386,6 +387,7 @@
     <ClInclude Include="BoneManager.h" />
     <ClInclude Include="BufferAccessType.h" />
     <ClInclude Include="ContextStateManager.h" />
+    <ClInclude Include="DeferredUniformBuffer.h" />
     <ClInclude Include="DepthBaker2D.h" />
     <ClInclude Include="DepthBakerBase.h" />
     <ClInclude Include="DepthBakerCubemap.h" />
@@ -405,6 +407,7 @@
     <ClInclude Include="LightPrePassRenderingPipeline.h" />
     <ClInclude Include="LightVolumeType.h" />
     <ClInclude Include="MaterialException.h" />
+    <ClInclude Include="PaddingField.h" />
     <ClInclude Include="RawDrawcallMaterial.h" />
     <ClInclude Include="RenderingPipeline.h" />
     <ClInclude Include="PhongCalcMethodType.h" />

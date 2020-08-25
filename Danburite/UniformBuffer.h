@@ -21,7 +21,7 @@ namespace ObjectGL
 		GLint _getBlockElementOffset(const std::string &name) noexcept;
 
 	public:
-		UniformBuffer(const std::string &blockName, const GLuint bindingPoint);
+		UniformBuffer(const std::string_view &blockName, const GLuint bindingPoint);
 
 		bool registerProgram(Program &program) noexcept;
 		bool memoryAllocFit(const BufferUpdatePatternType updatePattern);
