@@ -313,8 +313,8 @@
     <ClCompile Include="TransformableCamera.cpp" />
     <ClCompile Include="TransformableLight.cpp" />
     <ClCompile Include="TransformTimeline.cpp" />
+    <ClCompile Include="MaterialUniformInterface.cpp" />
     <ClCompile Include="TranslucencySwitcherUniformInterface.cpp" />
-    <ClCompile Include="UniformBufferFactory.cpp" />
     <ClCompile Include="UniformSetter.cpp" />
     <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="BufferException.cpp" />
@@ -478,6 +478,7 @@
     <ClInclude Include="TextureUtilException.h" />
     <ClInclude Include="TransformableCamera.h" />
     <ClInclude Include="TransformTimeline.h" />
+    <ClInclude Include="MaterialUniformInterface.h" />
     <ClInclude Include="TranslucencySwitcherUniformInterface.h" />
     <ClInclude Include="TranslucencySwitchType.h" />
     <ClInclude Include="UniformBufferFactory.h" />

@@ -294,7 +294,7 @@ namespace Danburite
 		getUsingProgramsFromUniformBufferName(const string &uniformBufferName) noexcept
 	{
 		static const unordered_map<string, unordered_set<ProgramType>>
-			uniformBufferNameToUsingProgrmsMap =
+			ubNameToProgramsMap =
 		{
 			{
 				ShaderIdentifier::Name::UniformBuffer::MATERIAL,
@@ -437,6 +437,6 @@ namespace Danburite
 			}
 		};
 
-		return uniformBufferNameToUsingProgrmsMap.at(uniformBufferName);
+		return ubNameToProgramsMap.at(uniformBufferName);
 	}
 }

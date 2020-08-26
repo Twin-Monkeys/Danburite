@@ -11,9 +11,9 @@ namespace ObjectGL
 	class UniformBuffer : public Buffer, public UniformSetter
 	{
 	private:
-		std::string __blockName;
+		const std::string __blockName;
+		const GLuint __bindingPoint;
 
-		GLuint __bindingPoint;
 		std::unordered_set<Program *> __registeredPrograms;
 		std::multimap<GLuint, Program *, std::greater<GLuint>> __blockSizeSorter;
 
@@ -22,6 +22,9 @@ namespace ObjectGL
 
 	public:
 		UniformBuffer(const std::string_view &blockName, const GLuint bindingPoint);
+
+		constexpr const std::string& getBlockName() const noexcept;
+		constexpr GLuint getBindingPoint() const noexcept;
 
 		bool registerProgram(Program &program) noexcept;
 		bool memoryAllocFit(const BufferUpdatePatternType updatePattern);
@@ -51,4 +54,14 @@ namespace ObjectGL
 
 		virtual ~UniformBuffer() = default;
 	};
+
+	constexpr const std::string &UniformBuffer::getBlockName() const noexcept
+	{
+		return __blockName;
+	}
+
+	constexpr GLuint UniformBuffer::getBindingPoint() const noexcept
+	{
+		return __bindingPoint;
+	}
 }

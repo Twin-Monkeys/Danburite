@@ -29,7 +29,7 @@ namespace Danburite
 
 	UniformInterface::UniformInterface(
 		const std::string_view& blockName, const GLuint bindingPoint) noexcept :
-		__blockName { blockName.data() }, __bindingPoint { bindingPoint }
+		__blockName { blockName }, __bindingPoint { bindingPoint }
 	{}
 
 	template <typename $DataType, size_t MEM_SIZE, typename ...$Args>

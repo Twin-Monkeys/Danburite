@@ -618,9 +618,6 @@
     <ClCompile Include="TransformableCamera.cpp">
       <Filter>Library\Engine\Core\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="UniformBufferFactory.cpp">
-      <Filter>Library\Engine\Core\UniformBuffer</Filter>
-    </ClCompile>
     <ClCompile Include="AttachableTexture2D.cpp">
       <Filter>Library\ObjectGL\Core\Texture\Attachable</Filter>
     </ClCompile>
@@ -763,6 +760,9 @@
       <Filter>Library\Engine\Core\RenderTransaction</Filter>
     </ClCompile>
     <ClCompile Include="TranslucencySwitcherUniformInterface.cpp">
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\TranslucencySwitcher</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialUniformInterface.cpp">
       <Filter>Library\Engine\Core\UniformBuffer\Interface\TranslucencySwitcher</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1317,6 +1317,9 @@
       <Filter>Library\Engine\Core\UniformBuffer\Interface</Filter>
     </ClInclude>
     <ClInclude Include="TranslucencySwitcherUniformInterface.h">
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\TranslucencySwitcher</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialUniformInterface.h">
       <Filter>Library\Engine\Core\UniformBuffer\Interface\TranslucencySwitcher</Filter>
     </ClInclude>
   </ItemGroup>

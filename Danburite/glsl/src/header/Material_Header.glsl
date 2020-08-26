@@ -7,41 +7,70 @@
 
 #include "Constant_Header.glsl"
 
-struct Material
+layout (std140, binding = BINDING_POINT_MATERIAL) uniform UBMaterial
 {
-	uint type;
-	uint optionFlag;
-	uint vertexFlag;
+	// 4byte
+	layout(offset = 0) uint type;
 
-	vec4 diffuseColor;
-	float gamma;
+	// 4byte
+	layout(offset = 4) uint optionFlag;
 
-	float emissiveStrength;
-	float shininess;
+	// 4byte
+	layout(offset = 8) uint vertexFlag;
+
+	// 16byte
+	layout(offset = 12) vec4 diffuseColor;
+
+	// 4byte
+	layout(offset = 28) float gamma;
+
+	// 4byte
+	layout(offset = 32) float emissiveStrength;
+
+	// 4byte
+	layout(offset = 36) float shininess;
+
 
 	// texture handle
-	uvec2 ambientTex;
-	uvec2 diffuseTex;
-	uvec2 specularTex;
-	uvec2 emissiveTex;
-	uvec2 shininessTex;
-	uvec2 alphaTex;
-	uvec2 normalTex;
-	uvec2 heightTex;
-	uvec2 environmentTex;
 
-	float zNear;
-	float zFar;
+	// 8byte
+	layout(offset = 40) uvec2 ambientTex;
 
-	vec4 outlineColor;
-	float thicknessRatio;
-	float overriddenAlpha;
-};
+	// 8byte
+	layout(offset = 48) uvec2 diffuseTex;
 
-layout (binding = BINDING_POINT_MATERIAL) uniform UBMaterial
-{
-	Material material;
-};
+	// 8byte
+	layout(offset = 56) uvec2 specularTex;
+
+	// 8byte
+	layout(offset = 64) uvec2 emissiveTex;
+
+	// 8byte
+	layout(offset = 72) uvec2 shininessTex;
+
+	// 8byte
+	layout(offset = 80) uvec2 alphaTex;
+
+	// 8byte
+	layout(offset = 88) uvec2 normalTex;
+
+	// 8byte
+	layout(offset = 96) uvec2 heightTex;
+
+	// 8byte
+	layout(offset = 104) uvec2 environmentTex;
+
+	// 4byte
+	layout(offset = 112) float zNear;
+
+	// 4byte
+	layout(offset = 0) float zFar;
+
+	layout(offset = 0) vec4 outlineColor;
+	layout(offset = 0) float thicknessRatio;
+	layout(offset = 0) float overriddenAlpha;
+}
+material;
 
 bool Material_isLightingEnabled()
 {
