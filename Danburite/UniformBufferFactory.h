@@ -1,8 +1,9 @@
 #pragma once
 
 #include "RenderContext.h"
-#include "Cache.h"
-#include "UniformBuffer.h"
+#include <any>
+#include "DeferredUniformBuffer.h"
+#include "TranslucencySwitcherUniformInterface.h"
 
 namespace Danburite
 {
@@ -11,17 +12,27 @@ namespace Danburite
 		friend ObjectGL::ContextDependentSingleton<UniformBufferFactory>;
 
 	private:
-		class UniformBufferCache : public ObjectGL::Cache<std::string, std::shared_ptr<ObjectGL::UniformBuffer>>
-		{
-		protected:
-			virtual std::shared_ptr<ObjectGL::UniformBuffer> _onProvideValue(const std::string &key) override;
-		};
-
-		UniformBufferCache __uniformBufferCache;
+		std::unordered_map<std::type_info, std::any> __uniformBufferCache;
 
 		UniformBufferFactory() = default;
 
 	public:
-		ObjectGL::UniformBuffer &getUniformBuffer(const std::string &bufferName);
+		template <typename $UniformInterfaceType>
+		DeferredUniformBuffer<$UniformInterfaceType> &getUniformBuffer();
 	};
+
+	template <typename $UniformInterfaceType>
+	DeferredUniformBuffer<$UniformInterfaceType> &UniformBufferFactory::getUniformBuffer()
+	{
+		using namespace std;
+
+		const type_info RTTI = typeid($UniformInterfaceType);
+		auto resultIt = __uniformBufferCache.find(RTTI);
+
+		if (resultIt != __uniformBufferCache.end())
+			return *any_cast<shared_ptr<DeferredUniformBuffer<$UniformInterfaceType>>>(resultIt->second);
+
+		return *any_cast<shared_ptr<DeferredUniformBuffer<$UniformInterfaceType>>>(
+			__uniformBufferCache.emplace(RTTI, make_shared<DeferredUniformBuffer<$UniformInterfaceType>>()).first.second);
+	}
 }

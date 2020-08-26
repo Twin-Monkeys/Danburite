@@ -16,7 +16,7 @@ namespace Danburite
 		$UniformInterfaceType __interfaceInstance;
 
 	public:
-		DeferredUniformBuffer(const std::string_view &blockName, const GLuint bindingPoint);
+		DeferredUniformBuffer();
 
 		constexpr $UniformInterfaceType &getInterface() noexcept;
 		constexpr const $UniformInterfaceType &getInterface() const noexcept;
@@ -27,8 +27,12 @@ namespace Danburite
 	};
 
 	template <typename $UniformInterfaceType>
-	DeferredUniformBuffer<$UniformInterfaceType>::DeferredUniformBuffer(
-		const std::string_view& blockName, const GLuint bindingPoint)
+	DeferredUniformBuffer<$UniformInterfaceType>::DeferredUniformBuffer() :
+		ObjectGL::UniformBuffer
+		{
+			__interfaceInstance.getBlockName(),
+			__interfaceInstance.getBindingPoint()
+		}
 	{}
 
 	template <typename $UniformInterfaceType>
