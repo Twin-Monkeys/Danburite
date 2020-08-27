@@ -7,73 +7,53 @@
 
 #include "Constant_Header.glsl"
 
-struct LightMeta
+layout(std140, binding = BINDING_POINT_LIGHT) uniform UBLight
 {
-	uint numLights;
-};
+	// 4byte
+	layout(offset = 0) uint numLights;
 
-struct Light
-{
-	bool enabled;
-
-	// base properties
-	uint type;
-	vec3 albedo;
-	float ambientStrength;
-	float diffuseStrength;
-	float specularStrength;
-
-	// directional, spot
-	vec3 direction;
-
-	// point, spot
-	vec3 pos;
-	float attConst;
-	float attLinear;
-	float attQuad;
-	float validDistance;
-
-	// spot
-	float innerCutOff;
-	float outerCutOff;
-
-	// shadow
-	bool shadowEnabled;
-	uint depthBakingType;
-	uvec2 depthMap;
-
-	// ortho depth baking
-	mat4 projViewMat;
-
-	// cubemap depth baking
-	float zFar;
-};
-
-layout(binding = BINDING_POINT_LIGHT) uniform UBLight
-{
-	LightMeta lightMeta;
-	Light light[MAX_NUM_LIGHTS];
-};
+	// 4byte * MAX_NUM_LIGHTS
+	layout(offset = 0) uint enabled[MAX_NUM_LIGHTS];
+	layout(offset = 0) uint type[MAX_NUM_LIGHTS];
+	layout(offset = 0) vec3 albedo[MAX_NUM_LIGHTS];
+	layout(offset = 0) float ambientStrength[MAX_NUM_LIGHTS];
+	layout(offset = 0) float diffuseStrength[MAX_NUM_LIGHTS];
+	layout(offset = 0) float specularStrength[MAX_NUM_LIGHTS];
+	layout(offset = 0) vec3 direction[MAX_NUM_LIGHTS];
+	layout(offset = 0) vec3 pos[MAX_NUM_LIGHTS];
+	layout(offset = 0) float attConst[MAX_NUM_LIGHTS];
+	layout(offset = 0) float attLinear[MAX_NUM_LIGHTS];
+	layout(offset = 0) float attQuad[MAX_NUM_LIGHTS];
+	layout(offset = 0) float validDistance[MAX_NUM_LIGHTS];
+	layout(offset = 0) float innerCutOff[MAX_NUM_LIGHTS];
+	layout(offset = 0) float outerCutOff[MAX_NUM_LIGHTS];
+	layout(offset = 0) bool shadowEnabled[MAX_NUM_LIGHTS];
+	layout(offset = 0) uint depthBakingType[MAX_NUM_LIGHTS];
+	layout(offset = 0) uvec2 depthMap[MAX_NUM_LIGHTS];
+	layout(offset = 0) mat4 projViewMat[MAX_NUM_LIGHTS];
+	layout(offset = 0) float zFar[MAX_NUM_LIGHTS];
+}
+light;
 
 uint Light_getNumLights()
 {
-	return lightMeta.numLights;
+	return light.numLights;
 }
 
 vec3 Light_getLightDirection(const uint lightIndex, const vec3 targetPos)
 {
-	const uint LIGHT_TYPE = light[lightIndex].type;
+	const uint LIGHT_TYPE = light.type[lightIndex];
 	vec3 retVal = vec3(0.f);
 
 	if (LIGHT_TYPE == LIGHT_TYPE_DIRECTIONAL)
 	{
-		retVal = light[lightIndex].direction;
+		retVal = light.direction[lightIndex];
 	}
 	else if (
 		(LIGHT_TYPE == LIGHT_TYPE_POINT) ||
 		(LIGHT_TYPE == LIGHT_TYPE_SPOT))
 	{
-		retVal = normalize(targetPos - light[lightIndex].pos);
+		retVal = normalize(targetPos - light.pos[lightIndex]);
 	}
 
 	return retVal;
@@ -81,7 +61,7 @@ vec3 Light_getLightDirection(const uint lightIndex, const vec3 targetPos)
 
 float Light_getOcclusion_ortho(const uint lightIndex, const vec3 targetPos, const vec3 targetNormal)
 {
-	const vec4 lightSpaceTargetPos = (light[lightIndex].projViewMat * vec4(targetPos, 1.f));
+	const vec4 lightSpaceTargetPos = (light.projViewMat[lightIndex] * vec4(targetPos, 1.f));
 
 	/*
 		When using an orthographic projection matrix
@@ -99,7 +79,7 @@ float Light_getOcclusion_ortho(const uint lightIndex, const vec3 targetPos, cons
 	const float depthAdjustment =
 		max(5e-4f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex, targetPos))), 2e-4f);
 
-	const sampler2D depthMap = sampler2D(light[lightIndex].depthMap);
+	const sampler2D depthMap = sampler2D(light.depthMap[lightIndex]);
 
 	float retVal = 0.f;
 	for (int x = -1; x <= 1; x++)
@@ -126,7 +106,7 @@ float Light_getOcclusion_cubemap(const uint lightIndex, const vec3 targetPos, co
 	   vec3( 0.f,  1.f,  1.f), vec3( 0.f, -1.f,  1.f), vec3( 0.f, -1.f, -1.f), vec3( 0.f,  1.f, -1.f)
 	);
 
-	const vec3 lightPosToTarget = (targetPos - light[lightIndex].pos);
+	const vec3 lightPosToTarget = (targetPos - light.pos[lightIndex]);
 	const float curDepth = length(lightPosToTarget);
 
 	// 광원으로부터 targetPos가 멀어질수록 그림자가 흐려지도록 한다.
@@ -135,13 +115,13 @@ float Light_getOcclusion_cubemap(const uint lightIndex, const vec3 targetPos, co
 	const float depthAdjustment =
 		max(15e-2f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex, targetPos))), 10e-2f);
 
-	const samplerCube depthMap = samplerCube(light[lightIndex].depthMap);
+	const samplerCube depthMap = samplerCube(light.depthMap[lightIndex]);
 
 	float retVal = 0.f;
 	for (uint i = 0; i < NUM_SAMPLES; i++)
 	{
 		const float mappedDepth =
-			(texture(depthMap, lightPosToTarget + (sampleBiases[i] * biasAdj_lightDistance)).x * light[lightIndex].zFar);
+			(texture(depthMap, lightPosToTarget + (sampleBiases[i] * biasAdj_lightDistance)).x * light.zFar[lightIndex]);
 
 		retVal += float(mappedDepth < (curDepth - depthAdjustment));
 	}
@@ -154,13 +134,13 @@ float Light_getOcclusion_cubemap(const uint lightIndex, const vec3 targetPos, co
 
 float Light_getOcclusion(uint lightIndex, const vec3 targetPos, vec3 targetNormal)
 {
-	if (!light[lightIndex].shadowEnabled)
+	if (!light.shadowEnabled[lightIndex])
 		return 0.f;
 
-	if (light[lightIndex].depthBakingType == LIGHT_DEPTH_BAKING_TYPE_ORTHO)
+	if (light.depthBakingType[lightIndex] == LIGHT_DEPTH_BAKING_TYPE_ORTHO)
 		return Light_getOcclusion_ortho(lightIndex, targetPos, targetNormal);
 
-	else if (light[lightIndex].depthBakingType == LIGHT_DEPTH_BAKING_TYPE_CUBEMAP)
+	else if (light.depthBakingType[lightIndex] == LIGHT_DEPTH_BAKING_TYPE_CUBEMAP)
 		return Light_getOcclusion_cubemap(lightIndex, targetPos, targetNormal);
 
 	return 0.f;
@@ -168,27 +148,27 @@ float Light_getOcclusion(uint lightIndex, const vec3 targetPos, vec3 targetNorma
 
 float Light_getLightDistance(uint lightIndex, const vec3 targetPos)
 {
-	return length(targetPos - light[lightIndex].pos);
+	return length(targetPos - light.pos[lightIndex]);
 }
 
 bool Light_checkValidation(const uint lightIndex, const vec3 targetPos)
 {
-	if (!light[lightIndex].enabled)
+	if (light.enabled[lightIndex] == FALSE)
 		return false;
 
-	const uint LIGHT_TYPE = light[lightIndex].type;
+	const uint LIGHT_TYPE = light.type[lightIndex];
 
 	if (LIGHT_TYPE == LIGHT_TYPE_SPOT)
 	{
 		const float lightDist = Light_getLightDistance(lightIndex, targetPos);
-		if (lightDist > light[lightIndex].validDistance)
+		if (lightDist > light.validDistance[lightIndex])
 			return false;
 
-		const float theta = dot(light[lightIndex].direction, Light_getLightDirection(lightIndex, targetPos));
+		const float theta = dot(light.direction[lightIndex], Light_getLightDirection(lightIndex, targetPos));
 		
 		const float cutOffValue =
-			((theta - light[lightIndex].outerCutOff) /
-			(light[lightIndex].innerCutOff - light[lightIndex].outerCutOff));
+			((theta - light.outerCutOff[lightIndex]) /
+			(light.innerCutOff[lightIndex] - light.outerCutOff[lightIndex]));
 
 		if (cutOffValue < 0.f)
 			return false;
@@ -197,7 +177,7 @@ bool Light_checkValidation(const uint lightIndex, const vec3 targetPos)
 	{
 		const float lightDist = Light_getLightDistance(lightIndex, targetPos);
 
-		if (lightDist > light[lightIndex].validDistance)
+		if (lightDist > light.validDistance[lightIndex])
 			return false;
 	}
 
@@ -206,16 +186,16 @@ bool Light_checkValidation(const uint lightIndex, const vec3 targetPos)
 
 float Light_getAttenuation(uint lightIndex, const vec3 targetPos)
 {
-	const uint LIGHT_TYPE = light[lightIndex].type;
+	const uint LIGHT_TYPE = light.type[lightIndex];
 	float retVal = 1.f;
 
 	if ((LIGHT_TYPE == LIGHT_TYPE_SPOT) || (LIGHT_TYPE == LIGHT_TYPE_POINT))
 	{
 		const float lightDist = Light_getLightDistance(lightIndex, targetPos);
 		const float attenuation =
-			(light[lightIndex].attConst +
-			(light[lightIndex].attLinear * lightDist) +
-			(light[lightIndex].attQuad * lightDist * lightDist));
+			(light.attConst[lightIndex] +
+			(light.attLinear[lightIndex] * lightDist) +
+			(light.attQuad[lightIndex] * lightDist * lightDist));
 
 		retVal /= attenuation;
 	}
@@ -226,23 +206,23 @@ float Light_getAttenuation(uint lightIndex, const vec3 targetPos)
 vec3 Light_getLightAmbient(uint lightIndex, const vec3 targetPos)
 {
 	return (
-		light[lightIndex].albedo *
-		light[lightIndex].ambientStrength);
+		light.albedo[lightIndex] *
+		light.ambientStrength[lightIndex]);
 }
 
 float Light_getCutOff(const uint lightIndex, const vec3 targetPos)
 {
-	const uint LIGHT_TYPE = light[lightIndex].type;
+	const uint LIGHT_TYPE = light.type[lightIndex];
 
 	if (LIGHT_TYPE != LIGHT_TYPE_SPOT)
 		return 1.f;
 
 	const float theta =
-		dot(light[lightIndex].direction, Light_getLightDirection(lightIndex, targetPos));
+		dot(light.direction[lightIndex], Light_getLightDirection(lightIndex, targetPos));
 		
 	return clamp(
-		(theta - light[lightIndex].outerCutOff) /
-		(light[lightIndex].innerCutOff - light[lightIndex].outerCutOff), 0.f, 1.f);
+		(theta - light.outerCutOff[lightIndex]) /
+		(light.innerCutOff[lightIndex] - light.outerCutOff[lightIndex]), 0.f, 1.f);
 }
 
 float Light_getLightDiffusePower(uint lightIndex, const vec3 targetPos, vec3 targetNormal)
@@ -255,8 +235,8 @@ float Light_getLightDiffusePower(uint lightIndex, const vec3 targetPos, vec3 tar
 vec3 Light_getLightDiffuse(uint lightIndex, const vec3 targetPos, vec3 targetNormal)
 {
 	return (
-		light[lightIndex].albedo *
-		light[lightIndex].diffuseStrength *
+		light.albedo[lightIndex] *
+		light.diffuseStrength[lightIndex] *
 		Light_getLightDiffusePower(lightIndex, targetPos, targetNormal));
 }
 
@@ -279,8 +259,8 @@ float Light_getLightSpecularPower(
 vec3 Light_getLightSpecular(uint lightIndex, const vec3 targetPos, vec3 targetNormal, vec3 viewDirection, float materialShininess)
 {
 	return (
-		light[lightIndex].albedo *
-		light[lightIndex].specularStrength *
+		light.albedo[lightIndex] *
+		light.specularStrength[lightIndex] *
 		Light_getLightSpecularPower(lightIndex, targetPos, targetNormal, viewDirection, materialShininess));
 }
 

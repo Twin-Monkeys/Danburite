@@ -1322,6 +1322,9 @@
     <ClInclude Include="MaterialUniformInterface.h">
       <Filter>Library\Engine\Core\UniformBuffer\Interface\TranslucencySwitcher</Filter>
     </ClInclude>
+    <ClInclude Include="LightUniformInterface.h">
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\TranslucencySwitcher</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glsl\src\Header\Camera_Header.glsl">

@@ -30,9 +30,6 @@ layout (std140, binding = BINDING_POINT_MATERIAL) uniform UBMaterial
 	// 4byte
 	layout(offset = 36) float shininess;
 
-
-	// texture handle
-
 	// 8byte
 	layout(offset = 40) uvec2 ambientTex;
 
@@ -61,14 +58,7 @@ layout (std140, binding = BINDING_POINT_MATERIAL) uniform UBMaterial
 	layout(offset = 104) uvec2 environmentTex;
 
 	// 4byte
-	layout(offset = 112) float zNear;
-
-	// 4byte
-	layout(offset = 0) float zFar;
-
-	layout(offset = 0) vec4 outlineColor;
-	layout(offset = 0) float thicknessRatio;
-	layout(offset = 0) float overriddenAlpha;
+	layout(offset = 112) float overriddenAlpha;
 }
 material;
 
@@ -298,16 +288,6 @@ vec3 Material_getNormal(const vec2 texCoord, const vec3 targetNormal, const mat3
 	}
 
 	return targetNormal;
-}
-
-float Material_getLinearDepth(float fragDepth)
-{
-	const float ndcDepth = ((fragDepth * 2.f) - 1.f);
-	const float linearDepth = (
-		(2.f * material.zNear * material.zFar) /
-		((material.zNear + material.zFar) + (ndcDepth * (material.zNear - material.zFar))));
-
-	return (linearDepth / material.zFar);
 }
 
 vec4 Material_getEnvReflection(const vec3 targetNormal, const vec3 viewDirection, const vec2 texCoord)

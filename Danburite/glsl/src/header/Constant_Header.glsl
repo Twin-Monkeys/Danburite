@@ -7,6 +7,8 @@
 // Common
 
 const float EPSILON = 1e-6f;
+const uint FALSE = 0U;
+const uint TRUE = 1U;
 
 
 // Vertex Attributes //

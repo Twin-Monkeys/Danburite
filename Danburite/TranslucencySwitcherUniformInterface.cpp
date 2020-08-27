@@ -9,6 +9,6 @@ namespace Danburite
 			ShaderIdentifier::Name::UniformBuffer::TRANSLUCENCY_SWITCHER,
 			ShaderIdentifier::Value::UniformBlockBindingPoint::TRANSLUCENCY_SWITCHER
 		},
-		mode { _appendField<GLuint, 4>() }
+		mode { _appendField<GLuint, 4>(0) }
 	{}
 }

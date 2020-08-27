@@ -7,6 +7,31 @@ namespace Danburite
 {
 	namespace ShaderIdentifier
 	{
+		namespace Name
+		{
+			namespace UniformBuffer
+			{
+				extern const std::string
+					MATERIAL,
+					LIGHT,
+					CAMERA,
+					CONVOLUTION,
+					GAMMA_CORRECTION,
+					SKYBOX,
+					TEX_CONTAINER,
+					DEPTH_BAKING_2D,
+					DEPTH_BAKING_CUBEMAP,
+					HDR,
+					BLOOM,
+					JOINT,
+					BONE,
+					PHONG,
+					LIGHT_PREPASS,
+					TRANSLUCENCY_SWITCHER
+					;
+			}
+		}
+
 		namespace Value
 		{
 			namespace VertexAttribute
