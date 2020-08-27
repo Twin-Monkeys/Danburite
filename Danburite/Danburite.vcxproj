@@ -251,6 +251,9 @@
     <ClCompile Include="Bone.cpp" />
     <ClCompile Include="BoneException.cpp" />
     <ClCompile Include="BoneManager.cpp" />
+    <ClCompile Include="GammaCorrectionUniformInterface.cpp" />
+    <ClCompile Include="ConvolutionUniformInterface.cpp" />
+    <ClCompile Include="CameraUniformInterface.cpp" />
     <ClCompile Include="ContextStateManager.cpp" />
     <ClCompile Include="ConvolutionalPostProcessor.cpp" />
     <ClCompile Include="DepthBaker2D.cpp" />
@@ -267,6 +270,7 @@
     <ClCompile Include="LightingTestScene.cpp" />
     <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="LightPrePassRenderingPipeline.cpp" />
+    <ClCompile Include="LightUniformInterface.cpp" />
     <ClCompile Include="MaterialException.cpp" />
     <ClCompile Include="RawDrawcallMaterial.cpp" />
     <ClCompile Include="RenderingPipeline.cpp" />
@@ -386,6 +390,8 @@
     <ClInclude Include="BoneException.h" />
     <ClInclude Include="BoneManager.h" />
     <ClInclude Include="BufferAccessType.h" />
+    <ClInclude Include="GammaCorrectionUniformInterface.h" />
+    <ClInclude Include="ConvolutionUniformInterface.h" />
     <ClInclude Include="ContextStateManager.h" />
     <ClInclude Include="DeferredUniformBuffer.h" />
     <ClInclude Include="DepthBaker2D.h" />
@@ -405,6 +411,7 @@
     <ClInclude Include="LightingTestScene.h" />
     <ClInclude Include="LightManager.h" />
     <ClInclude Include="LightPrePassRenderingPipeline.h" />
+    <ClInclude Include="CameraUniformInterface.h" />
     <ClInclude Include="LightUniformInterface.h" />
     <ClInclude Include="LightVolumeType.h" />
     <ClInclude Include="MaterialException.h" />

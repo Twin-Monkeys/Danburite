@@ -388,6 +388,21 @@
     <Filter Include="Library\Engine\Core\UniformBuffer\Interface\TranslucencySwitcher">
       <UniqueIdentifier>{2ada1e35-5c60-4629-b2df-c3bf34314701}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library\Engine\Core\UniformBuffer\Interface\Material">
+      <UniqueIdentifier>{9df80993-0dc6-4a4f-89d9-3f34feb528a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\UniformBuffer\Interface\Light">
+      <UniqueIdentifier>{2abcae1f-23ae-4551-a927-39089e635c95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\UniformBuffer\Interface\Camera">
+      <UniqueIdentifier>{8d3ac476-e47e-44c4-b1bc-75ca9d0818b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\UniformBuffer\Interface\Convolution">
+      <UniqueIdentifier>{e8928d52-af26-4010-9e63-a682fc85edfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\UniformBuffer\Interface\GammaCorrection">
+      <UniqueIdentifier>{f2a1c169-b79e-4c73-bd78-c9e4ddbb5450}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Buffer.cpp">
@@ -763,7 +778,19 @@
       <Filter>Library\Engine\Core\UniformBuffer\Interface\TranslucencySwitcher</Filter>
     </ClCompile>
     <ClCompile Include="MaterialUniformInterface.cpp">
-      <Filter>Library\Engine\Core\UniformBuffer\Interface\TranslucencySwitcher</Filter>
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="LightUniformInterface.cpp">
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraUniformInterface.cpp">
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="ConvolutionUniformInterface.cpp">
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\Convolution</Filter>
+    </ClCompile>
+    <ClCompile Include="GammaCorrectionUniformInterface.cpp">
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\GammaCorrection</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1320,10 +1347,19 @@
       <Filter>Library\Engine\Core\UniformBuffer\Interface\TranslucencySwitcher</Filter>
     </ClInclude>
     <ClInclude Include="MaterialUniformInterface.h">
-      <Filter>Library\Engine\Core\UniformBuffer\Interface\TranslucencySwitcher</Filter>
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\Material</Filter>
     </ClInclude>
     <ClInclude Include="LightUniformInterface.h">
-      <Filter>Library\Engine\Core\UniformBuffer\Interface\TranslucencySwitcher</Filter>
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraUniformInterface.h">
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="ConvolutionUniformInterface.h">
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\Convolution</Filter>
+    </ClInclude>
+    <ClInclude Include="GammaCorrectionUniformInterface.h">
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\GammaCorrection</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

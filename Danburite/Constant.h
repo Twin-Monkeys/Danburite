@@ -21,6 +21,8 @@ namespace Danburite
 
 		namespace Light
 		{
+			constexpr GLuint MAX_NUM_LIGHTS = 256U;
+
 			namespace BaseComponent
 			{
 				constexpr glm::vec3 ALBEDO				= { 1.f, 1.f, 1.f };
@@ -74,6 +76,8 @@ namespace Danburite
 
 		namespace Convolutional
 		{
+			constexpr size_t MAX_KERNEL_SIZE = 7ULL;
+
 			constexpr GLfloat sharpenKernel3x3[] =
 			{
 				-1.f, -1.f, -1.f,

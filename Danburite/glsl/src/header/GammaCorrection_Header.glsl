@@ -5,15 +5,11 @@
 
 #include "Constant_Header.glsl"
 
-struct GammaCorrection
+layout(std140, binding = BINDING_POINT_GAMMA_CORRECTION) uniform UBGammaCorrection
 {
-	float gamma;
-};
-
-layout(binding = BINDING_POINT_GAMMA_CORRECTION) uniform UBGammaCorrection
-{
-	GammaCorrection gammaCorrection;
-};
+	layout(offset = 0) float gamma;
+}
+gammaCorrection;
 
 float GammaCorrection_getGamma()
 {

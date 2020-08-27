@@ -9,55 +9,27 @@
 
 layout (std140, binding = BINDING_POINT_MATERIAL) uniform UBMaterial
 {
-	// 4byte
-	layout(offset = 0) uint type;
-
-	// 4byte
-	layout(offset = 4) uint optionFlag;
-
-	// 4byte
-	layout(offset = 8) uint vertexFlag;
-
 	// 16byte
-	layout(offset = 12) vec4 diffuseColor;
+	layout(offset = 0) vec4 diffuseColor;
+
+	// 8byte
+	layout(offset = 16) uvec2 ambientTex;
+	layout(offset = 24) uvec2 diffuseTex;
+	layout(offset = 32) uvec2 specularTex;
+	layout(offset = 40) uvec2 emissiveTex;
+	layout(offset = 48) uvec2 shininessTex;
+	layout(offset = 56) uvec2 alphaTex;
+	layout(offset = 64) uvec2 normalTex;
+	layout(offset = 72) uvec2 heightTex;
+	layout(offset = 80) uvec2 environmentTex;
 
 	// 4byte
-	layout(offset = 28) float gamma;
-
-	// 4byte
-	layout(offset = 32) float emissiveStrength;
-
-	// 4byte
-	layout(offset = 36) float shininess;
-
-	// 8byte
-	layout(offset = 40) uvec2 ambientTex;
-
-	// 8byte
-	layout(offset = 48) uvec2 diffuseTex;
-
-	// 8byte
-	layout(offset = 56) uvec2 specularTex;
-
-	// 8byte
-	layout(offset = 64) uvec2 emissiveTex;
-
-	// 8byte
-	layout(offset = 72) uvec2 shininessTex;
-
-	// 8byte
-	layout(offset = 80) uvec2 alphaTex;
-
-	// 8byte
-	layout(offset = 88) uvec2 normalTex;
-
-	// 8byte
-	layout(offset = 96) uvec2 heightTex;
-
-	// 8byte
-	layout(offset = 104) uvec2 environmentTex;
-
-	// 4byte
+	layout(offset = 88) uint type;
+	layout(offset = 92) uint optionFlag;
+	layout(offset = 96) uint vertexFlag;
+	layout(offset = 100) float gamma;
+	layout(offset = 104) float emissiveStrength;
+	layout(offset = 108) float shininess;
 	layout(offset = 112) float overriddenAlpha;
 }
 material;

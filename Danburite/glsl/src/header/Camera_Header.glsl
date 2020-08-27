@@ -5,17 +5,16 @@
 
 #include "Constant_Header.glsl"
 
-struct Camera
+layout(std140, binding = BINDING_POINT_CAMERA) uniform UBCamera
 {
-	vec3 pos;
-	mat4 viewMat;
-	mat4 projMat;
-};
+	// 64byte
+	layout(offset = 0) mat4 viewMat;
+	layout(offset = 64) mat4 projMat;
 
-layout(binding = BINDING_POINT_CAMERA) uniform UBCamera
-{
-	Camera camera;
-};
+	// 12byte
+	layout(offset = 128 + 4/* padding */) vec3 pos;
+}
+camera;
 
 vec3 Camera_getPosition()
 {

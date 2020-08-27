@@ -14,8 +14,8 @@ namespace Danburite
 		std::vector<uint8_t> __buffer;
 
 	protected:
-		template <typename $DataType, size_t MEM_SIZE, typename ...$Args>
-		UniformField<$DataType> _appendField($Args &&...args) noexcept;
+		template <typename $DataType, size_t MEM_SIZE = sizeof($DataType)>
+		UniformField<$DataType> _appendField() noexcept;
 
 	public:
 		UniformInterface(const std::string_view &blockName, const GLuint bindingPoint) noexcept;
@@ -32,8 +32,8 @@ namespace Danburite
 		__blockName { blockName }, __bindingPoint { bindingPoint }
 	{}
 
-	template <typename $DataType, size_t MEM_SIZE, typename ...$Args>
-	UniformField<$DataType> UniformInterface::_appendField($Args &&...args) noexcept
+	template <typename $DataType, size_t MEM_SIZE>
+	UniformField<$DataType> UniformInterface::_appendField() noexcept
 	{
 		static_assert(
 			MEM_SIZE >= sizeof($DataType),
@@ -42,7 +42,6 @@ namespace Danburite
 		const size_t offset = __buffer.size();
 		__buffer.resize(offset + MEM_SIZE);
 
-		new (__buffer.data() + offset) $DataType(std::forward<&Args>(args)...);
 		return { __buffer, offset };
 	}
 
