@@ -136,6 +136,18 @@ namespace Danburite
 			constexpr float DEFAULT_EFFECT_STRENGTH			= .7f;
 		}
 
+		namespace PostProcess
+		{
+			constexpr GLuint
+				MAX_NUM_COLOR_ATTACHMENTS = 8U;
+		}
+
+		namespace MSAA
+		{
+			constexpr GLuint
+				NUM_SAMPLE_POINTS = 4U;
+		}
+
 		namespace Animation
 		{
 			constexpr GLuint MAX_NUM_BONES = 512U;

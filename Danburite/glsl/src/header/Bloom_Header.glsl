@@ -5,16 +5,13 @@
 
 #include "Constant_Header.glsl"
 
-struct Bloom
+layout(std140, binding = BINDING_POINT_BLOOM) uniform UBBloom
 {
-	float brightnessThreshold;
-	float effectStrength;
-};
-
-layout(binding = BINDING_POINT_BLOOM) uniform UBBloom
-{
-	Bloom bloom;
-};
+	// 4byte
+	layout(offset = 0) float brightnessThreshold;
+	layout(offset = 4) float effectStrength;
+}
+bloom;
 
 float Bloom_getBrightnessThreshold()
 {

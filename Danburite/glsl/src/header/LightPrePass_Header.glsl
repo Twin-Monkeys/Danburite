@@ -7,48 +7,42 @@
 
 #include "Constant_Header.glsl"
 
-struct LightPrePass_LightVolume
+layout(std140, binding = BINDING_POINT_LIGHT_PREPASS) uniform UBLightPrePass
 {
-	uint type;
-};
+	// 8byte
+	layout(offset = 0) uvec2 ambientTex;
+	layout(offset = 8) uvec2 diffuseTex;
+	layout(offset = 16) uvec2 specularTex;
 
-struct LightPrePass_LightingPass
-{
-	uint currentLightIdx;
-	uvec2 lightAmbientTex;
-	uvec2 lightDiffuseTex;
-	uvec2 lightSpecularTex;
-};
-
-layout(binding = BINDING_POINT_LIGHT_PREPASS) uniform UBLightPrePass
-{
-	LightPrePass_LightVolume lightPrePass_lightVolume;
-	LightPrePass_LightingPass lightPrePass_lightingPass;
-};
+	// 4byte
+	layout(offset = 24) uint lightVolumeType;
+	layout(offset = 28) uint currentLightIdx;
+}
+lightPrePass;
 
 uint LightPrePass_getLightVolumeType()
 {
-	return lightPrePass_lightVolume.type;
+	return lightPrePass.lightVolumeType;
 }
 
 uint LightPrePass_getCurrentLightIdx()
 {
-	return lightPrePass_lightingPass.currentLightIdx;
+	return lightPrePass.currentLightIdx;
 }
 
 vec3 LightPrePass_getLightAmbient(const vec2 screenCoord)
 {
-	return texture(sampler2DRect(lightPrePass_lightingPass.lightAmbientTex), screenCoord).rgb;
+	return texture(sampler2DRect(lightPrePass.ambientTex), screenCoord).rgb;
 }
 
 vec3 LightPrePass_getLightDiffuse(const vec2 screenCoord)
 {
-	return texture(sampler2DRect(lightPrePass_lightingPass.lightDiffuseTex), screenCoord).rgb;
+	return texture(sampler2DRect(lightPrePass.diffuseTex), screenCoord).rgb;
 }
 
 vec3 LightPrePass_getLightSpecular(const vec2 screenCoord)
 {
-	return texture(sampler2DRect(lightPrePass_lightingPass.lightSpecularTex), screenCoord).rgb;
+	return texture(sampler2DRect(lightPrePass.specularTex), screenCoord).rgb;
 }
 
 #endif

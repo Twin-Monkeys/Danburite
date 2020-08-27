@@ -69,24 +69,6 @@ namespace Danburite
 					TRANSLUCENCY_SWITCHER	= 15U
 					;
 			}
-
-			namespace PostProcess
-			{
-				constexpr GLuint
-					MAX_NUM_COLOR_ATTACHMENTS = 8U;
-			}
-
-			namespace MSAA
-			{
-				constexpr GLuint
-					NUM_SAMPLE_POINTS = 4U;
-			}
-
-			namespace Convolutional
-			{
-				constexpr GLuint
-					MAX_KERNEL_SIZE = 7U;
-			}
 		}
 	}
 }

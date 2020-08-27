@@ -8,15 +8,11 @@
 #include "Camera_Header.glsl"
 #include "LightPrePass_Header.glsl"
 
-struct Phong
+layout(std140, binding = BINDING_POINT_PHONG) uniform UBPhong
 {
-	uint calcMethodType;
-};
-
-layout(binding = BINDING_POINT_PHONG) uniform UBPhong
-{
-	Phong phong;
-};
+	layout(offset = 0) uint calcMethodType;
+}
+phong;
 
 vec4 Phong_calcPhongColor_forward(
 	const vec3 targetPos, const vec3 targetNormal, const mat3 targetTBN,

@@ -415,6 +415,24 @@
     <Filter Include="Library\Engine\Core\UniformBuffer\Interface\DepthBackingCubemap">
       <UniqueIdentifier>{e68815e0-46ca-4af0-bb55-9ac56eb06a35}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library\Engine\Core\UniformBuffer\Interface\HDR">
+      <UniqueIdentifier>{593aa98d-7619-41f5-be0e-9a9cfaca0fb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\UniformBuffer\Interface\Bloom">
+      <UniqueIdentifier>{48f3c2da-eb36-427c-a369-ccb92c92eb06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\UniformBuffer\Interface\Joint">
+      <UniqueIdentifier>{e1aaa1c2-808f-463b-bcc0-1bc40972bcaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\UniformBuffer\Interface\Bone">
+      <UniqueIdentifier>{fde86cad-763f-4909-be01-8eefcabfc118}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\UniformBuffer\Interface\Phong">
+      <UniqueIdentifier>{631987f4-7d70-4b20-b899-ef4e484be1cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Engine\Core\UniformBuffer\Interface\LightPrePass">
+      <UniqueIdentifier>{3e730d15-19c1-415e-8dc3-effb06b79b45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Buffer.cpp">
@@ -815,6 +833,24 @@
     </ClCompile>
     <ClCompile Include="DepthBackingCubemapUniformInterface.cpp">
       <Filter>Library\Engine\Core\UniformBuffer\Interface\DepthBackingCubemap</Filter>
+    </ClCompile>
+    <ClCompile Include="HDRUniformInterface.cpp">
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\HDR</Filter>
+    </ClCompile>
+    <ClCompile Include="BloomUniformInterface.cpp">
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\Bloom</Filter>
+    </ClCompile>
+    <ClCompile Include="JointUniformInterface.cpp">
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\Joint</Filter>
+    </ClCompile>
+    <ClCompile Include="BoneUniformInterface.cpp">
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\Bone</Filter>
+    </ClCompile>
+    <ClCompile Include="PhongUniformInterface.cpp">
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\Phong</Filter>
+    </ClCompile>
+    <ClCompile Include="LightPrePassUniformInterface.cpp">
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\LightPrePass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1396,6 +1432,24 @@
     </ClInclude>
     <ClInclude Include="DepthBackingCubemapUniformInterface.h">
       <Filter>Library\Engine\Core\UniformBuffer\Interface\DepthBackingCubemap</Filter>
+    </ClInclude>
+    <ClInclude Include="HDRUniformInterface.h">
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="BloomUniformInterface.h">
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\Bloom</Filter>
+    </ClInclude>
+    <ClInclude Include="JointUniformInterface.h">
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\Joint</Filter>
+    </ClInclude>
+    <ClInclude Include="BoneUniformInterface.h">
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\Bone</Filter>
+    </ClInclude>
+    <ClInclude Include="PhongUniformInterface.h">
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\Phong</Filter>
+    </ClInclude>
+    <ClInclude Include="LightPrePassUniformInterface.h">
+      <Filter>Library\Engine\Core\UniformBuffer\Interface\LightPrePass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

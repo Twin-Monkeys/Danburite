@@ -5,15 +5,11 @@
 
 #include "Constant_Header.glsl"
 
-struct Bone
+layout(std140, binding = BINDING_POINT_BONE) uniform UBBone
 {
-	mat4 boneMatrices[MAX_NUM_BONES];
-};
-
-layout(binding = BINDING_POINT_BONE) uniform UBBone
-{
-	Bone bone;
-};
+	layout(offset = 0) mat4 boneMatrices[MAX_NUM_BONES];
+}
+bone;
 
 mat4 Bone_getBoneMatrix(const vec4 boneIndices, const vec4 boneWeights)
 {

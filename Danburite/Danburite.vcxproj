@@ -31,7 +31,7 @@
     <ProjectGuid>{8FDCDE28-C10D-48DB-AA99-4EB23CD794F7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Danburite</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -58,21 +58,21 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseForDebug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -248,11 +248,17 @@
     <ClCompile Include="AttachmentServer.cpp" />
     <ClCompile Include="AttachmentServerException.cpp" />
     <ClCompile Include="BloomPostProcessor.cpp" />
+    <ClCompile Include="BloomUniformInterface.cpp" />
     <ClCompile Include="Bone.cpp" />
     <ClCompile Include="BoneException.cpp" />
     <ClCompile Include="BoneManager.cpp" />
+    <ClCompile Include="BoneUniformInterface.cpp" />
     <ClCompile Include="DepthBackingCubemapUniformInterface.cpp" />
     <ClCompile Include="DepthBacking2DUniformInterface.cpp" />
+    <ClCompile Include="HDRUniformInterface.cpp" />
+    <ClCompile Include="JointUniformInterface.cpp" />
+    <ClCompile Include="LightPrePassUniformInterface.cpp" />
+    <ClCompile Include="PhongUniformInterface.cpp" />
     <ClCompile Include="TextureContainerUniformInterface.cpp" />
     <ClCompile Include="SkyboxUniformInterface.cpp" />
     <ClCompile Include="GammaCorrectionUniformInterface.cpp" />
@@ -390,12 +396,18 @@
     <ClInclude Include="BlendingEquationType.h" />
     <ClInclude Include="BlendingFunctionType.h" />
     <ClInclude Include="BloomPostProcessor.h" />
+    <ClInclude Include="BloomUniformInterface.h" />
     <ClInclude Include="Bone.h" />
     <ClInclude Include="BoneException.h" />
     <ClInclude Include="BoneManager.h" />
+    <ClInclude Include="BoneUniformInterface.h" />
     <ClInclude Include="BufferAccessType.h" />
     <ClInclude Include="DepthBackingCubemapUniformInterface.h" />
     <ClInclude Include="DepthBacking2DUniformInterface.h" />
+    <ClInclude Include="HDRUniformInterface.h" />
+    <ClInclude Include="JointUniformInterface.h" />
+    <ClInclude Include="LightPrePassUniformInterface.h" />
+    <ClInclude Include="PhongUniformInterface.h" />
     <ClInclude Include="TextureContainerUniformInterface.h" />
     <ClInclude Include="SkyboxUniformInterface.h" />
     <ClInclude Include="GammaCorrectionUniformInterface.h" />

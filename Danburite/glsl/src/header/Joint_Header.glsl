@@ -5,15 +5,11 @@
 
 #include "Constant_Header.glsl"
 
-struct Joint
-{
-	mat4 jointMat;
-};
-
 layout(binding = BINDING_POINT_JOINT) uniform UBJoint
 {
-	Joint joint;
-};
+	layout(offset = 0) mat4 jointMat;
+}
+joint;
 
 mat4 Joint_getJointMatrix()
 {

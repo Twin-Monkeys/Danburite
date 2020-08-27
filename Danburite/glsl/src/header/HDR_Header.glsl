@@ -5,15 +5,11 @@
 
 #include "Constant_Header.glsl"
 
-struct HDR
+layout(std140, binding = BINDING_POINT_HDR) uniform UBHDR
 {
-	float exposure;
-};
-
-layout(binding = BINDING_POINT_HDR) uniform UBHDR
-{
-	HDR hdr;
-};
+	layout(offset = 0) float exposure;
+}
+hdr;
 
 vec3 HDR_toneMap(const vec3 hdrColor)
 {
