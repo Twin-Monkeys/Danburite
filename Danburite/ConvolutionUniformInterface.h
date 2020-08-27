@@ -1,7 +1,6 @@
 #pragma once
 
 #include <GL/glew.h>
-#include <glm/glm.hpp>
 #include "UniformInterface.h"
 #include "Constant.h"
 

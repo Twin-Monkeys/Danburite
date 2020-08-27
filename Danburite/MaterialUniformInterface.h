@@ -13,15 +13,15 @@ namespace Danburite
 		const UniformField<glm::vec4> diffuseColor		= _appendField<glm::vec4>();
 
 		// 8byte
-		const UniformField<glm::uvec2> ambientTex		= _appendField<glm::uvec2>();
-		const UniformField<glm::uvec2> diffuseTex		= _appendField<glm::uvec2>();
-		const UniformField<glm::uvec2> specularTex		= _appendField<glm::uvec2>();
-		const UniformField<glm::uvec2> emissiveTex		= _appendField<glm::uvec2>();
-		const UniformField<glm::uvec2> shininessTex		= _appendField<glm::uvec2>();
-		const UniformField<glm::uvec2> alphaTex			= _appendField<glm::uvec2>();
-		const UniformField<glm::uvec2> normalTex		= _appendField<glm::uvec2>();
-		const UniformField<glm::uvec2> heightTex		= _appendField<glm::uvec2>();
-		const UniformField<glm::uvec2> environmentTex	= _appendField<glm::uvec2>();
+		const UniformField<GLuint64> ambientTex			= _appendField<GLuint64>();
+		const UniformField<GLuint64> diffuseTex			= _appendField<GLuint64>();
+		const UniformField<GLuint64> specularTex		= _appendField<GLuint64>();
+		const UniformField<GLuint64> emissiveTex		= _appendField<GLuint64>();
+		const UniformField<GLuint64> shininessTex		= _appendField<GLuint64>();
+		const UniformField<GLuint64> alphaTex			= _appendField<GLuint64>();
+		const UniformField<GLuint64> normalTex			= _appendField<GLuint64>();
+		const UniformField<GLuint64> heightTex			= _appendField<GLuint64>();
+		const UniformField<GLuint64> environmentTex		= _appendField<GLuint64>();
 
 		// 4byte
 		const UniformField<GLuint> type					= _appendField<GLuint>();

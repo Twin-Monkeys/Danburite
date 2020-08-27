@@ -5,17 +5,13 @@
 
 #include "Constant_Header.glsl"
 
-struct DepthBaking2D
+layout(std140, binding = BINDING_POINT_DEPTH_BAKING_2D) uniform UBDepthBaking2D
 {
-	mat4 projViewMat;
-};
+	layout(offset = 0) mat4 projViewMat;
+}
+depthBaking2D;
 
-layout(binding = BINDING_POINT_DEPTH_BAKING_2D) uniform UBDepthBaking2D
-{
-	DepthBaking2D depthBaking2D;
-};
-
-vec4 DepthBaking2D_getNDCPosition(mat4 modelMat, vec3 localPos)
+vec4 DepthBaking2D_getNDCPosition(const mat4 modelMat, const vec3 localPos)
 {
 	return (depthBaking2D.projViewMat * modelMat * vec4(localPos, 1.f));
 }

@@ -109,6 +109,11 @@ namespace Danburite
 			};
 		}
 
+		namespace TextureContainer
+		{
+			constexpr GLuint MAX_TEXTURE_CONTAINER_ELEMS = 10U;
+		}
+
 		namespace GammaCorrection
 		{
 			constexpr float DEFAULT_GAMMA = 2.2f;

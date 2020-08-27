@@ -3,19 +3,19 @@
 #ifndef __SKYBOX_HEADER__
 #define __SKYBOX_HEADER__
 
-#extension GL_ARB_bindless_texture : require
 #include "Constant_Header.glsl"
 
-struct Skybox
-{
-	uvec2 albedoTex;
-	float luminance;
-};
+#extension GL_ARB_bindless_texture : require
 
-layout(binding = BINDING_POINT_SKYBOX) uniform UBSkybox
+layout(std140, binding = BINDING_POINT_SKYBOX) uniform UBSkybox
 {
-	Skybox skybox;
-};
+	// 8byte
+	layout(offset = 0) uvec2 albedoTex;
+
+	// 4byte
+	layout(offset = 8) float luminance;
+}
+skybox;
 
 vec4 Skybox_getAlbedo(const vec3 pos)
 {

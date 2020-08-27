@@ -14,7 +14,7 @@ namespace Danburite
 		const UniformField<glm::mat4[Constant::Light::MAX_NUM_LIGHTS]> projViewMat		= _appendField<glm::mat4[Constant::Light::MAX_NUM_LIGHTS]>();
 
 		// for align
-		const UniformField<glm::uvec2[Constant::Light::MAX_NUM_LIGHTS]> depthMap		= _appendField<glm::uvec2[Constant::Light::MAX_NUM_LIGHTS]>();
+		const UniformField<GLuint64[Constant::Light::MAX_NUM_LIGHTS]> depthMap			= _appendField<GLuint64[Constant::Light::MAX_NUM_LIGHTS]>();
 
 		// 12byte array
 		const UniformField<glm::vec3[Constant::Light::MAX_NUM_LIGHTS]> direction		= _appendField<glm::vec3[Constant::Light::MAX_NUM_LIGHTS]>();

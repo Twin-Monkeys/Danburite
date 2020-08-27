@@ -110,6 +110,11 @@ const uint NUM_BLOOM_BLUR_KERNELS = 59U;
 const uint MAX_KERNEL_SIZE = 7U;
 
 
+// Texture Container
+
+const uint MAX_TEXTURE_CONTAINER_ELEMS = 10U;
+
+
 // MSAA //
 
 const uint NUM_SAMPLE_POINTS = 4U;

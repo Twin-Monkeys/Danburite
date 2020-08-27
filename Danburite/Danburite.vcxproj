@@ -251,6 +251,10 @@
     <ClCompile Include="Bone.cpp" />
     <ClCompile Include="BoneException.cpp" />
     <ClCompile Include="BoneManager.cpp" />
+    <ClCompile Include="DepthBackingCubemapUniformInterface.cpp" />
+    <ClCompile Include="DepthBacking2DUniformInterface.cpp" />
+    <ClCompile Include="TextureContainerUniformInterface.cpp" />
+    <ClCompile Include="SkyboxUniformInterface.cpp" />
     <ClCompile Include="GammaCorrectionUniformInterface.cpp" />
     <ClCompile Include="ConvolutionUniformInterface.cpp" />
     <ClCompile Include="CameraUniformInterface.cpp" />
@@ -390,6 +394,10 @@
     <ClInclude Include="BoneException.h" />
     <ClInclude Include="BoneManager.h" />
     <ClInclude Include="BufferAccessType.h" />
+    <ClInclude Include="DepthBackingCubemapUniformInterface.h" />
+    <ClInclude Include="DepthBacking2DUniformInterface.h" />
+    <ClInclude Include="TextureContainerUniformInterface.h" />
+    <ClInclude Include="SkyboxUniformInterface.h" />
     <ClInclude Include="GammaCorrectionUniformInterface.h" />
     <ClInclude Include="ConvolutionUniformInterface.h" />
     <ClInclude Include="ContextStateManager.h" />

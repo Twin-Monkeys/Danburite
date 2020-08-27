@@ -5,17 +5,18 @@
 
 #include "Constant_Header.glsl"
 
-struct DepthBakingCubemap
+layout(std140, binding = BINDING_POINT_DEPTH_BAKING_CUBEMAP) uniform UBDepthBakingCubemap
 {
-	vec3 center;
-	float zFar;
+	// 64byte * 6
 	mat4 projViewMatrices[6];
-};
 
-layout(binding = BINDING_POINT_DEPTH_BAKING_CUBEMAP) uniform UBDepthBakingCubemap
-{
-	DepthBakingCubemap depthBakingCubemap;
-};
+	// 12byte
+	vec3 center;
+
+	// 4byte
+	float zFar;
+}
+depthBakingCubemap;
 
 vec4 DepthBakingCubemap_getNDCPosition(const int cubemapSide, const vec3 worldPos)
 {
