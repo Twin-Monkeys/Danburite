@@ -1394,9 +1394,6 @@
     <ClInclude Include="PhongCalcMethodType.h">
       <Filter>Library\Engine\Core\Material\Phong</Filter>
     </ClInclude>
-    <ClInclude Include="DeferredUniformBuffer.h">
-      <Filter>Library\Engine\Core\UniformBuffer</Filter>
-    </ClInclude>
     <ClInclude Include="UniformInterface.h">
       <Filter>Library\Engine\Core\UniformBuffer\Interface</Filter>
     </ClInclude>
@@ -1450,6 +1447,12 @@
     </ClInclude>
     <ClInclude Include="LightPrePassUniformInterface.h">
       <Filter>Library\Engine\Core\UniformBuffer\Interface\LightPrePass</Filter>
+    </ClInclude>
+    <ClInclude Include="DeferredUniformBuffer.h">
+      <Filter>Library\Engine\Core\UniformBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="DirtyFlaggedBuffer.h">
+      <Filter>Library\Engine\Core\UniformBuffer\Interface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

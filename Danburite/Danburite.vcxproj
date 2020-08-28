@@ -404,6 +404,7 @@
     <ClInclude Include="BufferAccessType.h" />
     <ClInclude Include="DepthBackingCubemapUniformInterface.h" />
     <ClInclude Include="DepthBacking2DUniformInterface.h" />
+    <ClInclude Include="DirtyFlaggedBuffer.h" />
     <ClInclude Include="HDRUniformInterface.h" />
     <ClInclude Include="JointUniformInterface.h" />
     <ClInclude Include="LightPrePassUniformInterface.h" />
