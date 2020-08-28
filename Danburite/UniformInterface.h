@@ -1,17 +1,18 @@
 #pragma once
 
 #include <string>
-#include "UniformField.h"
+#include "UniformInterfaceHostCache.h"
 
 namespace Danburite
 {
+
 	class UniformInterface abstract
 	{
 	private:
 		const std::string __blockName;
 		const GLuint __bindingPoint;
 
-		std::vector<uint8_t> __buffer;
+		UniformInterfaceHostCache
 
 	protected:
 		template <typename $DataType, size_t MEM_SIZE = sizeof($DataType)>
@@ -23,7 +24,6 @@ namespace Danburite
 		constexpr const std::string &getBlockName() const noexcept;
 		constexpr GLuint getBindingPoint() const noexcept;
 
-		constexpr const std::vector<uint8_t> &getBuffer() const noexcept;
 		virtual ~UniformInterface() = default;
 	};
 

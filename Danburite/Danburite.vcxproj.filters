@@ -1451,7 +1451,7 @@
     <ClInclude Include="DeferredUniformBuffer.h">
       <Filter>Library\Engine\Core\UniformBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="DirtyFlaggedBuffer.h">
+    <ClInclude Include="UniformInterfaceHostCache.h">
       <Filter>Library\Engine\Core\UniformBuffer\Interface</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,7 +5,7 @@
 
 namespace Danburite
 {
-	template <typename $DataType>
+	template <typename $DataType, size_t BUFFER_SIZE>
 	class UniformField
 	{
 	private:
