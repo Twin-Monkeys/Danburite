@@ -6,7 +6,7 @@ using namespace std;
 namespace ObjectGL
 {
 	VertexBuffer::VertexBuffer() :
-		Buffer(BufferType::VERTEX)
+		BufferBase(BufferType::VERTEX)
 	{}
 
 	void VertexBuffer::addAttribute(

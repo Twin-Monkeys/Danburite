@@ -10,27 +10,27 @@ namespace Danburite
 	{
 	public:
 		// 16byte
-		const UniformField<glm::vec4> diffuseColor		= _appendField<glm::vec4>();
+		const UniformField<glm::vec4> diffuseColor		= _createField<glm::vec4>();
 
 		// 8byte
-		const UniformField<GLuint64> ambientTex			= _appendField<GLuint64>();
-		const UniformField<GLuint64> diffuseTex			= _appendField<GLuint64>();
-		const UniformField<GLuint64> specularTex		= _appendField<GLuint64>();
-		const UniformField<GLuint64> emissiveTex		= _appendField<GLuint64>();
-		const UniformField<GLuint64> shininessTex		= _appendField<GLuint64>();
-		const UniformField<GLuint64> alphaTex			= _appendField<GLuint64>();
-		const UniformField<GLuint64> normalTex			= _appendField<GLuint64>();
-		const UniformField<GLuint64> heightTex			= _appendField<GLuint64>();
-		const UniformField<GLuint64> environmentTex		= _appendField<GLuint64>();
+		const UniformField<GLuint64> ambientTex			= _createField<GLuint64>();
+		const UniformField<GLuint64> diffuseTex			= _createField<GLuint64>();
+		const UniformField<GLuint64> specularTex		= _createField<GLuint64>();
+		const UniformField<GLuint64> emissiveTex		= _createField<GLuint64>();
+		const UniformField<GLuint64> shininessTex		= _createField<GLuint64>();
+		const UniformField<GLuint64> alphaTex			= _createField<GLuint64>();
+		const UniformField<GLuint64> normalTex			= _createField<GLuint64>();
+		const UniformField<GLuint64> heightTex			= _createField<GLuint64>();
+		const UniformField<GLuint64> environmentTex		= _createField<GLuint64>();
 
 		// 4byte
-		const UniformField<GLuint> type					= _appendField<GLuint>();
-		const UniformField<GLuint> optionFlag			= _appendField<GLuint>();
-		const UniformField<GLuint> vertexFlag			= _appendField<GLuint>();
-		const UniformField<GLfloat> gamma				= _appendField<GLfloat>();
-		const UniformField<GLfloat> emissiveStrength	= _appendField<GLfloat>();
-		const UniformField<GLfloat> shininess			= _appendField<GLfloat>();
-		const UniformField<GLfloat> overriddenAlpha		= _appendField<GLfloat>();
+		const UniformField<GLuint> type					= _createField<GLuint>();
+		const UniformField<GLuint> optionFlag			= _createField<GLuint>();
+		const UniformField<GLuint> vertexFlag			= _createField<GLuint>();
+		const UniformField<GLfloat> gamma				= _createField<GLfloat>();
+		const UniformField<GLfloat> emissiveStrength	= _createField<GLfloat>();
+		const UniformField<GLfloat> shininess			= _createField<GLfloat>();
+		const UniformField<GLfloat> overriddenAlpha		= _createField<GLfloat>();
 
 		MaterialUniformInterface() noexcept;
 		virtual ~MaterialUniformInterface() = default;

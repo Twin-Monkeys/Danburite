@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Buffer.h"
+#include "BufferBase.h"
 #include "VertexAttribute.h"
 #include <memory>
 
 namespace ObjectGL
 {
-	class VertexBuffer : public Buffer
+	class VertexBuffer : public BufferBase
 	{
 	private:
 		std::vector<VertexAttribute> __attribList;

@@ -1,4 +1,4 @@
-#include "Buffer.h"
+#include "BufferBase.h"
 #include <algorithm>
 #include <cassert>
 
@@ -6,7 +6,7 @@ using namespace std;
 
 namespace ObjectGL
 {
-	GLuint Buffer::__createBufObj()
+	GLuint BufferBase::__createBufObj()
 	{
 		GLuint retVal;
 		glGenBuffers(1, &retVal);
@@ -17,17 +17,17 @@ namespace ObjectGL
 		return retVal;
 	}
 
-	Buffer::Buffer(const BufferType type) :
+	BufferBase::BufferBase(const BufferType type) :
 		BindableObject(__createBufObj()), __RAW_TYPE(GLenum(type))
 	{}
 
-	Buffer::Buffer(const Buffer &src) :
+	BufferBase::BufferBase(const BufferBase &src) :
 		BindableObject(__createBufObj()), __RAW_TYPE(src.__RAW_TYPE)
 	{
 		*this = src;
 	}
 
-	void Buffer::__release() noexcept
+	void BufferBase::__release() noexcept
 	{
 		if (!__moved)
 		{
@@ -35,12 +35,12 @@ namespace ObjectGL
 		}
 	}
 
-	void Buffer::_onBind() noexcept
+	void BufferBase::_onBind() noexcept
 	{
 		glBindBuffer(__RAW_TYPE, ID);
 	}
 
-	void Buffer::memoryAlloc(const void *const pData, const GLsizeiptr size, const BufferUpdatePatternType updatePattern) noexcept
+	void BufferBase::memoryAlloc(const void *const pData, const GLsizeiptr size, const BufferUpdatePatternType updatePattern) noexcept
 	{
 		bind();
 		glBufferData(__RAW_TYPE, size, pData, GLenum(updatePattern));
@@ -49,7 +49,7 @@ namespace ObjectGL
 		__memSize = size;
 	}
 
-	void Buffer::memoryCopy(const void *const pData, const GLsizeiptr size, const GLintptr offset) noexcept
+	void BufferBase::memoryCopy(const void *const pData, const GLsizeiptr size, const GLintptr offset) noexcept
 	{
 		assert(isMemoryAllocated());
 
@@ -57,7 +57,7 @@ namespace ObjectGL
 		glBufferSubData(__RAW_TYPE, offset, size, pData);
 	}
 
-	void Buffer::memoryAlloc(const GLsizeiptr size, const BufferUpdatePatternType updatePattern) noexcept
+	void BufferBase::memoryAlloc(const GLsizeiptr size, const BufferUpdatePatternType updatePattern) noexcept
 	{
 		memoryAlloc(nullptr, size, updatePattern);
 
@@ -65,7 +65,7 @@ namespace ObjectGL
 			memorySet(0);
 	}
 
-	void Buffer::memoryFree() noexcept
+	void BufferBase::memoryFree() noexcept
 	{
 		bind();
 		glBufferData(__RAW_TYPE, 0, nullptr, GL_STATIC_DRAW);
@@ -74,7 +74,7 @@ namespace ObjectGL
 		__memSize = 0;
 	}
 
-	void Buffer::memorySet(const uint8_t value) noexcept
+	void BufferBase::memorySet(const uint8_t value) noexcept
 	{
 		assert(isMemoryAllocated());
 
@@ -82,7 +82,7 @@ namespace ObjectGL
 		unmapHostInterface();
 	}
 
-	void *Buffer::mapHostInterface(const BufferAccessType accessType) noexcept
+	void *BufferBase::mapHostInterface(const BufferAccessType accessType) noexcept
 	{
 		bind();
 
@@ -91,13 +91,13 @@ namespace ObjectGL
 		return pRetVal;
 	}
 
-	void Buffer::unmapHostInterface() noexcept
+	void BufferBase::unmapHostInterface() noexcept
 	{
 		bind();
 		glUnmapBuffer(__RAW_TYPE);
 	}
 
-	Buffer &Buffer::operator=(const Buffer &src) noexcept
+	BufferBase &BufferBase::operator=(const BufferBase &src) noexcept
 	{
 		if (src.isMemoryAllocated())
 		{
@@ -114,7 +114,7 @@ namespace ObjectGL
 		return *this;
 	}
 
-	Buffer::~Buffer() noexcept
+	BufferBase::~BufferBase() noexcept
 	{
 		__release();
 	}

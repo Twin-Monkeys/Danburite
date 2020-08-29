@@ -205,9 +205,6 @@
     <Filter Include="Library\Engine\glsl\src\PostProcess\Convolutional">
       <UniqueIdentifier>{f5748167-2cf5-48f7-9100-5b9bb49e3e3f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Library\ObjectGL\Core\Uniform">
-      <UniqueIdentifier>{a27102e3-f0ab-49e9-ac49-b0567bdbdb78}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library\Engine\Core\PostProcess\Pipeline">
       <UniqueIdentifier>{a1f3f641-4c8c-468a-9cc9-fdce80b56f12}</UniqueIdentifier>
     </Filter>
@@ -435,9 +432,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Buffer.cpp">
-      <Filter>Library\ObjectGL\Core\Buffer</Filter>
-    </ClCompile>
     <ClCompile Include="BufferException.cpp">
       <Filter>Library\ObjectGL\Core\Buffer</Filter>
     </ClCompile>
@@ -602,9 +596,6 @@
     </ClCompile>
     <ClCompile Include="ConvolutionalPostProcessor.cpp">
       <Filter>Library\Engine\Core\PostProcess\Convolution</Filter>
-    </ClCompile>
-    <ClCompile Include="UniformSetter.cpp">
-      <Filter>Library\ObjectGL\Core\Uniform</Filter>
     </ClCompile>
     <ClCompile Include="PostProcessor.cpp">
       <Filter>Library\Engine\Core\PostProcess</Filter>
@@ -852,6 +843,9 @@
     <ClCompile Include="LightPrePassUniformInterface.cpp">
       <Filter>Library\Engine\Core\UniformBuffer\Interface\LightPrePass</Filter>
     </ClCompile>
+    <ClCompile Include="BufferBase.cpp">
+      <Filter>Library\ObjectGL\Core\Buffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">
@@ -1097,9 +1091,6 @@
     <ClInclude Include="ConvolutionalPostProcessor.h">
       <Filter>Library\Engine\Core\PostProcess\Convolution</Filter>
     </ClInclude>
-    <ClInclude Include="UniformSetter.h">
-      <Filter>Library\ObjectGL\Core\Uniform</Filter>
-    </ClInclude>
     <ClInclude Include="Constant.h">
       <Filter>Library\Engine\Base</Filter>
     </ClInclude>
@@ -1111,9 +1102,6 @@
     </ClInclude>
     <ClInclude Include="Skybox.h">
       <Filter>Library\Engine\Core\Skybox</Filter>
-    </ClInclude>
-    <ClInclude Include="Buffer.h">
-      <Filter>Library\ObjectGL\Core\Buffer</Filter>
     </ClInclude>
     <ClInclude Include="ReflectionMaterial.h">
       <Filter>Library\Engine\Core\Material\Reflection</Filter>
@@ -1453,6 +1441,9 @@
     </ClInclude>
     <ClInclude Include="UniformInterfaceHostCache.h">
       <Filter>Library\Engine\Core\UniformBuffer\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferBase.h">
+      <Filter>Library\ObjectGL\Core\Buffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

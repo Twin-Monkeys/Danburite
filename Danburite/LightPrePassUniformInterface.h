@@ -10,13 +10,13 @@ namespace Danburite
 	{
 	public:
 		// 8byte
-		const UniformField<GLuint64> ambientTex = _appendField<GLuint64>();
-		const UniformField<GLuint64> diffuseTex = _appendField<GLuint64>();
-		const UniformField<GLuint64> specularTex = _appendField<GLuint64>();
+		const UniformField<GLuint64> ambientTex = _createField<GLuint64>();
+		const UniformField<GLuint64> diffuseTex = _createField<GLuint64>();
+		const UniformField<GLuint64> specularTex = _createField<GLuint64>();
 
 		// 4byte
-		const UniformField<GLuint> lightVolumeType = _appendField<GLuint>();
-		const UniformField<GLuint> currentLightIdx = _appendField<GLuint>();
+		const UniformField<GLuint> lightVolumeType = _createField<GLuint>();
+		const UniformField<GLuint> currentLightIdx = _createField<GLuint>();
 
 		LightPrePassUniformInterface() noexcept;
 		virtual ~LightPrePassUniformInterface() = default;

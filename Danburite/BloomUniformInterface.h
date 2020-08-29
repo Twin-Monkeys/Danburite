@@ -5,12 +5,12 @@
 
 namespace Danburite
 {
-	class BloomUniformInterface : public UniformInterface
+	class BloomUniformInterface : public UniformInterface<8ULL>
 	{
 	public:
 		// 4byte
-		const UniformField<GLfloat> brightnessThreshold = _appendField<GLfloat>();
-		const UniformField<GLfloat> effectStrength = _appendField<GLfloat>();
+		const SpecializedUniformField<GLfloat> brightnessThreshold	= _createField<GLfloat>(0ULL);
+		const SpecializedUniformField<GLfloat> effectStrength		= _createField<GLfloat>(4ULL);
 
 		BloomUniformInterface() noexcept;
 		virtual ~BloomUniformInterface() = default;

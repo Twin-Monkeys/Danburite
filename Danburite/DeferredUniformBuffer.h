@@ -5,18 +5,18 @@
 
 namespace Danburite
 {
-	template <typename $UniformInterfaceType>
+	template <typename $UniformInterfaceType, size_t BUFFER_SIZE>
 	class DeferredUniformBuffer : public ObjectGL::UniformBuffer
 	{
 		static_assert(
-			std::is_base_of_v<UniformInterface, $UniformInterfaceType>,
+			std::is_base_of_v<UniformInterface<BUFFER_SIZE>, $UniformInterfaceType>,
 			"The type parameter must be derived from UniformInterface or its compatible types.");
 
 	private:
 		$UniformInterfaceType __interfaceInstance;
 
 	public:
-		DeferredUniformBuffer();
+		DeferredUniformBuffer(const bool memAlloc = true);
 
 		constexpr $UniformInterfaceType &getInterface() noexcept;
 		constexpr const $UniformInterfaceType &getInterface() const noexcept;
@@ -26,31 +26,42 @@ namespace Danburite
 		virtual ~DeferredUniformBuffer() = default;
 	};
 
-	template <typename $UniformInterfaceType>
-	DeferredUniformBuffer<$UniformInterfaceType>::DeferredUniformBuffer() :
+	template <typename $UniformInterfaceType, size_t BUFFER_SIZE>
+	DeferredUniformBuffer<$UniformInterfaceType, BUFFER_SIZE>::DeferredUniformBuffer(const bool memAlloc) :
 		ObjectGL::UniformBuffer
 		{
 			__interfaceInstance.getBlockName(),
 			__interfaceInstance.getBindingPoint()
 		}
-	{}
+	{
+		if (memAlloc)
+			memoryAlloc(BUFFER_SIZE, BufferUpdatePatternType::STREAM);
+	}
 
-	template <typename $UniformInterfaceType>
-	constexpr $UniformInterfaceType &DeferredUniformBuffer<$UniformInterfaceType>::getInterface() noexcept
+	template <typename $UniformInterfaceType, size_t BUFFER_SIZE>
+	constexpr $UniformInterfaceType &
+		DeferredUniformBuffer<$UniformInterfaceType, BUFFER_SIZE>::getInterface() noexcept
 	{
 		return __interfaceInstance;
 	}
 
-	template <typename $UniformInterfaceType>
-	constexpr const $UniformInterfaceType &DeferredUniformBuffer<$UniformInterfaceType>::getInterface() const noexcept
+	template <typename $UniformInterfaceType, size_t BUFFER_SIZE>
+	constexpr const $UniformInterfaceType &
+		DeferredUniformBuffer<$UniformInterfaceType, BUFFER_SIZE>::getInterface() const noexcept
 	{
 		return __interfaceInstance;
 	}
 
-	template <typename $UniformInterfaceType>
-	void DeferredUniformBuffer<$UniformInterfaceType>::selfDeploy() noexcept
+	template <typename $UniformInterfaceType, size_t BUFFER_SIZE>
+	void DeferredUniformBuffer<$UniformInterfaceType, BUFFER_SIZE>::selfDeploy() noexcept
 	{
-		const std::vector<uint8_t> &buffer = __interfaceInstance.getBuffer();
-		memoryCopy(buffer.data(), buffer.size());
+		UniformInterfaceHostCache<BUFFER_SIZE> &cache = __interfaceInstance.getCache();
+		const auto &[pStart, memSize] = cache.getDirtySpace();
+
+		if (!pStart)
+			return;
+
+		memoryCopy(pStart, GLsizeiptr(memSize));
+		cache.clearDirty();
 	}
 }

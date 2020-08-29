@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Buffer.h"
+#include "BufferBase.h"
 #include "IndexType.h"
 
 namespace ObjectGL
 {
-	class IndexBuffer : public Buffer
+	class IndexBuffer : public BufferBase
 	{
 	private:
 		IndexType __idxType;

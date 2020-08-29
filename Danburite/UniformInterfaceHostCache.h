@@ -10,17 +10,26 @@ namespace Danburite
 	class UniformInterfaceHostCache
 	{
 	private:
-		bool __dirty = true;
 		std::pair<size_t, size_t> __dirtyRange = { 0, BUFFER_SIZE };
-
 		std::array<uint8_t, BUFFER_SIZE> __buffer { 0 };
 
 	public:
 		template <typename $DataType>
+		constexpr const $DataType &get(const size_t offset) noexcept;
+
+		template <typename $DataType>
 		constexpr void set(const size_t offset, const $DataType &data) noexcept;
 
-		constexpr const std::array<uint8_t, BUFFER_SIZE> &getBuffer() const noexcept;
+		constexpr std::pair<const uint8_t *, size_t> getDirtySpace() const noexcept;
+		constexpr void clearDirty() noexcept;
 	};
+
+	template <size_t BUFFER_SIZE>
+	template <typename $DataType>
+	constexpr const $DataType &UniformInterfaceHostCache<BUFFER_SIZE>::get(const size_t offset) noexcept
+	{
+		return *reinterpret_cast<$DataType*>(__buffer.data() + offset);
+	}
 
 	template <size_t BUFFER_SIZE>
 	template <typename $DataType>
@@ -31,7 +40,6 @@ namespace Danburite
 		const size_t localDirtyMin = offset;
 		const size_t localDirtyMax = (offset + sizeof($DataType));
 
-		__dirty = true;
 		dirtyMin = glm::min(dirtyMin, localDirtyMin);
 		dirtyMax = glm::max(dirtyMax, localDirtyMax);
 
@@ -40,8 +48,17 @@ namespace Danburite
 	}
 
 	template <size_t BUFFER_SIZE>
-	constexpr const std::array<uint8_t, BUFFER_SIZE> &UniformInterfaceHostCache<BUFFER_SIZE>::getBuffer() const noexcept
+	constexpr std::pair<const uint8_t *, size_t> UniformInterfaceHostCache<BUFFER_SIZE>::getDirtySpace() const noexcept
 	{
-		return __buffer;
+		if (__dirtyRange.first >= __dirtyRange.second)
+			return { nullptr, 0ULL };
+
+		return { __buffer.data() + __dirtyRange.first, __dirtyRange.second - __dirtyRange.first };
+	}
+
+	template <size_t BUFFER_SIZE>
+	constexpr void UniformInterfaceHostCache<BUFFER_SIZE>::clearDirty() noexcept
+	{
+		__dirtyRange = { BUFFER_SIZE, 0 };
 	}
 }

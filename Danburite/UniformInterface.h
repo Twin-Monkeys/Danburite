@@ -1,22 +1,33 @@
 #pragma once
 
 #include <string>
-#include "UniformInterfaceHostCache.h"
+#include <GL/glew.h>
+#include "UniformField.h"
 
 namespace Danburite
 {
-
+	template <size_t BUFFER_SIZE>
 	class UniformInterface abstract
 	{
+	public:
+		template <typename $DataType>
+		using SpecializedUniformField = UniformField<$DataType, BUFFER_SIZE>;
+
+		template <typename $DataType, size_t ARRAY_SIZE>
+		using SpecializedUniformFieldArray = UniformFieldArray<$DataType, ARRAY_SIZE, BUFFER_SIZE>;
+
 	private:
 		const std::string __blockName;
 		const GLuint __bindingPoint;
 
-		UniformInterfaceHostCache
+		UniformInterfaceHostCache<BUFFER_SIZE> __cache;
 
 	protected:
-		template <typename $DataType, size_t MEM_SIZE = sizeof($DataType)>
-		UniformField<$DataType> _appendField() noexcept;
+		template <typename $DataType>
+		constexpr SpecializedUniformField<$DataType> _createField(const size_t offset) noexcept;
+
+		template <typename $DataType, size_t ARRAY_SIZE>
+		constexpr SpecializedUniformFieldArray<$DataType, ARRAY_SIZE> _createFieldArray(const size_t offset) noexcept;
 
 	public:
 		UniformInterface(const std::string_view &blockName, const GLuint bindingPoint) noexcept;
@@ -24,39 +35,55 @@ namespace Danburite
 		constexpr const std::string &getBlockName() const noexcept;
 		constexpr GLuint getBindingPoint() const noexcept;
 
+		constexpr UniformInterfaceHostCache<BUFFER_SIZE>& getCache() noexcept;
+		constexpr const UniformInterfaceHostCache<BUFFER_SIZE> &getCache() const noexcept;
+
 		virtual ~UniformInterface() = default;
 	};
 
-	UniformInterface::UniformInterface(
+	template <size_t BUFFER_SIZE>
+	UniformInterface<BUFFER_SIZE>::UniformInterface(
 		const std::string_view& blockName, const GLuint bindingPoint) noexcept :
 		__blockName { blockName }, __bindingPoint { bindingPoint }
 	{}
 
-	template <typename $DataType, size_t MEM_SIZE>
-	UniformField<$DataType> UniformInterface::_appendField() noexcept
+	template <size_t BUFFER_SIZE>
+	template <typename $DataType>
+	constexpr UniformInterface<BUFFER_SIZE>::SpecializedUniformField<$DataType>
+		UniformInterface<BUFFER_SIZE>::_createField(const size_t offset) noexcept
 	{
-		static_assert(
-			MEM_SIZE >= sizeof($DataType),
-			"MEM_SIZE must be bigger than or equal to sizeof($DataType).");
-
-		const size_t offset = __buffer.size();
-		__buffer.resize(offset + MEM_SIZE);
-
-		return { __buffer, offset };
+		return { __cache, offset };
 	}
 
-	constexpr const std::string &UniformInterface::getBlockName() const noexcept
+	template <size_t BUFFER_SIZE>
+	template <typename $DataType, size_t ARRAY_SIZE>
+	constexpr UniformInterface<BUFFER_SIZE>::SpecializedUniformFieldArray<$DataType, ARRAY_SIZE>
+		UniformInterface<BUFFER_SIZE>::_createFieldArray(const size_t offset) noexcept
+	{
+		return { __cache, offset };
+	}
+
+	template <size_t BUFFER_SIZE>
+	constexpr const std::string &UniformInterface<BUFFER_SIZE>::getBlockName() const noexcept
 	{
 		return __blockName;
 	}
 
-	constexpr GLuint UniformInterface::getBindingPoint() const noexcept
+	template <size_t BUFFER_SIZE>
+	constexpr GLuint UniformInterface<BUFFER_SIZE>::getBindingPoint() const noexcept
 	{
 		return __bindingPoint;
 	}
 
-	constexpr const std::vector<uint8_t> &UniformInterface::getBuffer() const noexcept
+	template <size_t BUFFER_SIZE>
+	constexpr UniformInterfaceHostCache<BUFFER_SIZE> &UniformInterface<BUFFER_SIZE>::getCache() noexcept
 	{
-		return __buffer;
+		return __cache;
+	}
+
+	template <size_t BUFFER_SIZE>
+	constexpr const UniformInterfaceHostCache<BUFFER_SIZE> &UniformInterface<BUFFER_SIZE>::getCache() const noexcept
+	{
+		return __cache;
 	}
 }

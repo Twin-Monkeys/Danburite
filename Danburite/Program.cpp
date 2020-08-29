@@ -7,10 +7,17 @@ using namespace glm;
 
 namespace ObjectGL
 {
+	Program::UniformLocationCache::UniformLocationCache(Program &program) noexcept :
+		__program { program }
+	{}
+
+	GLint Program::UniformLocationCache::_onProvideValue(const string &key)
+	{
+		return glGetUniformLocation(__program.ID, key.c_str());
+	}
+
 	Program::Program(const std::unordered_set<std::shared_ptr<Shader>> &shaders) :
-		BindableObject(glCreateProgram()),
-		__attribLocationCache(*this), __uniformLocationCache(*this),
-		__uniformBlockIndexCache(*this), __uniformBlockElementOffsetCache(*this)
+		BindableObject(glCreateProgram())
 	{
 		if (!ID)
 			throw ProgramException("Cannot create program");
@@ -26,9 +33,7 @@ namespace ObjectGL
 	}
 
 	Program::Program(const vector<uint8_t> &binary) :
-		BindableObject(glCreateProgram()),
-		__attribLocationCache(*this), __uniformLocationCache(*this),
-		__uniformBlockIndexCache(*this), __uniformBlockElementOffsetCache(*this)
+		BindableObject(glCreateProgram())
 	{
 		if (!ID)
 			throw ProgramException("Cannot create program");
@@ -73,21 +78,6 @@ namespace ObjectGL
 	void Program::_onBind() noexcept
 	{
 		glUseProgram(ID);
-	}
-
-	GLint Program::getAttributeLocation(const string &name) noexcept
-	{
-		return __attribLocationCache.getValue(name);
-	}
-
-	GLuint Program::getUniformBlockIndex(const string &name) noexcept
-	{
-		return __uniformBlockIndexCache.getValue(name);
-	}
-	
-	GLint Program::getUniformBlockElementOffset(const string &name) noexcept
-	{
-		return __uniformBlockElementOffsetCache.getValue(name);
 	}
 
 	bool Program::isExistent(const string &name) noexcept
@@ -204,55 +194,5 @@ namespace ObjectGL
 	Program::~Program() noexcept
 	{
 		__release();
-	}
-
-	Program::AttributeLocationCache::AttributeLocationCache(Program &program) noexcept :
-		ProgramDependentCache(program)
-	{}
-
-	GLint Program::AttributeLocationCache::_onProvideValue(const string &key)
-	{
-		const GLint retVal = glGetAttribLocation(_program.ID, key.c_str());
-
-		return retVal;
-	}
-
-	Program::UniformLocationCache::UniformLocationCache(Program &program) noexcept :
-		ProgramDependentCache(program)
-	{}
-
-	GLint Program::UniformLocationCache::_onProvideValue(const string &key)
-	{
-		const GLint retVal = glGetUniformLocation(_program.ID, key.c_str());
-
-		return retVal;
-	}
-
-	Program::UniformBlockIndexCache::UniformBlockIndexCache(Program &program) noexcept :
-		ProgramDependentCache(program)
-	{}
-
-	GLuint Program::UniformBlockIndexCache::_onProvideValue(const string &key)
-	{
-		const GLuint retVal = glGetUniformBlockIndex(_program.ID, key.c_str());
-
-		return retVal;
-	}
-
-	Program::UniformBlockElementOffsetCache::UniformBlockElementOffsetCache(Program &program) noexcept :
-		ProgramDependentCache(program)
-	{}
-
-	GLint Program::UniformBlockElementOffsetCache::_onProvideValue(const string &key)
-	{
-		GLuint index = GL_INVALID_INDEX;
-		const char *const pRaw = key.c_str();
-
-		glGetUniformIndices(_program.ID, 1, &pRaw, &index);
-
-		GLint retVal = -1;
-		glGetActiveUniformsiv(_program.ID, 1, &index, GL_UNIFORM_OFFSET, &retVal);
-
-		return retVal;
 	}
 }

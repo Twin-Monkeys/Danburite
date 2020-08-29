@@ -77,6 +77,7 @@ namespace Danburite
 		namespace Convolutional
 		{
 			constexpr size_t MAX_KERNEL_SIZE = 7ULL;
+			constexpr size_t MAX_KERNEL_SIZE_SQ = (MAX_KERNEL_SIZE * MAX_KERNEL_SIZE);
 
 			constexpr GLfloat sharpenKernel3x3[] =
 			{

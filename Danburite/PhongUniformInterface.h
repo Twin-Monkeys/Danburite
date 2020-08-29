@@ -9,7 +9,7 @@ namespace Danburite
 	class PhongUniformInterface : public UniformInterface
 	{
 	public:
-		const UniformField<GLuint> calcMethodType = _appendField<GLuint>();
+		const UniformField<GLuint> calcMethodType = _createField<GLuint>();
 
 		PhongUniformInterface() noexcept;
 		virtual ~PhongUniformInterface() = default;

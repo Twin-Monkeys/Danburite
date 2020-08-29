@@ -6,15 +6,17 @@
 
 namespace Danburite
 {
-	class ConvolutionUniformInterface : public UniformInterface
+	class ConvolutionUniformInterface : public UniformInterface<
+		(sizeof(GLfloat) * Constant::Convolutional::MAX_KERNEL_SIZE_SQ) + 4ULL>
 	{
 	public:
 		// 4byte 2D array
-		const UniformField<GLfloat[Constant::Convolutional::MAX_KERNEL_SIZE][Constant::Convolutional::MAX_KERNEL_SIZE]> kernel =
-			_appendField<GLfloat[Constant::Convolutional::MAX_KERNEL_SIZE][Constant::Convolutional::MAX_KERNEL_SIZE]>();
+		const SpecializedUniformFieldArray<GLfloat, Constant::Convolutional::MAX_KERNEL_SIZE_SQ>
+			kernel = _createFieldArray<GLfloat, Constant::Convolutional::MAX_KERNEL_SIZE_SQ>(0);
 
 		// 4byte
-		const UniformField<GLuint> kernelSize = _appendField<GLuint>();
+		const SpecializedUniformField<GLuint> kernelSize =
+			_createField<GLuint>(sizeof(GLfloat) * Constant::Convolutional::MAX_KERNEL_SIZE_SQ);
 
 		ConvolutionUniformInterface() noexcept;
 		virtual ~ConvolutionUniformInterface() = default;

@@ -6,17 +6,18 @@
 
 namespace Danburite
 {
-	class DepthBackingCubemapUniformInterface : public UniformInterface
+	class DepthBackingCubemapUniformInterface : public UniformInterface<400ULL>
 	{
 	public:
 		// 64byte * 6
-		const UniformField<glm::mat4[6]> projViewMatrices = _appendField<glm::mat4[6]>();
+		const SpecializedUniformFieldArray<glm::mat4, 6ULL> projViewMatrices =
+			_createFieldArray<glm::mat4, 6ULL>(0);
 
 		// 12byte
-		const UniformField<glm::vec3> center = _appendField<glm::vec3>();
+		const SpecializedUniformField<glm::vec3> center = _createField<glm::vec3>(384ULL);
 
 		// 4byte
-		const UniformField<GLfloat> zFar = _appendField<GLfloat>();
+		const SpecializedUniformField<GLfloat> zFar = _createField<GLfloat>(396ULL);
 
 		DepthBackingCubemapUniformInterface() noexcept;
 		virtual ~DepthBackingCubemapUniformInterface() = default;

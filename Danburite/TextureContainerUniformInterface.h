@@ -10,7 +10,7 @@ namespace Danburite
 	{
 	public:
 		const UniformField<GLuint64[Constant::TextureContainer::MAX_TEXTURE_CONTAINER_ELEMS]> textures =
-			_appendField<GLuint64[Constant::TextureContainer::MAX_TEXTURE_CONTAINER_ELEMS]>();
+			_createField<GLuint64[Constant::TextureContainer::MAX_TEXTURE_CONTAINER_ELEMS]>();
 
 		TextureContainerUniformInterface() noexcept;
 		virtual ~TextureContainerUniformInterface() = default;

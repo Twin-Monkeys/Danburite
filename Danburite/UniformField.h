@@ -1,49 +1,76 @@
 #pragma once
 
-#include <vector>
-#include <cstdint>
+#include "UniformInterfaceHostCache.h"
 
 namespace Danburite
 {
-	template <typename $DataType, size_t BUFFER_SIZE>
+	template <typename $DataType, size_t CACHE_SIZE>
 	class UniformField
 	{
 	private:
-		std::vector<uint8_t> &__bufferRef;
+		UniformInterfaceHostCache<CACHE_SIZE> &__cache;
 		const size_t __offset;
 
-		$DataType *__getReference() const noexcept;
-
 	public:
-		constexpr UniformField(std::vector<uint8_t> &bufferReference, const size_t offset) noexcept;
+		constexpr UniformField(UniformInterfaceHostCache<CACHE_SIZE> &cache, const size_t offset) noexcept;
 
-		$DataType &operator*() const noexcept;
-		$DataType *operator->() const noexcept;
+		constexpr const $DataType &get() const noexcept;
+		void set(const $DataType &data) const noexcept;
 
 		virtual ~UniformField() = default;
 	};
 
-	template <typename $DataType>
-	$DataType *UniformField<$DataType>::__getReference() const noexcept
+	template <typename $DataType, size_t ARRAY_SIZE, size_t CACHE_SIZE>
+	class UniformFieldArray
 	{
-		return reinterpret_cast<$DataType *>(__bufferRef.data() + __offset);
-	}
+	private:
+		UniformInterfaceHostCache<CACHE_SIZE>& __cache;
+		const size_t __offset;
 
-	template <typename $DataType>
-	constexpr UniformField<$DataType>::UniformField(
-		std::vector<uint8_t> &bufferReference, const size_t offset) noexcept :
-		__bufferRef(bufferReference), __offset(offset)
+	public:
+		constexpr UniformFieldArray(UniformInterfaceHostCache<CACHE_SIZE> &cache, const size_t offset) noexcept;
+
+		constexpr const $DataType& get(const size_t idx) const noexcept;
+		void set(const size_t idx, const $DataType &data) const noexcept;
+
+		virtual ~UniformFieldArray() = default;
+	};
+
+	template <typename $DataType, size_t CACHE_SIZE>
+	constexpr UniformField<$DataType, CACHE_SIZE>::UniformField(
+		UniformInterfaceHostCache<CACHE_SIZE> &cache, const size_t offset) noexcept :
+		__cache { cache }, __offset { offset }
 	{}
 
-	template <typename $DataType>
-	$DataType &UniformField<$DataType>::operator*() const noexcept
+	template <typename $DataType, size_t CACHE_SIZE>
+	constexpr const $DataType &UniformField<$DataType, CACHE_SIZE>::get() const noexcept
 	{
-		return *__getReference();
+		return __cache.get<$DataType>(__offset);
 	}
 
-	template <typename $DataType>
-	$DataType *UniformField<$DataType>::operator->() const noexcept
+	template <typename $DataType, size_t CACHE_SIZE>
+	void UniformField<$DataType, CACHE_SIZE>::set(const $DataType &data) const noexcept
 	{
-		return __getReference();
+		__cache.set(__offset, data);
+	}
+
+	template <typename $DataType, size_t ARRAY_SIZE, size_t CACHE_SIZE>
+	constexpr UniformFieldArray<$DataType, ARRAY_SIZE, CACHE_SIZE>::
+		UniformFieldArray(UniformInterfaceHostCache<CACHE_SIZE>& cache, const size_t offset) noexcept :
+		__cache { cache }, __offset { offset }
+	{}
+
+	template <typename $DataType, size_t ARRAY_SIZE, size_t CACHE_SIZE>
+	constexpr const $DataType &UniformFieldArray<$DataType, ARRAY_SIZE, CACHE_SIZE>::
+		get(const size_t idx) const noexcept
+	{
+		return __cache.get<$DataType>(__offset + (sizeof($DataType) * idx));
+	}
+
+	template <typename $DataType, size_t ARRAY_SIZE, size_t CACHE_SIZE>
+	void UniformFieldArray<$DataType, ARRAY_SIZE, CACHE_SIZE>::
+		set(const size_t idx, const $DataType &data) const noexcept
+	{
+		__cache.set(__offset + (sizeof($DataType) * idx), data);
 	}
 }

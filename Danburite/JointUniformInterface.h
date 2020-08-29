@@ -5,10 +5,10 @@
 
 namespace Danburite
 {
-	class JointUniformInterface : public UniformInterface
+	class JointUniformInterface : public UniformInterface<16ULL>
 	{
 	public:
-		const UniformField<glm::mat4> jointMat = _appendField<glm::mat4>();
+		const SpecializedUniformField<glm::mat4> jointMat = _createField<glm::mat4>(0);
 
 		JointUniformInterface() noexcept;
 		virtual ~JointUniformInterface() = default;

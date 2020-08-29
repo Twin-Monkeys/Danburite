@@ -5,10 +5,10 @@
 
 namespace Danburite
 {
-	class GammaCorrectionUniformInterface : public UniformInterface
+	class GammaCorrectionUniformInterface : public UniformInterface<4ULL>
 	{
 	public:
-		const UniformField<GLfloat> gamma = _appendField<GLfloat>();
+		const SpecializedUniformField<GLfloat> gamma = _createField<GLfloat>(0);
 
 		GammaCorrectionUniformInterface() noexcept;
 		virtual ~GammaCorrectionUniformInterface() = default;

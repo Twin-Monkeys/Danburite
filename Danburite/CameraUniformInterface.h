@@ -6,15 +6,15 @@
 
 namespace Danburite
 {
-	class CameraUniformInterface : public UniformInterface
+	class CameraUniformInterface : public UniformInterface<144ULL>
 	{
 	public:
 		// 64byte
-		const UniformField<glm::mat4> viewMat	= _appendField<glm::mat4>();
-		const UniformField<glm::mat4> projMat	= _appendField<glm::mat4, sizeof(glm::mat4) + 4ULL>();
+		const SpecializedUniformField<glm::mat4> viewMat	= _createField<glm::mat4>(0ULL);
+		const SpecializedUniformField<glm::mat4> projMat	= _createField<glm::mat4>(64ULL);
 
 		// 12byte
-		const UniformField<glm::vec3> pos		= _appendField<glm::vec3>();
+		const SpecializedUniformField<glm::vec3> pos		= _createField<glm::vec3>(132ULL);
 
 		CameraUniformInterface() noexcept;
 		virtual ~CameraUniformInterface() = default;

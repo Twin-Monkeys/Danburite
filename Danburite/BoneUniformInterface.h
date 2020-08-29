@@ -6,11 +6,11 @@
 
 namespace Danburite
 {
-	class BoneUniformInterface : public UniformInterface
+	class BoneUniformInterface : public UniformInterface<sizeof(glm::mat4) * Constant::Animation::MAX_NUM_BONES>
 	{
 	public:
-		const UniformField<glm::mat4[Constant::Animation::MAX_NUM_BONES]> boneMatrices =
-			_appendField<glm::mat4[Constant::Animation::MAX_NUM_BONES]>();
+		const SpecializedUniformFieldArray<glm::mat4, Constant::Animation::MAX_NUM_BONES>
+			boneMatrices = _createFieldArray<glm::mat4, Constant::Animation::MAX_NUM_BONES>(0ULL);
 
 		BoneUniformInterface() noexcept;
 		virtual ~BoneUniformInterface() = default;
