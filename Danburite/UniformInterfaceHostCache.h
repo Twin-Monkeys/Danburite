@@ -6,12 +6,12 @@
 
 namespace Danburite
 {
-	template <size_t BUFFER_SIZE>
+	template <size_t $BUFFER_SIZE>
 	class UniformInterfaceHostCache
 	{
 	private:
-		std::pair<size_t, size_t> __dirtyRange = { 0, BUFFER_SIZE };
-		std::array<uint8_t, BUFFER_SIZE> __buffer { 0 };
+		std::pair<size_t, size_t> __dirtyRange = { 0, $BUFFER_SIZE };
+		std::array<uint8_t, $BUFFER_SIZE> __buffer { 0 };
 
 	public:
 		template <typename $DataType>
@@ -20,20 +20,21 @@ namespace Danburite
 		template <typename $DataType>
 		constexpr void set(const size_t offset, const $DataType &data) noexcept;
 
-		constexpr std::pair<const uint8_t *, size_t> getDirtySpace() const noexcept;
+		constexpr const std::array<uint8_t, $BUFFER_SIZE> &getBuffer() const noexcept;
+		constexpr const std::pair<size_t, size_t> &getDirtyRange() const noexcept;
 		constexpr void clearDirty() noexcept;
 	};
 
-	template <size_t BUFFER_SIZE>
+	template <size_t $BUFFER_SIZE>
 	template <typename $DataType>
-	constexpr const $DataType &UniformInterfaceHostCache<BUFFER_SIZE>::get(const size_t offset) noexcept
+	constexpr const $DataType &UniformInterfaceHostCache<$BUFFER_SIZE>::get(const size_t offset) noexcept
 	{
 		return *reinterpret_cast<$DataType*>(__buffer.data() + offset);
 	}
 
-	template <size_t BUFFER_SIZE>
+	template <size_t $BUFFER_SIZE>
 	template <typename $DataType>
-	constexpr void UniformInterfaceHostCache<BUFFER_SIZE>::set(const size_t offset, const $DataType &data) noexcept
+	constexpr void UniformInterfaceHostCache<$BUFFER_SIZE>::set(const size_t offset, const $DataType &data) noexcept
 	{
 		auto &[dirtyMin, dirtyMax] = __dirtyRange;
 
@@ -47,18 +48,23 @@ namespace Danburite
 		target = data;
 	}
 
-	template <size_t BUFFER_SIZE>
-	constexpr std::pair<const uint8_t *, size_t> UniformInterfaceHostCache<BUFFER_SIZE>::getDirtySpace() const noexcept
+	template <size_t $BUFFER_SIZE>
+	constexpr const std::array<uint8_t, $BUFFER_SIZE> &
+		UniformInterfaceHostCache<$BUFFER_SIZE>::getBuffer() const noexcept
 	{
-		if (__dirtyRange.first >= __dirtyRange.second)
-			return { nullptr, 0ULL };
-
-		return { __buffer.data() + __dirtyRange.first, __dirtyRange.second - __dirtyRange.first };
+		return __buffer;
 	}
 
-	template <size_t BUFFER_SIZE>
-	constexpr void UniformInterfaceHostCache<BUFFER_SIZE>::clearDirty() noexcept
+	template <size_t $BUFFER_SIZE>
+	constexpr const std::pair<size_t, size_t> &
+		UniformInterfaceHostCache<$BUFFER_SIZE>::getDirtyRange() const noexcept
 	{
-		__dirtyRange = { BUFFER_SIZE, 0 };
+		return __dirtyRange;
+	}
+
+	template <size_t $BUFFER_SIZE>
+	constexpr void UniformInterfaceHostCache<$BUFFER_SIZE>::clearDirty() noexcept
+	{
+		__dirtyRange = { $BUFFER_SIZE, 0 };
 	}
 }

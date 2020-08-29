@@ -5,10 +5,10 @@
 
 namespace Danburite
 {
-	class TranslucencySwitcherUniformInterface : public UniformInterface
+	class TranslucencySwitcherUniformInterface : public UniformInterface<4ULL>
 	{
 	public:
-		const UniformField<GLuint> mode = _createField<GLuint>();
+		const SpecializedUniformField<GLuint> mode = _createField<GLuint>(0);
 
 		TranslucencySwitcherUniformInterface() noexcept;
 		virtual ~TranslucencySwitcherUniformInterface() = default;

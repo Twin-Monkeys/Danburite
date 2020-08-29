@@ -6,11 +6,14 @@
 
 namespace Danburite
 {
-	class TextureContainerUniformInterface : public UniformInterface
+	class TextureContainerUniformInterface : public UniformInterface<
+		sizeof(GLuint64) * Constant::TextureContainer::MAX_TEXTURE_CONTAINER_ELEMS>
 	{
 	public:
-		const UniformField<GLuint64[Constant::TextureContainer::MAX_TEXTURE_CONTAINER_ELEMS]> textures =
-			_createField<GLuint64[Constant::TextureContainer::MAX_TEXTURE_CONTAINER_ELEMS]>();
+		const SpecializedUniformFieldArray<
+			GLuint64, Constant::TextureContainer::MAX_TEXTURE_CONTAINER_ELEMS>
+			textures = _createFieldArray<GLuint64, Constant::TextureContainer::MAX_TEXTURE_CONTAINER_ELEMS>
+			(0);
 
 		TextureContainerUniformInterface() noexcept;
 		virtual ~TextureContainerUniformInterface() = default;

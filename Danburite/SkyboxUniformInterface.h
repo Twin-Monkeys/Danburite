@@ -6,11 +6,11 @@
 
 namespace Danburite
 {
-	class SkyboxUniformInterface : public UniformInterface
+	class SkyboxUniformInterface : public UniformInterface<12ULL>
 	{
 	public:
-		const UniformField<GLuint64> albedoTex	= _createField<GLuint64>();
-		const UniformField<GLfloat> luminance	= _createField<GLfloat>();
+		const SpecializedUniformField<GLuint64> albedoTex = _createField<GLuint64>(0ULL);
+		const SpecializedUniformField<GLfloat> luminance = _createField<GLfloat>(8ULL);
 
 		SkyboxUniformInterface() noexcept;
 		virtual ~SkyboxUniformInterface() = default;

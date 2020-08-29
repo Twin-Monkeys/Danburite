@@ -2,14 +2,13 @@
 
 #include <GL/glew.h>
 #include "UniformInterface.h"
-#include "Constant.h"
 
 namespace Danburite
 {
-	class PhongUniformInterface : public UniformInterface
+	class PhongUniformInterface : public UniformInterface<4ULL>
 	{
 	public:
-		const UniformField<GLuint> calcMethodType = _createField<GLuint>();
+		const SpecializedUniformField<GLuint> calcMethodType = _createField<GLuint>(0ULL);
 
 		PhongUniformInterface() noexcept;
 		virtual ~PhongUniformInterface() = default;

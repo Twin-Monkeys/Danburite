@@ -35,7 +35,5 @@ namespace Danburite
 
 	public:
 		ObjectGL::Program &getProgram(const ProgramType type);
-
-		static const std::unordered_set<ProgramType> &getUsingProgramsFromUniformBufferName(const std::string &uniformBufferName) noexcept;
 	};
 }
