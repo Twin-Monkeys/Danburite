@@ -35,7 +35,7 @@ namespace Danburite
 		}
 	{
 		if (memAlloc)
-			memoryAlloc($BUFFER_SIZE, BufferUpdatePatternType::STREAM);
+			memoryAlloc($UniformInterfaceType::BUFFER_SIZE, ObjectGL::BufferUpdatePatternType::STREAM);
 	}
 
 	template <typename $UniformInterfaceType>

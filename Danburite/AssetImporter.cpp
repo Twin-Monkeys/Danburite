@@ -55,21 +55,6 @@ namespace Danburite
 		return pRetVal;
 	}
 
-	template <typename T>
-	static void __setupPhongStyleMaterial(
-		const shared_ptr<T> &pMaterial,
-		const shared_ptr<Texture2D> &pAmbientTex,
-		const shared_ptr<Texture2D> &pDiffuseTex,
-		const shared_ptr<Texture2D> &pSpecularTex,
-		const shared_ptr<Texture2D> &pEmissiveTex,
-		const shared_ptr<Texture2D> &pShininessTex,
-		const shared_ptr<Texture2D> &pAlphaTex,
-		const shared_ptr<Texture2D> &pNormalTex,
-		const shared_ptr<Texture2D> &pHeightTex)
-	{
-		
-	}
-
 	static SceneObjectNode &__parseNode(
 		const string &parentPath, const aiNode *const pNode, const aiScene* const pScene, const MaterialType materialType,
 		unordered_map<string, shared_ptr<Texture2D>> &textureCache, SceneObject &sceneObject)

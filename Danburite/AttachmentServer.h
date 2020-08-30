@@ -7,7 +7,7 @@
 #include "RenderBuffer.h"
 #include "RenderBufferMultisample.h"
 #include "AttachmentServerException.h"
-#include "ShaderIdentifier.h"
+#include "Constant.h"
 
 namespace Danburite
 {
@@ -72,7 +72,7 @@ namespace Danburite
 			getTexMultisample(
 				const GLsizei width, const GLsizei height,
 				const ObjectGL::TextureInternalFormatType internalFormat,
-				const GLsizei numSamplePoints = ShaderIdentifier::Value::MSAA::NUM_SAMPLE_POINTS,
+				const GLsizei numSamplePoints = Constant::MSAA::NUM_SAMPLE_POINTS,
 				const bool fixedSampleLocations = true,
 				const size_t retrievingIndex = 0ULL);
 
@@ -88,7 +88,7 @@ namespace Danburite
 			getRenderBufferMultisample(
 				const GLsizei width, const GLsizei height,
 				const ObjectGL::RenderBufferInternalFormatType internalFormat,
-				const GLsizei numSamplePoints = ShaderIdentifier::Value::MSAA::NUM_SAMPLE_POINTS,
+				const GLsizei numSamplePoints = Constant::MSAA::NUM_SAMPLE_POINTS,
 				const size_t retrievingIndex = 0ULL);
 	};
 

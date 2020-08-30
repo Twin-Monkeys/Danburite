@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RenderContext.h"
+#include <typeindex>
 #include <any>
 #include "DeferredUniformBuffer.h"
 #include "ShaderIdentifier.h"
@@ -12,7 +13,7 @@ namespace Danburite
 		friend ObjectGL::ContextDependentSingleton<UniformBufferFactory>;
 
 	private:
-		std::unordered_map<std::type_info, std::any> __uniformBufferCache;
+		std::unordered_map<std::type_index, std::any> __uniformBufferCache;
 
 		UniformBufferFactory() = default;
 
@@ -27,16 +28,21 @@ namespace Danburite
 		using namespace std;
 		using namespace ObjectGL;
 
-		const type_info RTTI = typeid($UniformInterfaceType);
-		auto resultIt = __uniformBufferCache.find(RTTI);
+		const type_index RTTI { typeid($UniformInterfaceType) };
 
+		auto resultIt = __uniformBufferCache.find(RTTI);
 		if (resultIt != __uniformBufferCache.end())
-			return *any_cast<shared_ptr<DeferredUniformBuffer<$UniformInterfaceType>>>(resultIt->second);
+		{
+			const shared_ptr<DeferredUniformBuffer<$UniformInterfaceType>> &pRetVal =
+				any_cast<shared_ptr<DeferredUniformBuffer<$UniformInterfaceType>>>(resultIt->second);
+
+			return *pRetVal;
+		}
 
 		const shared_ptr<DeferredUniformBuffer<$UniformInterfaceType>> &pRetVal =
 			make_shared<DeferredUniformBuffer<$UniformInterfaceType>>();
 
 		__uniformBufferCache.emplace(RTTI, pRetVal);
-		return pRetVal;
+		return *pRetVal;
 	}
 }

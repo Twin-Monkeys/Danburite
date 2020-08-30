@@ -41,8 +41,8 @@ namespace Danburite
 		const size_t localDirtyMin = offset;
 		const size_t localDirtyMax = (offset + sizeof($DataType));
 
-		dirtyMin = glm::min(dirtyMin, localDirtyMin);
-		dirtyMax = glm::max(dirtyMax, localDirtyMax);
+		dirtyMin = glm::min<size_t>(dirtyMin, localDirtyMin);
+		dirtyMax = glm::max<size_t>(dirtyMax, localDirtyMax);
 
 		$DataType &target = *reinterpret_cast<$DataType *>(__buffer.data() + offset);
 		target = data;

@@ -42,7 +42,7 @@ namespace Danburite
 			_getTexMultisample(
 				const GLsizei width, const GLsizei height,
 				const ObjectGL::TextureInternalFormatType internalFormat,
-				const GLsizei numSamplePoints = ShaderIdentifier::Value::MSAA::NUM_SAMPLE_POINTS,
+				const GLsizei numSamplePoints = Constant::MSAA::NUM_SAMPLE_POINTS,
 				const bool fixedSampleLocations = true,
 				const size_t retrievingIndex = 0ULL);
 
@@ -58,7 +58,7 @@ namespace Danburite
 			_getRenderBufferMultisample(
 				const GLsizei width, const GLsizei height,
 				const ObjectGL::RenderBufferInternalFormatType internalFormat,
-				const GLsizei numSamplePoints = ShaderIdentifier::Value::MSAA::NUM_SAMPLE_POINTS,
+				const GLsizei numSamplePoints = Constant::MSAA::NUM_SAMPLE_POINTS,
 				const size_t retrievingIndex = 0ULL);
 
 

@@ -11,11 +11,10 @@ namespace Danburite
 	{
 		__basicSetup.setup([this](ContextStateManager& stateMgr)
 		{
-			__bloomSetter.setUniformFloat(
-				ShaderIdentifier::Name::Bloom::BRIGHTNESS_THRESHOLD, __brightnessThreshold);
+			 BloomUniformInterface &bloomInterface = __bloomUB.getInterface();
 
-			__bloomSetter.setUniformFloat(
-				ShaderIdentifier::Name::Bloom::EFFECT_STRENGTH, __effectStrength);
+			 bloomInterface.brightnessThreshold.set(__brightnessThreshold);
+			 bloomInterface.effectStrength.set(__effectStrength);
 
 			stateMgr.setState(GLStateType::DEPTH_TEST, false);
 			stateMgr.setState(GLStateType::STENCIL_TEST, false);
@@ -28,29 +27,31 @@ namespace Danburite
 
 		__colorExtractionSetup.setup([this](ContextStateManager& stateMgr)
 		{
-			__texContainerSetter.setUniformUvec2(
-				ShaderIdentifier::Name::Attachment::TEX0, __pOriginalColorAttachment->getHandle());
+			TextureContainerUniformInterface &texContainerInterface = __texContainerUB.getInterface();
+			texContainerInterface.textures.set(0, __pOriginalColorAttachment->getHandle());
+			__texContainerUB.selfDeploy();
 		});
 
 		__horizBlurSetup.setup([this](ContextStateManager& stateMgr)
 		{
-			__texContainerSetter.setUniformUvec2(
-				ShaderIdentifier::Name::Attachment::TEX0, __pBloomColorAttachment1->getHandle());
+			TextureContainerUniformInterface &texContainerInterface = __texContainerUB.getInterface();
+			texContainerInterface.textures.set(0, __pBloomColorAttachment1->getHandle());
+			__texContainerUB.selfDeploy();
 		});
 
 		__horizVertSetup.setup([this](ContextStateManager& stateMgr)
 		{
-			__texContainerSetter.setUniformUvec2(
-				ShaderIdentifier::Name::Attachment::TEX0, __pBloomColorAttachment2->getHandle());
+			TextureContainerUniformInterface& texContainerInterface = __texContainerUB.getInterface();
+			texContainerInterface.textures.set(0, __pBloomColorAttachment2->getHandle());
+			__texContainerUB.selfDeploy();
 		});
 
 		__compositionSetup.setup([this](ContextStateManager& stateMgr)
 		{
-			__texContainerSetter.setUniformUvec2(
-				ShaderIdentifier::Name::Attachment::TEX0, __pOriginalColorAttachment->getHandle());
-
-			__texContainerSetter.setUniformUvec2(
-				ShaderIdentifier::Name::Attachment::TEX1, __pBloomColorAttachment1->getHandle());
+			TextureContainerUniformInterface& texContainerInterface = __texContainerUB.getInterface();
+			texContainerInterface.textures.set(0, __pOriginalColorAttachment->getHandle());
+			texContainerInterface.textures.set(1, __pBloomColorAttachment1->getHandle());
+			__texContainerUB.selfDeploy();
 		});
 	}
 

@@ -3,6 +3,9 @@
 #include "PostProcessor.h"
 #include "ProgramFactory.h"
 #include "UniformBufferFactory.h"
+#include "DeferredUniformBuffer.h"
+#include "BloomUniformInterface.h"
+#include "TextureContainerUniformInterface.h"
 #include "ShaderIdentifier.h"
 #include "AttachableTextureRectangle.h"
 #include "RenderBuffer.h"
@@ -15,13 +18,11 @@ namespace Danburite
 	class BloomPostProcessor : public PostProcessor
 	{
 	private:
-		ObjectGL::UniformBuffer &__bloomSetter =
-			UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::BLOOM);
+		DeferredUniformBuffer<BloomUniformInterface> &__bloomUB =
+			UniformBufferFactory::getInstance().getUniformBuffer<BloomUniformInterface>();
 
-		ObjectGL::UniformBuffer &__texContainerSetter =
-			UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER);
+		DeferredUniformBuffer<TextureContainerUniformInterface> &__texContainerUB =
+			UniformBufferFactory::getInstance().getUniformBuffer<TextureContainerUniformInterface>();
 
 		ObjectGL::Program &__extractionProgram =
 			ProgramFactory::getInstance().getProgram(ProgramType::POST_PROCESS_BLOOM_COLOR_EXTRACTION);

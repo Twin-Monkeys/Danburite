@@ -10,32 +10,26 @@ namespace Danburite
 	{
 		__defaultSetup.setup([this] (ContextStateManager &)
 		{
-			__materialSetter.setUniformUint(
-				ShaderIdentifier::Name::Material::TYPE, GLuint(__MATERIAL_TYPE));
+			MaterialUniformInterface &materialInterface = __materialUB.getInterface();
 
-			__materialSetter.setUniformUint(
-				ShaderIdentifier::Name::Material::VERTEX_FLAG, GLuint(__VERTEX_FLAG));
-
-			__materialSetter.setUniformUint(
-				ShaderIdentifier::Name::Material::OPTION_FLAG, GLuint(__optionFlag));
+			materialInterface.type.set(GLuint(__MATERIAL_TYPE));
+			materialInterface.vertexFlag.set(GLuint(__VERTEX_FLAG));
+			materialInterface.optionFlag.set(GLuint(__optionFlag));
 
 			if (isAlphaOverridden())
-			{
-				__materialSetter.setUniformFloat(
-					ShaderIdentifier::Name::Material::OVERRIDDEN_ALPHA, __overriddenAlpha);
-			}
+				materialInterface.overriddenAlpha.set(__overriddenAlpha);
 		});
 	}
 
 	void Material::render(VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
 		__defaultSetup();
-		_onRender(__materialSetter, vertexArray, numInstances);
+		_onRender(__materialUB, vertexArray, numInstances);
 	}
 
 	void Material::rawDrawcall(VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
 		__defaultSetup();
-		_onRawDrawcall(__materialSetter, vertexArray, numInstances);
+		_onRawDrawcall(__materialUB, vertexArray, numInstances);
 	}
 }

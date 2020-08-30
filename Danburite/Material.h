@@ -6,9 +6,10 @@
 #include "VertexArray.h"
 #include "VertexAttributeFlag.h"
 #include "Constant.h"
-#include "UniformSetter.h"
 #include "ShaderIdentifier.h"
 #include "UniformBufferFactory.h"
+#include "DeferredUniformBuffer.h"
+#include "MaterialUniformInterface.h"
 #include "SetupTransaction.h"
 
 namespace Danburite
@@ -22,9 +23,8 @@ namespace Danburite
 
 		float __overriddenAlpha = 1.f;
 
-		ObjectGL::UniformSetter &__materialSetter =
-			UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::MATERIAL);
+		DeferredUniformBuffer<MaterialUniformInterface> &__materialUB =
+			UniformBufferFactory::getInstance().getUniformBuffer<MaterialUniformInterface>();
 
 		SetupTransaction __defaultSetup;
 
@@ -35,11 +35,11 @@ namespace Danburite
 		Material(const MaterialType materialType, const VertexAttributeFlag vertexFlag) noexcept;
 
 		virtual void _onRender(
-			ObjectGL::UniformSetter &materialSetter,
+			DeferredUniformBuffer<MaterialUniformInterface> &materialSetter,
 			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) = 0;
 
 		virtual void _onRawDrawcall(
-			ObjectGL::UniformSetter& materialSetter,
+			DeferredUniformBuffer<MaterialUniformInterface> &materialSetter,
 			ObjectGL::VertexArray& vertexArray, const GLsizei numInstances) = 0;
 
 		constexpr void enableLighting(const bool enabled) noexcept;
