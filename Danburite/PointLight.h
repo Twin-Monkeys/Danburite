@@ -24,7 +24,7 @@ namespace Danburite
 	protected:
 		PointLight(const LightType type, const GLuint index);
 
-		virtual void _onDeploy(LightUniformSetter &lightSetter) noexcept override;
+		virtual void _onDeploy(DeferredUniformBuffer<LightUniformInterface> &lightUB) noexcept override;
 		virtual void _onVolumeDrawcall() noexcept override;
 
 	public:

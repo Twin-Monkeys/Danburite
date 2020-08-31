@@ -35,12 +35,14 @@ namespace Danburite
 		}
 	}
 
-	void AttenuatedLightComponent::_deployAttenuatedComponent(LightUniformSetter &lightSetter) noexcept
+	void AttenuatedLightComponent::_deployAttenuatedComponent(const size_t lightIndex, DeferredUniformBuffer<LightUniformInterface> &lightUB) noexcept
 	{
-		lightSetter.setUniformFloat(ShaderIdentifier::Name::Light::ATTENUATION_CONST, __attConst);
-		lightSetter.setUniformFloat(ShaderIdentifier::Name::Light::ATTENUATION_LINEAR, __attLinear);
-		lightSetter.setUniformFloat(ShaderIdentifier::Name::Light::ATTENUATION_QUAD, __attQuad);
-		lightSetter.setUniformFloat(ShaderIdentifier::Name::Light::VALID_DISTANCE, __validDistance);
+		LightUniformInterface &lightUniformInterface = lightUB.getInterface();
+
+		lightUniformInterface.attConst.set(lightIndex, __attConst);
+		lightUniformInterface.attLinear.set(lightIndex, __attLinear);
+		lightUniformInterface.attQuad.set(lightIndex, __attQuad);
+		lightUniformInterface.validDistance.set(lightIndex, __validDistance);
 	}
 
 	void AttenuatedLightComponent::setAttenuation(

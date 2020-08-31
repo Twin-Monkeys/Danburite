@@ -1,6 +1,7 @@
 #pragma once
 
-#include "LightUniformSetter.h"
+#include "DeferredUniformBuffer.h"
+#include "LightUniformInterface.h"
 #include "Constant.h"
 
 namespace Danburite
@@ -20,7 +21,7 @@ namespace Danburite
 
 		constexpr float _getValidDistance() const noexcept;
 
-		void _deployAttenuatedComponent(LightUniformSetter &lightSetter) noexcept;
+		void _deployAttenuatedComponent(const size_t lightIndex, DeferredUniformBuffer<LightUniformInterface> &lightUB) noexcept;
 
 	public:
 		virtual void setAttenuation(const float constant, const float linear, const float quadratic) noexcept;

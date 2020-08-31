@@ -48,11 +48,11 @@ namespace Danburite
 		__pVolume->getTransform().setScale(_getValidDistance());
 	}
 
-	void PointLight::_onDeploy(LightUniformSetter &lightSetter) noexcept
+	void PointLight::_onDeploy(DeferredUniformBuffer<LightUniformInterface> &lightUB) noexcept
 	{
-		_deployBaseComponent(lightSetter);
-		_deployAttenuatedComponent(lightSetter);
-		_deployPosition(lightSetter);
+		_deployBaseComponent(getIndex(), lightUB);
+		_deployAttenuatedComponent(getIndex(), lightUB);
+		_deployPosition(lightUB);
 	}
 
 	void PointLight::_onVolumeDrawcall() noexcept

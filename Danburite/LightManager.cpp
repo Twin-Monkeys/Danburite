@@ -19,9 +19,11 @@ namespace Danburite
 
 	void LightManager::selfDeploy() noexcept
 	{
-		__lightSetter.setUniformUint(
-			ShaderIdentifier::Name::Light::NUM_LIGHTS, GLuint(__lights.size()));
+		LightUniformInterface &lightUniformInterface = __lightUB.getInterface();
 
+		lightUniformInterface.numLights.set(GLuint(__lights.size()));
 		process(&Light::selfDeploy);
+
+		__lightUB.selfDeploy();
 	}
 }
