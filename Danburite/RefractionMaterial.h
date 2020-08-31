@@ -20,11 +20,11 @@ namespace Danburite
 
 	protected:
 		virtual void _onRender(
-			ObjectGL::UniformSetter &materialSetter,
+			DeferredUniformBuffer<MaterialUniformInterface> &materialUB,
 			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) noexcept override;
 
 		virtual void _onRawDrawcall(
-			ObjectGL::UniformSetter& materialSetter,
+			DeferredUniformBuffer<MaterialUniformInterface> &materialUB,
 			ObjectGL::VertexArray& vertexArray, const GLsizei numInstances) noexcept override;
 
 	public:

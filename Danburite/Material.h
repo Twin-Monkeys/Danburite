@@ -35,11 +35,11 @@ namespace Danburite
 		Material(const MaterialType materialType, const VertexAttributeFlag vertexFlag) noexcept;
 
 		virtual void _onRender(
-			DeferredUniformBuffer<MaterialUniformInterface> &materialSetter,
+			DeferredUniformBuffer<MaterialUniformInterface> &materialUB,
 			ObjectGL::VertexArray &vertexArray, const GLsizei numInstances) = 0;
 
 		virtual void _onRawDrawcall(
-			DeferredUniformBuffer<MaterialUniformInterface> &materialSetter,
+			DeferredUniformBuffer<MaterialUniformInterface> &materialUB,
 			ObjectGL::VertexArray& vertexArray, const GLsizei numInstances) = 0;
 
 		constexpr void enableLighting(const bool enabled) noexcept;

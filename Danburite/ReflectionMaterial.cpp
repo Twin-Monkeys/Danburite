@@ -10,20 +10,22 @@ namespace Danburite
 	{}
 
 	void ReflectionMaterial::_onRender(
-		UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
+		DeferredUniformBuffer<MaterialUniformInterface> &materialUB, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
 		__reflectionProgram.bind();
-		_onRawDrawcall(materialSetter, vertexArray, numInstances);
+		_onRawDrawcall(materialUB, vertexArray, numInstances);
 	}
 
 	void ReflectionMaterial::_onRawDrawcall(
-		UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
+		DeferredUniformBuffer<MaterialUniformInterface> &materialUB, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
-		materialSetter.setUniformUvec2(ShaderIdentifier::Name::Material::ENVIRONMENT_TEX, __pEnvTex->getHandle());
+		MaterialUniformInterface &materialUniformInterface = materialUB.getInterface();
+		materialUniformInterface.environmentTex.set(__pEnvTex->getHandle());
 
 		if (isNormalTextureEnabled())
-			materialSetter.setUniformUvec2(ShaderIdentifier::Name::Material::NORMAL_TEX, __pNormalTex->getHandle());
+			materialUniformInterface.normalTex.set(__pNormalTex->getHandle());
 
+		materialUB.selfDeploy();
 		vertexArray.draw(numInstances);
 	}
 

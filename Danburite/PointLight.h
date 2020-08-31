@@ -4,6 +4,7 @@
 #include "LightBaseComponent.h"
 #include "AttenuatedLightComponent.h"
 #include "SceneObject.h"
+#include "SetupTransaction.h"
 
 namespace Danburite
 {
@@ -15,6 +16,8 @@ namespace Danburite
 			Constant::Light::AttenuatedComponent::LUMINANCE_TOLERANCE;
 
 		std::shared_ptr<Danburite::SceneObject> __pVolume = std::make_shared<SceneObject>();
+
+		SetupTransaction __lightingVolumeSetup;
 
 		void __setValidDistance() noexcept;
 

@@ -20,6 +20,13 @@ namespace Danburite
 			make_shared<RawDrawcallMaterial>(VertexAttributeFlag::POS);
 
 		__pVolume->createNode(pVolumeVA, pVolumeMaterial);
+
+		__lightingVolumeSetup.setup([this](ContextStateManager &stateMgr)
+		{
+			stateMgr.setState(GLStateType::DEPTH_TEST, false);
+			stateMgr.setState(GLStateType::CULL_FACE, true);
+			stateMgr.setCulledFace(FacetType::FRONT);
+		});
 	}
 
 	PointLight::PointLight(const GLuint index) :
@@ -50,6 +57,7 @@ namespace Danburite
 
 	void PointLight::_onVolumeDrawcall() noexcept
 	{
+		__lightingVolumeSetup();
 		__pVolume->rawDrawcall();
 	}
 
