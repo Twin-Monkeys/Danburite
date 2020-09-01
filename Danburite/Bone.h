@@ -24,6 +24,12 @@ namespace Danburite
 			const std::string_view &targetNodeName, const std::string_view &srcNodeName,
 			const glm::mat4 &offsetMatrix) noexcept;
 
-		void calcMatrix(glm::mat4 &retVal) const noexcept;
+		void updateMatrix() noexcept;
+		constexpr const glm::mat4 &getMatrix() const noexcept;
 	};
+
+	constexpr const glm::mat4 &Bone::getMatrix() const noexcept
+	{
+		return __boneMat;
+	}
 }

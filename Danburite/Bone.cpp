@@ -14,7 +14,7 @@ namespace Danburite
 		__targetNodeName(targetNodeName), __srcNodeName(srcNodeName), __offsetMat(offsetMatrix)
 	{}
 
-	void Bone::calcMatrix(mat4 &retVal) const noexcept
+	void Bone::updateMatrix() noexcept
 	{
 		const Joint *const pTargetJoint = __jointMgr.getJoint(__targetNodeName);
 		const Joint *const pSrcJoint = __jointMgr.getJoint(__srcNodeName);
@@ -22,6 +22,6 @@ namespace Danburite
 		const mat4& targetJointMat = pTargetJoint->getMatrix();
 		const mat4& srcJointMat = pSrcJoint->getMatrix();
 
-		retVal = (inverse(srcJointMat) * targetJointMat * __offsetMat);
+		__boneMat = (inverse(srcJointMat) * targetJointMat * __offsetMat);
 	}
 }

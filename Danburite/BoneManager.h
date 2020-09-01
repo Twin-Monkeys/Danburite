@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Bone.h"
-#include "UniformBuffer.h"
+#include "UniformBufferFactory.h"
+#include "BoneUniformInterface.h"
 #include "Animation.h"
 #include "BoneException.h"
 
@@ -11,11 +12,10 @@ namespace Danburite
 	{
 	private:
 		const JointManager &__jointMgr;
-
-		std::vector<glm::mat4> __boneMatrices;
 		std::vector<std::unique_ptr<Bone>> __bones;
 
-		ObjectGL::UniformBuffer &__boneSetter;
+		DeferredUniformBuffer<BoneUniformInterface> &__boneUB =
+			UniformBufferFactory::getInstance().getUniformBuffer<BoneUniformInterface>();
 
 	public:
 		BoneManager(const JointManager &jointManager);

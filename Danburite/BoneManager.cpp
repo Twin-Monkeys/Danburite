@@ -1,6 +1,4 @@
 #include "BoneManager.h"
-#include "UniformBufferFactory.h"
-#include "ShaderIdentifier.h"
 #include "Constant.h"
 
 using namespace std;
@@ -9,15 +7,12 @@ using namespace glm;
 namespace Danburite
 {
 	BoneManager::BoneManager(const JointManager &jointManager) :
-		__jointMgr(jointManager),
-		__boneSetter(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::BONE))
+		__jointMgr(jointManager)
 	{}
 
 	Bone &BoneManager::createBone(const string &targetNodeName, const string &srcNodeName, const mat4 &offsetMatrix)
 	{
-		const GLuint boneID = GLuint(__boneMatrices.size());
-		__boneMatrices.emplace_back();
+		const GLuint boneID = GLuint(__bones.size());
 
 		if (boneID >= Constant::Animation::MAX_NUM_BONES)
 			throw BoneException("the number of bones cannot be greater than MAX_NUM_BONES.");
@@ -28,15 +23,18 @@ namespace Danburite
 
 	void BoneManager::updateBones() noexcept
 	{
+		BoneUniformInterface &boneUniformInterface = __boneUB.getInterface();
+
 		for (size_t i = 0ULL; i < __bones.size(); i++)
-			__bones[i]->calcMatrix(__boneMatrices[i]);
+		{
+			Bone &bone = *__bones[i];
+			bone.updateMatrix();
+			boneUniformInterface.boneMatrices.set(i, bone.getMatrix());
+		}
 	}
 
 	void BoneManager::selfDeploy() const noexcept
 	{
-		if (__boneMatrices.empty())
-			return;
-
-		__boneSetter.memoryCopy(__boneMatrices.data(), __boneMatrices.size() * sizeof(mat4));
+		__boneUB.selfDeploy();
 	}
 }
