@@ -12,16 +12,19 @@ namespace Danburite
 	}
 
 	void MonoColorMaterial::_onRender(
-		UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
+		DeferredUniformBuffer<MaterialUniformInterface> &materialUB, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
 		__monoColorProgram.bind();
-		_onRawDrawcall(materialSetter, vertexArray, numInstances);
+		_onRawDrawcall(materialUB, vertexArray, numInstances);
 	}
 
 	void MonoColorMaterial::_onRawDrawcall(
-		UniformSetter& materialSetter, VertexArray& vertexArray, const GLsizei numInstances) noexcept
+		DeferredUniformBuffer<MaterialUniformInterface> &materialUB, VertexArray& vertexArray, const GLsizei numInstances) noexcept
 	{
-		materialSetter.setUniformVec4(ShaderIdentifier::Name::Material::DIFFUSE_COLOR, __color);
+		MaterialUniformInterface &materialUniformInterface = materialUB.getInterface();
+		materialUniformInterface.diffuseColor.set(__color);
+
+		materialUB.selfDeploy();
 		vertexArray.draw(numInstances);
 	}
 }

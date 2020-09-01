@@ -9,10 +9,8 @@ namespace Danburite
 	Light::Light(
 		const LightType type, const LightVolumeType volumeType,
 		const DepthBakingType depthBakingType, const GLuint index) :
-		__TYPE(GLuint(type)), __VOLUME_TYPE(GLuint(volumeType)), __DEPTH_BAKING_TYPE(GLuint(depthBakingType)),
-
-		__lightSetter(UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::LIGHT), index)
+		__TYPE { GLuint(type) }, __VOLUME_TYPE { GLuint(volumeType) },
+		__DEPTH_BAKING_TYPE { GLuint(depthBakingType) }, __index { index }
 	{
 		setIndex(index);
 	}
@@ -24,25 +22,21 @@ namespace Danburite
 
 	void Light::selfDeploy() noexcept
 	{
-		__lightSetter.setUniformUint(ShaderIdentifier::Name::Light::TYPE, __TYPE);
-		__lightSetter.setUniformUint(ShaderIdentifier::Name::Light::DEPTH_BAKING_TYPE, __DEPTH_BAKING_TYPE);
-		__lightSetter.setUniformBool(ShaderIdentifier::Name::Light::ENABLED, __enabled);
+		LightUniformInterface &lightUniformInterface = __lightUB.getInterface();
 
+		lightUniformInterface.enabled.set(__index, GLuint { __enabled });
 		if (!__enabled)
 			return;
 
-		_onDeploy(__lightSetter);
+		lightUniformInterface.type.set(__index, __TYPE);
+		lightUniformInterface.depthBakingType.set(__index, __DEPTH_BAKING_TYPE);
+		_onDeploy(__lightUB);
 
-		__lightSetter.setUniformBool(ShaderIdentifier::Name::Light::SHADOW_ENABLED, __shadowEnabled);
+		lightUniformInterface.shadowEnabled.set(__index, GLuint { __shadowEnabled });
 		if (!__shadowEnabled)
 			return;
 
-		_onDeployShadowData(__lightSetter);
-	}
-
-	void Light::setIndex(const GLuint index) noexcept
-	{
-		__lightSetter.setIndex(index);
+		_onDeployShadowData(__lightUB);
 	}
 
 	void Light::setShadowEnabled(const bool enabled) noexcept
@@ -61,12 +55,11 @@ namespace Danburite
 
 	void Light::volumeDrawcall() noexcept
 	{
-		__lightPrePassSetter.setUniformUint(
-			ShaderIdentifier::Name::LightPrePass::CURRENT_LIGHT_IDX, getIndex());
+		LightPrePassUniformInterface &lightPrepassUniformInterface = __lightPrepassUB.getInterface();
+		lightPrepassUniformInterface.currentLightIdx.set(getIndex());
+		lightPrepassUniformInterface.lightVolumeType.set(__VOLUME_TYPE);
 
-		__lightPrePassSetter.setUniformUint(
-			ShaderIdentifier::Name::LightPrePass::LIGHT_VOLUME_TYPE, __VOLUME_TYPE);
-
+		__lightPrepassUB.selfDeploy();
 		_onVolumeDrawcall();
 	}
 

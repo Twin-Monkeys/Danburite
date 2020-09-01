@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Object.h"
-#include "LightUniformSetter.h"
 #include "LightType.h"
 #include "LightVolumeType.h"
 #include "LightException.h"
@@ -10,6 +9,8 @@
 #include "UniformBuffer.h"
 #include "SceneObject.h"
 #include "UniformBufferFactory.h"
+#include "LightUniformInterface.h"
+#include "LightPrePassUniformInterface.h"
 #include "ShaderIdentifier.h"
 
 namespace Danburite
@@ -20,22 +21,23 @@ namespace Danburite
 		const GLuint __TYPE;
 		const GLuint __VOLUME_TYPE;
 		const GLuint __DEPTH_BAKING_TYPE;
+		GLuint __index;
 
 		bool __enabled = true;
 		bool __shadowEnabled = false;
 
-		LightUniformSetter __lightSetter;
+		DeferredUniformBuffer<LightUniformInterface> &__lightUB =
+			UniformBufferFactory::getInstance().getUniformBuffer<LightUniformInterface>();
 
-		ObjectGL::UniformBuffer &__lightPrePassSetter =
-			UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::LIGHT_PREPASS);
+		DeferredUniformBuffer<LightPrePassUniformInterface> &__lightPrepassUB =
+			UniformBufferFactory::getInstance().getUniformBuffer<LightPrePassUniformInterface>();
 
 		void __release() noexcept;
 		
 	protected:
-		virtual void _onDeploy(LightUniformSetter &lightSetter) noexcept = 0;
+		virtual void _onDeploy(DeferredUniformBuffer<LightUniformInterface> &lightUB) noexcept = 0;
 		virtual void _onBakeDepthMap(BatchProcessor<SceneObject> &drawer) noexcept = 0;
-		virtual void _onDeployShadowData(LightUniformSetter &lightSetter) noexcept = 0;
+		virtual void _onDeployShadowData(DeferredUniformBuffer<LightUniformInterface> &lightUB) noexcept = 0;
 		virtual void _onVolumeDrawcall() noexcept = 0;
 		virtual void _onChangeShadowEnabled(const bool enabled) noexcept = 0;
 
@@ -47,7 +49,7 @@ namespace Danburite
 		void selfDeploy() noexcept;
 
 		constexpr GLuint getIndex() const noexcept;
-		void setIndex(const GLuint index) noexcept;
+		constexpr void setIndex(const GLuint index) noexcept;
 
 		constexpr bool isEnabled() const noexcept;
 		constexpr void setEnabled(const bool enabled) noexcept;
@@ -67,7 +69,12 @@ namespace Danburite
 
 	constexpr GLuint Light::getIndex() const noexcept
 	{
-		return __lightSetter.getIndex();
+		return __index;
+	}
+
+	constexpr void Light::setIndex(const GLuint index) noexcept
+	{
+		__index = index;
 	}
 
 	constexpr bool Light::isEnabled() const noexcept

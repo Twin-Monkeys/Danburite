@@ -54,7 +54,6 @@ namespace Danburite
 
 			stateMgr.setStencilFunction(DepthStencilFunctionType::EQUAL, 0x01U);
 			stateMgr.setStencilMask(0x00U);
-			stateMgr.setCulledFace(FacetType::FRONT);
 			stateMgr.setBlendingFunction(BlendingFunctionType::ONE, BlendingFunctionType::ONE);
 		});
 

@@ -9,8 +9,8 @@ namespace Danburite
 	class TransformableLight abstract : public Light, public Updatable
 	{
 	protected:
-		void _deployDirection(LightUniformSetter &lightSetter) const noexcept;
-		void _deployPosition(LightUniformSetter &lightSetter) const noexcept;
+		void _deployDirection(DeferredUniformBuffer<LightUniformInterface> &lightUB) const noexcept;
+		void _deployPosition(DeferredUniformBuffer<LightUniformInterface> &lightUB) const noexcept;
 
 	public:
 		TransformableLight(

@@ -3,6 +3,7 @@
 #include "FullscreenDrawer.h"
 #include "OrthoLight.h"
 #include "LightBaseComponent.h"
+#include "SetupTransaction.h"
 
 namespace Danburite
 {
@@ -10,9 +11,10 @@ namespace Danburite
 	{
 	private:
 		FullscreenDrawer &__fullscreenDrawer = FullscreenDrawer::getInstance();
+		SetupTransaction __setupTransaction;
 
 	protected:
-		virtual void _onDeploy(LightUniformSetter &lightSetter) noexcept override;
+		virtual void _onDeploy(DeferredUniformBuffer<LightUniformInterface> &lightUB) noexcept override;
 		virtual void _onVolumeDrawcall() noexcept override;
 
 	public:

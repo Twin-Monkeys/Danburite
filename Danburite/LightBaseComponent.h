@@ -1,7 +1,8 @@
  #pragma once
 
 #include <glm/glm.hpp>
-#include "LightUniformSetter.h"
+#include "DeferredUniformBuffer.h"
+#include "LightUniformInterface.h"
 #include "Constant.h"
 
 namespace Danburite
@@ -15,7 +16,7 @@ namespace Danburite
 		float __specularStrength	= Constant::Light::BaseComponent::SPECULAR_STRENGH;
 
 	protected:
-		void _deployBaseComponent(LightUniformSetter &lightSetter) noexcept;
+		void _deployBaseComponent(const size_t lightIndex, DeferredUniformBuffer<LightUniformInterface> &lightUB) noexcept;
 
 	public:
 		constexpr const glm::vec3 &getAlbedo() const noexcept;

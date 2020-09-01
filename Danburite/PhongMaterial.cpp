@@ -12,42 +12,45 @@ namespace Danburite
 	}
 
 	void PhongMaterial::_onRender(
-		UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
+		DeferredUniformBuffer<MaterialUniformInterface> &materialUB, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
 		__phongProgram.bind();
-		_onRawDrawcall(materialSetter, vertexArray, numInstances);
+		_onRawDrawcall(materialUB, vertexArray, numInstances);
 	}
 
 	void PhongMaterial::_onRawDrawcall(
-		UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances) noexcept
+		DeferredUniformBuffer<MaterialUniformInterface> &materialUB, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
-		materialSetter.setUniformFloat(ShaderIdentifier::Name::Material::EMISSIVE_STRENGTH, __emissiveStrength);
-		materialSetter.setUniformFloat(ShaderIdentifier::Name::Material::SHININESS, __shininess);
+		MaterialUniformInterface &materialUniformInterface = materialUB.getInterface();
+
+		materialUniformInterface.emissiveStrength.set(__emissiveStrength);
+		materialUniformInterface.shininess.set(__shininess);
 
 		if (isAmbientTextureEnabled())
-			materialSetter.setUniformUvec2(ShaderIdentifier::Name::Material::AMBIENT_TEX, __pAmbientTex->getHandle());
+			materialUniformInterface.ambientTex.set(__pAmbientTex->getHandle());
 
 		if (isDiffuseTextureEnabled())
-			materialSetter.setUniformUvec2(ShaderIdentifier::Name::Material::DIFFUSE_TEX, __pDiffuseTex->getHandle());
+			materialUniformInterface.diffuseTex.set(__pDiffuseTex->getHandle());
 
 		if (isSpecularTextureEnabled())
-			materialSetter.setUniformUvec2(ShaderIdentifier::Name::Material::SPECULAR_TEX, __pSpecularTex->getHandle());
+			materialUniformInterface.specularTex.set(__pSpecularTex->getHandle());
 
 		if (isEmissiveTextureEnabled())
-			materialSetter.setUniformUvec2(ShaderIdentifier::Name::Material::EMISSIVE_TEX, __pEmissiveTex->getHandle());
+			materialUniformInterface.emissiveTex.set(__pEmissiveTex->getHandle());
 
 		if (isShininessTextureEnabled())
-			materialSetter.setUniformUvec2(ShaderIdentifier::Name::Material::SHININESS_TEX, __pShininessTex->getHandle());
+			materialUniformInterface.shininessTex.set(__pShininessTex->getHandle());
 
 		if (isAlphaTextureEnabled())
-			materialSetter.setUniformUvec2(ShaderIdentifier::Name::Material::ALPHA_TEX, __pAlphaTex->getHandle());
+			materialUniformInterface.alphaTex.set(__pAlphaTex->getHandle());
 
 		if (isNormalTextureEnabled())
-			materialSetter.setUniformUvec2(ShaderIdentifier::Name::Material::NORMAL_TEX, __pNormalTex->getHandle());
+			materialUniformInterface.normalTex.set(__pNormalTex->getHandle());
 
 		if (isHeightTextureEnabled())
-			materialSetter.setUniformUvec2(ShaderIdentifier::Name::Material::HEIGHT_TEX, __pHeightTex->getHandle());
+			materialUniformInterface.heightTex.set(__pHeightTex->getHandle());
 
+		materialUB.selfDeploy();
 		vertexArray.draw(numInstances);
 	}
 

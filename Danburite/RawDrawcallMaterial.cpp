@@ -12,7 +12,7 @@ namespace Danburite
 	}
 
 	void RawDrawcallMaterial::_onRender(
-		UniformSetter &materialSetter, VertexArray &vertexArray, const GLsizei numInstances)
+		DeferredUniformBuffer<MaterialUniformInterface> &materialUB, VertexArray &vertexArray, const GLsizei numInstances)
 	{
 		/*
 			부모 가상함수가 noexcept 속성이 없더라도 overriding 함수에는 붙일 수 있다.
@@ -21,7 +21,8 @@ namespace Danburite
 		throw MaterialException("RawDrawcallMaterial cannot use render function.");
 	}
 
-	void RawDrawcallMaterial::_onRawDrawcall(UniformSetter &, VertexArray& vertexArray, const GLsizei numInstances)
+	void RawDrawcallMaterial::_onRawDrawcall(
+		DeferredUniformBuffer<MaterialUniformInterface> &materialUB, VertexArray& vertexArray, const GLsizei numInstances)
 	{
 		vertexArray.draw(numInstances);
 	}
