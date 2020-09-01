@@ -1,9 +1,9 @@
-#include "DepthBackingCubemapUniformInterface.h"
+#include "DepthBakingCubemapUniformInterface.h"
 #include "ShaderIdentifier.h"
 
 namespace Danburite
 {
-	DepthBackingCubemapUniformInterface::DepthBackingCubemapUniformInterface() noexcept :
+	DepthBakingCubemapUniformInterface::DepthBakingCubemapUniformInterface() noexcept :
 		UniformInterface
 		{
 			ShaderIdentifier::Name::UniformBuffer::DEPTH_BAKING_CUBEMAP,

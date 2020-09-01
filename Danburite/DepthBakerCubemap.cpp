@@ -6,6 +6,20 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
+	DepthBakerCubemap::DepthBakerCubemap()
+	{
+		__setupTransaction.setup([this](ContextStateManager& stateMgr)
+		{
+			DepthBakingCubemapUniformInterface &
+				depthBakingCubemapUniformInterface = __depthBakingCubemapUB.getInterface();
+
+			depthBakingCubemapUniformInterface.center.set(__center);
+			depthBakingCubemapUniformInterface.zFar.set(__zFar);
+			depthBakingCubemapUniformInterface.projViewMatrices.set(0, 6, __viewProjMatrices);
+			__depthBakingCubemapUB.selfDeploy();
+		});
+	}
+
 	void DepthBakerCubemap::_releaseDepthMap() noexcept
 	{
 		__pDepthMap = nullptr;
@@ -34,15 +48,7 @@ namespace Danburite
 
 	void DepthBakerCubemap::_onBind() noexcept
 	{
-		__depthBakingCubemapSetter.setUniformVec3(
-			ShaderIdentifier::Name::DepthBakingCubemap::CENTER, __center);
-
-		__depthBakingCubemapSetter.setUniformFloat(
-			ShaderIdentifier::Name::DepthBakingCubemap::Z_FAR, __zFar);
-
-		__depthBakingCubemapSetter.setUniformMat4Array(
-			ShaderIdentifier::Name::DepthBakingCubemap::PROJ_VIEW_MATRICES, __viewProjMatrices);
-
+		__setupTransaction();
 		__depthBakingProgram.bind();
 	}
 

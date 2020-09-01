@@ -6,6 +6,15 @@ using namespace ObjectGL;
 
 namespace Danburite
 {
+	DepthBaker2D::DepthBaker2D()
+	{
+		__setupTransaction.setup([this](ContextStateManager& stateMgr)
+		{
+			__depthBaking2DUB.getInterface().projViewMat.set(__projViewMat);
+			__depthBaking2DUB.selfDeploy();
+		});
+	}
+
 	void DepthBaker2D::_releaseDepthMap() noexcept
 	{
 		__pDepthMap = nullptr;
@@ -30,9 +39,7 @@ namespace Danburite
 
 	void DepthBaker2D::_onBind() noexcept
 	{
-		__depthBaking2DSetter.setUniformMat4(
-			ShaderIdentifier::Name::DepthBaking2D::PROJ_VIEW_MATRIX, __projViewMat);
-
+		__setupTransaction();
 		__depthBakingProgram.bind();
 	}
 

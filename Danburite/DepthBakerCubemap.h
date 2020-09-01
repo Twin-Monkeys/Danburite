@@ -4,8 +4,9 @@
 #include "Program.h"
 #include "AttachableTextureCubemap.h"
 #include "ProgramFactory.h"
-#include "ShaderIdentifier.h"
 #include "UniformBufferFactory.h"
+#include "DepthBakingCubemapUniformInterface.h"
+#include "SetupTransaction.h"
 
 namespace Danburite
 {
@@ -15,11 +16,12 @@ namespace Danburite
 		ObjectGL::Program &__depthBakingProgram =
 			ProgramFactory::getInstance().getProgram(ProgramType::DEPTH_BAKING_CUBEMAP);
 
-		ObjectGL::UniformSetter &__depthBakingCubemapSetter =
-			UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::DEPTH_BAKING_CUBEMAP);
+		DeferredUniformBuffer<DepthBakingCubemapUniformInterface> &__depthBakingCubemapUB =
+			UniformBufferFactory::getInstance().getUniformBuffer<DepthBakingCubemapUniformInterface>();
 
 		std::unique_ptr<ObjectGL::AttachableTextureCubemap> __pDepthMap;
+
+		SetupTransaction __setupTransaction;
 
 		glm::vec3 __center;
 		float __zFar;
@@ -31,6 +33,8 @@ namespace Danburite
 		virtual void _onBind() noexcept override;
 
 	public:
+		DepthBakerCubemap();
+
 		constexpr void setCenter(const glm::vec3& center) noexcept;
 		constexpr void setFar(const float zFar) noexcept;
 		void setProjViewMatrix(const ObjectGL::CubemapSideType sideType, const glm::mat4 &projViewMat) noexcept;

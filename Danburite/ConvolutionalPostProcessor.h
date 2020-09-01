@@ -2,23 +2,21 @@
 
 #include "ForwardPostProcessor.h"
 #include "UniformBufferFactory.h"
-#include "ShaderIdentifier.h"
+#include "ConvolutionUniformInterface.h"
+#include "Constant.h"
 #include <array>
 
 namespace Danburite
 {
-	namespace ConvValue = ShaderIdentifier::Value::Convolutional;
-
 	class ConvolutionalPostProcessor : public ForwardPostProcessor
 	{
 	private:
-		ObjectGL::UniformSetter &__convSetter =
-			UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::CONVOLUTION);
+		DeferredUniformBuffer<ConvolutionUniformInterface> &__convUB =
+			UniformBufferFactory::getInstance().getUniformBuffer<ConvolutionUniformInterface>();
 
 		GLuint __kernelSize = 3U;
 
-		std::array<GLfloat, ConvValue::MAX_KERNEL_SIZE * ConvValue::MAX_KERNEL_SIZE> __kernel =
+		std::array<GLfloat, Constant::Convolutional::MAX_KERNEL_SIZE_SQ> __kernel =
 		{
 			0.f, 0.f, 0.f,
 			0.f, 1.f, 0.f,

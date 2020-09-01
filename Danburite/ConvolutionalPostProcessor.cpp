@@ -13,18 +13,20 @@ namespace Danburite
 	{
 		__setupTransaction.setup([this](ContextStateManager &stateMgr)
 		{
-			__convSetter.setUniformUint(
-				ShaderIdentifier::Name::Convolutional::KERNEL_SIZE, __kernelSize);
+			ConvolutionUniformInterface &convUniformInterface = __convUB.getInterface();
 
-			__convSetter.setUniformFloatArray(
-				ShaderIdentifier::Name::Convolutional::KERNEL, __kernel.data(), __kernelSize * __kernelSize);
+			convUniformInterface.kernelSize.set(__kernelSize);
+			convUniformInterface.kernel.set(
+				0ULL, size_t { __kernelSize } * size_t { __kernelSize }, __kernel.data());
+
+			__convUB.selfDeploy();
 		});
 	}
 
 	void ConvolutionalPostProcessor::setKernel(const GLfloat *const pData, const GLuint kernelSize) noexcept
 	{
 		__kernelSize = kernelSize;
-		memcpy(__kernel.data(), pData, sizeof(GLfloat) * size_t(kernelSize) * size_t(kernelSize));
+		memcpy(__kernel.data(), pData, sizeof(GLfloat) * size_t { kernelSize } * size_t { kernelSize });
 	}
 
 	void ConvolutionalPostProcessor::render(FrameBuffer &renderTarget) noexcept

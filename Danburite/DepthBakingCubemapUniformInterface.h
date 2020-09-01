@@ -6,7 +6,7 @@
 
 namespace Danburite
 {
-	class DepthBackingCubemapUniformInterface : public UniformInterface<400ULL>
+	class DepthBakingCubemapUniformInterface : public UniformInterface<400ULL>
 	{
 	public:
 		// 64byte * 6
@@ -19,7 +19,7 @@ namespace Danburite
 		// 4byte
 		const SpecializedUniformField<GLfloat> zFar = _createField<GLfloat>(396ULL);
 
-		DepthBackingCubemapUniformInterface() noexcept;
-		virtual ~DepthBackingCubemapUniformInterface() = default;
+		DepthBakingCubemapUniformInterface() noexcept;
+		virtual ~DepthBakingCubemapUniformInterface() = default;
 	};
 }

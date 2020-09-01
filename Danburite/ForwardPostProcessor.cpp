@@ -12,8 +12,8 @@ namespace Danburite
 	{
 		__setupTransaction.setup([this] (ContextStateManager &stateMgr)
 		{
-			__texContainerSetter.setUniformUvec2(
-				ShaderIdentifier::Name::Attachment::TEX0, __pColorAttachment->getHandle());
+			__texContainerUB.getInterface().textures.set(0, __pColorAttachment->getHandle());
+			__texContainerUB.selfDeploy();
 
 			stateMgr.setState(GLStateType::DEPTH_TEST, false);
 			stateMgr.setState(GLStateType::STENCIL_TEST, false);

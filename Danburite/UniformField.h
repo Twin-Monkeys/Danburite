@@ -32,6 +32,7 @@ namespace Danburite
 
 		constexpr const $DataType& get(const size_t idx) const noexcept;
 		void set(const size_t idx, const $DataType &data) const noexcept;
+		void set(const size_t idx, const size_t count, const $DataType *const pDataArr) const noexcept;
 
 		virtual ~UniformFieldArray() = default;
 	};
@@ -72,5 +73,12 @@ namespace Danburite
 		set(const size_t idx, const $DataType &data) const noexcept
 	{
 		__cache.set(__offset + (sizeof($DataType) * idx), data);
+	}
+
+	template <typename $DataType, size_t ARRAY_SIZE, size_t CACHE_SIZE>
+	void UniformFieldArray<$DataType, ARRAY_SIZE, CACHE_SIZE>::
+		set(const size_t idx, const size_t count, const $DataType *const pDataArr) const noexcept
+	{
+		__cache.set(__offset + (sizeof($DataType) * idx), count, pDataArr);
 	}
 }
