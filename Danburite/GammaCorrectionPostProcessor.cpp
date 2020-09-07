@@ -9,16 +9,18 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	GammaCorrectionPostProcessor::GammaCorrectionPostProcessor(const bool attachDepthBuffer) :
-		ForwardPostProcessor(ProgramFactory::getInstance().
-			getProgram(ProgramType::POST_PROCESS_GAMMA_CORRECTION), attachDepthBuffer)
+		ForwardPostProcessor { ProgramFactory::getInstance().
+		getProgram(ProgramType::POST_PROCESS_GAMMA_CORRECTION), attachDepthBuffer }
 	{
 		__setupTransaction.setup([this](ContextStateManager& stateMgr)
 		{
-			__materialSetter.setUniformFloat(
-				ShaderIdentifier::Name::Material::GAMMA, __gamma);
+			MaterialUniformInterface &materialUI = __materialUB.getInterface();
+			materialUI.gamma.set(__gamma);
+			__materialUB.selfDeploy();
 
-			__gammaCorrectionSetter.setUniformFloat(
-				ShaderIdentifier::Name::GammaCorrection::GAMMA, __gamma);
+			GammaCorrectionUniformInterface &gammaCorrectionUI = __gammaCorrectionUB.getInterface();
+			gammaCorrectionUI.gamma.set(__gamma);
+			__gammaCorrectionUB.selfDeploy();
 		});
 
 		setGamma(Constant::GammaCorrection::DEFAULT_GAMMA);

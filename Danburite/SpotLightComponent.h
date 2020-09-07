@@ -1,8 +1,9 @@
 #pragma once
 
 #include <glm/gtc/constants.hpp>
-#include "LightUniformSetter.h"
 #include "Constant.h"
+#include "DeferredUniformBuffer.h"
+#include "LightUniformInterface.h"
 
 namespace Danburite
 {
@@ -13,7 +14,7 @@ namespace Danburite
 		float __outerCutOff = cosf(Constant::Light::SpotComponent::OUTER_CUTOFF_ANGLE);
 
 	protected:
-		void _deploySpotComponent(LightUniformSetter &lightSetter) noexcept;
+		void _deploySpotComponent(const size_t lightIndex, DeferredUniformBuffer<LightUniformInterface> &lightUB) noexcept;
 
 	public:
 		void setCutOff(const float innerAngle, const float outerAngle) noexcept;

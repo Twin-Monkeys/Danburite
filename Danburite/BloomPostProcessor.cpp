@@ -13,8 +13,8 @@ namespace Danburite
 		{
 			 BloomUniformInterface &bloomInterface = __bloomUB.getInterface();
 
-			 bloomInterface.brightnessThreshold.set(__brightnessThreshold);
-			 bloomInterface.effectStrength.set(__effectStrength);
+			 bloomInterface.brightnessThreshold = __brightnessThreshold;
+			 bloomInterface.effectStrength = __effectStrength;
 
 			stateMgr.setState(GLStateType::DEPTH_TEST, false);
 			stateMgr.setState(GLStateType::STENCIL_TEST, false);
@@ -28,7 +28,7 @@ namespace Danburite
 		__colorExtractionSetup.setup([this](ContextStateManager& stateMgr)
 		{
 			TextureContainerUniformInterface &texContainerInterface = __texContainerUB.getInterface();
-			texContainerInterface.textures.set(0, __pOriginalColorAttachment->getHandle());
+			texContainerInterface.textures.operator=(std::pair<size_t, std::reference_wrapper<size_t>> { 1, 1 });
 			__texContainerUB.selfDeploy();
 		});
 

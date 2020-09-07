@@ -2,19 +2,19 @@
 
 #include "ForwardPostProcessor.h"
 #include "UniformBufferFactory.h"
+#include "MaterialUniformInterface.h"
+#include "GammaCorrectionUniformInterface.h"
 
 namespace Danburite
 {
 	class GammaCorrectionPostProcessor : public ForwardPostProcessor
 	{
 	private:
-		ObjectGL::UniformSetter& __materialSetter =
-			UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::MATERIAL);
+		DeferredUniformBuffer<MaterialUniformInterface> &__materialUB =
+			UniformBufferFactory::getInstance().getUniformBuffer<MaterialUniformInterface>();
 
-		ObjectGL::UniformSetter &__gammaCorrectionSetter =
-			UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::GAMMA_CORRECTION);
+		DeferredUniformBuffer<GammaCorrectionUniformInterface> &__gammaCorrectionUB =
+			UniformBufferFactory::getInstance().getUniformBuffer<GammaCorrectionUniformInterface>();
 
 		float __gamma;
 

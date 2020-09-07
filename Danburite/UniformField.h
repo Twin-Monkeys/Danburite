@@ -17,6 +17,8 @@ namespace Danburite
 		constexpr const $DataType &get() const noexcept;
 		void set(const $DataType &data) const noexcept;
 
+		UniformField &operator=(const $DataType &data) const noexcept;
+
 		virtual ~UniformField() = default;
 	};
 
@@ -33,6 +35,9 @@ namespace Danburite
 		constexpr const $DataType& get(const size_t idx) const noexcept;
 		void set(const size_t idx, const $DataType &data) const noexcept;
 		void set(const size_t idx, const size_t count, const $DataType *const pDataArr) const noexcept;
+
+		UniformFieldArray &operator=(const std::pair<size_t, std::reference_wrapper<$DataType>> &index_data) const noexcept;
+		UniformFieldArray &operator=(const std::tuple<size_t, size_t, const $DataType *> &index_count_pDataArr) const noexcept;
 
 		virtual ~UniformFieldArray() = default;
 	};
@@ -53,6 +58,13 @@ namespace Danburite
 	void UniformField<$DataType, CACHE_SIZE>::set(const $DataType &data) const noexcept
 	{
 		__cache.set(__offset, data);
+	}
+
+	template <typename $DataType, size_t CACHE_SIZE>
+	UniformField<$DataType, CACHE_SIZE> &UniformField<$DataType, CACHE_SIZE>::operator=(const $DataType &data) const noexcept
+	{
+		set(data);
+		return *this;
 	}
 
 	template <typename $DataType, size_t ARRAY_SIZE, size_t CACHE_SIZE>
@@ -80,5 +92,27 @@ namespace Danburite
 		set(const size_t idx, const size_t count, const $DataType *const pDataArr) const noexcept
 	{
 		__cache.set(__offset + (sizeof($DataType) * idx), count, pDataArr);
+	}
+
+	template <typename $DataType, size_t ARRAY_SIZE, size_t CACHE_SIZE>
+	UniformFieldArray<$DataType, ARRAY_SIZE, CACHE_SIZE> &
+		UniformFieldArray<$DataType, ARRAY_SIZE, CACHE_SIZE>::
+		operator=(const std::pair<size_t, std::reference_wrapper<$DataType>> &index_data) const noexcept
+	{
+		const auto &[index, data] = index_data;
+		set(index, data);
+
+		return *this;
+	}
+
+	template <typename $DataType, size_t ARRAY_SIZE, size_t CACHE_SIZE>
+	UniformFieldArray<$DataType, ARRAY_SIZE, CACHE_SIZE> &
+		UniformFieldArray<$DataType, ARRAY_SIZE, CACHE_SIZE>::
+		operator=(const std::tuple<size_t, size_t, const $DataType *> &index_count_pDataArr) const noexcept
+	{
+		const auto &[index, count, pDataArr] = index_count_pDataArr;
+		set(index, count, pDataArr);
+
+		return *this;
 	}
 }
