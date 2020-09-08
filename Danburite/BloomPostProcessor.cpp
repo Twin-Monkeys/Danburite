@@ -28,29 +28,29 @@ namespace Danburite
 		__colorExtractionSetup.setup([this](ContextStateManager& stateMgr)
 		{
 			TextureContainerUniformInterface &texContainerInterface = __texContainerUB.getInterface();
-			texContainerInterface.textures.operator=(std::pair<size_t, std::reference_wrapper<size_t>> { 1, 1 });
+			texContainerInterface.textures = { 0, __pOriginalColorAttachment->getHandle() };
 			__texContainerUB.selfDeploy();
 		});
 
 		__horizBlurSetup.setup([this](ContextStateManager& stateMgr)
 		{
 			TextureContainerUniformInterface &texContainerInterface = __texContainerUB.getInterface();
-			texContainerInterface.textures.set(0, __pBloomColorAttachment1->getHandle());
+			texContainerInterface.textures = { 0, __pBloomColorAttachment1->getHandle() };
 			__texContainerUB.selfDeploy();
 		});
 
 		__horizVertSetup.setup([this](ContextStateManager& stateMgr)
 		{
 			TextureContainerUniformInterface& texContainerInterface = __texContainerUB.getInterface();
-			texContainerInterface.textures.set(0, __pBloomColorAttachment2->getHandle());
+			texContainerInterface.textures = { 0, __pBloomColorAttachment2->getHandle() };
 			__texContainerUB.selfDeploy();
 		});
 
 		__compositionSetup.setup([this](ContextStateManager& stateMgr)
 		{
 			TextureContainerUniformInterface& texContainerInterface = __texContainerUB.getInterface();
-			texContainerInterface.textures.set(0, __pOriginalColorAttachment->getHandle());
-			texContainerInterface.textures.set(1, __pBloomColorAttachment1->getHandle());
+			texContainerInterface.textures = { 0, __pOriginalColorAttachment->getHandle() };
+			texContainerInterface.textures = { 1, __pBloomColorAttachment1->getHandle() };
 			__texContainerUB.selfDeploy();
 		});
 	}
