@@ -12,8 +12,8 @@ namespace Danburite
 	{
 		__setupTransaction.setup([this](ContextStateManager &stateMgr)
 		{
-			__hdrSetter.setUniformFloat(
-				ShaderIdentifier::Name::HDR::EXPOSURE, __exposure);
+			__hdrUB.getInterface().exposure = __exposure;
+			__hdrUB.selfDeploy();
 		});
 	}
 

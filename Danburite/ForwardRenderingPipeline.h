@@ -8,9 +8,8 @@ namespace Danburite
 	class ForwardRenderingPipeline : public RenderingPipeline
 	{
 	private:
-		ObjectGL::UniformBuffer &__phongSetter =
-			UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::PHONG);
+		DeferredUniformBuffer<PhongUniformInterface> &__phongUB =
+			UniformBufferFactory::getInstance().getUniformBuffer<PhongUniformInterface>();
 
 		SetupTransaction __setupTransaction;
 

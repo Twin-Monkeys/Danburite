@@ -11,8 +11,8 @@ namespace Danburite
 	{
 		__setupTransaction.setup([this](ContextStateManager &stateMgr)
 		{
-			__phongSetter.setUniformUint(
-				ShaderIdentifier::Name::Phong::CALC_METHOD_TYPE, GLuint(PhongCalcMethodType::FORWARD));
+			__phongUB.getInterface().calcMethodType = GLuint(PhongCalcMethodType::FORWARD);
+			__phongUB.selfDeploy();
 
 			stateMgr.setState(GLStateType::DEPTH_TEST, true);
 			stateMgr.setState(GLStateType::STENCIL_TEST, false);

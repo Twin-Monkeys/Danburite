@@ -12,7 +12,7 @@ namespace Danburite
 
 	protected:
 		virtual void _onUpdateViewMatrix(glm::mat4 &viewMatrix) noexcept override;
-		virtual void _onDeploy(ObjectGL::UniformSetter &cameraSetter) noexcept override;
+		virtual void _onDeploy(CameraUniformInterface &cameraUI) noexcept override;
 
 	public:
 		constexpr Transform &getTransform() noexcept;

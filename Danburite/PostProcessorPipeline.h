@@ -5,6 +5,9 @@
 #include "SceneObject.h"
 #include "Skybox.h"
 #include "UniformBufferFactory.h"
+#include "TextureContainerUniformInterface.h"
+#include "TranslucencySwitcherUniformInterface.h"
+#include "PhongUniformInterface.h"
 #include "FullscreenDrawer.h"
 
 namespace Danburite
@@ -30,17 +33,14 @@ namespace Danburite
 		ObjectGL::Program &__wboitProgram =
 			ProgramFactory::getInstance().getProgram(ProgramType::WBOIT);
 
-		ObjectGL::UniformBuffer &__texContainerSetter =
-			UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER);
+		DeferredUniformBuffer<TextureContainerUniformInterface>& __texContainerUB =
+			UniformBufferFactory::getInstance().getUniformBuffer<TextureContainerUniformInterface>();
 
-		ObjectGL::UniformBuffer &__translucencySwitcherSetter = 
-			UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TRANSLUCENCY_SWITCHER);
+		DeferredUniformBuffer<TranslucencySwitcherUniformInterface>& __translucencySwitcherUB =
+			UniformBufferFactory::getInstance().getUniformBuffer<TranslucencySwitcherUniformInterface>();
 
-		ObjectGL::UniformBuffer &__phongSetter =
-			UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::PHONG);
+		DeferredUniformBuffer<PhongUniformInterface>& __phongUB =
+			UniformBufferFactory::getInstance().getUniformBuffer<PhongUniformInterface>();
 
 		SetupTransaction __opaqueSetup;
 		SetupTransaction __translucentSetup;

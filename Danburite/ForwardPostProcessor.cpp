@@ -12,7 +12,7 @@ namespace Danburite
 	{
 		__setupTransaction.setup([this] (ContextStateManager &stateMgr)
 		{
-			__texContainerUB.getInterface().textures.set(0, __pColorAttachment->getHandle());
+			__texContainerUB.getInterface().textures = { 0, __pColorAttachment->getHandle() };
 			__texContainerUB.selfDeploy();
 
 			stateMgr.setState(GLStateType::DEPTH_TEST, false);

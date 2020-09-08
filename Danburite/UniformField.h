@@ -17,7 +17,7 @@ namespace Danburite
 		constexpr const $DataType &get() const noexcept;
 		void set(const $DataType &data) const noexcept;
 
-		UniformField &operator=(const $DataType &data) const noexcept;
+		const UniformField &operator=(const $DataType &data) const noexcept;
 
 		virtual ~UniformField() = default;
 	};
@@ -55,8 +55,8 @@ namespace Danburite
 		void set(const size_t idx, const $DataType &data) const noexcept;
 		void set(const size_t idx, const size_t count, const $DataType *const pDataArr) const noexcept;
 
-		UniformFieldArray &operator=(const IndexedReference &index_data) const noexcept;
-		UniformFieldArray &operator=(const IndexedRangedReference &index_count_pDataArr) const noexcept;
+		const UniformFieldArray &operator=(const IndexedReference &index_data) const noexcept;
+		const UniformFieldArray &operator=(const IndexedRangedReference &index_count_pDataArr) const noexcept;
 
 		virtual ~UniformFieldArray() = default;
 	};
@@ -80,7 +80,7 @@ namespace Danburite
 	}
 
 	template <typename $DataType, size_t CACHE_SIZE>
-	UniformField<$DataType, CACHE_SIZE> &UniformField<$DataType, CACHE_SIZE>::operator=(const $DataType &data) const noexcept
+	const UniformField<$DataType, CACHE_SIZE> &UniformField<$DataType, CACHE_SIZE>::operator=(const $DataType &data) const noexcept
 	{
 		set(data);
 		return *this;
@@ -126,7 +126,7 @@ namespace Danburite
 	}
 
 	template <typename $DataType, size_t ARRAY_SIZE, size_t CACHE_SIZE>
-	UniformFieldArray<$DataType, ARRAY_SIZE, CACHE_SIZE> &
+	const UniformFieldArray<$DataType, ARRAY_SIZE, CACHE_SIZE> &
 		UniformFieldArray<$DataType, ARRAY_SIZE, CACHE_SIZE>::operator=(const IndexedReference &index_data) const noexcept
 	{
 		const auto &[index, data] = index_data;
@@ -136,7 +136,7 @@ namespace Danburite
 	}
 
 	template <typename $DataType, size_t ARRAY_SIZE, size_t CACHE_SIZE>
-	UniformFieldArray<$DataType, ARRAY_SIZE, CACHE_SIZE> &
+	const UniformFieldArray<$DataType, ARRAY_SIZE, CACHE_SIZE> &
 		UniformFieldArray<$DataType, ARRAY_SIZE, CACHE_SIZE>::operator=(const IndexedRangedReference &index_count_pDataArr) const noexcept
 	{
 		const auto &[index, count, pDataArr] = index_count_pDataArr;

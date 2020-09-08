@@ -35,7 +35,7 @@ namespace Danburite
 
 		const GLuint idx = GLuint(__lights.size());
 
-		if (idx >= ShaderIdentifier::Value::Light::MAX_NUM_LIGHTS)
+		if (idx >= Constant::Light::MAX_NUM_LIGHTS)
 			throw LightException("Cannot allocate Light ID");
 
 		return static_cast<$LightType &>(*__lights.emplace_back(make_unique<$LightType>(idx)));

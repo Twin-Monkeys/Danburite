@@ -17,17 +17,17 @@ namespace Danburite
 
 		__opaqueSetup.setup([this](ContextStateManager &stateMgr)
 		{
-			__translucencySwitcherSetter.setUniformUint(
-				ShaderIdentifier::Name::TranslucencySwitcher::MODE, GLuint(TranslucencySwitchType::OPAQUE_MODE));
+			__translucencySwitcherUB.getInterface().mode = GLuint(TranslucencySwitchType::OPAQUE_MODE);
+			__translucencySwitcherUB.selfDeploy();
 		});
 
 		__translucentSetup.setup([this](ContextStateManager &stateMgr)
 		{
-			__phongSetter.setUniformUint(
-				ShaderIdentifier::Name::Phong::CALC_METHOD_TYPE, GLuint(PhongCalcMethodType::FORWARD));
+			__phongUB.getInterface().calcMethodType = GLuint(PhongCalcMethodType::FORWARD);
+			__phongUB.selfDeploy();
 
-			__translucencySwitcherSetter.setUniformUint(
-				ShaderIdentifier::Name::TranslucencySwitcher::MODE, GLuint(TranslucencySwitchType::TRANSLUCENCY_MODE));
+			__translucencySwitcherUB.getInterface().mode = GLuint(TranslucencySwitchType::TRANSLUCENCY_MODE);
+			__translucencySwitcherUB.selfDeploy();
 
 			stateMgr.setState(GLStateType::DEPTH_TEST, true);
 			stateMgr.setState(GLStateType::STENCIL_TEST, false);
@@ -44,11 +44,11 @@ namespace Danburite
 
 		__compositionSetup.setup([this](ContextStateManager &stateMgr)
 		{
-			__texContainerSetter.setUniformUvec2(
-				ShaderIdentifier::Name::Attachment::TEX0, __pWboitAccumAttachment->getHandle());
+			TextureContainerUniformInterface &textureUI = __texContainerUB.getInterface();
+			textureUI.textures = { 0ULL, __pWboitAccumAttachment->getHandle() };
+			textureUI.textures = { 1ULL, __pWboitRevealageAttachment->getHandle() };
 
-			__texContainerSetter.setUniformUvec2(
-				ShaderIdentifier::Name::Attachment::TEX1, __pWboitRevealageAttachment->getHandle());
+			__texContainerUB.selfDeploy();
 
 			stateMgr.setState(GLStateType::DEPTH_TEST, false);
 			stateMgr.setState(GLStateType::STENCIL_TEST, false);

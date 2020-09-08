@@ -14,8 +14,12 @@ namespace Danburite
 
 	void Camera::selfDeploy() noexcept
 	{
-		__cameraSetter.setUniformMat4(ShaderIdentifier::Name::Camera::VIEW_MATRIX, __viewMat);
-		__cameraSetter.setUniformMat4(ShaderIdentifier::Name::Camera::PROJECTION_MATRIX, __projMat);
-		_onDeploy(__cameraSetter);
+		CameraUniformInterface &cameraUI = __cameraUB.getInterface();
+
+		cameraUI.viewMat = __viewMat;
+		cameraUI.projMat = __projMat;
+		_onDeploy(cameraUI);
+
+		__cameraUB.selfDeploy();
 	}
 }

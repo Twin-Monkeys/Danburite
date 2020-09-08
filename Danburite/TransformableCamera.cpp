@@ -15,9 +15,8 @@ namespace Danburite
 		viewMatrix = inverse(__transform.getMatrix());
 	}
 
-	void TransformableCamera::_onDeploy(UniformSetter &cameraSetter) noexcept
+	void TransformableCamera::_onDeploy(CameraUniformInterface &cameraUI) noexcept
 	{
-		cameraSetter.setUniformVec3(
-			ShaderIdentifier::Name::Camera::POSITION, __transform.getPosition());
+		cameraUI.pos = __transform.getPosition();
 	}
 }

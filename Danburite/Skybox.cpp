@@ -10,11 +10,10 @@ namespace Danburite
 	{
 		__setupTransaction.setup([this] (ContextStateManager &stateMgr)
 		{
-			__skyboxSetter.setUniformUvec2(
-				ShaderIdentifier::Name::Skybox::ALBEDO_TEX, TextureUtil::getHandleIfExist(__pAlbedoTex));
+			SkyboxUniformInterface &skyboxUI = __skyboxUB.getInterface();
 
-			__skyboxSetter.setUniformFloat(
-				ShaderIdentifier::Name::Skybox::LUMINANCE, __luminance);
+			skyboxUI.albedoTex = TextureUtil::getHandleIfExist(__pAlbedoTex);
+			skyboxUI.luminance = __luminance;
 
 			stateMgr.setState(GLStateType::DEPTH_TEST, true);
 			stateMgr.setState(GLStateType::STENCIL_TEST, false);
