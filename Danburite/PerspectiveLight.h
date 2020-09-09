@@ -15,7 +15,7 @@ namespace Danburite
 		float __zFar	= Constant::Camera::DEFAULT_Z_FAR;
 
 	protected:
-		virtual void _onDeployShadowData(LightUniformSetter& lightSetter) noexcept override;
+		virtual void _onDeployShadowData(LightUniformInterface &lightUI) noexcept override;
 		virtual void _onBakeDepthMap(BatchProcessor<SceneObject> &drawer) noexcept override;
 		virtual void _onChangeShadowEnabled(const bool enabled) noexcept override;
 

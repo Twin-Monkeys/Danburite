@@ -42,11 +42,11 @@ namespace Danburite
 
 		__lightingPassSetup.setup([this](ContextStateManager &stateMgr)
 		{
-			__texContainerSetter.setUniformUvec2(
-				ShaderIdentifier::Name::Attachment::TEX0, __pPosAttachment->getHandle());
+			TextureContainerUniformInterface &texContainerUI = __texContainerUB.getInterface();
+			texContainerUI.textures = { 0ULL, __pPosAttachment->getHandle() };
+			texContainerUI.textures = { 1ULL, __pNormalShininessAttachment->getHandle() };
 
-			__texContainerSetter.setUniformUvec2(
-				ShaderIdentifier::Name::Attachment::TEX1, __pNormalShininessAttachment->getHandle());
+			__texContainerUB.selfDeploy();
 
 			stateMgr.setClearColor(0.f, 0.f, 0.f, 0.f);
 			stateMgr.setState(GLStateType::DEPTH_TEST, false);
@@ -59,21 +59,15 @@ namespace Danburite
 
 		__compositionPassSetup.setup([this](ContextStateManager& stateMgr)
 		{
-			__phongSetter.setUniformUint(
-				ShaderIdentifier::Name::Phong::CALC_METHOD_TYPE,
-				GLuint(PhongCalcMethodType::LIGHT_PREPASS));
+			PhongUniformInterface &phongUI = __phongUB.getInterface();
+			phongUI.calcMethodType = GLuint(PhongCalcMethodType::LIGHT_PREPASS);
+			__phongUB.selfDeploy();
 
-			__lightPrePassSetter.setUniformUvec2(
-				ShaderIdentifier::Name::LightPrePass::LIGHT_AMBIENT_TEX,
-				__pLightAmbientAttachment->getHandle());
-
-			__lightPrePassSetter.setUniformUvec2(
-				ShaderIdentifier::Name::LightPrePass::LIGHT_DIFFUSE_TEX,
-				__pLightDiffuseAttachment->getHandle());
-
-			__lightPrePassSetter.setUniformUvec2(
-				ShaderIdentifier::Name::LightPrePass::LIGHT_SPECULAR_TEX,
-				__pLightSpecularAttachment->getHandle());
+			LightPrePassUniformInterface &lightPrePassUI = __lightPrePassUB.getInterface();
+			lightPrePassUI.ambientTex = __pLightAmbientAttachment->getHandle();
+			lightPrePassUI.diffuseTex = __pLightDiffuseAttachment->getHandle();
+			lightPrePassUI.specularTex = __pLightSpecularAttachment->getHandle();
+			__lightPrePassUB.selfDeploy();
 
 			stateMgr.setState(GLStateType::DEPTH_TEST, true);
 			stateMgr.setState(GLStateType::STENCIL_TEST, false);

@@ -12,19 +12,19 @@ namespace Danburite
 		Light(type, volumeType, depthBakingType, index)
 	{}
 
-	void TransformableLight::_deployDirection(DeferredUniformBuffer<LightUniformInterface> &lightUB) const noexcept
+	void TransformableLight::_deployDirection(LightUniformInterface &lightUI) const noexcept
 	{
 		const Transform &transform = getTransform();
 		const vec4 &forward = transform.getForward();
 
-		lightUB.getInterface().direction.set(getIndex(), forward);
+		lightUI.direction = { getIndex(), forward };
 	}
 
-	void TransformableLight::_deployPosition(DeferredUniformBuffer<LightUniformInterface> &lightUB) const noexcept
+	void TransformableLight::_deployPosition(LightUniformInterface &lightUI) const noexcept
 	{
 		const Transform &transform = getTransform();
 		const vec3 &position = transform.getPosition();
 
-		lightUB.getInterface().pos.set(getIndex(), position);
+		lightUI.pos = { getIndex(), position };
 	}
 }

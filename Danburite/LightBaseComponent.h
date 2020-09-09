@@ -16,7 +16,7 @@ namespace Danburite
 		float __specularStrength	= Constant::Light::BaseComponent::SPECULAR_STRENGH;
 
 	protected:
-		void _deployBaseComponent(const size_t lightIndex, DeferredUniformBuffer<LightUniformInterface> &lightUB) noexcept;
+		void _deployBaseComponent(const size_t lightIndex, LightUniformInterface &lightUI) noexcept;
 
 	public:
 		constexpr const glm::vec3 &getAlbedo() const noexcept;

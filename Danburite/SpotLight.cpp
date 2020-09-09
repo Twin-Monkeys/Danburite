@@ -10,10 +10,10 @@ namespace Danburite
 		PointLight(LightType::SPOT, index)
 	{}
 
-	void SpotLight::_onDeploy(LightUniformSetter &lightSetter) noexcept
+	void SpotLight::_onDeploy(LightUniformInterface &lightUI) noexcept
 	{
-		PointLight::_onDeploy(lightSetter);
-		_deploySpotComponent(lightSetter);
-		_deployDirection(lightSetter);
+		PointLight::_onDeploy(lightUI);
+		_deploySpotComponent(getIndex(), lightUI);
+		_deployDirection(lightUI);
 	}
 }

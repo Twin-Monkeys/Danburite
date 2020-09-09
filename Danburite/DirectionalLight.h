@@ -14,7 +14,7 @@ namespace Danburite
 		SetupTransaction __setupTransaction;
 
 	protected:
-		virtual void _onDeploy(DeferredUniformBuffer<LightUniformInterface> &lightUB) noexcept override;
+		virtual void _onDeploy(LightUniformInterface &lightUI) noexcept override;
 		virtual void _onVolumeDrawcall() noexcept override;
 
 	public:

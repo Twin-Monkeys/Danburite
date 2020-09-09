@@ -11,12 +11,10 @@ namespace Danburite
 		TransformableLight(type, LightVolumeType::GEOMETRY, DepthBakingType::CUBEMAP, index)
 	{}
 
-	void PerspectiveLight::_onDeployShadowData(LightUniformSetter &lightSetter) noexcept
+	void PerspectiveLight::_onDeployShadowData(LightUniformInterface &lightUI) noexcept
 	{
-		lightSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Light::DEPTH_MAP, __depthBaker.getDepthMapHandle());
-
-		lightSetter.setUniformFloat(ShaderIdentifier::Name::Light::Z_FAR, __zFar);
+		lightUI.depthMap = { getIndex(), __depthBaker.getDepthMapHandle() };
+		lightUI.zFar = { getIndex(), __zFar };
 	}
 
 	void PerspectiveLight::_onBakeDepthMap(BatchProcessor<SceneObject> &drawer) noexcept

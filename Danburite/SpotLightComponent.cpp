@@ -5,10 +5,8 @@ using namespace glm;
 
 namespace Danburite
 {
-	void SpotLightComponent::_deploySpotComponent(const size_t lightIndex, DeferredUniformBuffer<LightUniformInterface> &lightUB) noexcept
+	void SpotLightComponent::_deploySpotComponent(const size_t lightIndex, LightUniformInterface &lightUI) noexcept
 	{
-		LightUniformInterface &lightUI = lightUB.getInterface();
-
 		lightUI.innerCutOff = { lightIndex, __innerCutOff };
 		lightUI.innerCutOff = { lightIndex, __outerCutOff };
 	}

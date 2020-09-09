@@ -6,14 +6,12 @@ using namespace glm;
 
 namespace Danburite
 {
-	void LightBaseComponent::_deployBaseComponent(const size_t lightIndex, DeferredUniformBuffer<LightUniformInterface> &lightUB) noexcept
+	void LightBaseComponent::_deployBaseComponent(const size_t lightIndex, LightUniformInterface &lightUI) noexcept
 	{
-		LightUniformInterface &lightUniformInterface = lightUB.getInterface();
-
-		lightUniformInterface.albedo.set(lightIndex, __albedo);
-		lightUniformInterface.ambientStrength.set(lightIndex, __ambientStrength);
-		lightUniformInterface.diffuseStrength.set(lightIndex, __diffuseStrength);
-		lightUniformInterface.specularStrength.set(lightIndex, __specularStrength);
+		lightUI.albedo = { lightIndex, __albedo };
+		lightUI.ambientStrength = { lightIndex, __ambientStrength };
+		lightUI.diffuseStrength = { lightIndex, __diffuseStrength };
+		lightUI.specularStrength = { lightIndex, __specularStrength };
 	}
 
 	void LightBaseComponent::setAlbedo(const glm::vec3 &albedo) noexcept

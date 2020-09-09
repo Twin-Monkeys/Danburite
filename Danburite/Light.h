@@ -35,9 +35,9 @@ namespace Danburite
 		void __release() noexcept;
 		
 	protected:
-		virtual void _onDeploy(DeferredUniformBuffer<LightUniformInterface> &lightUB) noexcept = 0;
+		virtual void _onDeploy(LightUniformInterface &lightUI) noexcept = 0;
 		virtual void _onBakeDepthMap(BatchProcessor<SceneObject> &drawer) noexcept = 0;
-		virtual void _onDeployShadowData(DeferredUniformBuffer<LightUniformInterface> &lightUB) noexcept = 0;
+		virtual void _onDeployShadowData(LightUniformInterface &lightUI) noexcept = 0;
 		virtual void _onVolumeDrawcall() noexcept = 0;
 		virtual void _onChangeShadowEnabled(const bool enabled) noexcept = 0;
 

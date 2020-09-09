@@ -16,10 +16,10 @@ namespace Danburite
 		});
 	}
 
-	void DirectionalLight::_onDeploy(DeferredUniformBuffer<LightUniformInterface> &lightUB) noexcept
+	void DirectionalLight::_onDeploy(LightUniformInterface &lightUI) noexcept
 	{
-		_deployBaseComponent(getIndex(), lightUB);
-		_deployDirection(lightUB);
+		_deployBaseComponent(getIndex(), lightUI);
+		_deployDirection(lightUI);
 	}
 
 	void DirectionalLight::_onVolumeDrawcall() noexcept

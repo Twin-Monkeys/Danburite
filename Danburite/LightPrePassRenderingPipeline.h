@@ -4,6 +4,9 @@
 #include "FullscreenDrawer.h"
 #include "SetupTransaction.h"
 #include "UniformBufferFactory.h"
+#include "PhongUniformInterface.h"
+#include "TextureContainerUniformInterface.h"
+#include "LightPrePassUniformInterface.h"
 #include "ProgramFactory.h"
 
 namespace Danburite
@@ -13,17 +16,14 @@ namespace Danburite
 	private:
 		AttachmentServer __attachmentServer;
 
-		ObjectGL::UniformBuffer &__phongSetter =
-			UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::PHONG);
+		DeferredUniformBuffer<PhongUniformInterface> &__phongUB =
+			UniformBufferFactory::getInstance().getUniformBuffer<PhongUniformInterface>();
 
-		ObjectGL::UniformBuffer &__texContainerSetter =
-			UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::TEX_CONTAINER);
+		DeferredUniformBuffer<TextureContainerUniformInterface> &__texContainerUB =
+			UniformBufferFactory::getInstance().getUniformBuffer<TextureContainerUniformInterface>();
 
-		ObjectGL::UniformBuffer &__lightPrePassSetter =
-			UniformBufferFactory::getInstance().
-			getUniformBuffer(ShaderIdentifier::Name::UniformBuffer::LIGHT_PREPASS);
+		DeferredUniformBuffer<LightPrePassUniformInterface> &__lightPrePassUB =
+			UniformBufferFactory::getInstance().getUniformBuffer<LightPrePassUniformInterface>();
 
 		ObjectGL::Program &__geometryProgram =
 			ProgramFactory::getInstance().getProgram(ProgramType::LIGHT_PREPASS_GEOMETRY_EXTRACTION);

@@ -10,16 +10,13 @@ namespace Danburite
 		TransformableLight(type, LightVolumeType::FULLSCREEN, DepthBakingType::ORTHO, index)
 	{}
 
-	void OrthoLight::_onDeployShadowData(LightUniformSetter &lightSetter) noexcept
+	void OrthoLight::_onDeployShadowData(LightUniformInterface &lightUI) noexcept
 	{
 		const mat4 &viewMat = __camera.getViewMatrix();
 		const mat4 &projMat = __camera.getProjectionMatrix();
 
-		lightSetter.setUniformMat4(
-			ShaderIdentifier::Name::Light::PROJ_VIEW_MATRIX, projMat * viewMat);
-
-		lightSetter.setUniformUvec2(
-			ShaderIdentifier::Name::Light::DEPTH_MAP, __depthBaker.getDepthMapHandle());
+		lightUI.projViewMat = { getIndex(), projMat * viewMat };
+		lightUI.depthMap = { getIndex(), __depthBaker.getDepthMapHandle() };
 	}
 
 	void OrthoLight::_onBakeDepthMap(BatchProcessor<SceneObject> &drawer) noexcept

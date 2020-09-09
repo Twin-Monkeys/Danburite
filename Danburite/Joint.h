@@ -1,8 +1,8 @@
 #pragma once
 
 #include "AnimationManager.h"
-#include <unordered_set>
-#include "UniformBuffer.h"
+#include "UniformBufferFactory.h"
+#include "JointUniformInterface.h"
 
 namespace Danburite
 {
@@ -15,7 +15,8 @@ namespace Danburite
 		const std::string __nodeName;
 		glm::mat4 __jointMat { 1.f };
 
-		ObjectGL::UniformBuffer &__jointSetter;
+		DeferredUniformBuffer<JointUniformInterface> &__jointUB =
+			UniformBufferFactory::getInstance().getUniformBuffer<JointUniformInterface>();
 
 	public:
 		Joint(AnimationManager &animationManager, const std::string_view &nodeName) noexcept;

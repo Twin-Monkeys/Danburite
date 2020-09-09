@@ -30,13 +30,13 @@ namespace Danburite
 
 		lightUniformInterface.type.set(__index, __TYPE);
 		lightUniformInterface.depthBakingType.set(__index, __DEPTH_BAKING_TYPE);
-		_onDeploy(__lightUB);
+		_onDeploy(lightUniformInterface);
 
 		lightUniformInterface.shadowEnabled.set(__index, GLuint { __shadowEnabled });
 		if (!__shadowEnabled)
 			return;
 
-		_onDeployShadowData(__lightUB);
+		_onDeployShadowData(lightUniformInterface);
 	}
 
 	void Light::setShadowEnabled(const bool enabled) noexcept

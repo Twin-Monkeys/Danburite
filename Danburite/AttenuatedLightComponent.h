@@ -21,7 +21,7 @@ namespace Danburite
 
 		constexpr float _getValidDistance() const noexcept;
 
-		void _deployAttenuatedComponent(const size_t lightIndex, DeferredUniformBuffer<LightUniformInterface> &lightUB) noexcept;
+		void _deployAttenuatedComponent(const size_t lightIndex, LightUniformInterface &lightUI) noexcept;
 
 	public:
 		virtual void setAttenuation(const float constant, const float linear, const float quadratic) noexcept;

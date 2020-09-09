@@ -14,7 +14,7 @@ namespace Danburite
 		float __outerCutOff = cosf(Constant::Light::SpotComponent::OUTER_CUTOFF_ANGLE);
 
 	protected:
-		void _deploySpotComponent(const size_t lightIndex, DeferredUniformBuffer<LightUniformInterface> &lightUB) noexcept;
+		void _deploySpotComponent(const size_t lightIndex, LightUniformInterface &lightUI) noexcept;
 
 	public:
 		void setCutOff(const float innerAngle, const float outerAngle) noexcept;
