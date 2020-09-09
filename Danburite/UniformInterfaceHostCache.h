@@ -56,17 +56,10 @@ namespace Danburite
 	constexpr void UniformInterfaceHostCache<$BUFFER_SIZE>::set(
 		const size_t offset, const size_t count, const $DataType *const pDataArr) noexcept
 	{
-		const size_t MEM_SIZE = (sizeof($DataType) * count);
-		
-		auto &[dirtyMin, dirtyMax] = __dirtyRange;
+		const size_t memStride = glm::max<size_t>(sizeof($DataType), 16ULL);
 
-		const size_t localDirtyMin = offset;
-		const size_t localDirtyMax = (offset + MEM_SIZE);
-
-		dirtyMin = glm::min<size_t>(dirtyMin, localDirtyMin);
-		dirtyMax = glm::max<size_t>(dirtyMax, localDirtyMax);
-
-		std::memcpy(__buffer.data() + offset, pDataArr, MEM_SIZE);
+		for (size_t countIter = 0ULL; countIter < count; countIter++)
+			set(offset + (countIter * memStride), pDataArr[countIter]);
 	}
 
 	template <size_t $BUFFER_SIZE>

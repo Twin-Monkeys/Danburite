@@ -4,10 +4,6 @@
 namespace Danburite
 {
 	TranslucencySwitcherUniformInterface::TranslucencySwitcherUniformInterface() noexcept :
-		UniformInterface
-		{
-			ShaderIdentifier::Name::UniformBuffer::TRANSLUCENCY_SWITCHER,
-			ShaderIdentifier::Value::UniformBlockBindingPoint::TRANSLUCENCY_SWITCHER
-		}
+		UniformInterface { ShaderIdentifier::Value::UniformBlockBindingPoint::TRANSLUCENCY_SWITCHER }
 	{}
 }

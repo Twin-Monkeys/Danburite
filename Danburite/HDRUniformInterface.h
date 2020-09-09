@@ -5,7 +5,7 @@
 
 namespace Danburite
 {
-	class HDRUniformInterface : public UniformInterface<4ULL>
+	class HDRUniformInterface : public UniformInterface<16ULL>
 	{
 	public:
 		const SpecializedUniformField<GLfloat> exposure = _createField<GLfloat>(0);

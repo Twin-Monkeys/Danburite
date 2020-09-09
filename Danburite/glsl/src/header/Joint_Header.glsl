@@ -5,7 +5,7 @@
 
 #include "Constant_Header.glsl"
 
-layout(binding = BINDING_POINT_JOINT) uniform UBJoint
+layout(std140, binding = BINDING_POINT_JOINT) uniform UBJoint
 {
 	layout(offset = 0) mat4 jointMat;
 }

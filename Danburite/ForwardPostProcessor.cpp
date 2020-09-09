@@ -1,6 +1,5 @@
 #include "ForwardPostProcessor.h"
 #include "ProgramFactory.h"
-#include "ShaderIdentifier.h"
 
 using namespace std;
 using namespace ObjectGL;

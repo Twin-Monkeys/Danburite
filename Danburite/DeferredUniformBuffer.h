@@ -6,7 +6,7 @@
 namespace Danburite
 {
 	template <typename $UniformInterfaceType>
-	class DeferredUniformBuffer : public ObjectGL::UniformBuffer
+	class DeferredUniformBuffer
 	{
 		static_assert(
 			std::is_base_of_v<UniformInterface<$UniformInterfaceType::BUFFER_SIZE>, $UniformInterfaceType>,
@@ -14,12 +14,16 @@ namespace Danburite
 
 	private:
 		$UniformInterfaceType __interfaceInstance;
+		ObjectGL::UniformBuffer __uniformBuffer;
 
 	public:
 		DeferredUniformBuffer(const bool memAlloc = true);
 
 		constexpr $UniformInterfaceType &getInterface() noexcept;
 		constexpr const $UniformInterfaceType &getInterface() const noexcept;
+
+		constexpr operator ObjectGL::UniformBuffer &() noexcept;
+		constexpr operator const ObjectGL::UniformBuffer &() const noexcept;
 
 		void selfDeploy() noexcept;
 
@@ -28,14 +32,10 @@ namespace Danburite
 
 	template <typename $UniformInterfaceType>
 	DeferredUniformBuffer<$UniformInterfaceType>::DeferredUniformBuffer(const bool memAlloc) :
-		ObjectGL::UniformBuffer
-		{
-			__interfaceInstance.getBlockName(),
-			__interfaceInstance.getBindingPoint()
-		}
+		__uniformBuffer { __interfaceInstance.getBindingPoint() }
 	{
 		if (memAlloc)
-			memoryAlloc($UniformInterfaceType::BUFFER_SIZE, ObjectGL::BufferUpdatePatternType::STREAM);
+			__uniformBuffer.memoryAlloc($UniformInterfaceType::BUFFER_SIZE, ObjectGL::BufferUpdatePatternType::STREAM);
 	}
 
 	template <typename $UniformInterfaceType>
@@ -52,6 +52,18 @@ namespace Danburite
 	}
 
 	template <typename $UniformInterfaceType>
+	constexpr DeferredUniformBuffer<$UniformInterfaceType>::operator ObjectGL::UniformBuffer &() noexcept
+	{
+		return __uniformBuffer;
+	}
+
+	template <typename $UniformInterfaceType>
+	constexpr DeferredUniformBuffer<$UniformInterfaceType>::operator const ObjectGL::UniformBuffer &() const noexcept
+	{
+		return __uniformBuffer;
+	}
+
+	template <typename $UniformInterfaceType>
 	void DeferredUniformBuffer<$UniformInterfaceType>::selfDeploy() noexcept
 	{
 		UniformInterfaceHostCache<$UniformInterfaceType::BUFFER_SIZE> &cache = __interfaceInstance.getCache();
@@ -62,7 +74,7 @@ namespace Danburite
 		if (dirtyMin >= dirtyMax)
 			return;
 
-		memoryCopy(buffer.data() + dirtyMin, GLsizeiptr(dirtyMax - dirtyMin), dirtyMin);
+		__uniformBuffer.memoryCopy(buffer.data() + dirtyMin, GLsizeiptr(dirtyMax - dirtyMin), dirtyMin);
 		cache.clearDirty();
 	}
 }

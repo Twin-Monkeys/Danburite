@@ -4,10 +4,6 @@
 namespace Danburite
 {
 	MaterialUniformInterface::MaterialUniformInterface() noexcept :
-		UniformInterface
-		{
-			ShaderIdentifier::Name::UniformBuffer::MATERIAL,
-			ShaderIdentifier::Value::UniformBlockBindingPoint::MATERIAL
-		}
+		UniformInterface { ShaderIdentifier::Value::UniformBlockBindingPoint::MATERIAL }
 	{}
 }

@@ -17,9 +17,7 @@ namespace Danburite
 		using SpecializedUniformFieldArray = UniformFieldArray<$DataType, ARRAY_SIZE, $BUFFER_SIZE>;
 
 	private:
-		const std::string __blockName;
 		const GLuint __bindingPoint;
-
 		UniformInterfaceHostCache<$BUFFER_SIZE> __cache;
 
 	protected:
@@ -32,9 +30,8 @@ namespace Danburite
 	public:
 		static constexpr size_t BUFFER_SIZE = $BUFFER_SIZE;
 
-		UniformInterface(const std::string_view &blockName, const GLuint bindingPoint) noexcept;
+		UniformInterface(const GLuint bindingPoint) noexcept;
 
-		constexpr const std::string &getBlockName() const noexcept;
 		constexpr GLuint getBindingPoint() const noexcept;
 
 		constexpr UniformInterfaceHostCache<$BUFFER_SIZE>& getCache() noexcept;
@@ -44,9 +41,8 @@ namespace Danburite
 	};
 
 	template <size_t $BUFFER_SIZE>
-	UniformInterface<$BUFFER_SIZE>::UniformInterface(
-		const std::string_view& blockName, const GLuint bindingPoint) noexcept :
-		__blockName { blockName }, __bindingPoint { bindingPoint }
+	UniformInterface<$BUFFER_SIZE>::UniformInterface(const GLuint bindingPoint) noexcept :
+		__bindingPoint { bindingPoint }
 	{}
 
 	template <size_t $BUFFER_SIZE>
@@ -63,12 +59,6 @@ namespace Danburite
 		UniformInterface<$BUFFER_SIZE>::_createFieldArray(const size_t offset) noexcept
 	{
 		return { __cache, offset };
-	}
-
-	template <size_t $BUFFER_SIZE>
-	constexpr const std::string &UniformInterface<$BUFFER_SIZE>::getBlockName() const noexcept
-	{
-		return __blockName;
 	}
 
 	template <size_t $BUFFER_SIZE>

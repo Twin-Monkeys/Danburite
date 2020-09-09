@@ -4,10 +4,6 @@
 namespace Danburite
 {
 	DepthBakingCubemapUniformInterface::DepthBakingCubemapUniformInterface() noexcept :
-		UniformInterface
-		{
-			ShaderIdentifier::Name::UniformBuffer::DEPTH_BAKING_CUBEMAP,
-			ShaderIdentifier::Value::UniformBlockBindingPoint::DEPTH_BAKING_CUBEMAP
-		}
+		UniformInterface { ShaderIdentifier::Value::UniformBlockBindingPoint::DEPTH_BAKING_CUBEMAP }
 	{}
 }

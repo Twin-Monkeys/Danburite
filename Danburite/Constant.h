@@ -21,7 +21,7 @@ namespace Danburite
 
 		namespace Light
 		{
-			constexpr GLuint MAX_NUM_LIGHTS = 256U;
+			constexpr GLuint MAX_NUM_LIGHTS = 150U;
 
 			namespace BaseComponent
 			{
@@ -76,7 +76,7 @@ namespace Danburite
 
 		namespace Convolutional
 		{
-			constexpr size_t MAX_KERNEL_SIZE = 7ULL;
+			constexpr size_t MAX_KERNEL_SIZE = 8ULL;
 			constexpr size_t MAX_KERNEL_SIZE_SQ = (MAX_KERNEL_SIZE * MAX_KERNEL_SIZE);
 
 			constexpr GLfloat sharpenKernel3x3[] =

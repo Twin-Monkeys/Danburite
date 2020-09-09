@@ -4,10 +4,6 @@
 namespace Danburite
 {
 	ConvolutionUniformInterface::ConvolutionUniformInterface() noexcept :
-		UniformInterface
-		{
-			ShaderIdentifier::Name::UniformBuffer::CONVOLUTION,
-			ShaderIdentifier::Value::UniformBlockBindingPoint::CONVOLUTION
-		}
+		UniformInterface { ShaderIdentifier::Value::UniformBlockBindingPoint::CONVOLUTION }
 	{}
 }

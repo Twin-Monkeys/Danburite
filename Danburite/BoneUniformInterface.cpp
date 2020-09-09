@@ -4,10 +4,6 @@
 namespace Danburite
 {
 	BoneUniformInterface::BoneUniformInterface() noexcept :
-		UniformInterface
-		{
-			ShaderIdentifier::Name::UniformBuffer::BONE,
-			ShaderIdentifier::Value::UniformBlockBindingPoint::BONE
-		}
+		UniformInterface { ShaderIdentifier::Value::UniformBlockBindingPoint::BONE }
 	{}
 }

@@ -4,10 +4,6 @@
 namespace Danburite
 {
 	LightPrePassUniformInterface::LightPrePassUniformInterface() noexcept :
-		UniformInterface
-		{
-			ShaderIdentifier::Name::UniformBuffer::LIGHT_PREPASS,
-			ShaderIdentifier::Value::UniformBlockBindingPoint::LIGHT_PREPASS
-		}
+		UniformInterface { ShaderIdentifier::Value::UniformBlockBindingPoint::LIGHT_PREPASS }
 	{}
 }

@@ -4,10 +4,6 @@
 namespace Danburite
 {
 	HDRUniformInterface::HDRUniformInterface() noexcept :
-		UniformInterface
-		{
-			ShaderIdentifier::Name::UniformBuffer::HDR,
-			ShaderIdentifier::Value::UniformBlockBindingPoint::HDR
-		}
+		UniformInterface { ShaderIdentifier::Value::UniformBlockBindingPoint::HDR }
 	{}
 }

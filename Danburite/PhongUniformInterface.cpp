@@ -4,10 +4,6 @@
 namespace Danburite
 {
 	PhongUniformInterface::PhongUniformInterface() noexcept :
-		UniformInterface
-		{
-			ShaderIdentifier::Name::UniformBuffer::PHONG,
-			ShaderIdentifier::Value::UniformBlockBindingPoint::PHONG
-		}
+		UniformInterface { ShaderIdentifier::Value::UniformBlockBindingPoint::PHONG }
 	{}
 }

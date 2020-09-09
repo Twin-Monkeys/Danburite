@@ -4,10 +4,6 @@
 namespace Danburite
 {
 	SkyboxUniformInterface::SkyboxUniformInterface() noexcept :
-		UniformInterface
-		{
-			ShaderIdentifier::Name::UniformBuffer::SKYBOX,
-			ShaderIdentifier::Value::UniformBlockBindingPoint::SKYBOX
-		}
+		UniformInterface { ShaderIdentifier::Value::UniformBlockBindingPoint::SKYBOX }
 	{}
 }

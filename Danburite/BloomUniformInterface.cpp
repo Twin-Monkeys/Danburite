@@ -4,10 +4,6 @@
 namespace Danburite
 {
 	BloomUniformInterface::BloomUniformInterface() noexcept :
-		UniformInterface
-		{
-			ShaderIdentifier::Name::UniformBuffer::BLOOM,
-			ShaderIdentifier::Value::UniformBlockBindingPoint::BLOOM
-		}
+		UniformInterface { ShaderIdentifier::Value::UniformBlockBindingPoint::BLOOM }
 	{}
 }

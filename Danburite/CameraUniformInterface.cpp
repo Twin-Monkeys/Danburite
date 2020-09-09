@@ -4,10 +4,6 @@
 namespace Danburite
 {
 	CameraUniformInterface::CameraUniformInterface() noexcept :
-		UniformInterface
-	{
-		ShaderIdentifier::Name::UniformBuffer::CAMERA,
-		ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA
-	}
+		UniformInterface { ShaderIdentifier::Value::UniformBlockBindingPoint::CAMERA }
 	{}
 }

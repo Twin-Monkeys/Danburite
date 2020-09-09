@@ -6,7 +6,7 @@
 
 namespace Danburite
 {
-	class DepthBacking2DUniformInterface : public UniformInterface<16ULL>
+	class DepthBacking2DUniformInterface : public UniformInterface<64ULL>
 	{
 	public:
 		const SpecializedUniformField<glm::mat4> projViewMat = _createField<glm::mat4>(0);

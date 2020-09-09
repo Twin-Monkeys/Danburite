@@ -11,18 +11,11 @@ namespace ObjectGL
 		const GLuint __bindingPoint;
 
 	public:
-		UniformBuffer(const std::string_view &blockName, const GLuint bindingPoint);
-
-		constexpr const std::string& getBlockName() const noexcept;
+		explicit UniformBuffer(const GLuint bindingPoint);
 		constexpr GLuint getBindingPoint() const noexcept;
 
 		virtual ~UniformBuffer() = default;
 	};
-
-	constexpr const std::string &UniformBuffer::getBlockName() const noexcept
-	{
-		return __blockName;
-	}
 
 	constexpr GLuint UniformBuffer::getBindingPoint() const noexcept
 	{

@@ -5,7 +5,7 @@
 
 namespace Danburite
 {
-	class PhongUniformInterface : public UniformInterface<4ULL>
+	class PhongUniformInterface : public UniformInterface<16ULL>
 	{
 	public:
 		const SpecializedUniformField<GLuint> calcMethodType = _createField<GLuint>(0ULL);

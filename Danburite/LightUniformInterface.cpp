@@ -4,10 +4,6 @@
 namespace Danburite
 {
 	LightUniformInterface::LightUniformInterface() noexcept :
-		UniformInterface
-		{
-			ShaderIdentifier::Name::UniformBuffer::LIGHT,
-			ShaderIdentifier::Value::UniformBlockBindingPoint::LIGHT
-		}
+		UniformInterface { ShaderIdentifier::Value::UniformBlockBindingPoint::LIGHT }
 	{}
 }

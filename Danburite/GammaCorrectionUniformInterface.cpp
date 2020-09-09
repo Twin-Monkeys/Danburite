@@ -4,10 +4,6 @@
 namespace Danburite
 {
 	GammaCorrectionUniformInterface::GammaCorrectionUniformInterface() noexcept :
-		UniformInterface
-		{
-			ShaderIdentifier::Name::UniformBuffer::GAMMA_CORRECTION,
-			ShaderIdentifier::Value::UniformBlockBindingPoint::GAMMA_CORRECTION
-		}
+		UniformInterface { ShaderIdentifier::Value::UniformBlockBindingPoint::GAMMA_CORRECTION }
 	{}
 }

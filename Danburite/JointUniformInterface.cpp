@@ -4,10 +4,6 @@
 namespace Danburite
 {
 	JointUniformInterface::JointUniformInterface() noexcept :
-		UniformInterface
-		{
-			ShaderIdentifier::Name::UniformBuffer::JOINT,
-			ShaderIdentifier::Value::UniformBlockBindingPoint::JOINT
-		}
+		UniformInterface { ShaderIdentifier::Value::UniformBlockBindingPoint::JOINT }
 	{}
 }

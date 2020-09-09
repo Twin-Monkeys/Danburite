@@ -6,17 +6,14 @@
 
 namespace Danburite
 {
-	class LightPrePassUniformInterface : public UniformInterface<32ULL>
+	class LightPrePassUniformInterface : public UniformInterface<80ULL>
 	{
 	public:
-		// 8byte
-		const SpecializedUniformField<GLuint64> ambientTex = _createField<GLuint64>(0ULL);
-		const SpecializedUniformField<GLuint64> diffuseTex = _createField<GLuint64>(8ULL);
-		const SpecializedUniformField<GLuint64> specularTex = _createField<GLuint64>(16ULL);
-
-		// 4byte
-		const SpecializedUniformField<GLuint> lightVolumeType = _createField<GLuint>(24ULL);
-		const SpecializedUniformField<GLuint> currentLightIdx = _createField<GLuint>(28ULL);
+		const SpecializedUniformField<GLuint64> ambientTex		= _createField<GLuint64>(0ULL);
+		const SpecializedUniformField<GLuint64> diffuseTex		= _createField<GLuint64>(16ULL);
+		const SpecializedUniformField<GLuint64> specularTex		= _createField<GLuint64>(32ULL);
+		const SpecializedUniformField<GLuint> lightVolumeType	= _createField<GLuint>(48ULL);
+		const SpecializedUniformField<GLuint> currentLightIdx	= _createField<GLuint>(64ULL);
 
 		LightPrePassUniformInterface() noexcept;
 		virtual ~LightPrePassUniformInterface() = default;

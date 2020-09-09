@@ -13,31 +13,33 @@ layout(std140, binding = BINDING_POINT_LIGHT) uniform UBLight
 	layout(offset = 0) mat4 projViewMat[MAX_NUM_LIGHTS];
 
 	// for align
-	layout(offset = (64 * MAX_NUM_LIGHTS)) uvec2 depthMap[MAX_NUM_LIGHTS];
 
-	// 12byte array
-	layout(offset = (72 * MAX_NUM_LIGHTS)) vec3 direction[MAX_NUM_LIGHTS];
-	layout(offset = (84 * MAX_NUM_LIGHTS)) vec3 pos[MAX_NUM_LIGHTS];
+	// 16byte array
+	layout(offset = (64 * MAX_NUM_LIGHTS)) vec3 direction[MAX_NUM_LIGHTS];
+	layout(offset = (80 * MAX_NUM_LIGHTS)) vec3 pos[MAX_NUM_LIGHTS];
 	layout(offset = (96 * MAX_NUM_LIGHTS)) vec3 albedo[MAX_NUM_LIGHTS];
 
+	// 8byte array
+	layout(offset = (104 * MAX_NUM_LIGHTS)) uvec2 depthMap[MAX_NUM_LIGHTS];
+
 	// 4byte array
-	layout(offset = (108 * MAX_NUM_LIGHTS)) bool enabled[MAX_NUM_LIGHTS];
-	layout(offset = (112 * MAX_NUM_LIGHTS)) bool shadowEnabled[MAX_NUM_LIGHTS];
-	layout(offset = (116 * MAX_NUM_LIGHTS)) uint type[MAX_NUM_LIGHTS];
-	layout(offset = (120 * MAX_NUM_LIGHTS)) uint depthBakingType[MAX_NUM_LIGHTS];
-	layout(offset = (124 * MAX_NUM_LIGHTS)) float ambientStrength[MAX_NUM_LIGHTS];
-	layout(offset = (128 * MAX_NUM_LIGHTS)) float diffuseStrength[MAX_NUM_LIGHTS];
-	layout(offset = (132 * MAX_NUM_LIGHTS)) float specularStrength[MAX_NUM_LIGHTS];
-	layout(offset = (136 * MAX_NUM_LIGHTS)) float attConst[MAX_NUM_LIGHTS];
-	layout(offset = (140 * MAX_NUM_LIGHTS)) float attLinear[MAX_NUM_LIGHTS];
-	layout(offset = (144 * MAX_NUM_LIGHTS)) float attQuad[MAX_NUM_LIGHTS];
-	layout(offset = (148 * MAX_NUM_LIGHTS)) float validDistance[MAX_NUM_LIGHTS];
-	layout(offset = (152 * MAX_NUM_LIGHTS)) float innerCutOff[MAX_NUM_LIGHTS];
-	layout(offset = (156 * MAX_NUM_LIGHTS)) float outerCutOff[MAX_NUM_LIGHTS];
-	layout(offset = (160 * MAX_NUM_LIGHTS)) float zFar[MAX_NUM_LIGHTS];
+	layout(offset = (112 * MAX_NUM_LIGHTS)) bool enabled[MAX_NUM_LIGHTS];
+	layout(offset = (116 * MAX_NUM_LIGHTS)) bool shadowEnabled[MAX_NUM_LIGHTS];
+	layout(offset = (120 * MAX_NUM_LIGHTS)) uint type[MAX_NUM_LIGHTS];
+	layout(offset = (124 * MAX_NUM_LIGHTS)) uint depthBakingType[MAX_NUM_LIGHTS];
+	layout(offset = (128 * MAX_NUM_LIGHTS)) float ambientStrength[MAX_NUM_LIGHTS];
+	layout(offset = (132 * MAX_NUM_LIGHTS)) float diffuseStrength[MAX_NUM_LIGHTS];
+	layout(offset = (136 * MAX_NUM_LIGHTS)) float specularStrength[MAX_NUM_LIGHTS];
+	layout(offset = (140 * MAX_NUM_LIGHTS)) float attConst[MAX_NUM_LIGHTS];
+	layout(offset = (144 * MAX_NUM_LIGHTS)) float attLinear[MAX_NUM_LIGHTS];
+	layout(offset = (148 * MAX_NUM_LIGHTS)) float attQuad[MAX_NUM_LIGHTS];
+	layout(offset = (152 * MAX_NUM_LIGHTS)) float validDistance[MAX_NUM_LIGHTS];
+	layout(offset = (156 * MAX_NUM_LIGHTS)) float innerCutOff[MAX_NUM_LIGHTS];
+	layout(offset = (160 * MAX_NUM_LIGHTS)) float outerCutOff[MAX_NUM_LIGHTS];
+	layout(offset = (164 * MAX_NUM_LIGHTS)) float zFar[MAX_NUM_LIGHTS];
 
 	// 4byte
-	layout(offset = (164 * MAX_NUM_LIGHTS)) uint numLights;
+	layout(offset = (168 * MAX_NUM_LIGHTS)) uint numLights;
 }
 light;
 
