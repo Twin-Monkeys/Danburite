@@ -12,9 +12,9 @@ namespace Danburite
 		__basicSetup.setup([this](ContextStateManager& stateMgr)
 		{
 			 BloomUniformInterface &bloomInterface = __bloomUB.getInterface();
-
 			 bloomInterface.brightnessThreshold = __brightnessThreshold;
 			 bloomInterface.effectStrength = __effectStrength;
+			 __bloomUB.selfDeploy();
 
 			stateMgr.setState(GLStateType::DEPTH_TEST, false);
 			stateMgr.setState(GLStateType::STENCIL_TEST, false);
