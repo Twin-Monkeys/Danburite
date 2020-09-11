@@ -56,7 +56,7 @@ namespace Danburite
 	constexpr void UniformInterfaceHostCache<$BUFFER_SIZE>::set(
 		const size_t offset, const size_t count, const $DataType *const pDataArr) noexcept
 	{
-		const size_t memStride = glm::max<size_t>(sizeof($DataType), 16ULL);
+		constexpr size_t memStride = glm::max<size_t>(sizeof($DataType), 16ULL);
 
 		for (size_t countIter = 0ULL; countIter < count; countIter++)
 			set(offset + (countIter * memStride), pDataArr[countIter]);

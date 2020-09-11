@@ -7,11 +7,8 @@
 
 layout(std140, binding = BINDING_POINT_CAMERA) uniform UBCamera
 {
-	// 64byte
 	layout(offset = 0) mat4 viewMat;
 	layout(offset = 64) mat4 projMat;
-
-	// 16byte (std140Àº vec3µµ 16byte)
 	layout(offset = 128) vec3 pos;
 }
 camera;

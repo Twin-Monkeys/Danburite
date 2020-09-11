@@ -7,7 +7,6 @@
 
 layout(std140, binding = BINDING_POINT_BLOOM) uniform UBBloom
 {
-	// 4byte
 	layout(offset = 0) float brightnessThreshold;
 	layout(offset = 16) float effectStrength;
 }

@@ -29,7 +29,7 @@ namespace Danburite
 		{
 			Bone &bone = *__bones[i];
 			bone.updateMatrix();
-			boneUniformInterface.boneMatrices.set(i, bone.getMatrix());
+			boneUniformInterface.boneMatrices = { i, bone.getMatrix() };
 		}
 	}
 

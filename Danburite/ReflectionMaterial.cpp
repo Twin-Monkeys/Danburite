@@ -20,10 +20,10 @@ namespace Danburite
 		DeferredUniformBuffer<MaterialUniformInterface> &materialUB, VertexArray &vertexArray, const GLsizei numInstances) noexcept
 	{
 		MaterialUniformInterface &materialUniformInterface = materialUB.getInterface();
-		materialUniformInterface.environmentTex.set(__pEnvTex->getHandle());
+		materialUniformInterface.environmentTex = __pEnvTex->getHandle();
 
 		if (isNormalTextureEnabled())
-			materialUniformInterface.normalTex.set(__pNormalTex->getHandle());
+			materialUniformInterface.normalTex = __pNormalTex->getHandle();
 
 		materialUB.selfDeploy();
 		vertexArray.draw(numInstances);

@@ -12,12 +12,12 @@ namespace Danburite
 		{
 			MaterialUniformInterface &materialInterface = __materialUB.getInterface();
 
-			materialInterface.type.set(GLuint(__MATERIAL_TYPE));
-			materialInterface.vertexFlag.set(GLuint(__VERTEX_FLAG));
-			materialInterface.optionFlag.set(GLuint(__optionFlag));
+			materialInterface.type = GLuint(__MATERIAL_TYPE);
+			materialInterface.vertexFlag = GLuint(__VERTEX_FLAG);
+			materialInterface.optionFlag = GLuint(__optionFlag);
 
 			if (isAlphaOverridden())
-				materialInterface.overriddenAlpha.set(__overriddenAlpha);
+				materialInterface.overriddenAlpha = __overriddenAlpha;
 		});
 	}
 

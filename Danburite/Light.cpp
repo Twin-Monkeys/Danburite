@@ -24,15 +24,15 @@ namespace Danburite
 	{
 		LightUniformInterface &lightUniformInterface = __lightUB.getInterface();
 
-		lightUniformInterface.enabled.set(__index, GLuint { __enabled });
+		lightUniformInterface.enabled = { __index, GLuint(__enabled) };
 		if (!__enabled)
 			return;
 
-		lightUniformInterface.type.set(__index, __TYPE);
-		lightUniformInterface.depthBakingType.set(__index, __DEPTH_BAKING_TYPE);
+		lightUniformInterface.type = { __index, __TYPE };
+		lightUniformInterface.depthBakingType = { __index, __DEPTH_BAKING_TYPE };
 		_onDeploy(lightUniformInterface);
 
-		lightUniformInterface.shadowEnabled.set(__index, GLuint { __shadowEnabled });
+		lightUniformInterface.shadowEnabled = { __index, GLuint(__shadowEnabled) };
 		if (!__shadowEnabled)
 			return;
 
@@ -56,8 +56,8 @@ namespace Danburite
 	void Light::volumeDrawcall() noexcept
 	{
 		LightPrePassUniformInterface &lightPrepassUniformInterface = __lightPrepassUB.getInterface();
-		lightPrepassUniformInterface.currentLightIdx.set(getIndex());
-		lightPrepassUniformInterface.lightVolumeType.set(__VOLUME_TYPE);
+		lightPrepassUniformInterface.currentLightIdx = getIndex();
+		lightPrepassUniformInterface.lightVolumeType = __VOLUME_TYPE;
 
 		__lightPrepassUB.selfDeploy();
 		_onVolumeDrawcall();

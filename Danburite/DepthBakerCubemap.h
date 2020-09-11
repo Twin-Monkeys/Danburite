@@ -23,9 +23,9 @@ namespace Danburite
 
 		SetupTransaction __setupTransaction;
 
-		glm::vec3 __center;
-		float __zFar;
-		glm::mat4 __viewProjMatrices[6];
+		glm::vec3 __center { 0.f };
+		float __zFar { 0.f };
+		glm::mat4 __viewProjMatrices[6] {};
 
 	protected:
 		virtual void _releaseDepthMap()  noexcept override;

@@ -15,9 +15,9 @@ namespace Danburite
 		{
 			ConvolutionUniformInterface &convUniformInterface = __convUB.getInterface();
 
-			convUniformInterface.kernelSize.set(__kernelSize);
-			convUniformInterface.kernel.set(
-				0ULL, size_t { __kernelSize } * size_t { __kernelSize }, __kernel.data());
+			convUniformInterface.kernelSize = __kernelSize;
+			convUniformInterface.kernel =
+			{ 0ULL, size_t { __kernelSize } * size_t { __kernelSize }, __kernel.data() };
 
 			__convUB.selfDeploy();
 		});

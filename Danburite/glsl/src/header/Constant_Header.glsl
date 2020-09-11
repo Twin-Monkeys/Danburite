@@ -107,7 +107,7 @@ const uint NUM_BLOOM_BLUR_KERNELS = 59U;
 
 // Convolution //
 
-const uint MAX_KERNEL_SIZE = 7U;
+const uint MAX_KERNEL_SIZE = 5U;
 
 
 // Texture Container

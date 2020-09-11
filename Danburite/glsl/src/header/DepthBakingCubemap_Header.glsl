@@ -7,14 +7,9 @@
 
 layout(std140, binding = BINDING_POINT_DEPTH_BAKING_CUBEMAP) uniform UBDepthBakingCubemap
 {
-	// 64byte * 6
 	layout(offset = 0) mat4 projViewMatrices[6];
-
-	// 12byte
 	layout(offset = 384) vec3 center;
-
-	// 4byte
-	layout(offset = 396) float zFar;
+	layout(offset = 400) float zFar;
 }
 depthBakingCubemap;
 

@@ -5,7 +5,7 @@
 
 namespace Danburite
 {
-	class TranslucencySwitcherUniformInterface : public UniformInterface<4ULL>
+	class TranslucencySwitcherUniformInterface : public UniformInterface<16ULL>
 	{
 	public:
 		const SpecializedUniformField<GLuint> mode = _createField<GLuint>(0);

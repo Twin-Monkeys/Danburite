@@ -9,11 +9,8 @@
 
 layout(std140, binding = BINDING_POINT_SKYBOX) uniform UBSkybox
 {
-	// 8byte
 	layout(offset = 0) uvec2 albedoTex;
-
-	// 4byte
-	layout(offset = 8) float luminance;
+	layout(offset = 16) float luminance;
 }
 skybox;
 

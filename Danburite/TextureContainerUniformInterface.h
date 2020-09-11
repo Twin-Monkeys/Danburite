@@ -7,7 +7,7 @@
 namespace Danburite
 {
 	class TextureContainerUniformInterface : public UniformInterface<
-		sizeof(GLuint64) * Constant::TextureContainer::MAX_TEXTURE_CONTAINER_ELEMS>
+		16ULL * Constant::TextureContainer::MAX_TEXTURE_CONTAINER_ELEMS>
 	{
 	public:
 		const SpecializedUniformFieldArray<

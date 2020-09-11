@@ -22,7 +22,7 @@ namespace Danburite
 		DeferredUniformBuffer<MaterialUniformInterface> &materialUB, VertexArray& vertexArray, const GLsizei numInstances) noexcept
 	{
 		MaterialUniformInterface &materialUniformInterface = materialUB.getInterface();
-		materialUniformInterface.diffuseColor.set(__color);
+		materialUniformInterface.diffuseColor = __color;
 
 		materialUB.selfDeploy();
 		vertexArray.draw(numInstances);

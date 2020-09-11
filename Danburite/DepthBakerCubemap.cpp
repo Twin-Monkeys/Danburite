@@ -13,9 +13,9 @@ namespace Danburite
 			DepthBakingCubemapUniformInterface &
 				depthBakingCubemapUniformInterface = __depthBakingCubemapUB.getInterface();
 
-			depthBakingCubemapUniformInterface.center.set(__center);
-			depthBakingCubemapUniformInterface.zFar.set(__zFar);
-			depthBakingCubemapUniformInterface.projViewMatrices.set(0, 6, __viewProjMatrices);
+			depthBakingCubemapUniformInterface.center = __center;
+			depthBakingCubemapUniformInterface.zFar = __zFar;
+			depthBakingCubemapUniformInterface.projViewMatrices = { 0ULL, 6ULL, __viewProjMatrices };
 			__depthBakingCubemapUB.selfDeploy();
 		});
 	}

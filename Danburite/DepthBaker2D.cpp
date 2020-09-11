@@ -10,7 +10,7 @@ namespace Danburite
 	{
 		__setupTransaction.setup([this](ContextStateManager& stateMgr)
 		{
-			__depthBaking2DUB.getInterface().projViewMat.set(__projViewMat);
+			__depthBaking2DUB.getInterface().projViewMat = __projViewMat;
 			__depthBaking2DUB.selfDeploy();
 		});
 	}

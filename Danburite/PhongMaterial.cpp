@@ -23,32 +23,32 @@ namespace Danburite
 	{
 		MaterialUniformInterface &materialUniformInterface = materialUB.getInterface();
 
-		materialUniformInterface.emissiveStrength.set(__emissiveStrength);
-		materialUniformInterface.shininess.set(__shininess);
+		materialUniformInterface.emissiveStrength = __emissiveStrength;
+		materialUniformInterface.shininess = __shininess;
 
 		if (isAmbientTextureEnabled())
-			materialUniformInterface.ambientTex.set(__pAmbientTex->getHandle());
+			materialUniformInterface.ambientTex = __pAmbientTex->getHandle();
 
 		if (isDiffuseTextureEnabled())
-			materialUniformInterface.diffuseTex.set(__pDiffuseTex->getHandle());
+			materialUniformInterface.diffuseTex = __pDiffuseTex->getHandle();
 
 		if (isSpecularTextureEnabled())
-			materialUniformInterface.specularTex.set(__pSpecularTex->getHandle());
+			materialUniformInterface.specularTex = __pSpecularTex->getHandle();
 
 		if (isEmissiveTextureEnabled())
-			materialUniformInterface.emissiveTex.set(__pEmissiveTex->getHandle());
+			materialUniformInterface.emissiveTex = __pEmissiveTex->getHandle();
 
 		if (isShininessTextureEnabled())
-			materialUniformInterface.shininessTex.set(__pShininessTex->getHandle());
+			materialUniformInterface.shininessTex = __pShininessTex->getHandle();
 
 		if (isAlphaTextureEnabled())
-			materialUniformInterface.alphaTex.set(__pAlphaTex->getHandle());
+			materialUniformInterface.alphaTex = __pAlphaTex->getHandle();
 
 		if (isNormalTextureEnabled())
-			materialUniformInterface.normalTex.set(__pNormalTex->getHandle());
+			materialUniformInterface.normalTex = __pNormalTex->getHandle();
 
 		if (isHeightTextureEnabled())
-			materialUniformInterface.heightTex.set(__pHeightTex->getHandle());
+			materialUniformInterface.heightTex = __pHeightTex->getHandle();
 
 		materialUB.selfDeploy();
 		vertexArray.draw(numInstances);

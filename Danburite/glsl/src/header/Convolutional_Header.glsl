@@ -7,11 +7,8 @@
 
 layout(std140, binding = BINDING_POINT_CONVOLUTION) uniform UBConvolution
 {
-	// 4byte 2D array
 	layout(offset = 0) float kernel[MAX_KERNEL_SIZE][MAX_KERNEL_SIZE];
-
-	// 4byte
-	layout(offset = (4 * MAX_KERNEL_SIZE * MAX_KERNEL_SIZE)) uint kernelSize;
+	layout(offset = (16U * MAX_KERNEL_SIZE * MAX_KERNEL_SIZE)) uint kernelSize;
 }
 convolution;
 

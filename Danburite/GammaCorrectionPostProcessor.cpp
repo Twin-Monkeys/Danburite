@@ -15,11 +15,11 @@ namespace Danburite
 		__setupTransaction.setup([this](ContextStateManager& stateMgr)
 		{
 			MaterialUniformInterface &materialUI = __materialUB.getInterface();
-			materialUI.gamma.set(__gamma);
+			materialUI.gamma = __gamma;
 			__materialUB.selfDeploy();
 
 			GammaCorrectionUniformInterface &gammaCorrectionUI = __gammaCorrectionUB.getInterface();
-			gammaCorrectionUI.gamma.set(__gamma);
+			gammaCorrectionUI.gamma = __gamma;
 			__gammaCorrectionUB.selfDeploy();
 		});
 

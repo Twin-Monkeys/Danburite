@@ -21,7 +21,7 @@ namespace Danburite
 	{
 		LightUniformInterface &lightUniformInterface = __lightUB.getInterface();
 
-		lightUniformInterface.numLights.set(GLuint(__lights.size()));
+		lightUniformInterface.numLights = GLuint(__lights.size());
 		process(&Light::selfDeploy);
 
 		__lightUB.selfDeploy();
