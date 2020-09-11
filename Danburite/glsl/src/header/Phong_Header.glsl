@@ -36,44 +36,53 @@ vec4 Phong_calcPhongColor_forward(
 		materialSpecular *= vertexColor.rgb;
 	}
 
-	if (!Material_isLightingEnabled())
-		return vec4(materialAmbient + materialDiffuse + materialSpecular + materialEmissive, materialAlpha);
+	vec4 shadedColor;
 
-	const float shininess = Material_getShininess(finalTexCoord);
-	const vec3 finalNormal = Material_getNormal(finalTexCoord, targetNormal, targetTBN);
-
-	vec3 ambient = vec3(0.f);
-	vec3 diffuse = vec3(0.f);
-	vec3 specular = vec3(0.f);
-
-	const uint NUM_LIGHTS = Light_getNumLights();
-	for (uint lightIdx = 0; lightIdx < NUM_LIGHTS; lightIdx++)
+	if (Material_isLightingEnabled())
 	{
-		if (!Light_checkValidation(lightIdx, targetPos))
-			continue;
+		const float shininess = Material_getShininess(finalTexCoord);
+		const vec3 finalNormal = Material_getNormal(finalTexCoord, targetNormal, targetTBN);
 
-		const float lightAttenuation = Light_getAttenuation(lightIdx, targetPos);
+		vec3 ambient = vec3(0.f);
+		vec3 diffuse = vec3(0.f);
+		vec3 specular = vec3(0.f);
 
-		ambient += (
-			materialAmbient * lightAttenuation *
-			Light_getLightAmbient(lightIdx, targetPos));
+		const uint NUM_LIGHTS = Light_getNumLights();
+		for (uint lightIdx = 0; lightIdx < NUM_LIGHTS; lightIdx++)
+		{
+			if (!Light_checkValidation(lightIdx, targetPos))
+				continue;
 
-		const float lightOcclusion = Light_getOcclusion(lightIdx, targetPos, finalNormal);
-		if (lightOcclusion >= 1.f)
-			continue;
+			const float lightAttenuation = Light_getAttenuation(lightIdx, targetPos);
 
-		const float occlusionInv = (1.f - lightOcclusion);
+			ambient += (
+				materialAmbient * lightAttenuation *
+				Light_getLightAmbient(lightIdx, targetPos));
 
-		diffuse += (
-			occlusionInv * materialDiffuse * lightAttenuation *
-			Light_getLightDiffuse(lightIdx, targetPos, finalNormal));
+			const float lightOcclusion = Light_getOcclusion(lightIdx, targetPos, finalNormal);
+			if (lightOcclusion >= 1.f)
+				continue;
 
-		specular += (
-			occlusionInv * materialSpecular * lightAttenuation *
-			Light_getLightSpecular(lightIdx, targetPos, finalNormal, viewDir, shininess));
+			const float occlusionInv = (1.f - lightOcclusion);
+
+			diffuse += (
+				occlusionInv * materialDiffuse * lightAttenuation *
+				Light_getLightDiffuse(lightIdx, targetPos, finalNormal));
+
+			specular += (
+				occlusionInv * materialSpecular * lightAttenuation *
+				Light_getLightSpecular(lightIdx, targetPos, finalNormal, viewDir, shininess));
+		}
+
+		shadedColor = vec4(ambient + diffuse + specular + materialEmissive, materialAlpha);
 	}
-
-	return vec4(ambient + diffuse + specular + materialEmissive, materialAlpha);
+	else
+	{
+		shadedColor = vec4(
+			materialAmbient + materialDiffuse + materialSpecular + materialEmissive, materialAlpha);
+	}
+	
+	return vec4(shadedColor.rgb * Material_getOcclusion(finalTexCoord), shadedColor.a);
 }
 
 vec4 Phong_calcPhongColor_lightPrePass(
@@ -97,14 +106,23 @@ vec4 Phong_calcPhongColor_lightPrePass(
 		materialSpecular *= vertexColor.rgb;
 	}
 
-	if (!Material_isLightingEnabled())
-		return vec4(materialAmbient + materialDiffuse + materialSpecular + materialEmissive, materialAlpha);
+	vec4 shadedColor;
 
-	const vec3 ambient = (materialAmbient * LightPrePass_getLightAmbient(gl_FragCoord.xy));
-	const vec3 diffuse = (materialDiffuse * LightPrePass_getLightDiffuse(gl_FragCoord.xy));
-	const vec3 specular = (materialSpecular * LightPrePass_getLightSpecular(gl_FragCoord.xy));
-	
-	return vec4(ambient + diffuse + specular + materialEmissive, materialAlpha);
+	if (Material_isLightingEnabled())
+	{
+		const vec3 ambient = (materialAmbient * LightPrePass_getLightAmbient(gl_FragCoord.xy));
+		const vec3 diffuse = (materialDiffuse * LightPrePass_getLightDiffuse(gl_FragCoord.xy));
+		const vec3 specular = (materialSpecular * LightPrePass_getLightSpecular(gl_FragCoord.xy));
+		
+		shadedColor = vec4(ambient + diffuse + specular + materialEmissive, materialAlpha);
+	}
+	else
+	{
+		shadedColor = vec4(
+			materialAmbient + materialDiffuse + materialSpecular + materialEmissive, materialAlpha);
+	}
+
+	return vec4(shadedColor.rgb * Material_getOcclusion(finalTexCoord), shadedColor.a);
 }
 
 vec4 Phong_calcPhongColor(

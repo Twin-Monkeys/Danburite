@@ -50,6 +50,9 @@ namespace Danburite
 		if (isHeightTextureEnabled())
 			materialUniformInterface.heightTex = __pHeightTex->getHandle();
 
+		if (isOcclusionTextureEnabled())
+			materialUniformInterface.occlusionTex = __pOcclusionTex->getHandle();
+
 		materialUB.selfDeploy();
 		vertexArray.draw(numInstances);
 	}
@@ -100,5 +103,11 @@ namespace Danburite
 	{
 		enableHeightTexture(pTexture.get());
 		__pHeightTex = pTexture;
+	}
+
+	void PhongMaterial::setOcclusionTexture(const std::shared_ptr<ObjectGL::Texture2D>& pTexture) noexcept
+	{
+		enableOcclusionTexture(pTexture.get());
+		__pOcclusionTex = pTexture;
 	}
 }

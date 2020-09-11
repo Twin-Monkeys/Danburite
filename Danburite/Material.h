@@ -51,6 +51,7 @@ namespace Danburite
 		constexpr void enableAlphaTexture(const bool enabled) noexcept;
 		constexpr void enableNormalTexture(const bool enabled) noexcept;
 		constexpr void enableHeightTexture(const bool enabled) noexcept;
+		constexpr void enableOcclusionTexture(const bool enabled) noexcept;
 
 		constexpr bool isLightingEnabled() const noexcept;
 		constexpr bool isAmbientTextureEnabled() const noexcept;
@@ -61,6 +62,7 @@ namespace Danburite
 		constexpr bool isAlphaTextureEnabled() const noexcept;
 		constexpr bool isNormalTextureEnabled() const noexcept;
 		constexpr bool isHeightTextureEnabled() const noexcept;
+		constexpr bool isOcclusionTextureEnabled() const noexcept;
 
 	public:
 		constexpr void enableTranslucency(const bool enabled) noexcept;
@@ -141,6 +143,11 @@ namespace Danburite
 		__setOption(MaterialOptionFlag::HEIGHT_TEXTURE, enabled);
 	}
 
+	constexpr void Material::enableOcclusionTexture(const bool enabled) noexcept
+	{
+		__setOption(MaterialOptionFlag::OCCLUSION_TEXTURE, enabled);
+	}
+
 	constexpr void Material::overrideAlpha(const bool enabled) noexcept
 	{
 		__setOption(MaterialOptionFlag::ALPHA_OVERRIDING, enabled);
@@ -194,6 +201,11 @@ namespace Danburite
 	constexpr bool Material::isHeightTextureEnabled() const noexcept
 	{
 		return __isOptionEnabled(MaterialOptionFlag::HEIGHT_TEXTURE);
+	}
+
+	constexpr bool Material::isOcclusionTextureEnabled() const noexcept
+	{
+		return __isOptionEnabled(MaterialOptionFlag::OCCLUSION_TEXTURE);
 	}
 
 	constexpr bool Material::isAlphaOverridden() const noexcept
