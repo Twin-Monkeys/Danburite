@@ -8,7 +8,7 @@ namespace Danburite
 	void SpotLightComponent::_deploySpotComponent(const size_t lightIndex, LightUniformInterface &lightUI) noexcept
 	{
 		lightUI.innerCutOff = { lightIndex, __innerCutOff };
-		lightUI.innerCutOff = { lightIndex, __outerCutOff };
+		lightUI.outerCutOff = { lightIndex, __outerCutOff };
 	}
 
 	void SpotLightComponent::setCutOff(const float innerAngle, const float outerAngle) noexcept

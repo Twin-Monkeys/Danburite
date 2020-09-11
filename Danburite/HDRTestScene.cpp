@@ -200,16 +200,16 @@ HDRTestScene::HDRTestScene()
 
 	__skybox.setAlbedoTexture(pSkyboxAlbedoTex);
 	__skybox.setLuminance(.1f);
-	__skybox.setEnabled(false);
+	__skybox.setEnabled(true);
 
 
 	// 파이프라인 초기화
 
-	/*__pRenderingPipeline =
-		make_unique<LightPrePassRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);*/
-
 	__pRenderingPipeline =
-		make_unique<ForwardRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);
+		make_unique<LightPrePassRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);
+
+	/*__pRenderingPipeline =
+		make_unique<ForwardRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);*/
 
 	PostProcessorPipeline &ppPipeline =
 		__pRenderingPipeline->getPostProcessorPipeline();
