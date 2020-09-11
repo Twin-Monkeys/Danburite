@@ -18,6 +18,8 @@ namespace Danburite
 
 			if (isAlphaOverridden())
 				materialInterface.overriddenAlpha = __overriddenAlpha;
+
+			__materialUB.selfDeploy();
 		});
 	}
 

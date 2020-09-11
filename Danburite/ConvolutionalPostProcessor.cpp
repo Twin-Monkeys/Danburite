@@ -17,7 +17,7 @@ namespace Danburite
 
 			convUniformInterface.kernelSize = __kernelSize;
 			convUniformInterface.kernel =
-			{ 0ULL, size_t { __kernelSize } * size_t { __kernelSize }, __kernel.data() };
+				{ 0ULL, size_t { __kernelSize } * size_t { __kernelSize }, __kernel.data() };
 
 			__convUB.selfDeploy();
 		});
