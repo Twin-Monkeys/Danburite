@@ -23,18 +23,17 @@ namespace Danburite
 
 	void BoneManager::updateBones() noexcept
 	{
-		BoneUniformInterface &boneUniformInterface = __boneUB.getInterface();
-
 		for (size_t i = 0ULL; i < __bones.size(); i++)
-		{
-			Bone &bone = *__bones[i];
-			bone.updateMatrix();
-			boneUniformInterface.boneMatrices = { i, bone.getMatrix() };
-		}
+			__bones[i]->updateMatrix();
 	}
 
 	void BoneManager::selfDeploy() const noexcept
 	{
+		BoneUniformInterface& boneUniformInterface = __boneUB.getInterface();
+
+		for (size_t i = 0ULL; i < __bones.size(); i++)
+			boneUniformInterface.boneMatrices = { i, __bones[i]->getMatrix() };
+
 		__boneUB.selfDeploy();
 	}
 }
