@@ -21,7 +21,7 @@ namespace Danburite
 		constexpr void set(const size_t offset, const $DataType &data) noexcept;
 
 		template <typename $DataType>
-		constexpr void set(const size_t offset, const size_t count, const $DataType *const pDataArr) noexcept;
+		void set(const size_t offset, const size_t count, const $DataType *const pDataArr) noexcept;
 
 		constexpr const std::array<uint8_t, $BUFFER_SIZE> &getBuffer() const noexcept;
 		constexpr const std::pair<size_t, size_t> &getDirtyRange() const noexcept;
@@ -53,13 +53,30 @@ namespace Danburite
 
 	template <size_t $BUFFER_SIZE>
 	template <typename $DataType>
-	constexpr void UniformInterfaceHostCache<$BUFFER_SIZE>::set(
+	void UniformInterfaceHostCache<$BUFFER_SIZE>::set(
 		const size_t offset, const size_t count, const $DataType *const pDataArr) noexcept
 	{
-		constexpr size_t memStride = glm::max<size_t>(sizeof($DataType), 16ULL);
+		if constexpr (sizeof($DataType) < 16ULL)
+		{
+			constexpr size_t memStride = 16ULL;
 
-		for (size_t countIter = 0ULL; countIter < count; countIter++)
-			set(offset + (countIter * memStride), pDataArr[countIter]);
+			for (size_t countIter = 0ULL; countIter < count; countIter++)
+				set(offset + (countIter * memStride), pDataArr[countIter]);
+		}
+		else
+		{
+			const size_t memSize = (count * sizeof($DataType));
+
+			auto& [dirtyMin, dirtyMax] = __dirtyRange;
+
+			const size_t localDirtyMin = offset;
+			const size_t localDirtyMax = (offset + memSize);
+
+			dirtyMin = glm::min<size_t>(dirtyMin, localDirtyMin);
+			dirtyMax = glm::max<size_t>(dirtyMax, localDirtyMax);
+
+			std::memcpy(__buffer.data() + offset, pDataArr, memSize);
+		}
 	}
 
 	template <size_t $BUFFER_SIZE>
