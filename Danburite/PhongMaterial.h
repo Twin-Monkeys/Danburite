@@ -22,7 +22,6 @@ namespace Danburite
 		std::shared_ptr<ObjectGL::Texture2D> __pAlphaTex;
 		std::shared_ptr<ObjectGL::Texture2D> __pNormalTex;
 		std::shared_ptr<ObjectGL::Texture2D> __pHeightTex;
-		std::shared_ptr<ObjectGL::Texture2D> __pOcclusionTex;
 
 		float __emissiveStrength = 1.f;
 		float __shininess = Constant::Material::Phong::DEFAULT_SHININESS;
@@ -50,8 +49,7 @@ namespace Danburite
 		void setShininessTexture(const std::shared_ptr<ObjectGL::Texture2D> &pTexture) noexcept;
 		void setAlphaTexture(const std::shared_ptr<ObjectGL::Texture2D> &pTexture) noexcept;
 		void setNormalTexture(const std::shared_ptr<ObjectGL::Texture2D> &pTexture) noexcept;
-		void setHeightTexture(const std::shared_ptr<ObjectGL::Texture2D>& pTexture) noexcept;
-		void setOcclusionTexture(const std::shared_ptr<ObjectGL::Texture2D> &pTexture) noexcept;
+		void setHeightTexture(const std::shared_ptr<ObjectGL::Texture2D> &pTexture) noexcept;
 
 		using Material::enableLighting;
 

@@ -18,15 +18,14 @@ layout (std140, binding = BINDING_POINT_MATERIAL) uniform UBMaterial
 	layout(offset = 96) uvec2 alphaTex;
 	layout(offset = 112) uvec2 normalTex;
 	layout(offset = 128) uvec2 heightTex;
-	layout(offset = 144) uvec2 occlusionTex;
-	layout(offset = 160) uvec2 environmentTex;
-	layout(offset = 176) uint type;
-	layout(offset = 192) uint optionFlag;
-	layout(offset = 208) uint vertexFlag;
-	layout(offset = 224) float gamma;
-	layout(offset = 240) float emissiveStrength;
-	layout(offset = 256) float shininess;
-	layout(offset = 272) float overriddenAlpha;
+	layout(offset = 144) uvec2 environmentTex;
+	layout(offset = 160) uint type;
+	layout(offset = 176) uint optionFlag;
+	layout(offset = 192) uint vertexFlag;
+	layout(offset = 208) float gamma;
+	layout(offset = 224) float emissiveStrength;
+	layout(offset = 240) float shininess;
+	layout(offset = 256) float overriddenAlpha;
 }
 material;
 
@@ -78,11 +77,6 @@ bool Material_isNormalTextureEnabled()
 bool Material_isHeightTextureEnabled()
 {
 	return ((material.optionFlag & MATERIAL_OPTION_FLAG_HEIGHT_TEXTURE) != 0);
-}
-
-bool Material_isOcclusionTextureEnabled()
-{
-	return ((material.optionFlag & MATERIAL_OPTION_FLAG_OCCLUSION_TEXTURE) != 0);
 }
 
 bool Material_isAlphaOverriding()
@@ -243,10 +237,11 @@ float Material_getAlpha(const vec2 texCoord)
 	if (material.type == MATERIAL_TYPE_MONO_COLOR)
 		return material.diffuseColor.a;
 		
-	if (Material_isDiffuseTextureEnabled())
+	else if (Material_isDiffuseTextureEnabled())
 		return texture(sampler2D(material.diffuseTex), texCoord).a;
 		
-	return 1.f;
+	else
+		return 1.f;
 }
 
 vec3 Material_getNormal(const vec2 texCoord, const vec3 targetNormal, const mat3 TBN)
@@ -260,22 +255,6 @@ vec3 Material_getNormal(const vec2 texCoord, const vec3 targetNormal, const mat3
 	}
 
 	return targetNormal;
-}
-
-float Material_getOcclusion(const vec2 texCoord)
-{
-//	if (Material_isOcclusionTextureEnabled())
-//	{
-//		const vec3 occlusion_metallic_roughness =
-//			texture(sampler2D(material.occlusionTex), texCoord).rgb;
-//
-//		return (
-//			occlusion_metallic_roughness.r *
-//			occlusion_metallic_roughness.g
-//			/*occlusion_metallic_roughness.b*/);
-//	}
-
-	return 1.f;
 }
 
 vec4 Material_getEnvReflection(const vec3 targetNormal, const vec3 viewDirection, const vec2 texCoord)

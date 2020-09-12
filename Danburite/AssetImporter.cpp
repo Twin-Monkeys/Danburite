@@ -239,35 +239,35 @@ namespace Danburite
 				break;
 
 			case MaterialType::PHONG:
-				{
-					const shared_ptr<PhongMaterial> &pPhongMaterial = make_shared<PhongMaterial>(vertexFlag);
-					pPhongMaterial->setAmbientTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_AMBIENT));
-					pPhongMaterial->setDiffuseTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_DIFFUSE));
-					pPhongMaterial->setSpecularTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_SPECULAR));
-					pPhongMaterial->setEmissiveTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_EMISSIVE));
-					pPhongMaterial->setShininessTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_SHININESS));
-					pPhongMaterial->setAlphaTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_OPACITY));
-					pPhongMaterial->setNormalTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_NORMALS));
-					pPhongMaterial->setHeightTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_HEIGHT));
-					pPhongMaterial->setOcclusionTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_LIGHTMAP));
-					pMaterial = pPhongMaterial;
-				}
+			{
+				const shared_ptr<PhongMaterial> &pPhongMaterial = make_shared<PhongMaterial>(vertexFlag);
+				pPhongMaterial->setAmbientTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_AMBIENT));
+				pPhongMaterial->setDiffuseTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_DIFFUSE));
+				pPhongMaterial->setSpecularTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_SPECULAR));
+				pPhongMaterial->setEmissiveTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_EMISSIVE));
+				pPhongMaterial->setShininessTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_SHININESS));
+				pPhongMaterial->setAlphaTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_OPACITY));
+				pPhongMaterial->setNormalTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_NORMALS));
+				pPhongMaterial->setHeightTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_HEIGHT));
+
+				pMaterial = pPhongMaterial;
+			}
 				break;
 
 			case MaterialType::REFLECTION:
-				{
-					const shared_ptr<ReflectionMaterial> &pReflectionMaterial = make_shared<ReflectionMaterial>(vertexFlag);
-					pReflectionMaterial->setNormalTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_NORMALS));
-					pMaterial = pReflectionMaterial;
-				}
+			{
+				const shared_ptr<ReflectionMaterial> &pReflectionMaterial = make_shared<ReflectionMaterial>(vertexFlag);
+				pReflectionMaterial->setNormalTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_NORMALS));
+				pMaterial = pReflectionMaterial;
+			}
 				break;
 
 			case MaterialType::REFRACTION:
-				{
-					const shared_ptr<RefractionMaterial> &pRefractionMaterial = make_shared<RefractionMaterial>(vertexFlag);
-					pRefractionMaterial->setNormalTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_NORMALS));
-					pMaterial = pRefractionMaterial;
-				}
+			{
+				const shared_ptr<RefractionMaterial> &pRefractionMaterial = make_shared<RefractionMaterial>(vertexFlag);
+				pRefractionMaterial->setNormalTexture(__loadTexture(parentPath, textureCache, pAiMaterial, aiTextureType::aiTextureType_NORMALS));
+				pMaterial = pRefractionMaterial;
+			}
 				break;
 
 			case MaterialType::RAW_DRAWCALL:
