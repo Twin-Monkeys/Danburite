@@ -43,11 +43,11 @@ void main()
 
 	// Ambient occlusion
 
-//	const mat4 viewMat = Camera_getViewMatrix();
-//	const mat4 projMat = Camera_getProjMatrix();
-//
-//	const float ambientOcclusion = SSAO_getAmbientOcclusion(screenCoord, viewMat, projMat, posTex, worldSpaceTargetNormal);
-//	const float ambientOcclusionInv = (1.f - ambientOcclusion);
-//
-//	ambient *= ambientOcclusionInv;
+	const mat4 viewMat = Camera_getViewMatrix();
+	const mat4 projMat = Camera_getProjMatrix();
+
+	const float ambientOcclusion = SSAO_getAmbientOcclusion(screenCoord, viewMat, projMat, posTex, worldSpaceTargetNormal);
+	const float ambientOcclusionInv = (1.f - ambientOcclusion);
+
+	ambient *= ambientOcclusionInv;
 } 

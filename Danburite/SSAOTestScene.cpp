@@ -5,6 +5,7 @@
 #include "VertexArrayFactory.h"
 #include "Constant.h"
 #include "PhongMaterial.h"
+#include "PointLight.h"
 #include "DirectionalLight.h"
 #include "ForwardRenderingPipeline.h"
 #include "LightPrePassRenderingPipeline.h"
@@ -57,9 +58,13 @@ SSAOTestScene::SSAOTestScene()
 
 	// Light √ ±‚»≠
 
-	DirectionalLight &light = __lightMgr.createLight<DirectionalLight>();
-	light.getTransform().orient({ 1.f, -1.f, 1.f });
+	PointLight &light = __lightMgr.createLight<PointLight>();
 
+	Transform& lightTransform = light.getTransform();
+	lightTransform.setPosition({ 10.f, 5.f, 10.f });
+	lightTransform.orient({ 1.f, -1.f, 1.f });
+
+	// light.setAttenuation(1.f, 0.09f, 0.032f);
 	light.setAlbedo(.2f, .3f, 1.f);
 	light.setAmbientStrength(.05f);
 	light.setDiffuseStrength(1.f);
@@ -84,7 +89,7 @@ SSAOTestScene::SSAOTestScene()
 		make_unique<LightPrePassRenderingPipeline>(__lightMgr, __camera, __drawer);
 
 	/*__pRenderingPipeline =
-		make_unique<ForwardRenderingPipeline>(__lightMgr, __camera, __drawer, __skybox);*/
+		make_unique<ForwardRenderingPipeline>(__lightMgr, __camera, __drawer);*/
 
 	PostProcessorPipeline &ppPipeline =
 		__pRenderingPipeline->getPostProcessorPipeline();
