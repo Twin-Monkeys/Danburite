@@ -100,9 +100,9 @@ vec4 Phong_calcPhongColor_lightPrePass(
 	if (!Material_isLightingEnabled())
 		return vec4(materialAmbient + materialDiffuse + materialSpecular + materialEmissive, materialAlpha);
 
-	const vec3 ambient = (materialAmbient * LightPrePass_getLightAmbient(gl_FragCoord.xy));
-	const vec3 diffuse = (materialDiffuse * LightPrePass_getLightDiffuse(gl_FragCoord.xy));
-	const vec3 specular = (materialSpecular * LightPrePass_getLightSpecular(gl_FragCoord.xy));
+	const vec3 ambient = (materialAmbient * LightPrePass_getLightAmbient(ivec2(gl_FragCoord.xy)));
+	const vec3 diffuse = (materialDiffuse * LightPrePass_getLightDiffuse(ivec2(gl_FragCoord.xy)));
+	const vec3 specular = (materialSpecular * LightPrePass_getLightSpecular(ivec2(gl_FragCoord.xy)));
 	
 	return vec4(ambient + diffuse + specular + materialEmissive, materialAlpha);
 }

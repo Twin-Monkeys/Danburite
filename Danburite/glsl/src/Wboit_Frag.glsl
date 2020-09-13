@@ -9,8 +9,8 @@ void main()
 	const sampler2DRect accumulationTex = TextureContainer_getTextureAs2DRect(0);
 	const sampler2DRect revealageTex = TextureContainer_getTextureAs2DRect(1);
 
-	const vec4 accumulation = texture(accumulationTex, gl_FragCoord.xy);
-	const float revealage = texture(revealageTex, gl_FragCoord.xy).r;
+	const vec4 accumulation = texelFetch(accumulationTex, ivec2(gl_FragCoord.xy));
+	const float revealage = texelFetch(revealageTex, ivec2(gl_FragCoord.xy)).r;
 
 	/*
 		accum alpha가 0이면 revealage는 항상 1이므로

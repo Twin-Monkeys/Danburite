@@ -83,7 +83,7 @@ namespace Danburite
 
 	void LightPrePassRenderingPipeline::_onSetScreenSize(const GLsizei width, const GLsizei height) noexcept
 	{
-		// pNormalShininessFB
+		// pPosNormalShininessFB
 		__pPosAttachment = __attachmentServer.getTexRectangle(
 			width, height, TextureInternalFormatType::RGB32F, TextureExternalFormatType::RGB,
 			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST);

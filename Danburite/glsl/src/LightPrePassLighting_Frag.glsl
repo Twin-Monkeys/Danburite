@@ -15,9 +15,9 @@ void main()
 	const sampler2DRect posTex = TextureContainer_getTextureAs2DRect(0);
 	const sampler2DRect normal3_shininess1Tex = TextureContainer_getTextureAs2DRect(1);
 
-	const vec4 normal3_shininess1 = texture(normal3_shininess1Tex, gl_FragCoord.xy);
+	const vec4 normal3_shininess1 = texelFetch(normal3_shininess1Tex, ivec2(gl_FragCoord.xy));
 
-	const vec3 targetPos = texture(posTex, gl_FragCoord.xy).xyz;
+	const vec3 targetPos = texelFetch(posTex, ivec2(gl_FragCoord.xy)).xyz;
 	const vec3 targetNormal = normal3_shininess1.xyz;
 	const float attenuation = Light_getAttenuation(curLightIdx, targetPos);
 

@@ -8,5 +8,5 @@ out vec3 fragColor;
 void main()
 {
 	const sampler2DRect srcTex = TextureContainer_getTextureAs2DRect(0);
-	fragColor = Convolutional_convolve(srcTex, gl_FragCoord.xy);
+	fragColor = Convolutional_convolve(srcTex, ivec2(gl_FragCoord.xy));
 } 

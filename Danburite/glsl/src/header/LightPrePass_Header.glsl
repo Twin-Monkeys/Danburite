@@ -27,19 +27,19 @@ uint LightPrePass_getCurrentLightIdx()
 	return lightPrePass.currentLightIdx;
 }
 
-vec3 LightPrePass_getLightAmbient(const vec2 screenCoord)
+vec3 LightPrePass_getLightAmbient(const ivec2 screenCoord)
 {
-	return texture(sampler2DRect(lightPrePass.ambientTex), screenCoord).rgb;
+	return texelFetch(sampler2DRect(lightPrePass.ambientTex), screenCoord).rgb;
 }
 
-vec3 LightPrePass_getLightDiffuse(const vec2 screenCoord)
+vec3 LightPrePass_getLightDiffuse(const ivec2 screenCoord)
 {
-	return texture(sampler2DRect(lightPrePass.diffuseTex), screenCoord).rgb;
+	return texelFetch(sampler2DRect(lightPrePass.diffuseTex), screenCoord).rgb;
 }
 
-vec3 LightPrePass_getLightSpecular(const vec2 screenCoord)
+vec3 LightPrePass_getLightSpecular(const ivec2 screenCoord)
 {
-	return texture(sampler2DRect(lightPrePass.specularTex), screenCoord).rgb;
+	return texelFetch(sampler2DRect(lightPrePass.specularTex), screenCoord).rgb;
 }
 
 #endif

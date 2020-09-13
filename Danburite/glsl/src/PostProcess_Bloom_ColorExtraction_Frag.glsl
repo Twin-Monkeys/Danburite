@@ -10,7 +10,7 @@ void main()
 {
 	const sampler2DRect srcTex = TextureContainer_getTextureAs2DRect(0);
 	
-	const vec3 originalColor = texture(srcTex, gl_FragCoord.xy).rgb;
+	const vec3 originalColor = texelFetch(srcTex, ivec2(gl_FragCoord.xy)).rgb;
 	const float grayscaledColor = Grayscale_getGrayscaledColor(originalColor);
 
 	if (grayscaledColor > Bloom_getBrightnessThreshold())

@@ -117,9 +117,9 @@ LightingTestScene::LightingTestScene()
 	__pCharacterObj = AssetImporter::import("res/asset/scifi_male/scene.gltf");
 	__pCharacterObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
 	__pCharacterObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 3.f);
-	// __pCharacterObj->traverseMaterial(&Material::enableTranslucency, true);
-	// __pCharacterObj->traverseMaterial(&Material::overrideAlpha, true);
-	// __pCharacterObj->traverseMaterial(&Material::setOverriddenAlpha, .5f);
+	__pCharacterObj->traverseMaterial(&Material::enableTranslucency, true);
+	__pCharacterObj->traverseMaterial(&Material::overrideAlpha, true);
+	__pCharacterObj->traverseMaterial(&Material::setOverriddenAlpha, .5f);
 
 	Transform &characterTransform = __pCharacterObj->getTransform();
 	characterTransform.setScale(.1f);
