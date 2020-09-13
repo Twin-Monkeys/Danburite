@@ -58,7 +58,7 @@ vec4 Phong_calcPhongColor_forward(
 			materialAmbient * lightAttenuation *
 			Light_getLightAmbient(lightIdx, targetPos));
 
-		const float lightOcclusion = Light_getOcclusion(lightIdx, targetPos, finalNormal);
+		const float lightOcclusion = Light_getShadowOcclusion(lightIdx, targetPos, finalNormal);
 		if (lightOcclusion >= 1.f)
 			continue;
 

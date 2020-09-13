@@ -56,7 +56,7 @@ vec3 Light_getLightDirection(const uint lightIndex, const vec3 targetPos)
 	return retVal;
 }
 
-float Light_getOcclusion_ortho(const uint lightIndex, const vec3 targetPos, const vec3 targetNormal)
+float Light_getShadowOcclusion_ortho(const uint lightIndex, const vec3 targetPos, const vec3 targetNormal)
 {
 	const vec4 lightSpaceTargetPos = (light.projViewMat[lightIndex] * vec4(targetPos, 1.f));
 
@@ -91,7 +91,7 @@ float Light_getOcclusion_ortho(const uint lightIndex, const vec3 targetPos, cons
 	return (retVal / 9.f);
 }
 
-float Light_getOcclusion_cubemap(const uint lightIndex, const vec3 targetPos, const vec3 targetNormal)
+float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetPos, const vec3 targetNormal)
 {
 	const uint NUM_SAMPLES = 20U;
 	const vec3 sampleBiases[NUM_SAMPLES] = vec3[]
@@ -129,16 +129,16 @@ float Light_getOcclusion_cubemap(const uint lightIndex, const vec3 targetPos, co
 	return (retVal / float(NUM_SAMPLES));
 }
 
-float Light_getOcclusion(uint lightIndex, const vec3 targetPos, vec3 targetNormal)
+float Light_getShadowOcclusion(uint lightIndex, const vec3 targetPos, vec3 targetNormal)
 {
 	if (!light.shadowEnabled[lightIndex])
 		return 0.f;
 
 	if (light.depthBakingType[lightIndex] == LIGHT_DEPTH_BAKING_TYPE_ORTHO)
-		return Light_getOcclusion_ortho(lightIndex, targetPos, targetNormal);
+		return Light_getShadowOcclusion_ortho(lightIndex, targetPos, targetNormal);
 
 	else if (light.depthBakingType[lightIndex] == LIGHT_DEPTH_BAKING_TYPE_CUBEMAP)
-		return Light_getOcclusion_cubemap(lightIndex, targetPos, targetNormal);
+		return Light_getShadowOcclusion_cubemap(lightIndex, targetPos, targetNormal);
 
 	return 0.f;
 }
