@@ -9,7 +9,6 @@
 layout (location = 0) out vec3 ambient;
 layout (location = 1) out vec3 diffuse;
 layout (location = 2) out vec3 specular;
-layout (location = 3) out float ambientOcclusion;
 
 void main()
 {
