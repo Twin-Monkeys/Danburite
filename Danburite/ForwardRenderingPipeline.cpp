@@ -6,8 +6,8 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	ForwardRenderingPipeline::ForwardRenderingPipeline(
-		LightManager &lightManager, PerspectiveCamera &camera, BatchProcessor<SceneObject> &drawer, Skybox &skybox) :
-		RenderingPipeline(lightManager, camera, drawer, skybox)
+		LightManager &lightManager, PerspectiveCamera &camera, BatchProcessor<SceneObject> &drawer, Skybox* const pSkybox) :
+		RenderingPipeline(lightManager, camera, drawer, pSkybox)
 	{
 		__setupTransaction.setup([this](ContextStateManager &stateMgr)
 		{
@@ -28,7 +28,7 @@ namespace Danburite
 
 	void ForwardRenderingPipeline::_onRender(
 		LightManager &lightManager, PerspectiveCamera &camera,
-		BatchProcessor<SceneObject> &drawer, Skybox &skybox, PostProcessorPipeline &ppPipeline) noexcept
+		BatchProcessor<SceneObject> &drawer, Skybox *const pSkybox, PostProcessorPipeline &ppPipeline) noexcept
 	{
 		// 순서 중요.
 		lightManager.process(&Light::bakeDepthMap, drawer);
@@ -36,7 +36,7 @@ namespace Danburite
 
 		camera.selfDeploy();
 		ppPipeline.render(
-			__setupTransaction, drawer, skybox,
+			__setupTransaction, drawer, pSkybox,
 			FrameBufferBlitFlag::COLOR | FrameBufferBlitFlag::DEPTH);
 	}
 }

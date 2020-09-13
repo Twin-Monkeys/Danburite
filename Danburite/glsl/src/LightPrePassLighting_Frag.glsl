@@ -43,10 +43,11 @@ void main()
 
 	// Ambient occlusion
 
-	const vec3 viewSpaceTargetPos = (Camera_getViewMatrix() * vec4(worldSpaceTargetPos, 1.f)).xyz;
-
-	// Assume a view matrix has no scaling factor.
-	const vec3 viewSpaceTargetNormal = (Camera_getViewMatrix() * vec4(worldSpaceTargetNormal, 0.f)).xyz;
-
-	const mat3 viewSpaceTBN = SSAO_getRandomViewSpaceTBN(screenCoord, viewSpaceTargetNormal);
+//	const mat4 viewMat = Camera_getViewMatrix();
+//	const mat4 projMat = Camera_getProjMatrix();
+//
+//	const float ambientOcclusion = SSAO_getAmbientOcclusion(screenCoord, viewMat, projMat, posTex, worldSpaceTargetNormal);
+//	const float ambientOcclusionInv = (1.f - ambientOcclusion);
+//
+//	ambient *= ambientOcclusionInv;
 } 

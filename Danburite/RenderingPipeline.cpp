@@ -5,8 +5,8 @@ namespace Danburite
 {
 	RenderingPipeline::RenderingPipeline(
 		LightManager &lightManager, PerspectiveCamera &camera,
-		BatchProcessor<SceneObject> &drawer, Skybox &skybox) noexcept :
-		__lightManager(lightManager), __skybox(skybox), __camera(camera), __drawer(drawer)
+		BatchProcessor<SceneObject> &drawer, Skybox *const pSkybox) noexcept :
+		__lightManager(lightManager), __camera(camera), __drawer(drawer), __pSkybox(pSkybox)
 	{}
 
 	void RenderingPipeline::_onSetScreenSize(const GLsizei width, const GLsizei height) noexcept
@@ -26,6 +26,6 @@ namespace Danburite
 
 	void RenderingPipeline::render() noexcept
 	{
-		_onRender(__lightManager, __camera, __drawer, __skybox, __ppPipeline);
+		_onRender(__lightManager, __camera, __drawer, __pSkybox, __ppPipeline);
 	}
 }

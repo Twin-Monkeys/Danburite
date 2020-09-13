@@ -834,6 +834,9 @@
     <ClCompile Include="DepthBakingCubemapUniformInterface.cpp">
       <Filter>Library\Engine\Core\UniformBuffer\Interface\DepthBackingCubemap</Filter>
     </ClCompile>
+    <ClCompile Include="SSAOTestScene.cpp">
+      <Filter>Client\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PixelFormatDescriptor.h">
@@ -1426,6 +1429,9 @@
     </ClInclude>
     <ClInclude Include="DepthBakingCubemapUniformInterface.h">
       <Filter>Library\Engine\Core\UniformBuffer\Interface\DepthBackingCubemap</Filter>
+    </ClInclude>
+    <ClInclude Include="SSAOTestScene.h">
+      <Filter>Client\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -5,8 +5,8 @@
 
 #include "Constant_Header.glsl"
 
-// #samples: 64
-const vec3 samplingOffsets[] = vec3[]
+const uint NUM_SAMPLING_OFFSETS = 64U;
+const vec3 samplingOffsets[NUM_SAMPLING_OFFSETS] = vec3[]
 (
 	vec3(.0214918f, -.0159405f, .0379622f),
 	vec3(-.156152f, .68178f, .909513f),
@@ -75,7 +75,6 @@ const vec3 samplingOffsets[] = vec3[]
 );
 
 const uint NUM_RANDOM_TANGENTS = 17U;
-
 const vec3 randomTangents[NUM_RANDOM_TANGENTS] = vec3[]
 (
 	vec3(.462739f, -.343214f, -.81736f),
@@ -122,6 +121,43 @@ mat3 SSAO_getRandomViewSpaceTBN(const ivec2 screenCoord, const vec3 viewSpaceNor
 	const vec3 viewSpaceBitangent = cross(viewSpaceNormal, viewSpaceTangent);
 
 	return mat3(viewSpaceTangent, viewSpaceBitangent, viewSpaceNormal);
+}
+
+float SSAO_getAmbientOcclusion(
+	const ivec2 screenCoord, const mat4 viewMat, const mat4 projMat,
+	const sampler2DRect worldSpacePosTex, const vec3 worldSpaceNormal)
+{
+	const float samplingDepthBias = .01f;
+	const float samplingRadius = .5f;
+	const vec2 screenSize = vec2(textureSize(worldSpacePosTex));
+
+	const vec3 worldSpacePos = texelFetch(worldSpacePosTex, screenCoord).xyz;
+	const vec3 viewSpacePos = (viewMat * vec4(worldSpacePos, 1.f)).xyz;
+
+	// Assume a view matrix has no scaling factor.
+	const vec3 viewSpaceNormal = (viewMat * vec4(worldSpaceNormal, 0.f)).xyz;
+
+	const mat3 viewSpaceTBN = SSAO_getRandomViewSpaceTBN(screenCoord, viewSpaceNormal);
+
+	float retVal = 0.f;
+	for (uint samplingOffsetIter = 0U; samplingOffsetIter < NUM_SAMPLING_OFFSETS; samplingOffsetIter++)
+	{
+		const vec3 tangentSpaceSamplingOffset = samplingOffsets[samplingOffsetIter];
+		const vec3 viewSpaceSamplingPos = (viewSpacePos + (viewSpaceTBN * tangentSpaceSamplingOffset));
+		const vec4 clipSpaceSamplingPos = (projMat * vec4(viewSpaceSamplingPos, 1.f));
+
+		vec2 screenSpaceSamplingCoord = (((clipSpaceSamplingPos.xy / clipSpaceSamplingPos.w) + 1.f) * .5f);
+		screenSpaceSamplingCoord *= screenSize;
+
+		const vec3 worldSpaceProjPos = texture(worldSpacePosTex, screenSpaceSamplingCoord).xyz;
+		const float viewSpaceProjDepth = dot(vec3(viewMat[0][2], viewMat[1][2], viewMat[2][2]), worldSpaceProjPos);
+
+		if (viewSpaceProjDepth > (viewSpaceSamplingPos.z + samplingDepthBias))
+			retVal += 1.f;
+	}
+
+	retVal /= float(NUM_SAMPLING_OFFSETS);
+	return retVal;
 }
 
 #endif

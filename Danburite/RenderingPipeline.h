@@ -19,19 +19,19 @@ namespace Danburite
 		LightManager &__lightManager;
 		PerspectiveCamera &__camera;
 		BatchProcessor<SceneObject> &__drawer;
-		Skybox &__skybox;
+		Skybox * const __pSkybox;
 
 	protected:
 		virtual void _onSetScreenSize(const GLsizei width, const GLsizei height) noexcept;
 
 		virtual void _onRender(
 			LightManager &lightManager, PerspectiveCamera &camera,
-			BatchProcessor<SceneObject> &drawer, Skybox &skybox, PostProcessorPipeline &ppPipeline) noexcept = 0;
+			BatchProcessor<SceneObject> &drawer, Skybox *const pSkybox, PostProcessorPipeline &ppPipeline) noexcept = 0;
 
 	public:
 		RenderingPipeline(
 			LightManager &lightManager, PerspectiveCamera &camera,
-			BatchProcessor<SceneObject> &drawer, Skybox &skybox) noexcept;
+			BatchProcessor<SceneObject> &drawer, Skybox *const pSkybox = nullptr) noexcept;
 		
 		void setScreenSize(const GLsizei width, const GLsizei height) noexcept;
 		constexpr const glm::ivec2 &getScreenSize() const noexcept;

@@ -8,8 +8,8 @@ using namespace ObjectGL;
 namespace Danburite
 {
 	LightPrePassRenderingPipeline::LightPrePassRenderingPipeline(
-		LightManager& lightManager, PerspectiveCamera& camera, BatchProcessor<SceneObject>& drawer, Skybox& skybox) :
-		RenderingPipeline(lightManager, camera, drawer, skybox)
+		LightManager& lightManager, PerspectiveCamera& camera, BatchProcessor<SceneObject>& drawer, Skybox *const pSkybox) :
+		RenderingPipeline(lightManager, camera, drawer, pSkybox)
 	{
 		__pPosNormalShininessFB->setOutputColorBuffers(
 			{ ColorBufferType::COLOR_ATTACHMENT0, ColorBufferType::COLOR_ATTACHMENT1 });
@@ -121,7 +121,7 @@ namespace Danburite
 
 	void LightPrePassRenderingPipeline::_onRender(
 		LightManager& lightManager, PerspectiveCamera& camera,
-		BatchProcessor<SceneObject>& drawer, Skybox& skybox, PostProcessorPipeline& ppPipeline) noexcept
+		BatchProcessor<SceneObject>& drawer, Skybox *const pSkybox, PostProcessorPipeline& ppPipeline) noexcept
 	{
 		lightManager.process(&Light::bakeDepthMap, drawer);
 		lightManager.selfDeploy();
@@ -151,6 +151,6 @@ namespace Danburite
 		__pPosNormalShininessFB->blit(
 			ppPipeline.getFrameBuffer(), FrameBufferBlitFlag::DEPTH, screenSize.x, screenSize.y);
 
-		ppPipeline.render(__compositionPassSetup, drawer, skybox, FrameBufferBlitFlag::COLOR);
+		ppPipeline.render(__compositionPassSetup, drawer, pSkybox, FrameBufferBlitFlag::COLOR);
 	}
 }

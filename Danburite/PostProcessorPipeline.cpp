@@ -104,7 +104,7 @@ namespace Danburite
 
 	void PostProcessorPipeline::render(
 		const SetupTransaction &sceneDrawingSetup,
-		BatchProcessor<SceneObject> &drawer, Skybox &skybox, const FrameBufferBlitFlag bufferClearFlag) noexcept
+		BatchProcessor<SceneObject> &drawer, Skybox *const pSkybox, const FrameBufferBlitFlag bufferClearFlag) noexcept
 	{
 		PostProcessor *pCurProcessor = nullptr;
 		PostProcessor *pNextProcessor = nullptr;
@@ -129,7 +129,8 @@ namespace Danburite
 			iter.drawUnderMaterialCondition(false, &Material::isTranslucencyEnabled);
 		});
 
-		skybox.draw();
+		if (pSkybox)
+			pSkybox->draw();
 
 
 		// Draw translucent
