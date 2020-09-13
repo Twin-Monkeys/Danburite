@@ -4,6 +4,7 @@
 #include "header/Camera_Header.glsl"
 #include "header/LightPrePass_Header.glsl"
 #include "header/TextureContainer_Header.glsl"
+#include "header/SSAO_Header.glsl"
  
 layout (location = 0) out vec3 ambient;
 layout (location = 1) out vec3 diffuse;

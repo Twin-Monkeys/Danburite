@@ -31,87 +31,87 @@ material;
 
 bool Material_isLightingEnabled()
 {
-	return ((material.optionFlag & MATERIAL_OPTION_FLAG_LIGHTING) != 0);
+	return ((material.optionFlag & MATERIAL_OPTION_FLAG_LIGHTING) != FALSE);
 }
 
 bool Material_isTranslucencyEnabled()
 {
-	return ((material.optionFlag & MATERIAL_OPTION_FLAG_TRANSLUCENCY) != 0);
+	return ((material.optionFlag & MATERIAL_OPTION_FLAG_TRANSLUCENCY) != FALSE);
 }
 
 bool Material_isAmbientTextureEnabled()
 {
-	return ((material.optionFlag & MATERIAL_OPTION_FLAG_AMBIENT_TEXTURE) != 0);
+	return ((material.optionFlag & MATERIAL_OPTION_FLAG_AMBIENT_TEXTURE) != FALSE);
 }
 
 bool Material_isDiffuseTextureEnabled()
 {
-	return ((material.optionFlag & MATERIAL_OPTION_FLAG_DIFFUSE_TEXTURE) != 0);
+	return ((material.optionFlag & MATERIAL_OPTION_FLAG_DIFFUSE_TEXTURE) != FALSE);
 }
 
 bool Material_isSpecularTextureEnabled()
 {
-	return ((material.optionFlag & MATERIAL_OPTION_FLAG_SPECULAR_TEXTURE) != 0);
+	return ((material.optionFlag & MATERIAL_OPTION_FLAG_SPECULAR_TEXTURE) != FALSE);
 }
 
 bool Material_isEmissiveTextureEnabled()
 {
-	return ((material.optionFlag & MATERIAL_OPTION_FLAG_EMISSIVE_TEXTURE) != 0);
+	return ((material.optionFlag & MATERIAL_OPTION_FLAG_EMISSIVE_TEXTURE) != FALSE);
 }
 
 bool Material_isShininessTextureEnabled()
 {
-	return ((material.optionFlag & MATERIAL_OPTION_FLAG_SHININESS_TEXTURE) != 0);
+	return ((material.optionFlag & MATERIAL_OPTION_FLAG_SHININESS_TEXTURE) != FALSE);
 }
 
 bool Material_isAlphaTextureEnabled()
 {
-	return ((material.optionFlag & MATERIAL_OPTION_FLAG_ALPHA_TEXTURE) != 0);
+	return ((material.optionFlag & MATERIAL_OPTION_FLAG_ALPHA_TEXTURE) != FALSE);
 }
 
 bool Material_isNormalTextureEnabled()
 {
-	return ((material.optionFlag & MATERIAL_OPTION_FLAG_NORMAL_TEXTURE) != 0);
+	return ((material.optionFlag & MATERIAL_OPTION_FLAG_NORMAL_TEXTURE) != FALSE);
 }
 
 bool Material_isHeightTextureEnabled()
 {
-	return ((material.optionFlag & MATERIAL_OPTION_FLAG_HEIGHT_TEXTURE) != 0);
+	return ((material.optionFlag & MATERIAL_OPTION_FLAG_HEIGHT_TEXTURE) != FALSE);
 }
 
 bool Material_isAlphaOverriding()
 {
-	return ((material.optionFlag & MATERIAL_OPTION_FLAG_ALPHA_OVERRIDING) != 0);
+	return ((material.optionFlag & MATERIAL_OPTION_FLAG_ALPHA_OVERRIDING) != FALSE);
 }
 
 bool Material_isVertexPositionEnabled()
 {
-	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_POS) != 0);
+	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_POS) != FALSE);
 }
 
 bool Material_isVertexColorEnabled()
 {
-	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_COLOR) != 0);
+	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_COLOR) != FALSE);
 }
 
 bool Material_isVertexNormalEnabled()
 {
-	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_NORMAL) != 0);
+	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_NORMAL) != FALSE);
 }
 
 bool Material_isVertexTexCoordEnabled()
 {
-	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_TEXCOORD) != 0);
+	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_TEXCOORD) != FALSE);
 }
 
 bool Material_isVertexTangentEnabled()
 {
-	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_TANGENT) != 0);
+	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_TANGENT) != FALSE);
 }
 
 bool Material_isVertexBoneEnabled()
 {
-	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_BONE) != 0);
+	return ((material.vertexFlag & MATERIAL_VERTEX_FLAG_BONE) != FALSE);
 }
 
 vec3 Material_applyGamma(const vec3 source)

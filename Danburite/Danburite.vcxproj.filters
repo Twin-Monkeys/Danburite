@@ -1606,5 +1606,8 @@
     <None Include="glsl\src\Wboit_Frag.glsl">
       <Filter>Library\Engine\glsl\src\Wboit</Filter>
     </None>
+    <None Include="glsl\src\header\SSAO_Header.glsl">
+      <Filter>Library\Engine\glsl\src\header</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -588,6 +588,7 @@
     <None Include="glsl\src\header\HDR_Header.glsl" />
     <None Include="glsl\src\header\Joint_Header.glsl" />
     <None Include="glsl\src\header\LightPrePass_Header.glsl" />
+    <None Include="glsl\src\header\SSAO_Header.glsl" />
     <None Include="glsl\src\header\Wboit_Header.glsl" />
     <None Include="glsl\src\header\TranslucencySwitcher_Frag_Header.glsl" />
     <None Include="glsl\src\header\VariableInOut_Frag_Header.glsl" />
