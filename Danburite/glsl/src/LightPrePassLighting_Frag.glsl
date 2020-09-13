@@ -13,24 +13,28 @@ layout (location = 3) out float ambientOcclusion;
 
 void main()
 {
-	// Light properties
-
-	const uint curLightIdx = LightPrePass_getCurrentLightIdx();
+	const ivec2 screenCoord = ivec2(gl_FragCoord.xy);
 	const sampler2DRect posTex = TextureContainer_getTextureAs2DRect(0);
 	const sampler2DRect normal3_shininess1Tex = TextureContainer_getTextureAs2DRect(1);
 
-	const vec4 normal3_shininess1 = texelFetch(normal3_shininess1Tex, ivec2(gl_FragCoord.xy));
 
-	const vec3 worldSpaceTargetPos = texelFetch(posTex, ivec2(gl_FragCoord.xy)).xyz;
+	// Light properties
+
+	const uint curLightIdx = LightPrePass_getCurrentLightIdx();
+
+	const vec3 worldSpaceTargetPos = texelFetch(posTex, screenCoord).xyz;
+	const vec4 normal3_shininess1 = texelFetch(normal3_shininess1Tex, screenCoord);
+
 	const vec3 worldSpaceTargetNormal = normal3_shininess1.xyz;
-	const float attenuation = Light_getAttenuation(curLightIdx, worldSpaceTargetPos);
+	const float shininess = normal3_shininess1.w;
 
 	const float shadowOcclusion = Light_getShadowOcclusion(curLightIdx, worldSpaceTargetPos, worldSpaceTargetNormal);
 	const float shadowOcclusionInv = (1.f - shadowOcclusion);
 
 	const vec3 viewPos = Camera_getPosition();
 	const vec3 viewDir = normalize(viewPos - worldSpaceTargetPos);
-	const float shininess = normal3_shininess1.w;
+
+	const float attenuation = Light_getAttenuation(curLightIdx, worldSpaceTargetPos);
 
 	ambient = (attenuation * Light_getLightAmbient(curLightIdx, worldSpaceTargetPos));
 	diffuse = (shadowOcclusionInv * attenuation * Light_getLightDiffuse(curLightIdx, worldSpaceTargetPos, worldSpaceTargetNormal));
@@ -44,5 +48,5 @@ void main()
 	// Assume a view matrix has no scaling factor.
 	const vec3 viewSpaceTargetNormal = (Camera_getViewMatrix() * vec4(worldSpaceTargetNormal, 0.f)).xyz;
 
-
+	const mat3 viewSpaceTBN = SSAO_getRandomViewSpaceTBN(screenCoord, viewSpaceTargetNormal);
 } 

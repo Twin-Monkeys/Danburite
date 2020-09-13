@@ -5,6 +5,7 @@
 
 #include "Constant_Header.glsl"
 
+// #samples: 64
 const vec3 samplingOffsets[] = vec3[]
 (
 	vec3(.0214918f, -.0159405f, .0379622f),
@@ -72,5 +73,55 @@ const vec3 samplingOffsets[] = vec3[]
 	vec3(-.0276332f, .0344615f, .0983876f),
 	vec3(-.247374f, .0380025f, .159054f)
 );
+
+const uint NUM_RANDOM_TANGENTS = 17U;
+
+const vec3 randomTangents[NUM_RANDOM_TANGENTS] = vec3[]
+(
+	vec3(.462739f, -.343214f, -.81736f),
+	vec3(-.0372106f, .919236f, -.391945f),
+	vec3(.599796f, .800145f, -.00359915f),
+	vec3(.150101f, -.495768f, -.855385f),
+	vec3(-.670458f, .464551f, .578514f),
+	vec3(-.49944f, -.704929f, -.503622f),
+	vec3(-.720927f, -.612282f, .324615f),
+	vec3(.315436f, .778031f, .543294f),
+	vec3(-.949238f, -.313691f, .0233309f),
+	vec3(.668673f, .534884f, -.516503f),
+	vec3(.211839f, -.883652f, .417472f),
+	vec3(.774629f, -.426939f, .466555f),
+	vec3(.886179f, .0867163f, .455156f),
+	vec3(-.96755f, .111694f, -.226653f),
+	vec3(-.759838f, .59187f, -.268956f),
+	vec3(.225786f, .468608f, -.854065f),
+	vec3(-.172225f, .965488f, -.195376f)
+);
+
+mat3 SSAO_getRandomViewSpaceTBN(const ivec2 screenCoord, const vec3 viewSpaceNormal)
+{
+	const uint randomIdx = (uint(screenCoord.x + screenCoord.y) % NUM_RANDOM_TANGENTS);
+	const vec3 randomTangent = randomTangents[randomIdx];
+
+	vec3 viewSpaceTangent;
+
+	const float tangentDotNormal = dot(randomTangent, viewSpaceNormal);
+	if (abs(tangentDotNormal) < (1.f - EPSILON))
+	{
+		const vec3 projTanOntoNormal = (tangentDotNormal * viewSpaceNormal);
+		viewSpaceTangent = normalize(randomTangent - projTanOntoNormal);
+	}
+	else
+	{
+		/*
+			If randomTangent is parallel with viewSpaceNormal,
+			set the viewSpaceTangent as a dummy perpendicular vector against viewSpaceNormal.
+		*/
+		viewSpaceTangent = normalize(vec3(0.f, viewSpaceNormal.z, -viewSpaceNormal.y));
+	}
+
+	const vec3 viewSpaceBitangent = cross(viewSpaceNormal, viewSpaceTangent);
+
+	return mat3(viewSpaceTangent, viewSpaceBitangent, viewSpaceNormal);
+}
 
 #endif
