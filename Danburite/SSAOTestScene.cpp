@@ -46,7 +46,7 @@ SSAOTestScene::SSAOTestScene()
 
 	Transform &sphereTransform = __pCubeObj->getTransform();
 	sphereTransform.setScale(2.f);
-	sphereTransform.setPosition(0.f, 0.f, 0.f);
+	sphereTransform.setPosition(-1.f, 0.f, -1.f);
 	sphereTransform.setRotation(0.1f, .2f, 0.3f);
 
 
@@ -59,19 +59,19 @@ SSAOTestScene::SSAOTestScene()
 
 	// Light 초기화
 
-	PointLight &light = __lightMgr.createLight<PointLight>();
+	DirectionalLight &light = __lightMgr.createLight<DirectionalLight>();
 
 	Transform& lightTransform = light.getTransform();
-	lightTransform.setPosition({ 5.f, 2.f, 5.f });
+	lightTransform.setPosition({ 5.f, 1.f, 5.f });
+	lightTransform.orient({ 1.f, -1.f, 1.f });
 
 	// 현재 attenuation 없을 시 lighting이 이상하게 적용되는 오류가 있음.
-	light.setAttenuation(1.f, 0.09f, 0.032f);
+	// light.setAttenuation(1.f, 0.09f, 0.032f);
 	light.setAlbedo(.2f, .3f, 1.f);
 	light.setAmbientStrength(.05f);
 	light.setDiffuseStrength(1.f);
 	light.setSpecularStrength(1.f);
 	light.setShadowEnabled(true);
-	// light.setDepthMapSize(256, 256);
 
 
 	//// Updater / Drawer 초기화 ////

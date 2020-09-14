@@ -96,11 +96,26 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 	const uint NUM_SAMPLES = 20U;
 	const vec3 sampleBiases[NUM_SAMPLES] = vec3[]
 	(
-	   vec3( 1.f,  1.f,  1.f), vec3( 1.f, -1.f,  1.f), vec3(-1.f, -1.f,  1.f), vec3(-1.f,  1.f,  1.f), 
-	   vec3( 1.f,  1.f, -1.f), vec3( 1.f, -1.f, -1.f), vec3(-1.f, -1.f, -1.f), vec3(-1.f,  1.f, -1.f),
-	   vec3( 1.f,  1.f,  0.f), vec3( 1.f, -1.f,  0.f), vec3(-1.f, -1.f,  0.f), vec3(-1.f,  1.f,  0.f),
-	   vec3( 1.f,  0.f,  1.f), vec3(-1.f,  0.f,  1.f), vec3( 1.f,  0.f, -1.f), vec3(-1.f,  0.f, -1.f),
-	   vec3( 0.f,  1.f,  1.f), vec3( 0.f, -1.f,  1.f), vec3( 0.f, -1.f, -1.f), vec3( 0.f,  1.f, -1.f)
+		vec3(.542641f, -.402478f, -.958496f),
+		vec3(-.0108202f, .267296f, -.11397f),
+		vec3(.497608f, .663823f, -.00298595f),
+		vec3(.166644f, -.550407f, -.949657f),
+		vec3(-.603874f, .418416f, .521061f),
+		vec3(-.468868f, -.661778f, -.472794f),
+		vec3(-.82332f, -.699244f, .37072f),
+		vec3(.367637f, .906787f, .633204f),
+		vec3(-.992103f, -.327857f, .0243845f),
+		vec3(.781633f, .625242f, -.603756f),
+		vec3(.225052f, -.938767f, .443511f),
+		vec3(.75523f, -.416248f, .454871f),
+		vec3(.835548f, .0817618f, .429152f),
+		vec3(-.737084f, .0850887f, -.172665f),
+		vec3(-.71566f, .557458f, -.253318f),
+		vec3(.167803f, .348267f, -.634737f),
+		vec3(-.116334f, .652164f, -.131972f),
+		vec3(-.789196f, .235534f, -.432847f),
+		vec3(.0262765f, -.868873f, .300794f),
+		vec3(-.887112f, .202078f, .530912f)
 	);
 
 	const vec3 lightPosToTarget = (targetPos - light.pos[lightIndex]);
@@ -124,11 +139,11 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 		const float mappedDepth =
 			(texture(depthMap, lightPosToTarget + (sampleBiases[i] * biasAdj_lightDistance)).x * 1000.f);
 
-		retVal += float(mappedDepth < (curDepth));
+		retVal += float(mappedDepth < curDepth);
 	}
 
 	// 광원으로부터 targetPos가 멀어질수록 그림자가 옅어지도록 한다.
-	retVal *= max(1.f - (curDepth / 500.f), 0.f);
+	retVal *= max(1.f - (curDepth / 400.f), 0.f);
 
 	return (retVal / float(NUM_SAMPLES));
 }
