@@ -62,9 +62,8 @@ SSAOTestScene::SSAOTestScene()
 
 	Transform& lightTransform = light.getTransform();
 	lightTransform.setPosition({ 10.f, 5.f, 10.f });
-	lightTransform.orient({ 1.f, -1.f, 1.f });
 
-	// light.setAttenuation(1.f, 0.09f, 0.032f);
+	light.setAttenuation(1.f, 0.09f, 0.032f);
 	light.setAlbedo(.2f, .3f, 1.f);
 	light.setAmbientStrength(.05f);
 	light.setDiffuseStrength(1.f);
