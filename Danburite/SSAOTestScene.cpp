@@ -59,14 +59,13 @@ SSAOTestScene::SSAOTestScene()
 
 	// Light 초기화
 
-	DirectionalLight &light = __lightMgr.createLight<DirectionalLight>();
+	PointLight &light = __lightMgr.createLight<PointLight>();
 
 	Transform& lightTransform = light.getTransform();
-	lightTransform.setPosition({ 5.f, 1.f, 5.f });
-	lightTransform.orient({ 1.f, -1.f, 1.f });
+	lightTransform.setPosition({ 5.f, 3.f, 5.f });
 
 	// 현재 attenuation 없을 시 lighting이 이상하게 적용되는 오류가 있음.
-	// light.setAttenuation(1.f, 0.09f, 0.032f);
+	light.setAttenuation(1.f, 0.09f, 0.032f);
 	light.setAlbedo(.2f, .3f, 1.f);
 	light.setAmbientStrength(.05f);
 	light.setDiffuseStrength(1.f);

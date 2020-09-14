@@ -95,7 +95,7 @@ namespace Danburite
 		const auto &[index, data] = index_data;
 		const size_t indexOffset = (glm::max<size_t>(sizeof($DataType), 16ULL) * index);
 
-		__cache.set<$DataType>(__baseOffset + indexOffset, data);
+		__cache.set(__baseOffset + indexOffset, data);
 		return *this;
 	}
 

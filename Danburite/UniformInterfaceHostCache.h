@@ -39,16 +39,17 @@ namespace Danburite
 	template <typename $DataType>
 	constexpr void UniformInterfaceHostCache<$BUFFER_SIZE>::set(const size_t offset, const $DataType &data) noexcept
 	{
+		constexpr size_t memSize = glm::max<size_t>(sizeof($DataType), 16ULL);
+
 		auto &[dirtyMin, dirtyMax] = __dirtyRange;
 
 		const size_t localDirtyMin = offset;
-		const size_t localDirtyMax = (offset + sizeof($DataType));
+		const size_t localDirtyMax = (offset + memSize);
 
 		dirtyMin = glm::min<size_t>(dirtyMin, localDirtyMin);
 		dirtyMax = glm::max<size_t>(dirtyMax, localDirtyMax);
 
-		$DataType &target = *reinterpret_cast<$DataType *>(__buffer.data() + offset);
-		target = data;
+		std::memcpy(__buffer.data() + offset, &data, memSize);
 	}
 
 	template <size_t $BUFFER_SIZE>
