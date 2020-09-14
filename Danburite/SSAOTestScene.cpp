@@ -35,8 +35,8 @@ SSAOTestScene::SSAOTestScene()
 	Transform& floorTransform = __pFloorObj->getTransform();
 	floorTransform.setScale(80.f, 1.f, 80.f);
 
-	const shared_ptr<VertexArray> &pCubeVA = VertexArrayFactory::createCube(
-		VertexAttributeFlag::POS | VertexAttributeFlag::COLOR | VertexAttributeFlag::NORMAL);
+	const shared_ptr<VertexArray> &pCubeVA = VertexArrayFactory::createCylinder(
+		VertexAttributeFlag::POS | VertexAttributeFlag::COLOR | VertexAttributeFlag::NORMAL, 2.f, 3.f, 2.f);
 
 	const shared_ptr<PhongMaterial> &pCubeMaterial = make_shared<PhongMaterial>(
 		VertexAttributeFlag::POS | VertexAttributeFlag::COLOR | VertexAttributeFlag::NORMAL);
@@ -46,7 +46,8 @@ SSAOTestScene::SSAOTestScene()
 
 	Transform &sphereTransform = __pCubeObj->getTransform();
 	sphereTransform.setScale(2.f);
-	sphereTransform.setPosition(0.f, 1.f, 0.f);
+	sphereTransform.setPosition(0.f, 0.f, 0.f);
+	sphereTransform.setRotation(0.1f, .2f, 0.3f);
 
 
 	//// 카메라 초기화 ////
@@ -70,6 +71,7 @@ SSAOTestScene::SSAOTestScene()
 	light.setDiffuseStrength(1.f);
 	light.setSpecularStrength(1.f);
 	light.setShadowEnabled(true);
+	// light.setDepthMapSize(256, 256);
 
 
 	//// Updater / Drawer 초기화 ////
@@ -175,7 +177,7 @@ void SSAOTestScene::onDisplay() noexcept
 {
 	if (!__updated)
 		return;
-	
+
 	draw();
 }
 

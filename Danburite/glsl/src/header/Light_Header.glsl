@@ -103,33 +103,34 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 	   vec3( 0.f,  1.f,  1.f), vec3( 0.f, -1.f,  1.f), vec3( 0.f, -1.f, -1.f), vec3( 0.f,  1.f, -1.f)
 	);
 
-	const float lightZFar = light.zFar[lightIndex];
 	const vec3 lightPosToTarget = (targetPos - light.pos[lightIndex]);
-
 	const float curDepth = length(lightPosToTarget);
 
-	// 광원으로부터 targetPos가 멀어질수록 그림자가 blur되도록 한다.
-	const float blurFactor = (curDepth * .001f);
-
-	// 광원으로부터 targetPos가 멀어질수록 occlusion 세기를 약하게 한다. 
-	const float attenuatingFactor = max(1.f - (curDepth / 500.f), 0.f);
+	// 광원으로부터 targetPos가 멀어질수록 그림자가 흐려지도록 한다.
+	const float biasAdj_lightDistance = pow(curDepth * .015f, 1.5f);
 
 	const float depthAdjustment =
-		max(.015f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex, targetPos))), .01f);
+		max(.015f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex, targetPos))), .001f);
 
 	const samplerCube depthMap = samplerCube(light.depthMap[lightIndex]);
 
+	const float originalMappedDepth = (texture(depthMap, lightPosToTarget).x * 1000.f);
+	if (originalMappedDepth > (curDepth - depthAdjustment))
+		return 0.f;
+
 	float retVal = 0.f;
-	for (uint i = 0U; i < NUM_SAMPLES; i++)
+	for (uint i = 0; i < NUM_SAMPLES; i++)
 	{
 		const float mappedDepth =
-			(texture(depthMap, lightPosToTarget + (sampleBiases[i] * blurFactor)).x * lightZFar);
+			(texture(depthMap, lightPosToTarget + (sampleBiases[i] * biasAdj_lightDistance)).x * 1000.f);
 
-		retVal += float(mappedDepth < (curDepth - depthAdjustment));
+		retVal += float(mappedDepth < (curDepth));
 	}
 
-	retVal *= (attenuatingFactor / float(NUM_SAMPLES));
-	return retVal;
+	// 광원으로부터 targetPos가 멀어질수록 그림자가 옅어지도록 한다.
+	retVal *= max(1.f - (curDepth / 500.f), 0.f);
+
+	return (retVal / float(NUM_SAMPLES));
 }
 
 float Light_getShadowOcclusion(uint lightIndex, const vec3 targetPos, vec3 targetNormal)
