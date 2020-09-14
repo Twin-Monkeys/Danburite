@@ -83,7 +83,7 @@ float Light_getShadowOcclusion_ortho(const uint lightIndex, const vec3 targetPos
 		for (int y = -1; y <= 1; y++)
 		{
 			const float mappedDepth = texture(depthMap, normalizedPos.xy + (vec2(x, y) * .01f)).x;
-
+				
 			// To correct shadow acne issue change the amount of bias based on the surface angle towards the light
 			retVal += float(mappedDepth < (normalizedPos.z - depthAdjustment));
 		}
@@ -103,15 +103,19 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 	   vec3( 0.f,  1.f,  1.f), vec3( 0.f, -1.f,  1.f), vec3( 0.f, -1.f, -1.f), vec3( 0.f,  1.f, -1.f)
 	);
 
+	const float lightZFar = light.zFar[lightIndex];
 	const vec3 lightPosToTarget = (targetPos - light.pos[lightIndex]);
+
 	const float curDepth = length(lightPosToTarget);
 
-	// 광원으로부터 targetPos가 멀어질수록 그림자가 흐려지도록 한다.
-	// TODO: mappedDepth와 curDepth의 원래 대소관계를 망가트려선 안된다.
-	const float biasAdj_lightDistance = 0.f; // pow(curDepth * .01f, 1.5f);
+	// 광원으로부터 targetPos가 멀어질수록 그림자가 blur되도록 한다.
+	const float blurFactor = (curDepth * .001f);
+
+	// 광원으로부터 targetPos가 멀어질수록 occlusion 세기를 약하게 한다. 
+	const float attenuatingFactor = max(1.f - (curDepth / 500.f), 0.f);
 
 	const float depthAdjustment =
-		max(15e-2f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex, targetPos))), 10e-2f);
+		max(.015f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex, targetPos))), .01f);
 
 	const samplerCube depthMap = samplerCube(light.depthMap[lightIndex]);
 
@@ -119,15 +123,13 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 	for (uint i = 0U; i < NUM_SAMPLES; i++)
 	{
 		const float mappedDepth =
-			(texture(depthMap, lightPosToTarget + (sampleBiases[i] * biasAdj_lightDistance)).x /* * light.zFar[lightIndex]*/ * 1000.f);
+			(texture(depthMap, lightPosToTarget + (sampleBiases[i] * blurFactor)).x * lightZFar);
 
-		retVal += ((mappedDepth < (curDepth - depthAdjustment)) ? 1.f : 0.f);
+		retVal += float(mappedDepth < (curDepth - depthAdjustment));
 	}
 
-	// 광원으로부터 targetPos가 멀어질수록 그림자가 옅어지도록 한다.
-	retVal *= exp(-curDepth * .005f);
-
-	return (retVal / float(NUM_SAMPLES));
+	retVal *= (attenuatingFactor / float(NUM_SAMPLES));
+	return retVal;
 }
 
 float Light_getShadowOcclusion(uint lightIndex, const vec3 targetPos, vec3 targetNormal)
