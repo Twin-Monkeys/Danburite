@@ -61,8 +61,9 @@ SSAOTestScene::SSAOTestScene()
 	PointLight &light = __lightMgr.createLight<PointLight>();
 
 	Transform& lightTransform = light.getTransform();
-	lightTransform.setPosition({ 10.f, 5.f, 10.f });
+	lightTransform.setPosition({ 5.f, 2.f, 5.f });
 
+	// 현재 attenuation 없을 시 lighting이 이상하게 적용되는 오류가 있음.
 	light.setAttenuation(1.f, 0.09f, 0.032f);
 	light.setAlbedo(.2f, .3f, 1.f);
 	light.setAmbientStrength(.05f);

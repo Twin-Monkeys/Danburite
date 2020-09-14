@@ -107,7 +107,8 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 	const float curDepth = length(lightPosToTarget);
 
 	// 광원으로부터 targetPos가 멀어질수록 그림자가 흐려지도록 한다.
-	const float biasAdj_lightDistance = pow(curDepth * .01f, 1.5f);
+	// TODO: mappedDepth와 curDepth의 원래 대소관계를 망가트려선 안된다.
+	const float biasAdj_lightDistance = 0.f; // pow(curDepth * .01f, 1.5f);
 
 	const float depthAdjustment =
 		max(15e-2f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex, targetPos))), 10e-2f);
@@ -115,10 +116,10 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 	const samplerCube depthMap = samplerCube(light.depthMap[lightIndex]);
 
 	float retVal = 0.f;
-	for (uint i = 8U; i < NUM_SAMPLES; i++)
+	for (uint i = 0U; i < NUM_SAMPLES; i++)
 	{
 		const float mappedDepth =
-			(texture(depthMap, lightPosToTarget + (sampleBiases[i] * biasAdj_lightDistance)).x * light.zFar[lightIndex]);
+			(texture(depthMap, lightPosToTarget + (sampleBiases[i] * biasAdj_lightDistance)).x /* * light.zFar[lightIndex]*/ * 1000.f);
 
 		retVal += ((mappedDepth < (curDepth - depthAdjustment)) ? 1.f : 0.f);
 	}

@@ -104,7 +104,8 @@ vec4 Phong_calcPhongColor_lightPrePass(
 	const vec3 diffuse = (materialDiffuse * LightPrePass_getLightDiffuse(ivec2(gl_FragCoord.xy)));
 	const vec3 specular = (materialSpecular * LightPrePass_getLightSpecular(ivec2(gl_FragCoord.xy)));
 	
-	return vec4(ambient + diffuse + specular + materialEmissive, materialAlpha);
+	//return vec4(ambient + diffuse + specular + materialEmissive, materialAlpha);
+	return vec4(LightPrePass_getLightDiffuse(ivec2(gl_FragCoord.xy)), 1.f);
 }
 
 vec4 Phong_calcPhongColor(

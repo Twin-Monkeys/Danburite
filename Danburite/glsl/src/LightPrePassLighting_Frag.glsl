@@ -35,9 +35,9 @@ void main()
 
 	const float attenuation = Light_getAttenuation(curLightIdx, worldSpaceTargetPos);
 
-	ambient = (attenuation * Light_getLightAmbient(curLightIdx, worldSpaceTargetPos));
-	diffuse = (shadowOcclusionInv * attenuation * Light_getLightDiffuse(curLightIdx, worldSpaceTargetPos, worldSpaceTargetNormal));
-	specular = (shadowOcclusionInv * attenuation * Light_getLightSpecular(curLightIdx, worldSpaceTargetPos, worldSpaceTargetNormal, viewDir, shininess));
+	ambient = vec3(0.f); // (attenuation * Light_getLightAmbient(curLightIdx, worldSpaceTargetPos));
+	diffuse = vec3(shadowOcclusionInv); // (shadowOcclusionInv * attenuation * Light_getLightDiffuse(curLightIdx, worldSpaceTargetPos, worldSpaceTargetNormal));
+	specular = vec3(0.f);// (shadowOcclusionInv * attenuation * Light_getLightSpecular(curLightIdx, worldSpaceTargetPos, worldSpaceTargetNormal, viewDir, shininess));
 
 //	// Ambient occlusion
 //
