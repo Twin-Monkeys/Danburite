@@ -21,7 +21,7 @@ namespace Danburite
 
 		namespace Light
 		{
-			constexpr GLuint MAX_NUM_LIGHTS = 150U;
+			constexpr GLuint MAX_NUM_LIGHTS = 90U;
 
 			namespace BaseComponent
 			{
