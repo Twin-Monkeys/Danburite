@@ -82,8 +82,8 @@ float Light_getShadowOcclusion_ortho(const uint lightIndex, const vec3 targetPos
 	for (int x = -1; x <= 1; x++)
 		for (int y = -1; y <= 1; y++)
 		{
-			const float mappedDepth = texture(depthMap, normalizedPos.xy + (vec2(x, y) * .01f)).x;
-				
+			const float mappedDepth = texture(depthMap, normalizedPos.xy + (vec2(x, y) * .001f)).x;
+
 			// To correct shadow acne issue change the amount of bias based on the surface angle towards the light
 			retVal += float(mappedDepth < (normalizedPos.z - depthAdjustment));
 		}

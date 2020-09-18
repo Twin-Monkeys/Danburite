@@ -35,6 +35,7 @@ namespace Danburite
 	{
 		__depthMapSize.x = width;
 		__depthMapSize.y = height;
+		__allocated = false;
 	}
 
 	void DepthBakerBase::bind() noexcept

@@ -15,8 +15,8 @@ namespace Danburite
 		const mat4 &viewMat = __camera.getViewMatrix();
 		const mat4 &projMat = __camera.getProjectionMatrix();
 
-		lightUI.projViewMat = { getIndex(), projMat * viewMat };
 		lightUI.depthMap = { getIndex(), __depthBaker.getDepthMapHandle() };
+		lightUI.projViewMat = { getIndex(), projMat * viewMat };
 	}
 
 	void OrthoLight::_onBakeDepthMap(BatchProcessor<SceneObject> &drawer) noexcept
