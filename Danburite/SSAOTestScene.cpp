@@ -60,7 +60,6 @@ SSAOTestScene::SSAOTestScene()
 	// Light 초기화
 
 	DirectionalLight &light = __lightMgr.createLight<DirectionalLight>();
-	light.setDepthBakingOrthoHeight(100.f);
 
 	Transform& lightTransform = light.getTransform();
 	lightTransform.setPosition({ 0.f, 15.f, 15.f });
@@ -72,7 +71,6 @@ SSAOTestScene::SSAOTestScene()
 	light.setDiffuseStrength(1.f);
 	light.setSpecularStrength(1.f);
 	light.setShadowEnabled(true);
-	light.setDepthMapSize(4096, 4096);
 
 
 	//// Updater / Drawer 초기화 ////
