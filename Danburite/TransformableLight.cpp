@@ -14,10 +14,7 @@ namespace Danburite
 
 	void TransformableLight::_deployDirection(LightUniformInterface &lightUI) const noexcept
 	{
-		const Transform &transform = getTransform();
-		const vec4 &forward = transform.getForward();
-
-		lightUI.direction = { getIndex(), forward };
+		lightUI.direction = { getIndex(), -getTransform().getForward() };
 	}
 
 	void TransformableLight::_deployPosition(LightUniformInterface &lightUI) const noexcept
