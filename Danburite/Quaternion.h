@@ -73,7 +73,8 @@ namespace Danburite
 		Quaternion inverse() const noexcept;
 		std::pair<float, glm::vec3> getAngleAxis() const noexcept;
 
-		friend Quaternion operator*(const Quaternion &lhs, const Quaternion &rhs) noexcept;
+		friend Quaternion operator*(const Quaternion& lhs, const Quaternion& rhs) noexcept;
+		friend Quaternion operator-(const Quaternion &quat) noexcept;
 		static Quaternion slerp(const Quaternion &lhs, const Quaternion &rhs, const float weight) noexcept;
 	};
 }

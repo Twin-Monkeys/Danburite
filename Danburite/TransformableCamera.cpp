@@ -12,7 +12,12 @@ namespace Danburite
 	void TransformableCamera::_onUpdateViewMatrix(mat4 &viewMatrix) noexcept
 	{
 		__transform.updateMatrix();
-		viewMatrix = inverse(__transform.getMatrix());
+
+		const vec3 &position = __transform.getPosition();
+		const vec3 &forward = __transform.getForward();
+		const vec3 &up = __transform.getVertical();
+		
+		viewMatrix = glm::lookAt(position, position + forward, up);
 	}
 
 	void TransformableCamera::_onDeploy(CameraUniformInterface &cameraUI) noexcept

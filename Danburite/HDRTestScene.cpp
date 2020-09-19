@@ -127,8 +127,7 @@ HDRTestScene::HDRTestScene()
 
 	Transform &cameraTransform = __camera.getTransform();
 	cameraTransform.setPosition(0.f, 15.f, 50.f);
-	cameraTransform.setRotation(-0.4f, 0.f, 0.f);
-
+	cameraTransform.rotateGlobal(-0.4f, pi<float>(), 0.f);
 
 	// Light √ ±‚»≠
 
@@ -247,16 +246,16 @@ bool HDRTestScene::__keyFunc(const float deltaTime) noexcept
 	Transform& cameraTransform = __camera.getTransform();
 
 	if (LEFT)
-		cameraTransform.moveHorizontal(-MOVE_SPEED);
-
-	if (RIGHT)
 		cameraTransform.moveHorizontal(MOVE_SPEED);
 
+	if (RIGHT)
+		cameraTransform.moveHorizontal(-MOVE_SPEED);
+
 	if (FRONT)
-		cameraTransform.moveForward(-MOVE_SPEED);
+		cameraTransform.moveForward(MOVE_SPEED);
 
 	if (BACK)
-		cameraTransform.moveForward(MOVE_SPEED);
+		cameraTransform.moveForward(-MOVE_SPEED);
 
 	if (UP)
 		cameraTransform.moveVertical(MOVE_SPEED);
@@ -341,7 +340,7 @@ void HDRTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
 	constexpr float ROTATION_SPEED = .004f;
 
 	Transform &cameraTransform = __camera.getTransform();
-	cameraTransform.rotateFPS(-(yDelta * ROTATION_SPEED), -(xDelta * ROTATION_SPEED));
+	cameraTransform.rotateFPS((yDelta * ROTATION_SPEED), -(xDelta * ROTATION_SPEED));
 }
 
 void HDRTestScene::onMouseMButtonDown(const int x, const int y) noexcept

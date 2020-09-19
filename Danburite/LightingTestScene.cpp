@@ -174,7 +174,7 @@ LightingTestScene::LightingTestScene()
 
 	Transform &cameraTransform = __camera.getTransform();
 	cameraTransform.setPosition(0.f, 30.f, 0.f);
-	cameraTransform.setRotation(-0.5f, pi<float>(), 0.f);
+	cameraTransform.setRotation(-0.5f, 0.f, 0.f);
 
 	const vec3 &cameraPos = cameraTransform.getPosition();
 	characterTransform.setPosition(cameraPos.x, cameraPos.y - __CHARACTER_DIST_Y, cameraPos.z + __CHARACTER_DIST_Z);
