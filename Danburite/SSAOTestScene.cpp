@@ -47,14 +47,14 @@ SSAOTestScene::SSAOTestScene()
 	Transform &sphereTransform = __pCubeObj->getTransform();
 	sphereTransform.setScale(2.f);
 	sphereTransform.setPosition(-1.f, 0.f, -1.f);
-	sphereTransform.setRotation(0.1f, .2f, 0.3f);
+	sphereTransform.getRotation().set(0.1f, .2f, 0.3f);
 
 
 	//// 카메라 초기화 ////
 
 	Transform &cameraTransform = __camera.getTransform();
 	cameraTransform.setPosition(0.f, 15.f, 50.f);
-	cameraTransform.setRotation(0.4f, -pi<float>(), 0.f);
+	cameraTransform.getRotation().set(0.4f, -pi<float>(), 0.f, EulerAngleOrder::YAW_PITCH_ROLL);
 
 
 	// Light 초기화
@@ -63,7 +63,7 @@ SSAOTestScene::SSAOTestScene()
 
 	Transform& lightTransform = light.getTransform();
 	lightTransform.setPosition({ 0.f, 15.f, 15.f });
-	lightTransform.setRotation(-half_pi<float>() * .3f, 0.f, 0.f);
+	lightTransform.getRotation().set(-half_pi<float>() * .3f, 0.f, 0.f);
 
 	// 현재 attenuation 없을 시 lighting이 이상하게 적용되는 오류가 있음.
 	light.setAlbedo(.2f, .3f, 1.f);
@@ -193,7 +193,9 @@ void SSAOTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
 	constexpr float ROTATION_SPEED = .004f;
 
 	Transform &cameraTransform = __camera.getTransform();
-	cameraTransform.rotateFPS((yDelta * ROTATION_SPEED), -(xDelta * ROTATION_SPEED));
+	cameraTransform.getRotation().
+		rotateFPSPitch(yDelta * ROTATION_SPEED).
+		rotateFPSYaw(-xDelta * ROTATION_SPEED);
 }
 
 void SSAOTestScene::onMouseMButtonDown(const int x, const int y) noexcept

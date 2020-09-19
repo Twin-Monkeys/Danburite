@@ -38,23 +38,9 @@ namespace Danburite
 		constexpr Transform &adjustScale(const float xDelta, const float yDelta, const float zDelta) noexcept;
 
 		// rotation
+		constexpr Quaternion &getRotation() noexcept;
 		constexpr const Quaternion &getRotation() const noexcept;
-		Transform &setRotation(const glm::quat &src) noexcept;
-		Transform &setRotation(const float w, const float x, const float y, const float z) noexcept;
-		Transform &setRotation(const Quaternion &src) noexcept;
-		Transform &setRotation(const glm::vec3 &eulerAngles) noexcept;
-		Transform &setRotation(const float pitch, const float yaw, const float roll) noexcept;
-		Transform &setRotation(const float angle, const glm::vec3 &axis) noexcept;
-		Transform &setRotation(const glm::mat3 &rotationMatrix) noexcept;
-		Transform &setRotation(const glm::mat4 &rotationMatrix) noexcept;
-
-		Transform &rotateGlobal(const glm::vec3 &eulerAngles) noexcept;
-		Transform &rotateGlobal(const float pitch, const float yaw, const float roll) noexcept;
-		Transform &rotateGlobal(const float angle, const glm::vec3 &axis) noexcept;
-
-		Transform &rotateLocal(const glm::vec3 &eulerAngles) noexcept;
-		Transform &rotateLocal(const float pitch, const float yaw, const float roll) noexcept;
-		Transform &rotateFPS(const float pitch, const float yaw, const glm::vec3 &referenceUp = { 0.f, 1.f, 0.f }) noexcept;
+		
 
 		// util
 		Transform &moveForward(const float delta) noexcept;
@@ -145,6 +131,11 @@ namespace Danburite
 	constexpr Transform &Transform::adjustScale(const float xDelta, const float yDelta, const float zDelta) noexcept
 	{
 		return setScale(__scale.x + xDelta, __scale.y + yDelta, __scale.z + zDelta);
+	}
+
+	constexpr Quaternion &Transform::getRotation() noexcept
+	{
+		return __rotation;
 	}
 
 	constexpr const Quaternion &Transform::getRotation() const noexcept

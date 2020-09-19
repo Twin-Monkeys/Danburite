@@ -2,6 +2,7 @@
 
 #include <glm/gtc/quaternion.hpp>
 #include <utility>
+#include "EulerAngleOrder.h"
 
 namespace Danburite
 {
@@ -21,8 +22,8 @@ namespace Danburite
 		Quaternion(const float w, const float x, const float y, const float z) noexcept;
 
 		// euler angles
-		explicit Quaternion(const glm::vec3 &eulerAngles) noexcept;
-		Quaternion(const float pitch, const float yaw, const float roll) noexcept;
+		Quaternion(const glm::vec3 &eulerAngles, const EulerAngleOrder rotationOrder = EulerAngleOrder::PITCH_YAW_ROLL) noexcept;
+		Quaternion(const float pitch, const float yaw, const float roll, const EulerAngleOrder rotationOrder = EulerAngleOrder::PITCH_YAW_ROLL) noexcept;
 
 		// rodrigues
 		Quaternion(const float angle, const glm::vec3 &axis) noexcept;
@@ -40,8 +41,11 @@ namespace Danburite
 		Quaternion &set(const Quaternion &src) noexcept;
 
 		// euler angles
-		Quaternion &set(const glm::vec3 &eulerAngles) noexcept;
-		Quaternion &set(const float pitch, const float yaw, const float roll) noexcept;
+		Quaternion &setFromPitch(const float pitch) noexcept;
+		Quaternion &setFromYaw(const float yaw) noexcept;
+		Quaternion &setFromRoll(const float roll) noexcept;
+		Quaternion &set(const glm::vec3 &eulerAngles, const EulerAngleOrder rotationOrder = EulerAngleOrder::PITCH_YAW_ROLL) noexcept;
+		Quaternion &set(const float pitch, const float yaw, const float roll, const EulerAngleOrder rotationOrder = EulerAngleOrder::PITCH_YAW_ROLL) noexcept;
 
 		// rodrigues
 		Quaternion &set(const float angle, const glm::vec3 &axis) noexcept;
@@ -55,17 +59,24 @@ namespace Danburite
 
 		Quaternion &orient(const glm::vec3 &forward, const glm::vec3 &referenceUp = { 0.f, 1.f, 0.f }) noexcept;
 
-		Quaternion &rotateGlobal(const glm::vec3 &eularAngles) noexcept;
-		Quaternion &rotateGlobal(const float pitch, const float yaw, const float roll) noexcept;
+		Quaternion &rotateGlobalPitch(const float pitch) noexcept;
+		Quaternion &rotateGlobalYaw(const float yaw) noexcept;
+		Quaternion &rotateGlobalRoll(const float roll) noexcept;
+		Quaternion &rotateGlobal(const glm::vec3 &eularAngles, const EulerAngleOrder rotationOrder = EulerAngleOrder::PITCH_YAW_ROLL) noexcept;
+		Quaternion &rotateGlobal(const float pitch, const float yaw, const float roll, const EulerAngleOrder rotationOrder = EulerAngleOrder::PITCH_YAW_ROLL) noexcept;
 		Quaternion &rotateGlobal(const float angle, const glm::vec3 &axis) noexcept;
 
-		Quaternion &rotateLocal(const glm::vec3 &eulerAngles) noexcept;
-		Quaternion &rotateLocal(const float pitch, const float yaw, const float roll) noexcept;
+		Quaternion &rotateLocalPitch(const float pitch) noexcept;
+		Quaternion &rotateLocalYaw(const float yaw) noexcept;
+		Quaternion &rotateLocalRoll(const float roll) noexcept;
+		Quaternion &rotateLocal(const glm::vec3 &eulerAngles, const EulerAngleOrder rotationOrder = EulerAngleOrder::PITCH_YAW_ROLL) noexcept;
+		Quaternion &rotateLocal(const float pitch, const float yaw, const float roll, const EulerAngleOrder rotationOrder = EulerAngleOrder::PITCH_YAW_ROLL) noexcept;
 
-		Quaternion &rotateFPS(const float pitch, const float yaw, const glm::vec3 &referenceUp = { 0.f, 1.f, 0.f }) noexcept;
+		Quaternion &rotateFPSPitch(const float pitch, const glm::vec3& referenceUp = { 0.f, 1.f, 0.f }) noexcept;
+		Quaternion &rotateFPSYaw(const float yaw, const glm::vec3& referenceUp = { 0.f, 1.f, 0.f }) noexcept;
 
 
-		/* Getters */
+		/* Etc */
 
 		glm::vec3 getEularAngles() const noexcept;
 		glm::mat4 getMatrix() const noexcept;
@@ -75,6 +86,7 @@ namespace Danburite
 
 		friend Quaternion operator*(const Quaternion& lhs, const Quaternion& rhs) noexcept;
 		friend Quaternion operator-(const Quaternion &quat) noexcept;
+
 		static Quaternion slerp(const Quaternion &lhs, const Quaternion &rhs, const float weight) noexcept;
 	};
 }

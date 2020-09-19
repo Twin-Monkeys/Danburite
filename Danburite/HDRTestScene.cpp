@@ -68,7 +68,7 @@ HDRTestScene::HDRTestScene()
 	Transform &lamp2Transform = __pLampObj->getTransform(1);
 	lamp2Transform.setScale(.01f);
 	lamp2Transform.setPosition(10.f, 3.f, 10.f);
-	lamp2Transform.setRotation(0.f, pi<float>(), 0.f);
+	lamp2Transform.getRotation().set(0.f, pi<float>(), 0.f);
 
 	__pCargoBayObj = AssetImporter::import("res/asset/cargo_bay/scene.gltf");
 	Transform &cargoBayTransform = __pCargoBayObj->getTransform();
@@ -127,7 +127,8 @@ HDRTestScene::HDRTestScene()
 
 	Transform &cameraTransform = __camera.getTransform();
 	cameraTransform.setPosition(0.f, 15.f, 50.f);
-	cameraTransform.rotateGlobal(-0.4f, pi<float>(), 0.f);
+	cameraTransform.getRotation().rotateGlobal(-.4f, pi<float>(), 0.f, EulerAngleOrder::YAW_PITCH_ROLL);
+
 
 	// Light √ ±‚»≠
 
@@ -340,7 +341,9 @@ void HDRTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcept
 	constexpr float ROTATION_SPEED = .004f;
 
 	Transform &cameraTransform = __camera.getTransform();
-	cameraTransform.rotateFPS((yDelta * ROTATION_SPEED), -(xDelta * ROTATION_SPEED));
+	cameraTransform.getRotation().
+		rotateFPSPitch(yDelta * ROTATION_SPEED).
+		rotateFPSYaw(-xDelta * ROTATION_SPEED);
 }
 
 void HDRTestScene::onMouseMButtonDown(const int x, const int y) noexcept

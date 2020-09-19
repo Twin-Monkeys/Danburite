@@ -1433,6 +1433,9 @@
     <ClInclude Include="SSAOTestScene.h">
       <Filter>Client\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="EulerAngleOrder.h">
+      <Filter>Library\Engine\Core\Transform</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glsl\src\Header\Camera_Header.glsl">

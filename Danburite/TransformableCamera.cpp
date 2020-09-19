@@ -18,6 +18,8 @@ namespace Danburite
 		const vec3 &up = __transform.getVertical();
 		
 		viewMatrix = glm::lookAt(position, position + forward, up);
+
+		
 	}
 
 	void TransformableCamera::_onDeploy(CameraUniformInterface &cameraUI) noexcept

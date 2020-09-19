@@ -30,7 +30,7 @@ LightingTestScene::LightingTestScene()
 	Transform &cargoBayTransform = __pCargoBayObj->getTransform();
 	cargoBayTransform.setScale(8.f);
 	cargoBayTransform.setPosition(11.f, 2.7f, 85.f);
-	cargoBayTransform.setRotation(0.f, .3f, 0.f);
+	cargoBayTransform.getRotation().setFromYaw(.3f);
 
 	__pPulseCoreObj = AssetImporter::import("res/asset/arc_pulse_core/scene.gltf");
 	__pPulseCoreObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
@@ -51,7 +51,7 @@ LightingTestScene::LightingTestScene()
 	Transform &wrenchTransform = __pWrenchObj->getTransform();
 	wrenchTransform.setScale(15.f);
 	wrenchTransform.setPosition(-12.f, 0.f, 90.f);
-	wrenchTransform.setRotation(0.f, -.7f, 0.f);
+	wrenchTransform.getRotation().setFromYaw(-.7f);
 
 	__pDroneObj = AssetImporter::import("res/asset/scifi_drone/scene.gltf");
 	__pDroneObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
@@ -66,7 +66,7 @@ LightingTestScene::LightingTestScene()
 		Transform &droneTransform = __pDroneObj->getTransform(droneIter);
 		droneTransform.setScale(.002f);
 		droneTransform.setPosition(randPosX, 1.f, randPosZ);
-		droneTransform.setRotation(__randDistribute(__randEngine) * .2f, __randDistribute(__randEngine), 0.f);
+		droneTransform.getRotation().set(__randDistribute(__randEngine) * .2f, __randDistribute(__randEngine), 0.f);
 	}
 
 	__pRobotObj = AssetImporter::import("res/asset/scifi_robot/scene.gltf");
@@ -75,7 +75,7 @@ LightingTestScene::LightingTestScene()
 	Transform &robotTransform = __pRobotObj->getTransform();
 	robotTransform.setScale(1.7f);
 	robotTransform.setPosition(-10.f, 0.f, 65.f);
-	robotTransform.setRotation(0.f, pi<float>() * .7f, 0.f);
+	robotTransform.getRotation().setFromYaw(pi<float>() * .7f);
 
 	__pHoverDroneObj = AssetImporter::import("res/asset/scifi_hover_drone/scene.gltf");
 	__pHoverDroneObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
@@ -85,7 +85,7 @@ LightingTestScene::LightingTestScene()
 	Transform &hoverDroneTransform1 = __pHoverDroneObj->getTransform(0);
 	hoverDroneTransform1.setScale(.02f);
 	hoverDroneTransform1.setPosition(12.f, 10.f, 80.f);
-	hoverDroneTransform1.setRotation(0.f, pi<float>() * .8f, 0.f);
+	hoverDroneTransform1.getRotation().setFromYaw(pi<float>() * .8f);
 
 	Transform &hoverDroneTransform2 = __pHoverDroneObj->getTransform(1);
 	hoverDroneTransform2.setScale(.02f);
@@ -99,12 +99,12 @@ LightingTestScene::LightingTestScene()
 	Transform &spotLightObjTransform1 = __pSpotLightObj->getTransform(0);
 	spotLightObjTransform1.setScale(.7f);
 	spotLightObjTransform1.setPosition(16.f, 0.f, 15.f);
-	spotLightObjTransform1.setRotation(0.f, -pi<float>() * .3f, 0.f);
+	spotLightObjTransform1.getRotation().setFromYaw(-pi<float>() * .3f);
 
 	Transform &spotLightObjTransform2 = __pSpotLightObj->getTransform(1);
 	spotLightObjTransform2.setScale(.7f);
 	spotLightObjTransform2.setPosition(-16.f, 0.f, 50.f);
-	spotLightObjTransform2.setRotation(-.2f, pi<float>() * .1f, 0.f);
+	spotLightObjTransform2.getRotation().set(-.2f, pi<float>() * .1f, 0.f);
 
 	__pHoverBikeObj = AssetImporter::import("res/asset/hover_bike/scene.gltf");
 	__pHoverBikeObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
@@ -112,7 +112,7 @@ LightingTestScene::LightingTestScene()
 	Transform &hoverBikeTransform = __pHoverBikeObj->getTransform();
 	hoverBikeTransform.setScale(.03f);
 	hoverBikeTransform.setPosition(-13.f, 3.f, 170.f);
-	hoverBikeTransform.setRotation(0.f, half_pi<float>(), 0.f);
+	hoverBikeTransform.getRotation().setFromYaw(half_pi<float>());
 
 	__pCharacterObj = AssetImporter::import("res/asset/scifi_male/scene.gltf");
 	__pCharacterObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
@@ -174,7 +174,7 @@ LightingTestScene::LightingTestScene()
 
 	Transform &cameraTransform = __camera.getTransform();
 	cameraTransform.setPosition(0.f, 30.f, 0.f);
-	cameraTransform.setRotation(-0.5f, 0.f, 0.f);
+	cameraTransform.getRotation().setFromPitch(-0.5f);
 
 	const vec3 &cameraPos = cameraTransform.getPosition();
 	characterTransform.setPosition(cameraPos.x, cameraPos.y - __CHARACTER_DIST_Y, cameraPos.z + __CHARACTER_DIST_Z);
@@ -192,8 +192,8 @@ LightingTestScene::LightingTestScene()
 	__pSpotLight1->setShadowEnabled(true);
 	Transform &spotLightTransform1 = __pSpotLight1->getTransform();
 	spotLightTransform1.setPosition(spotLightObjTransform1.getPosition() + vec3{ 0.f, 4.f, 0.f });
-	spotLightTransform1.setRotation(spotLightObjTransform1.getRotation());
-	spotLightTransform1.rotateLocal(.1f, 0.f, 0.f);
+	spotLightTransform1.getRotation() = spotLightObjTransform1.getRotation();
+	spotLightTransform1.getRotation().rotateLocalPitch(.1f);
 
 	__pSpotLight2 = &__lightMgr.createLight<SpotLight>();
 	__pSpotLight2->setAlbedo(.32f, .88f, .96f);
@@ -205,8 +205,8 @@ LightingTestScene::LightingTestScene()
 	__pSpotLight2->setShadowEnabled(true);
 	Transform &spotLightTransform2 = __pSpotLight2->getTransform();
 	spotLightTransform2.setPosition(spotLightObjTransform2.getPosition() + vec3{ 0.f, 4.f, 0.f });
-	spotLightTransform2.setRotation(spotLightObjTransform2.getRotation());
-	spotLightTransform2.rotateLocal(.1f, 0.f, 0.f);
+	spotLightTransform2.getRotation() = spotLightObjTransform2.getRotation();
+	spotLightTransform2.getRotation().rotateLocalPitch(.1f);
 
 
 	for (size_t smallLightIter = 0ULL; smallLightIter < __NUM_SMALL_LIGHTS; smallLightIter++)
@@ -484,12 +484,12 @@ void LightingTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcep
 		orbit(-(yDelta * ROTATION_SPEED), rotationPivot, cameraTransform.getHorizontal(), false).
 		orbit(-(xDelta * ROTATION_SPEED), rotationPivot, { 0.f, 1.f, 0.f }, false);
 
-	cameraTransform.
-		rotateLocal(-(yDelta * ROTATION_SPEED), 0.f, 0.f).
-		rotateGlobal(0.f, -(xDelta * ROTATION_SPEED), 0.f);
+	cameraTransform.getRotation().
+		rotateLocalPitch(-(yDelta * ROTATION_SPEED)).
+		rotateLocalYaw(-(xDelta * ROTATION_SPEED));
 
 	if (!__mButtonDown)
-		characterTransform.rotateLocal(0.f, -(xDelta * ROTATION_SPEED), 0.f);
+		characterTransform.getRotation().rotateLocalYaw(-(xDelta * ROTATION_SPEED));
 }
 
 void LightingTestScene::onMouseMButtonDown(const int x, const int y) noexcept
