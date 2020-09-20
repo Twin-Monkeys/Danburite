@@ -53,7 +53,7 @@ int APIENTRY _tWinMain(const HINSTANCE hInstance, HINSTANCE, LPTSTR, int)
 	stateMgr.enableVerticalSync(false);
 
 	//// Scene 생성 ////
-	shared_ptr<ScreenEventHandler> pScene = make_shared<LightingTestScene>();
+	shared_ptr<ScreenEventHandler> pScene = make_shared<SSAOTestScene>();
 
 	//// 이벤트 핸들러 등록 ////
 	pScreen->setEventHandler(pScene);

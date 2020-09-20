@@ -27,8 +27,9 @@ layout(std140, binding = BINDING_POINT_LIGHT) uniform UBLight
 	layout(offset = (288 * MAX_NUM_LIGHTS)) float validDistance[MAX_NUM_LIGHTS];
 	layout(offset = (304 * MAX_NUM_LIGHTS)) float innerCutOff[MAX_NUM_LIGHTS];
 	layout(offset = (320 * MAX_NUM_LIGHTS)) float outerCutOff[MAX_NUM_LIGHTS];
-	layout(offset = (336 * MAX_NUM_LIGHTS)) float zFar[MAX_NUM_LIGHTS];
-	layout(offset = (352 * MAX_NUM_LIGHTS)) uint numLights;
+	layout(offset = (336 * MAX_NUM_LIGHTS)) float zNear[MAX_NUM_LIGHTS];
+	layout(offset = (352 * MAX_NUM_LIGHTS)) float zFar[MAX_NUM_LIGHTS];
+	layout(offset = (368 * MAX_NUM_LIGHTS)) uint numLights;
 }
 light;
 
@@ -59,31 +60,31 @@ vec3 Light_getLightDirection(const uint lightIndex, const vec3 targetPos)
 float Light_getShadowOcclusion_ortho(const uint lightIndex, const vec3 targetPos, const vec3 targetNormal)
 {
 	const uint NUM_SAMPLES = 20U;
-	const vec2 sampleBiases[NUM_SAMPLES] = vec2[]
+	const vec2 sampleBiases[] = vec2[]
 	(
-		.002f * vec2(.542641f, -.402478f),
-		.002f * vec2(-.0108202f, .267296f),
-		.002f * vec2(.497608f, .663823f),
-		.002f * vec2(.166644f, -.550407f),
-		.002f * vec2(-.603874f, .418416f),
+		vec2(.542641f, -.402478f),
+		vec2(-.0108202f, .267296f),
+		vec2(.497608f, .663823f),
+		vec2(.166644f, -.550407f),
+		vec2(-.603874f, .418416f),
 
-		.002f * vec2(-.468868f, -.661778f),
-		.002f * vec2(-.82332f, -.699244f),
-		.002f * vec2(.367637f, .906787f),
-		.002f * vec2(-.992103f, -.327857f),
-		.002f * vec2(.781633f, .625242f),
+		vec2(-.468868f, -.661778f),
+		vec2(-.82332f, -.699244f),
+		vec2(.367637f, .906787f),
+		vec2(-.992103f, -.327857f),
+		vec2(.781633f, .625242f),
 
-		.002f * vec2(.225052f, -.938767f),
-		.002f * vec2(.75523f, -.416248f),
-		.002f * vec2(.835548f, .0817618f),
-		.002f * vec2(-.737084f, .0850887f),
-		.002f * vec2(-.71566f, .557458f),
+		vec2(.225052f, -.938767f),
+		vec2(.75523f, -.416248f),
+		vec2(.835548f, .0817618f),
+		vec2(-.737084f, .0850887f),
+		vec2(-.71566f, .557458f),
 
-		.002f * vec2(.167803f, .348267f),
-		.002f * vec2(-.116334f, .652164f),
-		.002f * vec2(-.789196f, .235534f),
-		.002f * vec2(.0262765f, -.868873f),
-		.002f * vec2(-.887112f, .202078f)
+		vec2(.167803f, .348267f),
+		vec2(-.116334f, .652164f),
+		vec2(-.789196f, .235534f),
+		vec2(.0262765f, -.868873f),
+		vec2(-.887112f, .202078f)
 	);
 
 	const vec4 lightSpaceTargetPos = (light.projViewMat[lightIndex] * vec4(targetPos, 1.f));
@@ -101,18 +102,25 @@ float Light_getShadowOcclusion_ortho(const uint lightIndex, const vec3 targetPos
 	if (normalizedPos.z >= 1.f)
 		return 0.f;
 
-	const float depthAdjustment =
-		max(5e-4f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex, targetPos))), 2e-4f);
+	const float depthScaleFactor = (light.zFar[lightIndex] - light.zNear[lightIndex]);
+	const float targetDepth = (normalizedPos.z * depthScaleFactor);
 
 	const sampler2D depthMap = sampler2D(light.depthMap[lightIndex]);
+	const float originalMappedDepth = (texture(depthMap, normalizedPos.xy).x * depthScaleFactor);
+
+	const float biasScale = (1e-4f * max((targetDepth - originalMappedDepth), .01f));
+
+	const float depthAdjustment =
+		max(.015f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex, targetPos))), .001f);
 
 	float retVal = 0.f;
 	for (uint i = 0; i < NUM_SAMPLES; i++)
 	{
-		const float mappedDepth = texture(depthMap, normalizedPos.xy + sampleBiases[i]).x;
+		const float mappedDepth =
+			(texture(depthMap, normalizedPos.xy + (sampleBiases[i] * biasScale)).x * depthScaleFactor);
 
 		// To correct shadow acne issue change the amount of bias based on the surface angle towards the light
-		retVal += float(mappedDepth < (normalizedPos.z - depthAdjustment));
+		retVal += float(mappedDepth < (targetDepth - depthAdjustment));
 	}
 
 	retVal /= float(NUM_SAMPLES);
@@ -160,12 +168,6 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 	const float depthAdjustment =
 		max(.015f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex, targetPos))), .001f);
 
-	const float originalMappedDepth = (texture(depthMap, lightPosToTarget).x * zFar);
-
-	// To correct shadow acne issue change the amount of bias based on the surface angle towards the light
-	if (originalMappedDepth > (curDepth - depthAdjustment))
-		return 0.f;
-
 	// 광원으로부터 targetPos가 멀어질수록 그림자가 흐려지도록 한다.
 	const float biasAdj_lightDistance = pow(curDepth * .015f, 1.5f);
 
@@ -175,7 +177,8 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 		const float mappedDepth =
 			(texture(depthMap, lightPosToTarget + (sampleBiases[i] * biasAdj_lightDistance)).x * zFar);
 
-		retVal += float(mappedDepth < curDepth);
+		// To correct shadow acne issue change the amount of bias based on the surface angle towards the light
+		retVal += float(mappedDepth < curDepth - depthAdjustment);
 	}
 
 	// 광원으로부터 targetPos가 멀어질수록 그림자가 옅어지도록 한다.

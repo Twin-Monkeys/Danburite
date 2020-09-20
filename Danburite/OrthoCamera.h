@@ -28,7 +28,10 @@ namespace Danburite
 		constexpr void setAspectRatio(const float ratio) noexcept;
 		constexpr void setAspectRatio(const int width, const int height) noexcept;
 
+		constexpr float getNear() const noexcept;
 		constexpr void setNear(const float zNear) noexcept;
+
+		constexpr float getFar() const noexcept;
 		constexpr void setFar(const float zFar) noexcept;
 
 		// bounds
@@ -63,9 +66,19 @@ namespace Danburite
 		setAspectRatio(float(width) / float(height));
 	}
 
+	constexpr float OrthoCamera::getNear() const noexcept
+	{
+		return __zNear;
+	}
+
 	constexpr void OrthoCamera::setNear(const float zNear) noexcept
 	{
 		__zNear = zNear;
+	}
+
+	constexpr float OrthoCamera::getFar() const noexcept
+	{
+		return __zFar;
 	}
 
 	constexpr void OrthoCamera::setFar(const float zFar) noexcept

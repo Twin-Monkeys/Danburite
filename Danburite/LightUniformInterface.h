@@ -8,7 +8,7 @@
 namespace Danburite
 {
 	class LightUniformInterface : public UniformInterface<
-		(352 * Constant::Light::MAX_NUM_LIGHTS) + 16ULL>
+		(368 * Constant::Light::MAX_NUM_LIGHTS) + 16ULL>
 	{
 	public:
 		const SpecializedUniformFieldArray<glm::mat4, Constant::Light::MAX_NUM_LIGHTS>
@@ -84,11 +84,15 @@ namespace Danburite
 			(320 * Constant::Light::MAX_NUM_LIGHTS);
 
 		const SpecializedUniformFieldArray<GLfloat, Constant::Light::MAX_NUM_LIGHTS>
-			zFar = _createFieldArray<GLfloat, Constant::Light::MAX_NUM_LIGHTS>
+			zNear = _createFieldArray<GLfloat, Constant::Light::MAX_NUM_LIGHTS>
 			(336 * Constant::Light::MAX_NUM_LIGHTS);
 
+		const SpecializedUniformFieldArray<GLfloat, Constant::Light::MAX_NUM_LIGHTS>
+			zFar = _createFieldArray<GLfloat, Constant::Light::MAX_NUM_LIGHTS>
+			(352 * Constant::Light::MAX_NUM_LIGHTS);
+
 		const SpecializedUniformField<GLuint> numLights =
-			_createField<GLuint>(352 * Constant::Light::MAX_NUM_LIGHTS);
+			_createField<GLuint>(368 * Constant::Light::MAX_NUM_LIGHTS);
 
 		LightUniformInterface() noexcept;
 		virtual ~LightUniformInterface() = default;
