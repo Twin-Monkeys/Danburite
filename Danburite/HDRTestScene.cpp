@@ -181,7 +181,7 @@ HDRTestScene::HDRTestScene()
 
 	// Skybox
 
-	const shared_ptr<TextureCubemap> &pSkyboxAlbedoTex =
+	/*const shared_ptr<TextureCubemap> &pSkyboxAlbedoTex =
 		TextureUtil::createTextureCubemapFromImage(
 			{
 				"res/image/skybox/space/right.png",
@@ -200,7 +200,7 @@ HDRTestScene::HDRTestScene()
 
 	__skybox.setAlbedoTexture(pSkyboxAlbedoTex);
 	__skybox.setLuminance(.1f);
-	__skybox.setEnabled(true);
+	__skybox.setEnabled(true);*/
 
 
 	// 파이프라인 초기화

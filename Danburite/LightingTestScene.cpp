@@ -174,7 +174,7 @@ LightingTestScene::LightingTestScene()
 
 	Transform &cameraTransform = __camera.getTransform();
 	cameraTransform.setPosition(0.f, 30.f, 0.f);
-	cameraTransform.getRotation().setFromPitch(-0.5f);
+	cameraTransform.getRotation().setFromPitch(0.5f);
 
 	const vec3 &cameraPos = cameraTransform.getPosition();
 	characterTransform.setPosition(cameraPos.x, cameraPos.y - __CHARACTER_DIST_Y, cameraPos.z + __CHARACTER_DIST_Z);
@@ -481,15 +481,15 @@ void LightingTestScene::onMouseDelta(const int xDelta, const int yDelta) noexcep
 	const vec3 &rotationPivot = { characterPos.x, characterPos.y + 18.f, characterPos.z };
 
 	cameraTransform.
-		orbit(-(yDelta * ROTATION_SPEED), rotationPivot, cameraTransform.getHorizontal(), false).
-		orbit(-(xDelta * ROTATION_SPEED), rotationPivot, { 0.f, 1.f, 0.f }, false);
+		orbit(yDelta * ROTATION_SPEED, rotationPivot, cameraTransform.getHorizontal(), false).
+		orbit(-xDelta * ROTATION_SPEED, rotationPivot, { 0.f, 1.f, 0.f }, false);
 
 	cameraTransform.getRotation().
-		rotateLocalPitch(-(yDelta * ROTATION_SPEED)).
-		rotateLocalYaw(-(xDelta * ROTATION_SPEED));
+		rotateLocalPitch(yDelta * ROTATION_SPEED).
+		rotateGlobalYaw(-xDelta * ROTATION_SPEED);
 
 	if (!__mButtonDown)
-		characterTransform.getRotation().rotateLocalYaw(-(xDelta * ROTATION_SPEED));
+		characterTransform.getRotation().rotateLocalYaw(-xDelta * ROTATION_SPEED);
 }
 
 void LightingTestScene::onMouseMButtonDown(const int x, const int y) noexcept
