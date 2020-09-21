@@ -82,7 +82,7 @@ const uint
 
 // Light //
 
-const uint MAX_NUM_LIGHTS = 90U;
+const uint MAX_NUM_LIGHTS = 80U;
 
 const uint
 	LIGHT_TYPE_DIRECTIONAL	= 0U,

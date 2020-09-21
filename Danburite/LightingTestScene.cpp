@@ -203,6 +203,7 @@ LightingTestScene::LightingTestScene()
 	__pSpotLight2->setAttenuation(1.f, .14f, .07f);
 	__pSpotLight2->setCutOff(.1f, .4f);
 	__pSpotLight2->setShadowEnabled(true);
+	__pSpotLight2->setDepthMapSize(2048, 2048);
 	Transform &spotLightTransform2 = __pSpotLight2->getTransform();
 	spotLightTransform2.setPosition(spotLightObjTransform2.getPosition() + vec3{ 0.f, 4.f, 0.f });
 	spotLightTransform2.getRotation() = spotLightObjTransform2.getRotation();

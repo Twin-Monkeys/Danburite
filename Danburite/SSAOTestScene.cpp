@@ -59,11 +59,11 @@ SSAOTestScene::SSAOTestScene()
 
 	// Light 초기화
 
-	PointLight &light = __lightMgr.createLight<PointLight>();
+	DirectionalLight &light = __lightMgr.createLight<DirectionalLight>();
 
 	Transform& lightTransform = light.getTransform();
 	lightTransform.setPosition({ -15.f, 5.f, 15.f });
-	// lightTransform.getRotation().set(-half_pi<float>() * .1f, pi<float>() * .8f, 0.f, EulerAngleOrder::YAW_PITCH_ROLL);
+	lightTransform.getRotation().set(-half_pi<float>() * .1f, pi<float>() * .8f, 0.f, EulerAngleOrder::YAW_PITCH_ROLL);
 
 	// 현재 attenuation 없을 시 lighting이 이상하게 적용되는 오류가 있음.
 	light.setAlbedo(.2f, .3f, 1.f);

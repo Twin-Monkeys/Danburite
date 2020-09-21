@@ -62,29 +62,29 @@ float Light_getShadowOcclusion_ortho(const uint lightIndex, const vec3 targetPos
 	const uint NUM_SAMPLES = 20U;
 	const vec2 sampleBiases[] = vec2[]
 	(
-		vec2(.542641f, -.402478f),
-		vec2(-.0108202f, .267296f),
-		vec2(.497608f, .663823f),
-		vec2(.166644f, -.550407f),
-		vec2(-.603874f, .418416f),
+		.002f * vec2(.542641f, -.402478f),
+		.002f * vec2(-.0108202f, .267296f),
+		.002f * vec2(.497608f, .663823f),
+		.002f * vec2(.166644f, -.550407f),
+		.002f * vec2(-.603874f, .418416f),
 
-		vec2(-.468868f, -.661778f),
-		vec2(-.82332f, -.699244f),
-		vec2(.367637f, .906787f),
-		vec2(-.992103f, -.327857f),
-		vec2(.781633f, .625242f),
+		.002f * vec2(-.468868f, -.661778f),
+		.002f * vec2(-.82332f, -.699244f),
+		.002f * vec2(.367637f, .906787f),
+		.002f * vec2(-.992103f, -.327857f),
+		.002f * vec2(.781633f, .625242f),
 
-		vec2(.225052f, -.938767f),
-		vec2(.75523f, -.416248f),
-		vec2(.835548f, .0817618f),
-		vec2(-.737084f, .0850887f),
-		vec2(-.71566f, .557458f),
+		.002f * vec2(.225052f, -.938767f),
+		.002f * vec2(.75523f, -.416248f),
+		.002f * vec2(.835548f, .0817618f),
+		.002f * vec2(-.737084f, .0850887f),
+		.002f * vec2(-.71566f, .557458f),
 
-		vec2(.167803f, .348267f),
-		vec2(-.116334f, .652164f),
-		vec2(-.789196f, .235534f),
-		vec2(.0262765f, -.868873f),
-		vec2(-.887112f, .202078f)
+		.002f * vec2(.167803f, .348267f),
+		.002f * vec2(-.116334f, .652164f),
+		.002f * vec2(-.789196f, .235534f),
+		.002f * vec2(.0262765f, -.868873f),
+		.002f * vec2(-.887112f, .202078f)
 	);
 
 	const vec4 lightSpaceTargetPos = (light.projViewMat[lightIndex] * vec4(targetPos, 1.f));
@@ -109,31 +109,45 @@ float Light_getShadowOcclusion_ortho(const uint lightIndex, const vec3 targetPos
 		이곳의 로직에서는 depth 간 대소비교만 수행하기 때문에
 		따로 더해주지 않았다.
 	*/
-	const float targetDepth = (normalizedPos.z * depthScaleFactor);
-
+	const float receiverDepth = (normalizedPos.z * depthScaleFactor);
 	const sampler2D depthMap = sampler2D(light.depthMap[lightIndex]);
-	const float originalMappedDepth = (texture(depthMap, normalizedPos.xy).x * depthScaleFactor);
 	
-	const float depthDelta = (targetDepth - originalMappedDepth);
-	const float biasScale = max(1e-4f * depthDelta, 1e-5f);
-	const float occlusionAttenuation = max(1.f - (depthDelta * .01f), 0.f);
-
-	const float depthAdjustment =
-		max(.015f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex, targetPos))), .001f);
-
-	float retVal = 0.f;
-	for (uint i = 0; i < NUM_SAMPLES; i++)
+	float blockerDepthAvg = 0.f;
+	uint numBlockers = 0U;
+	for (uint i = 0U; i < NUM_SAMPLES; i++)
 	{
-		const float mappedDepth =
-			(texture(depthMap, normalizedPos.xy + (sampleBiases[i] * biasScale)).x * depthScaleFactor);
+		const float blockerDepth =
+			(texture(depthMap, normalizedPos.xy + sampleBiases[i]).x * depthScaleFactor);
 
-		// To correct shadow acne issue change the amount of bias based on the surface angle towards the light
-		retVal += float(mappedDepth < (targetDepth - depthAdjustment));
+		// if blocked
+		if (blockerDepth < receiverDepth)
+		{
+			blockerDepthAvg += blockerDepth;
+			numBlockers++;
+		}
 	}
 
-	retVal *= occlusionAttenuation;
-	retVal /= float(NUM_SAMPLES);
+	// preprocess
+	if (numBlockers == 0)
+		return 0.f;
+	else if (numBlockers == NUM_SAMPLES)
+		return 1.f;
 
+	blockerDepthAvg /= float(numBlockers);
+
+	const float lightWidth = 2.f;
+	const float penumbra = (((receiverDepth - blockerDepthAvg) * lightWidth) / blockerDepthAvg);
+
+	float retVal = 0.f;
+	for (uint i = 0U; i < NUM_SAMPLES; i++)
+	{
+		const float blockerDepth =
+			(texture(depthMap, normalizedPos.xy + (sampleBiases[i] * penumbra)).x * depthScaleFactor);
+
+		retVal += float(blockerDepth < receiverDepth);
+	}
+
+	retVal /= float(NUM_SAMPLES);
 	return retVal;
 }
 

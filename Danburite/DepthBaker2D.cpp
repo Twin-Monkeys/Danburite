@@ -11,8 +11,12 @@ namespace Danburite
 		__setupTransaction.setup([this](ContextStateManager& stateMgr)
 		{
 			stateMgr.setState(GLStateType::DEPTH_TEST, true);
+			stateMgr.setState(GLStateType::CULL_FACE, true);
+
 			stateMgr.enableDepthMask(true);
 			stateMgr.setDepthFunction(DepthStencilFunctionType::LESS);
+			stateMgr.setCulledFace(FacetType::FRONT);
+			stateMgr.setFrontFace(WindingOrderType::COUNTER_CLOCKWISE);
 
 			__depthBaking2DUB.getInterface().projViewMat = __projViewMat;
 			__depthBaking2DUB.selfDeploy();
