@@ -103,12 +103,20 @@ float Light_getShadowOcclusion_ortho(const uint lightIndex, const vec3 targetPos
 		return 0.f;
 
 	const float depthScaleFactor = (light.zFar[lightIndex] - light.zNear[lightIndex]);
+
+	/*
+		제대로 된 depth 값은 zNear도 더해주어야 하지만,
+		이곳의 로직에서는 depth 간 대소비교만 수행하기 때문에
+		따로 더해주지 않았다.
+	*/
 	const float targetDepth = (normalizedPos.z * depthScaleFactor);
 
 	const sampler2D depthMap = sampler2D(light.depthMap[lightIndex]);
 	const float originalMappedDepth = (texture(depthMap, normalizedPos.xy).x * depthScaleFactor);
-
-	const float biasScale = (1e-4f * max((targetDepth - originalMappedDepth), .01f));
+	
+	const float depthDelta = (targetDepth - originalMappedDepth);
+	const float biasScale = max(1e-4f * depthDelta, 1e-5f);
+	const float occlusionAttenuation = max(1.f - (depthDelta * .01f), 0.f);
 
 	const float depthAdjustment =
 		max(.015f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex, targetPos))), .001f);
@@ -123,10 +131,10 @@ float Light_getShadowOcclusion_ortho(const uint lightIndex, const vec3 targetPos
 		retVal += float(mappedDepth < (targetDepth - depthAdjustment));
 	}
 
+	retVal *= occlusionAttenuation;
 	retVal /= float(NUM_SAMPLES);
 
-	const float occlusionAttenuation = .99f;
-	return (occlusionAttenuation * retVal);
+	return retVal;
 }
 
 float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetPos, const vec3 targetNormal)
@@ -159,30 +167,32 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 		vec3(-.887112f, .202078f, .530912f)
 	);
 
-	const samplerCube depthMap = samplerCube(light.depthMap[lightIndex]);
 	const float zFar = light.zFar[lightIndex];
 
 	const vec3 lightPosToTarget = (targetPos - light.pos[lightIndex]);
-	const float curDepth = length(lightPosToTarget);
+	const float targetDepth = length(lightPosToTarget);
+
+	const samplerCube depthMap = samplerCube(light.depthMap[lightIndex]);
+	const float originalMappedDepth = (texture(depthMap, lightPosToTarget).x * zFar);
+
+	const float depthDelta = (targetDepth - originalMappedDepth);
+	const float biasScale = max(.03f * depthDelta, 1e-5f);
+	const float occlusionAttenuation = max(1.f - (depthDelta * .004f), 0.f);
 
 	const float depthAdjustment =
 		max(.015f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex, targetPos))), .001f);
-
-	// 광원으로부터 targetPos가 멀어질수록 그림자가 흐려지도록 한다.
-	const float biasAdj_lightDistance = pow(curDepth * .015f, 1.5f);
 
 	float retVal = 0.f;
 	for (uint i = 0; i < NUM_SAMPLES; i++)
 	{
 		const float mappedDepth =
-			(texture(depthMap, lightPosToTarget + (sampleBiases[i] * biasAdj_lightDistance)).x * zFar);
+			(texture(depthMap, lightPosToTarget + (sampleBiases[i] * biasScale)).x * zFar);
 
 		// To correct shadow acne issue change the amount of bias based on the surface angle towards the light
-		retVal += float(mappedDepth < curDepth - depthAdjustment);
+		retVal += float(mappedDepth < targetDepth - depthAdjustment);
 	}
 
-	// 광원으로부터 targetPos가 멀어질수록 그림자가 옅어지도록 한다.
-	retVal *= max(1.f - (curDepth / 400.f), 0.f);
+	retVal *= occlusionAttenuation;
 	retVal /= float(NUM_SAMPLES);
 
 	return retVal;
