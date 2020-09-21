@@ -59,19 +59,18 @@ SSAOTestScene::SSAOTestScene()
 
 	// Light 초기화
 
-	DirectionalLight &light = __lightMgr.createLight<DirectionalLight>();
+	DirectionalLight &light1 = __lightMgr.createLight<DirectionalLight>();
 
-	Transform& lightTransform = light.getTransform();
+	Transform& lightTransform = light1.getTransform();
 	lightTransform.setPosition({ -15.f, 5.f, 15.f });
-	lightTransform.getRotation().set(-half_pi<float>() * .1f, pi<float>() * .8f, 0.f, EulerAngleOrder::YAW_PITCH_ROLL);
+	lightTransform.getRotation().set(-half_pi<float>() * .03f, pi<float>() * .8f, 0.f, EulerAngleOrder::YAW_PITCH_ROLL);
 
-	// 현재 attenuation 없을 시 lighting이 이상하게 적용되는 오류가 있음.
-	light.setAlbedo(.2f, .3f, 1.f);
-	light.setAmbientStrength(.05f);
-	light.setDiffuseStrength(1.f);
-	light.setSpecularStrength(1.f);
-	light.setShadowEnabled(true);
-	light.setDepthMapSize(4096, 4096);
+	light1.setAlbedo(.2f, .3f, 1.f);
+	light1.setAmbientStrength(.05f);
+	light1.setDiffuseStrength(3.f);
+	light1.setSpecularStrength(3.f);
+	light1.setDepthMapSize(4096, 4096);
+	light1.setShadowEnabled(true);
 
 
 	//// Updater / Drawer 초기화 ////
@@ -79,7 +78,7 @@ SSAOTestScene::SSAOTestScene()
 	__updater.add(*__pFloorObj);
 	__updater.add(*__pCubeObj);
 	__updater.add(__camera);
-	__updater.add(light);
+	__updater.add(light1);
 
 	__drawer.add(*__pFloorObj);
 	__drawer.add(*__pCubeObj);

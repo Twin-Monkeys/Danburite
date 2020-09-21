@@ -87,15 +87,7 @@ float Light_getShadowOcclusion_ortho(const uint lightIndex, const vec3 targetPos
 		.002f * vec2(-.887112f, .202078f)
 	);
 
-	const vec4 lightSpaceTargetPos = (light.projViewMat[lightIndex] * vec4(targetPos, 1.f));
-
-	/*
-		When using an orthographic projection matrix
-		The w component of a vertex remains untouched so this step is actually quite meaningless.
-		However, it is necessary when using perspective projection so keeping this line
-		Ensures it works with both projection matrices.
-	*/
-	vec3 normalizedPos = (lightSpaceTargetPos.xyz / lightSpaceTargetPos.w);
+	vec3 normalizedPos = (light.projViewMat[lightIndex] * vec4(targetPos, 1.f)).xyz;
 
 	// Map the value [-1, 1] to [0, 1]
 	normalizedPos = ((normalizedPos * .5f) + .5f);
@@ -114,16 +106,20 @@ float Light_getShadowOcclusion_ortho(const uint lightIndex, const vec3 targetPos
 	
 	float blockerDepthAvg = 0.f;
 	uint numBlockers = 0U;
-	for (uint i = 0U; i < NUM_SAMPLES; i++)
-	{
-		const float blockerDepth =
-			(texture(depthMap, normalizedPos.xy + sampleBiases[i]).x * depthScaleFactor);
 
-		// if blocked
-		if (blockerDepth < receiverDepth)
+	for (int i = -2; i < 3; i++)
+	{
+		for (int j = -2; j < 3; j++)
 		{
-			blockerDepthAvg += blockerDepth;
-			numBlockers++;
+			const float blockerDepth =
+				(texture(depthMap, normalizedPos.xy + vec2(.001f * i, .001f * j)).x * depthScaleFactor);
+
+			// if blocked
+			if (blockerDepth < receiverDepth)
+			{
+				blockerDepthAvg += blockerDepth;
+				numBlockers++;
+			}
 		}
 	}
 
@@ -135,7 +131,7 @@ float Light_getShadowOcclusion_ortho(const uint lightIndex, const vec3 targetPos
 
 	blockerDepthAvg /= float(numBlockers);
 
-	const float lightWidth = 2.f;
+	const float lightWidth = 10.f;
 	const float penumbra = (((receiverDepth - blockerDepthAvg) * lightWidth) / blockerDepthAvg);
 
 	float retVal = 0.f;
@@ -184,12 +180,12 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 	const float zFar = light.zFar[lightIndex];
 
 	const vec3 lightPosToTarget = (targetPos - light.pos[lightIndex]);
-	const float targetDepth = length(lightPosToTarget);
+	const float receiverDepth = length(lightPosToTarget);
 
 	const samplerCube depthMap = samplerCube(light.depthMap[lightIndex]);
 	const float originalMappedDepth = (texture(depthMap, lightPosToTarget).x * zFar);
 
-	const float depthDelta = (targetDepth - originalMappedDepth);
+	const float depthDelta = (receiverDepth - originalMappedDepth);
 	const float biasScale = max(.03f * depthDelta, 1e-5f);
 	const float occlusionAttenuation = max(1.f - (depthDelta * .004f), 0.f);
 
@@ -203,7 +199,7 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 			(texture(depthMap, lightPosToTarget + (sampleBiases[i] * biasScale)).x * zFar);
 
 		// To correct shadow acne issue change the amount of bias based on the surface angle towards the light
-		retVal += float(mappedDepth < targetDepth - depthAdjustment);
+		retVal += float(mappedDepth < receiverDepth - depthAdjustment);
 	}
 
 	retVal *= occlusionAttenuation;
