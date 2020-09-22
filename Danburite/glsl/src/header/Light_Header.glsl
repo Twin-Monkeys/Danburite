@@ -169,11 +169,13 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 
 	const vec3 vert = cross(lightDir, horiz);
 
-	for (int j = -5; j <= 5; j++)
-		for (int k = -5; k <= 5; k++)
+	for (int j = -2; j <= 2; j++)
+		for (int k = -2; k <= 2; k++)
 		{
+			// 충분한 bias가 있어야 부드러운 shadow 블렌딩이 가능하다.
+			// 하지만 너무 크면 light width가 커지면서 이상한 아티팩트가 생김.
 			const float blockerDepth =
-				(texture(depthMap, lightPosToTarget + (.1f * receiverDepth * ((horiz * j) + (vert * k)))).x * zFar);
+				(texture(depthMap, lightDir + (.07f * ((horiz * j) + (vert * k)))).x * zFar);
 
 			// if blocked
 			if (blockerDepth < receiverDepth)
@@ -186,7 +188,7 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 	// preprocess
 	if (numBlockers == 0)
 		return 0.f;
-	else if (numBlockers == 121)
+	else if (numBlockers == 25)
 		return 1.f;
 
 	blockerDepthAvg /= float(numBlockers);
@@ -194,9 +196,10 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 	const float lightWidth = 5.f;
 	const float penumbra = (((receiverDepth - blockerDepthAvg) * lightWidth) / blockerDepthAvg);
 
+	// 샘플링 횟수가 많아야 블렌딩이 층지지 않고 부드럽게 나옴.
 	float retVal = 0.f;
-	for (int i = -3; i <= 3; i++)
-		for (int j = -3; j <= 3; j++)
+	for (int i = -2; i <= 2; i++)
+		for (int j = -2; j <= 2; j++)
 		{
 			const float mappedDepth =
 				(texture(depthMap, lightPosToTarget + (.001f * receiverDepth * (horiz * i + vert + j) * penumbra)).x * zFar);
@@ -204,7 +207,7 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 			retVal += float(mappedDepth < receiverDepth);
 		}
 
-	retVal /= 49.f;
+	retVal /= 25.f;
 	retVal *= retVal;
 	return retVal;
 }
