@@ -149,62 +149,61 @@ float Light_getShadowOcclusion_ortho(const uint lightIndex, const vec3 targetPos
 
 float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetPos, const vec3 targetNormal)
 {
-	const uint NUM_SAMPLES = 20U;
-	const vec3 sampleBiases[NUM_SAMPLES] = vec3[]
-	(
-		vec3(.542641f, -.402478f, -.958496f),
-		vec3(-.0108202f, .267296f, -.11397f),
-		vec3(.497608f, .663823f, -.00298595f),
-		vec3(.166644f, -.550407f, -.949657f),
-		vec3(-.603874f, .418416f, .521061f),
-
-		vec3(-.468868f, -.661778f, -.472794f),
-		vec3(-.82332f, -.699244f, .37072f),
-		vec3(.367637f, .906787f, .633204f),
-		vec3(-.992103f, -.327857f, .0243845f),
-		vec3(.781633f, .625242f, -.603756f),
-
-		vec3(.225052f, -.938767f, .443511f),
-		vec3(.75523f, -.416248f, .454871f),
-		vec3(.835548f, .0817618f, .429152f),
-		vec3(-.737084f, .0850887f, -.172665f),
-		vec3(-.71566f, .557458f, -.253318f),
-
-		vec3(.167803f, .348267f, -.634737f),
-		vec3(-.116334f, .652164f, -.131972f),
-		vec3(-.789196f, .235534f, -.432847f),
-		vec3(.0262765f, -.868873f, .300794f),
-		vec3(-.887112f, .202078f, .530912f)
-	);
-
 	const float zFar = light.zFar[lightIndex];
 
 	const vec3 lightPosToTarget = (targetPos - light.pos[lightIndex]);
 	const float receiverDepth = length(lightPosToTarget);
 
 	const samplerCube depthMap = samplerCube(light.depthMap[lightIndex]);
-	const float originalMappedDepth = (texture(depthMap, lightPosToTarget).x * zFar);
 
-	const float depthDelta = (receiverDepth - originalMappedDepth);
-	const float biasScale = max(.03f * depthDelta, 1e-5f);
-	const float occlusionAttenuation = max(1.f - (depthDelta * .004f), 0.f);
+	float blockerDepthAvg = 0.f;
+	uint numBlockers = 0U;
 
-	const float depthAdjustment =
-		max(.015f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex, targetPos))), .001f);
+	const vec3 lightDir = normalize(lightPosToTarget);
+	const vec3 horiz = normalize(vec3
+	(
+		lightDir.y - lightDir.z,
+		lightDir.z - lightDir.x,
+		lightDir.x - lightDir.y
+	));
+
+	const vec3 vert = cross(lightDir, horiz);
+
+	for (int j = -2; j <= 2; j++)
+		for (int k = -2; k <= 2; k++)
+		{
+			const float blockerDepth =
+				(texture(depthMap, lightDir + (.01f * ((horiz * j) + (vert * k)))).x * zFar);
+
+			// if blocked
+			if (blockerDepth < receiverDepth)
+			{
+				blockerDepthAvg += blockerDepth;
+				numBlockers++;
+			}
+		}
+
+	// preprocess
+	if (numBlockers == 0)
+		return 0.f;
+	else
+		blockerDepthAvg /= float(numBlockers);
+
+	const float lightWidth = 3.f;
+	const float penumbra = (((receiverDepth - blockerDepthAvg) * lightWidth) / blockerDepthAvg);
 
 	float retVal = 0.f;
-	for (uint i = 0; i < NUM_SAMPLES; i++)
-	{
-		const float mappedDepth =
-			(texture(depthMap, lightPosToTarget + (sampleBiases[i] * biasScale)).x * zFar);
+	for (int i = -2; i <= 2; i++)
+		for (int j = -2; j <= 2; j++)
+			for (int k = -2; k <= 2; k++)
+			{
+				const float mappedDepth =
+					(texture(depthMap, lightPosToTarget + (vec3(.1f * i, .1f * j, .1f * k) * penumbra)).x * zFar);
 
-		// To correct shadow acne issue change the amount of bias based on the surface angle towards the light
-		retVal += float(mappedDepth < receiverDepth - depthAdjustment);
-	}
+				retVal += float(mappedDepth < receiverDepth);
+			}
 
-	retVal *= occlusionAttenuation;
-	retVal /= float(NUM_SAMPLES);
-
+	retVal /= 125.f;
 	return retVal;
 }
 

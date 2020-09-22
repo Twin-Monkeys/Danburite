@@ -14,6 +14,8 @@ class SSAOTestScene : public Danburite::Scene, public ObjectGL::ScreenEventHandl
 private:
 	bool __updated = false;
 
+	std::shared_ptr<Danburite::SceneObject> __pCylinderObj;
+	std::shared_ptr<Danburite::SceneObject> __pSphereObj;
 	std::shared_ptr<Danburite::SceneObject> __pCubeObj;
 	std::shared_ptr<Danburite::SceneObject> __pFloorObj;
 

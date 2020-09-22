@@ -21,33 +21,47 @@ SSAOTestScene::SSAOTestScene()
 {
 	//// Rendering unit 생성 ////
 
+	const shared_ptr<PhongMaterial> &pCommonMaterial = make_shared<PhongMaterial>(
+		VertexAttributeFlag::POS | VertexAttributeFlag::COLOR | VertexAttributeFlag::NORMAL);
+
+	pCommonMaterial->setShininess(150.f);
+
 	const shared_ptr<VertexArray> &pFloorVA = VertexArrayFactory::createCircle(
 		VertexAttributeFlag::POS | VertexAttributeFlag::COLOR | VertexAttributeFlag::NORMAL);
 
-	const shared_ptr<PhongMaterial>& pFloorMaterial = make_shared<PhongMaterial>(
-		VertexAttributeFlag::POS | VertexAttributeFlag::COLOR | VertexAttributeFlag::NORMAL);
-
-	pFloorMaterial->setShininess(150.f);
-
 	__pFloorObj = make_shared<SceneObject>();
-	__pFloorObj->createNode(pFloorVA, pFloorMaterial);
+	__pFloorObj->createNode(pFloorVA, pCommonMaterial);
 
 	Transform& floorTransform = __pFloorObj->getTransform();
 	floorTransform.setScale(80.f, 1.f, 80.f);
 
-	const shared_ptr<VertexArray> &pCubeVA = VertexArrayFactory::createCylinder(
+	const shared_ptr<VertexArray> &pCylinderVA = VertexArrayFactory::createCylinder(
 		VertexAttributeFlag::POS | VertexAttributeFlag::COLOR | VertexAttributeFlag::NORMAL, 2.f, 3.f, 2.f);
 
-	const shared_ptr<PhongMaterial> &pCubeMaterial = make_shared<PhongMaterial>(
-		VertexAttributeFlag::POS | VertexAttributeFlag::COLOR | VertexAttributeFlag::NORMAL);
+	__pCylinderObj = make_shared<SceneObject>();
+	__pCylinderObj->createNode(pCylinderVA, pCommonMaterial);
+	Transform &cylinderTransform = __pCylinderObj->getTransform();
+	cylinderTransform.setScale(1.f);
+	cylinderTransform.setPosition(-3.f, 0.f, -1.f);
+	cylinderTransform.getRotation().set(0.1f, 1.f, 0.3f);
+
+	const shared_ptr<VertexArray> &pSphereVA = VertexArrayFactory::createSphere(
+		VertexAttributeFlag::POS | VertexAttributeFlag::COLOR | VertexAttributeFlag::NORMAL, 1.f);
+
+	__pSphereObj = make_shared<SceneObject>();
+	__pSphereObj->createNode(pSphereVA, pCommonMaterial);
+	Transform &sphereTransform = __pSphereObj->getTransform();
+	sphereTransform.setScale(3.f);
+	sphereTransform.setPosition(4.f, 2.f, 3.f);
+
+	const shared_ptr<VertexArray> &pCubeVA = VertexArrayFactory::createCube(
+		VertexAttributeFlag::POS | VertexAttributeFlag::COLOR | VertexAttributeFlag::NORMAL, 1.f);
 
 	__pCubeObj = make_shared<SceneObject>();
-	__pCubeObj->createNode(pCubeVA, pCubeMaterial);
-
-	Transform &sphereTransform = __pCubeObj->getTransform();
-	sphereTransform.setScale(2.f);
-	sphereTransform.setPosition(-1.f, 0.f, -1.f);
-	sphereTransform.getRotation().set(0.1f, .2f, 0.3f);
+	__pCubeObj->createNode(pCubeVA, pCommonMaterial);
+	Transform &cubeTransform = __pCubeObj->getTransform();
+	cubeTransform.setScale(3.f);
+	cubeTransform.setPosition(1.f, 1.f, 10.f);
 
 
 	//// 카메라 초기화 ////
@@ -59,28 +73,31 @@ SSAOTestScene::SSAOTestScene()
 
 	// Light 초기화
 
-	DirectionalLight &light1 = __lightMgr.createLight<DirectionalLight>();
+	PointLight &light1 = __lightMgr.createLight<PointLight>();
 
 	Transform& lightTransform = light1.getTransform();
-	lightTransform.setPosition({ -15.f, 5.f, 15.f });
-	lightTransform.getRotation().set(-half_pi<float>() * .03f, pi<float>() * .8f, 0.f, EulerAngleOrder::YAW_PITCH_ROLL);
+	lightTransform.setPosition({ -10.f, 5.f, 5.f });
+	// lightTransform.getRotation().set(-half_pi<float>() * .03f, pi<float>() * .8f, 0.f, EulerAngleOrder::YAW_PITCH_ROLL);
 
+	light1.setAttenuation(1.f, .07f, .021f);
 	light1.setAlbedo(.2f, .3f, 1.f);
-	light1.setAmbientStrength(.05f);
 	light1.setDiffuseStrength(3.f);
 	light1.setSpecularStrength(3.f);
-	light1.setDepthMapSize(4096, 4096);
 	light1.setShadowEnabled(true);
-
+	light1.setDepthMapSize(4096, 4096);
 
 	//// Updater / Drawer 초기화 ////
 
 	__updater.add(*__pFloorObj);
+	__updater.add(*__pCylinderObj);
+	__updater.add(*__pSphereObj);
 	__updater.add(*__pCubeObj);
 	__updater.add(__camera);
 	__updater.add(light1);
 
 	__drawer.add(*__pFloorObj);
+	__drawer.add(*__pCylinderObj);
+	__drawer.add(*__pSphereObj);
 	__drawer.add(*__pCubeObj);
 
 
