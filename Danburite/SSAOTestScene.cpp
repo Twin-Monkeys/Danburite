@@ -76,7 +76,7 @@ SSAOTestScene::SSAOTestScene()
 	PointLight &light1 = __lightMgr.createLight<PointLight>();
 
 	Transform& lightTransform = light1.getTransform();
-	lightTransform.setPosition({ -10.f, 5.f, 5.f });
+	lightTransform.setPosition({ -5.f, 5.f, 5.f });
 	// lightTransform.getRotation().set(-half_pi<float>() * .03f, pi<float>() * .8f, 0.f, EulerAngleOrder::YAW_PITCH_ROLL);
 
 	light1.setAttenuation(1.f, .07f, .021f);

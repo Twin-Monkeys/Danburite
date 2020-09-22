@@ -46,7 +46,7 @@ namespace Danburite
 		{
 			__pDepthMap->memoryAlloc(
 				i, width, height,
-				TextureInternalFormatType::DEPTH_COMPONENT,
+				TextureInternalFormatType::DEPTH_COMPONENT32,
 				TextureExternalFormatType::DEPTH_COMPONENT,
 				TextureDataType::FLOAT);
 		}

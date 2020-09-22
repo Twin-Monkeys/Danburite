@@ -154,30 +154,28 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 	const vec3 lightPosToTarget = (targetPos - light.pos[lightIndex]);
 	const float receiverDepth = length(lightPosToTarget);
 
-	const samplerCube depthMap = samplerCube(light.depthMap[lightIndex]);
+	const vec3 lightForward = normalize(lightPosToTarget);
+	const vec3 lightHoriz = normalize(vec3
+	(
+		lightForward.y - lightForward.z,
+		lightForward.z - lightForward.x,
+		lightForward.x - lightForward.y
+	));
 
+	const vec3 lightVert = cross(lightForward, lightHoriz);
+
+	const samplerCube depthMap = samplerCube(light.depthMap[lightIndex]);
 	float blockerDepthAvg = 0.f;
 	uint numBlockers = 0U;
 
-	const vec3 lightDir = normalize(lightPosToTarget);
-	const vec3 horiz = normalize(vec3
-	(
-		lightDir.y - lightDir.z,
-		lightDir.z - lightDir.x,
-		lightDir.x - lightDir.y
-	));
-
-	const vec3 vert = cross(lightDir, horiz);
-
-	for (int j = -2; j <= 2; j++)
-		for (int k = -2; k <= 2; k++)
+	for (int horizIter = -2; horizIter <= 2; horizIter++)
+		for (int vertIter = -2; vertIter <= 2; vertIter++)
 		{
 			// 충분한 bias가 있어야 부드러운 shadow 블렌딩이 가능하다.
 			// 하지만 너무 크면 light width가 커지면서 이상한 아티팩트가 생김.
-			const float blockerDepth =
-				(texture(depthMap, lightDir + (.07f * ((horiz * j) + (vert * k)))).x * zFar);
+			const vec3 coordOffset = (.03f * ((lightHoriz * horizIter) + (lightVert * vertIter)));
+			const float blockerDepth =(texture(depthMap, lightForward + coordOffset).x * zFar);
 
-			// if blocked
 			if (blockerDepth < receiverDepth)
 			{
 				blockerDepthAvg += blockerDepth;
@@ -185,30 +183,31 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 			}
 		}
 
-	// preprocess
-	if (numBlockers == 0)
+	if (numBlockers == 0U)
 		return 0.f;
-	else if (numBlockers == 25)
+	else if (numBlockers == 25U)
 		return 1.f;
 
 	blockerDepthAvg /= float(numBlockers);
 
 	const float lightWidth = 5.f;
-	const float penumbra = (((receiverDepth - blockerDepthAvg) * lightWidth) / blockerDepthAvg);
+	const float penumbra = (((receiverDepth - blockerDepthAvg) * (.002f * lightWidth)) / blockerDepthAvg);
+
+	const float depthAdjustment =
+		max(.015f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex, targetPos))), .001f);
 
 	// 샘플링 횟수가 많아야 블렌딩이 층지지 않고 부드럽게 나옴.
 	float retVal = 0.f;
-	for (int i = -2; i <= 2; i++)
-		for (int j = -2; j <= 2; j++)
+	for (int horizIter = -2; horizIter <= 2; horizIter++)
+		for (int vertIter = -2; vertIter <= 2; vertIter++)
 		{
-			const float mappedDepth =
-				(texture(depthMap, lightPosToTarget + (.001f * receiverDepth * (horiz * i + vert + j) * penumbra)).x * zFar);
+			const vec3 coordOffset = (penumbra * ((lightHoriz * horizIter) + (lightVert * vertIter)));
+			const float blockerDepth =(texture(depthMap, lightForward + coordOffset).x * zFar);
 
-			retVal += float(mappedDepth < receiverDepth);
+			retVal += float(blockerDepth < (receiverDepth + depthAdjustment));
 		}
 
 	retVal /= 25.f;
-	retVal *= retVal;
 	return retVal;
 }
 
