@@ -169,11 +169,11 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 
 	const vec3 vert = cross(lightDir, horiz);
 
-	for (int j = -2; j <= 2; j++)
-		for (int k = -2; k <= 2; k++)
+	for (int j = -5; j <= 5; j++)
+		for (int k = -5; k <= 5; k++)
 		{
 			const float blockerDepth =
-				(texture(depthMap, lightDir + (.01f * ((horiz * j) + (vert * k)))).x * zFar);
+				(texture(depthMap, lightPosToTarget + (.01f * receiverDepth * ((horiz * j) + (vert * k)))).x * zFar);
 
 			// if blocked
 			if (blockerDepth < receiverDepth)
@@ -189,21 +189,21 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 	else
 		blockerDepthAvg /= float(numBlockers);
 
-	const float lightWidth = 3.f;
+	const float lightWidth = 2.f;
 	const float penumbra = (((receiverDepth - blockerDepthAvg) * lightWidth) / blockerDepthAvg);
 
 	float retVal = 0.f;
-	for (int i = -2; i <= 2; i++)
-		for (int j = -2; j <= 2; j++)
-			for (int k = -2; k <= 2; k++)
-			{
-				const float mappedDepth =
-					(texture(depthMap, lightPosToTarget + (vec3(.1f * i, .1f * j, .1f * k) * penumbra)).x * zFar);
+	for (int i = -10; i <= 10; i++)
+		for (int j = -10; j <= 10; j++)
+		{
+			const float mappedDepth =
+				(texture(depthMap, lightPosToTarget + (.001f * receiverDepth * (horiz * i + vert + j) * penumbra)).x * zFar);
 
-				retVal += float(mappedDepth < receiverDepth);
-			}
+			retVal += float(mappedDepth < receiverDepth);
+		}
 
-	retVal /= 125.f;
+	retVal /= 441.f;
+	retVal *= retVal;
 	return retVal;
 }
 

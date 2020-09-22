@@ -84,6 +84,7 @@ namespace ObjectGL
 			{ GLStateType::TEXTURE_2D, false },
 			{ GLStateType::TEXTURE_3D, false },
 			{ GLStateType::TEXTURE_CUBE_MAP, false },
+			{ GLStateType::TEXTURE_CUBE_MAP_SEAMLESS, false },
 			{ GLStateType::TEXTURE_GEN_Q, false },
 			{ GLStateType::TEXTURE_GEN_R, false },
 			{ GLStateType::TEXTURE_GEN_S, false },
