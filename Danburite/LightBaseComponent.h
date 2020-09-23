@@ -14,6 +14,8 @@ namespace Danburite
 		float __ambientStrength		= Constant::Light::BaseComponent::AMBIENT_STRENGTH;
 		float __diffuseStrength		= Constant::Light::BaseComponent::DIFFUSE_STRENGH;
 		float __specularStrength	= Constant::Light::BaseComponent::SPECULAR_STRENGH;
+		float __width				= Constant::Light::BaseComponent::WIDTH;
+		GLuint __shadowKernelRange	= Constant::Light::BaseComponent::SHADOW_KERNEL_RANGE;
 
 	protected:
 		void _deployBaseComponent(const size_t lightIndex, LightUniformInterface &lightUI) noexcept;
@@ -31,6 +33,12 @@ namespace Danburite
 
 		constexpr float getSpecularStrength() const noexcept;
 		virtual void setSpecularStrength(const float strength) noexcept;
+
+		constexpr float getWidth() const noexcept;
+		constexpr void setWidth(const float width) noexcept;
+
+		constexpr GLuint getShadowKernelRange() const noexcept;
+		constexpr void setShadowKernelRange(const GLuint shadowKernelRange) noexcept;
 
 		virtual ~LightBaseComponent() = default;
 	};
@@ -53,5 +61,25 @@ namespace Danburite
 	constexpr float LightBaseComponent::getSpecularStrength() const noexcept
 	{
 		return __specularStrength;
+	}
+
+	constexpr float LightBaseComponent::getWidth() const noexcept
+	{
+		return __width;
+	}
+
+	constexpr void LightBaseComponent::setWidth(const float width) noexcept
+	{
+		__width = width;
+	}
+
+	constexpr GLuint LightBaseComponent::getShadowKernelRange() const noexcept
+	{
+		return __shadowKernelRange;
+	}
+
+	constexpr void LightBaseComponent::setShadowKernelRange(const GLuint shadowKernelRange) noexcept
+	{
+		__shadowKernelRange = shadowKernelRange;
 	}
 }

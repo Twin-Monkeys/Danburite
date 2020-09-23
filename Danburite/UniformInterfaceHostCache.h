@@ -18,12 +18,14 @@ namespace Danburite
 		constexpr const $DataType &get(const size_t offset) noexcept;
 
 		template <typename $DataType>
-		constexpr void set(const size_t offset, const $DataType &data) noexcept;
+		void set(const size_t offset, const $DataType &data) noexcept;
 
 		template <typename $DataType>
 		void set(const size_t offset, const size_t count, const $DataType *const pDataArr) noexcept;
 
 		constexpr const std::array<uint8_t, $BUFFER_SIZE> &getBuffer() const noexcept;
+
+		constexpr bool isDirty() const noexcept;
 		constexpr const std::pair<size_t, size_t> &getDirtyRange() const noexcept;
 		constexpr void clearDirty() noexcept;
 	};
@@ -37,9 +39,14 @@ namespace Danburite
 
 	template <size_t $BUFFER_SIZE>
 	template <typename $DataType>
-	constexpr void UniformInterfaceHostCache<$BUFFER_SIZE>::set(const size_t offset, const $DataType &data) noexcept
+	void UniformInterfaceHostCache<$BUFFER_SIZE>::set(const size_t offset, const $DataType &data) noexcept
 	{
 		constexpr size_t memSize = glm::max<size_t>(sizeof($DataType), 16ULL);
+
+		void *const pTarget = (__buffer.data() + offset);
+		const void *const pSrc = &data;
+		if (!memcmp(pTarget, pSrc, memSize))
+			return;
 
 		auto &[dirtyMin, dirtyMax] = __dirtyRange;
 
@@ -49,7 +56,7 @@ namespace Danburite
 		dirtyMin = glm::min<size_t>(dirtyMin, localDirtyMin);
 		dirtyMax = glm::max<size_t>(dirtyMax, localDirtyMax);
 
-		std::memcpy(__buffer.data() + offset, &data, memSize);
+		memcpy(pTarget, pSrc, memSize);
 	}
 
 	template <size_t $BUFFER_SIZE>
@@ -68,6 +75,10 @@ namespace Danburite
 		{
 			const size_t memSize = (count * sizeof($DataType));
 
+			void *const pTarget = (__buffer.data() + offset);
+			if (!memcmp(pTarget, pDataArr, memSize))
+				return;
+
 			auto& [dirtyMin, dirtyMax] = __dirtyRange;
 
 			const size_t localDirtyMin = offset;
@@ -76,7 +87,7 @@ namespace Danburite
 			dirtyMin = glm::min<size_t>(dirtyMin, localDirtyMin);
 			dirtyMax = glm::max<size_t>(dirtyMax, localDirtyMax);
 
-			std::memcpy(__buffer.data() + offset, pDataArr, memSize);
+			memcpy(pTarget, pDataArr, memSize);
 		}
 	}
 
@@ -85,6 +96,12 @@ namespace Danburite
 		UniformInterfaceHostCache<$BUFFER_SIZE>::getBuffer() const noexcept
 	{
 		return __buffer;
+	}
+
+	template <size_t $BUFFER_SIZE>
+	constexpr bool UniformInterfaceHostCache<$BUFFER_SIZE>::isDirty() const noexcept
+	{
+		return (__dirtyRange.first < __dirtyRange.second);
 	}
 
 	template <size_t $BUFFER_SIZE>

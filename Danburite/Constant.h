@@ -29,6 +29,8 @@ namespace Danburite
 				constexpr float AMBIENT_STRENGTH		= .1f;
 				constexpr float DIFFUSE_STRENGH			= .8f;
 				constexpr float SPECULAR_STRENGH		= .6f;
+				constexpr float WIDTH					= 1.f;
+				constexpr GLuint SHADOW_KERNEL_RANGE	= 2U;
 			}
 
 			namespace AttenuatedComponent

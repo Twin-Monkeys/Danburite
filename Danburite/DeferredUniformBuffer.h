@@ -67,12 +67,11 @@ namespace Danburite
 	void DeferredUniformBuffer<$UniformInterfaceType>::selfDeploy() noexcept
 	{
 		UniformInterfaceHostCache<$UniformInterfaceType::BUFFER_SIZE> &cache = __interfaceInstance.getCache();
-
-		const std::array<uint8_t, $UniformInterfaceType::BUFFER_SIZE> &buffer = cache.getBuffer();
-		const auto &[dirtyMin, dirtyMax] = cache.getDirtyRange();
-
-		if (dirtyMin >= dirtyMax)
+		if (!cache.isDirty())
 			return;
+
+		const auto &[dirtyMin, dirtyMax] = cache.getDirtyRange();
+		const std::array<uint8_t, $UniformInterfaceType::BUFFER_SIZE> &buffer = cache.getBuffer();
 
 		__uniformBuffer.memoryCopy(buffer.data() + dirtyMin, GLsizeiptr(dirtyMax - dirtyMin), dirtyMin);
 		cache.clearDirty();

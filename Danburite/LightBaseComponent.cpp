@@ -12,6 +12,8 @@ namespace Danburite
 		lightUI.ambientStrength = { lightIndex, __ambientStrength };
 		lightUI.diffuseStrength = { lightIndex, __diffuseStrength };
 		lightUI.specularStrength = { lightIndex, __specularStrength };
+		lightUI.width = { lightIndex, __width };
+		lightUI.shadowKernelRange = { lightIndex, __shadowKernelRange };
 	}
 
 	void LightBaseComponent::setAlbedo(const glm::vec3 &albedo) noexcept
