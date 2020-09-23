@@ -61,33 +61,22 @@ vec3 Light_getLightDirection(const uint lightIndex, const vec3 targetPos)
 
 float Light_getShadowOcclusion_ortho(const uint lightIndex, const vec3 targetPos, const vec3 targetNormal)
 {
-	const uint NUM_SAMPLES = 20U;
-	const vec2 sampleBiases[] = vec2[]
-	(
-		.002f * vec2(.542641f, -.402478f),
-		.002f * vec2(-.0108202f, .267296f),
-		.002f * vec2(.497608f, .663823f),
-		.002f * vec2(.166644f, -.550407f),
-		.002f * vec2(-.603874f, .418416f),
+	const sampler2D depthMap = sampler2D(light.depthMap[lightIndex]);
 
-		.002f * vec2(-.468868f, -.661778f),
-		.002f * vec2(-.82332f, -.699244f),
-		.002f * vec2(.367637f, .906787f),
-		.002f * vec2(-.992103f, -.327857f),
-		.002f * vec2(.781633f, .625242f),
+	const float lightWidth = light.width[lightIndex];
+	const float depthScaleFactor = (light.zFar[lightIndex] - light.zNear[lightIndex]);
 
-		.002f * vec2(.225052f, -.938767f),
-		.002f * vec2(.75523f, -.416248f),
-		.002f * vec2(.835548f, .0817618f),
-		.002f * vec2(-.737084f, .0850887f),
-		.002f * vec2(-.71566f, .557458f),
+	const int kernelRange = int(light.shadowKernelRange[lightIndex]);
+	const int kernelSize = ((kernelRange * 2) + 1);
+	const int numKernels = (kernelSize * kernelSize);
 
-		.002f * vec2(.167803f, .348267f),
-		.002f * vec2(-.116334f, .652164f),
-		.002f * vec2(-.789196f, .235534f),
-		.002f * vec2(.0262765f, -.868873f),
-		.002f * vec2(-.887112f, .202078f)
-	);
+	/*
+		샘플링 횟수가 많아야 블렌딩이 층지지 않고 부드럽게 나옴.
+		또한 충분한 bias가 있어야 부드러운 shadow 블렌딩이 가능하다.
+		하지만 너무 크면 이상한 아티팩트가 생김.
+	*/
+	const float blockerSearchingStep = (.06f / float(kernelRange));
+	const float pcfStep = (blockerSearchingStep * .07f);
 
 	vec3 normalizedPos = (light.projViewMat[lightIndex] * vec4(targetPos, 1.f)).xyz;
 
@@ -96,56 +85,46 @@ float Light_getShadowOcclusion_ortho(const uint lightIndex, const vec3 targetPos
 	if (normalizedPos.z >= 1.f)
 		return 0.f;
 
-	const float depthScaleFactor = (light.zFar[lightIndex] - light.zNear[lightIndex]);
-
-	/*
-		제대로 된 depth 값은 zNear도 더해주어야 하지만,
-		이곳의 로직에서는 depth 간 대소비교만 수행하기 때문에
-		따로 더해주지 않았다.
-	*/
 	const float receiverDepth = (normalizedPos.z * depthScaleFactor);
-	const sampler2D depthMap = sampler2D(light.depthMap[lightIndex]);
 	
 	float blockerDepthAvg = 0.f;
-	uint numBlockers = 0U;
-
-	for (int i = -2; i < 3; i++)
-	{
-		for (int j = -2; j < 3; j++)
+	int numBlockers = 0;
+	for (int horizIter = -kernelRange; horizIter <= kernelRange; horizIter++)
+		for (int vertIter = -kernelRange; vertIter <= kernelRange; vertIter++)
 		{
-			const float blockerDepth =
-				(texture(depthMap, normalizedPos.xy + vec2(.001f * i, .001f * j)).x * depthScaleFactor);
+			const vec2 coordOffset = (blockerSearchingStep * vec2(horizIter, vertIter));
+			const float blockerDepth = (texture(depthMap, normalizedPos.xy + coordOffset).x * depthScaleFactor);
 
-			// if blocked
 			if (blockerDepth < receiverDepth)
 			{
 				blockerDepthAvg += blockerDepth;
 				numBlockers++;
 			}
 		}
-	}
 
-	// preprocess
 	if (numBlockers == 0)
 		return 0.f;
-	else if (numBlockers == NUM_SAMPLES)
+	else if (numBlockers == numKernels)
 		return 1.f;
 
 	blockerDepthAvg /= float(numBlockers);
 
-	const float lightWidth = 10.f;
-	const float penumbra = (((receiverDepth - blockerDepthAvg) * lightWidth) / blockerDepthAvg);
+	const float penumbra = (((receiverDepth - blockerDepthAvg) * (pcfStep * lightWidth)) / blockerDepthAvg);
+
+	const float depthAdjustment =
+		max(.015f * (1.f - dot(targetNormal, -Light_getLightDirection(lightIndex, targetPos))), .001f);
 
 	float retVal = 0.f;
-	for (uint i = 0U; i < NUM_SAMPLES; i++)
-	{
-		const float blockerDepth =
-			(texture(depthMap, normalizedPos.xy + (sampleBiases[i] * penumbra)).x * depthScaleFactor);
+	for (int horizIter = -kernelRange; horizIter <= kernelRange; horizIter++)
+		for (int vertIter = -kernelRange; vertIter <= kernelRange; vertIter++)
+		{
+			const vec2 coordOffset = (penumbra * vec2(horizIter, vertIter));
+			const float blockerDepth = (texture(depthMap, normalizedPos.xy + coordOffset).x * depthScaleFactor);
 
-		retVal += float(blockerDepth < receiverDepth);
-	}
+			retVal += float(blockerDepth < (receiverDepth + depthAdjustment));
+		}
 
-	retVal /= float(NUM_SAMPLES);
+	retVal /= float(numKernels);
 	return retVal;
 }
 
@@ -157,7 +136,7 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 	const float zFar = light.zFar[lightIndex];
 
 	const int kernelRange = int(light.shadowKernelRange[lightIndex]);
-	const int kernelSize = (kernelRange * 2 + 1);
+	const int kernelSize = ((kernelRange * 2) + 1);
 	const int numKernels = (kernelSize * kernelSize);
 
 	/*
@@ -165,7 +144,7 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 		또한 충분한 bias가 있어야 부드러운 shadow 블렌딩이 가능하다.
 		하지만 너무 크면 이상한 아티팩트가 생김.
 	*/
-	const float blockerSearchingStep = .06f / float(kernelRange);
+	const float blockerSearchingStep = (.06f / float(kernelRange));
 	const float pcfStep = (blockerSearchingStep * .07f);
 
 	const vec3 lightPosToTarget = (targetPos - light.pos[lightIndex]);

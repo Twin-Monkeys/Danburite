@@ -73,18 +73,18 @@ SSAOTestScene::SSAOTestScene()
 
 	// Light 초기화
 
-	PointLight &light1 = __lightMgr.createLight<PointLight>();
+	DirectionalLight &light1 = __lightMgr.createLight<DirectionalLight>();
 
 	Transform& lightTransform = light1.getTransform();
-	lightTransform.setPosition({ -5.f, 5.f, 5.f });
-	// lightTransform.getRotation().set(-half_pi<float>() * .03f, pi<float>() * .8f, 0.f, EulerAngleOrder::YAW_PITCH_ROLL);
+	lightTransform.setPosition(vec3 { -30.f, 15.f, 30.f } * .3f);
+	lightTransform.getRotation().set(-half_pi<float>() * .1f, pi<float>() * .8f, 0.f, EulerAngleOrder::YAW_PITCH_ROLL);
 
-	light1.setAttenuation(1.f, .07f, .021f);
+	// light1.setAttenuation(1.f, .07f, .021f);
 	light1.setAlbedo(.2f, .3f, 1.f);
 	light1.setDiffuseStrength(3.f);
 	light1.setSpecularStrength(3.f);
 	light1.setShadowEnabled(true);
-	light1.setWidth(4.f);
+	light1.setWidth(.5f);
 	light1.setShadowKernelRange(5U);
 
 	//// Updater / Drawer 초기화 ////
@@ -98,7 +98,7 @@ SSAOTestScene::SSAOTestScene()
 
 	__drawer.add(*__pFloorObj);
 	__drawer.add(*__pCylinderObj);
-	__drawer.add(*__pSphereObj);
+	// __drawer.add(*__pSphereObj);
 	__drawer.add(*__pCubeObj);
 
 
