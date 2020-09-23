@@ -155,7 +155,10 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 
 	const float lightWidth = light.width[lightIndex];
 	const float zFar = light.zFar[lightIndex];
+
 	const int kernelRange = int(light.shadowKernelRange[lightIndex]);
+	const int kernelSize = (kernelRange * 2 + 1);
+	const int numKernels = (kernelSize * kernelSize);
 
 	/*
 		샘플링 횟수가 많아야 블렌딩이 층지지 않고 부드럽게 나옴.
@@ -164,7 +167,6 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 	*/
 	const float blockerSearchingStep = .06f / float(kernelRange);
 	const float pcfStep = (blockerSearchingStep * .07f);
-
 
 	const vec3 lightPosToTarget = (targetPos - light.pos[lightIndex]);
 	const float receiverDepth = length(lightPosToTarget);
@@ -180,7 +182,7 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 	const vec3 lightVert = cross(lightForward, lightHoriz);
 
 	float blockerDepthAvg = 0.f;
-	uint numBlockers = 0U;
+	int numBlockers = 0;
 	for (int horizIter = -kernelRange; horizIter <= kernelRange; horizIter++)
 		for (int vertIter = -kernelRange; vertIter <= kernelRange; vertIter++)
 		{
@@ -194,9 +196,9 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 			}
 		}
 
-	if (numBlockers == 0U)
+	if (numBlockers == 0)
 		return 0.f;
-	else if (numBlockers == 25U)
+	else if (numBlockers == numKernels)
 		return 1.f;
 
 	blockerDepthAvg /= float(numBlockers);
@@ -216,7 +218,7 @@ float Light_getShadowOcclusion_cubemap(const uint lightIndex, const vec3 targetP
 			retVal += float(blockerDepth < (receiverDepth + depthAdjustment));
 		}
 
-	retVal /= 25.f;
+	retVal /= float(numKernels);
 	return retVal;
 }
 

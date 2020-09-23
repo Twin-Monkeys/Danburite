@@ -84,6 +84,8 @@ SSAOTestScene::SSAOTestScene()
 	light1.setDiffuseStrength(3.f);
 	light1.setSpecularStrength(3.f);
 	light1.setShadowEnabled(true);
+	light1.setWidth(4.f);
+	light1.setShadowKernelRange(5U);
 
 	//// Updater / Drawer √ ±‚»≠ ////
 
