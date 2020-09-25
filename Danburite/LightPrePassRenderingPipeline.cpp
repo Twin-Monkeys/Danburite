@@ -53,10 +53,10 @@ namespace Danburite
 			stateMgr.setState(GLStateType::BLEND, false);
 		});
 
-		__ssaoBlurSetup.setup([this](ContextStateManager &stateMgr)
+		__ssaoPPSetup.setup([this](ContextStateManager &stateMgr)
 		{
 			TextureContainerUniformInterface& texContainerUI = __texContainerUB.getInterface();
-			texContainerUI.textures = { 0ULL, __pAmbientOcclusionAttachment->getHandle() };
+			texContainerUI.textures = { 0ULL, __pAOInvAttachment->getHandle() };
 
 			__texContainerUB.selfDeploy();
 
@@ -69,7 +69,7 @@ namespace Danburite
 		{
 			TextureContainerUniformInterface& texContainerUI = __texContainerUB.getInterface();
 			texContainerUI.textures = { 0ULL, __pPosAttachment->getHandle() };
-			texContainerUI.textures = { 2ULL, __pAmbientOcclusionBlurAttachment->getHandle() };
+			texContainerUI.textures = { 2ULL, __pAOInvPPAttachment->getHandle() };
 
 			__texContainerUB.selfDeploy();
 
@@ -127,19 +127,19 @@ namespace Danburite
 
 
 		// pSSAOFB
-		__pAmbientOcclusionAttachment = __attachmentServer.getTexRectangle(
+		__pAOInvAttachment = __attachmentServer.getTexRectangle(
 			width, height, TextureInternalFormatType::R16F, TextureExternalFormatType::RED,
 			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST, 0ULL);
 
-		__pSSAOFB->attach(AttachmentType::COLOR_ATTACHMENT0, *__pAmbientOcclusionAttachment);
+		__pSSAOFB->attach(AttachmentType::COLOR_ATTACHMENT0, *__pAOInvAttachment);
 
 
-		// pSSAOBlurFB
-		__pAmbientOcclusionBlurAttachment = __attachmentServer.getTexRectangle(
+		// pSSAOPPFB
+		__pAOInvPPAttachment = __attachmentServer.getTexRectangle(
 			width, height, TextureInternalFormatType::R16F, TextureExternalFormatType::RED,
 			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST, 1ULL);
 
-		__pSSAOBlurFB->attach(AttachmentType::COLOR_ATTACHMENT0, *__pAmbientOcclusionBlurAttachment);
+		__pSSAOPPFB->attach(AttachmentType::COLOR_ATTACHMENT0, *__pAOInvPPAttachment);
 
 
 		// pLightingFB
@@ -195,8 +195,8 @@ namespace Danburite
 
 
 		// SSAO Blur
-		__ssaoBlurSetup();
-		__pSSAOBlurFB->bind();
+		__ssaoPPSetup();
+		__pSSAOPPFB->bind();
 		__ssaoBlurProgram.bind();
 		__fullscreenDrawer.draw();
 

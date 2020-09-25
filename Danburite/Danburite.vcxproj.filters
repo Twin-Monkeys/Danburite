@@ -1624,7 +1624,7 @@
     <None Include="glsl\src\SSAO_Frag.glsl">
       <Filter>Library\Engine\glsl\src\SSAO</Filter>
     </None>
-    <None Include="glsl\src\SSAOBlur_Frag.glsl">
+    <None Include="glsl\src\SSAOPostProcessing_Frag.glsl">
       <Filter>Library\Engine\glsl\src\SSAO</Filter>
     </None>
   </ItemGroup>

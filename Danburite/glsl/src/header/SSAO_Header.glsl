@@ -7,7 +7,7 @@
 
 #include "Constant_Header.glsl"
 
-const uint NUM_SAMPLING_OFFSETS = 64U;
+const uint NUM_SAMPLING_OFFSETS = 16U;
 const vec3 samplingOffsets[] = vec3[]
 (
 	vec3(.0214918f, -.0159405f, .0379622f),
@@ -151,7 +151,7 @@ float SSAO_getAmbientOcclusionInv(
 	const ivec2 screenCoord, const mat4 viewMat, const mat4 projMat,
 	const sampler2DRect worldSpacePosTex, const vec3 worldSpaceNormal)
 {
-	const float samplingRadius = 3.f;
+	const float samplingRadius = .5f;
 	const float samplingDepthBias = (samplingRadius * .01f);
 	const vec2 screenSize = vec2(textureSize(worldSpacePosTex));
 
@@ -185,9 +185,9 @@ float SSAO_getAmbientOcclusionInv(
 	return (1.f - ambientOcclusion);
 }
 
-float SSAO_getBlurredAmbientOcclusionInv(const ivec2 screenCoord, const sampler2DRect ambientOcclusionInvTex)
+float SSAO_getPostProcessedAmbientOcclusionInv(const ivec2 screenCoord, const sampler2DRect ambientOcclusionInvTex)
 {
-	const int blurRange = 4;
+	const int blurRange = 3;
 	const int blurKernelSize = (blurRange * 2) + 1;
 
 	float retVal = 0.f;
@@ -199,7 +199,7 @@ float SSAO_getBlurredAmbientOcclusionInv(const ivec2 screenCoord, const sampler2
 		}
 
 	retVal /= float(blurKernelSize * blurKernelSize);
-	return pow(retVal, 10.f);
+	return pow(retVal, 2.f);
 }
 
 #endif

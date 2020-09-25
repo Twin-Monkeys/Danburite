@@ -230,12 +230,12 @@ namespace Danburite
 				}
 			},
 			{
-			ProgramType::SSAO_BLUR,
+			ProgramType::SSAO_POST_PROCESSING,
 				{
-					"glsl/binary/SSAOBlur.bin",
+					"glsl/binary/SSAOPostProcessing.bin",
 					"glsl/src/FullscreenQuad_Vert.glsl",
 					"",
-					"glsl/src/SSAOBlur_Frag.glsl"
+					"glsl/src/SSAOPostProcessing_Frag.glsl"
 				}
 			}
 		};

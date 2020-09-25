@@ -40,7 +40,7 @@ namespace Danburite
 
 		// SSAO
 		SSAO,
-		SSAO_BLUR
+		SSAO_POST_PROCESSING
 	};
 
 	constexpr ProgramType operator+(const ProgramType lhs, const int rhs) noexcept
