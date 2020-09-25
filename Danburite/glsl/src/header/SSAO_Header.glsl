@@ -5,7 +5,7 @@
 
 #include "Constant_Header.glsl"
 
-const uint NUM_SAMPLING_OFFSETS = 4U;
+const uint NUM_SAMPLING_OFFSETS = 64U;
 const vec3 samplingOffsets[] = vec3[]
 (
 	vec3(.0214918f, -.0159405f, .0379622f),
@@ -165,7 +165,6 @@ float SSAO_getAmbientOcclusion(
 	for (uint samplingOffsetIter = 0U; samplingOffsetIter < NUM_SAMPLING_OFFSETS; samplingOffsetIter++)
 	{
 		const vec3 tangentSpaceSamplingOffset = (samplingRadius * samplingOffsets[samplingOffsetIter]);
-
 		const vec3 viewSpaceSamplingPos = (viewSpacePos + (viewSpaceTBN * tangentSpaceSamplingOffset));
 		const vec4 clipSpaceSamplingPos = (projMat * vec4(viewSpaceSamplingPos, 1.f));
 
@@ -174,10 +173,10 @@ float SSAO_getAmbientOcclusion(
 
 		const vec3 worldSpaceProjPos = texture(worldSpacePosTex, screenSpaceSamplingCoord).xyz;
 		const vec4 viewMat3rdRow = vec4(viewMat[0][2], viewMat[1][2], viewMat[2][2], viewMat[3][2]);
-
 		const float viewSpaceProjDepth = dot(viewMat3rdRow, vec4(worldSpaceProjPos, 1.f));
 
-		retVal += float(viewSpaceProjDepth  > (viewSpaceSamplingPos.z + samplingDepthBias));
+		const float attenuation = smoothstep(0.f, 1.f, samplingRadius / abs(viewSpacePos.z - viewSpaceProjDepth));
+		retVal += (float(viewSpaceProjDepth > (viewSpaceSamplingPos.z + samplingDepthBias)) * attenuation);
 	}
 
 	retVal /= float(NUM_SAMPLING_OFFSETS);

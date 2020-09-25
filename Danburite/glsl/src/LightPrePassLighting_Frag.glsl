@@ -47,5 +47,5 @@ void main()
 	const float ambientOcclusion = SSAO_getAmbientOcclusion(screenCoord, viewMat, projMat, posTex, worldSpaceTargetNormal);
 	const float ambientOcclusionInv = (1.f - ambientOcclusion);
 
-	ambient = vec3(ambientOcclusionInv);
+	ambient *= ambientOcclusionInv;
 } 

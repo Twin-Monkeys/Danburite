@@ -80,7 +80,7 @@ SSAOTestScene::SSAOTestScene()
 
 	light1.setAttenuation(1.f, .07f, .021f);
 	light1.setAlbedo(.2f, .3f, 1.f);
-	light1.setAmbientStrength(1.f);
+	light1.setAmbientStrength(.5f);
 	light1.setShadowEnabled(true);
 	light1.setWidth(5.f);
 	light1.setShadowKernelRange(5U);
