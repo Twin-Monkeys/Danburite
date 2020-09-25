@@ -33,10 +33,11 @@ void main()
 	const float attenuation = Light_getAttenuation(curLightIdx, worldSpaceTargetPos);
 	const float ambientOcclusionInvBlur = texelFetch(ambientOcclusionInvBlurTex, screenCoord).r;
 
-	ambient = vec3(ambientOcclusionInvBlur);
-	return;
+	const vec3 lightAmbient = Light_getLightAmbient(curLightIdx, worldSpaceTargetPos);
+	const vec3 lightDiffuse = Light_getLightDiffuse(curLightIdx, worldSpaceTargetPos, worldSpaceTargetNormal);
+	const vec3 lightSpecular = Light_getLightSpecular(curLightIdx, worldSpaceTargetPos, worldSpaceTargetNormal, viewDir, shininess);
 
-	ambient = (ambientOcclusionInvBlur * attenuation * Light_getLightAmbient(curLightIdx, worldSpaceTargetPos));
-	diffuse = (ambientOcclusionInvBlur * shadowOcclusionInv * attenuation * Light_getLightDiffuse(curLightIdx, worldSpaceTargetPos, worldSpaceTargetNormal));
-	specular = (ambientOcclusionInvBlur * shadowOcclusionInv * attenuation * Light_getLightSpecular(curLightIdx, worldSpaceTargetPos, worldSpaceTargetNormal, viewDir, shininess));
+	ambient = ((ambientOcclusionInvBlur * attenuation) * lightAmbient);
+	diffuse = ((ambientOcclusionInvBlur * shadowOcclusionInv * attenuation) * lightDiffuse);
+	specular = ((ambientOcclusionInvBlur * shadowOcclusionInv * attenuation) * lightSpecular);
 } 

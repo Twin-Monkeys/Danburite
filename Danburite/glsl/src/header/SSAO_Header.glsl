@@ -151,8 +151,8 @@ float SSAO_getAmbientOcclusionInv(
 	const ivec2 screenCoord, const mat4 viewMat, const mat4 projMat,
 	const sampler2DRect worldSpacePosTex, const vec3 worldSpaceNormal)
 {
-	const float samplingDepthBias = .025f;
-	const float samplingRadius = .5f;
+	const float samplingRadius = 3.f;
+	const float samplingDepthBias = (samplingRadius * .01f);
 	const vec2 screenSize = vec2(textureSize(worldSpacePosTex));
 
 	const vec3 worldSpacePos = texelFetch(worldSpacePosTex, screenCoord).xyz;
@@ -182,7 +182,7 @@ float SSAO_getAmbientOcclusionInv(
 	}
 
 	ambientOcclusion /= float(NUM_SAMPLING_OFFSETS);
-	return pow(1.f - ambientOcclusion, 7.f);
+	return (1.f - ambientOcclusion);
 }
 
 float SSAO_getBlurredAmbientOcclusionInv(const ivec2 screenCoord, const sampler2DRect ambientOcclusionInvTex)
@@ -198,7 +198,8 @@ float SSAO_getBlurredAmbientOcclusionInv(const ivec2 screenCoord, const sampler2
 			retVal += pixelVal;
 		}
 
-	return retVal / float(blurKernelSize * blurKernelSize);
+	retVal /= float(blurKernelSize * blurKernelSize);
+	return pow(retVal, 10.f);
 }
 
 #endif
