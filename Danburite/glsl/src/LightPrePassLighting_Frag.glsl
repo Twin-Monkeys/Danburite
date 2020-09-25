@@ -14,7 +14,7 @@ void main()
 	const ivec2 screenCoord = ivec2(gl_FragCoord.xy);
 	const sampler2DRect posTex = TextureContainer_getTextureAs2DRect(0);
 	const sampler2DRect normal3_shininess1Tex = TextureContainer_getTextureAs2DRect(1);
-	const sampler2DRect ambientOcclusionInvTex = TextureContainer_getTextureAs2DRect(2);
+	const sampler2DRect ambientOcclusionInvBlurTex = TextureContainer_getTextureAs2DRect(2);
 
 	const uint curLightIdx = LightPrePass_getCurrentLightIdx();
 
@@ -31,9 +31,12 @@ void main()
 	const vec3 viewDir = normalize(viewPos - worldSpaceTargetPos);
 
 	const float attenuation = Light_getAttenuation(curLightIdx, worldSpaceTargetPos);
-	const float ambientOcclusionInv = texelFetch(ambientOcclusionInvTex, screenCoord).r;
+	const float ambientOcclusionInvBlur = texelFetch(ambientOcclusionInvBlurTex, screenCoord).r;
 
-	ambient = (ambientOcclusionInv * attenuation * Light_getLightAmbient(curLightIdx, worldSpaceTargetPos));
-	diffuse = (ambientOcclusionInv * shadowOcclusionInv * attenuation * Light_getLightDiffuse(curLightIdx, worldSpaceTargetPos, worldSpaceTargetNormal));
-	specular = (ambientOcclusionInv * shadowOcclusionInv * attenuation * Light_getLightSpecular(curLightIdx, worldSpaceTargetPos, worldSpaceTargetNormal, viewDir, shininess));
+	ambient = vec3(ambientOcclusionInvBlur);
+	return;
+
+	ambient = (ambientOcclusionInvBlur * attenuation * Light_getLightAmbient(curLightIdx, worldSpaceTargetPos));
+	diffuse = (ambientOcclusionInvBlur * shadowOcclusionInv * attenuation * Light_getLightDiffuse(curLightIdx, worldSpaceTargetPos, worldSpaceTargetNormal));
+	specular = (ambientOcclusionInvBlur * shadowOcclusionInv * attenuation * Light_getLightSpecular(curLightIdx, worldSpaceTargetPos, worldSpaceTargetNormal, viewDir, shininess));
 } 

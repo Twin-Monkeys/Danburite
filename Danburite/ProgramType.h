@@ -39,7 +39,8 @@ namespace Danburite
 		WBOIT,
 
 		// SSAO
-		SSAO
+		SSAO,
+		SSAO_BLUR
 	};
 
 	constexpr ProgramType operator+(const ProgramType lhs, const int rhs) noexcept

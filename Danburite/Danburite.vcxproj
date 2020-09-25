@@ -606,6 +606,7 @@
     <None Include="glsl\src\PostProcess_Bloom_ColorExtraction_Frag.glsl" />
     <None Include="glsl\src\PostProcess_Bloom_Composition_Frag.glsl" />
     <None Include="glsl\src\PostProcess_HDR_Frag.glsl" />
+    <None Include="glsl\src\SSAOBlur_Frag.glsl" />
     <None Include="glsl\src\SSAO_Frag.glsl" />
     <None Include="glsl\src\Skybox_Frag.glsl" />
     <None Include="glsl\src\Skybox_Vert.glsl" />

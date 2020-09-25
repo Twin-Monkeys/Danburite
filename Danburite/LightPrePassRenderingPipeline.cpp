@@ -53,14 +53,28 @@ namespace Danburite
 			stateMgr.setState(GLStateType::BLEND, false);
 		});
 
+		__ssaoBlurSetup.setup([this](ContextStateManager &stateMgr)
+		{
+			TextureContainerUniformInterface& texContainerUI = __texContainerUB.getInterface();
+			texContainerUI.textures = { 0ULL, __pAmbientOcclusionAttachment->getHandle() };
+
+			__texContainerUB.selfDeploy();
+
+			stateMgr.setState(GLStateType::DEPTH_TEST, false);
+			stateMgr.setState(GLStateType::STENCIL_TEST, false);
+			stateMgr.setState(GLStateType::BLEND, false);
+		});
+
 		__lightingPassSetup.setup([this](ContextStateManager &stateMgr)
 		{
 			TextureContainerUniformInterface& texContainerUI = __texContainerUB.getInterface();
-			texContainerUI.textures = { 2ULL, __pAmbientOcclusionAttachment->getHandle() };
+			texContainerUI.textures = { 0ULL, __pPosAttachment->getHandle() };
+			texContainerUI.textures = { 2ULL, __pAmbientOcclusionBlurAttachment->getHandle() };
 
 			__texContainerUB.selfDeploy();
 
 			stateMgr.setClearColor(0.f, 0.f, 0.f, 0.f);
+			stateMgr.setState(GLStateType::DEPTH_TEST, false);
 			stateMgr.setState(GLStateType::STENCIL_TEST, true);
 			stateMgr.setState(GLStateType::BLEND, true);
 
@@ -115,23 +129,31 @@ namespace Danburite
 		// pSSAOFB
 		__pAmbientOcclusionAttachment = __attachmentServer.getTexRectangle(
 			width, height, TextureInternalFormatType::R16F, TextureExternalFormatType::RED,
-			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST);
+			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST, 0ULL);
 
 		__pSSAOFB->attach(AttachmentType::COLOR_ATTACHMENT0, *__pAmbientOcclusionAttachment);
+
+
+		// pSSAOBlurFB
+		__pAmbientOcclusionBlurAttachment = __attachmentServer.getTexRectangle(
+			width, height, TextureInternalFormatType::R16F, TextureExternalFormatType::RED,
+			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST, 1ULL);
+
+		__pSSAOBlurFB->attach(AttachmentType::COLOR_ATTACHMENT0, *__pAmbientOcclusionBlurAttachment);
 
 
 		// pLightingFB
 		__pLightAmbientAttachment = __attachmentServer.getTexRectangle(
 			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB,
-			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST, 0);
+			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST, 0ULL);
 
 		__pLightDiffuseAttachment = __attachmentServer.getTexRectangle(
 			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB,
-			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST, 1);
+			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST, 1ULL);
 
 		__pLightSpecularAttachment = __attachmentServer.getTexRectangle(
 			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB,
-			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST, 2);
+			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST, 2ULL);
 
 		__pLightingFB->attach(AttachmentType::COLOR_ATTACHMENT0, *__pLightAmbientAttachment);
 		__pLightingFB->attach(AttachmentType::COLOR_ATTACHMENT1, *__pLightDiffuseAttachment);
@@ -150,6 +172,12 @@ namespace Danburite
 
 		// Geometry pass
 		__geometryPassSetup();
+
+		#ifdef max
+		#undef max
+		__pPosNormalShininessFB->clearColorBuffer(0U, numeric_limits<float>::max());
+		#endif
+		__pPosNormalShininessFB->clearColorBuffer(1U, { 0.f, 1.f, 0.f, 0.f });
 		__pPosNormalShininessFB->clearBuffers(FrameBufferBlitFlag::DEPTH | FrameBufferBlitFlag::STENCIL);
 		__geometryProgram.bind();
 
@@ -163,6 +191,13 @@ namespace Danburite
 		__ssaoSetup();
 		__pSSAOFB->bind();
 		__ssaoProgram.bind();
+		__fullscreenDrawer.draw();
+
+
+		// SSAO Blur
+		__ssaoBlurSetup();
+		__pSSAOBlurFB->bind();
+		__ssaoBlurProgram.bind();
 		__fullscreenDrawer.draw();
 
 

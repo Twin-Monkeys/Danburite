@@ -31,6 +31,9 @@ namespace Danburite
 		ObjectGL::Program &__ssaoProgram =
 			ProgramFactory::getInstance().getProgram(ProgramType::SSAO);
 
+		ObjectGL::Program &__ssaoBlurProgram =
+			ProgramFactory::getInstance().getProgram(ProgramType::SSAO_BLUR);
+
 		ObjectGL::Program &__lightingProgram =
 			ProgramFactory::getInstance().getProgram(ProgramType::LIGHT_PREPASS_LIGHTING);
 
@@ -44,6 +47,9 @@ namespace Danburite
 		std::unique_ptr<ObjectGL::FrameBuffer> __pSSAOFB = std::make_unique<ObjectGL::FrameBuffer>();
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pAmbientOcclusionAttachment;
 
+		std::unique_ptr<ObjectGL::FrameBuffer> __pSSAOBlurFB = std::make_unique<ObjectGL::FrameBuffer>();
+		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pAmbientOcclusionBlurAttachment;
+
 		std::unique_ptr<ObjectGL::FrameBuffer> __pLightingFB = std::make_unique<ObjectGL::FrameBuffer>();
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pLightAmbientAttachment;
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pLightDiffuseAttachment;
@@ -51,6 +57,7 @@ namespace Danburite
 
 		SetupTransaction __geometryPassSetup;
 		SetupTransaction __ssaoSetup;
+		SetupTransaction __ssaoBlurSetup;
 		SetupTransaction __lightingPassSetup;
 		SetupTransaction __compositionPassSetup;
 

@@ -228,6 +228,15 @@ namespace Danburite
 					"",
 					"glsl/src/SSAO_Frag.glsl"
 				}
+			},
+			{
+			ProgramType::SSAO_BLUR,
+				{
+					"glsl/binary/SSAOBlur.bin",
+					"glsl/src/FullscreenQuad_Vert.glsl",
+					"",
+					"glsl/src/SSAOBlur_Frag.glsl"
+				}
 			}
 		};
 
