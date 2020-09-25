@@ -36,7 +36,10 @@ namespace Danburite
 		LIGHT_PREPASS_LIGHTING,
 
 		// WBOIT
-		WBOIT
+		WBOIT,
+
+		// SSAO
+		SSAO
 	};
 
 	constexpr ProgramType operator+(const ProgramType lhs, const int rhs) noexcept

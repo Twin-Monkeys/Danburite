@@ -40,16 +40,28 @@ namespace Danburite
 			stateMgr.setFrontFace(WindingOrderType::COUNTER_CLOCKWISE);
 		});
 
-		__lightingPassSetup.setup([this](ContextStateManager &stateMgr)
+		__ssaoSetup.setup([this](ContextStateManager &stateMgr)
 		{
-			TextureContainerUniformInterface &texContainerUI = __texContainerUB.getInterface();
+			TextureContainerUniformInterface& texContainerUI = __texContainerUB.getInterface();
 			texContainerUI.textures = { 0ULL, __pPosAttachment->getHandle() };
 			texContainerUI.textures = { 1ULL, __pNormalShininessAttachment->getHandle() };
 
 			__texContainerUB.selfDeploy();
 
-			stateMgr.setClearColor(0.f, 0.f, 0.f, 0.f);
 			stateMgr.setState(GLStateType::DEPTH_TEST, false);
+			stateMgr.setState(GLStateType::STENCIL_TEST, false);
+			stateMgr.setState(GLStateType::BLEND, false);
+		});
+
+		__lightingPassSetup.setup([this](ContextStateManager &stateMgr)
+		{
+			TextureContainerUniformInterface& texContainerUI = __texContainerUB.getInterface();
+			texContainerUI.textures = { 2ULL, __pAmbientOcclusionAttachment->getHandle() };
+
+			__texContainerUB.selfDeploy();
+
+			stateMgr.setClearColor(0.f, 0.f, 0.f, 0.f);
+			stateMgr.setState(GLStateType::STENCIL_TEST, true);
 			stateMgr.setState(GLStateType::BLEND, true);
 
 			stateMgr.setStencilFunction(DepthStencilFunctionType::EQUAL, 0x01U);
@@ -100,6 +112,14 @@ namespace Danburite
 		__pPosNormalShininessFB->attach(AttachmentType::DEPTH_STENCIL_ATTACHMENT, *__pDepthStencilAttachment);
 
 
+		// pSSAOFB
+		__pAmbientOcclusionAttachment = __attachmentServer.getTexRectangle(
+			width, height, TextureInternalFormatType::R16F, TextureExternalFormatType::RED,
+			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST);
+
+		__pSSAOFB->attach(AttachmentType::COLOR_ATTACHMENT0, *__pAmbientOcclusionAttachment);
+
+
 		// pLightingFB
 		__pLightAmbientAttachment = __attachmentServer.getTexRectangle(
 			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB,
@@ -137,6 +157,13 @@ namespace Danburite
 		{
 			iter.rawDrawcallUnderMaterialCondition(false, &Material::isTranslucencyEnabled);
 		});
+
+
+		// SSAO
+		__ssaoSetup();
+		__pSSAOFB->bind();
+		__ssaoProgram.bind();
+		__fullscreenDrawer.draw();
 
 
 		// Lighting pass

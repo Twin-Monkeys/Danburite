@@ -424,6 +424,9 @@
     <Filter Include="Library\Engine\Core\UniformBuffer\Interface\LightPrePass">
       <UniqueIdentifier>{3e730d15-19c1-415e-8dc3-effb06b79b45}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library\Engine\glsl\src\SSAO">
+      <UniqueIdentifier>{7bd9b497-ee55-4db7-99b1-245f2192c658}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BufferException.cpp">
@@ -1617,6 +1620,9 @@
     </None>
     <None Include="glsl\src\header\SSAO_Header.glsl">
       <Filter>Library\Engine\glsl\src\header</Filter>
+    </None>
+    <None Include="glsl\src\SSAO_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\SSAO</Filter>
     </None>
   </ItemGroup>
 </Project>

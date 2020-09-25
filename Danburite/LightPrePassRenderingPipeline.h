@@ -28,6 +28,9 @@ namespace Danburite
 		ObjectGL::Program &__geometryProgram =
 			ProgramFactory::getInstance().getProgram(ProgramType::LIGHT_PREPASS_GEOMETRY_EXTRACTION);
 
+		ObjectGL::Program &__ssaoProgram =
+			ProgramFactory::getInstance().getProgram(ProgramType::SSAO);
+
 		ObjectGL::Program &__lightingProgram =
 			ProgramFactory::getInstance().getProgram(ProgramType::LIGHT_PREPASS_LIGHTING);
 
@@ -38,12 +41,16 @@ namespace Danburite
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pNormalShininessAttachment;
 		std::shared_ptr<ObjectGL::RenderBuffer> __pDepthStencilAttachment;
 
+		std::unique_ptr<ObjectGL::FrameBuffer> __pSSAOFB = std::make_unique<ObjectGL::FrameBuffer>();
+		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pAmbientOcclusionAttachment;
+
 		std::unique_ptr<ObjectGL::FrameBuffer> __pLightingFB = std::make_unique<ObjectGL::FrameBuffer>();
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pLightAmbientAttachment;
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pLightDiffuseAttachment;
 		std::shared_ptr<ObjectGL::AttachableTextureRectangle> __pLightSpecularAttachment;
 
 		SetupTransaction __geometryPassSetup;
+		SetupTransaction __ssaoSetup;
 		SetupTransaction __lightingPassSetup;
 		SetupTransaction __compositionPassSetup;
 

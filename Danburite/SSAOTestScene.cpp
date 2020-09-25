@@ -83,7 +83,7 @@ SSAOTestScene::SSAOTestScene()
 	light1.setAmbientStrength(.5f);
 	light1.setShadowEnabled(true);
 	light1.setWidth(5.f);
-	light1.setShadowKernelRange(5U);
+	light1.setShadowKernelRange(2U);
 
 	//// Updater / Drawer 초기화 ////
 
@@ -115,7 +115,7 @@ SSAOTestScene::SSAOTestScene()
 		감마 값은 기본적으로 필요. 1.f 라도 초기화 해주어야 함.
 	*/
 	ppPipeline.appendProcessor<GammaCorrectionPostProcessor>(true);
-	// ppPipeline.appendProcessor<BloomPostProcessor>();
+	//ppPipeline.appendProcessor<BloomPostProcessor>();
 	__pHDRPP = &ppPipeline.appendProcessor<HDRPostProcessor>();
 }
 

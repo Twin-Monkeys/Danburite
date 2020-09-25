@@ -3,6 +3,8 @@
 #ifndef __SSAO_HEADER__
 #define __SSAO_HEADER__
 
+#extension GL_ARB_bindless_texture : require
+
 #include "Constant_Header.glsl"
 
 const uint NUM_SAMPLING_OFFSETS = 64U;
@@ -145,12 +147,12 @@ mat3 SSAO_getRandomViewSpaceTBN(const ivec2 screenCoord, const vec3 viewSpaceNor
 	return mat3(viewSpaceTangent, viewSpaceBitangent, viewSpaceNormal);
 }
 
-float SSAO_getAmbientOcclusion(
+float SSAO_getAmbientOcclusionInv(
 	const ivec2 screenCoord, const mat4 viewMat, const mat4 projMat,
 	const sampler2DRect worldSpacePosTex, const vec3 worldSpaceNormal)
 {
 	const float samplingDepthBias = .01f;
-	const float samplingRadius = .5f;
+	const float samplingRadius = 1.f;
 	const vec2 screenSize = vec2(textureSize(worldSpacePosTex));
 
 	const vec3 worldSpacePos = texelFetch(worldSpacePosTex, screenCoord).xyz;
@@ -161,7 +163,7 @@ float SSAO_getAmbientOcclusion(
 
 	const mat3 viewSpaceTBN = SSAO_getRandomViewSpaceTBN(screenCoord, viewSpaceNormal);
 
-	float retVal = 0.f;
+	float ambientOcclusion = 0.f;
 	for (uint samplingOffsetIter = 0U; samplingOffsetIter < NUM_SAMPLING_OFFSETS; samplingOffsetIter++)
 	{
 		const vec3 tangentSpaceSamplingOffset = (samplingRadius * samplingOffsets[samplingOffsetIter]);
@@ -172,15 +174,15 @@ float SSAO_getAmbientOcclusion(
 		screenSpaceSamplingCoord *= screenSize;
 
 		const vec3 worldSpaceProjPos = texture(worldSpacePosTex, screenSpaceSamplingCoord).xyz;
-		const vec4 viewMat3rdRow = vec4(viewMat[0][2], viewMat[1][2], viewMat[2][2], viewMat[3][2]);
-		const float viewSpaceProjDepth = dot(viewMat3rdRow, vec4(worldSpaceProjPos, 1.f));
+		const vec4 viewMat2ndRow = vec4(viewMat[0][2], viewMat[1][2], viewMat[2][2], viewMat[3][2]);
+		const float viewSpaceProjDepth = dot(viewMat2ndRow, vec4(worldSpaceProjPos, 1.f));
 
 		const float attenuation = smoothstep(0.f, 1.f, samplingRadius / abs(viewSpacePos.z - viewSpaceProjDepth));
-		retVal += (float(viewSpaceProjDepth > (viewSpaceSamplingPos.z + samplingDepthBias)) * attenuation);
+		ambientOcclusion += (float(viewSpaceProjDepth > (viewSpaceSamplingPos.z + samplingDepthBias)) * attenuation);
 	}
 
-	retVal /= float(NUM_SAMPLING_OFFSETS);
-	return retVal;
+	ambientOcclusion /= float(NUM_SAMPLING_OFFSETS);
+	return pow(1.f - ambientOcclusion, 3.f);
 }
 
 #endif

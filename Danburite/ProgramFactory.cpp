@@ -217,6 +217,17 @@ namespace Danburite
 					"",
 					"glsl/src/Wboit_Frag.glsl"
 				}
+			},
+
+			// SSAO
+			{
+			ProgramType::SSAO,
+				{
+					"glsl/binary/SSAO.bin",
+					"glsl/src/FullscreenQuad_Vert.glsl",
+					"",
+					"glsl/src/SSAO_Frag.glsl"
+				}
 			}
 		};
 
