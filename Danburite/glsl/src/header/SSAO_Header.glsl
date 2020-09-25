@@ -5,8 +5,8 @@
 
 #include "Constant_Header.glsl"
 
-const uint NUM_SAMPLING_OFFSETS = 64U;
-const vec3 samplingOffsets[NUM_SAMPLING_OFFSETS] = vec3[]
+const uint NUM_SAMPLING_OFFSETS = 4U;
+const vec3 samplingOffsets[] = vec3[]
 (
 	vec3(.0214918f, -.0159405f, .0379622f),
 	vec3(-.156152f, .68178f, .909513f),
@@ -75,7 +75,16 @@ const vec3 samplingOffsets[NUM_SAMPLING_OFFSETS] = vec3[]
 );
 
 const uint NUM_RANDOM_TANGENTS = 17U;
-const vec3 randomTangents[NUM_RANDOM_TANGENTS] = vec3[]
+
+const uint randomIndices[] = uint[]
+(
+	16U, 15U, 6U, 10U, 7U,
+	0U, 2U, 3U, 11U, 12U,
+	1U, 8U, 13U, 5U, 14U,
+	9U, 4U
+);
+
+const vec3 randomTangents[] = vec3[]
 (
 	vec3(.462739f, -.343214f, -.81736f),
 	vec3(-.0372106f, .919236f, -.391945f),
@@ -98,7 +107,15 @@ const vec3 randomTangents[NUM_RANDOM_TANGENTS] = vec3[]
 
 mat3 SSAO_getRandomViewSpaceTBN(const ivec2 screenCoord, const vec3 viewSpaceNormal)
 {
-	const uint randomIdx = (uint(screenCoord.x + screenCoord.y) % NUM_RANDOM_TANGENTS);
+	const int numRandomIndices = int(NUM_RANDOM_TANGENTS);
+
+	const uint randomIdx =
+	(
+		(randomIndices[screenCoord.x % numRandomIndices] +
+		randomIndices[screenCoord.y % numRandomIndices]) %
+		numRandomIndices
+	);
+
 	const vec3 randomTangent = randomTangents[randomIdx];
 
 	vec3 viewSpaceTangent;
@@ -115,7 +132,12 @@ mat3 SSAO_getRandomViewSpaceTBN(const ivec2 screenCoord, const vec3 viewSpaceNor
 			If randomTangent is parallel with viewSpaceNormal,
 			set the viewSpaceTangent as a dummy perpendicular vector against viewSpaceNormal.
 		*/
-		viewSpaceTangent = normalize(vec3(0.f, viewSpaceNormal.z, -viewSpaceNormal.y));
+		viewSpaceTangent = normalize(vec3
+		(
+			viewSpaceNormal.y - viewSpaceNormal.z,
+			viewSpaceNormal.z - viewSpaceNormal.x,
+			viewSpaceNormal.x - viewSpaceNormal.y
+		));
 	}
 
 	const vec3 viewSpaceBitangent = cross(viewSpaceNormal, viewSpaceTangent);
@@ -142,7 +164,8 @@ float SSAO_getAmbientOcclusion(
 	float retVal = 0.f;
 	for (uint samplingOffsetIter = 0U; samplingOffsetIter < NUM_SAMPLING_OFFSETS; samplingOffsetIter++)
 	{
-		const vec3 tangentSpaceSamplingOffset = samplingOffsets[samplingOffsetIter];
+		const vec3 tangentSpaceSamplingOffset = (samplingRadius * samplingOffsets[samplingOffsetIter]);
+
 		const vec3 viewSpaceSamplingPos = (viewSpacePos + (viewSpaceTBN * tangentSpaceSamplingOffset));
 		const vec4 clipSpaceSamplingPos = (projMat * vec4(viewSpaceSamplingPos, 1.f));
 
@@ -150,10 +173,11 @@ float SSAO_getAmbientOcclusion(
 		screenSpaceSamplingCoord *= screenSize;
 
 		const vec3 worldSpaceProjPos = texture(worldSpacePosTex, screenSpaceSamplingCoord).xyz;
-		const float viewSpaceProjDepth = dot(vec3(viewMat[0][2], viewMat[1][2], viewMat[2][2]), worldSpaceProjPos);
+		const vec4 viewMat3rdRow = vec4(viewMat[0][2], viewMat[1][2], viewMat[2][2], viewMat[3][2]);
 
-		if (viewSpaceProjDepth > (viewSpaceSamplingPos.z + samplingDepthBias))
-			retVal += 1.f;
+		const float viewSpaceProjDepth = dot(viewMat3rdRow, vec4(worldSpaceProjPos, 1.f));
+
+		retVal += float(viewSpaceProjDepth  > (viewSpaceSamplingPos.z + samplingDepthBias));
 	}
 
 	retVal /= float(NUM_SAMPLING_OFFSETS);

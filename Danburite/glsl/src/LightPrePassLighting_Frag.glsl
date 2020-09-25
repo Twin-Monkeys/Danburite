@@ -39,13 +39,13 @@ void main()
 	diffuse = (shadowOcclusionInv * attenuation * Light_getLightDiffuse(curLightIdx, worldSpaceTargetPos, worldSpaceTargetNormal));
 	specular = (shadowOcclusionInv * attenuation * Light_getLightSpecular(curLightIdx, worldSpaceTargetPos, worldSpaceTargetNormal, viewDir, shininess));
 
-//	// Ambient occlusion
-//
-//	const mat4 viewMat = Camera_getViewMatrix();
-//	const mat4 projMat = Camera_getProjMatrix();
-//
-//	const float ambientOcclusion = SSAO_getAmbientOcclusion(screenCoord, viewMat, projMat, posTex, worldSpaceTargetNormal);
-//	const float ambientOcclusionInv = (1.f - ambientOcclusion);
-//
-//	ambient *= ambientOcclusionInv;
+	// Ambient occlusion
+
+	const mat4 viewMat = Camera_getViewMatrix();
+	const mat4 projMat = Camera_getProjMatrix();
+
+	const float ambientOcclusion = SSAO_getAmbientOcclusion(screenCoord, viewMat, projMat, posTex, worldSpaceTargetNormal);
+	const float ambientOcclusionInv = (1.f - ambientOcclusion);
+
+	ambient = vec3(ambientOcclusionInv);
 } 
