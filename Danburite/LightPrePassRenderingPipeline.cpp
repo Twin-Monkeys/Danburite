@@ -57,8 +57,14 @@ namespace Danburite
 		{
 			TextureContainerUniformInterface& texContainerUI = __texContainerUB.getInterface();
 			texContainerUI.textures = { 0ULL, __pAOInvAttachment->getHandle() };
-
 			__texContainerUB.selfDeploy();
+
+			SSAOUniformInterface &ssaoUI = __ssaoUB.getInterface();
+			ssaoUI.samplingRadius = __ssaoSamplingRadius;
+			ssaoUI.strength = __ssaoStrength;
+			ssaoUI.numSamples = __ssaoNumSamples;
+			ssaoUI.blurRange = __ssaoBlurRange;
+			__ssaoUB.selfDeploy();
 
 			stateMgr.setState(GLStateType::DEPTH_TEST, false);
 			stateMgr.setState(GLStateType::STENCIL_TEST, false);
@@ -194,7 +200,7 @@ namespace Danburite
 		__fullscreenDrawer.draw();
 
 
-		// SSAO Blur
+		// SSAO PP
 		__ssaoPPSetup();
 		__pSSAOPPFB->bind();
 		__ssaoBlurProgram.bind();
@@ -214,5 +220,13 @@ namespace Danburite
 			ppPipeline.getFrameBuffer(), FrameBufferBlitFlag::DEPTH, screenSize.x, screenSize.y);
 
 		ppPipeline.render(__compositionPassSetup, drawer, pSkybox, FrameBufferBlitFlag::COLOR);
+	}
+
+	void LightPrePassRenderingPipeline::setSSAONumSamples(const GLuint numSamples)
+	{
+		if (numSamples > Constant::SSAO::MAX_NUM_SAMPLES)
+			throw SSAOException("numSamples cannot over Constant::SSAO::MAX_NUM_SAMPLES.");
+
+		__ssaoNumSamples = numSamples;
 	}
 }

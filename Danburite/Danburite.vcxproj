@@ -255,11 +255,13 @@
     <ClCompile Include="BoneUniformInterface.cpp" />
     <ClCompile Include="DepthBakingCubemapUniformInterface.cpp" />
     <ClCompile Include="DepthBacking2DUniformInterface.cpp" />
+    <ClCompile Include="SSAOException.cpp" />
     <ClCompile Include="SSAOTestScene.cpp" />
     <ClCompile Include="HDRUniformInterface.cpp" />
     <ClCompile Include="JointUniformInterface.cpp" />
     <ClCompile Include="LightPrePassUniformInterface.cpp" />
     <ClCompile Include="PhongUniformInterface.cpp" />
+    <ClCompile Include="SSAOUniformInterface.cpp" />
     <ClCompile Include="TextureContainerUniformInterface.cpp" />
     <ClCompile Include="SkyboxUniformInterface.cpp" />
     <ClCompile Include="GammaCorrectionUniformInterface.cpp" />
@@ -403,7 +405,9 @@
     <ClInclude Include="DepthBakingCubemapUniformInterface.h" />
     <ClInclude Include="DepthBacking2DUniformInterface.h" />
     <ClInclude Include="EulerAngleOrder.h" />
+    <ClInclude Include="SSAOException.h" />
     <ClInclude Include="SSAOTestScene.h" />
+    <ClInclude Include="SSAOUniformInterface.h" />
     <ClInclude Include="UniformInterfaceHostCache.h" />
     <ClInclude Include="HDRUniformInterface.h" />
     <ClInclude Include="JointUniformInterface.h" />

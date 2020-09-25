@@ -6,14 +6,21 @@
 #include "UniformBufferFactory.h"
 #include "PhongUniformInterface.h"
 #include "TextureContainerUniformInterface.h"
+#include "SSAOUniformInterface.h"
 #include "LightPrePassUniformInterface.h"
 #include "ProgramFactory.h"
+#include "SSAOException.h"
 
 namespace Danburite
 {
 	class LightPrePassRenderingPipeline : public RenderingPipeline
 	{
 	private:
+		GLfloat __ssaoSamplingRadius = Constant::SSAO::SAMPLING_RADIUS;
+		GLfloat __ssaoStrength = Constant::SSAO::STRENGTH;
+		GLuint __ssaoNumSamples = Constant::SSAO::NUM_SAMPLES;
+		GLuint __ssaoBlurRange = Constant::SSAO::BLUR_RANGE;
+
 		AttachmentServer __attachmentServer;
 
 		DeferredUniformBuffer<PhongUniformInterface> &__phongUB =
@@ -21,6 +28,9 @@ namespace Danburite
 
 		DeferredUniformBuffer<TextureContainerUniformInterface> &__texContainerUB =
 			UniformBufferFactory::getInstance().getUniformBuffer<TextureContainerUniformInterface>();
+
+		DeferredUniformBuffer<SSAOUniformInterface> &__ssaoUB =
+			UniformBufferFactory::getInstance().getUniformBuffer<SSAOUniformInterface>();
 
 		DeferredUniformBuffer<LightPrePassUniformInterface> &__lightPrePassUB =
 			UniformBufferFactory::getInstance().getUniformBuffer<LightPrePassUniformInterface>();
@@ -71,5 +81,52 @@ namespace Danburite
 	public:
 		LightPrePassRenderingPipeline(
 			LightManager &lightManager, PerspectiveCamera &camera, BatchProcessor<SceneObject> &drawer, Skybox *const pSkybox = nullptr);
+
+		constexpr GLfloat getSSAOSamplingRadius() const noexcept;
+		constexpr void setSSAOSamplingRadius(const GLfloat radius) noexcept;
+
+		constexpr GLfloat getSSAOStrength() const noexcept;
+		constexpr void setSSAOStrength(const GLfloat strength) noexcept;
+
+		constexpr GLuint getSSAONumSamples() const noexcept;
+		void setSSAONumSamples(const GLuint numSamples);
+
+		constexpr GLuint getSSAOBlurRange() const noexcept;
+		constexpr void setSSAOBlurRange(const GLuint blurRange) noexcept;
 	};
+
+	constexpr GLfloat LightPrePassRenderingPipeline::getSSAOSamplingRadius() const noexcept
+	{
+		return __ssaoSamplingRadius;
+	}
+
+	constexpr void LightPrePassRenderingPipeline::setSSAOSamplingRadius(const GLfloat radius) noexcept
+	{
+		__ssaoSamplingRadius = radius;
+	}
+
+	constexpr GLfloat LightPrePassRenderingPipeline::getSSAOStrength() const noexcept
+	{
+		return __ssaoStrength;
+	}
+
+	constexpr void LightPrePassRenderingPipeline::setSSAOStrength(const GLfloat strength) noexcept
+	{
+		__ssaoStrength = strength;
+	}
+
+	constexpr GLuint LightPrePassRenderingPipeline::getSSAONumSamples() const noexcept
+	{
+		return __ssaoNumSamples;
+	}
+
+	constexpr GLuint LightPrePassRenderingPipeline::getSSAOBlurRange() const noexcept
+	{
+		return __ssaoBlurRange;
+	}
+
+	constexpr void LightPrePassRenderingPipeline::setSSAOBlurRange(const GLuint blurRange) noexcept
+	{
+		__ssaoBlurRange = blurRange;
+	}
 }

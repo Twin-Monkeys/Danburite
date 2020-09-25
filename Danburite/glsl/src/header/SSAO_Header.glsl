@@ -7,7 +7,15 @@
 
 #include "Constant_Header.glsl"
 
-const uint NUM_SAMPLING_OFFSETS = 16U;
+layout(std140, binding = BINDING_POINT_SSAO) uniform UBSSAO
+{
+	layout(offset = 0) float samplingRadius;
+	layout(offset = 16) float strength;
+	layout(offset = 32) uint numSamples;
+	layout(offset = 48) uint blurRange;
+}
+ssao;
+
 const vec3 samplingOffsets[] = vec3[]
 (
 	vec3(.0214918f, -.0159405f, .0379622f),
@@ -151,8 +159,7 @@ float SSAO_getAmbientOcclusionInv(
 	const ivec2 screenCoord, const mat4 viewMat, const mat4 projMat,
 	const sampler2DRect worldSpacePosTex, const vec3 worldSpaceNormal)
 {
-	const float samplingRadius = .5f;
-	const float samplingDepthBias = (samplingRadius * .01f);
+	const float samplingDepthBias = (ssao.samplingRadius * .01f);
 	const vec2 screenSize = vec2(textureSize(worldSpacePosTex));
 
 	const vec3 worldSpacePos = texelFetch(worldSpacePosTex, screenCoord).xyz;
@@ -164,9 +171,9 @@ float SSAO_getAmbientOcclusionInv(
 	const mat3 viewSpaceTBN = SSAO_getRandomViewSpaceTBN(screenCoord, viewSpaceNormal);
 
 	float ambientOcclusion = 0.f;
-	for (uint samplingOffsetIter = 0U; samplingOffsetIter < NUM_SAMPLING_OFFSETS; samplingOffsetIter++)
+	for (uint samplingOffsetIter = 0U; samplingOffsetIter < ssao.numSamples; samplingOffsetIter++)
 	{
-		const vec3 tangentSpaceSamplingOffset = (samplingRadius * samplingOffsets[samplingOffsetIter]);
+		const vec3 tangentSpaceSamplingOffset = (ssao.samplingRadius * samplingOffsets[samplingOffsetIter]);
 		const vec3 viewSpaceSamplingPos = (viewSpacePos + (viewSpaceTBN * tangentSpaceSamplingOffset));
 		const vec4 clipSpaceSamplingPos = (projMat * vec4(viewSpaceSamplingPos, 1.f));
 
@@ -177,18 +184,18 @@ float SSAO_getAmbientOcclusionInv(
 		const vec4 viewMat2ndRow = vec4(viewMat[0][2], viewMat[1][2], viewMat[2][2], viewMat[3][2]);
 		const float viewSpaceProjDepth = dot(viewMat2ndRow, vec4(worldSpaceProjPos, 1.f));
 
-		const float attenuation = smoothstep(0.f, 1.f, samplingRadius / abs(viewSpacePos.z - viewSpaceProjDepth));
+		const float attenuation = smoothstep(0.f, 1.f, ssao.samplingRadius / abs(viewSpacePos.z - viewSpaceProjDepth));
 		ambientOcclusion += (float(viewSpaceProjDepth > (viewSpaceSamplingPos.z + samplingDepthBias)) * attenuation);
 	}
 
-	ambientOcclusion /= float(NUM_SAMPLING_OFFSETS);
+	ambientOcclusion /= float(ssao.numSamples);
 	return (1.f - ambientOcclusion);
 }
 
 float SSAO_getPostProcessedAmbientOcclusionInv(const ivec2 screenCoord, const sampler2DRect ambientOcclusionInvTex)
 {
-	const int blurRange = 3;
-	const int blurKernelSize = (blurRange * 2) + 1;
+	const int blurRange = int(ssao.blurRange);
+	const int blurKernelSize = ((blurRange * 2) + 1);
 
 	float retVal = 0.f;
 	for (int horizIter = -blurRange; horizIter <= blurRange; horizIter++)
@@ -199,7 +206,7 @@ float SSAO_getPostProcessedAmbientOcclusionInv(const ivec2 screenCoord, const sa
 		}
 
 	retVal /= float(blurKernelSize * blurKernelSize);
-	return pow(retVal, 2.f);
+	return pow(retVal, ssao.strength);
 }
 
 #endif

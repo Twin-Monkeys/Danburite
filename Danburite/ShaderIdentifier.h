@@ -41,7 +41,8 @@ namespace Danburite
 					BONE					= 12U,
 					PHONG					= 13U,
 					LIGHT_PREPASS			= 14U,
-					TRANSLUCENCY_SWITCHER	= 15U
+					TRANSLUCENCY_SWITCHER	= 15U,
+					SSAO					= 16U
 					;
 			}
 		}
