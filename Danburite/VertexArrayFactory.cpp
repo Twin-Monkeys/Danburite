@@ -2,6 +2,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
 #include <glm/gtc/epsilon.hpp>
+#include <glm/gtx/euler_angles.hpp>
 #include "VertexAttributeListFactory.h"
 
 using namespace std;
@@ -315,8 +316,7 @@ namespace Danburite
 	shared_ptr<VertexArray> VertexArrayFactory::createSphere(
 		const VertexAttributeFlag vertexFlag, const float radius, const size_t numStacks, const size_t numSectors)
 	{
-		if ((vertexFlag & (VertexAttributeFlag::BONE | VertexAttributeFlag::MODELMAT)) ||
-			(numStacks < 2ULL) || (numSectors < 3ULL))
+		if ((vertexFlag & (VertexAttributeFlag::BONE | VertexAttributeFlag::MODELMAT)) || (numStacks < 2ULL) || (numSectors < 3ULL))
 			throw VertexArrayFactoryException("Invalid flags are detected.");
 
 		constexpr vec4 color = { 1.f, 1.f, 1.f, 1.f };
@@ -381,6 +381,178 @@ namespace Danburite
 		for (size_t stackIter = 0ULL; stackIter < numStacks; stackIter++)
 		{
 			GLuint idx0 = GLuint(stackIter * (numSectors + 1ULL));
+			GLuint idx1 = (idx0 + GLuint(numSectors + 1ULL));
+
+			for (size_t sectorIter = 0ULL; sectorIter < numSectors; sectorIter++)
+			{
+				if (stackIter)
+					indices.insert(indices.end(), { idx0, idx1, idx0 + 1U });
+
+				if (stackIter != GLuint(numStacks - 1ULL))
+					indices.insert(indices.end(), { idx0 + 1U, idx1, idx1 + 1U });
+
+				idx0++;
+				idx1++;
+			}
+		}
+
+		const shared_ptr<VertexBuffer> &pVertexBuffer = make_shared<VertexBuffer>();
+		pVertexBuffer->memoryAlloc(vertices, BufferUpdatePatternType::STATIC);
+		pVertexBuffer->setAttributes(VertexAttributeListFactory::getInstance(vertexFlag));
+
+		const shared_ptr<IndexBuffer> &pIndexBuffer = make_shared<IndexBuffer>();
+		pIndexBuffer->memoryAlloc(indices, BufferUpdatePatternType::STATIC);
+
+		return make_shared<VertexArray>(pVertexBuffer, pIndexBuffer, GLsizei(indices.size()));
+	}
+
+	shared_ptr<VertexArray> VertexArrayFactory::createTweakedTwinSphere(
+		const VertexAttributeFlag vertexFlag, const float radius, const size_t numStacks, const size_t numSectors)
+	{
+		if ((vertexFlag & (VertexAttributeFlag::BONE | VertexAttributeFlag::MODELMAT)) || (numStacks < 2ULL) || (numSectors < 3ULL))
+			throw VertexArrayFactoryException("Invalid flags are detected.");
+
+		static constexpr vec4 color = { 1.f, 1.f, 1.f, 1.f };
+		static const mat3 tweakingMat1 = glm::eulerAngleXYZ(-.1f, -.1f, -.1f);
+		static const mat3 tweakingMat2 = glm::eulerAngleXYZ(.1f, .1f, .1f);
+
+		const size_t numVertices = ((numStacks + 1ULL) * (numSectors + 1ULL));
+		const float stackAngleStep = (pi<float>() / float(numStacks));
+		const float sectorAngleStep = (two_pi<float>() / float(numSectors));
+
+		vector<GLfloat> vertices;
+
+		// sphere 1
+		float curStackAngle = half_pi<float>();
+		for (size_t stackIter = 0ULL; stackIter <= numStacks; stackIter++)
+		{
+			vec3 pos;
+			pos.y = (radius * sinf(curStackAngle));
+			const float yProjLength = (radius * cosf(curStackAngle));
+
+			float curSectorAngle = 0.f;
+			for (size_t sectorIter = 0ULL; sectorIter <= numSectors; sectorIter++)
+			{
+				pos.x = (yProjLength * cosf(curSectorAngle));
+				pos.z = -(yProjLength * sinf(curSectorAngle));
+
+				const vec3 &tweakedPos = (tweakingMat1 * pos);
+
+				if (vertexFlag & VertexAttributeFlag::POS)
+					vertices.insert(vertices.end(), { tweakedPos.x, tweakedPos.y, tweakedPos.z });
+
+				if (vertexFlag & VertexAttributeFlag::COLOR)
+					vertices.insert(vertices.end(), { color.r, color.g, color.b, color.a });
+
+				if (vertexFlag & VertexAttributeFlag::NORMAL)
+				{
+					const vec3 &normal = (tweakedPos / radius);
+					vertices.insert(vertices.end(), { normal.x, normal.y, normal.z });
+				}
+
+				if (vertexFlag & VertexAttributeFlag::TEXCOORD)
+				{
+					vertices.insert(
+						vertices.end(), { float(sectorIter) / float(numSectors), float(stackIter) / float(numStacks) });
+				}
+
+				if (vertexFlag & VertexAttributeFlag::TANGENT)
+				{
+					vec3 tangent{ tweakedPos.z, 0.f, -tweakedPos.x };
+					const float tangentLength = length(tangent);
+
+					if (epsilonEqual(tangentLength, 0.f, epsilon<float>()))
+						tangent = { 1.f, 0.f, 0.f };
+					else
+						tangent /= tangentLength;
+
+					vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
+				}
+
+				curSectorAngle += sectorAngleStep;
+			}
+
+			curStackAngle -= stackAngleStep;
+		}
+
+		// sphere 2
+		curStackAngle = half_pi<float>();
+		for (size_t stackIter = 0ULL; stackIter <= numStacks; stackIter++)
+		{
+			vec3 pos;
+			pos.y = (radius * sinf(curStackAngle));
+			const float yProjLength = (radius * cosf(curStackAngle));
+
+			float curSectorAngle = 0.f;
+			for (size_t sectorIter = 0ULL; sectorIter <= numSectors; sectorIter++)
+			{
+				pos.x = (yProjLength * cosf(curSectorAngle));
+				pos.z = -(yProjLength * sinf(curSectorAngle));
+
+				const vec3 &tweakedPos = (tweakingMat2 * pos);
+
+				if (vertexFlag & VertexAttributeFlag::POS)
+					vertices.insert(vertices.end(), { tweakedPos.x, tweakedPos.y, tweakedPos.z });
+
+				if (vertexFlag & VertexAttributeFlag::COLOR)
+					vertices.insert(vertices.end(), { color.r, color.g, color.b, color.a });
+
+				if (vertexFlag & VertexAttributeFlag::NORMAL)
+				{
+					const vec3 &normal = (tweakedPos / radius);
+					vertices.insert(vertices.end(), { normal.x, normal.y, normal.z });
+				}
+
+				if (vertexFlag & VertexAttributeFlag::TEXCOORD)
+				{
+					vertices.insert(
+						vertices.end(), { float(sectorIter) / float(numSectors), float(stackIter) / float(numStacks) });
+				}
+
+				if (vertexFlag & VertexAttributeFlag::TANGENT)
+				{
+					vec3 tangent{ tweakedPos.z, 0.f, -tweakedPos.x };
+					const float tangentLength = length(tangent);
+
+					if (epsilonEqual(tangentLength, 0.f, epsilon<float>()))
+						tangent = { 1.f, 0.f, 0.f };
+					else
+						tangent /= tangentLength;
+
+					vertices.insert(vertices.end(), { tangent.x, tangent.y, tangent.z });
+				}
+
+				curSectorAngle += sectorAngleStep;
+			}
+
+			curStackAngle -= stackAngleStep;
+		}
+
+		vector<GLuint> indices;
+
+		// sphere 1
+		for (size_t stackIter = 0ULL; stackIter < numStacks; stackIter++)
+		{
+			GLuint idx0 = GLuint(stackIter * (numSectors + 1ULL));
+			GLuint idx1 = (idx0 + GLuint(numSectors + 1ULL));
+
+			for (size_t sectorIter = 0ULL; sectorIter < numSectors; sectorIter++)
+			{
+				if (stackIter)
+					indices.insert(indices.end(), { idx0, idx1, idx0 + 1U });
+
+				if (stackIter != GLuint(numStacks - 1ULL))
+					indices.insert(indices.end(), { idx0 + 1U, idx1, idx1 + 1U });
+
+				idx0++;
+				idx1++;
+			}
+		}
+
+		// sphere 2
+		for (size_t stackIter = 0ULL; stackIter < numStacks; stackIter++)
+		{
+			GLuint idx0 = GLuint(numVertices + (stackIter * (numSectors + 1ULL)));
 			GLuint idx1 = (idx0 + GLuint(numSectors + 1ULL));
 
 			for (size_t sectorIter = 0ULL; sectorIter < numSectors; sectorIter++)

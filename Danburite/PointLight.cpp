@@ -12,16 +12,12 @@ namespace Danburite
 		PerspectiveLight(type, index)
 	{
 		const shared_ptr<VertexArray> &pVolumeVA =
-			VertexArrayFactory::createSphere(VertexAttributeFlag::POS, 1.f, 9ULL, 18ULL);
+			VertexArrayFactory::createTweakedTwinSphere(VertexAttributeFlag::POS, 1.f);
 
 		const shared_ptr<RawDrawcallMaterial> &pVolumeMaterial =
 			make_shared<RawDrawcallMaterial>(VertexAttributeFlag::POS);
 
 		__pVolume->createNode(pVolumeVA, pVolumeMaterial);
-		__pVolume->setNumInstances(2ULL);
-
-		__pVolume->getTransform(0ULL).getRotation().rotateLocal(-.1f, -.1f, -.1f);
-		__pVolume->getTransform(1ULL).getRotation().rotateLocal(.1f, .1f, .1f);
 
 		__lightingVolumeSetup.setup([this](ContextStateManager &stateMgr)
 		{
@@ -49,9 +45,7 @@ namespace Danburite
 			__luminanceTolerance, getAlbedo(),
 			getAmbientStrength(), getDiffuseStrength(), getSpecularStrength());
 
-		const float validDistance = _getValidDistance();
-		__pVolume->getTransform(0ULL).setScale(validDistance);
-		__pVolume->getTransform(1ULL).setScale(validDistance);
+		__pVolume->getTransform().setScale(_getValidDistance());
 	}
 
 	void PointLight::_onDeploy(LightUniformInterface &lightUI) noexcept
@@ -109,10 +103,7 @@ namespace Danburite
 	{
 		PerspectiveLight::update(delta);
 
-		const vec3 &lightPos = getTransform().getPosition();
-		__pVolume->getTransform(0ULL).setPosition(lightPos);
-		__pVolume->getTransform(1ULL).setPosition(lightPos);
-
+		__pVolume->getTransform().setPosition(getTransform().getPosition());
 		__pVolume->update(delta);
 	}
 }

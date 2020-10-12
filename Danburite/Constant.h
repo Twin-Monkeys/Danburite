@@ -159,8 +159,8 @@ namespace Danburite
 		namespace SSAO
 		{
 			constexpr GLfloat SAMPLING_RADIUS	= .5f;
-			constexpr GLfloat STRENGTH			= 1.f;
-			constexpr GLuint NUM_SAMPLES		= 16U;
+			constexpr GLfloat STRENGTH			= 1.5f;
+			constexpr GLuint NUM_SAMPLES		= 32U;
 			constexpr GLuint MAX_NUM_SAMPLES	= 64U;
 			constexpr GLuint BLUR_RANGE			= 2U;
 		}
