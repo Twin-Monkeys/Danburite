@@ -116,7 +116,7 @@ SSAOTestScene::SSAOTestScene()
 		감마 값은 기본적으로 필요. 1.f 라도 초기화 해주어야 함.
 	*/
 	ppPipeline.appendProcessor<GammaCorrectionPostProcessor>(true);
-	ppPipeline.appendProcessor<BloomPostProcessor>();
+	// ppPipeline.appendProcessor<BloomPostProcessor>();
 	__pHDRPP = &ppPipeline.appendProcessor<HDRPostProcessor>();
 }
 

@@ -11,8 +11,6 @@ namespace Danburite
 	PointLight::PointLight(const LightType type, const GLuint index) :
 		PerspectiveLight(type, index)
 	{
-		setLuminanceTolerance(Constant::Light::AttenuatedComponent::LUMINANCE_TOLERANCE);
-
 		const shared_ptr<VertexArray> &pVolumeVA =
 			VertexArrayFactory::createSphere(VertexAttributeFlag::POS, 1.f, 9ULL, 18ULL);
 
@@ -20,6 +18,10 @@ namespace Danburite
 			make_shared<RawDrawcallMaterial>(VertexAttributeFlag::POS);
 
 		__pVolume->createNode(pVolumeVA, pVolumeMaterial);
+		__pVolume->setNumInstances(2ULL);
+
+		__pVolume->getTransform(0ULL).getRotation().rotateLocal(-.1f, -.1f, -.1f);
+		__pVolume->getTransform(1ULL).getRotation().rotateLocal(.1f, .1f, .1f);
 
 		__lightingVolumeSetup.setup([this](ContextStateManager &stateMgr)
 		{
@@ -27,6 +29,8 @@ namespace Danburite
 			stateMgr.setState(GLStateType::CULL_FACE, true);
 			stateMgr.setCulledFace(FacetType::FRONT);
 		});
+
+		setLuminanceTolerance(Constant::Light::AttenuatedComponent::LUMINANCE_TOLERANCE);
 	}
 
 	PointLight::PointLight(const GLuint index) :
@@ -45,13 +49,17 @@ namespace Danburite
 			__luminanceTolerance, getAlbedo(),
 			getAmbientStrength(), getDiffuseStrength(), getSpecularStrength());
 
-		__pVolume->getTransform().setScale(_getValidDistance());
+		const float validDistance = _getValidDistance();
+		__pVolume->getTransform(0ULL).setScale(validDistance);
+		__pVolume->getTransform(1ULL).setScale(validDistance);
 	}
 
 	void PointLight::_onDeploy(LightUniformInterface &lightUI) noexcept
 	{
-		_deployBaseComponent(getIndex(), lightUI);
-		_deployAttenuatedComponent(getIndex(), lightUI);
+		const GLuint lightIdx = getIndex();
+
+		_deployBaseComponent(lightIdx, lightUI);
+		_deployAttenuatedComponent(lightIdx, lightUI);
 		_deployPosition(lightUI);
 	}
 
@@ -100,7 +108,11 @@ namespace Danburite
 	void PointLight::update(const float delta) noexcept
 	{
 		PerspectiveLight::update(delta);
-		__pVolume->getTransform().setPosition(getTransform().getPosition());
+
+		const vec3 &lightPos = getTransform().getPosition();
+		__pVolume->getTransform(0ULL).setPosition(lightPos);
+		__pVolume->getTransform(1ULL).setPosition(lightPos);
+
 		__pVolume->update(delta);
 	}
 }
