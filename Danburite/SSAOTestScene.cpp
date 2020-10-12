@@ -80,8 +80,8 @@ SSAOTestScene::SSAOTestScene()
 
 	light1.setAttenuation(1.f, .07f, .021f);
 	light1.setAlbedo(.2f, .3f, 1.f);
-	light1.setDiffuseStrength(3.f);
-	light1.setSpecularStrength(3.f);
+	light1.setDiffuseStrength(1.f);
+	light1.setSpecularStrength(1.f);
 	light1.setShadowEnabled(true);
 	light1.setWidth(5.f);
 	light1.setShadowKernelRange(2U);
@@ -116,7 +116,7 @@ SSAOTestScene::SSAOTestScene()
 		감마 값은 기본적으로 필요. 1.f 라도 초기화 해주어야 함.
 	*/
 	ppPipeline.appendProcessor<GammaCorrectionPostProcessor>(true);
-	// ppPipeline.appendProcessor<BloomPostProcessor>();
+	ppPipeline.appendProcessor<BloomPostProcessor>();
 	__pHDRPP = &ppPipeline.appendProcessor<HDRPostProcessor>();
 }
 
