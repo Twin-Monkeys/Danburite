@@ -16,6 +16,7 @@ namespace Danburite
 	class LightPrePassRenderingPipeline : public RenderingPipeline
 	{
 	private:
+		bool __ssaoEnabled = false;
 		GLfloat __ssaoSamplingRadius = Constant::SSAO::SAMPLING_RADIUS;
 		GLfloat __ssaoStrength = Constant::SSAO::STRENGTH;
 		GLuint __ssaoNumSamples = Constant::SSAO::NUM_SAMPLES;
@@ -82,6 +83,9 @@ namespace Danburite
 		LightPrePassRenderingPipeline(
 			LightManager &lightManager, PerspectiveCamera &camera, BatchProcessor<SceneObject> &drawer, Skybox *const pSkybox = nullptr);
 
+		constexpr bool isSSAOEnabled() const noexcept;
+		constexpr void enableSSAO(const bool enabled) noexcept;
+
 		constexpr GLfloat getSSAOSamplingRadius() const noexcept;
 		constexpr void setSSAOSamplingRadius(const GLfloat radius) noexcept;
 
@@ -94,6 +98,16 @@ namespace Danburite
 		constexpr GLuint getSSAOBlurRange() const noexcept;
 		constexpr void setSSAOBlurRange(const GLuint blurRange) noexcept;
 	};
+
+	constexpr bool LightPrePassRenderingPipeline::isSSAOEnabled() const noexcept
+	{
+		return __ssaoEnabled;
+	}
+
+	constexpr void LightPrePassRenderingPipeline::enableSSAO(const bool enabled) noexcept
+	{
+		__ssaoEnabled = enabled;
+	}
 
 	constexpr GLfloat LightPrePassRenderingPipeline::getSSAOSamplingRadius() const noexcept
 	{

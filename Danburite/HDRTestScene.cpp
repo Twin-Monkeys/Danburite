@@ -12,6 +12,7 @@
 #include "LightPrePassRenderingPipeline.h"
 #include "GammaCorrectionPostProcessor.h"
 #include "BloomPostProcessor.h"
+#include "FXAAPostProcessor.h"
 
 using namespace std;
 using namespace glm;
@@ -87,6 +88,7 @@ HDRTestScene::HDRTestScene()
 	doorTransform.setScale(.1f);
 	doorTransform.setPosition(0.f, 0.f, -35.f);
 	__pDoorObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
+	__pDoorObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 1.8f);
 
 	__pDoorObj->getAnimationManager().activateAnimation(1);
 	__pDoorObj->getAnimationManager().getActiveAnimation().setPlaySpeed(.6f);
@@ -134,10 +136,9 @@ HDRTestScene::HDRTestScene()
 
 	__pBlueLight = &__lightMgr.createLight<PointLight>();
 	__pBlueLight->setAlbedo(.2f, .3f, 1.f);
-	__pBlueLight->setAmbientStrength(.05f);
-	__pBlueLight->setDiffuseStrength(1.f);
-	__pBlueLight->setSpecularStrength(1.f);
-	__pBlueLight->setAttenuation(1.f, 0.09f, 0.032f);
+	__pBlueLight->setDiffuseStrength(1.5f);
+	__pBlueLight->setSpecularStrength(1.5f);
+	__pBlueLight->setAttenuation(1.f, 0.045f, 0.0075f);
 	__pBlueLight->setShadowEnabled(true);
 
 	Transform& blueLightTransform = __pBlueLight->getTransform();
@@ -148,7 +149,7 @@ HDRTestScene::HDRTestScene()
 	__pRedLight->setAmbientStrength(.05f);
 	__pRedLight->setDiffuseStrength(2.f);
 	__pRedLight->setSpecularStrength(2.f);
-	__pRedLight->setAttenuation(1.f, 0.22f, 0.20f);
+	__pRedLight->setAttenuation(1.f, 0.09f, 0.032f);
 	__pRedLight->setShadowEnabled(true);
 
 	Transform &redLightTransform = __pRedLight->getTransform();
@@ -214,10 +215,8 @@ HDRTestScene::HDRTestScene()
 	PostProcessorPipeline &ppPipeline =
 		__pRenderingPipeline->getPostProcessorPipeline();
 
-	/*
-		감마 값은 기본적으로 필요. 1.f 라도 초기화 해주어야 함.
-	*/
-	ppPipeline.appendProcessor<GammaCorrectionPostProcessor>(true);
+	ppPipeline.appendProcessor<FXAAPostProcessor>(true);
+	ppPipeline.appendProcessor<GammaCorrectionPostProcessor>();
 	ppPipeline.appendProcessor<BloomPostProcessor>();
 	__pHDRPP = &ppPipeline.appendProcessor<HDRPostProcessor>();
 }
@@ -312,7 +311,7 @@ bool HDRTestScene::update(const float deltaTime) noexcept
 	}
 
 	__emissiveStrength += (deltaTime * .001f);
-	__pCargoBayObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, fabsf(cosf(__emissiveStrength)));
+	__pCargoBayObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 1.7f * fabsf(cosf(__emissiveStrength)));
 
 	__updater.process(&Updatable::update, deltaTime);
 	__updated = true;

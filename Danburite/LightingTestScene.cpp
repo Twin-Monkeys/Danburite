@@ -12,6 +12,7 @@
 #include "LightPrePassRenderingPipeline.h"
 #include "GammaCorrectionPostProcessor.h"
 #include "BloomPostProcessor.h"
+#include "FXAAPostProcessor.h"
 
 using namespace std;
 using namespace glm;
@@ -34,7 +35,7 @@ LightingTestScene::LightingTestScene()
 
 	__pPulseCoreObj = AssetImporter::import("res/asset/arc_pulse_core/scene.gltf");
 	__pPulseCoreObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
-	__pPulseCoreObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 2.f);
+	__pPulseCoreObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 1.4f);
 	Transform& pulseCoreTransform = __pPulseCoreObj->getTransform();
 	pulseCoreTransform.setScale(4.f);
 	pulseCoreTransform.setPosition(-10.f, 0.2f, 30.f);
@@ -44,7 +45,7 @@ LightingTestScene::LightingTestScene()
 	doorTransform.setScale(.15f);
 	doorTransform.setPosition(0.f, 0.f, 105.f);
 	__pDoorObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
-	__pDoorObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 2.f);
+	__pDoorObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 1.4f);
 
 	__pWrenchObj = AssetImporter::import("res/asset/wrench/scene.gltf");
 	__pWrenchObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
@@ -55,7 +56,7 @@ LightingTestScene::LightingTestScene()
 
 	__pDroneObj = AssetImporter::import("res/asset/scifi_drone/scene.gltf");
 	__pDroneObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
-	__pDroneObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 3.f);
+	__pDroneObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 1.4f);
 	__pDroneObj->setNumInstances(GLsizei(__NUM_DRONES));
 
 	for (size_t droneIter = 0ULL; droneIter < __NUM_DRONES; droneIter++)
@@ -71,7 +72,7 @@ LightingTestScene::LightingTestScene()
 
 	__pRobotObj = AssetImporter::import("res/asset/scifi_robot/scene.gltf");
 	__pRobotObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
-	__pRobotObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 3.f);
+	__pRobotObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 2.f);
 	Transform &robotTransform = __pRobotObj->getTransform();
 	robotTransform.setScale(1.7f);
 	robotTransform.setPosition(-10.f, 0.f, 65.f);
@@ -79,7 +80,7 @@ LightingTestScene::LightingTestScene()
 
 	__pHoverDroneObj = AssetImporter::import("res/asset/scifi_hover_drone/scene.gltf");
 	__pHoverDroneObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
-	__pHoverDroneObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 3.f);
+	__pHoverDroneObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 2.f);
 	__pHoverDroneObj->setNumInstances(2);
 
 	Transform &hoverDroneTransform1 = __pHoverDroneObj->getTransform(0);
@@ -93,7 +94,7 @@ LightingTestScene::LightingTestScene()
 
 	__pSpotLightObj = AssetImporter::import("res/asset/stage_light/scene.gltf");
 	__pSpotLightObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
-	__pSpotLightObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 3.f);
+	__pSpotLightObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 2.f);
 	__pSpotLightObj->setNumInstances(2);
 
 	Transform &spotLightObjTransform1 = __pSpotLightObj->getTransform(0);
@@ -108,7 +109,7 @@ LightingTestScene::LightingTestScene()
 
 	__pHoverBikeObj = AssetImporter::import("res/asset/hover_bike/scene.gltf");
 	__pHoverBikeObj->traverseMaterial(&PhongMaterial::setShininess, 150.f);
-	__pHoverBikeObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 3.f);
+	__pHoverBikeObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 2.f);
 	Transform &hoverBikeTransform = __pHoverBikeObj->getTransform();
 	hoverBikeTransform.setScale(.03f);
 	hoverBikeTransform.setPosition(-13.f, 3.f, 170.f);
@@ -209,7 +210,6 @@ LightingTestScene::LightingTestScene()
 	spotLightTransform2.getRotation() = spotLightObjTransform2.getRotation();
 	spotLightTransform2.getRotation().rotateLocalPitch(.1f);
 
-
 	for (size_t smallLightIter = 0ULL; smallLightIter < __NUM_SMALL_LIGHTS; smallLightIter++)
 	{
 		const vec3 &randAlbedo =
@@ -271,14 +271,22 @@ LightingTestScene::LightingTestScene()
 	__pRenderingPipeline =
 		make_unique<LightPrePassRenderingPipeline>(__lightMgr, __camera, __drawer, &__skybox);
 
+	LightPrePassRenderingPipeline* const pRP = static_cast<LightPrePassRenderingPipeline*>(__pRenderingPipeline.get());
+	pRP->enableSSAO(true);
+	pRP->setSSAONumSamples(64U);
+	pRP->setSSAOBlurRange(3U);
+
 	/*__pRenderingPipeline =
 		make_unique<ForwardRenderingPipeline>(__lightMgr, __camera, __drawer, &__skybox);*/
 
+
 	PostProcessorPipeline &ppPipeline = __pRenderingPipeline->getPostProcessorPipeline();
 
-	ppPipeline.appendProcessor<GammaCorrectionPostProcessor>(true);
+	ppPipeline.appendProcessor<FXAAPostProcessor>(true);
+	ppPipeline.appendProcessor<GammaCorrectionPostProcessor>();
 	ppPipeline.appendProcessor<BloomPostProcessor>();
 	__pHDRPP = &ppPipeline.appendProcessor<HDRPostProcessor>();
+
 }
 
 bool LightingTestScene::__keyFunc(const float deltaTime) noexcept
@@ -408,7 +416,7 @@ bool LightingTestScene::update(const float deltaTime) noexcept
 	if (__blinkingDelay < epsilon<float>())
 	{
 		const float randVal = __randDistribute(__randEngine);
-		__pCorridorObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, (randVal < .1f) ? .6f : 2.f);
+		__pCorridorObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, (randVal < .1f) ? .3f : 1.f);
 
 		__blinkingDelay = 80.f;
 	}
@@ -416,7 +424,7 @@ bool LightingTestScene::update(const float deltaTime) noexcept
 	__cargoBayEmissive += (deltaTime * .001f);
 	__cargoBayEmissive = fmodf(__cargoBayEmissive, two_pi<float>());
 
-	__pCargoBayObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 3.f * fabsf(cosf(__cargoBayEmissive)));
+	__pCargoBayObj->traverseMaterial(&PhongMaterial::setEmissiveStrength, 2.f * fabsf(cosf(__cargoBayEmissive)));
 
 	const float doorDist =
 		length(__pCharacterObj->getTransform().getPosition() - __pDoorObj->getTransform().getPosition());

@@ -108,6 +108,7 @@ SSAOTestScene::SSAOTestScene()
 		make_unique<LightPrePassRenderingPipeline>(__lightMgr, __camera, __drawer);
 
 	LightPrePassRenderingPipeline *const pRP = static_cast<LightPrePassRenderingPipeline *>(__pRenderingPipeline.get());
+	pRP->enableSSAO(true);
 	pRP->setSSAONumSamples(64U);
 	pRP->setSSAOBlurRange(3U);
 
@@ -117,9 +118,6 @@ SSAOTestScene::SSAOTestScene()
 	PostProcessorPipeline &ppPipeline =
 		__pRenderingPipeline->getPostProcessorPipeline();
 
-	/*
-		감마 값은 기본적으로 필요. 1.f 라도 초기화 해주어야 함.
-	*/
 	ppPipeline.appendProcessor<FXAAPostProcessor>(true);
 	ppPipeline.appendProcessor<GammaCorrectionPostProcessor>();
 	ppPipeline.appendProcessor<BloomPostProcessor>();

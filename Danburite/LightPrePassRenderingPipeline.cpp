@@ -45,7 +45,6 @@ namespace Danburite
 			TextureContainerUniformInterface& texContainerUI = __texContainerUB.getInterface();
 			texContainerUI.textures = { 0ULL, __pPosAttachment->getHandle() };
 			texContainerUI.textures = { 1ULL, __pNormalShininessAttachment->getHandle() };
-
 			__texContainerUB.selfDeploy();
 
 			stateMgr.setState(GLStateType::DEPTH_TEST, false);
@@ -73,10 +72,14 @@ namespace Danburite
 
 		__lightingPassSetup.setup([this](ContextStateManager &stateMgr)
 		{
+			LightPrePassUniformInterface &lightPrePassUI = __lightPrePassUB.getInterface();
+			lightPrePassUI.ssaoEnabled = GLuint(__ssaoEnabled);
+			__lightPrePassUB.selfDeploy();
+
 			TextureContainerUniformInterface& texContainerUI = __texContainerUB.getInterface();
 			texContainerUI.textures = { 0ULL, __pPosAttachment->getHandle() };
+			texContainerUI.textures = { 1ULL, __pNormalShininessAttachment->getHandle() };
 			texContainerUI.textures = { 2ULL, __pAOInvPPAttachment->getHandle() };
-
 			__texContainerUB.selfDeploy();
 
 			stateMgr.setClearColor(0.f, 0.f, 0.f, 0.f);
@@ -179,10 +182,8 @@ namespace Danburite
 		// Geometry pass
 		__geometryPassSetup();
 
-		#ifdef max
 		#undef max
 		__pPosNormalShininessFB->clearColorBuffer(0U, numeric_limits<float>::max());
-		#endif
 		__pPosNormalShininessFB->clearColorBuffer(1U, { 0.f, 1.f, 0.f, 0.f });
 		__pPosNormalShininessFB->clearBuffers(FrameBufferBlitFlag::DEPTH | FrameBufferBlitFlag::STENCIL);
 		__geometryProgram.bind();
@@ -192,20 +193,21 @@ namespace Danburite
 			iter.rawDrawcallUnderMaterialCondition(false, &Material::isTranslucencyEnabled);
 		});
 
+		if (__ssaoEnabled)
+		{
+			// SSAO
+			__ssaoSetup();
+			__pSSAOFB->bind();
+			__ssaoProgram.bind();
+			__fullscreenDrawer.draw();
 
-		// SSAO
-		__ssaoSetup();
-		__pSSAOFB->bind();
-		__ssaoProgram.bind();
-		__fullscreenDrawer.draw();
 
-
-		// SSAO PP
-		__ssaoPPSetup();
-		__pSSAOPPFB->bind();
-		__ssaoBlurProgram.bind();
-		__fullscreenDrawer.draw();
-
+			// SSAO PP
+			__ssaoPPSetup();
+			__pSSAOPPFB->bind();
+			__ssaoBlurProgram.bind();
+			__fullscreenDrawer.draw();
+		}
 
 		// Lighting pass
 		__lightingPassSetup();

@@ -14,6 +14,7 @@ layout(std140, binding = BINDING_POINT_LIGHT_PREPASS) uniform UBLightPrePass
 	layout(offset = 32) uvec2 specularTex;
 	layout(offset = 48) uint lightVolumeType;
 	layout(offset = 64) uint currentLightIdx;
+	layout(offset = 80) bool ssaoEnabled;
 }
 lightPrePass;
 
@@ -25,6 +26,11 @@ uint LightPrePass_getLightVolumeType()
 uint LightPrePass_getCurrentLightIdx()
 {
 	return lightPrePass.currentLightIdx;
+}
+
+bool LightPrePass_isSsaoEnabled()
+{
+	return lightPrePass.ssaoEnabled;
 }
 
 vec3 LightPrePass_getLightAmbient(const ivec2 screenCoord)
