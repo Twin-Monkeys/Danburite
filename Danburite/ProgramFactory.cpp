@@ -166,6 +166,15 @@ namespace Danburite
 					"glsl/src/PostProcess_Bloom_Composition_Frag.glsl"
 				}
 			},
+			{
+				ProgramType::POST_PROCESS_FXAA,
+				{
+					"glsl/binary/PostProcess_FXAA.bin",
+					"glsl/src/FullscreenQuad_Vert.glsl",
+					"",
+					"glsl/src/PostProcess_FXAA_Frag.glsl"
+				}
+			},
 
 
 			// Depth baking

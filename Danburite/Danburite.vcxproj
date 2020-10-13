@@ -609,6 +609,7 @@
     <None Include="glsl\src\PostProcess_Bloom_BlurVert_Frag.glsl" />
     <None Include="glsl\src\PostProcess_Bloom_ColorExtraction_Frag.glsl" />
     <None Include="glsl\src\PostProcess_Bloom_Composition_Frag.glsl" />
+    <None Include="glsl\src\PostProcess_FXAA_Frag.glsl" />
     <None Include="glsl\src\PostProcess_HDR_Frag.glsl" />
     <None Include="glsl\src\SSAOPostProcessing_Frag.glsl" />
     <None Include="glsl\src\SSAO_Frag.glsl" />

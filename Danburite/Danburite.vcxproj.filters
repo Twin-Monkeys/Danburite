@@ -430,6 +430,9 @@
     <Filter Include="Library\Engine\Core\UniformBuffer\Interface\SSAO">
       <UniqueIdentifier>{ac3850aa-bf66-4820-89fa-b4a4bc942681}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library\Engine\glsl\src\PostProcess\FXAA">
+      <UniqueIdentifier>{dcfe6d2a-5fe0-4781-baf7-af24bd49208e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BufferException.cpp">
@@ -1641,6 +1644,9 @@
     </None>
     <None Include="glsl\src\SSAOPostProcessing_Frag.glsl">
       <Filter>Library\Engine\glsl\src\SSAO</Filter>
+    </None>
+    <None Include="glsl\src\PostProcess_FXAA_Frag.glsl">
+      <Filter>Library\Engine\glsl\src\PostProcess\FXAA</Filter>
     </None>
   </ItemGroup>
 </Project>
