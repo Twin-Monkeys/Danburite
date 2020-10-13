@@ -13,6 +13,6 @@ void main()
 	const vec3 originalColor = texelFetch(srcTex, ivec2(gl_FragCoord.xy)).rgb;
 	const float grayscaledColor = Grayscale_getGrayscaledColor(originalColor);
 
-	const float extractingFactor = (4.5f * max(grayscaledColor - Bloom_getBrightnessThreshold(), 0.f));
+	const float extractingFactor = (4.5f * clamp(grayscaledColor - Bloom_getBrightnessThreshold(), 0.f, 1.f));
 	extractedColor = (extractingFactor * originalColor);
 }

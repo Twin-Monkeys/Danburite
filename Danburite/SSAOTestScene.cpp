@@ -80,11 +80,11 @@ SSAOTestScene::SSAOTestScene()
 
 	light1.setAttenuation(1.f, .07f, .021f);
 	light1.setAlbedo(.2f, .3f, 1.f);
-	light1.setDiffuseStrength(1.f);
-	light1.setSpecularStrength(1.f);
+	light1.setDiffuseStrength(1.5f);
+	light1.setSpecularStrength(1.5f);
 	light1.setShadowEnabled(true);
 	light1.setWidth(5.f);
-	light1.setShadowKernelRange(2U);
+	light1.setShadowKernelRange(5U);
 
 	//// Updater / Drawer √ ±‚»≠ ////
 
@@ -105,6 +105,10 @@ SSAOTestScene::SSAOTestScene()
 
 	__pRenderingPipeline =
 		make_unique<LightPrePassRenderingPipeline>(__lightMgr, __camera, __drawer);
+
+	LightPrePassRenderingPipeline *const pRP = static_cast<LightPrePassRenderingPipeline *>(__pRenderingPipeline.get());
+	pRP->setSSAONumSamples(64U);
+	pRP->setSSAOBlurRange(3U);
 
 	/*__pRenderingPipeline =
 		make_unique<ForwardRenderingPipeline>(__lightMgr, __camera, __drawer);*/
