@@ -164,5 +164,21 @@ namespace Danburite
 			constexpr GLuint MAX_NUM_SAMPLES	= 64U;
 			constexpr GLuint BLUR_RANGE			= 2U;
 		}
+
+		namespace FXAA
+		{
+			constexpr GLuint MAX_NUM_EDGE_STEPS = 20U;
+
+			constexpr unsigned DEFAULT_NUM_EDGE_STEPS = 11U;
+			constexpr float DEFAULT_EDGE_STEPS[] =
+			{
+				1.0f, 1.5f, 2.0f, 2.0f, 2.0f,
+				2.0f, 2.0f, 3.0f, 3.0f, 4.0f,
+				8.0f
+			};
+			constexpr float DEFAULT_ABSOLUTE_THRESHOLD = .0312f;
+			constexpr float DEFAULT_RELATIVE_THRESHOLD = .063f;
+			constexpr float DEFAULT_SUBPIXEL_BLENDING_FACTOR = 1.f;
+		}
 	}
 }

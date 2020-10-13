@@ -13,7 +13,7 @@ namespace Danburite
 		const SpecializedUniformFieldArray<
 			GLuint64, Constant::TextureContainer::MAX_TEXTURE_CONTAINER_ELEMS>
 			textures = _createFieldArray<GLuint64, Constant::TextureContainer::MAX_TEXTURE_CONTAINER_ELEMS>
-			(0);
+			(0ULL);
 
 		TextureContainerUniformInterface() noexcept;
 		virtual ~TextureContainerUniformInterface() = default;

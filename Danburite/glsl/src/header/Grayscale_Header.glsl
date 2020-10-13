@@ -5,7 +5,7 @@
 
 float Grayscale_getGrayscaledColor(const vec3 originalColor)
 {
-	return ((.2126f * originalColor.r) + (.7152f * originalColor.g) + (.0722f * originalColor.b));
+	return dot(vec3(.2126f, .7152f, .0722f), originalColor);
 }
 
 #endif

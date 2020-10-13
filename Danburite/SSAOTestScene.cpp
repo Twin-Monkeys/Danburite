@@ -11,6 +11,7 @@
 #include "LightPrePassRenderingPipeline.h"
 #include "GammaCorrectionPostProcessor.h"
 #include "BloomPostProcessor.h"
+#include "FXAAPostProcessor.h"
 
 using namespace std;
 using namespace glm;
@@ -119,7 +120,8 @@ SSAOTestScene::SSAOTestScene()
 	/*
 		감마 값은 기본적으로 필요. 1.f 라도 초기화 해주어야 함.
 	*/
-	ppPipeline.appendProcessor<GammaCorrectionPostProcessor>(true);
+	ppPipeline.appendProcessor<FXAAPostProcessor>(true);
+	ppPipeline.appendProcessor<GammaCorrectionPostProcessor>();
 	ppPipeline.appendProcessor<BloomPostProcessor>();
 	__pHDRPP = &ppPipeline.appendProcessor<HDRPostProcessor>();
 }

@@ -88,7 +88,7 @@ namespace Danburite
 	{
 		__pOriginalColorAttachment = _getTexRectangle(
 			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB,
-			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST, 0ULL);
+			TextureDataType::FLOAT, TextureMinFilterValue::LINEAR, TextureMagFilterValue::LINEAR, 0ULL);
 
 		_attach(AttachmentType::COLOR_ATTACHMENT0, *__pOriginalColorAttachment);
 
@@ -103,14 +103,14 @@ namespace Danburite
 
 		__pBloomColorAttachment1 = _getTexRectangle(
 			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB,
-			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST, 1ULL);
+			TextureDataType::FLOAT, TextureMinFilterValue::LINEAR, TextureMagFilterValue::LINEAR, 1ULL);
 
 		__pBloomFrameBuffer1->attach(AttachmentType::COLOR_ATTACHMENT0, *__pBloomColorAttachment1);
 
 
 		__pBloomColorAttachment2 = _getTexRectangle(
 			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB,
-			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST, 2ULL);
+			TextureDataType::FLOAT, TextureMinFilterValue::LINEAR, TextureMagFilterValue::LINEAR, 2ULL);
 
 		__pBloomFrameBuffer2->attach(AttachmentType::COLOR_ATTACHMENT0, *__pBloomColorAttachment2);
 	}

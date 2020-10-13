@@ -255,6 +255,8 @@
     <ClCompile Include="BoneUniformInterface.cpp" />
     <ClCompile Include="DepthBakingCubemapUniformInterface.cpp" />
     <ClCompile Include="DepthBacking2DUniformInterface.cpp" />
+    <ClCompile Include="FXAAPostProcessor.cpp" />
+    <ClCompile Include="FXAAUniformInterface.cpp" />
     <ClCompile Include="SSAOException.cpp" />
     <ClCompile Include="SSAOTestScene.cpp" />
     <ClCompile Include="HDRUniformInterface.cpp" />
@@ -318,7 +320,6 @@
     <ClCompile Include="RenderBufferBase.cpp" />
     <ClCompile Include="RenderBufferException.cpp" />
     <ClCompile Include="RenderBufferMultisample.cpp" />
-    <ClCompile Include="ShaderIdentifier.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="StaticSceneNodeConnecter.cpp" />
     <ClCompile Include="TextureCubemap.cpp" />
@@ -405,6 +406,8 @@
     <ClInclude Include="DepthBakingCubemapUniformInterface.h" />
     <ClInclude Include="DepthBacking2DUniformInterface.h" />
     <ClInclude Include="EulerAngleOrder.h" />
+    <ClInclude Include="FXAAPostProcessor.h" />
+    <ClInclude Include="FXAAUniformInterface.h" />
     <ClInclude Include="SSAOException.h" />
     <ClInclude Include="SSAOTestScene.h" />
     <ClInclude Include="SSAOUniformInterface.h" />
@@ -591,6 +594,7 @@
     <None Include="glsl\src\header\DepthBaking2D_Header.glsl" />
     <None Include="glsl\src\header\DepthBakingCubemap_Header.glsl" />
     <None Include="glsl\src\header\Fullscreen_Header.glsl" />
+    <None Include="glsl\src\header\FXAA_Header.glsl" />
     <None Include="glsl\src\header\Grayscale_Header.glsl" />
     <None Include="glsl\src\header\HDR_Header.glsl" />
     <None Include="glsl\src\header\Joint_Header.glsl" />

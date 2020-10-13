@@ -4,6 +4,7 @@
 #include "UniformBufferFactory.h"
 #include "MaterialUniformInterface.h"
 #include "GammaCorrectionUniformInterface.h"
+#include "Constant.h"
 
 namespace Danburite
 {
@@ -16,7 +17,7 @@ namespace Danburite
 		DeferredUniformBuffer<GammaCorrectionUniformInterface> &__gammaCorrectionUB =
 			UniformBufferFactory::getInstance().getUniformBuffer<GammaCorrectionUniformInterface>();
 
-		float __gamma;
+		float __gamma = Constant::GammaCorrection::DEFAULT_GAMMA;
 
 		SetupTransaction __setupTransaction;
 
@@ -25,8 +26,13 @@ namespace Danburite
 
 	public:
 		GammaCorrectionPostProcessor(const bool attachDepthBuffer = false);
-		void setGamma(const float gamma) noexcept;
+		constexpr void setGamma(const float gamma) noexcept;
 
 		virtual ~GammaCorrectionPostProcessor() = default;
 	};
+
+	constexpr void GammaCorrectionPostProcessor::setGamma(const float gamma) noexcept
+	{
+		__gamma = gamma;
+	}
 }

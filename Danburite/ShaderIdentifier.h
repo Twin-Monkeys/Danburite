@@ -42,7 +42,8 @@ namespace Danburite
 					PHONG					= 13U,
 					LIGHT_PREPASS			= 14U,
 					TRANSLUCENCY_SWITCHER	= 15U,
-					SSAO					= 16U
+					SSAO					= 16U,
+					FXAA					= 17U
 					;
 			}
 		}

@@ -41,7 +41,7 @@ namespace Danburite
 	{
 		__pColorAttachment = _getTexRectangle(
 			width, height, TextureInternalFormatType::RGB16F, TextureExternalFormatType::RGB,
-			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST);
+			TextureDataType::FLOAT, TextureMinFilterValue::LINEAR, TextureMagFilterValue::LINEAR);
 
 		_attach(AttachmentType::COLOR_ATTACHMENT0, *__pColorAttachment);
 

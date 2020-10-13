@@ -85,11 +85,11 @@ namespace Danburite
 
 		__pWboitAccumAttachment = __attachmentServerPingPong[1].getTexRectangle(
 			width, height, TextureInternalFormatType::RGBA32F, TextureExternalFormatType::RGBA,
-			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST);
+			TextureDataType::FLOAT, TextureMinFilterValue::LINEAR, TextureMagFilterValue::LINEAR);
 
 		__pWboitRevealageAttachment = __attachmentServerPingPong[1].getTexRectangle(
 			width, height, TextureInternalFormatType::R16F, TextureExternalFormatType::RED,
-			TextureDataType::FLOAT, TextureMinFilterValue::NEAREST, TextureMagFilterValue::NEAREST);
+			TextureDataType::FLOAT, TextureMinFilterValue::LINEAR, TextureMagFilterValue::LINEAR);
 
 		__pWboitDepthStencilAttachment = __attachmentServerPingPong[1].getRenderBuffer(
 			width, height, RenderBufferInternalFormatType::DEPTH24_STENCIL8);
