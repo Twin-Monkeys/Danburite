@@ -1,6 +1,6 @@
 # Danburite
 <p>
-OpenGL 4.6 core 기반의 렌더링 엔진입니다. OpenGL을 OOP 스타일로 운용하는 ObjectGL 프레임워크가 엔진의 기반을 담당하고 있습니다.<br>
+OpenGL 4.6 core 기반의 렌더링 엔진입니다. OpenGL을 OOP 스타일로 운용하는 ObjectGL 라이브러리가 엔진의 기반을 담당하고 있습니다.<br>
 핵심 기능은 다음과 같습니다.
 </p>
 <ul>
