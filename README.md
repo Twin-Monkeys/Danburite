@@ -11,7 +11,7 @@ OpenGL 4.6 core 기반의 렌더링 엔진입니다. OpenGL을 OOP 스타일로 
 <li>Normal mapping
 <li>Parallax mapping
 <li>Gamma correction
-<li>Shadow(directional, point, spot light에 대해 모두 제공)
+<li>PCSS(Soft shadow; directional, point, spot light에 대해 모두 제공)
 <li>Environment mapping
 <li>Skybox (cubemap-based)
 <li>Blinn-Phong style lighting
