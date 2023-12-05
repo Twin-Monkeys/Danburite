@@ -6,23 +6,27 @@ Danburite is a rendering engine developed with core-profile OpenGL and latest C+
 Its architecture consists of 3 phases: ObjectGL(object-oriented OpenGL), rendering engine(Danburite), and the app. Danburite utilizes ObjectGL to abstractly handle OpenGL, while application developers use Danburite to create content. The engine offers simple and intuitive interfaces, facilitating the rapid and easy development of applications.
 
 ### Engine Features ###
-- Blinn-Phong-based ordinary shading
-- Silhouette shading (it feels like seeing an object in the fog)
-- Alpha blending
-- Postprocessing effect (It provides various filters like negative, grayscale, gaussian blur, edge detection, sharpen, etc.)
-- Skybox
+- Blinn-Phong-based shading
+- Silhouette shading
 - Refraction/reflection shading
+- Postprocessing effects
+    - Nagative
+    - Grayscale
+    - Gaussian blur
+    - Edge detection
+    - Sharpening
+    - Gamma correction
+    - HDR
+    - SSAO (Screen-Space Ambient Occlusion)
+    - FXAA (Fast Approximate Anti-Aliasing)
+- Skybox
 - Tessellation
-- Multisample anti-aliasing
-- Gamma correction
 - Bindless texture
-- Shadow
+- PCSS (Percentage Closer Soft Shadows)
 - Instancing
 - Normal mapping
 - Parallax mapping
-- Advanced cpu-based shader compiler
-- High dynamic range
-- Skeletal animation (GPU skinning)
+- GPU skinning
 
 ### Demo ###
 ![silhouette](https://github.com/Twin-Monkeys/Danburite/assets/47758621/adc973ba-d12f-41c1-9a1e-30f8f2f367e1)
